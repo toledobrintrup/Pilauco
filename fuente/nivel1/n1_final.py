@@ -155,6 +155,55 @@ rooms.sort(key=lambda r:-Polygon(r['pts']).area)
 from n1_engrosar import engrosar
 antes={(' · '.join(r['nombres']) or '?'): round(Polygon(r['pts']).area/1e4,2) for r in rooms}
 rooms, MUROS, VENT_NUEVAS = engrosar(rooms, g['walls'])
+# ---------- como construido (difiere del plano de permiso) ----------
+# En obra la lavanderia se adelanto hasta el eje H (la linea de la fachada norte
+# principal) y la sala de maquinas hasta el eje I1 (la linea de pilares de la
+# terraza: se cerro esa crujia). La cara interior queda a 17,9 cm del eje, que es
+# la relacion que el propio plano usa en toda la fachada.
+from shapely.geometry import box as _box
+from shapely.ops import unary_union as _uu2
+EJE_H, EJE_I1 = 7.1, -169.8
+CARA = 17.9
+OBRA = [dict(nom='LAVANDERÍA',       viejo=125.5, nuevo=round(EJE_H+CARA,1),  x=(1264.5,1775.2)),
+        dict(nom='SALA DE MÁQUINAS', viejo=125.5, nuevo=round(EJE_I1+CARA,1), x=(1790.2,2164.6))]
+def como_construido(rooms, anillos):
+    M=_uu2([Polygon(a).buffer(0) for a in anillos if len(a)>=3])
+    dentro=[]
+    for o in OBRA:
+        r=[x for x in rooms if o['nom'] in (x['nombres'] or [])]
+        if not r: sys.exit('no encontre '+o['nom'])
+        r=r[0]
+        sur=max(p[1] for p in r['pts'])
+        r['pts']=[[p[0], o['nuevo'] if abs(p[1]-o['viejo'])<2 else p[1]] for p in r['pts']]
+        dentro.append(_box(o['x'][0], o['nuevo'], o['x'][1], sur))
+        o['dy']=o['nuevo']-o['viejo']
+    M=M.difference(_uu2(dentro))
+    M=_uu2([M,
+        _box(1249.4,   0.0, 1790.2,   25.0),   # fachada norte de la lavanderia (eje H)
+        _box(1239.5,   0.0, 1264.5,  245.4),   # muro poniente de la lavanderia, ahora exterior
+        _box(1775.2,  25.0, 1790.2,  125.5),   # tabique lavanderia / sala de maquinas
+        _box(1765.2,-176.9, 2189.6, -151.9),   # fachada norte de la sala de maquinas (eje I1)
+        _box(1765.2,-176.9, 1790.2,   25.0),   # muro poniente del volumen que sobresale
+        _box(2164.6,-176.9, 2189.6,  125.5)])  # fachada oriente prolongada
+    out=[]
+    for gm in ([M] if M.geom_type=='Polygon' else list(M.geoms)):
+        if gm.geom_type!='Polygon': continue
+        q=gm.simplify(0.05)
+        out.append([[round(x,1),round(y,1)] for x,y in list(q.exterior.coords)[:-1]])
+        for h in q.interiors: out.append([[round(x,1),round(y,1)] for x,y in list(h.coords)[:-1]])
+    return rooms, out
+def corre_simbolos(items):
+    # La ventana y los rotulos que iban en el muro antiguo se corren con el muro.
+    out=[]
+    for it in items:
+        ps=[p for p in it[1:] if isinstance(p,list)]
+        mov=None
+        for o in OBRA:
+            if ps and all(o['x'][0]-20<=p[0]<=o['x'][1]+20 and 90<=p[1]<=132 for p in ps): mov=o['dy']
+        out.append([it[0]]+[[p[0],p[1]+mov] if mov is not None and isinstance(p,list) else p for p in it[1:]])
+    return out
+rooms, MUROS = como_construido(rooms, MUROS)
+
 print('  superficies antes -> despues del engrosado:')
 for r in rooms:
     k=' · '.join(r['nombres']) or '?'
@@ -194,7 +243,6 @@ def vent_items(ws):
 
 # Muros exentos dentro de un recinto (el arrimo del estar, la esquina del comedor):
 # el contorno exterior del relleno se los traga, asi que se restan como huecos.
-from shapely.ops import unary_union as _uu2
 _MUR=_uu2([Polygon(a).buffer(0) for a in MUROS if len(a)>=3])
 out=[]
 for idx,r in enumerate(rooms):
@@ -236,7 +284,11 @@ def tipo(o):
     if win>=2: return 'window'
     return 'door' if o['gap']<=130 else 'passage'
 ops=[dict(a=o['a'],b=o['b'],gap=o['gap'],type=tipo(o)) for o in VANOS if o['gap']>=30]
-wins=[dict(t=w['t'],x=w['x'],y=w['y']) for w in WORDS
+def _corre_rot(x,y):
+    for o in OBRA:
+        if o['x'][0]-30<=x<=o['x'][1]+30 and 60<=y<=150: return y+o['dy']
+    return y
+wins=[dict(t=w['t'],x=w['x'],y=_corre_rot(w['x'],w['y'])) for w in WORDS
       if ((w['t'].startswith('V') or w['t'].startswith('P')) and w['t'][1:].isdigit() and w['size']>10)]
 # ejes: lineas + etiquetas
 ejes=[]
@@ -267,15 +319,15 @@ notas=[]
 data=dict(W=2200,H=2190,
   variants=dict(v1=dict(rooms=out,
     wallsPath=' '.join(poly_path(w) for w in MUROS),
-    windowsPath=items_path(clip(L.get('(0.43, 0.5)',[])+L.get('(0.28, 0.53)',[]), CASA)+vent_items(VENT_NUEVAS)),
-    doorsPath=items_path(clip(L.get('(0.23, 0.53)',[]), CASA)),
+    windowsPath=items_path(corre_simbolos(clip(L.get('(0.43, 0.5)',[])+L.get('(0.28, 0.53)',[]), CASA))+vent_items(VENT_NUEVAS)),
+    doorsPath=items_path(corre_simbolos(clip(L.get('(0.23, 0.53)',[]), CASA))),
     furniturePath=items_path(clip(L.get('(0.57, 0.38)',[])+L.get('(0.57, 0.41)',[]), CASA)),
     windows=wins, openings=[o for o in ops if o['type'] in ('door','passage')], setbacks=[], notes=notas)),
   extLabels=ext,
   stairsPath=items_path(clip(L.get('(0.01, 0.3)',[]), CASA)),
   axesPath=' '.join(f"M{f(a)} {f(b)} L{f(c)} {f(d)}" for a,b,c,d in ejes),
   axisLabels=al, terrace=None)
-data['view']=[-190,-190,2380,2370]
+data['view']=[-190,-340,2380,2370]
 print('encuadre:', data['view'])
 json.dump(data,open('n1_data.json','w'),ensure_ascii=False,separators=(',',':'))
 import os

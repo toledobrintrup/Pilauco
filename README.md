@@ -26,7 +26,7 @@ En el teléfono, la lista de recintos vive en la hoja inferior: se sube tocando 
 
 | | Recintos | Sup. interior útil | Envolvente |
 |---|---|---|---|
-| **Nivel 1** | 9 | 292,44 m² | 21,90 × 21,78 m |
+| **Nivel 1** | 9 | 307,95 m² | 21,90 × 21,78 m |
 | **Nivel 2** (versión 1) | 15 | 321,71 m² | 17,90 × 21,77 m |
 | **Nivel 2** (versión 2) | 15 | 322,71 m² | 17,90 × 21,77 m |
 
