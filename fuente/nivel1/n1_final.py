@@ -44,7 +44,11 @@ def quita_espigas(out):
                 if recto<8: continue
                 camino=sum(math.hypot(p2[0]-p1[0],p2[1]-p1[1])
                            for p1,p2 in zip([a]+inter, inter+[b]))
-                if camino < 3.0*recto: continue
+                if camino < 1.5*recto: continue
+                # Firma del barrido de puerta: la muesca incluye un tramo en diagonal.
+                # Un nicho real del plano es ortogonal y no se toca.
+                if not any(abs(p1[0]-p2[0])>0.01 and abs(p1[1]-p2[1])>0.01
+                           for p1,p2 in zip([a]+inter, inter+[b])): continue
                 try: area=_P([a]+inter+[b]).buffer(0).area
                 except Exception: continue
                 if area > 25000: continue            # 2,5 m2
@@ -79,6 +83,37 @@ def clean_poly(pts):
             res.append(p1)
         out=res
     return out
+
+def cierres_puerta(items, muros):
+    """Cierra cada vano de puerta con la recta entre jambas.
+
+    El barrido es un cuarto de circunferencia con centro en la bisagra H y radio R:
+    va de la punta de la hoja T (dentro del recinto) a la otra jamba J (sobre el muro).
+    Con los extremos del arco, H es una de las dos esquinas del cuadrado que forman;
+    la buena es la que cae sobre el muro. El vano es el tramo H-J.
+
+    No sirve emparejar el arco con la hoja: las hojas van dibujadas como rectangulos y
+    el extremo mas cercano suele ser un lado corto de 8 cm, no la bisagra.
+    """
+    from shapely.geometry import LineString as _LS
+    segs=[]
+    for cu in [it for it in items if it[0]=='c']:
+        P0,P3=cu[1],cu[4]
+        cands=[((P3[0],P0[1]),P3), ((P0[0],P3[1]),P3), ((P0[0],P3[1]),P0), ((P3[0],P0[1]),P0)]
+        mejor=None
+        for H,J in cands:
+            if abs(H[0]-J[0])>0.01 and abs(H[1]-J[1])>0.01: continue   # H-J debe ir sobre el muro
+            if math.hypot(H[0]-J[0],H[1]-J[1])<20: continue
+            # Las dos jambas tocan muro; el centro del vano no, porque es el hueco.
+            d=max(muros.distance(Point(*H)), muros.distance(Point(*J)))
+            if mejor is None or d<mejor[0]: mejor=(d,H,J)
+        if mejor and mejor[0]<4: segs.append((mejor[1],mejor[2]))
+    return segs
+
+from shapely.ops import unary_union as _uu
+_MUROS=_uu([Polygon(w['pts']).buffer(0) for w in g['walls'] if len(w['pts'])>=4])
+PUERTAS=cierres_puerta(L.get('(0.23, 0.53)',[]), _MUROS)
+print('  puertas cerradas con recta entre jambas:', len(PUERTAS))
 
 img=np.zeros(SH,np.uint8)
 for w in g['walls']: cv2.fillPoly(img,[np.array([(px(x),px(y)) for x,y in w['pts']],np.int32)],255)
@@ -116,8 +151,18 @@ for i in range(1,n):
     rooms.append(dict(pts=pts, nombres=vistos, labels=lb))
 rooms.sort(key=lambda r:-Polygon(r['pts']).area)
 
+# ---- espesores normalizados: perimetrales 25, interiores 15 ----
+from n1_engrosar import engrosar
+antes={(' · '.join(r['nombres']) or '?'): round(Polygon(r['pts']).area/1e4,2) for r in rooms}
+rooms, MUROS, VENT_NUEVAS = engrosar(rooms, g['walls'])
+print('  superficies antes -> despues del engrosado:')
+for r in rooms:
+    k=' · '.join(r['nombres']) or '?'
+    print(f"    {k[:44]:44s} {antes[k]:7.2f} -> {Polygon(r['pts']).area/1e4:7.2f} m2")
+
 # Recorte: fuera de la casa, varias capas comparten grosor con las cadenas de cota.
-CASA=(-30,-830,2220,2195); EJES=(-420,-1120,2600,2420)
+# Sin la terraza cubierta exterior (al norte de y=0) ni sus pilares.
+CASA=(-30,-30,2220,2195); EJES=(-260,-260,2450,2400)
 def clip(items, box):
     out=[]
     for it in items:
@@ -135,9 +180,31 @@ def items_path(items):
         elif it[0]=='qu': out.append('M'+' L'.join(f"{f(p[0])} {f(p[1])}" for p in it[1:])+' Z')
     return ' '.join(out)
 
+def vent_items(ws):
+    # El vano de fachada se redibuja ocupando el nuevo espesor de 25, para que la
+    # ventana no quede flotando dentro del muro engrosado.
+    it=[]
+    for w in ws:
+        if w['vert']: x0,x1,y0,y1=w['a'],w['b'],w['s0'],w['s1']
+        else: x0,x1,y0,y1=w['s0'],w['s1'],w['a'],w['b']
+        it += [['l',[x0,y0],[x1,y0]],['l',[x1,y0],[x1,y1]],['l',[x1,y1],[x0,y1]],['l',[x0,y1],[x0,y0]]]
+        if w['vert']: cx=(x0+x1)/2; it.append(['l',[cx,y0],[cx,y1]])
+        else: cy=(y0+y1)/2; it.append(['l',[x0,cy],[x1,cy]])
+    return it
+
+# Muros exentos dentro de un recinto (el arrimo del estar, la esquina del comedor):
+# el contorno exterior del relleno se los traga, asi que se restan como huecos.
+from shapely.ops import unary_union as _uu2
+_MUR=_uu2([Polygon(a).buffer(0) for a in MUROS if len(a)>=3])
 out=[]
 for idx,r in enumerate(rooms):
     P=Polygon(r['pts']); b=P.bounds
+    huecos=[]
+    _i=P.intersection(_MUR)
+    for _g in ([_i] if _i.geom_type=='Polygon' else list(getattr(_i,'geoms',[]))):
+        if _g.geom_type=='Polygon' and _g.area>200 and P.buffer(-0.5).contains(_g):
+            huecos.append([[round(x,1),round(y,1)] for x,y in list(_g.simplify(0.3).exterior.coords)[:-1]])
+    area_neta=P.area-sum(Polygon(h).area for h in huecos)
     nom=' · '.join(r['nombres']) if r['nombres'] else 'RECINTO SIN NOMBRE'
     abierto=len(r['nombres'])>1
     kind=KIND.get(nom,'estar' if abierto else 'otro')
@@ -154,8 +221,9 @@ for idx,r in enumerate(rooms):
         edges.append(dict(a=list(a),b=list(c),len=round(ln,1),lx=round(lx,1),ly=round(ly,1),rot=-90 if vert else 0))
     c=P.centroid; rp=P.representative_point()
     cx,cy=(c.x,c.y) if P.contains(c) else (rp.x,rp.y)
-    out.append(dict(id='n1r'+str(idx), name=nom, kind=kind, labels=(r['labels'] if abierto else None), pts=[list(p) for p in pp], path=poly_path(pp),
-                    area=round(P.area/1e4,2), w=round(b[2]-b[0],1), h=round(b[3]-b[1],1),
+    out.append(dict(id='n1r'+str(idx), name=nom, kind=kind, labels=(r['labels'] if abierto else None), pts=[list(p) for p in pp],
+                    path=poly_path(pp)+''.join(' '+poly_path(h) for h in huecos), holes=(huecos or None),
+                    area=round(area_neta/1e4,2), w=round(b[2]-b[0],1), h=round(b[3]-b[1],1),
                     perim=round(P.length/100,2), cx=round(cx,1), cy=round(cy,1),
                     bbox=[round(v,1) for v in b], edges=edges, abierto=abierto))
 
@@ -195,22 +263,19 @@ ext=[]
 for w in WORDS:
     if 7<w['size']<9 and w['t']=='ACCESO CUBIERTO':
         ext.append(dict(x=round(w['x'],1), y=round(w['y'],1), t='ACCESO CUBIERTO'))
-    if 7<w['size']<9 and w['t']=='CUBIERTA EXTERIOR':
-        ext.append(dict(x=round(w['x'],1), y=round(w['y'],1), t='TERRAZA CUBIERTA EXTERIOR'))
 notas=[]
 data=dict(W=2200,H=2190,
   variants=dict(v1=dict(rooms=out,
-    wallsPath=' '.join(poly_path(w['pts']) for w in g['walls']),
-    windowsPath=items_path(clip(L.get('(0.43, 0.5)',[])+L.get('(0.28, 0.53)',[]), CASA)),
+    wallsPath=' '.join(poly_path(w) for w in MUROS),
+    windowsPath=items_path(clip(L.get('(0.43, 0.5)',[])+L.get('(0.28, 0.53)',[]), CASA)+vent_items(VENT_NUEVAS)),
     doorsPath=items_path(clip(L.get('(0.23, 0.53)',[]), CASA)),
     furniturePath=items_path(clip(L.get('(0.57, 0.38)',[])+L.get('(0.57, 0.41)',[]), CASA)),
-    structPath=items_path(clip(L.get('(1.7, 0.0)',[]), CASA)),
     windows=wins, openings=[o for o in ops if o['type'] in ('door','passage')], setbacks=[], notes=notas)),
   extLabels=ext,
   stairsPath=items_path(clip(L.get('(0.01, 0.3)',[]), CASA)),
   axesPath=' '.join(f"M{f(a)} {f(b)} L{f(c)} {f(d)}" for a,b,c,d in ejes),
   axisLabels=al, terrace=None)
-data['view']=[-80,-850,2280,2260]
+data['view']=[-190,-190,2380,2370]
 print('encuadre:', data['view'])
 json.dump(data,open('n1_data.json','w'),ensure_ascii=False,separators=(',',':'))
 import os

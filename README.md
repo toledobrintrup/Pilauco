@@ -26,20 +26,25 @@ En el teléfono, la lista de recintos vive en la hoja inferior: se sube tocando 
 
 | | Recintos | Sup. interior útil | Envolvente |
 |---|---|---|---|
-| **Nivel 1** | 9 | 297,33 m² | 21,90 × 21,78 m |
-| **Nivel 2** (versión 1) | 15 | 325,27 m² | 17,90 × 21,77 m |
+| **Nivel 1** | 9 | 292,44 m² | 21,90 × 21,78 m |
+| **Nivel 2** (versión 1) | 15 | 321,71 m² | 17,90 × 21,77 m |
+| **Nivel 2** (versión 2) | 15 | 322,71 m² | 17,90 × 21,77 m |
 
-En el nivel 1, **estar 1, comedor y hall de acceso son un solo recinto de 132,23 m²**:
+En el nivel 1, **estar 1, comedor y hall de acceso son un solo recinto de 128,72 m²**:
 en el plano no hay muro que los separe, así que se miden juntos y se rotula cada zona
-donde la nombra el arquitecto, sin inventar divisiones. La terraza cubierta exterior y
-el acceso cubierto se dibujan y rotulan, pero no se miden como recinto.
+donde la nombra el arquitecto, sin inventar divisiones. El acceso cubierto se dibuja y
+rotula, pero no se mide como recinto. La terraza cubierta exterior del norte y sus
+pilares quedaron fuera del dibujo.
 
 ## Criterio de las medidas
 
 - Medidas **en centímetros**, entre caras de muro terminadas.
 - Superficies calculadas del polígono interior exacto.
 - Envolvente exterior 1.790 × 2.177 cm (17,90 × 21,77 m), cara exterior a cara exterior.
-- Muros perimetrales de 20 cm, tabiques interiores de 15 cm centrados en su eje.
+- **Muros perimetrales de 25 cm** con la cara exterior fija en la línea de fachada, y
+  tabiques interiores de 15 cm centrados en su eje, en las dos plantas. Mantener fija la
+  cara exterior significa que la envolvente del permiso no cambia y que cada recinto que
+  toca fachada pierde espesor por ese lado.
 - En la Versión 2 el muro dormitorio/baño está **estimado** (eje y = 557) y se ajusta después.
 
 Base: plano L3 PLARQ2 (Planta Arquitectura Nivel 2, GVArq, dic. 2025, esc. 1:50).

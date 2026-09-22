@@ -10,8 +10,9 @@ pip install pymupdf numpy opencv-python-headless shapely
 python3 n1_extract.py   # capas de dibujo y textos del PDF -> cm
 python3 n1_walls.py     # muros como polígonos (capa de grosor 1,28)
 python3 n1_vanos.py     # vanos: empareja extremos de muro enfrentados
-python3 n1_final.py     # recintos, métricas y n1_data.json (lo que consume la página)
+python3 n1_final.py     # recintos, espesores, métricas y n1_data.json (lo que consume la página)
 ```
+`n1_engrosar.py` es el módulo que normaliza espesores; lo llama `n1_final.py`.
 
 El bloque `const DATA_N1 = …` de `index.html` es el contenido de `n1_data.json`.
 
@@ -33,3 +34,18 @@ El bloque `const DATA_N1 = …` de `index.html` es el contenido de `n1_data.json
 - **Estar 1, comedor y hall de acceso son un solo recinto** porque en el plano no hay muro
   que los separe. No se inventó una división: se miden juntos y se rotula cada zona donde
   la nombra el arquitecto.
+- **Espesores normalizados a 25 cm perimetral y 15 cm interior** (`n1_engrosar.py`), con el
+  mismo algoritmo que `build_thick.py` del nivel 2: se sondea cada tramo de recinto, se mide
+  el muro que tiene enfrente, se clasifica en perimetral o interior según si más allá hay
+  otro recinto, y se corre la cara interior lo necesario. La cara exterior no se mueve: la
+  envolvente sigue siendo la del permiso. Los vanos de fachada se redibujan ocupando el
+  nuevo espesor para que la ventana no quede flotando dentro del muro.
+- **El barrido de las puertas mordía los recintos.** El símbolo de puerta se dibuja dentro
+  del recinto, así que el relleno lo rodeaba y dejaba una muesca triangular con un tramo en
+  diagonal de ~1 m que no era ninguna medida real. Se elimina toda muesca que contenga un
+  tramo diagonal (`quita_espigas`); un nicho de verdad es ortogonal y no se toca.
+- **Muros exentos dentro de un recinto** (el arrimo del estar, la esquina del comedor) los
+  absorbía el contorno exterior del relleno e inflaban el área en 0,53 m². Se restan como
+  hueco del polígono.
+- **La terraza cubierta exterior y sus pilares quedaron fuera** por pedido: el recorte de
+  capas es sólo la casa (y > 0).
