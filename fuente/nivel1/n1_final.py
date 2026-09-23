@@ -316,7 +316,19 @@ for w in WORDS:
     if 7<w['size']<9 and w['t']=='ACCESO CUBIERTO':
         ext.append(dict(x=round(w['x'],1), y=round(w['y'],1), t='ACCESO CUBIERTO'))
 notas=[]
+# Envolvente de lo construido: contorno exterior de muros + recintos. Reemplaza al
+# rectangulo del permiso, que la sala de maquinas ya no respeta.
+_env=_uu2([Polygon(a).buffer(0.2) for a in MUROS if len(a)>=3]+
+          [Polygon(r['pts']).buffer(0.2) for r in rooms])
+_env=_env.buffer(-0.2)
+if _env.geom_type!='Polygon': _env=max(_env.geoms,key=lambda g:g.area)
+_ring=[[round(x,1),round(y,1)] for x,y in list(_env.simplify(1.5).exterior.coords)[:-1]]
+_b=_env.bounds
+print(f'  envolvente construida: {_b[2]-_b[0]:.1f} x {_b[3]-_b[1]:.1f} cm, {len(_ring)} vertices, '
+      f'y de {_b[1]:.1f} a {_b[3]:.1f}')
+
 data=dict(W=2200,H=2190,
+  envPath=poly_path(_ring), envBox=[round(v,1) for v in _b],
   variants=dict(v1=dict(rooms=out,
     wallsPath=' '.join(poly_path(w) for w in MUROS),
     windowsPath=items_path(corre_simbolos(clip(L.get('(0.43, 0.5)',[])+L.get('(0.28, 0.53)',[]), CASA))+vent_items(VENT_NUEVAS)),

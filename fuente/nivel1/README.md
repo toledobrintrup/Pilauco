@@ -54,6 +54,9 @@ El bloque `const DATA_N1 = …` de `index.html` es el contenido de `n1_data.json
   de la terraza — se cerró esa crujía. El plano de permiso las tiene a las dos en el eje H1.
   La cara interior se pone a 17,9 cm del eje, que es la relación que el propio plano usa en
   toda la fachada (eje H = 7,1 → cara interior 25,0, igual que la terraza interior). La
-  sala de máquinas sobresale 177 cm al norte de la envolvente del permiso, que se sigue
-  dibujando en línea de puntos. La ventana V7 y los rótulos del muro viejo se corren junto
-  con el muro.
+  sala de máquinas sobresale 177 cm al norte del rectángulo del permiso. La ventana V7 y
+  los rótulos del muro viejo se corren junto con el muro.
+- **La envolvente es el contorno de lo construido**, no un rectángulo: se calcula como el
+  borde exterior de la unión de muros y recintos (`envPath`/`envBox`), así que sigue el
+  perímetro real, con el saliente de la sala de máquinas y el acceso cubierto. Mide
+  2.190 × 2.336 cm. En el nivel 2 se sigue usando el rectángulo, que ahí sí es exacto.

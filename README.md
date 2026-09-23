@@ -11,6 +11,8 @@ planta desde la barra de arriba.
 - **Nivel 1 / Nivel 2** — cambia de planta. Las dos están montadas en el mismo sistema de
   coordenadas, así que si estás con zoom en un punto y cambias de nivel, el dibujo no se
   mueve: ves exactamente lo que hay arriba o abajo de donde estabas.
+- **Ejes del otro nivel** — capa aparte, en violeta: dibuja la grilla de ejes de la otra
+  planta sobre la que estás viendo, como referencia. Se apaga con su propio chip.
 - **Versión 1 / Versión 2** (sólo nivel 2) — alterna entre la distribución vigente y la
   alternativa sin oficinas.
 - **Capas** — recintos, medidas, puertas y ventanas, mobiliario y ejes se prenden y apagan por separado.
@@ -26,7 +28,7 @@ En el teléfono, la lista de recintos vive en la hoja inferior: se sube tocando 
 
 | | Recintos | Sup. interior útil | Envolvente |
 |---|---|---|---|
-| **Nivel 1** | 9 | 307,95 m² | 21,90 × 21,78 m |
+| **Nivel 1** | 9 | 307,95 m² | 21,90 × 23,36 m |
 | **Nivel 2** (versión 1) | 15 | 321,71 m² | 17,90 × 21,77 m |
 | **Nivel 2** (versión 2) | 15 | 322,71 m² | 17,90 × 21,77 m |
 
