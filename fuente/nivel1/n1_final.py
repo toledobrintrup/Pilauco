@@ -309,6 +309,8 @@ for a in alab:
     k=(a['t'],round(a['x']/50),round(a['y']/50))
     if k in vistos: continue
     vistos.add(k); al.append(a)
+from ejes_util import etiquetas_con_linea
+al=etiquetas_con_linea(al, ejes)
 # etiquetas de recinto del arquitecto (para la planta libre y los espacios exteriores)
 # espacios exteriores cubiertos: no son recintos medibles, pero se rotulan igual
 ext=[]
