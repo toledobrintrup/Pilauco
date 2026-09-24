@@ -106,3 +106,23 @@ forman los extremos del arco y que cae sobre el muro).
 - Paso cocina → living (2,25) centrado en el eje del hall de acceso (x = 8,30).
 - Sin tocar: puerta doble de la cocina a la terraza norte (2 × 0,96), el paso cocina–living,
   y las aberturas vidriadas del living y el comedor (van con las ventanas).
+
+## Chiflonera: dos grupos de puertas (sept. 2026)
+
+Cocina, comedor y bodega de aseo desembocaban en el mismo metro de pasillo. Ahora el
+pasillo tiene dos extremos con funciones distintas:
+
+- **Poniente = servicio**: puerta de la cocina (muro poniente) y de la bodega de aseo
+  (muro norte, jamba a 15 de la esquina).
+- **Oriente = acceso y visitas**: la puerta exterior al acceso cubierto (la entrada diaria
+  desde el estacionamiento), que ahora **abre hacia afuera** para no barrer el vestíbulo, y
+  **enfrentadas** la del comedor (muro sur, x 16,60..17,50, bisagra al oriente, queda plana
+  contra el muro oriente del comedor) y la del baño (muro norte, x 16,71..17,61, bisagra al
+  oriente). Una visita va del comedor al baño en 1,30 m sin pisar el pasillo de servicio.
+
+## Amoblado esquemático del living (`MUEBLES_LIVING`)
+
+Bloques de referencia, no diseño de interiores: mueble de TV y audio de 2,40 contra el muro
+de la cocina (4,6 m de muro ciego), sofá de tres cuerpos a 2,7 m de la TV con dos sillones y
+mesa de centro, y piano vertical con banqueta en el extremo sur contra el muro de V1. El
+piano va lejos del muro norte a propósito: ese muro es el de la oficina.
