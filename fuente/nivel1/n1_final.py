@@ -134,7 +134,7 @@ TOK={'TERRAZA':'TERRAZA INTERIOR','COCINA':'COCINA','LAVANDERIA':'LAVANDERÍA','
 ORDEN=['LIVING','COMEDOR','HALL DE ACCESO']
 pal=[w for w in WORDS if 7<w['size']<9 and w['t'] in TOK]
 KIND={'TERRAZA INTERIOR':'terraza','COCINA':'cocina','LAVANDERÍA':'serv','DESPENSA':'serv','BODEGA':'serv',
-      'OFICINA':'oficina','GALERÍA':'hall','BODEGA DE ASEO':'serv','BAÑO VISITAS':'bano',
+      'OFICINA':'oficina','GALERÍA':'hall','BODEGA DE ASEO':'serv','BAÑO':'bano',
       'SALA DE MÁQUINAS':'serv','BAÑO 1':'bano','CHIFLONERA':'serv'}
 rooms=[]
 for i in range(1,n):
@@ -261,7 +261,7 @@ def rediseno(rooms, anillos):
     des['pts']=[[dx0,ny+TB],[dx1,ny+TB],[dx1,dy1],[dx0,dy1]]
     xb=round(bx0+176.0,1)
     rooms.append(dict(pts=[[bx0,by0],[xb,by0],[xb,by1],[bx0,by1]], nombres=['BODEGA DE ASEO'], labels=None))
-    ban['pts']=[[xb+TB,by0],[bx1,by0],[bx1,by1],[xb+TB,by1]]; ban['nombres']=['BAÑO VISITAS']
+    ban['pts']=[[xb+TB,by0],[bx1,by0],[bx1,by1],[xb+TB,by1]]; ban['nombres']=['BAÑO']
     add.append(_box(xb,by0,xb+TB,by1))
     qd0=round(xb+TB+15,1); qd1=qd0+90
     sub.append(_box(qd0,by1-0.5,qd1,by1+TB+0.5))
