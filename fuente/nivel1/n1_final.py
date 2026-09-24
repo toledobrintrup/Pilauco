@@ -284,6 +284,7 @@ rooms, MUROS, PUERTAS_NUEVAS, VIDRIOS_NUEVOS, OPS_NUEVOS, LIMPIAR, CORREDERA = r
 # la puerta exterior y gana una desde la cocina. Sala de maquinas y bodega exterior con
 # doble hoja de 0,80 para meter equipos. Las jambas vienen de los arcos del PDF.
 LIMPIAR_PUERTAS=[]
+LIMPIAR_VIDRIOS=[]
 def puertas_v1(rooms, anillos, puertas, ops):
     """Criterio: en recintos de servicio y baño la bisagra va hacia la esquina más
     cercana con la jamba a JAMBA cm del muro perpendicular (la hoja abre plana contra
@@ -300,6 +301,9 @@ def puertas_v1(rooms, anillos, puertas, ops):
     sub.append(_box(gx0, gy1-0.5, gx1, ly0+0.5))
     add.append(_box(29.8, gy1, gx0, ly0))
     LIMPIAR_PUERTAS.append((gx0+40, gy1-95, gx1+2, ly0+80))
+    # la mampara vidriada vieja (vidrios y montantes de 11 y 13) sigue en la capa de
+    # ventanas bajo el muro nuevo de la oficina y asoma a la derecha del tabique
+    LIMPIAR_VIDRIOS.append((35, 600, 700, 648)); LIMPIAR.append((35, 600, 700, 648)); LIMPIAR_PUERTAS.append((35, 600, 700, 648))
     union=_uu2([Polygon(gal['pts']).buffer(0.2), Polygon(liv['pts']).buffer(0.2), _box(gx0, gy1-1, gx1, ly0+1)]).buffer(-0.2)
     if union.geom_type!='Polygon': union=max(union.geoms,key=lambda g:g.area)
     liv['pts']=[[round(x,1),round(y,1)] for x,y in list(union.simplify(0.3).exterior.coords)[:-1]]
@@ -515,7 +519,7 @@ data=dict(W=2200,H=2190,
   variants=dict(v1=dict(rooms=out,
     wallsPath=' '.join(poly_path(w) for w in MUROS),
     windowsPath=items_path(fuera_de(corre_simbolos(clip(L.get('(0.43, 0.5)',[])+L.get('(0.28, 0.53)',[]), CASA)),
-                                    [(CORREDERA[0]-1,CORREDERA[2]-40,CORREDERA[1]+1,CORREDERA[2]+1),(765,1088,1000,1122)])+vent_items(VENT_NUEVAS)+VIDRIOS_NUEVOS),
+                                    [(CORREDERA[0]-1,CORREDERA[2]-40,CORREDERA[1]+1,CORREDERA[2]+1),(765,1088,1000,1122)]+LIMPIAR_VIDRIOS)+vent_items(VENT_NUEVAS)+VIDRIOS_NUEVOS),
     doorsPath=items_path(fuera_de(corre_simbolos(clip(L.get('(0.23, 0.53)',[]), CASA)), [LIMPIAR[0]]+LIMPIAR_PUERTAS)+PUERTAS_NUEVAS),
     furniturePath=items_path(fuera_de(clip(L.get('(0.57, 0.38)',[])+L.get('(0.57, 0.41)',[]), CASA), LIMPIAR)),
     windows=wins, openings=[o for o in ops if o['type'] in ('door','passage')], setbacks=[], notes=notas)),
