@@ -83,7 +83,11 @@ Decisiones de diseño tomadas sobre el plano, no cambios de obra todavía:
 
 ## Puertas acordadas (`puertas_v1()` en `n1_final.py`)
 
-Regla: **0,90 en todo lo que pisa gente, 0,80 sólo en closets de servicio.** Las jambas de
+Regla de ancho: **0,90 en todo lo que pisa gente, 0,80 sólo en closets de servicio.**
+Regla de posición: en recintos de servicio y baño la **bisagra va hacia la esquina más
+cercana, con la jamba a 15 cm del muro perpendicular** (la hoja abre plana contra el muro y
+el marco cabe); las puertas representativas y exteriores van **centradas** en su muro. Las
+jambas de
 las puertas existentes salen de los arcos del PDF (bisagra = esquina del cuadrado que
 forman los extremos del arco y que cae sobre el muro).
 
@@ -96,6 +100,9 @@ forman los extremos del arco y que cae sobre el muro).
 - Cocina → despensa 0,90 · cocina → lavandería **0,90 nueva** (y fuera la puerta exterior de
   la lavandería) · cocina → chiflonera 0,90 · comedor → chiflonera 0,90 · chiflonera → baño
   visitas 0,90 · chiflonera → bodega de aseo 0,80 · chiflonera → acceso cubierto oriente 0,90.
-- Sala de máquinas y bodega exterior: **doble hoja 2 × 0,80**, abren hacia afuera.
+- Sala de máquinas: **una hoja de 1,00** centrada en el muro poniente del saliente (hacia la
+  terraza norte). Bodega exterior: **doble 2 × 0,80** centrada en el muro sur (al acceso
+  cubierto oriente). Ambas abren hacia afuera; los vanos de la fachada oriente se rellenan.
+- Paso cocina → living (2,25) centrado en el eje del hall de acceso (x = 8,30).
 - Sin tocar: puerta doble de la cocina a la terraza norte (2 × 0,96), el paso cocina–living,
   y las aberturas vidriadas del living y el comedor (van con las ventanas).
