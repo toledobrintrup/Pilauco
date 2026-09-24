@@ -246,10 +246,10 @@ def rediseno(rooms, anillos):
     add += [_box(xo,y0,xo+TB,pd0), _box(xo,pd1,xo+TB,y1)]
     puertas += _puerta((xo+TB,pd0),(xo+TB,pd1),'oriente')
     ops.append(dict(a=[xo+TB/2,pd0],b=[xo+TB/2,pd1],gap=90.0,type='door'))
-    cx=(xo+TB+x1)/2; c0=round(cx-110,1); c1=round(cx+110,1)
+    cx=(xo+TB+x1)/2; c0=round(cx-100,1); c1=round(cx+100,1)
     sub.append(_box(c0,y0-40,c1,y0+0.5))
-    vidrios += _corredera(c0,c1,y0-25,y0)
-    ops.append(dict(a=[c0,y0-12.5],b=[c1,y0-12.5],gap=220.0,type='door'))
+    puertas += _puerta((c0,y0-25),(cx,y0-25),'norte') + _puerta((c1,y0-25),(cx,y0-25),'norte')
+    ops.append(dict(a=[c0,y0-12.5],b=[c1,y0-12.5],gap=200.0,type='door'))
     limpiar.append((x0,y0,x1,y1))
     # --- servicio ---
     lav=room('LAVANDERÍA'); des=room('DESPENSA'); ban=room('BAÑO 1')
@@ -263,10 +263,10 @@ def rediseno(rooms, anillos):
     rooms.append(dict(pts=[[bx0,by0],[xb,by0],[xb,by1],[bx0,by1]], nombres=['BODEGA DE ASEO'], labels=None))
     ban['pts']=[[xb+TB,by0],[bx1,by0],[bx1,by1],[xb+TB,by1]]; ban['nombres']=['BAÑO VISITAS']
     add.append(_box(xb,by0,xb+TB,by1))
-    qd0=round(xb+TB+60,1); qd1=qd0+80
+    qd0=round(xb+TB+55,1); qd1=qd0+90
     sub.append(_box(qd0,by1-0.5,qd1,by1+TB+0.5))
     puertas += _puerta((qd0,by1),(qd1,by1),'norte')
-    ops.append(dict(a=[qd0,by1+TB/2],b=[qd1,by1+TB/2],gap=80.0,type='door'))
+    ops.append(dict(a=[qd0,by1+TB/2],b=[qd1,by1+TB/2],gap=90.0,type='door'))
     limpiar += [(lx0,ly0,lx1,dy1),(bx0,by0,bx1,by1)]
     M=M.difference(_uu2(sub)); M=_uu2([M]+add)
     out=[]
@@ -277,6 +277,75 @@ def rediseno(rooms, anillos):
         for h in q.interiors: out.append([[round(x,1),round(y,1)] for x,y in list(h.coords)[:-1]])
     return rooms, out, puertas, vidrios, ops, limpiar, (c0,c1,y0)
 rooms, MUROS, PUERTAS_NUEVAS, VIDRIOS_NUEVOS, OPS_NUEVOS, LIMPIAR, CORREDERA = rediseno(rooms, MUROS)
+
+# ---------- puertas acordadas (sept. 2026) ----------
+# Regla: 0,90 en todo lo que pisa gente, 0,80 solo en closets de servicio. La galeria
+# se abre al living (fuera el tabique vidriado y su puerta doble). La lavanderia pierde
+# la puerta exterior y gana una desde la cocina. Sala de maquinas y bodega exterior con
+# doble hoja de 0,80 para meter equipos. Las jambas vienen de los arcos del PDF.
+LIMPIAR_PUERTAS=[]
+def puertas_v1(rooms, anillos, puertas, ops):
+    M=_desde_anillos(anillos)
+    add, sub, nuevas, quitar_ops = [], [], [], []
+    ops_nuevos=[]
+    def cambia(cx, cy): quitar_ops.append((cx,cy))
+    # 1. galeria abierta al living: fuera el tabique y la puerta doble; la oficina
+    #    recibe un muro sur de 15 (antes era la mampara vidriada)
+    gal=[r for r in rooms if 'GALERÍA' in (r['nombres'] or [])][0]
+    liv=[r for r in rooms if 'LIVING' in (r['nombres'] or [])][0]
+    gx0,gy0,gx1,gy1=_bb(gal); lx0,ly0,lx1,ly1=_bb(liv)
+    sub.append(_box(gx0, gy1-0.5, gx1, ly0+0.5))
+    add.append(_box(29.8, gy1, gx0-TB, ly0))
+    LIMPIAR_PUERTAS.append((gx0+40, gy1-95, gx1+2, ly0+80))
+    union=_uu2([Polygon(gal['pts']).buffer(0.2), Polygon(liv['pts']).buffer(0.2), _box(gx0, gy1-1, gx1, ly0+1)]).buffer(-0.2)
+    if union.geom_type!='Polygon': union=max(union.geoms,key=lambda g:g.area)
+    liv['pts']=[[round(x,1),round(y,1)] for x,y in list(union.simplify(0.3).exterior.coords)[:-1]]
+    liv['nombres']=liv['nombres']+['GALERÍA']
+    liv['labels']=(liv['labels'] or [])+[dict(x=round((gx0+gx1)/2-45,1), y=round((gy0+gy1)/2,1), t='GALERÍA')]
+    rooms.remove(gal)
+    # 2. cocina -> despensa 0,72 -> 0,90 (abre a la despensa)
+    sub.append(_box(1248, 423.4, 1266, 513.4)); LIMPIAR_PUERTAS.append((1262,424,1345,513))
+    nuevas += _puerta((1264.5,423.4),(1264.5,513.4),'oriente'); ops_nuevos.append(dict(a=[1257,423.4],b=[1257,513.4],gap=90.0,type='door')); cambia(1264,468)
+    # 3. lavanderia: fuera la puerta exterior, nueva de 0,90 desde la cocina
+    add.append(_box(1239.5, 128, 1264.5, 214)); LIMPIAR_PUERTAS.append((1262,128,1345,214))
+    sub.append(_box(1248, 260, 1266, 350))
+    nuevas += _puerta((1264.5,260),(1264.5,350),'oriente'); ops_nuevos.append(dict(a=[1257,260],b=[1257,350],gap=90.0,type='door'))
+    # 4. cocina -> chiflonera 0,72 -> 0,90 (abre a la cocina)
+    sub.append(_box(1248, 995, 1266, 1085)); LIMPIAR_PUERTAS.append((1176,1004,1252,1082))
+    nuevas += _puerta((1249.4,1085),(1249.4,995),'poniente'); ops_nuevos.append(dict(a=[1257,995],b=[1257,1085],gap=90.0,type='door')); cambia(1250,1043)
+    # 5. comedor -> chiflonera 0,72 -> 0,90 (abre al comedor)
+    sub.append(_box(1268.9, 1095, 1358.9, 1114)); LIMPIAR_PUERTAS.append((1276,1109,1352,1186))
+    nuevas += _puerta((1358.9,1111.8),(1268.9,1111.8),'sur'); ops_nuevos.append(dict(a=[1268.9,1104],b=[1358.9,1104],gap=90.0,type='door')); cambia(1314,1111)
+    # 6. chiflonera -> bodega de aseo 0,72 -> 0,80 (abre a la bodega)
+    sub.append(_box(1273.9, 949, 1353.9, 968)); LIMPIAR_PUERTAS.append((1276,878,1352,956))
+    nuevas += _puerta((1273.9,951),(1353.9,951),'norte'); ops_nuevos.append(dict(a=[1273.9,958.5],b=[1353.9,958.5],gap=80.0,type='door')); cambia(1314,953)
+    # 7. chiflonera -> acceso cubierto oriente 0,72 -> 0,90 (abre a la chiflonera)
+    sub.append(_box(1763, 995, 1792, 1085)); LIMPIAR_PUERTAS.append((1697,1004,1774,1082))
+    nuevas += _puerta((1765,1085),(1765,995),'poniente'); ops_nuevos.append(dict(a=[1777,995],b=[1777,1085],gap=90.0,type='door')); cambia(1772,1043)
+    # 8. sala de maquinas: 0,82 -> doble 2 x 0,80, abre hacia afuera
+    sub.append(_box(2163, 160, 2192, 320)); LIMPIAR_PUERTAS.append((2088,237,2174,325))
+    nuevas += _puerta((2189.6,160),(2189.6,240),'oriente') + _puerta((2189.6,320),(2189.6,240),'oriente')
+    ops_nuevos.append(dict(a=[2177,160],b=[2177,320],gap=160.0,type='door')); cambia(2172,281)
+    # 9. bodega exterior: 0,82 -> doble 2 x 0,80, abre hacia afuera
+    sub.append(_box(2163, 370, 2192, 530)); LIMPIAR_PUERTAS.append((2088,358,2174,447))
+    nuevas += _puerta((2189.6,370),(2189.6,450),'oriente') + _puerta((2189.6,530),(2189.6,450),'oriente')
+    ops_nuevos.append(dict(a=[2177,370],b=[2177,530],gap=160.0,type='door')); cambia(2172,402)
+    # 10. entrada principal: el vano de 1,80 entre los dos machones del muro oriente
+    #     del hall ya existe; pivotante de 1,20 (bisagra al sur) + pano fijo de 0,60
+    LIMPIAR_PUERTAS.append((985,1485,1200,1692))
+    nuevas += _puerta((1001.6,1673),(1001.6,1553),'poniente')
+    VIDRIOS_NUEVOS.append(['re',[991,1493],[1012,1553]])
+    ops_nuevos.append(dict(a=[1001.6,1553],b=[1001.6,1673],gap=120.0,type='door'))
+    M=M.difference(_uu2(sub)); M=_uu2([M]+add)
+    out=[]
+    for gm in ([M] if M.geom_type=='Polygon' else list(M.geoms)):
+        if gm.geom_type!='Polygon': continue
+        q=gm.simplify(0.05)
+        out.append([[round(x,1),round(y,1)] for x,y in list(q.exterior.coords)[:-1]])
+        for h in q.interiors: out.append([[round(x,1),round(y,1)] for x,y in list(h.coords)[:-1]])
+    viejos=[o for o in ops if not any(math.hypot((o['a'][0]+o['b'][0])/2-cx,(o['a'][1]+o['b'][1])/2-cy)<45 for cx,cy in quitar_ops)]
+    return rooms, out, puertas+nuevas, viejos+ops_nuevos
+rooms, MUROS, PUERTAS_NUEVAS, OPS_NUEVOS = puertas_v1(rooms, MUROS, PUERTAS_NUEVAS, OPS_NUEVOS)
 def fuera_de(items, cajas, margen=1.0):
     """Quita los items dibujados dentro de los recintos rediseñados (mobiliario y la
     tina que ya no van, la puerta de 72 que reemplaza la corredera)."""
@@ -367,7 +436,8 @@ def tipo(o):
             if it[0]=='l' and seg.contains(LineString([it[1],it[2]]).representative_point()): win+=1
     if win>=2: return 'window'
     return 'door' if o['gap']<=130 else 'passage'
-ops=[dict(a=o['a'],b=o['b'],gap=o['gap'],type=tipo(o)) for o in VANOS if o['gap']>=30]+OPS_NUEVOS
+ops=[dict(a=o['a'],b=o['b'],gap=o['gap'],type=tipo(o)) for o in VANOS if o['gap']>=60
+     and not any(math.hypot((o['a'][0]+o['b'][0])/2-(n['a'][0]+n['b'][0])/2,(o['a'][1]+o['b'][1])/2-(n['a'][1]+n['b'][1])/2)<45 for n in OPS_NUEVOS)]+OPS_NUEVOS
 def _corre_rot(x,y):
     for o in OBRA:
         if o['x'][0]-30<=x<=o['x'][1]+30 and 60<=y<=150: return y+o['dy']
@@ -419,7 +489,7 @@ data=dict(W=2200,H=2190,
     wallsPath=' '.join(poly_path(w) for w in MUROS),
     windowsPath=items_path(fuera_de(corre_simbolos(clip(L.get('(0.43, 0.5)',[])+L.get('(0.28, 0.53)',[]), CASA)),
                                     [(CORREDERA[0]-1,CORREDERA[2]-40,CORREDERA[1]+1,CORREDERA[2]+1)])+vent_items(VENT_NUEVAS)+VIDRIOS_NUEVOS),
-    doorsPath=items_path(fuera_de(corre_simbolos(clip(L.get('(0.23, 0.53)',[]), CASA)), [LIMPIAR[0]])+PUERTAS_NUEVAS),
+    doorsPath=items_path(fuera_de(corre_simbolos(clip(L.get('(0.23, 0.53)',[]), CASA)), [LIMPIAR[0]]+LIMPIAR_PUERTAS)+PUERTAS_NUEVAS),
     furniturePath=items_path(fuera_de(clip(L.get('(0.57, 0.38)',[])+L.get('(0.57, 0.41)',[]), CASA), LIMPIAR)),
     windows=wins, openings=[o for o in ops if o['type'] in ('door','passage')], setbacks=[], notes=notas)),
   extLabels=ext,

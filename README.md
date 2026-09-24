@@ -28,11 +28,11 @@ En el teléfono, la lista de recintos vive en la hoja inferior: se sube tocando 
 
 | | Recintos | Sup. interior útil | Envolvente |
 |---|---|---|---|
-| **Nivel 1** | 11 | 306,64 m² | 21,90 × 23,36 m |
+| **Nivel 1** | 10 | 306,99 m² | 21,90 × 23,36 m |
 | **Nivel 2** (versión 1) | 15 | 321,71 m² | 17,90 × 21,77 m |
 | **Nivel 2** (versión 2) | 15 | 322,71 m² | 17,90 × 21,77 m |
 
-En el nivel 1, **living, comedor y hall de acceso son un solo recinto de 128,72 m²**:
+En el nivel 1, **living, comedor, hall de acceso y galería son un solo recinto de 143,33 m²**:
 en el plano no hay muro que los separe, así que se miden juntos y se rotula cada zona
 donde la nombra el arquitecto, sin inventar divisiones. El acceso cubierto se dibuja y
 rotula, pero no se mide como recinto. La terraza cubierta exterior del norte y sus
