@@ -303,6 +303,13 @@ def puertas_v1(rooms, anillos, puertas, ops):
     liv['nombres']=liv['nombres']+['GALERÍA']
     liv['labels']=(liv['labels'] or [])+[dict(x=round((gx0+gx1)/2-45,1), y=round((gy0+gy1)/2,1), t='GALERÍA')]
     rooms.remove(gal)
+    # 1b. el hueco de la antigua puerta de 72 (muro oriente de la galeria, y 28..108)
+    #     quedo abierto al sacar el simbolo: se rellena con el mismo espesor del muro
+    from shapely.geometry import LineString as _LS
+    _w=_LS([(630,150),(700,150)]).intersection(M)
+    if not _w.is_empty:
+        _wx0,_wx1=_w.bounds[0],_w.bounds[2]
+        add.append(_box(_wx0, gy0-0.5, _wx1, 112))
     # 2. cocina -> despensa 0,72 -> 0,90 (abre a la despensa)
     sub.append(_box(1248, 423.4, 1266, 513.4)); LIMPIAR_PUERTAS.append((1262,424,1345,513))
     nuevas += _puerta((1264.5,423.4),(1264.5,513.4),'oriente'); ops_nuevos.append(dict(a=[1257,423.4],b=[1257,513.4],gap=90.0,type='door')); cambia(1264,468)
@@ -322,14 +329,25 @@ def puertas_v1(rooms, anillos, puertas, ops):
     # 7. chiflonera -> acceso cubierto oriente 0,72 -> 0,90 (abre a la chiflonera)
     sub.append(_box(1763, 995, 1792, 1085)); LIMPIAR_PUERTAS.append((1697,1004,1774,1082))
     nuevas += _puerta((1765,1085),(1765,995),'poniente'); ops_nuevos.append(dict(a=[1777,995],b=[1777,1085],gap=90.0,type='door')); cambia(1772,1043)
-    # 8. sala de maquinas: 0,82 -> doble 2 x 0,80, abre hacia afuera
-    sub.append(_box(2163, 160, 2192, 320)); LIMPIAR_PUERTAS.append((2088,237,2174,325))
-    nuevas += _puerta((2189.6,160),(2189.6,240),'oriente') + _puerta((2189.6,320),(2189.6,240),'oriente')
-    ops_nuevos.append(dict(a=[2177,160],b=[2177,320],gap=160.0,type='door')); cambia(2172,281)
-    # 9. bodega exterior: 0,82 -> doble 2 x 0,80, abre hacia afuera
-    sub.append(_box(2163, 370, 2192, 530)); LIMPIAR_PUERTAS.append((2088,358,2174,447))
-    nuevas += _puerta((2189.6,370),(2189.6,450),'oriente') + _puerta((2189.6,530),(2189.6,450),'oriente')
-    ops_nuevos.append(dict(a=[2177,370],b=[2177,530],gap=160.0,type='door')); cambia(2172,402)
+    # 8. sala de maquinas: doble hoja en el muro PONIENTE del saliente (hacia la
+    #    terraza norte), donde la marco el dueño. 2 x 0,75 = 1,50: el interior mide
+    #    1,77 y hay que dejar jamba a cada lado. Abre hacia afuera. La puerta de 0,82
+    #    de la fachada oriente se rellena.
+    add.append(_box(2164.6, 161, 2189.6, 326)); LIMPIAR_PUERTAS.append((2088,237,2174,325)); cambia(2172,281)
+    sub.append(_box(1763, -138.5, 1792, 11.5))
+    nuevas += _puerta((1765.2,-138.5),(1765.2,-63.5),'poniente') + _puerta((1765.2,11.5),(1765.2,-63.5),'poniente')
+    ops_nuevos.append(dict(a=[1777.7,-138.5],b=[1777.7,11.5],gap=150.0,type='door'))
+    # 9. bodega exterior: doble 2 x 0,80 en el muro SUR (al acceso cubierto oriente),
+    #    donde la marco el dueño; abre hacia afuera. La de la fachada oriente se rellena.
+    add.append(_box(2164.6, 358, 2189.6, 530)); LIMPIAR_PUERTAS.append((2088,358,2174,447)); cambia(2172,402)
+    sub.append(_box(1960, 938, 2120, 967))
+    nuevas += _puerta((1960,965.2),(2040,965.2),'sur') + _puerta((2120,965.2),(2040,965.2),'sur')
+    ops_nuevos.append(dict(a=[1960,952.7],b=[2120,952.7],gap=160.0,type='door'))
+    # 11. paso cocina -> living centrado en el hall de acceso (eje x=830,2): de
+    #     772..997 pasa a 717,7..942,7; mismo ancho de 2,25
+    add.append(_box(942.7, 1095, 998, 1113)); sub.append(_box(717.7, 1095, 942.7, 1113))
+    LIMPIAR_PUERTAS.append((765,1088,1000,1122)); LIMPIAR.append((765,1088,1000,1122)); cambia(884,1104)
+    ops_nuevos.append(dict(a=[717.7,1104],b=[942.7,1104],gap=225.0,type='passage'))
     # 10. entrada principal: el vano de 1,80 entre los dos machones del muro oriente
     #     del hall ya existe; pivotante de 1,20 (bisagra al sur) + pano fijo de 0,60
     LIMPIAR_PUERTAS.append((985,1485,1200,1692))
@@ -437,7 +455,7 @@ def tipo(o):
     if win>=2: return 'window'
     return 'door' if o['gap']<=130 else 'passage'
 ops=[dict(a=o['a'],b=o['b'],gap=o['gap'],type=tipo(o)) for o in VANOS if o['gap']>=60
-     and not any(math.hypot((o['a'][0]+o['b'][0])/2-(n['a'][0]+n['b'][0])/2,(o['a'][1]+o['b'][1])/2-(n['a'][1]+n['b'][1])/2)<45 for n in OPS_NUEVOS)]+OPS_NUEVOS
+     and not any(math.hypot((o['a'][0]+o['b'][0])/2-(n['a'][0]+n['b'][0])/2,(o['a'][1]+o['b'][1])/2-(n['a'][1]+n['b'][1])/2)<70 for n in OPS_NUEVOS)]+OPS_NUEVOS
 def _corre_rot(x,y):
     for o in OBRA:
         if o['x'][0]-30<=x<=o['x'][1]+30 and 60<=y<=150: return y+o['dy']
@@ -488,7 +506,7 @@ data=dict(W=2200,H=2190,
   variants=dict(v1=dict(rooms=out,
     wallsPath=' '.join(poly_path(w) for w in MUROS),
     windowsPath=items_path(fuera_de(corre_simbolos(clip(L.get('(0.43, 0.5)',[])+L.get('(0.28, 0.53)',[]), CASA)),
-                                    [(CORREDERA[0]-1,CORREDERA[2]-40,CORREDERA[1]+1,CORREDERA[2]+1)])+vent_items(VENT_NUEVAS)+VIDRIOS_NUEVOS),
+                                    [(CORREDERA[0]-1,CORREDERA[2]-40,CORREDERA[1]+1,CORREDERA[2]+1),(765,1088,1000,1122)])+vent_items(VENT_NUEVAS)+VIDRIOS_NUEVOS),
     doorsPath=items_path(fuera_de(corre_simbolos(clip(L.get('(0.23, 0.53)',[]), CASA)), [LIMPIAR[0]]+LIMPIAR_PUERTAS)+PUERTAS_NUEVAS),
     furniturePath=items_path(fuera_de(clip(L.get('(0.57, 0.38)',[])+L.get('(0.57, 0.41)',[]), CASA), LIMPIAR)),
     windows=wins, openings=[o for o in ops if o['type'] in ('door','passage')], setbacks=[], notes=notas)),
