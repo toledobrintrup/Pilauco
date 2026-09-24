@@ -73,7 +73,7 @@ Decisiones de diseño tomadas sobre el plano, no cambios de obra todavía:
 - **Franja de servicio.** Lavandería 3,40 de fondo (17,4 m²), despensa el resto (2,68 → 13,7 m²).
   El baño pierde la tina —es el baño de visitas del primer piso, sin ducha— y cede 1,76 al
   poniente para una **bodega de aseo** de 1,76 × 2,88 (5,1 m²) con puerta propia al pasillo de
-  servicio (la chiflonera). El baño queda en 3,20 × 2,88 (9,2 m²) y pasa a llamarse Baño Visitas.
+  servicio (la chiflonera). El baño queda en 3,20 × 2,88 (9,2 m²) y pasa a llamarse Baño.
 - El mobiliario dibujado dentro de los recintos rediseñados se quita (sofás de la terraza,
   tina, mesones bajo tabiques movidos); se redibuja cuando se definan terminaciones.
 - **Bug corregido de paso:** los anillos de muro se emiten planos (exterior e interiores por
