@@ -48,6 +48,11 @@ pilares quedaron fuera del dibujo.
   cara exterior significa que la envolvente del permiso no cambia y que cada recinto que
   toca fachada pierde espesor por ese lado.
 - En la Versión 2 el muro dormitorio/baño está **estimado** (eje y = 557) y se ajusta después.
+- **Puertas:** 0,90 en todo lo que pisa gente, 0,80 en closets, en las dos plantas. En el
+  nivel 1 se rediseñaron posiciones (jamba a 15 cm de la esquina en servicio/baño,
+  centradas en representativas/exteriores). En el nivel 2 se ajustaron las que ya traía el
+  plano del arquitecto con el mismo ancho; la posición sólo se corrigió donde sobraba
+  margen confirmado contra el muro real.
 
 Base: plano L3 PLARQ2 (Planta Arquitectura Nivel 2, GVArq, dic. 2025, esc. 1:50).
 
