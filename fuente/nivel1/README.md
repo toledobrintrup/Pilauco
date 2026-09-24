@@ -60,3 +60,23 @@ El bloque `const DATA_N1 = …` de `index.html` es el contenido de `n1_data.json
   borde exterior de la unión de muros y recintos (`envPath`/`envBox`), así que sigue el
   perímetro real, con el saliente de la sala de máquinas y el acceso cubierto. Mide
   2.190 × 2.336 cm. En el nivel 2 se sigue usando el rectángulo, que ahí sí es exacto.
+
+## Rediseño de septiembre 2026 (`rediseno()` en `n1_final.py`)
+
+Decisiones de diseño tomadas sobre el plano, no cambios de obra todavía:
+
+- **La terraza interior desaparece.** Justo afuera hay una terraza cubierta de ~80 m², así
+  que el recinto se reparte en **oficina** (3,60 × 5,93 = 21,3 m², al poniente, con ventana
+  norte y poniente) y **galería** (2,41 × 5,93 = 14,3 m², al oriente): el paso del living a la
+  terraza. Tabique de 15 entre ambas con puerta de 0,90 al centro. La salida al patio pasa de
+  una puerta de 72 cm a una **corredera de 2,20** centrada en la galería.
+- **Franja de servicio.** Lavandería 3,40 de fondo (17,4 m²), despensa el resto (2,68 → 13,7 m²).
+  El baño pierde la tina —es el baño de visitas del primer piso, sin ducha— y cede 1,76 al
+  poniente para una **bodega de aseo** de 1,76 × 2,88 (5,1 m²) con puerta propia al pasillo de
+  servicio (la chiflonera). El baño queda en 3,20 × 2,88 (9,2 m²) y pasa a llamarse Baño Visitas.
+- El mobiliario dibujado dentro de los recintos rediseñados se quita (sofás de la terraza,
+  tina, mesones bajo tabiques movidos); se redibuja cuando se definan terminaciones.
+- **Bug corregido de paso:** los anillos de muro se emiten planos (exterior e interiores por
+  igual). Reconstruirlos uniéndolos como sólidos rellena los huecos —la lavandería salía
+  negra—. `_desde_anillos()` los ensambla por diferencia simétrica (par-impar), que es lo
+  mismo que hace la página con `fill-rule: evenodd`.

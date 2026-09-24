@@ -134,6 +134,7 @@ TOK={'TERRAZA':'TERRAZA INTERIOR','COCINA':'COCINA','LAVANDERIA':'LAVANDERÍA','
 ORDEN=['LIVING','COMEDOR','HALL DE ACCESO']
 pal=[w for w in WORDS if 7<w['size']<9 and w['t'] in TOK]
 KIND={'TERRAZA INTERIOR':'terraza','COCINA':'cocina','LAVANDERÍA':'serv','DESPENSA':'serv','BODEGA':'serv',
+      'OFICINA':'oficina','GALERÍA':'hall','BODEGA DE ASEO':'serv','BAÑO VISITAS':'bano',
       'SALA DE MÁQUINAS':'serv','BAÑO 1':'bano','CHIFLONERA':'serv'}
 rooms=[]
 for i in range(1,n):
@@ -166,8 +167,15 @@ EJE_H, EJE_I1 = 7.1, -169.8
 CARA = 17.9
 OBRA = [dict(nom='LAVANDERÍA',       viejo=125.5, nuevo=round(EJE_H+CARA,1),  x=(1264.5,1775.2)),
         dict(nom='SALA DE MÁQUINAS', viejo=125.5, nuevo=round(EJE_I1+CARA,1), x=(1790.2,2164.6))]
+def _desde_anillos(anillos):
+    """Los anillos se emiten planos (exterior e interiores por igual). Unirlos como
+    solidos rellena los huecos; la diferencia simetrica los reconstruye par-impar,
+    que es como los pinta la pagina (fill-rule: evenodd)."""
+    from functools import reduce
+    ps=[Polygon(a).buffer(0) for a in anillos if len(a)>=3]
+    return reduce(lambda A,B: A.symmetric_difference(B), ps)
 def como_construido(rooms, anillos):
-    M=_uu2([Polygon(a).buffer(0) for a in anillos if len(a)>=3])
+    M=_desde_anillos(anillos)
     dentro=[]
     for o in OBRA:
         r=[x for x in rooms if o['nom'] in (x['nombres'] or [])]
@@ -204,10 +212,86 @@ def corre_simbolos(items):
     return out
 rooms, MUROS = como_construido(rooms, MUROS)
 
+# ---------- rediseño acordado (sept. 2026) ----------
+# 1. La terraza interior se reparte en oficina (3,60 de ancho, al poniente) y una
+#    galería de 2,40 al oriente que es el paso del living a la terraza cubierta,
+#    con corredera nueva de 2,20 al norte y un tabique con puerta de 0,90.
+# 2. Franja de servicio: lavandería 3,40 de fondo, despensa el resto; el baño pierde
+#    la tina y cede 1,76 al poniente para una bodega de aseo con puerta propia al
+#    pasillo de servicio (la chiflonera). El baño pasa a llamarse Baño Visitas.
+TB=15.0
+def _puerta(A, B, lado):
+    """Símbolo de puerta: hoja desde la jamba A y cuarto de arco hasta la jamba B."""
+    w=math.hypot(B[0]-A[0],B[1]-A[1])
+    d={'norte':(0,-1),'sur':(0,1),'oriente':(1,0),'poniente':(-1,0)}[lado]
+    Tp=(A[0]+d[0]*w, A[1]+d[1]*w); k=0.5523*w
+    u=((Tp[0]-A[0])/w,(Tp[1]-A[1])/w); v=((B[0]-A[0])/w,(B[1]-A[1])/w)
+    return [['l',[A[0],A[1]],[Tp[0],Tp[1]]],
+            ['c',[Tp[0],Tp[1]],[Tp[0]+v[0]*k,Tp[1]+v[1]*k],[B[0]+u[0]*k,B[1]+u[1]*k],[B[0],B[1]]]]
+def _corredera(x0,x1,y0,y1):
+    m=(x0+x1)/2; ym=(y0+y1)/2
+    return [['re',[x0,y0+3],[m+10,ym-1]], ['re',[m-10,ym+1],[x1,y1-3]]]
+def _bb(r):
+    xs=[q[0] for q in r['pts']]; ys=[q[1] for q in r['pts']]; return min(xs),min(ys),max(xs),max(ys)
+def rediseno(rooms, anillos):
+    M=_desde_anillos(anillos)
+    def room(n): return [r for r in rooms if n in (r['nombres'] or [])][0]
+    add, sub, puertas, vidrios, ops, limpiar = [], [], [], [], [], []
+    # --- terraza interior -> oficina + galería ---
+    t=room('TERRAZA INTERIOR'); x0,y0,x1,y1=_bb(t)
+    xo=round(x0+360.0,1)
+    t['pts']=[[x0,y0],[xo,y0],[xo,y1],[x0,y1]]; t['nombres']=['OFICINA']; t['labels']=None
+    rooms.append(dict(pts=[[xo+TB,y0],[x1,y0],[x1,y1],[xo+TB,y1]], nombres=['GALERÍA'], labels=None))
+    pd0=round((y0+y1)/2-45,1); pd1=pd0+90
+    add += [_box(xo,y0,xo+TB,pd0), _box(xo,pd1,xo+TB,y1)]
+    puertas += _puerta((xo+TB,pd0),(xo+TB,pd1),'oriente')
+    ops.append(dict(a=[xo+TB/2,pd0],b=[xo+TB/2,pd1],gap=90.0,type='door'))
+    cx=(xo+TB+x1)/2; c0=round(cx-110,1); c1=round(cx+110,1)
+    sub.append(_box(c0,y0-40,c1,y0+0.5))
+    vidrios += _corredera(c0,c1,y0-25,y0)
+    ops.append(dict(a=[c0,y0-12.5],b=[c1,y0-12.5],gap=220.0,type='door'))
+    limpiar.append((x0,y0,x1,y1))
+    # --- servicio ---
+    lav=room('LAVANDERÍA'); des=room('DESPENSA'); ban=room('BAÑO 1')
+    lx0,ly0,lx1,ly1=_bb(lav); dx0,dy0,dx1,dy1=_bb(des); bx0,by0,bx1,by1=_bb(ban)
+    ny=round(ly0+340.0,1)
+    sub.append(_box(lx0-1, ly1-0.5, lx1+1, dy0+0.5))
+    add.append(_box(lx0, ny, lx1, ny+TB))
+    lav['pts']=[[lx0,ly0],[lx1,ly0],[lx1,ny],[lx0,ny]]
+    des['pts']=[[dx0,ny+TB],[dx1,ny+TB],[dx1,dy1],[dx0,dy1]]
+    xb=round(bx0+176.0,1)
+    rooms.append(dict(pts=[[bx0,by0],[xb,by0],[xb,by1],[bx0,by1]], nombres=['BODEGA DE ASEO'], labels=None))
+    ban['pts']=[[xb+TB,by0],[bx1,by0],[bx1,by1],[xb+TB,by1]]; ban['nombres']=['BAÑO VISITAS']
+    add.append(_box(xb,by0,xb+TB,by1))
+    qd0=round(xb+TB+60,1); qd1=qd0+80
+    sub.append(_box(qd0,by1-0.5,qd1,by1+TB+0.5))
+    puertas += _puerta((qd0,by1),(qd1,by1),'norte')
+    ops.append(dict(a=[qd0,by1+TB/2],b=[qd1,by1+TB/2],gap=80.0,type='door'))
+    limpiar += [(lx0,ly0,lx1,dy1),(bx0,by0,bx1,by1)]
+    M=M.difference(_uu2(sub)); M=_uu2([M]+add)
+    out=[]
+    for gm in ([M] if M.geom_type=='Polygon' else list(M.geoms)):
+        if gm.geom_type!='Polygon': continue
+        q=gm.simplify(0.05)
+        out.append([[round(x,1),round(y,1)] for x,y in list(q.exterior.coords)[:-1]])
+        for h in q.interiors: out.append([[round(x,1),round(y,1)] for x,y in list(h.coords)[:-1]])
+    return rooms, out, puertas, vidrios, ops, limpiar, (c0,c1,y0)
+rooms, MUROS, PUERTAS_NUEVAS, VIDRIOS_NUEVOS, OPS_NUEVOS, LIMPIAR, CORREDERA = rediseno(rooms, MUROS)
+def fuera_de(items, cajas, margen=1.0):
+    """Quita los items dibujados dentro de los recintos rediseñados (mobiliario y la
+    tina que ya no van, la puerta de 72 que reemplaza la corredera)."""
+    out=[]
+    for it in items:
+        ps=[q for q in it[1:] if isinstance(q,list)]
+        if ps and any(all(b[0]-margen<=q[0]<=b[2]+margen and b[1]-margen<=q[1]<=b[3]+margen for q in ps) for b in cajas): continue
+        out.append(it)
+    return out
+
 print('  superficies antes -> despues del engrosado:')
 for r in rooms:
     k=' · '.join(r['nombres']) or '?'
-    print(f"    {k[:44]:44s} {antes[k]:7.2f} -> {Polygon(r['pts']).area/1e4:7.2f} m2")
+    if k in antes: print(f"    {k[:44]:44s} {antes[k]:7.2f} -> {Polygon(r['pts']).area/1e4:7.2f} m2")
+    else: print(f"    {k[:44]:44s}   nuevo -> {Polygon(r['pts']).area/1e4:7.2f} m2")
 
 # Recorte: fuera de la casa, varias capas comparten grosor con las cadenas de cota.
 # Sin la terraza cubierta exterior (al norte de y=0) ni sus pilares.
@@ -243,7 +327,7 @@ def vent_items(ws):
 
 # Muros exentos dentro de un recinto (el arrimo del estar, la esquina del comedor):
 # el contorno exterior del relleno se los traga, asi que se restan como huecos.
-_MUR=_uu2([Polygon(a).buffer(0) for a in MUROS if len(a)>=3])
+_MUR=_desde_anillos(MUROS)
 out=[]
 for idx,r in enumerate(rooms):
     P=Polygon(r['pts']); b=P.bounds
@@ -283,7 +367,7 @@ def tipo(o):
             if it[0]=='l' and seg.contains(LineString([it[1],it[2]]).representative_point()): win+=1
     if win>=2: return 'window'
     return 'door' if o['gap']<=130 else 'passage'
-ops=[dict(a=o['a'],b=o['b'],gap=o['gap'],type=tipo(o)) for o in VANOS if o['gap']>=30]
+ops=[dict(a=o['a'],b=o['b'],gap=o['gap'],type=tipo(o)) for o in VANOS if o['gap']>=30]+OPS_NUEVOS
 def _corre_rot(x,y):
     for o in OBRA:
         if o['x'][0]-30<=x<=o['x'][1]+30 and 60<=y<=150: return y+o['dy']
@@ -333,9 +417,10 @@ data=dict(W=2200,H=2190,
   envPath=poly_path(_ring), envBox=[round(v,1) for v in _b],
   variants=dict(v1=dict(rooms=out,
     wallsPath=' '.join(poly_path(w) for w in MUROS),
-    windowsPath=items_path(corre_simbolos(clip(L.get('(0.43, 0.5)',[])+L.get('(0.28, 0.53)',[]), CASA))+vent_items(VENT_NUEVAS)),
-    doorsPath=items_path(corre_simbolos(clip(L.get('(0.23, 0.53)',[]), CASA))),
-    furniturePath=items_path(clip(L.get('(0.57, 0.38)',[])+L.get('(0.57, 0.41)',[]), CASA)),
+    windowsPath=items_path(fuera_de(corre_simbolos(clip(L.get('(0.43, 0.5)',[])+L.get('(0.28, 0.53)',[]), CASA)),
+                                    [(CORREDERA[0]-1,CORREDERA[2]-40,CORREDERA[1]+1,CORREDERA[2]+1)])+vent_items(VENT_NUEVAS)+VIDRIOS_NUEVOS),
+    doorsPath=items_path(fuera_de(corre_simbolos(clip(L.get('(0.23, 0.53)',[]), CASA)), [LIMPIAR[0]])+PUERTAS_NUEVAS),
+    furniturePath=items_path(fuera_de(clip(L.get('(0.57, 0.38)',[])+L.get('(0.57, 0.41)',[]), CASA), LIMPIAR)),
     windows=wins, openings=[o for o in ops if o['type'] in ('door','passage')], setbacks=[], notes=notas)),
   extLabels=ext,
   stairsPath=items_path(clip(L.get('(0.01, 0.3)',[]), CASA)),
