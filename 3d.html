@@ -65,8 +65,9 @@ header .meta{color:var(--chrome-muted);font-size:11.5px}
       <b>Qué es esto:</b> los volúmenes de cada recinto, a la altura real de piso a piso (3,46 m,
       tomada del plano de estructura). El <b>techo</b> ahora tiene su pendiente real, medida en los
       vectores del plano de estructura (sube de norte a sur, nivelado en el otro sentido). Activa
-      <b>Ver estructura</b> para los pilares, diagonales (San Andrés) y cabios reales — el resto
-      (arriostramiento secundario, detalles de anclaje) no se pudo leer con certeza del PDF.
+      <b>Ver estructura</b> para los pilares, vigas, diagonales (San Andrés) y cabios reales,
+      cada uno con su perfil (HEB, IPE, Z) — los detalles de anclaje y tensores no se pudieron
+      leer con certeza del PDF.
     </div>
     <div class="panel" id="panel" hidden>
       <div class="row"><label><input type="checkbox" id="chk-n1" checked> Nivel 1</label></div>
@@ -184,9 +185,7 @@ header .meta{color:var(--chrome-muted);font-size:11.5px}
   // estructura (ejes 1,2,3,5 coinciden en la misma recta Y-Z) — ya no es esquemático.
   // Nivel en sentido oriente-poniente (X), con pendiente norte-sur (Y), un agua.
   function alturaTecho(yCm){
-    const [, y0, zb0, , y1, zb1] = DATA_ESTRUCTURA.cumbrera[0];
-    const [, , zt0, , , zt1] = DATA_ESTRUCTURA.cumbrera[1];
-    const z0 = (zb0 + zt0) / 2, z1 = (zb1 + zt1) / 2;
+    const [, y0, z0, , y1, z1] = DATA_ESTRUCTURA.cumbrera[0];
     const t = (Math.max(y0, Math.min(y1, yCm)) - y0) / (y1 - y0);
     return z0 + (z1 - z0) * t;
   }
@@ -210,27 +209,35 @@ header .meta{color:var(--chrome-muted);font-size:11.5px}
     return g;
   })();
 
-  // ---------- estructura real: pilares, diagonales (San Andrés) y cabios, sacados de
-  // los vectores de las elevaciones de estructura (no a ojo) — ver fuente/ingenieria/.
-  // Se dibujan como tubos (no lineas finas): a esta escala una linea de 1px es casi
-  // invisible contra los volumenes de los recintos, y lo que se pidio fue "que se vean
-  // los fierros".
+  // ---------- estructura real: pilares, diagonales (San Andrés), vigas y cabios,
+  // sacados de los vectores de las elevaciones de estructura (no a ojo) — ver
+  // fuente/ingenieria/. Cada tipo de miembro vive siempre en un plano de X (mundo)
+  // constante — es el plano de cada elevación — así que el "ancho de perfil" en el
+  // sentido X es siempre el eje X del mundo, y el otro lado del perfil es
+  // perpendicular a eso y al eje del miembro: se arma una caja orientada con esa
+  // base, no un tubo circular, para que cada perfil (HEB, Z, IPE) se vea como lo que
+  // es — rectangular, no un caño.
   function buildEstructura(){
     const g = new THREE.Group();
     const matAcero = new THREE.MeshLambertMaterial({color: ACERO_COLOR});
-    const up = new THREE.Vector3(0, 1, 0);
+    const ejeX = new THREE.Vector3(1, 0, 0);
     function punto(s, i){ return new THREE.Vector3(cm(s[i]), cm(s[i+2]), cm(s[i+1])); }
-    function tubos(segs, radio){
+    function cajas(segs, anchoX, anchoPerp){
       const g2 = new THREE.Group();
       segs.forEach(s => {
         const a = punto(s, 0), b = punto(s, 3);
         const dir = new THREE.Vector3().subVectors(b, a);
         const largo = dir.length();
         if (largo < 1e-4) return;
-        const geo = new THREE.CylinderGeometry(radio, radio, largo, 6);
+        const dirN = dir.clone().normalize();
+        let perp = new THREE.Vector3().crossVectors(ejeX, dirN);
+        if (perp.lengthSq() < 1e-6) perp = new THREE.Vector3().crossVectors(new THREE.Vector3(0,0,1), dirN);
+        perp.normalize();
+        const ladoX = new THREE.Vector3().crossVectors(dirN, perp).normalize();
+        const geo = new THREE.BoxGeometry(anchoX, largo, anchoPerp);
         const mesh = new THREE.Mesh(geo, matAcero);
         mesh.position.copy(a).addScaledVector(dir, 0.5);
-        mesh.quaternion.setFromUnitVectors(up, dir.clone().normalize());
+        mesh.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(ladoX, dirN, perp));
         g2.add(mesh);
       });
       return g2;
@@ -245,9 +252,10 @@ header .meta{color:var(--chrome-muted);font-size:11.5px}
       const mat = new THREE.LineBasicMaterial({color, transparent: opacity < 1, opacity});
       return new THREE.LineSegments(geo, mat);
     }
-    g.add(tubos(DATA_ESTRUCTURA.columnas, 0.08));    // HEB 160
-    g.add(tubos(DATA_ESTRUCTURA.diagonales, 0.035)); // Z 150x150
-    g.add(tubos(DATA_ESTRUCTURA.cumbrera, 0.09));    // IPE 400 (cumbrera)
+    g.add(cajas(DATA_ESTRUCTURA.columnas, 0.16, 0.16));    // HEB 160x42,6
+    g.add(cajas(DATA_ESTRUCTURA.diagonales, 0.15, 0.015)); // Z 150x150 / 200x150, pletina delgada
+    g.add(cajas(DATA_ESTRUCTURA.vigas, 0.15, 0.30));       // IPE (220 a 450 según el tramo, tamaño representativo)
+    g.add(cajas(DATA_ESTRUCTURA.cumbrera, 0.18, 0.40));    // IPE 400x66,3 (cumbrera)
     g.add(lineas(DATA_ESTRUCTURA.correas, ACERO_COLOR, 0.55)); // costaneras, generadas
     return g;
   }

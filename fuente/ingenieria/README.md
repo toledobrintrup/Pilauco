@@ -30,14 +30,23 @@ dibujante, igual que los planos de arquitectura.
   aparecen en la misma hoja, y promediando las 3 que dieron una lectura limpia (ejes 2, 3 y
   5; el eje 1 no mostró una línea de cumbrera nítida en esa zona del dibujo). Las tres
   coinciden entre sí con menos de 2 cm de diferencia — es una medición, no una estimación.
-- **Pilares, diagonales (San Andrés) y cabios reales**, extraídos vector por vector (ver
-  "Cómo se extrajo" más abajo): 63 pilares desde los símbolos de columna de la planta de
-  estructura del nivel 2, y el arriostramiento diagonal desde las 4 elevaciones por eje
-  numerado. **El arriostramiento en cruz existe sólo en el sentido norte-sur**: se revisaron
-  las 10 elevaciones por eje de letra (A, B, C, D, E, F, G, G2, G3, H, I, J, etc.) y ninguna
-  trae diagonales — son todos marcos rectangulares simples (columna + viga). Esto no es un
-  vacío de datos, es cómo está diseñada la estructura: el arriostramiento en cruz resuelve el
-  sentido corto del edificio, y el otro sentido queda confiado a los marcos rígidos.
+- **Pilares, vigas, diagonales (San Andrés) y cabios reales**, extraídos vector por vector
+  (ver "Cómo se extrajo" más abajo): 63 pilares desde los símbolos de columna de la planta de
+  estructura del nivel 2, y vigas + arriostramiento diagonal desde las 4 elevaciones por eje
+  numerado (21 vigas, varias por elevación — el edificio tiene más de un nivel de viga entre
+  nivel 1 y el techo, no sólo la del piso de nivel 2). **El arriostramiento en cruz existe sólo
+  en el sentido norte-sur**: se revisaron las 10 elevaciones por eje de letra (A, B, C, D, E, F,
+  G, G2, G3, H, I, J, etc.) y ninguna trae diagonales — son todos marcos rectangulares simples
+  (columna + viga). Esto no es un vacío de datos, es cómo está diseñada la estructura: el
+  arriostramiento en cruz resuelve el sentido corto del edificio, y el otro sentido queda
+  confiado a los marcos rígidos.
+- **Verificado superponiendo los datos extraídos sobre el plano original**, no sólo confiando
+  en el número de líneas encontradas: se redibujaron los pilares de la planta de estructura
+  encima de la planta de arquitectura (caen justo en las esquinas de muro) y las vigas,
+  diagonales y cumbrera del Eje 2 encima de su propia lámina de elevación (calzan con las
+  líneas reales del dibujo, cruz por cruz). Esa comparación visual es lo que encontró que a la
+  primera versión le faltaba la mitad de cada cruz y las vigas completas — contarlas no
+  alcanzaba, había que mirarlas sobre el plano.
 
 ## Cómo se extrajo (vectores, no la imagen)
 
@@ -77,14 +86,25 @@ X = −117,6 y X = 1.848,3, más ancho que esos 1.790 cm. La Vista 3D usa ese an
 un margen de 2 cm) para el plano del techo y las costaneras, así ningún pilar real queda
 sobresaliendo del borde dibujado.
 
+**Cada miembro se dibuja con su perfil real, no un caño circular.** Un pilar HEB160 o una viga
+IPE no son redondos — se les arma una caja orientada con el ancho real del perfil (en el
+sentido del eje mundo X, que es siempre el plano de la elevación de origen) y la altura/
+profundidad real del perfil en el otro sentido: pilares 16×16 cm (HEB 160), diagonales una
+pletina delgada de 15×1,5 cm (Z150/Z200, sección angosta), cumbrera 18×40 cm (IPE 400, el
+ancho de ala y el peralte medido directo de las dos líneas paralelas del dibujo), vigas 15×30 cm
+(un IPE representativo — el plano trae perfiles distintos según el tramo, de IPE220 a IPE450, y
+no se extrajo el peralte de cada una por separado).
+
 ## Lo que NO se modeló (y por qué)
 
-Dentro de cada diagonal o pilar no se modeló el detalle de anclaje, los tensores, ni el perfil
-exacto de cada barra (HEB, IPE, Z, PV1 — ver tabla en el plano de techumbre): la Vista 3D dibuja
-cada miembro como un tubo de grosor aproximado a su perfil real, no su sección exacta. Tampoco
-se extendió el techo más allá del ancho que marcan los pilares extraídos — el alero/voladizo
-real puede ser algo más ancho y no se quiso inventar esa distancia. Antes de usar esto para
-diseño de interiores o cálculo, confirmar con el ingeniero cualquier detalle de conexión.
+Dentro de cada diagonal, viga o pilar no se modeló el detalle de anclaje ni los tensores, y el
+perfil de cada viga usa un tamaño representativo en vez del exacto de cada tramo (ver arriba).
+Tampoco se extendió el techo más allá del ancho que marcan los pilares extraídos — el alero/
+voladizo real puede ser algo más ancho y no se quiso inventar esa distancia. Y por el umbral de
+largo mínimo de la diagonal (75 pt, ver arriba), **al menos una cruz de San Andrés angosta quedó
+sin capturar** — se vio al comparar el Eje 2 contra su lámina original; bajar más el umbral
+reintroduce ruido de los símbolos de conexión. Antes de usar esto para diseño de interiores o
+cálculo, confirmar con el ingeniero cualquier detalle de conexión.
 
 ## Qué se integró en la app
 
