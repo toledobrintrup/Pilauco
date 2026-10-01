@@ -57,20 +57,34 @@ textos con su posición) con PyMuPDF — no de mirar el render y adivinar coorde
    casi horizontal y muy larga → viga/cumbrera.
 4. Las páginas de estructura vienen rotadas 270° dentro del PDF; hay que aplicar la matriz de
    rotación de la página antes de comparar cualquier coordenada, si no, todo calza desfasado.
+5. **Cada cruz de San Andrés no son 2 líneas, son hasta 6.** El dibujo traza una de las dos
+   diagonales de corrido, pero la otra la corta en dos donde se cruzan (para que no se dibuje
+   "encima" de la primera), y cada una de las dos puede venir doblada en 2 líneas paralelas
+   (el ancho del perfil Z150x150 dibujado). El primer intento sólo exigía líneas largas
+   (>150 pt) y por eso se perdía la mitad cortada de cada cruz — el San Andrés salía "a medias"
+   en el modelo. El umbral de largo se bajó a 75 pt (con 5–8 pt de margen contra el ruido de
+   detalles de conexión, que son más cortos) para capturar ambas mitades sin juntar símbolos
+   de otra cosa.
 
 Las **costaneras** (perfil CA 200x50x15x3, cada 61 cm) no se leyeron vector por vector —se
 generaron en el mismo plano de techo ya medido, al espaciamiento real que indica la lámina de
 techumbre— porque la lámina dibuja la planta, no la sección, y el espaciamiento ya es un dato
 de catálogo, no algo que haya que medir.
 
+El **ancho real del techo** (y de las costaneras) no es el rectángulo simplificado del nivel 2
+(`DATA_N2.W/H`, pensado para los volúmenes de recintos): los 63 pilares reales llegan hasta
+X = −117,6 y X = 1.848,3, más ancho que esos 1.790 cm. La Vista 3D usa ese ancho medido (con
+un margen de 2 cm) para el plano del techo y las costaneras, así ningún pilar real queda
+sobresaliendo del borde dibujado.
+
 ## Lo que NO se modeló (y por qué)
 
 Dentro de cada diagonal o pilar no se modeló el detalle de anclaje, los tensores, ni el perfil
-real de cada barra (HEB, IPE, Z, PV1 — ver tabla en el plano de techumbre): la Vista 3D dibuja
-el eje de cada miembro como una línea, no su sección. Tampoco se extendió la malla de
-costaneras más allá del ancho medido entre los ejes 1 y 6 — el alero/voladizo real puede ser
-algo más ancho y no se quiso inventar esa distancia. Antes de usar esto para diseño de
-interiores o cálculo, confirmar con el ingeniero cualquier detalle de conexión.
+exacto de cada barra (HEB, IPE, Z, PV1 — ver tabla en el plano de techumbre): la Vista 3D dibuja
+cada miembro como un tubo de grosor aproximado a su perfil real, no su sección exacta. Tampoco
+se extendió el techo más allá del ancho que marcan los pilares extraídos — el alero/voladizo
+real puede ser algo más ancho y no se quiso inventar esa distancia. Antes de usar esto para
+diseño de interiores o cálculo, confirmar con el ingeniero cualquier detalle de conexión.
 
 ## Qué se integró en la app
 

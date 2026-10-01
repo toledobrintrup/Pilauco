@@ -192,7 +192,10 @@ header .meta{color:var(--chrome-muted);font-size:11.5px}
   }
   const grupoRoof = (() => {
     const g = new THREE.Group();
-    const x0 = 0, x1 = DATA_N2.W, y0 = 0, y1 = DATA_N2.H;
+    // ancho y largo reales (no el rectangulo simplificado de la planta): llegan hasta
+    // donde de verdad hay pilares extraidos del plano de estructura, ver estructura.js.
+    const x0 = DATA_ESTRUCTURA.techo_x0, x1 = DATA_ESTRUCTURA.techo_x1;
+    const y0 = DATA_ESTRUCTURA.techo_y0, y1 = DATA_ESTRUCTURA.techo_y1;
     const h0 = cm(alturaTecho(y0)), h1 = cm(alturaTecho(y1));
     const geo = new THREE.BufferGeometry();
     // mundo: X=cm(X arquitectura), Y=altura, Z=cm(Y arquitectura) — igual que shapeFromPts.
@@ -209,8 +212,29 @@ header .meta{color:var(--chrome-muted);font-size:11.5px}
 
   // ---------- estructura real: pilares, diagonales (San Andrés) y cabios, sacados de
   // los vectores de las elevaciones de estructura (no a ojo) — ver fuente/ingenieria/.
+  // Se dibujan como tubos (no lineas finas): a esta escala una linea de 1px es casi
+  // invisible contra los volumenes de los recintos, y lo que se pidio fue "que se vean
+  // los fierros".
   function buildEstructura(){
     const g = new THREE.Group();
+    const matAcero = new THREE.MeshLambertMaterial({color: ACERO_COLOR});
+    const up = new THREE.Vector3(0, 1, 0);
+    function punto(s, i){ return new THREE.Vector3(cm(s[i]), cm(s[i+2]), cm(s[i+1])); }
+    function tubos(segs, radio){
+      const g2 = new THREE.Group();
+      segs.forEach(s => {
+        const a = punto(s, 0), b = punto(s, 3);
+        const dir = new THREE.Vector3().subVectors(b, a);
+        const largo = dir.length();
+        if (largo < 1e-4) return;
+        const geo = new THREE.CylinderGeometry(radio, radio, largo, 6);
+        const mesh = new THREE.Mesh(geo, matAcero);
+        mesh.position.copy(a).addScaledVector(dir, 0.5);
+        mesh.quaternion.setFromUnitVectors(up, dir.clone().normalize());
+        g2.add(mesh);
+      });
+      return g2;
+    }
     function lineas(segs, color, opacity){
       const pos = new Float32Array(segs.length * 6);
       segs.forEach((s, i) => {
@@ -221,10 +245,10 @@ header .meta{color:var(--chrome-muted);font-size:11.5px}
       const mat = new THREE.LineBasicMaterial({color, transparent: opacity < 1, opacity});
       return new THREE.LineSegments(geo, mat);
     }
-    g.add(lineas(DATA_ESTRUCTURA.columnas, ACERO_COLOR, 1));
-    g.add(lineas(DATA_ESTRUCTURA.diagonales, ACERO_COLOR, 1));
-    g.add(lineas(DATA_ESTRUCTURA.cumbrera, ACERO_COLOR, 1));
-    g.add(lineas(DATA_ESTRUCTURA.correas, ACERO_COLOR, 0.45));
+    g.add(tubos(DATA_ESTRUCTURA.columnas, 0.08));    // HEB 160
+    g.add(tubos(DATA_ESTRUCTURA.diagonales, 0.035)); // Z 150x150
+    g.add(tubos(DATA_ESTRUCTURA.cumbrera, 0.09));    // IPE 400 (cumbrera)
+    g.add(lineas(DATA_ESTRUCTURA.correas, ACERO_COLOR, 0.55)); // costaneras, generadas
     return g;
   }
   const grupoEstructura = buildEstructura();
