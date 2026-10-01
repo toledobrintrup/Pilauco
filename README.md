@@ -28,20 +28,22 @@ En el teléfono, la lista de recintos vive en la hoja inferior: se sube tocando 
 
 ## Vista 3D
 
-Un primer modelo volumétrico: cada recinto extruido a su altura real (**3,46 m por piso**,
-dato tomado del plano de estructura — es el primer número de altura que tiene el proyecto,
-hasta ahora todo era planta). Nivel 1 abajo, Nivel 2 arriba, un techo esquemático encima.
+Cada recinto extruido a su altura real (**3,46 m por piso**, dato tomado del plano de
+estructura — es el primer número de altura que tiene el proyecto, hasta ahora todo era
+planta). Nivel 1 abajo, Nivel 2 arriba, el techo con su pendiente real encima.
 
 - **Arrastrar** gira el modelo, **rueda** acerca, **clic derecho** desplaza.
-- Casilleros para mostrar u ocultar cada nivel y el techo.
+- Casilleros para mostrar u ocultar cada nivel, el techo y la estructura.
+- **Ver estructura** — superpone el esqueleto de acero real: pilares, diagonales (San
+  Andrés) y cabios, sacados vector por vector del plano de estructura, no a ojo.
 - **Separar pisos** — un deslizador que levanta el Nivel 2 en el aire para ver los dos
   pisos a la vez sin que uno tape al otro.
 
-El techo es deliberadamente esquemático (una tapa plana): la cubierta real tiene pendiente
-y unas torres de arriostramiento que no se pudieron leer con certeza del plano de estructura
-(ver `fuente/ingenieria/README.md`) — se prefirió dejarlo marcado como pendiente de revisar
-antes que adivinar. Es un primer paso hacia un modelo más completo para diseño de interiores,
-no el modelo final.
+El techo tiene pendiente real (sube de norte a sur, ~3,5%), medida y cruzada entre tres
+elevaciones distintas de la estructura — ya no es la tapa plana esquemática de la primera
+versión. El detalle de anclajes, tensores y el arriostramiento secundario quedan fuera (ver
+`fuente/ingenieria/README.md`). Es un paso más hacia un modelo completo para diseño de
+interiores, no el modelo final.
 
 ## Qué trae cada planta
 
@@ -80,6 +82,7 @@ Base: plano L3 PLARQ2 (Planta Arquitectura Nivel 2, GVArq, dic. 2025, esc. 1:50)
 - `index.html` — el plano: geometría, lógica e interfaz de las dos plantas en un solo archivo.
 - `3d.html` — la vista 3D (Three.js vía CDN, sin paso de compilación).
 - `data.js` — los datos de ambas plantas (`DATA_N1`, `DATA_N2`), compartidos por `index.html` y `3d.html`: una sola fuente, nada duplicado.
+- `estructura.js` — pilares, diagonales, cabios y costaneras reales para la capa "Ver estructura" de `3d.html`, sacados del plano de estructura (ver `fuente/ingenieria/README.md`).
 - `fuente/nivel1/` — scripts que extraen la planta del nivel 1 desde el PDF, con las decisiones documentadas.
 - `fuente/planta-nivel2-proyecto.zip` — proyecto del nivel 2: pipeline de extracción (Python) y datos JSON.
 - `fuente/ingenieria/` — qué se sacó de los planos de estructura (altura de piso, calce de ejes) y qué se dejó fuera.

@@ -56,21 +56,23 @@ header .meta{color:var(--chrome-muted);font-size:11.5px}
 <div class="app">
   <header>
     <h1>Vista 3D</h1>
-    <span class="meta">Nivel 1 + Nivel 2 a su altura real · esquemático</span>
+    <span class="meta">Nivel 1 + Nivel 2 a su altura real · techo con pendiente medida</span>
     <a href="index.html">← Volver al plano</a>
   </header>
   <div class="stage" id="stage">
     <div class="loading" id="loading">Cargando el modelo…</div>
     <div class="aviso" id="aviso" hidden>
       <b>Qué es esto:</b> los volúmenes de cada recinto, a la altura real de piso a piso (3,46 m,
-      tomada del plano de estructura). El <b>techo es esquemático</b>: la cubierta real tiene
-      pendiente y unas torres de arriostramiento que no se pudieron leer con certeza del PDF —
-      revísalo con el ingeniero antes de darlo por bueno.
+      tomada del plano de estructura). El <b>techo</b> ahora tiene su pendiente real, medida en los
+      vectores del plano de estructura (sube de norte a sur, nivelado en el otro sentido). Activa
+      <b>Ver estructura</b> para los pilares, diagonales (San Andrés) y cabios reales — el resto
+      (arriostramiento secundario, detalles de anclaje) no se pudo leer con certeza del PDF.
     </div>
     <div class="panel" id="panel" hidden>
       <div class="row"><label><input type="checkbox" id="chk-n1" checked> Nivel 1</label></div>
       <div class="row"><label><input type="checkbox" id="chk-n2" checked> Nivel 2</label></div>
-      <div class="row"><label><input type="checkbox" id="chk-roof" checked> Techo (esquemático)</label></div>
+      <div class="row"><label><input type="checkbox" id="chk-roof" checked> Techo</label></div>
+      <div class="row"><label><input type="checkbox" id="chk-estructura"> Ver estructura</label></div>
       <div class="sep"></div>
       <div class="row lbl">Separar pisos</div>
       <div class="row"><input type="range" id="explode" min="0" max="3" step="0.05" value="0"></div>
@@ -84,6 +86,7 @@ header .meta{color:var(--chrome-muted);font-size:11.5px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script src="data.js"></script>
+<script src="estructura.js"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -101,6 +104,7 @@ header .meta{color:var(--chrome-muted);font-size:11.5px}
   const ROOF_COLOR = dark ? 0x6B5440 : 0xC9A06C;
   const BG = dark ? 0x14161A : 0xF2F3F5;
   const GRID = dark ? 0x2A2E37 : 0xE3E6EB;
+  const ACERO_COLOR = dark ? 0xE8A33D : 0xB5551A;
 
   // ---------- altura de piso: 3,46 m, tomada de "Elevación Eje 1/2/3/5" ----------
   const PISO = 3.46;       // m, confirmada en 4 elevaciones distintas de la estructura
@@ -175,15 +179,58 @@ header .meta{color:var(--chrome-muted);font-size:11.5px}
   const grupoN2 = buildFloor(DATA_N2, n2v, PISO);
   const slabN1 = buildSlab(n1envM, 0);
   const slabN2 = buildSlab(n2env, PISO);
+
+  // ---------- techo real: plano con pendiente, medido desde las 4 elevaciones de
+  // estructura (ejes 1,2,3,5 coinciden en la misma recta Y-Z) — ya no es esquemático.
+  // Nivel en sentido oriente-poniente (X), con pendiente norte-sur (Y), un agua.
+  function alturaTecho(yCm){
+    const [, y0, zb0, , y1, zb1] = DATA_ESTRUCTURA.cumbrera[0];
+    const [, , zt0, , , zt1] = DATA_ESTRUCTURA.cumbrera[1];
+    const z0 = (zb0 + zt0) / 2, z1 = (zb1 + zt1) / 2;
+    const t = (Math.max(y0, Math.min(y1, yCm)) - y0) / (y1 - y0);
+    return z0 + (z1 - z0) * t;
+  }
   const grupoRoof = (() => {
     const g = new THREE.Group();
-    const shape = shapeFromPts([[0,0],[DATA_N2.W,0],[DATA_N2.W,DATA_N2.H],[0,DATA_N2.H]]);
-    const mesh = extrudeShape(shape, 0.18, ROOF_COLOR, 0.9);
-    mesh.position.y = PISO * 2;
-    g.add(mesh);
+    const x0 = 0, x1 = DATA_N2.W, y0 = 0, y1 = DATA_N2.H;
+    const h0 = cm(alturaTecho(y0)), h1 = cm(alturaTecho(y1));
+    const geo = new THREE.BufferGeometry();
+    // mundo: X=cm(X arquitectura), Y=altura, Z=cm(Y arquitectura) — igual que shapeFromPts.
+    const v = new Float32Array([
+      cm(x0), h0, cm(y0),  cm(x1), h0, cm(y0),  cm(x1), h1, cm(y1),
+      cm(x0), h0, cm(y0),  cm(x1), h1, cm(y1),  cm(x0), h1, cm(y1),
+    ]);
+    geo.setAttribute('position', new THREE.BufferAttribute(v, 3));
+    geo.computeVertexNormals();
+    const mat = new THREE.MeshLambertMaterial({color: ROOF_COLOR, transparent: true, opacity: 0.9, side: THREE.DoubleSide});
+    g.add(new THREE.Mesh(geo, mat));
     return g;
   })();
-  scene.add(grupoN1, grupoN2, slabN1, slabN2, grupoRoof);
+
+  // ---------- estructura real: pilares, diagonales (San Andrés) y cabios, sacados de
+  // los vectores de las elevaciones de estructura (no a ojo) — ver fuente/ingenieria/.
+  function buildEstructura(){
+    const g = new THREE.Group();
+    function lineas(segs, color, opacity){
+      const pos = new Float32Array(segs.length * 6);
+      segs.forEach((s, i) => {
+        pos.set([cm(s[0]), cm(s[2]), cm(s[1]), cm(s[3]), cm(s[5]), cm(s[4])], i * 6);
+      });
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      const mat = new THREE.LineBasicMaterial({color, transparent: opacity < 1, opacity});
+      return new THREE.LineSegments(geo, mat);
+    }
+    g.add(lineas(DATA_ESTRUCTURA.columnas, ACERO_COLOR, 1));
+    g.add(lineas(DATA_ESTRUCTURA.diagonales, ACERO_COLOR, 1));
+    g.add(lineas(DATA_ESTRUCTURA.cumbrera, ACERO_COLOR, 1));
+    g.add(lineas(DATA_ESTRUCTURA.correas, ACERO_COLOR, 0.45));
+    return g;
+  }
+  const grupoEstructura = buildEstructura();
+  grupoEstructura.visible = false;
+
+  scene.add(grupoN1, grupoN2, slabN1, slabN2, grupoRoof, grupoEstructura);
 
   // suelo de referencia
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(60, 60), new THREE.MeshBasicMaterial({color: BG}));
@@ -236,16 +283,18 @@ header .meta{color:var(--chrome-muted);font-size:11.5px}
 
   // ---------- controles de visibilidad y explosion de pisos ----------
   const chkN1 = document.getElementById('chk-n1'), chkN2 = document.getElementById('chk-n2'), chkRoof = document.getElementById('chk-roof');
+  const chkEstructura = document.getElementById('chk-estructura');
   const explode = document.getElementById('explode');
   function aplica(){
     grupoN1.visible = slabN1.visible = chkN1.checked;
     grupoN2.visible = slabN2.visible = chkN2.checked;
     grupoRoof.visible = chkRoof.checked;
+    grupoEstructura.visible = chkEstructura.checked;
     const off = parseFloat(explode.value);
     grupoN2.position.y = slabN2.position.y = off;
     grupoRoof.position.y = off;
   }
-  [chkN1, chkN2, chkRoof, explode].forEach(el => el.addEventListener('input', aplica));
+  [chkN1, chkN2, chkRoof, chkEstructura, explode].forEach(el => el.addEventListener('input', aplica));
 
   // ---------- arranque ----------
   resize(); fit();
