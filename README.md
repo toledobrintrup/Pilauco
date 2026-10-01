@@ -2,9 +2,11 @@
 
 Plano interactivo de la vivienda (proyecto de permiso de edificación), pensado para
 consultarlo en obra desde el teléfono. Incluye **nivel 1 y nivel 2**, y se cambia de
-planta desde la barra de arriba.
+planta desde la barra de arriba. Desde ahí también se entra a una **vista 3D** con los
+dos niveles a su altura real.
 
 👉 **Ver el plano:** https://toledobrintrup.github.io/Pilauco/
+👉 **Vista 3D:** https://toledobrintrup.github.io/Pilauco/3d.html
 
 ## Qué se puede hacer
 
@@ -23,6 +25,23 @@ planta desde la barra de arriba.
 
 En el teléfono, la lista de recintos vive en la hoja inferior: se sube tocando la barra
 "Recintos y medidas" y se baja al elegir un recinto.
+
+## Vista 3D
+
+Un primer modelo volumétrico: cada recinto extruido a su altura real (**3,46 m por piso**,
+dato tomado del plano de estructura — es el primer número de altura que tiene el proyecto,
+hasta ahora todo era planta). Nivel 1 abajo, Nivel 2 arriba, un techo esquemático encima.
+
+- **Arrastrar** gira el modelo, **rueda** acerca, **clic derecho** desplaza.
+- Casilleros para mostrar u ocultar cada nivel y el techo.
+- **Separar pisos** — un deslizador que levanta el Nivel 2 en el aire para ver los dos
+  pisos a la vez sin que uno tape al otro.
+
+El techo es deliberadamente esquemático (una tapa plana): la cubierta real tiene pendiente
+y unas torres de arriostramiento que no se pudieron leer con certeza del plano de estructura
+(ver `fuente/ingenieria/README.md`) — se prefirió dejarlo marcado como pendiente de revisar
+antes que adivinar. Es un primer paso hacia un modelo más completo para diseño de interiores,
+no el modelo final.
 
 ## Qué trae cada planta
 
@@ -58,8 +77,11 @@ Base: plano L3 PLARQ2 (Planta Arquitectura Nivel 2, GVArq, dic. 2025, esc. 1:50)
 
 ## Archivos
 
-- `index.html` — la página completa, sin dependencias: geometría, datos y lógica de las dos plantas en un solo archivo.
+- `index.html` — el plano: geometría, lógica e interfaz de las dos plantas en un solo archivo.
+- `3d.html` — la vista 3D (Three.js vía CDN, sin paso de compilación).
+- `data.js` — los datos de ambas plantas (`DATA_N1`, `DATA_N2`), compartidos por `index.html` y `3d.html`: una sola fuente, nada duplicado.
 - `fuente/nivel1/` — scripts que extraen la planta del nivel 1 desde el PDF, con las decisiones documentadas.
 - `fuente/planta-nivel2-proyecto.zip` — proyecto del nivel 2: pipeline de extracción (Python) y datos JSON.
+- `fuente/ingenieria/` — qué se sacó de los planos de estructura (altura de piso, calce de ejes) y qué se dejó fuera.
 
 Los **PDF originales no están en el repositorio**: su viñeta lleva RUT, teléfono y correo.
