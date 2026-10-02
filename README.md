@@ -34,16 +34,19 @@ planta). Nivel 1 abajo, Nivel 2 arriba, el techo con su pendiente real encima.
 
 - **Arrastrar** gira el modelo, **rueda** acerca, **clic derecho** desplaza.
 - Casilleros para mostrar u ocultar cada nivel, el techo y la estructura.
-- **Ver estructura** — superpone el esqueleto de acero real: pilares, diagonales (San
-  Andrés) y cabios, sacados vector por vector del plano de estructura, no a ojo.
+- **Ver estructura** — la estructura de acero completa de los planos del ingeniero, pieza
+  por pieza, cada una con la sección de su perfil: pilares (HEB 160, tubos 150x150,
+  cañerías Ø310), vigas de entrepiso (IPE 220 a 600), cruces de San Andrés y celosías, y la
+  techumbre (cabios IPE 400, puntales, costaneras, tensores y colgadores). Cada grupo se
+  prende y apaga por separado, y **tocar una pieza** muestra su perfil, dónde está y su largo.
 - **Separar pisos** — un deslizador que levanta el Nivel 2 en el aire para ver los dos
   pisos a la vez sin que uno tape al otro.
 
-El techo tiene pendiente real (sube de norte a sur, ~3,5%), medida y cruzada entre tres
-elevaciones distintas de la estructura — ya no es la tapa plana esquemática de la primera
-versión. El detalle de anclajes, tensores y el arriostramiento secundario quedan fuera (ver
-`fuente/ingenieria/README.md`). Es un paso más hacia un modelo completo para diseño de
-interiores, no el modelo final.
+El techo es de un agua (sube de norte a sur, 3,5 %), con los aleros y el quiebre que dibuja
+la planta de techumbre. La estructura se extrajo de las 29 vistas de los planos y se verificó
+dibujándola de vuelta sobre cada lámina original; cómo se hizo, la comparación con la lista
+de materiales del ingeniero y las diferencias entre láminas están en
+`fuente/ingenieria/README.md`.
 
 ## Qué trae cada planta
 
@@ -82,9 +85,9 @@ Base: plano L3 PLARQ2 (Planta Arquitectura Nivel 2, GVArq, dic. 2025, esc. 1:50)
 - `index.html` — el plano: geometría, lógica e interfaz de las dos plantas en un solo archivo.
 - `3d.html` — la vista 3D (Three.js vía CDN, sin paso de compilación).
 - `data.js` — los datos de ambas plantas (`DATA_N1`, `DATA_N2`), compartidos por `index.html` y `3d.html`: una sola fuente, nada duplicado.
-- `estructura.js` — pilares, diagonales, cabios y costaneras reales para la capa "Ver estructura" de `3d.html`, sacados del plano de estructura (ver `fuente/ingenieria/README.md`).
+- `estructura.js` — la estructura de acero pieza por pieza (perfil y extremos de cada una) para la capa "Ver estructura" de `3d.html`; se genera desde `fuente/ingenieria/datos/modelo.json`.
 - `fuente/nivel1/` — scripts que extraen la planta del nivel 1 desde el PDF, con las decisiones documentadas.
 - `fuente/planta-nivel2-proyecto.zip` — proyecto del nivel 2: pipeline de extracción (Python) y datos JSON.
-- `fuente/ingenieria/` — qué se sacó de los planos de estructura (altura de piso, calce de ejes) y qué se dejó fuera.
+- `fuente/ingenieria/` — cómo se armó la estructura 3D desde los planos del ingeniero: grilla de ejes, modelo completo, herramientas para re-proyectarlo sobre las láminas y la comparación con la lista de materiales.
 
 Los **PDF originales no están en el repositorio**: su viñeta lleva RUT, teléfono y correo.

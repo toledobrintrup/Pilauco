@@ -1,0 +1,1372 @@
+{
+ "numeros": {
+  "1": 6.7,
+  "1a": 56.6,
+  "1a'": 329.8,
+  "1b": 374.9,
+  "2": 653.2,
+  "3": 1007.2,
+  "3a": 1210.2,
+  "4": 1257.3,
+  "3+282": 1289.4,
+  "4a": 1525.2,
+  "5-50": 1733.7,
+  "5": 1783.7,
+  "6": 2183.3
+ },
+ "letras": {
+  "K": -765.1,
+  "J": -470.2,
+  "I": -170.0,
+  "H": 9.9,
+  "H1": 82.3,
+  "G3": 106.6,
+  "G2": 227.0,
+  "G1": 238.5,
+  "G": 341.4,
+  "F2": 412.0,
+  "F1": 518.9,
+  "F": 625.3,
+  "E4": 655.6,
+  "F2+273": 685.3,
+  "E3": 690.1,
+  "E2": 771.5,
+  "E1": 877.6,
+  "E": 958.5,
+  "D": 1104.1,
+  "C4": 1146.8,
+  "C3": 1206.9,
+  "C2": 1277.5,
+  "C1": 1320.5,
+  "C": 1511.9,
+  "B2": 1594.7,
+  "B1": 1633.8,
+  "B": 1694.7,
+  "A5": 1708.8,
+  "A4": 1767.9,
+  "A3": 1830.6,
+  "A2": 1978.1,
+  "A1": 2045.2,
+  "A": 2170.3
+ },
+ "alias": {
+  "G4": "H1",
+  "H3": "E3",
+  "1a´": "1a'",
+  "E4+30": "F2+273",
+  "3+282 (sin rotulo)": "3+282",
+  "5-50 (sin rotulo)": "5-50",
+  "arqN1:1": "1",
+  "arqN2:1": "1",
+  "arqN2:11": "1a",
+  "arqN2:12": "1b",
+  "arqN1:2": "2",
+  "arqN2:2": "2",
+  "arqN1:3": "3",
+  "arqN2:3": "3",
+  "arqN1:4": "4",
+  "arqN2:13": "3+282",
+  "arqN2:14": "5-50",
+  "arqN1:5": "5",
+  "arqN2:5": "5",
+  "arqN1:6": "6",
+  "arqN1:K1": "K",
+  "arqN1:I1": "I",
+  "arqN1:H": "H",
+  "arqN2:W": "H",
+  "arqN2:V": "H1",
+  "arqN1:H1": "G3",
+  "arqN2:U": "G1",
+  "arqN1:G": "G",
+  "arqN2:T": "F2",
+  "arqN2:S": "F1",
+  "arqN1:F": "F",
+  "arqN2:R": "E3",
+  "arqN2:Q": "E1",
+  "arqN1:E": "E",
+  "arqN1:D": "D",
+  "arqN2:P": "D",
+  "arqN2:O": "C4",
+  "arqN2:Ñ": "C2",
+  "arqN2:N": "C1",
+  "arqN1:C": "C",
+  "arqN2:M": "B2",
+  "arqN2:L": "B1",
+  "arqN1:B": "B",
+  "arqN2:K": "A4",
+  "arqN2:J": "A3",
+  "arqN1:A": "A",
+  "arqN2:A": "A",
+  "arqN2:I": "A1"
+ },
+ "ancla": "Traslacion estructura -> app ajustada por minimos cuadrados contra 40 lineas de eje de la arquitectura de la app (L2.PLARQ nivel 1 y L3.PLARQ2 nivel 2 con la calibracion de comun.ARQUITECTURA), emparejadas por POSICION y no por nombre, excluyendo H (diferencia real de ~2.7 cm entre planos). Las distancias entre ejes son las del ingeniero (planta nivel1 rev 08-04-2026). Resultado: X_app = (cm desde el eje 1) + 6.69 ; Y_app = (cm desde el eje H) + 9.95. Equivale a sumar -0.11 cm en X y +2.75 cm en Y a las anclas provisionales (eje 1 = 6.8, H = 7.2). Residual contra la arquitectura: RMS 0.19 cm en X (14 ejes) y 0.40 cm en Y (26 ejes), maximo 0.9 cm. gA, que ademas ajusta la escala a la arquitectura, da H = 10.3; la diferencia de 0.35 cm es solo de escala (0.03%).",
+ "evidencia": {
+  "1": {
+   "eje": "X (numero)",
+   "valor_cm": 6.7,
+   "valor_fino_cm": 6.69,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 6.69,
+    "nivel2": 6.62,
+    "techumbre": 6.77,
+    "fundaciones": 6.67
+   },
+   "elevaciones_gE_cm": 6.7,
+   "gA_cm": 6.8,
+   "arquitectura": {
+    "arqN1": [
+     "1",
+     6.83
+    ],
+    "arqN2": [
+     "1",
+     7.01
+    ]
+   },
+   "dispersion_fuentes_cm": 0.18,
+   "nota": "Linea en las 4 plantas y en 8 elevaciones. Arq N1 6.83, arq N2 7.01.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.01,
+    "nivel2": -0.08,
+    "arq_n1": 0.13,
+    "arq_n2": 0.31
+   }
+  },
+  "1a": {
+   "eje": "X (numero)",
+   "valor_cm": 56.6,
+   "valor_fino_cm": 56.58,
+   "fuente_valor": "nivel2",
+   "por_lamina_estructura_cm": {
+    "nivel2": 56.58
+   },
+   "elevaciones_gE_cm": 56.7,
+   "gA_cm": 56.8,
+   "arquitectura": {
+    "arqN2": [
+     "11",
+     56.83
+    ]
+   },
+   "dispersion_fuentes_cm": 0.22,
+   "nota": "Solo planta nivel2 (burbuja arriba y abajo), cota 50 desde el eje 1. Es el eje 11 de la arq N2. NO es el 1a'.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel2": -0.02,
+    "arq_n2": 0.23
+   }
+  },
+  "1a'": {
+   "eje": "X (numero)",
+   "valor_cm": 329.8,
+   "valor_fino_cm": 329.85,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 329.85
+   },
+   "elevaciones_gE_cm": 329.8,
+   "gA_cm": 329.9,
+   "dispersion_fuentes_cm": 0.11,
+   "nota": "Planta nivel1, cotas de texto 323 (1-1a') y 323 (1a'-2); linea sin burbuja en fundaciones; 6 elevaciones (en D, H e I sin burbuja, acotada 323/323). Sin eje equivalente en la arquitectura.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": 0.04
+   }
+  },
+  "1b": {
+   "eje": "X (numero)",
+   "valor_cm": 374.9,
+   "valor_fino_cm": 374.95,
+   "fuente_valor": "nivel2",
+   "por_lamina_estructura_cm": {
+    "nivel2": 374.95
+   },
+   "gA_cm": 375.1,
+   "arquitectura": {
+    "arqN2": [
+     "12",
+     374.92
+    ]
+   },
+   "dispersion_fuentes_cm": 0.15,
+   "nota": "Solo planta nivel2, cotas 318 (1a-1b) y 278 (1b-2). Es el eje 12 de la arq N2.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel2": 0.05,
+    "arq_n2": 0.02
+   }
+  },
+  "2": {
+   "eje": "X (numero)",
+   "valor_cm": 653.2,
+   "valor_fino_cm": 653.18,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 653.18,
+    "nivel2": 653.1,
+    "techumbre": 653.22,
+    "fundaciones": 653.14
+   },
+   "elevaciones_gE_cm": 653.0,
+   "gA_cm": 653.2,
+   "arquitectura": {
+    "arqN1": [
+     "2",
+     652.83
+    ],
+    "arqN2": [
+     "2",
+     653.39
+    ]
+   },
+   "dispersion_fuentes_cm": 0.23,
+   "nota": "Las 4 plantas y 11 elevaciones. Cota 647 desde 1 (la geometria da 646.4; 323+323 = 646).",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.02,
+    "nivel2": -0.1,
+    "arq_n1": -0.37,
+    "arq_n2": 0.19
+   }
+  },
+  "3": {
+   "eje": "X (numero)",
+   "valor_cm": 1007.2,
+   "valor_fino_cm": 1007.24,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 1007.24,
+    "nivel2": 1007.45,
+    "techumbre": 1007.14,
+    "fundaciones": 1007.28
+   },
+   "elevaciones_gE_cm": 1007.0,
+   "gA_cm": 1007.4,
+   "arquitectura": {
+    "arqN1": [
+     "3",
+     1007.36
+    ],
+    "arqN2": [
+     "3",
+     1007.15
+    ]
+   },
+   "dispersion_fuentes_cm": 0.46,
+   "nota": "Cota 354 desde 2. En nivel1 y fundaciones la burbuja del medio de la planta esta corrida ~4 cm: manda la linea.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": 0.04,
+    "nivel2": 0.25,
+    "arq_n1": 0.16,
+    "arq_n2": -0.05
+   }
+  },
+  "3a": {
+   "eje": "X (numero)",
+   "valor_cm": 1210.2,
+   "valor_fino_cm": 1210.2,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 1210.2
+   },
+   "elevaciones_gE_cm": 1209.9,
+   "gA_cm": 1210.1,
+   "dispersion_fuentes_cm": 0.31,
+   "nota": "Planta nivel1 (203 desde 3, 47 hasta 4); lineas sin burbuja en techumbre y fundaciones; 6 elevaciones.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.0
+   }
+  },
+  "4": {
+   "eje": "X (numero)",
+   "valor_cm": 1257.3,
+   "valor_fino_cm": 1257.28,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 1257.28,
+    "techumbre": 1257.34,
+    "fundaciones": 1257.27
+   },
+   "elevaciones_gE_cm": 1256.9,
+   "gA_cm": 1257.2,
+   "arquitectura": {
+    "arqN1": [
+     "4",
+     1257.34
+    ]
+   },
+   "dispersion_fuentes_cm": 0.45,
+   "nota": "Planta nivel1 (604 desde 2, 526 hasta 5), llega solo hasta D; techumbre y fundaciones. No existe en nivel2.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.02,
+    "arq_n1": 0.04
+   }
+  },
+  "3+282": {
+   "eje": "X (numero)",
+   "valor_cm": 1289.4,
+   "valor_fino_cm": 1289.41,
+   "fuente_valor": "nivel2 (sin burbuja)",
+   "por_lamina_estructura_cm": {},
+   "gA_cm": 1289.4,
+   "arquitectura": {
+    "arqN2": [
+     "13",
+     1289.42
+    ]
+   },
+   "dispersion_fuentes_cm": 0.01,
+   "nota": "Solo planta nivel2: linea de eje SIN burbuja ni nombre, cota 282 desde el eje 3 y 444 hasta 5-50. Es el eje 13 de la arq N2. Nombre descriptivo puesto aqui.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel2": 0.01,
+    "arq_n2": 0.02
+   }
+  },
+  "4a": {
+   "eje": "X (numero)",
+   "valor_cm": 1525.2,
+   "valor_fino_cm": 1525.24,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 1525.24
+   },
+   "elevaciones_gE_cm": 1524.8,
+   "gA_cm": 1525.1,
+   "dispersion_fuentes_cm": 0.45,
+   "nota": "Planta nivel1 (315 desde 3a, 259 hasta 5); su burbuja esta corrida ~3.5 cm (manda la linea); lineas sin burbuja en techumbre y fundaciones; 5 elevaciones.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": 0.04
+   }
+  },
+  "5-50": {
+   "eje": "X (numero)",
+   "valor_cm": 1733.7,
+   "valor_fino_cm": 1733.73,
+   "fuente_valor": "nivel2 (sin burbuja)",
+   "por_lamina_estructura_cm": {},
+   "gA_cm": 1733.6,
+   "arquitectura": {
+    "arqN2": [
+     "14",
+     1733.66
+    ]
+   },
+   "dispersion_fuentes_cm": 0.13,
+   "nota": "Solo planta nivel2: linea de eje SIN burbuja ni nombre, 50 cm antes del eje 5 (cota 50). Es el eje 14 de la arq N2. Nombre descriptivo puesto aqui.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel2": 0.03,
+    "arq_n2": -0.04
+   }
+  },
+  "5": {
+   "eje": "X (numero)",
+   "valor_cm": 1783.7,
+   "valor_fino_cm": 1783.75,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 1783.75,
+    "nivel2": 1783.69,
+    "techumbre": 1783.78,
+    "fundaciones": 1783.72
+   },
+   "elevaciones_gE_cm": 1783.2,
+   "gA_cm": 1783.6,
+   "arquitectura": {
+    "arqN1": [
+     "5",
+     1783.56
+    ],
+    "arqN2": [
+     "5",
+     1783.64
+    ]
+   },
+   "dispersion_fuentes_cm": 0.59,
+   "nota": "Las 4 plantas y 9 elevaciones (526 desde 4, 259 desde 4a, 776 desde 3).",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": 0.05,
+    "nivel2": -0.01,
+    "arq_n1": -0.14,
+    "arq_n2": -0.06
+   }
+  },
+  "6": {
+   "eje": "X (numero)",
+   "valor_cm": 2183.3,
+   "valor_fino_cm": 2183.31,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 2183.31,
+    "techumbre": 2183.21,
+    "fundaciones": 2183.37
+   },
+   "elevaciones_gE_cm": 2182.6,
+   "gA_cm": 2183.1,
+   "arquitectura": {
+    "arqN1": [
+     "6",
+     2183.03
+    ]
+   },
+   "dispersion_fuentes_cm": 0.78,
+   "nota": "Planta nivel1 (400 desde 5; total 1-6 = 2177), techumbre y fundaciones; 3 elevaciones. No existe en nivel2.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": 0.01,
+    "arq_n1": -0.27
+   }
+  },
+  "K": {
+   "eje": "Y (letra)",
+   "valor_cm": -765.1,
+   "valor_fino_cm": -765.07,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": -765.07,
+    "fundaciones": -764.98
+   },
+   "elevaciones_gE_cm": -764.9,
+   "gA_cm": -764.5,
+   "arquitectura": {
+    "arqN1": [
+     "K1",
+     -764.67
+    ]
+   },
+   "dispersion_fuentes_cm": 0.57,
+   "nota": "Planta nivel1 (295 K-J; total K-A 2935) y fundaciones. Es K1 de la arq N1.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": 0.03,
+    "arq_n1": 0.43
+   }
+  },
+  "J": {
+   "eje": "Y (letra)",
+   "valor_cm": -470.2,
+   "valor_fino_cm": -470.21,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": -470.21,
+    "techumbre": -470.27,
+    "fundaciones": -470.32
+   },
+   "elevaciones_gE_cm": -470.1,
+   "gA_cm": -469.7,
+   "dispersion_fuentes_cm": 0.62,
+   "nota": "Planta nivel1 (300 J-I), techumbre y fundaciones. Sin eje en la arquitectura.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.01
+   }
+  },
+  "I": {
+   "eje": "Y (letra)",
+   "valor_cm": -170.0,
+   "valor_fino_cm": -170.03,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": -170.03,
+    "techumbre": -170.12,
+    "fundaciones": -170.16
+   },
+   "elevaciones_gE_cm": -170.0,
+   "gA_cm": -169.7,
+   "arquitectura": {
+    "arqN1": [
+     "I1",
+     -169.79
+    ]
+   },
+   "dispersion_fuentes_cm": 0.46,
+   "nota": "Planta nivel1 (180 I-H), techumbre y fundaciones. Es I1 de la arq N1.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.03,
+    "arq_n1": 0.21
+   }
+  },
+  "H": {
+   "eje": "Y (letra)",
+   "valor_cm": 9.9,
+   "valor_fino_cm": 9.95,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 9.95,
+    "nivel2": 9.89,
+    "techumbre": 10.02,
+    "fundaciones": 9.98
+   },
+   "elevaciones_gE_cm": 9.9,
+   "gA_cm": 10.3,
+   "arquitectura": {
+    "arqN1": [
+     "H",
+     7.19
+    ],
+    "arqN2": [
+     "W",
+     7.38
+    ]
+   },
+   "dispersion_fuentes_cm": 0.41,
+   "nota": "Las 4 plantas y 5 elevaciones. La arquitectura dibuja su H (arq N1 \"H\", arq N2 \"W\") 2.5-2.7 cm mas al norte: ver conflictos. Aqui va la posicion del INGENIERO.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": 0.05,
+    "nivel2": -0.01,
+    "arq_n1": -2.71,
+    "arq_n2": -2.52
+   }
+  },
+  "H1": {
+   "eje": "Y (letra)",
+   "valor_cm": 82.3,
+   "valor_fino_cm": 82.35,
+   "fuente_valor": "nivel2+techumbre(G4)",
+   "por_lamina_estructura_cm": {
+    "nivel2": 82.29,
+    "techumbre(G4)": 82.41
+   },
+   "elevaciones_gE_cm": 82.3,
+   "gA_cm": 82.7,
+   "arquitectura": {
+    "arqN2": [
+     "V",
+     82.26
+    ]
+   },
+   "dispersion_fuentes_cm": 0.41,
+   "nota": "Planta nivel2 (72 desde H) y elevacion eje 5 (72). En la planta techumbre la misma linea se llama G4. Es V de la arq N2.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel2": -0.01,
+    "arq_n2": -0.04
+   }
+  },
+  "G3": {
+   "eje": "Y (letra)",
+   "valor_cm": 106.6,
+   "valor_fino_cm": 106.63,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 106.63,
+    "fundaciones": 106.72
+   },
+   "elevaciones_gE_cm": 106.6,
+   "gA_cm": 106.9,
+   "arquitectura": {
+    "arqN1": [
+     "H1",
+     107.5
+    ]
+   },
+   "dispersion_fuentes_cm": 0.27,
+   "nota": "Planta nivel1 (97 desde H, 120 hasta G2), fundaciones y elevacion eje 6. Es H1 de la arq N1 (0.9 cm). NO es el H1 de la estructura.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": 0.03,
+    "arq_n1": 0.9
+   }
+  },
+  "G2": {
+   "eje": "Y (letra)",
+   "valor_cm": 227.0,
+   "valor_fino_cm": 226.96,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 226.96,
+    "nivel2": 226.87,
+    "techumbre": 226.99,
+    "fundaciones": 226.95
+   },
+   "elevaciones_gE_cm": 226.9,
+   "gA_cm": 227.2,
+   "dispersion_fuentes_cm": 0.33,
+   "nota": "Planta nivel1 (217 desde H), las 4 plantas. En nivel2 su burbuja esta dibujada 41 cm corrida, pero la linea calza.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.04,
+    "nivel2": -0.13
+   }
+  },
+  "G1": {
+   "eje": "Y (letra)",
+   "valor_cm": 238.5,
+   "valor_fino_cm": 238.51,
+   "fuente_valor": "nivel2",
+   "por_lamina_estructura_cm": {
+    "nivel2": 238.51
+   },
+   "elevaciones_gE_cm": 238.3,
+   "gA_cm": 238.8,
+   "arquitectura": {
+    "arqN2": [
+     "U",
+     238.35
+    ]
+   },
+   "dispersion_fuentes_cm": 0.45,
+   "nota": "Solo planta nivel2 (229 desde H, 174 hasta F2). Es U de la arq N2.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel2": 0.01,
+    "arq_n2": -0.15
+   }
+  },
+  "G": {
+   "eje": "Y (letra)",
+   "valor_cm": 341.4,
+   "valor_fino_cm": 341.39,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 341.39,
+    "fundaciones": 341.47
+   },
+   "elevaciones_gE_cm": 341.3,
+   "gA_cm": 341.6,
+   "arquitectura": {
+    "arqN1": [
+     "G",
+     341.55
+    ]
+   },
+   "dispersion_fuentes_cm": 0.25,
+   "nota": "Planta nivel1 (114 G2-G, 71 G-F2), fundaciones y elevacion eje 6. Es G de la arq N1.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.01,
+    "arq_n1": 0.15
+   }
+  },
+  "F2": {
+   "eje": "Y (letra)",
+   "valor_cm": 412.0,
+   "valor_fino_cm": 412.04,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 412.04,
+    "nivel2": 411.88,
+    "techumbre": 411.99,
+    "fundaciones": 411.96
+   },
+   "elevaciones_gE_cm": 411.8,
+   "gA_cm": 412.2,
+   "arquitectura": {
+    "arqN2": [
+     "T",
+     412.75
+    ]
+   },
+   "dispersion_fuentes_cm": 0.35,
+   "nota": "Las 4 plantas (244 F2-E4). Es T de la arq N2 (0.8 cm).",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": 0.04,
+    "nivel2": -0.12,
+    "arq_n2": 0.75
+   }
+  },
+  "F1": {
+   "eje": "Y (letra)",
+   "valor_cm": 518.9,
+   "valor_fino_cm": 518.9,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 518.9,
+    "nivel2": 518.78,
+    "fundaciones": 518.85
+   },
+   "elevaciones_gE_cm": 518.8,
+   "gA_cm": 519.0,
+   "arquitectura": {
+    "arqN2": [
+     "S",
+     519.23
+    ]
+   },
+   "dispersion_fuentes_cm": 0.22,
+   "nota": "Planta nivel1 (292 desde G2, 106 hasta F), nivel2 y fundaciones; en techumbre es una linea sin burbuja 0.6 cm mas al norte (cotas 291/107). Es S de la arq N2.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.0,
+    "nivel2": -0.12,
+    "arq_n2": 0.33
+   }
+  },
+  "F": {
+   "eje": "Y (letra)",
+   "valor_cm": 625.3,
+   "valor_fino_cm": 625.26,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 625.26,
+    "techumbre": 625.15,
+    "fundaciones": 625.33
+   },
+   "elevaciones_gE_cm": 625.1,
+   "gA_cm": 625.4,
+   "arquitectura": {
+    "arqN1": [
+     "F",
+     625.33
+    ]
+   },
+   "dispersion_fuentes_cm": 0.25,
+   "nota": "Planta nivel1 (30 F-E4), techumbre y fundaciones. No existe en nivel2. Es F de la arq N1.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.04,
+    "arq_n1": 0.03
+   }
+  },
+  "E4": {
+   "eje": "Y (letra)",
+   "valor_cm": 655.6,
+   "valor_fino_cm": 655.63,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 655.63,
+    "nivel2": 655.95,
+    "techumbre": 655.63,
+    "fundaciones": 655.6
+   },
+   "elevaciones_gE_cm": 655.4,
+   "gA_cm": 656.0,
+   "dispersion_fuentes_cm": 0.55,
+   "nota": "Las 4 plantas (116 E4-E2). Lleva el HEB 160 del nivel 1 en el eje 5.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": 0.03,
+    "nivel2": 0.35
+   }
+  },
+  "F2+273": {
+   "eje": "Y (letra)",
+   "valor_cm": 685.3,
+   "valor_fino_cm": 685.27,
+   "fuente_valor": "nivel1 (sin burbuja)",
+   "por_lamina_estructura_cm": {},
+   "gA_cm": 685.4,
+   "dispersion_fuentes_cm": 0.13,
+   "nota": "Solo planta nivel1: linea trazo-punto SIN burbuja, cotas 273 desde F2 y 273 hasta E (29.6 cm al sur de E4). Es el eje de la viga IPE 300x42.2 del nivel 1 entre los ejes 4 y 5. NO es E3 (4.8 cm de diferencia, elemento distinto). Nombre descriptivo puesto aqui.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.03
+   }
+  },
+  "E3": {
+   "eje": "Y (letra)",
+   "valor_cm": 690.1,
+   "valor_fino_cm": 690.08,
+   "fuente_valor": "nivel2+techumbre",
+   "por_lamina_estructura_cm": {
+    "nivel2": 690.03,
+    "techumbre": 690.13
+   },
+   "elevaciones_gE_cm": 689.9,
+   "gA_cm": 690.2,
+   "arquitectura": {
+    "arqN2": [
+     "R",
+     689.86
+    ]
+   },
+   "dispersion_fuentes_cm": 0.25,
+   "nota": "Planta nivel2 (34 desde E4) y techumbre (35); la elevacion eje 5 la rotula \"H3\" (35 desde E4). Lleva el tubo 150x150x4 del nivel 2 en el eje 5. Es R de la arq N2.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel2": -0.07,
+    "arq_n2": -0.24
+   }
+  },
+  "E2": {
+   "eje": "Y (letra)",
+   "valor_cm": 771.5,
+   "valor_fino_cm": 771.55,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 771.55,
+    "nivel2": 771.74,
+    "techumbre": 771.62,
+    "fundaciones": 771.6
+   },
+   "elevaciones_gE_cm": 771.3,
+   "gA_cm": 771.8,
+   "dispersion_fuentes_cm": 0.45,
+   "nota": "Las 4 plantas (106 E2-E1).",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": 0.05,
+    "nivel2": 0.24
+   }
+  },
+  "E1": {
+   "eje": "Y (letra)",
+   "valor_cm": 877.6,
+   "valor_fino_cm": 877.6,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 877.6,
+    "nivel2": 877.58,
+    "techumbre": 877.67,
+    "fundaciones": 877.65
+   },
+   "elevaciones_gE_cm": 877.3,
+   "gA_cm": 877.7,
+   "arquitectura": {
+    "arqN2": [
+     "Q",
+     878.17
+    ]
+   },
+   "dispersion_fuentes_cm": 0.35,
+   "nota": "Las 4 plantas (81 E1-E). Es Q de la arq N2.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.0,
+    "nivel2": -0.02,
+    "arq_n2": 0.57
+   }
+  },
+  "E": {
+   "eje": "Y (letra)",
+   "valor_cm": 958.5,
+   "valor_fino_cm": 958.47,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 958.47,
+    "nivel2": 958.44,
+    "techumbre": 958.53,
+    "fundaciones": 958.51
+   },
+   "elevaciones_gE_cm": 958.2,
+   "gA_cm": 958.5,
+   "arquitectura": {
+    "arqN1": [
+     "E",
+     958.49
+    ]
+   },
+   "dispersion_fuentes_cm": 0.28,
+   "nota": "Las 4 plantas (146 E-D). Es E de la arq N1.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.03,
+    "nivel2": -0.06,
+    "arq_n1": -0.01
+   }
+  },
+  "D": {
+   "eje": "Y (letra)",
+   "valor_cm": 1104.1,
+   "valor_fino_cm": 1104.12,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 1104.12,
+    "nivel2": 1104.29,
+    "techumbre": 1104.17,
+    "fundaciones": 1104.15
+   },
+   "elevaciones_gE_cm": 1103.8,
+   "gA_cm": 1104.2,
+   "arquitectura": {
+    "arqN1": [
+     "D",
+     1104.09
+    ],
+    "arqN2": [
+     "P",
+     1103.98
+    ]
+   },
+   "dispersion_fuentes_cm": 0.44,
+   "nota": "Las 4 plantas y 6 elevaciones (408 D-C, 173 D-C2). Es D de la arq N1 y P de la arq N2.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": 0.02,
+    "nivel2": 0.19,
+    "arq_n1": -0.01,
+    "arq_n2": -0.12
+   }
+  },
+  "C4": {
+   "eje": "Y (letra)",
+   "valor_cm": 1146.8,
+   "valor_fino_cm": 1146.77,
+   "fuente_valor": "nivel2+techumbre",
+   "por_lamina_estructura_cm": {
+    "nivel2": 1146.84,
+    "techumbre": 1146.71
+   },
+   "elevaciones_gE_cm": 1146.5,
+   "gA_cm": 1146.8,
+   "arquitectura": {
+    "arqN2": [
+     "O",
+     1146.45
+    ]
+   },
+   "dispersion_fuentes_cm": 0.29,
+   "nota": "Planta nivel2 (188 desde E), techumbre (43 desde D) y elevacion eje 5. Es O de la arq N2.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel2": 0.03,
+    "arq_n2": -0.35
+   }
+  },
+  "C3": {
+   "eje": "Y (letra)",
+   "valor_cm": 1206.9,
+   "valor_fino_cm": 1206.95,
+   "fuente_valor": "nivel2",
+   "por_lamina_estructura_cm": {
+    "nivel2": 1206.95
+   },
+   "elevaciones_gE_cm": 1206.6,
+   "gA_cm": 1206.9,
+   "dispersion_fuentes_cm": 0.3,
+   "nota": "Solo planta nivel2; sin cota directa (posicion de la linea dibujada, escala de la lamina verificada con 36 cotas).",
+   "confianza": "media",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel2": 0.05
+   }
+  },
+  "C2": {
+   "eje": "Y (letra)",
+   "valor_cm": 1277.5,
+   "valor_fino_cm": 1277.48,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 1277.48,
+    "nivel2": 1277.65,
+    "techumbre": 1277.42,
+    "fundaciones": 1277.51
+   },
+   "elevaciones_gE_cm": 1277.1,
+   "gA_cm": 1277.5,
+   "arquitectura": {
+    "arqN2": [
+     "Ñ",
+     1278.08
+    ]
+   },
+   "dispersion_fuentes_cm": 0.5,
+   "nota": "Planta nivel1 (173 D-C2, 356 C2-B1), nivel2 y fundaciones; en techumbre hay burbuja sin linea. Es Ñ de la arq N2.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.02,
+    "nivel2": 0.15,
+    "arq_n2": 0.58
+   }
+  },
+  "C1": {
+   "eje": "Y (letra)",
+   "valor_cm": 1320.5,
+   "valor_fino_cm": 1320.45,
+   "fuente_valor": "nivel2+techumbre",
+   "por_lamina_estructura_cm": {
+    "nivel2": 1320.41,
+    "techumbre": 1320.5
+   },
+   "elevaciones_gE_cm": 1320.1,
+   "gA_cm": 1320.3,
+   "arquitectura": {
+    "arqN2": [
+     "N",
+     1320.81
+    ]
+   },
+   "dispersion_fuentes_cm": 0.35,
+   "nota": "Planta nivel2 (191 hasta C) y techumbre (191). Es N de la arq N2.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel2": -0.09,
+    "arq_n2": 0.31
+   }
+  },
+  "C": {
+   "eje": "Y (letra)",
+   "valor_cm": 1511.9,
+   "valor_fino_cm": 1511.88,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 1511.88,
+    "nivel2": 1511.77,
+    "techumbre": 1511.85,
+    "fundaciones": 1511.84
+   },
+   "elevaciones_gE_cm": 1511.4,
+   "gA_cm": 1511.7,
+   "arquitectura": {
+    "arqN1": [
+     "C",
+     1511.77
+    ]
+   },
+   "dispersion_fuentes_cm": 0.43,
+   "nota": "Las 4 plantas (408 D-C, 183 C-B); en la elevacion eje 5 es la linea sin burbuja D+408. Es C de la arq N1.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.02,
+    "nivel2": -0.13,
+    "arq_n1": -0.13
+   }
+  },
+  "B2": {
+   "eje": "Y (letra)",
+   "valor_cm": 1594.7,
+   "valor_fino_cm": 1594.75,
+   "fuente_valor": "nivel2",
+   "por_lamina_estructura_cm": {
+    "nivel2": 1594.75
+   },
+   "elevaciones_gE_cm": 1594.4,
+   "gA_cm": 1594.5,
+   "arquitectura": {
+    "arqN2": [
+     "M",
+     1594.4
+    ]
+   },
+   "dispersion_fuentes_cm": 0.3,
+   "nota": "Solo planta nivel2 (83 desde C, 173 hasta A4). Es M de la arq N2.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel2": 0.05,
+    "arq_n2": -0.3
+   }
+  },
+  "B1": {
+   "eje": "Y (letra)",
+   "valor_cm": 1633.8,
+   "valor_fino_cm": 1633.79,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 1633.79,
+    "nivel2": 1633.7,
+    "techumbre": 1633.78,
+    "fundaciones": 1633.77
+   },
+   "elevaciones_gE_cm": 1633.3,
+   "gA_cm": 1633.6,
+   "arquitectura": {
+    "arqN2": [
+     "L",
+     1633.31
+    ]
+   },
+   "dispersion_fuentes_cm": 0.44,
+   "nota": "Las 4 plantas (61 B1-B). Es L de la arq N2.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.01,
+    "nivel2": -0.1,
+    "arq_n2": -0.49
+   }
+  },
+  "B": {
+   "eje": "Y (letra)",
+   "valor_cm": 1694.7,
+   "valor_fino_cm": 1694.74,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 1694.74,
+    "nivel2": 1694.67,
+    "techumbre": 1694.74,
+    "fundaciones": 1694.73
+   },
+   "elevaciones_gE_cm": 1694.3,
+   "gA_cm": 1694.5,
+   "arquitectura": {
+    "arqN1": [
+     "B",
+     1694.6
+    ]
+   },
+   "dispersion_fuentes_cm": 0.39,
+   "nota": "Las 4 plantas (136 B-A3, 283 B-A2). Es B de la arq N1.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": 0.04,
+    "nivel2": -0.03,
+    "arq_n1": -0.1
+   }
+  },
+  "A5": {
+   "eje": "Y (letra)",
+   "valor_cm": 1708.8,
+   "valor_fino_cm": 1708.85,
+   "fuente_valor": "nivel2",
+   "por_lamina_estructura_cm": {
+    "nivel2": 1708.85
+   },
+   "elevaciones_gE_cm": 1708.4,
+   "gA_cm": 1708.6,
+   "dispersion_fuentes_cm": 0.4,
+   "nota": "Solo planta nivel2, 14 cm al sur de B; sin cota directa (posicion de la linea dibujada).",
+   "confianza": "media",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel2": 0.05
+   }
+  },
+  "A4": {
+   "eje": "Y (letra)",
+   "valor_cm": 1767.9,
+   "valor_fino_cm": 1767.94,
+   "fuente_valor": "nivel2+techumbre",
+   "por_lamina_estructura_cm": {
+    "nivel2": 1767.91,
+    "techumbre": 1767.98
+   },
+   "elevaciones_gE_cm": 1767.4,
+   "gA_cm": 1767.6,
+   "arquitectura": {
+    "arqN2": [
+     "K",
+     1767.48
+    ]
+   },
+   "dispersion_fuentes_cm": 0.53,
+   "nota": "Planta nivel2 (173 desde B2, 275 hasta A1), techumbre (73, 277) y elevacion eje 5. Es K de la arq N2 (no la K de la estructura).",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel2": 0.01,
+    "arq_n2": -0.42
+   }
+  },
+  "A3": {
+   "eje": "Y (letra)",
+   "valor_cm": 1830.6,
+   "valor_fino_cm": 1830.62,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 1830.62,
+    "nivel2": 1830.57,
+    "techumbre": 1830.63,
+    "fundaciones": 1830.63
+   },
+   "elevaciones_gE_cm": 1830.2,
+   "gA_cm": 1830.3,
+   "arquitectura": {
+    "arqN2": [
+     "J",
+     1830.09
+    ]
+   },
+   "dispersion_fuentes_cm": 0.38,
+   "nota": "Las 4 plantas (340 A3-A). Es J de la arq N2.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": 0.02,
+    "nivel2": -0.03,
+    "arq_n2": -0.51
+   }
+  },
+  "A2": {
+   "eje": "Y (letra)",
+   "valor_cm": 1978.1,
+   "valor_fino_cm": 1978.07,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 1978.07,
+    "fundaciones": 1977.96
+   },
+   "elevaciones_gE_cm": 1977.5,
+   "gA_cm": 1977.9,
+   "dispersion_fuentes_cm": 0.52,
+   "nota": "Planta nivel1 (283 desde B, 67 hasta A1) y fundaciones. Sin eje en la arquitectura de la casa.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": -0.03
+   }
+  },
+  "A1": {
+   "eje": "Y (letra)",
+   "valor_cm": 2045.2,
+   "valor_fino_cm": 2045.25,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 2045.25,
+    "nivel2": 2042.67,
+    "techumbre": 2045.27,
+    "fundaciones": 2045.27
+   },
+   "elevaciones_gE_cm": 2044.6,
+   "gA_cm": 2045.0,
+   "dispersion_fuentes_cm": 2.6,
+   "nota": "Planta nivel1 (125 A1-A, 67 A2-A1), techumbre (125), fundaciones (125) y elevaciones eje 5 (125) y 1a' (D-A1 = 941). La planta NIVEL2 lo dibuja 2.5 cm mas al norte (128 A1-A), igual que el eje I de la arq N2: ver conflictos.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": 0.05,
+    "nivel2": -2.53,
+    "arq_n2": -2.97
+   },
+   "nivel2_dibujado_cm": 2042.7
+  },
+  "A": {
+   "eje": "Y (letra)",
+   "valor_cm": 2170.3,
+   "valor_fino_cm": 2170.35,
+   "fuente_valor": "nivel1",
+   "por_lamina_estructura_cm": {
+    "nivel1": 2170.35,
+    "nivel2": 2170.32,
+    "techumbre": 2170.37,
+    "fundaciones": 2170.37
+   },
+   "elevaciones_gE_cm": 2169.8,
+   "gA_cm": 2169.9,
+   "arquitectura": {
+    "arqN1": [
+     "A",
+     2170.1
+    ],
+    "arqN2": [
+     "A",
+     2169.75
+    ]
+   },
+   "dispersion_fuentes_cm": 0.52,
+   "nota": "Las 4 plantas: total K-A 2935, H-A 2160. Es A de la arq N1 y N2.",
+   "confianza": "alta",
+   "verificacion_dibujo_menos_final_cm": {
+    "nivel1": 0.05,
+    "nivel2": 0.02,
+    "arq_n1": -0.2,
+    "arq_n2": -0.55
+   }
+  },
+  "_lineas_locales_sin_nombre": [
+   {
+    "lamina": "nivel1",
+    "orientacion": "Y constante",
+    "valor_cm": 1173.1,
+    "tramo_cm": [
+     1730.5,
+     1931.4
+    ],
+    "nota": "eje 5, D+69 (linea aux. de la elevacion eje 5)"
+   },
+   {
+    "lamina": "nivel1",
+    "orientacion": "X constante",
+    "valor_cm": 1361.4,
+    "tramo_cm": [
+     1111.5,
+     1222.5
+    ],
+    "nota": "4+104 (cota 104 desde el eje 4), entre D y C3"
+   },
+   {
+    "lamina": "nivel1",
+    "orientacion": "Y constante",
+    "valor_cm": 991.4,
+    "tramo_cm": [
+     -101.9,
+     49.6
+    ],
+    "nota": "tubo del eje 1, E+33 (tambien en nivel2; gA lo llama \"E+33\")"
+   },
+   {
+    "lamina": "nivel1",
+    "orientacion": "Y constante",
+    "valor_cm": 1438.1,
+    "tramo_cm": [
+     1730.5,
+     1931.4
+    ],
+    "nota": "eje 5, D+334 (linea aux. de la elevacion eje 5)"
+   },
+   {
+    "lamina": "nivel2",
+    "orientacion": "Y constante",
+    "valor_cm": 991.4,
+    "tramo_cm": [
+     -102.0,
+     49.6
+    ]
+   },
+   {
+    "lamina": "fundaciones",
+    "orientacion": "X constante",
+    "valor_cm": 110.2,
+    "tramo_cm": [
+     1524.5,
+     1941.7
+    ],
+    "nota": "1+103.5 (linea aux. de la elevacion eje B)"
+   },
+   {
+    "lamina": "fundaciones",
+    "orientacion": "X constante",
+    "valor_cm": 575.3,
+    "tramo_cm": [
+     1553.7,
+     1736.8
+    ],
+    "nota": "2-78 (linea aux. de la elevacion eje B)"
+   },
+   {
+    "lamina": "fundaciones",
+    "orientacion": "X constante",
+    "valor_cm": 1361.4,
+    "tramo_cm": [
+     1111.5,
+     1222.4
+    ]
+   },
+   {
+    "lamina": "fundaciones",
+    "orientacion": "X constante",
+    "valor_cm": 764.3,
+    "tramo_cm": [
+     1084.0,
+     1162.9
+    ]
+   }
+  ],
+  "_metodo": [
+   "Tres derivaciones independientes: gP (lineas de eje de las 4 plantas, escala de nivel1 ajustada a 49 cotas de TEXTO), gE (25 elevaciones, escala 1:50) y gA (ancla contra la arquitectura de la app). Las tres coinciden en TODOS los ejes dentro de 0.8 cm (columna dispersion_fuentes_cm), salvo A1 de la planta nivel2 (2.6 cm, ver conflictos).",
+   "Posicion = linea trazo-punto dibujada (no el centro de la burbuja). Valor = planta nivel1 (rev. 08-04-2026) cuando el eje existe ahi; si no, promedio nivel2/techumbre ajustados a nivel1.",
+   "Distancias entre ejes = las del ingeniero (no se reescalo a la arquitectura). Al marco de la app se pasa solo con una TRASLACION (ver ancla).",
+   "Verificacion visual: grilla_verif_{nivel1,nivel2,arq_n1,arq_n2}_mosaico.png (cada eje a escala 6: la linea roja es el valor final, centro de la celda) y grilla_verif_*_general.png (vista completa). Todo revisado."
+  ],
+  "_transformaciones_pt_a_app": {
+   "nivel1": "X = 1.501720*x_pt - 1381.8917 ; Y = 1.501720*y_pt - 1189.1888",
+   "nivel2": "X = 1.764014*x_pt - 648.5341 ; Y = 1.764014*y_pt - 1223.5060",
+   "techumbre": "X = 1.763958*x_pt - 710.3910 ; Y = 1.763958*y_pt - 1006.1633",
+   "fundaciones": "X = 1.763989*x_pt - 648.4722 ; Y = 1.763989*y_pt - 1223.4027",
+   "elevaciones": "usar gE_grilla.json (por_elevacion, marco provisional) y sumar -0.111 cm a las X y +2.750 cm a las Y",
+   "nota": "coordenadas de comun (sistema rotado). Las cuatro reproducen las lineas de eje con residual <= 0.35 cm (salvo A1 de nivel2)."
+  },
+  "_offset_desde_anclas_provisionales_cm": {
+   "X": -0.111,
+   "Y": 2.75
+  },
+  "_alias_nota": "Los alias \"arqN1:x\" / \"arqN2:x\" son los nombres de la arquitectura (L2.PLARQ / L3.PLARQ2): usan OTRAS letras (p.ej. arqN2:K es A4, arqN2:I es A1, arqN1:H1 es G3). arqN1:H y arqN2:W estan 2.5-2.7 cm al norte del H estructural; arqN2:I esta 2.5-3 cm al norte del A1 elegido."
+ },
+ "conflictos": [
+  "EJE H (ancla): la estructura pone H 2.7 cm al SUR del eje H de la arquitectura (arq N1 \"H\" = 7.2, arq N2 \"W\" = 7.4; estructura = 9.9). Las cotas de cada juego lo confirman, leidas como texto en los PDF: arq N1 I1-H = 177 y H-G = 334, arq N2 W-V = 75; ingeniero I-H = 180, H-G = 331, H-H1 = 72. El resto de la grilla calza con la arquitectura dentro de 0.9 cm, asi que es una diferencia real entre planos. Se usa la posicion del INGENIERO. El ancla provisional (H = 7.2) era el H de la arquitectura.",
+  "A1: planta nivel1 (la revision mas nueva), techumbre, fundaciones y elevaciones eje 5 y 1a' lo ponen a 125 cm de A (Y = 2045.2). La planta NIVEL2 lo dibuja a 128 de A (cotas 128 y 275, verificado en imagen; Y = 2042.7), igual que el eje I de la arq N2. Como el tubo de nivel 2 en 5xA1 va sobre la cañeria de nivel 1 / fundacion F6 centrada en A-125, se usa 125. Diferencia 2.5 cm.",
+  "Nombres distintos para la misma linea: H1 (planta nivel2 y elevacion eje 5) = G4 (planta techumbre), Y = 82.3; E3 (plantas nivel2 y techumbre) = H3 (elevacion eje 5; probable errata), Y = 690.1. Se usan H1 y E3.",
+  "La linea sin burbuja de la planta nivel1 en Y = 685.3 (cotas 273/273 entre F2 y E; gA la llamo \"E4+30\") NO es E3 (690.1): es el eje de la viga IPE 300x42.2 del nivel 1 entre 4 y 5. La elevacion eje 5 lo confirma: HEB 160 sobre E4 en el nivel 1 y tubo 150x150x4 sobre H3 = E3 (E4+35) en el nivel 2. No es un cambio de proyecto. Queda como \"F2+273\".",
+  "1a y 1a' son ejes DISTINTOS: 1a (solo nivel2) a 50 cm del eje 1 (X = 56.6); 1a' (nivel1, fundaciones y elevaciones) a 323 cm (X = 329.8). 1b (solo nivel2) a 368 cm (X = 374.9).",
+  "La planta nivel2 tiene dos ejes sin burbuja ni nombre, acotados: 3+282 (X = 1289.4) y 5-50 (X = 1733.7). Coinciden con los ejes 13 y 14 de la arq N2. Se les puso un nombre descriptivo.",
+  "Ejes que faltan en algunas laminas (no es error): nivel2 no trae 4, 6, 3a, 4a, 1a', K, J, I, G3, G, F ni A2. 1a, 1b, 3+282, 5-50, G1, C3, B2 y A5 solo estan en nivel2. H1, E3, C4, C1 y A4 solo estan en nivel2 y techumbre. El eje 4 de nivel1 llega solo hasta D.",
+  "Burbujas dibujadas corridas respecto de su linea (manda la linea, las cotas lo confirman): en nivel1 la \"3\" del medio 4.0 cm, la \"4a\" 3.5 cm y la \"H\" derecha 2.5 cm; en fundaciones la \"3\" 3.9 cm y la \"H\" 2.4 cm; en nivel2 la \"G2\" 41 cm (con linea guia); en las elevaciones la \"4a\" ~3.3 cm. En techumbre C2 tiene burbuja sin linea.",
+  "Lineas sin burbuja en techumbre y fundaciones = 3a, 4a, 1a' (fundaciones) y F1 (techumbre, 0.6 cm al norte del F1 de las otras plantas, cotas 291/107 en vez de 292/106).",
+  "Redondeo de cotas del ingeniero (< 1.1 cm, sin efecto): 1-2 rotulado 647 aunque 323+323 = 646 (dibujo 646.4); 4a-5 = 259 (dibujo 258.4-258.7); 5-6 = 400 (dibujo 399.4-399.8); total 1-6 = 2177 (dibujo 2176.6); la cadena derecha de nivel1 suma 2936 y las de nivel2 2161-2162 (dibujo 2935.4 y 2160.3). Se usan las lineas dibujadas.",
+  "C3 y A5 (solo nivel2) no tienen cota directa: su posicion sale de la linea dibujada (confianza media).",
+  "No afecta a la grilla (observaciones de gA para los que modelan): los pilares exentos de cañeria Ø310 (2xK, 2xI, 4xI, 5xI, 5xA1) van centrados en el cruce de ejes, pero la arquitectura dibuja pilares 70x70 (70x100 en 5xA1) corridos ~28 cm del eje. Hay un tubo 150x150 en el eje 3 a 216 cm al sur de D que en data.js cae dentro del recinto LIVING-COMEDOR-HALL (en la arq remata un muro corto que data.js no tiene)."
+ ]
+}

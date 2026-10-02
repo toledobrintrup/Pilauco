@@ -1,0 +1,775 @@
+[
+ {
+  "vid": "eje2__elev_eje_1",
+  "lamina": "eje2",
+  "id": "elev_eje_1",
+  "titulo": "ELEVACION EJE 1",
+  "tipo": "elevacion_eje_numerado",
+  "eje_fijo": "1",
+  "bbox_pt": [
+   420,
+   316,
+   2292,
+   1130
+  ],
+  "ejes_visibles": [
+   "K",
+   "J",
+   "I",
+   "H",
+   "G2",
+   "F1",
+   "F",
+   "E4",
+   "E2",
+   "E1",
+   "D",
+   "C2",
+   "B1",
+   "B",
+   "A3",
+   "A"
+  ],
+  "suelo_y_pt": 799.28,
+  "notas": "Vista completa dentro del bbox. Linea de suelo (Z=0) = trazo 0.72 horizontal x 434.3..2284.4 en y=799.28; la cota 346 parte de ella. Lineas de eje de y=323.6 a 1009.2; burbujas en y=1023.98 (la de D en 1025.66). Debajo del titulo: \"ESC. 1:50\" y \"Medidas en cm.\" (trazos, leidos en render x4)."
+ },
+ {
+  "vid": "eje2__elev_eje_2",
+  "lamina": "eje2",
+  "id": "elev_eje_2",
+  "titulo": "ELEVACION EJE 2",
+  "tipo": "elevacion_eje_numerado",
+  "eje_fijo": "2",
+  "bbox_pt": [
+   420,
+   1140,
+   2292,
+   1942
+  ],
+  "ejes_visibles": [
+   "K",
+   "J",
+   "I",
+   "H",
+   "G2",
+   "F1",
+   "F",
+   "E4",
+   "E2",
+   "E1",
+   "D",
+   "C2",
+   "B1",
+   "B",
+   "A3",
+   "A"
+  ],
+  "suelo_y_pt": 1625.12,
+  "notas": "Vista completa dentro del bbox. Misma grilla que EJE 1 desplazada dy=+825.84 pt. Linea de suelo (Z=0) = trazo 0.72 x 434.3..2284.4 en y=1625.12. Lineas de eje de y=1149.4 a 1835.0; burbujas en y=1849.82 (D en 1851.50). Observado al verificar: en J no hay pilar en esta vista (solo la linea de eje); en K e I el pilar es \"Caneria D310 mm, e=6 mm\" con \"Det PA3\"."
+ },
+ {
+  "vid": "eje5__elev_eje_3",
+  "lamina": "eje5",
+  "id": "elev_eje_3",
+  "titulo": "ELEVACION EJE 3",
+  "tipo": "elevacion_eje_numerado",
+  "eje_fijo": "3",
+  "bbox_pt": [
+   160.5,
+   318.3,
+   1687.5,
+   1023.7
+  ],
+  "ejes_visibles": [
+   "I",
+   "H",
+   "G2",
+   "F1",
+   "F",
+   "E4",
+   "E2",
+   "E1",
+   "D",
+   "C2",
+   "B1",
+   "B",
+   "A3",
+   "A"
+  ],
+  "suelo_y_pt": 803.96,
+  "notas": "Ejes I,H,G2,F1,F,E4,E2,E1,D,C2,B1,B,A3,A (burbujas F y E4 dibujadas superpuestas). Cota vertical 346 va de la linea de suelo (y=803.96) a la cara superior de la viga IPE 220 (y=607.88); +14.35 sobre esa cara (y=599.72) hay una linea fina (piso terminado/losa nivel 2). Techo IPE 400 inclinado; cota 355 a la derecha y 280 a la izquierda (altura entrepiso 2). Cotas horizontales: parciales y=863.7, total 2340 y=891.2. Escala verificada: I-A = 1326.7 pt = 2340 cm."
+ },
+ {
+  "vid": "eje5__elev_eje_5",
+  "lamina": "eje5",
+  "id": "elev_eje_5",
+  "titulo": "ELEVACION EJE 5",
+  "tipo": "elevacion_eje_numerado",
+  "eje_fijo": "5",
+  "bbox_pt": [
+   160.5,
+   1138.5,
+   1687.5,
+   1853.0
+  ],
+  "ejes_visibles": [
+   "I",
+   "H",
+   "H1",
+   "E4",
+   "H3",
+   "E",
+   "D",
+   "C4",
+   "C2",
+   "A4",
+   "A1",
+   "A"
+  ],
+  "suelo_y_pt": 1624.16,
+  "notas": "Ejes I,H,H1,E4,H3,E,D,C4,C2,A4,A1,A (burbujas E4/H3 y D/C4 casi superpuestas). Cota 346 de y=1624.16 (suelo) a y=1428.08 (cara sup. IPE 270); +14.35 en y=1419.92. Hay pilares fuera de ejes (cotas 573, 69/265/74, 490) y una celosia C 150x50x3 entre H y H1 en el nivel 2. Cotas: sub-fila y=1665.7, parciales y=1693.0, total 2340 y=1720.5."
+ },
+ {
+  "vid": "eje5__elev_eje_1a_prima",
+  "lamina": "eje5",
+  "id": "elev_eje_1a_prima",
+  "titulo": "ELEVACION EJE 1a´",
+  "tipo": "elevacion_eje_numerado",
+  "eje_fijo": "1a'",
+  "bbox_pt": [
+   1771.5,
+   405.3,
+   2449.0,
+   831.4
+  ],
+  "ejes_visibles": [
+   "D",
+   "A1"
+  ],
+  "suelo_y_pt": 650.72,
+  "notas": "Solo una viga IPE 300x42.2 entre D y A1 a nivel 2 (cara sup. y=454.52 = 346 cm sobre suelo), linea fina de losa en y=446.48; rotulos de seccion cortada IPE 300x42.2 en D e IPE 600x122 en A1. Sin pilares. Cota 941 (D-A1) en y=690.1; medida en pt = 533.6 pt = 941.3 cm."
+ },
+ {
+  "vid": "eje5__elev_eje_6",
+  "lamina": "eje5",
+  "id": "elev_eje_6",
+  "titulo": "ELEVACION EJE 6",
+  "tipo": "elevacion_eje_numerado",
+  "eje_fijo": "6",
+  "bbox_pt": [
+   1766.1,
+   868.1,
+   2416.4,
+   1284.7
+  ],
+  "ejes_visibles": [
+   "G3",
+   "G",
+   "E"
+  ],
+  "suelo_y_pt": 1077.44,
+  "notas": "Portico de un nivel: pilares 150x150x4 en G3, G, E y vigas tubo rect. 200x150x3 (simbolo rectangulo con diagonal). NO hay cota vertical: la cara superior de la viga (y=914.12) queda 163.3 pt = 288 cm sobre la linea de suelo dibujada (y=1077.44); que esa linea sea el piso nivel 1 (Z=0) no se puede confirmar en esta lamina. Cotas 235/617 en y=1128.7 y total 852 en y=1155.4 (verificado: G3-E = 482.9 pt = 851.8 cm). Bases Det PA2."
+ },
+ {
+  "vid": "eje5__elev_eje_K",
+  "lamina": "eje5",
+  "id": "elev_eje_K",
+  "titulo": "ELEVACION EJE K",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "K",
+  "bbox_pt": [
+   1780.5,
+   1397.1,
+   2309.9,
+   1797.0
+  ],
+  "ejes_visibles": [
+   "1",
+   "2"
+  ],
+  "suelo_y_pt": 1628.24,
+  "notas": "Portico: pilar HEB 160x42.6 en eje 1 (Det PA1) y pilar Caneria o310 mm e=6 mm en eje 2 (Det PA3), viga IPE 360x57.1 con cara sup. en y=1432.04 (= 346 cm sobre suelo), linea fina en y=1423.88. Cota 647 (1-2) en y=1679.0; medida 366.5 pt = 646.4 cm."
+ },
+ {
+  "vid": "ejeA__elev_eje_1a_prima",
+  "lamina": "ejeA",
+  "id": "elev_eje_1a_prima",
+  "titulo": "ELEVACION EJE 1a´",
+  "tipo": "elevacion_eje_numerado",
+  "eje_fijo": "1a'",
+  "bbox_pt": [
+   156.4,
+   301.4,
+   1204.7,
+   770.4
+  ],
+  "ejes_visibles": [
+   "H",
+   "F",
+   "D",
+   "B1"
+  ],
+  "suelo_y_pt": 542.84,
+  "notas": "Titulo 'ELEVACION EJE 1a´' (eje numerado con prima). Ejes de letra H, F, D, B1 de izquierda a derecha (x_pt creciente = Y app creciente). SIN pilares: solo vigas de piso N2: IPE 360x57.1 H-F, F-D, D-B1 (tope y=346.64 => Z=346.1) con secciones transversales IPE 450x77.7 en H y B1, IPE 500x90.7 en F y D. Lineas finas 0.24 en y=338.48/346.64 = losa N2 (Z 360.5/346.1) con simbolo de corte a la izquierda. Linea de suelo 0.72 en y=542.84 (x 164.9-1198.7): es la unica linea 0.72 y da Z=346.1 al tope de viga, coherente con las demas vistas. OJO: la lamina eje5 trae OTRA 'ELEVACION EJE 1a´' que va de D a A1 (941, IPE 300x42.2): extension y perfil distintos; hay que conciliarlas."
+ },
+ {
+  "vid": "ejeA__elev_eje_D",
+  "lamina": "ejeA",
+  "id": "elev_eje_D",
+  "titulo": "ELEVACION EJE D",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "D",
+  "bbox_pt": [
+   113.0,
+   801.1,
+   1246.8,
+   1266.6
+  ],
+  "ejes_visibles": [
+   "1",
+   "2",
+   "3",
+   "3a",
+   "4",
+   "4a",
+   "5"
+  ],
+  "suelo_y_pt": 1057.52,
+  "notas": "Pilares: HEB 160x42.6 en 1, 2 y 5 (Det PA1); tubo cuadrado 150x150x4 en 3 y 4 (Det PA2); sin pilar en 3a ni 4a. Vigas: IPE 500x90.7 de 1 a 2 (tope y=861.32 => Z=346.1); IPE 300x42.2 de 2 a 5 (tope y=861.32, mismo nivel). Linea de eje sin burbuja en x=387.5 (mitad 1-2, la cota 323+323). La burbuja 4a esta corrida +1.9 pt respecto de su linea de eje (x=1065.1); usar la linea."
+ },
+ {
+  "vid": "ejeA__elev_eje_H",
+  "lamina": "ejeA",
+  "id": "elev_eje_H",
+  "titulo": "ELEVACION EJE H",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "H",
+  "bbox_pt": [
+   113.0,
+   1322.6,
+   1246.8,
+   1964.8
+  ],
+  "ejes_visibles": [
+   "1",
+   "2",
+   "3",
+   "3a",
+   "4",
+   "4a",
+   "5"
+  ],
+  "suelo_y_pt": 1758.68,
+  "notas": "Dos niveles. Nivel 1: HEB 160x42.6 en 1, 2, 4 y 5 (Det PA1); en 3 NO hay pilar bajo la viga de piso. Viga de piso N2 IPE 450x77.7 de 1 a 5 (tope y=1562.48 => Z=346.1, fondo 1588.04). Nivel 2: tubo 150x150x4 en 1, 2, 3 y 5 (y 1403-1562.5); en 4 no hay pilar arriba. Arriba: 'PV1 Puntal' de 1 a 5 (y 1391.6-1403.0 => Z 647.5-627.4) con secciones IPE 400x66.3 en 1, 2, 3 y 5. Linea de eje sin burbuja en x=387.5. Burbuja 4a corrida +1.9 pt de su linea (x=1065.1)."
+ },
+ {
+  "vid": "ejeA__elev_eje_A",
+  "lamina": "ejeA",
+  "id": "elev_eje_A",
+  "titulo": "ELEVACION EJE A",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "A",
+  "bbox_pt": [
+   1384.0,
+   337.5,
+   1678.4,
+   1004.4
+  ],
+  "ejes_visibles": [
+   "3",
+   "3a"
+  ],
+  "suelo_y_pt": 816.2,
+  "notas": "Pilares tubo 150x150x4 en 3 y 3a (Det PA2), dos tramos: hasta la viga IPE 220x26.2 (tope y=620.0 => Z=346.1) y sobre ella hasta y=413 (Z~711). Arriba 'PV1 Puntal' de 3 a 3a con secciones IPE 400x66.3 en ambos ejes. Linea de suelo 0.72 en y=816.2 (x 1390-1655.8)."
+ },
+ {
+  "vid": "ejeA__elev_eje_A1",
+  "lamina": "ejeA",
+  "id": "elev_eje_A1",
+  "titulo": "ELEVACION EJE A1",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "A1",
+  "bbox_pt": [
+   1764.5,
+   442.8,
+   2351.3,
+   886.9
+  ],
+  "ejes_visibles": [
+   "3",
+   "3a",
+   "4a",
+   "5"
+  ],
+  "suelo_y_pt": 676.64,
+  "notas": "Pilares: HEB 160x42.6 en 3 (Det PA1) y Caneria D310 e=6 mm en 5 (Det PA3); sin pilar en 3a ni 4a. Viga IPE 600x122 de 3 a 5 (tope y=480.56 => Z=345.9; fondo y=514.5). Cadena de cotas trae '776' dos veces (dos lineas de cota 3-5). Burbuja 4a corrida +1.9 pt de su linea (x=2149.3)."
+ },
+ {
+  "vid": "ejeA__elev_eje_I",
+  "lamina": "ejeA",
+  "id": "elev_eje_I",
+  "titulo": "ELEVACION EJE I",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "I",
+  "bbox_pt": [
+   1332.6,
+   1010.0,
+   2465.5,
+   1487.6
+  ],
+  "ejes_visibles": [
+   "1",
+   "2",
+   "3",
+   "3a",
+   "4",
+   "4a",
+   "5"
+  ],
+  "suelo_y_pt": 1281.32,
+  "notas": "Pilares: tubo 150x150x4 en 1 (Det PA2); Caneria D310 e=6 mm en 2, 4 y 5 (Det PA3); sin pilar en 3, 3a, 4a. Viga IPE 300x42.2 de 1 a 5 (tope y=1085.12 => Z=346.1). Linea de eje sin burbuja en x=1599.5 (mitad 1-2). Burbuja 4a corrida +2.0 pt de su linea (x=2277.1). El bbox empieza 11.6 pt bajo el titulo de la vista A (que termina en y=998.4)."
+ },
+ {
+  "vid": "ejeA__elev_eje_J",
+  "lamina": "ejeA",
+  "id": "elev_eje_J",
+  "titulo": "ELEVACION EJE J",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "J",
+  "bbox_pt": [
+   1311.7,
+   1537.6,
+   1833.1,
+   1929.6
+  ],
+  "ejes_visibles": [
+   "1",
+   "2"
+  ],
+  "suelo_y_pt": 1764.92,
+  "notas": "Pilar HEB 160x42.6 en 1 (Det PA1); sin pilar en 2. Viga IPE 360x57.1 de 1 a 2 (tope y=1568.72 => Z=346.1) que llega a una seccion IPE 450x77.7 en el eje 2. Lineas 0.24 en y=1560.56/1568.72 = losa N2."
+ },
+ {
+  "vid": "ejeA__elev_eje_G3",
+  "lamina": "ejeA",
+  "id": "elev_eje_G3",
+  "titulo": "ELEVACION EJE G3",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "G3",
+  "bbox_pt": [
+   2004.2,
+   1539.3,
+   2398.3,
+   1938.0
+  ],
+  "ejes_visibles": [
+   "5",
+   "6"
+  ],
+  "suelo_y_pt": 1766.48,
+  "notas": "Pilares tubo 150x150x4 en 5 y 6 (Det PA2). Viga tubo rect. 200x150x3 de 5 a 6 (tope y=1603.28 => Z~287.9; fondo 1614.56). El pilar del eje 5 sube mas (hasta y=1585.6 => Z~319) y remata en una seccion IPE 270x36.1. Perfiles, cota 400 y alturas coinciden con lo anotado para la elevacion EJE G en cat_otras.json."
+ },
+ {
+  "vid": "otras__elev_eje_G2",
+  "lamina": "otras",
+  "id": "elev_eje_G2",
+  "titulo": "ELEVACION EJE G2",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "G2",
+  "bbox_pt": [
+   164.8,
+   333.2,
+   648.8,
+   741.9
+  ],
+  "ejes_visibles": [
+   "2",
+   "3",
+   "4"
+  ],
+  "suelo_y_pt": 560.36,
+  "notas": "Lectura visual (verificar en extraccion): pilares HEB 160x42.6 en ejes 2 y 4 (Det PA1); viga IPE 500x90.7 de 2 a 4 (cara sup. Z=346); sin pilar en eje 3. Dibujo identico a E4 y F1. Linea de suelo = linea ancho 0.72 donde terminan TODOS los pilares (verificado). Lineas de losa N2 (ancho 0.24, con simbolo de corte): la inferior coincide con la cara sup. de las vigas (Z~346.0 cm) y la superior queda en Z~360.3 cm."
+ },
+ {
+  "vid": "otras__elev_eje_G",
+  "lamina": "otras",
+  "id": "elev_eje_G",
+  "titulo": "ELEVACION EJE G",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "G",
+  "bbox_pt": [
+   766.0,
+   333.4,
+   1160.0,
+   732.1
+  ],
+  "ejes_visibles": [
+   "5",
+   "6"
+  ],
+  "suelo_y_pt": 560.6,
+  "notas": "Lectura visual: pilares tubo cuadrado 150x150x4 en ejes 5 y 6 (Det PA2); viga tubo rect. 200x150x3 de 5 a 6, cara sup. Z~288 cm (y=397.4), inf. Z~268; pilar eje 5 sube hasta Z~319 (y=379.76) y remata en IPE 270x36.1 en corte (tope y=365.96, Z~343). SIN losa N2 dibujada sobre esta vista. Linea de suelo = linea ancho 0.72 donde terminan TODOS los pilares (verificado). Lineas de losa N2 (ancho 0.24, con simbolo de corte): la inferior coincide con la cara sup. de las vigas (Z~346.0 cm) y la superior queda en Z~360.3 cm."
+ },
+ {
+  "vid": "otras__elev_eje_F2",
+  "lamina": "otras",
+  "id": "elev_eje_F2",
+  "titulo": "ELEVACION EJE F2",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "F2",
+  "bbox_pt": [
+   1240.4,
+   332.8,
+   1710.8,
+   741.6
+  ],
+  "ejes_visibles": [
+   "4",
+   "5"
+  ],
+  "suelo_y_pt": 560.0,
+  "notas": "Lectura visual: pilar tubo cuad. 150x150x4 en eje 4 (Det PA2) y HEB 160x42.6 en eje 5 (Det PA1); viga IPE 300x42.2 de 4 a 5 (dos rotulos), cara sup. Z=346. Linea de suelo = linea ancho 0.72 donde terminan TODOS los pilares (verificado). Lineas de losa N2 (ancho 0.24, con simbolo de corte): la inferior coincide con la cara sup. de las vigas (Z~346.0 cm) y la superior queda en Z~360.3 cm."
+ },
+ {
+  "vid": "otras__elev_eje_F1",
+  "lamina": "otras",
+  "id": "elev_eje_F1",
+  "titulo": "ELEVACION EJE F1",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "F1",
+  "bbox_pt": [
+   1826.8,
+   338.5,
+   2311.1,
+   759.0
+  ],
+  "ejes_visibles": [
+   "2",
+   "3",
+   "4"
+  ],
+  "suelo_y_pt": 565.64,
+  "notas": "Lectura visual: pilares HEB 160x42.6 en ejes 2 y 4 (Det PA1); viga IPE 500x90.7 de 2 a 4; sin pilar en eje 3. Identica a G2 y E4. Linea de suelo = linea ancho 0.72 donde terminan TODOS los pilares (verificado). Lineas de losa N2 (ancho 0.24, con simbolo de corte): la inferior coincide con la cara sup. de las vigas (Z~346.0 cm) y la superior queda en Z~360.3 cm."
+ },
+ {
+  "vid": "otras__elev_eje_F",
+  "lamina": "otras",
+  "id": "elev_eje_F",
+  "titulo": "ELEVACION EJE F",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "F",
+  "bbox_pt": [
+   163.8,
+   845.6,
+   731.8,
+   1303.5
+  ],
+  "ejes_visibles": [
+   "1",
+   "1a'",
+   "2"
+  ],
+  "suelo_y_pt": 1092.44,
+  "notas": "Lectura visual: pilares HEB 160x42.6 en ejes 1 y 2 (Det PA1); viga IPE 500x90.7 de 1 a 2 (dos rotulos, a cada lado de 1a'); sin pilar en 1a'. Linea de suelo = linea ancho 0.72 donde terminan TODOS los pilares (verificado). Lineas de losa N2 (ancho 0.24, con simbolo de corte): la inferior coincide con la cara sup. de las vigas (Z~346.0 cm) y la superior queda en Z~360.3 cm."
+ },
+ {
+  "vid": "otras__elev_eje_E4",
+  "lamina": "otras",
+  "id": "elev_eje_E4",
+  "titulo": "ELEVACION EJE E4",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "E4",
+  "bbox_pt": [
+   870.0,
+   866.7,
+   1354.3,
+   1287.2
+  ],
+  "ejes_visibles": [
+   "2",
+   "3",
+   "4"
+  ],
+  "suelo_y_pt": 1093.88,
+  "notas": "Lectura visual: pilares HEB 160x42.6 en ejes 2 y 4 (Det PA1); viga IPE 500x90.7 de 2 a 4; sin pilar en eje 3. Linea de suelo = linea ancho 0.72 donde terminan TODOS los pilares (verificado). Lineas de losa N2 (ancho 0.24, con simbolo de corte): la inferior coincide con la cara sup. de las vigas (Z~346.0 cm) y la superior queda en Z~360.3 cm."
+ },
+ {
+  "vid": "otras__elev_eje_E",
+  "lamina": "otras",
+  "id": "elev_eje_E",
+  "titulo": "ELEVACION EJE E",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "E",
+  "bbox_pt": [
+   1477.1,
+   869.1,
+   2155.3,
+   1285.8
+  ],
+  "ejes_visibles": [
+   "4",
+   "5",
+   "6"
+  ],
+  "suelo_y_pt": 1096.4,
+  "notas": "Lectura visual: tubo cuad. 150x150x4 en eje 4 (Det PA2), HEB 160x42.6 en eje 5 (Det PA1), tubo cuad. 150x150x4 en eje 6 (Det PA2); viga IPE 300x42.2 de 4 a 5 (cara sup. Z=346); viga tubo rect. 200x150x3 de 5 a 6 a menor altura (sup. y=933.08 Z~288, inf. y=944.48 Z~268); losa N2 solo sobre el tramo 4-5. Linea de suelo = linea ancho 0.72 donde terminan TODOS los pilares (verificado). Lineas de losa N2 (ancho 0.24, con simbolo de corte): la inferior coincide con la cara sup. de las vigas (Z~346.0 cm) y la superior queda en Z~360.3 cm."
+ },
+ {
+  "vid": "otras__elev_eje_C",
+  "lamina": "otras",
+  "id": "elev_eje_C",
+  "titulo": "ELEVACION EJE C",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "C",
+  "bbox_pt": [
+   150.4,
+   1464.0,
+   732.1,
+   1899.4
+  ],
+  "ejes_visibles": [
+   "3",
+   "3a",
+   "4a",
+   "5"
+  ],
+  "suelo_y_pt": 1691.12,
+  "notas": "Lectura visual: tubo cuad. 150x150x4 en eje 3 (Det PA2) y HEB 160x42.6 en eje 5 (Det PA1); vigas IPE 300x42.2 en tramos 3-3a, 3a-4a, 4a-5, y en 3a y 4a llegan vigas IPE 300x42.2 perpendiculares (rotulos con flecha); sin pilares en 3a ni 4a. OJO: burbuja 4a: texto centrado en x=533.0 pero la linea de eje esta en x=530.88 (se uso la linea). Cotas 203+315+259, total 776. Linea de suelo = linea ancho 0.72 donde terminan TODOS los pilares (verificado). Lineas de losa N2 (ancho 0.24, con simbolo de corte): la inferior coincide con la cara sup. de las vigas (Z~346.0 cm) y la superior queda en Z~360.3 cm."
+ },
+ {
+  "vid": "otras__elev_eje_B",
+  "lamina": "otras",
+  "id": "elev_eje_B",
+  "titulo": "ELEVACION EJE B",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "B",
+  "bbox_pt": [
+   889.4,
+   1445.5,
+   1602.5,
+   1947.7
+  ],
+  "ejes_visibles": [
+   "1",
+   "1a'",
+   "2",
+   "3"
+  ],
+  "suelo_y_pt": 1692.32,
+  "notas": "Lectura visual: HEB 160x42.6 en ejes 1, 2 y 3 (Det PA1); dos pilares tubo cuad. 150x150x4 (Det PA2) fuera de eje: a 103 cm del eje 1 (centro x=1039.26) y a 78 cm antes del eje 2 (centro x=1302.9); viga IPE 450x77.7 de 1 a 2 (cara sup. Z=346, alto 45 cm) y IPE 300x42.2 de 2 a 3. Cotas 103/465/78, 323/323/354, 647/354, 1001. Linea de suelo = linea ancho 0.72 donde terminan TODOS los pilares (verificado). Lineas de losa N2 (ancho 0.24, con simbolo de corte): la inferior coincide con la cara sup. de las vigas (Z~346.0 cm) y la superior queda en Z~360.3 cm."
+ },
+ {
+  "vid": "otras__elev_eje_A3",
+  "lamina": "otras",
+  "id": "elev_eje_A3",
+  "titulo": "ELEVACION EJE A3",
+  "tipo": "elevacion_eje_letra",
+  "eje_fijo": "A3",
+  "bbox_pt": [
+   1812.0,
+   1451.6,
+   2338.2,
+   1897.9
+  ],
+  "ejes_visibles": [
+   "1",
+   "1a'",
+   "2"
+  ],
+  "suelo_y_pt": 1691.48,
+  "notas": "Lectura visual: UN solo pilar, tubo cuad. 150x150x4 en eje 2 (Det PA2, tope y=1507.76); en eje 1 NO hay pilar: la viga IPE 220x26.2 (1 a 2, cara sup. Z=346) se apoya en una IPE 270x36.1 dibujada en corte; sin pilar en 1a'. Linea de suelo = linea ancho 0.72 donde terminan TODOS los pilares (verificado). Lineas de losa N2 (ancho 0.24, con simbolo de corte): la inferior coincide con la cara sup. de las vigas (Z~346.0 cm) y la superior queda en Z~360.3 cm."
+ },
+ {
+  "vid": "nivel1__planta_nivel1_principal",
+  "lamina": "nivel1",
+  "id": "planta_nivel1_principal",
+  "titulo": "PLANTA ESTRUCTURA 1°NIVEL",
+  "tipo": "planta",
+  "eje_fijo": "",
+  "bbox_pt": [
+   662,
+   99,
+   2606,
+   2505
+  ],
+  "ejes_visibles": [
+   "1",
+   "1a'",
+   "2",
+   "3",
+   "3a",
+   "4",
+   "4a",
+   "5",
+   "6",
+   "K",
+   "J",
+   "I",
+   "H",
+   "G3",
+   "G2",
+   "G",
+   "F2",
+   "F1",
+   "F",
+   "E4",
+   "E2",
+   "E1",
+   "E",
+   "D",
+   "C2",
+   "C",
+   "B1",
+   "B",
+   "A3",
+   "A2",
+   "A1",
+   "A"
+  ],
+  "suelo_y_pt": -1,
+  "notas": "Unica vista con este titulo en el area de dibujo; el segundo \"PLANTA ESTRUCTURA 1°NIVEL\" de la lamina es el campo CONTENIDO del rotulo (x 3232-3393, y 2681), no otra vista. No hay geometria duplicada (0 palabras repetidas en la misma posicion). bbox_pt incluye el titulo (y 2432-2494). OJO: es IMPOSIBLE un rectangulo que contenga toda la planta y nada del detalle HEB 160x42.6: las burbujas derechas llegan a x=2595 y las inferiores a y=2411, y el detalle HEB empieza en x=2551, y=2327 (su cota vertical \"160\" en x 2566-2581, y 2340-2394 y parte de su titulo quedan dentro del bbox). Por eso hay que DESCARTAR todo lo que toque excluir_pt; dentro de excluir_pt no hay nada de la planta (verificado: los 31.051 items de la planta quedan dentro del bbox y fuera de la exclusion, 0 items ambiguos). Capas CAD (pdf OCG) de la planta: vigas (15164 dibujos), EJES (7556, trazo-punto ancho 0.72), TEX_METLICOS (3256, rotulos de perfil como texto), arq (3199, planta de arquitectura de fondo), COTAS (849), PILARES METALICOS (302), texto, Nombre de ejes (48 burbujas r=17.49), 0. Eje 3: tiene burbuja interior en (1593.6, 512.7) ademas de la inferior; su linea va de y=532 a 2376. Eje 4 solo tiene burbuja arriba; su linea termina en y=1798.7 (eje C). Ejes I y H tienen la burbuja derecha dentro de la planta (x~2237), no en la columna de la derecha. Las burbujas F y E4 de la izquierda se solapan (y 1208 y 1228). Eje 4a: la burbuja (x=1938.21) esta 2.3 pt corrida de su linea (x=1935.87); la linea es la correcta: 3a->4a = 209.8 pt = 315.0 cm = cota 315, 4a->5 = 258.5 cm vs cota 259."
+ },
+ {
+  "vid": "nivel2__planta_nivel2",
+  "lamina": "nivel2",
+  "id": "planta_nivel2",
+  "titulo": "PLANTA ESTRUCTURA 2°NIVEL",
+  "tipo": "planta",
+  "eje_fijo": "",
+  "bbox_pt": [
+   184,
+   136,
+   1589,
+   2151
+  ],
+  "ejes_visibles": [
+   "1",
+   "1a",
+   "1b",
+   "2",
+   "3",
+   "5",
+   "H",
+   "H1",
+   "G2",
+   "G1",
+   "F2",
+   "F1",
+   "E4",
+   "E3",
+   "E2",
+   "E1",
+   "E",
+   "D",
+   "C4",
+   "C3",
+   "C2",
+   "C1",
+   "C",
+   "B2",
+   "B1",
+   "B",
+   "A5",
+   "A4",
+   "A3",
+   "A1",
+   "A"
+  ],
+  "suelo_y_pt": -1,
+  "notas": "Vista unica de planta; contiene burbujas numeradas arriba (y~159) y abajo (y~2076), burbujas de letra a la izquierda (x~207) y a la derecha (x~1522.6) con conjuntos DISTINTOS de letras a cada lado, titulo y \"ESC. 1:50 Medidos en cm.\" bajo el dibujo. Ningun trazo cruza el borde del bbox y todos los trazos del area de dibujo fuera de los dos detalles caen dentro (verificado). No hay eje 4 ni ejes K/J/I con burbuja en esta lamina. G2 tiene su burbuja desplazada hacia arriba con una quiebre: su linea de eje esta en y=822.2 (11.6 cm al norte de G1, y=828.8). Al norte de H (y 248..690) hay un contorno dibujado SOLO con linea fina 0.12 (rectangulo entre 1a y 2 hasta y~260, viga doble 2->5 en y~610-613 con dos cuadros de ~40x57 pt), sin rotulos de perfil: referencia, no miembros rotulados; y=259.9 cae en Y_app~-768 (cerca de K) y el borde de linea segmentada larga y=597.1 en Y_app~-173 (cerca de I). PILARES vs ICONOS: los pilares son 31 cuadrados de ancho de linea 1.08 (~8.0-8.5 pt = 14-15 cm) centrados en interseccion de ejes (29) o fuera de eje (eje 1 a 112 cm de D hacia E; eje 2 entre A3 y A1, y=1810.9); el icono del rotulo \"150x150x4\" es OTRO cuadrado de 8x8 pt pero con ancho de linea 0.6, desplazado del eje junto al texto vectorial (31 iconos): NO son pilares. Vigas IPE 400x66.3 longitudinales sobre ejes 1, 2, 3 y 5 dibujadas como rectangulos 0.72 de 10.2 pt de ancho (=180 mm). Rotulos \"HEB 160x42.6\" en eje 1/B y eje 3 cerca de A5. Cotas y rotulos de perfil son trazos vectoriales (solo las burbujas son texto). Hay una marca amarilla (trazo color amarillo, ancho 5) en x=1225.7, y=884 entre ejes 3 y 5: marca de resaltador, no es elemento estructural."
+ },
+ {
+  "vid": "techumbre__planta_techumbre",
+  "lamina": "techumbre",
+  "id": "planta_techumbre",
+  "titulo": "PLANTA ESTRUCTURA TECHUMBRE",
+  "tipo": "planta",
+  "eje_fijo": "",
+  "bbox_pt": [
+   186.0,
+   138.6,
+   1834.7,
+   2148.7
+  ],
+  "ejes_visibles": [
+   "1",
+   "2",
+   "3",
+   "4",
+   "5",
+   "6",
+   "A",
+   "A1",
+   "A3",
+   "A4",
+   "B",
+   "B1",
+   "C",
+   "C1",
+   "C2",
+   "C4",
+   "D",
+   "E",
+   "E1",
+   "E2",
+   "E3",
+   "E4",
+   "F",
+   "F2",
+   "G2",
+   "G4",
+   "H",
+   "I",
+   "J"
+  ],
+  "suelo_y_pt": -1,
+  "notas": "Unica vista estructural de la lamina. Orientacion: x_pt creciente = hacia eje 6 (X app creciente); y_pt creciente = hacia eje A (Y app creciente; J arriba = terraza norte). X_app = X_1 + (x_pt - 406.56)/0.566929 ; Y_app = Y_H + (y_pt - 576.08)/0.566929. Numeros arriba: 1,2,4,5,6; abajo: 1,2,3,5,6 (el 3 solo abajo, linea desde y=449; el 4 solo arriba, linea hasta y=1263). Letras izquierda: J,I,H,G2,F,E2,E1,D,C2,B1,B,A3,A; derecha: J,I,H,G4,G2,F2,E4,E3,E2,E1,E,D,C4,C1,C,B,A4,A1,A (E4/E3 con burbujas superpuestas). C2 no tiene linea de eje dibujada (solo burbuja y tick de cota). Hay una linea de eje SIN burbuja en y=864.2 (cotas 291 desde G2 y 107 hasta F) que por posicion es F1. Todas las cotas leidas a zoom (son trazos) coinciden con las distancias medidas entre lineas de eje a 1:50 dentro de +-1 cm. Contenido (lectura visual, no extraido): costaneras \"Costanera CA 200x50x15x3 @ 610\" (lineas gruesas horizontales, en direccion X), vigas de techo VT IPE 400x66.3 (bandas achuradas verticales sobre los ejes 1, 2, 3 y 5 -no en 4 ni 6-; rotulo vertical \"VT IPE 400x66.3\" junto al eje 1), \"PV1 Puntal\" (bandas achuradas horizontales sobre algunos ejes con letra, p.ej. H, F1, D, B1), \"c/2 Colgador d12\" y \"c/3 Colgador d12\" (colgadores: lineas gruesas verticales, 2 por vano entre ejes 1-2 en x~528 y ~652, 3 entre ejes 3-5 en x~1095, ~1199, ~1302; ninguna entre 2-3), \"Arriostramiento d22 c/tensor\" (diagonales a trazos en X). Rotulos y cotas son trazos vectoriales, salvo burbujas y titulo. Contorno del techo (lineas a trazos ancho 0.12, no son ejes): x=344.16 y x=1476.24 (110 cm fuera de ejes 1 y 5), y=513.68 (110 cm al norte de H), y=1670.96 para x 344-711 (110 cm al sur de A3) e y=1863.08 para x 711-1476 (110 cm al sur de A). Lineas a trazos verticales en x=1088.76 y 1267.32 (y 1159-1909) = referencias de la cadena inferior 203/315/259, no ejes."
+ },
+ {
+  "vid": "fundaciones__planta_fundaciones",
+  "lamina": "fundaciones",
+  "id": "planta_fundaciones",
+  "titulo": "PLANTA FUNDACIONES",
+  "tipo": "planta",
+  "eje_fijo": "",
+  "bbox_pt": [
+   148,
+   104,
+   1802,
+   2152
+  ],
+  "ejes_visibles": [
+   "1",
+   "2",
+   "3",
+   "4",
+   "5",
+   "6",
+   "K",
+   "J",
+   "I",
+   "H",
+   "G3",
+   "G2",
+   "G",
+   "F2",
+   "F1",
+   "F",
+   "E4",
+   "E2",
+   "E1",
+   "E",
+   "D",
+   "C2",
+   "C",
+   "B1",
+   "B",
+   "A3",
+   "A2",
+   "A1",
+   "A"
+  ],
+  "suelo_y_pt": -1,
+  "notas": "Planta de fundaciones a 1:50 (0.566929 pt/cm). Orientacion = marco de la app SIN espejo: x_pt creciente -> eje 6 (X_app+), y_pt creciente -> eje A (Y_app+); K/J/I arriba. X_app = 6.8 + (x_pt - x_eje1)/0.566929 ; Y_app = 7.2 + (y_pt - y_ejeH)/0.566929 (anclas provisionales). Escala verificada: ejes 1-6 = 1234.0 pt = 2176.6 cm (cota 2177); K-A = 1664.0 pt = 2935.1 cm (cota 2935); 1-2 646.5 (647), 2-4 604.1 (604), 4-5 526.3 (526), 5-6 399.7 (400). Burbujas: 46 circulos r=14.94 ancho 0.72, todos con su texto. Numeros arriba: 1,2,4,5,6 (el 3 no llega arriba: burbuja interior en (940.9,455.9)); abajo: 1,2,3,5,6 (el 4 no llega abajo). Letras izq: K,J,I,H,G2,F,E2,E1,D,C2,B1,B,A3,A; der: K,J,G3,G2,G,F2,E4,E2,E1,E,D,C,B,A2,A1,A; interiores: H (1489.1,700.6), I (1487.8,597.1), F1 (640.9,987.6), E4 (1050.1,1065.1), C2 (1091.5,1417.7). ejes_x_pt/ejes_y_pt = lineas trazo-punto (ancho 0.12); toda burbuja de borde coincide con su linea a <=0.2 pt (la burbuja interior del 3 esta corrida +2.3 pt, la H interior +1.4 pt: no usarlas). lineas_eje_* dan el tramo donde el eje esta dibujado. Contenido: vigas de fundacion rotuladas CF 25/80 y CF 25/50 (texto real), zapatas aisladas F1a,F1b,F2..F10 (rotulo F+numero es texto real; sus cotas son trazos), pedestales con llamada \"Det PA1/PA2/PA3\" (detalle en det_fund1/det_fund2), 18 marcas de corte (1-1 x5, 2-2 x1, 3-3 x9, 4-4 x3) listadas en marcas_de_corte con el punto donde cruzan la viga. Las cotas numericas son TRAZOS: leerlas en render a escala 3-5."
+ }
+]
