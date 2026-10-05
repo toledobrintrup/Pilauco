@@ -1,12 +1,14 @@
 # Planta Pilauco — plano interactivo
 
 Plano interactivo de la vivienda (proyecto de permiso de edificación), pensado para
-consultarlo en obra desde el teléfono. Incluye **nivel 1 y nivel 2**, y se cambia de
-planta desde la barra de arriba. Desde ahí también se entra a una **vista 3D** con los
-dos niveles a su altura real.
+consultarlo en obra desde el teléfono. Incluye **nivel 1 y nivel 2**, una **vista 3D** con
+los dos niveles a su altura real y la estructura de acero, y la ficha del **tablero de
+básquetbol**. Se pasa de una vista a otra con el menú de arriba (pestañas en pantalla
+ancha, menú desplegable en el teléfono).
 
 👉 **Ver el plano:** https://toledobrintrup.github.io/Pilauco/
 👉 **Vista 3D:** https://toledobrintrup.github.io/Pilauco/3d.html
+👉 **Tablero:** https://toledobrintrup.github.io/Pilauco/tablero.html
 
 ## Qué se puede hacer
 
@@ -48,6 +50,30 @@ dibujándola de vuelta sobre cada lámina original; cómo se hizo, la comparaci�
 de materiales del ingeniero y las diferencias entre láminas están en
 `fuente/ingenieria/README.md`.
 
+## Tablero de básquetbol
+
+Todo el manual del aro (Dunking, de poste empotrado, 9 páginas en inglés) traducido, ordenado
+y dibujado de nuevo, junto a un **3D que se mueve como el real**:
+
+- **Control de altura** de 1,50 a 3,05 m: el brazo y la barra de tiro forman un paralelogramo,
+  el tablero baja sin inclinarse, el tornillo de elevación se alarga, la manivela gira y la
+  regla marca la altura sobre la escala de la barra auxiliar.
+- **Armado paso a paso** (fundación y pasos 1 a 8): cada paso muestra en el 3D lo ya armado y
+  destaca en naranjo lo que se agrega, con sus pernos. En pantalla ancha el 3D sigue solo al
+  paso que se está leyendo.
+- **Capas**: etiquetas con las letras del manual, medidas (altura del aro, alcance, distancia
+  a la línea de fondo), despiece y vista bajo tierra con la fundación y el anclaje.
+- **Piezas, pernería a escala y cuadratura del kit**: cuánto usa cada paso contra lo que trae
+  la caja (cuadra todo), llaves necesarias y una lista para revisar la caja (queda guardada en
+  el navegador).
+- **Fundación y ubicación**: corte del hoyo de 80 × 80 × 80 cm con el anclaje M24, y planta
+  con la línea de fondo (527 mm), el espacio libre detrás (500 mm) y el alcance (1,227 m).
+
+El manual no trae medidas del tablero, del poste ni del brazo: se midieron en su dibujo lateral
+con una escala fijada por el aro a 3,05 m, y se comprobaron contra lo que el manual sí dice (el
+alcance da 1,227 m, igual al manual). El modelo se dibujó de vuelta sobre esa lámina para
+verificar que calza. Qué es dato del manual y qué es medido está marcado en la página.
+
 ## Qué trae cada planta
 
 | | Recintos | Sup. interior útil | Envolvente |
@@ -84,10 +110,13 @@ Base: plano L3 PLARQ2 (Planta Arquitectura Nivel 2, GVArq, dic. 2025, esc. 1:50)
 
 - `index.html` — el plano: geometría, lógica e interfaz de las dos plantas en un solo archivo.
 - `3d.html` — la vista 3D (Three.js vía CDN, sin paso de compilación).
+- `tablero.html` — el tablero de básquetbol: manual traducido, figuras y 3D animado, todo en un archivo.
+- `menu.js` — el menú común a las tres vistas; para sumar una vista se agrega a su lista.
 - `data.js` — los datos de ambas plantas (`DATA_N1`, `DATA_N2`), compartidos por `index.html` y `3d.html`: una sola fuente, nada duplicado.
 - `estructura.js` — la estructura de acero pieza por pieza (perfil y extremos de cada una) para la capa "Ver estructura" de `3d.html`; se genera desde `fuente/ingenieria/datos/modelo.json`.
 - `fuente/nivel1/` — scripts que extraen la planta del nivel 1 desde el PDF, con las decisiones documentadas.
 - `fuente/planta-nivel2-proyecto.zip` — proyecto del nivel 2: pipeline de extracción (Python) y datos JSON.
 - `fuente/ingenieria/` — cómo se armó la estructura 3D desde los planos del ingeniero: grilla de ejes, modelo completo, herramientas para re-proyectarlo sobre las láminas y la comparación con la lista de materiales.
 
-Los **PDF originales no están en el repositorio**: su viñeta lleva RUT, teléfono y correo.
+Los **PDF originales no están en el repositorio**: su viñeta lleva RUT, teléfono y correo. Tampoco
+el manual del tablero: sus dibujos se rehicieron, no se copiaron.

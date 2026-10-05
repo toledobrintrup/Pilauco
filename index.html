@@ -51,8 +51,6 @@ header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:13px 18
 header h1{font-size:16.5px;font-weight:600;margin:0;letter-spacing:-.012em;text-wrap:balance}
 header h1 small{font-weight:400;color:var(--chrome-muted);font-size:12.5px;margin-left:9px;letter-spacing:0}
 header .meta{color:var(--chrome-muted);font-size:11.5px;font-family:var(--mono);margin-left:auto}
-header .h3d{color:var(--chrome-muted);font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--chrome-line);border-radius:999px;padding:4px 11px;flex:none;margin-left:10px}
-header .h3d:hover{color:var(--chrome-ink);border-color:var(--chrome-muted)}
 .toolbar{display:flex;gap:6px;align-items:center;padding:0 18px 12px;background:var(--chrome);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}
 .toolbar::-webkit-scrollbar{display:none}
 .toolbar .grp{display:flex;gap:6px;align-items:center;flex:none}
@@ -208,10 +206,10 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
 <body>
 <div class="app">
   <header>
+    <script src="menu.js" data-vista="plano"></script>
     <h1>Planta <span id="h1-niv">Nivel 2</span> <small>Vivienda — proyecto permiso de edificación</small></h1>
     <span class="meta" id="meta-n2">Medidas en metros · envolvente 17,90 × 21,77 · base: L3 PLARQ2 (dic. 2025, esc. 1:50)</span>
     <span class="meta hidden" id="meta-n1">Medidas en metros · envolvente construida 21,90 × 23,36 · base: L2 PLARQ (dic. 2025, esc. 1:50) + cambios de obra</span>
-    <a class="h3d" href="3d.html">Vista 3D ↗</a>
   </header>
   <div class="toolbar" role="toolbar" aria-label="Planta, versión, capas y herramientas">
     <div class="grp grp-piso"><span class="lbl">Planta</span>

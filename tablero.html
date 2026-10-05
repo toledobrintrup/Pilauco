@@ -1,0 +1,1523 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#1B1E24">
+<meta name="description" content="Aro de básquetbol de poste empotrado y altura regulable: piezas, pernería a escala, fundación, armado paso a paso y modelo 3D animado, a partir del manual del fabricante.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23D2531F'/%3E%3Cg stroke='%23fff' stroke-width='2.2' fill='none' stroke-linejoin='round'%3E%3Crect x='6' y='5' width='20' height='13' rx='1'/%3E%3Crect x='12.5' y='9.5' width='7' height='5'/%3E%3Cpath d='M11 21h10l-1.8 6h-6.4z'/%3E%3C/g%3E%3C/svg%3E">
+<title>Tablero de básquetbol</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --paper:#FFFFFF; --panel:#F7F8FA; --ink:#16181D; --muted:#6B7280; --line:#E3E6EB; --line2:#EFF1F4;
+  --accent:#3D5A73; --naranja:#C9501D; --naranja-soft:rgba(201,80,29,.09); --naranja-borde:rgba(201,80,29,.35);
+  --ok:#2F7D4A; --ok-soft:rgba(47,125,74,.10); --med:#9A6A12; --med-soft:rgba(154,106,18,.11); --calc:#3D5A73; --calc-soft:rgba(61,90,115,.10);
+  --shadow:0 1px 2px rgba(16,18,22,.06),0 10px 28px rgba(16,18,22,.10);
+  --chrome:#1B1E24; --chrome-ink:#F0F2F5; --chrome-muted:#9AA0AC; --chrome-line:#343943; --chrome-hi:rgba(255,255,255,.10);
+  --fig-ink:#2B2F36; --fig-soft:#8B929C; --fig-fill:#F1F2F4; --fig-tierra:#E9E2D6; --fig-horm:#D9DBDE; --fig-cancha:#F3E7D5;
+  --ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+  --paper:#14161A; --panel:#1A1D23; --ink:#E7E9EE; --muted:#8A909C; --line:#2A2E37; --line2:#212530;
+  --accent:#8FB4D4; --naranja:#F08A55; --naranja-soft:rgba(240,138,85,.12); --naranja-borde:rgba(240,138,85,.40);
+  --ok:#74C08E; --ok-soft:rgba(116,192,142,.12); --med:#E0B25A; --med-soft:rgba(224,178,90,.12); --calc:#8FB4D4; --calc-soft:rgba(143,180,212,.13);
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
+  --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
+  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-tierra:#2B2722; --fig-horm:#30333A; --fig-cancha:#2C2620;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#14161A; --panel:#1A1D23; --ink:#E7E9EE; --muted:#8A909C; --line:#2A2E37; --line2:#212530;
+  --accent:#8FB4D4; --naranja:#F08A55; --naranja-soft:rgba(240,138,85,.12); --naranja-borde:rgba(240,138,85,.40);
+  --ok:#74C08E; --ok-soft:rgba(116,192,142,.12); --med:#E0B25A; --med-soft:rgba(224,178,90,.12); --calc:#8FB4D4; --calc-soft:rgba(143,180,212,.13);
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
+  --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
+  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-tierra:#2B2722; --fig-horm:#30333A; --fig-cancha:#2C2620;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;font-feature-settings:"cv05","ss01"}
+header.top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:12px 18px 11px;background:var(--chrome);color:var(--chrome-ink)}
+header.top h1{font-size:16.5px;font-weight:600;margin:0;letter-spacing:-.012em}
+header.top h1 small{font-weight:400;color:var(--chrome-muted);font-size:12.5px;margin-left:9px;letter-spacing:0}
+header.top .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
+@media (max-width:760px){header.top .meta{display:none}header.top h1 small{display:block;margin:2px 0 0}}
+
+/* ---------- distribución: en escritorio el texto corre a la izquierda y el 3D queda fijo ---------- */
+.main{display:flex;flex-direction:column}
+.visor{position:relative;height:min(66svh,620px);min-height:390px;background:var(--panel);border-bottom:1px solid var(--line);overflow:hidden;touch-action:none}
+.doc{min-width:0}
+@media (min-width:1080px){
+  html,body{height:100%}
+  body{overflow:hidden}
+  .app{height:100%;display:flex;flex-direction:column}
+  .main{flex:1;min-height:0;flex-direction:row}
+  .doc{width:min(46%,720px);flex:none;overflow-y:auto;border-right:1px solid var(--line);scroll-behavior:smooth;order:1}
+  .visor{flex:1;height:auto;min-height:0;border-bottom:0;order:2}
+}
+@media (prefers-reduced-motion:reduce){.doc{scroll-behavior:auto}}
+
+/* ---------- índice de secciones ---------- */
+.toc{position:sticky;top:0;z-index:5;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding:9px 22px;background:var(--paper);background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toc::-webkit-scrollbar{display:none}
+.toc a{flex:none;font-size:12px;font-weight:500;color:var(--muted);text-decoration:none;padding:4px 10px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.toc a:hover{color:var(--ink);border-color:var(--line)}
+.toc a.on{color:var(--ink);background:var(--line2);border-color:var(--line)}
+.doc-in{max-width:720px;padding:6px 26px 90px}
+section{padding-top:30px;scroll-margin-top:44px}
+h2{font-size:19px;font-weight:650;letter-spacing:-.015em;margin:0 0 10px;display:flex;align-items:baseline;gap:10px}
+h2 .n{font-size:11.5px;font-weight:600;color:var(--naranja);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+h3{font-size:14.5px;font-weight:600;margin:22px 0 6px;letter-spacing:-.005em}
+p{margin:0 0 10px}
+.lead{font-size:15px;color:var(--ink);margin:16px 0 14px}
+.sub{color:var(--muted)}
+.small{font-size:12.5px}
+a{color:var(--accent)}
+.k{display:inline-flex;align-items:center;justify-content:center;min-width:19px;height:18px;padding:0 4px;border:1.3px solid currentColor;border-radius:4px;font-size:11px;font-weight:650;line-height:1;vertical-align:1px;font-variant-numeric:tabular-nums;cursor:pointer;background:transparent;color:var(--ink);font-family:var(--ui)}
+.k:hover,.k.on{color:var(--naranja);background:var(--naranja-soft)}
+.k.p{border-style:solid;border-radius:999px;font-size:10.5px;min-width:22px}
+.cifra{font-variant-numeric:tabular-nums}
+
+/* ficha técnica */
+.specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px 0 6px}
+.spec{border:1px solid var(--line);border-radius:10px;padding:10px 12px 9px;background:var(--panel);min-width:0}
+.spec .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:500}
+.spec .v{font-size:17.5px;font-weight:620;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin:2px 0 3px;line-height:1.25}
+.spec .d{font-size:12px;color:var(--muted);line-height:1.4}
+.fuente{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:1px 6px;border-radius:999px;vertical-align:1px;margin-left:4px;white-space:nowrap}
+.fuente.man{color:var(--ok);background:var(--ok-soft)}
+.fuente.med{color:var(--med);background:var(--med-soft)}
+.fuente.calc{color:var(--calc);background:var(--calc-soft)}
+.leyenda-fuente{font-size:12px;color:var(--muted);margin-top:8px}
+@media (max-width:420px){.specs{grid-template-columns:1fr}}
+
+/* tablas */
+.tw{overflow-x:auto;margin:10px 0 6px;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:12.5px;font-variant-numeric:tabular-nums}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:500;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);background:var(--panel);white-space:nowrap}
+td{padding:7px 10px;border-bottom:1px solid var(--line2);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.c,th.c{text-align:center}
+td.r,th.r{text-align:right}
+tbody tr[data-pieza]{cursor:pointer}
+tbody tr[data-pieza]:hover td,tbody tr.on td{background:var(--naranja-soft)}
+.en{color:var(--muted);font-size:11.5px}
+.cuad td{padding:5px 7px}
+.cuad .z{color:var(--line)}
+.cuad .okc{color:var(--ok);font-weight:600}
+
+/* figuras */
+figure{margin:14px 0 10px}
+figure svg{display:block;width:100%;height:auto}
+figcaption{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45}
+.fig-perfil svg{max-height:620px}
+svg .tx{font-family:var(--ui);fill:var(--fig-ink)}
+svg .txs{font-family:var(--ui);fill:var(--fig-soft)}
+svg .cota{stroke:var(--fig-ink);stroke-width:1;fill:none}
+
+/* pernería a escala */
+.pernos{border:1px solid var(--line);border-radius:10px;padding:6px 12px 10px;margin:12px 0 6px;background:var(--panel)}
+.perno{display:grid;grid-template-columns:168px minmax(0,1fr);gap:4px 10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line2)}
+.perno:last-of-type{border-bottom:0}
+.perno .pl b{font-weight:620;font-size:13px}
+.perno .pl span{display:block;font-size:11.5px;color:var(--muted);line-height:1.35}
+.perno svg{width:100%;height:auto;display:block;overflow:visible}
+.perno.regla{border-bottom:0;padding-top:2px}
+@media (max-width:480px){.perno{grid-template-columns:1fr}.perno .pl{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}.perno .pl span{display:inline}}
+.llaves{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.llave{border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12.5px;background:var(--panel)}
+.llave b{font-variant-numeric:tabular-nums}
+
+/* pasos */
+.paso{border:1px solid var(--line);border-radius:12px;padding:13px 14px 12px;margin:10px 0;background:var(--paper);transition:border-color .2s,box-shadow .2s;position:relative}
+.paso.on{border-color:var(--naranja-borde);box-shadow:0 0 0 3px var(--naranja-soft)}
+.paso .ph{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.paso .num{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:650;background:var(--ink);color:var(--paper);flex:none;font-variant-numeric:tabular-nums}
+.paso.on .num{background:var(--naranja);color:#fff}
+.paso h3{margin:0;font-size:14.5px;flex:1}
+.paso ol,.paso ul{margin:4px 0 8px;padding-left:20px}
+.paso li{margin:3px 0}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 2px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:2px 9px 2px 3px;background:var(--panel);font-variant-numeric:tabular-nums;white-space:nowrap}
+.chip .q{background:var(--ink);color:var(--paper);border-radius:999px;padding:0 6px;font-weight:600;font-size:10.5px;line-height:16px}
+.btn{font:inherit;font-size:12.5px;font-weight:500;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:4px 11px;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--naranja-borde);color:var(--naranja)}
+.btn:focus-visible,.k:focus-visible,.toc a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.paso .ver3d{position:absolute;top:12px;right:12px}
+.nota-paso{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:7px;margin-top:8px}
+.aviso{border:1px solid var(--naranja-borde);background:var(--naranja-soft);border-radius:10px;padding:9px 12px;margin:10px 0;font-size:13px}
+.aviso b{color:var(--naranja)}
+.check{list-style:none;padding:0;margin:8px 0}
+.check li{display:flex;gap:9px;align-items:flex-start;padding:5px 0;border-bottom:1px solid var(--line2)}
+.check li:last-child{border-bottom:0}
+.check input{margin-top:3px;accent-color:var(--naranja);width:15px;height:15px;flex:none}
+.check label{flex:1;cursor:pointer}
+.check .q{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12.5px;white-space:nowrap}
+.check li.hecho label{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
+.prog{font-size:12px;color:var(--muted);display:flex;gap:10px;align-items:center}
+.prog .bar{flex:1;height:5px;border-radius:3px;background:var(--line2);overflow:hidden}
+.prog .bar i{display:block;height:100%;background:var(--naranja);width:0;transition:width .25s}
+.cols2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 18px}
+@media (max-width:560px){.cols2{grid-template-columns:1fr}}
+.alturas{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+
+/* ---------- visor 3D ---------- */
+.visor canvas{display:block;width:100%;height:100%;outline:none}
+.v-carga{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:13px;text-align:center;padding:20px}
+.v-ui{position:absolute;inset:0;pointer-events:none}
+.v-ui > *{pointer-events:auto}
+.v-pasos{position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:6px;max-width:calc(100% - 24px);flex-wrap:wrap}
+.v-pill{display:flex;align-items:center;gap:2px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:3px;box-shadow:var(--shadow)}
+.v-pill button{font:inherit;font-size:12.5px;border:0;background:transparent;color:var(--ink);border-radius:999px;cursor:pointer;padding:4px 9px;line-height:1.3}
+.v-pill button:hover{background:var(--line2)}
+.v-pill button:disabled{opacity:.35;cursor:default;background:transparent}
+.v-pill .ttl{padding:0 6px;font-size:12.5px;white-space:nowrap;max-width:46vw;overflow:hidden;text-overflow:ellipsis}
+.v-pill .ttl b{color:var(--naranja);font-weight:650;font-variant-numeric:tabular-nums}
+.v-pill button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.v-capas{position:absolute;top:12px;right:12px;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.v-capas .grp{display:flex;flex-direction:column;gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:5px;box-shadow:var(--shadow)}
+.tg{font:inherit;font-size:12px;font-weight:500;border:0;background:transparent;color:var(--muted);border-radius:8px;padding:4px 9px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:7px;white-space:nowrap}
+.tg::before{content:"";width:8px;height:8px;border-radius:2px;border:1.5px solid currentColor;flex:none}
+.tg[aria-pressed="true"]{color:var(--ink)}
+.tg[aria-pressed="true"]::before{background:var(--naranja);border-color:var(--naranja)}
+.tg:hover{background:var(--line2)}
+.tg.accion{color:var(--muted)}
+.tg.accion::before{content:"⤢";width:auto;height:auto;border:0;font-size:12px;line-height:1}
+.v-altura{position:absolute;left:12px;right:12px;bottom:12px;margin:0 auto;max-width:520px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:9px 13px 10px;box-shadow:var(--shadow)}
+.v-altura .fila{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.v-altura .lbl{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:500}
+.v-altura .val{font-size:20px;font-weight:650;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.v-altura .dato{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.v-altura .dato b{color:var(--ink);font-weight:550}
+.v-altura .pre{margin-left:auto;display:flex;gap:4px}
+.v-altura .pre button{font:inherit;font-size:11.5px;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:2px 8px;cursor:pointer;font-variant-numeric:tabular-nums}
+.v-altura .pre button:hover{border-color:var(--naranja-borde);color:var(--naranja)}
+.v-altura input[type=range]{width:100%;accent-color:var(--naranja);margin:6px 0 0}
+.v-altura .gira{font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.tags{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.tag{position:absolute;left:0;top:0;pointer-events:auto;font:inherit;font-size:11px;font-weight:700;min-width:21px;height:20px;padding:0 5px;border:1.5px solid var(--ink);border-radius:5px;background:var(--paper);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);will-change:transform;box-shadow:0 1px 3px rgba(0,0,0,.18);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tag:hover,.tag.on{border-color:var(--naranja);color:var(--naranja)}
+.tag.cota{border:0;background:var(--ink);color:var(--paper);font-weight:600;font-size:11.5px;border-radius:999px;padding:0 8px;height:21px;cursor:default;pointer-events:none}
+.ficha{position:absolute;z-index:3;pointer-events:none;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px 11px;font-size:12.5px;line-height:1.45;box-shadow:var(--shadow);max-width:270px}
+.ficha b{font-weight:620}
+.ficha .en{display:block}
+.ficha .d{color:var(--muted);margin-top:3px}
+.v-ayuda{position:absolute;right:12px;bottom:12px;font-size:11px;color:var(--muted);pointer-events:none;text-align:right;line-height:1.4;max-width:150px}
+@media (min-width:1080px){.v-altura{right:180px}}
+@media (max-width:1079px){.v-ayuda{display:none}}
+@media (max-width:600px){
+  .doc-in{padding:4px 16px 70px}
+  .toc{padding:8px 16px}
+  .v-pasos{top:8px;left:8px}
+  .v-capas{top:52px;left:8px;right:8px;align-items:stretch}
+  .v-capas .grp{flex-direction:row;overflow-x:auto;scrollbar-width:none;border-radius:999px;padding:3px;gap:2px}
+  .v-capas .grp::-webkit-scrollbar{display:none}
+  .v-altura .gira .medio{display:none}
+  .v-altura .pre{margin-left:0}
+  .v-altura{left:8px;right:8px;bottom:8px;padding:8px 11px 9px}
+  .v-altura .val{font-size:18px}
+  .tg{padding:3px 7px;font-size:11.5px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <script src="menu.js" data-vista="tablero"></script>
+  <h1>Tablero de básquetbol <small>Aro Dunking · poste empotrado · altura 1,50 a 3,05 m</small></h1>
+  <span class="meta">Fuente: manual del fabricante (9 págs.) · medidas en mm salvo indicación</span>
+</header>
+
+<div class="main">
+  <!-- ======================= VISOR 3D ======================= -->
+  <div class="visor" id="visor">
+    <div class="v-carga" id="v-carga">Cargando el modelo 3D…</div>
+    <div class="tags" id="tags" aria-hidden="false"></div>
+    <div class="v-ui" id="v-ui" hidden>
+      <div class="v-pasos">
+        <div class="v-pill" role="group" aria-label="Paso de armado mostrado en el 3D">
+          <button id="p-ant" aria-label="Paso anterior">‹</button>
+          <span class="ttl" id="p-ttl" aria-live="polite">Modelo completo</span>
+          <button id="p-sig" aria-label="Paso siguiente">›</button>
+        </div>
+        <div class="v-pill"><button id="p-todo" aria-pressed="true">Completo</button></div>
+      </div>
+      <div class="v-capas">
+        <div class="grp" role="group" aria-label="Capas del 3D">
+          <button class="tg" id="tg-etq" aria-pressed="true">Etiquetas</button>
+          <button class="tg" id="tg-med" aria-pressed="false">Medidas</button>
+          <button class="tg" id="tg-desp" aria-pressed="false">Despiece</button>
+          <button class="tg" id="tg-bajo" aria-pressed="false">Bajo tierra</button>
+          <button class="tg accion" id="tg-fit">Encuadrar</button>
+        </div>
+      </div>
+      <div class="v-altura">
+        <div class="fila">
+          <span class="lbl">Altura del aro</span>
+          <span class="val" id="h-val">3,05 m</span>
+          <span class="dato">alcance <b id="h-alc">1,23 m</b></span>
+          <span class="pre"><button data-h="1500">1,50</button><button data-h="2600">2,60</button><button data-h="3050">3,05</button><button id="h-anim" title="Ver subir y bajar">▶</button></span>
+        </div>
+        <input type="range" id="h-rng" min="1500" max="3050" step="5" value="3050" aria-label="Altura del aro en milímetros">
+        <div class="gira"><span>↻ horario: baja</span><span class="medio">manivela <span class="k" style="pointer-events:none">H</span> vista desde atrás</span><span>↺ antihorario: sube</span></div>
+      </div>
+      <div class="v-ayuda">Arrastrar: girar<br>Rueda o pellizco: acercar<br>Clic derecho: desplazar<br>Toca una pieza</div>
+    </div>
+    <div class="ficha" id="ficha" hidden></div>
+  </div>
+
+  <!-- ======================= DOCUMENTO ======================= -->
+  <div class="doc" id="doc">
+    <nav class="toc" id="toc" aria-label="Secciones">
+      <a href="#ficha-tec">Ficha</a><a href="#funciona">Cómo funciona</a><a href="#piezas">Piezas</a><a href="#perneria">Pernería</a><a href="#fundacion">Fundación</a><a href="#armado">Armado</a><a href="#altura">Altura</a><a href="#cuidados">Cuidados</a><a href="#notas">Notas</a>
+    </nav>
+    <div class="doc-in">
+
+<section id="ficha-tec" style="padding-top:14px">
+  <p class="lead">Aro de básquetbol de <b>poste fijo</b>, apernado a una fundación de hormigón, con tablero de
+  <b>vidrio templado de 12 mm</b> y <b>altura regulable con manivela entre 1,50 y 3,05 m</b>. Aquí está todo lo
+  que trae el manual del fabricante (9 páginas, en inglés), traducido y ordenado, y un modelo 3D armado con las
+  medidas del manual y de sus dibujos: se mueve igual que el de verdad.</p>
+  <div class="specs">
+    <div class="spec"><div class="l">Altura del aro</div><div class="v">1,50 – 3,05 m</div><div class="d">Con manivela, sin escalera <span class="fuente man">manual</span></div></div>
+    <div class="spec"><div class="l">Alcance</div><div class="v">1,227 m</div><div class="d">De la cara del poste al tablero, con el aro a 3,05 m <span class="fuente man">manual</span></div></div>
+    <div class="spec"><div class="l">Tablero</div><div class="v">Vidrio templado 12 mm</div><div class="d">≈ 1,80 × 1,05 m, protector acolchado abajo y a los lados <span class="fuente man">manual</span><span class="fuente med">medida</span></div></div>
+    <div class="spec"><div class="l">Poste</div><div class="v">≈ 200 × 200 mm</div><div class="d">≈ 2,44 m de alto, placa base 350 × 350 y 8 cartelas <span class="fuente med">medido</span></div></div>
+    <div class="spec"><div class="l">Fundación</div><div class="v">80 × 80 × 80 cm</div><div class="d">≈ 0,51 m³ de hormigón; medidas referenciales según el suelo <span class="fuente man">manual</span><span class="fuente calc">volumen</span></div></div>
+    <div class="spec"><div class="l">Anclaje</div><div class="v">4 × M24 a 282 mm</div><div class="d">Placa 350 × 350 a ras de piso; las varillas asoman 60 mm <span class="fuente man">manual</span></div></div>
+    <div class="spec"><div class="l">Fraguado</div><div class="v">5 a 7 días</div><div class="d">Antes de montar el poste <span class="fuente man">manual</span></div></div>
+    <div class="spec"><div class="l">Ubicación</div><div class="v">0,527 m tras la línea de fondo</div><div class="d">Centro de la placa; 0,50 m libres detrás hasta muros <span class="fuente man">manual</span></div></div>
+  </div>
+  <p class="leyenda-fuente"><span class="fuente man">manual</span> dato escrito en el manual ·
+  <span class="fuente med">medido</span> medido sobre los dibujos del manual, aproximado ·
+  <span class="fuente calc">calculado</span> sale de los datos del manual. Cómo se midió: en <a href="#notas">Notas</a>.</p>
+  <p class="small sub">Según el fabricante, el vidrio es de alta resistencia al impacto, alta transparencia, durable,
+  plano y seguro; el aro es de competencia, de norma china, con reemplazo gratis de por vida; la pintura es de color
+  vivo y no se destiñe fácilmente.</p>
+</section>
+
+<section id="funciona">
+  <h2><span class="n">01</span>Cómo funciona</h2>
+  <p>El tablero <span class="k" data-p="A">A</span> cuelga de dos barras que giran sobre el poste
+  <span class="k" data-p="E">E</span>: el <b>brazo</b> <span class="k" data-p="D">D</span> abajo y la <b>barra de tiro</b>
+  <span class="k" data-p="C">C</span> arriba. Las dos tienen el mismo largo entre ejes (≈ 1,62 m) y la misma
+  separación en el poste y en el tablero: forman un <b>paralelogramo</b>, y por eso el tablero sube y baja
+  <b>siempre vertical</b>.</p>
+  <p>El brazo sigue de largo por detrás del poste. Ahí lo empuja el <b>tornillo de elevación</b>
+  <span class="k" data-p="G">G</span>, que se mueve con la <b>manivela</b> <span class="k" data-p="H">H</span>. La
+  <b>barra auxiliar</b> <span class="k" data-p="F">F</span> acompaña el movimiento y lleva pegada la escala de altura,
+  que se lee con la <b>regla</b> <span class="k" data-p="J">J</span>. La <b>barra tope</b>
+  <span class="k" data-p="8">8</span> cruza el poste justo sobre el eje del brazo, con fundas de silicona en las
+  puntas: por su nombre y su posición, es el tope que detiene el brazo abajo.</p>
+  <figure class="fig-perfil">
+    <svg id="svg-perfil" role="img" aria-label="Vista lateral con el aro en 3,05 m y en 1,50 m"></svg>
+    <figcaption>Vista lateral a escala, como la del manual: en negro el aro arriba (3,05 m), en naranjo abajo (1,50 m).
+    Al bajar, el brazo pasa de 42° sobre la horizontal a 17° bajo ella y el tablero <b>avanza</b>: el alcance va de
+    1,23 m arriba a un máximo de <span id="alc-max">1,64</span> m con el brazo horizontal (aro a <span id="h-horiz">1,97</span> m) y
+    queda en <span id="alc-min">1,57</span> m abajo. Geometría medida, aproximada.</figcaption>
+  </figure>
+</section>
+
+<section id="piezas">
+  <h2><span class="n">02</span>Piezas</h2>
+  <p>Las letras son las del manual. Toca una fila para verla en el 3D.</p>
+  <div class="tw"><table id="tabla-piezas">
+    <thead><tr><th>Pieza</th><th>Nombre</th><th class="c">Cant.</th><th>Qué es</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <p class="small sub">La lista del manual trae además: calcomanía de escala (1), fundas de silicona de la barra tope
+  (2) y el kit de anclaje M24 (4 varillas, 2 placas y 8 tuercas).</p>
+</section>
+
+<section id="perneria">
+  <h2><span class="n">03</span>Pernería</h2>
+  <p>Todos los pernos, dibujados <b>a la misma escala</b> para que se distingan a la vista (el largo y el diámetro
+  son los del manual; la cabeza y el hilo, de norma). Los de 345 mm se parecen: el <b>[2]</b> es M18 y el
+  <b>[3]</b> es M16.</p>
+  <div class="pernos" id="pernos"></div>
+  <h3>Tuercas y arandelas</h3>
+  <div class="tw"><table class="small">
+    <thead><tr><th>Código</th><th>Pieza</th><th>Medida</th><th class="c">Cant.</th><th>Va con</th></tr></thead>
+    <tbody id="tabla-tuercas"></tbody>
+  </table></div>
+  <h3>Cuadratura del kit</h3>
+  <p class="small">Cuánto usa cada paso del armado contra lo que trae la caja. Cuadra todo: no sobra ni falta nada.</p>
+  <div class="tw"><table class="cuad small" id="tabla-cuad"></table></div>
+  <h3>Herramientas</h3>
+  <p class="small">El manual no las lista. Para estas medidas de perno, las llaves de norma ISO son
+  (confírmalas con las piezas antes de comprar):</p>
+  <div class="llaves">
+    <span class="llave">M10 → <b>16 mm</b></span><span class="llave">M12 → <b>18 mm</b></span>
+    <span class="llave">M16 → <b>24 mm</b></span><span class="llave">M18 → <b>27 mm</b></span><span class="llave">M24 → <b>36 mm</b></span>
+  </div>
+  <p class="small sub">Dos llaves de cada medida (una para la cabeza y otra para la tuerca), salvo en los pernos coche
+  <b>[5]</b>, que no giran por su cuello cuadrado. Además: nivel para aplomar el poste, lainas metálicas, pala, carretilla
+  y hormigón, y dos listones para sostener la plantilla del anclaje.</p>
+  <h3>Revisión de la caja</h3>
+  <p class="small">El manual pide revisar la lista de empaque antes de instalar. Esta lista queda guardada en este
+  navegador.</p>
+  <div class="prog"><span id="kit-n">0 de 0</span><span class="bar"><i id="kit-bar"></i></span><button class="btn" id="kit-reset">Desmarcar todo</button></div>
+  <ul class="check cols2" id="kit"></ul>
+</section>
+
+<section id="fundacion">
+  <h2><span class="n">04</span>Fundación y ubicación</h2>
+  <figure>
+    <svg id="svg-fund" role="img" aria-label="Corte de la fundación con el kit de anclaje"></svg>
+    <figcaption>Corte de la fundación. Medidas del manual; la placa inferior y el largo de las varillas, medidos en su
+    dibujo.</figcaption>
+  </figure>
+  <h3>Dónde va</h3>
+  <ul>
+    <li>La placa va <b>de frente a la línea de fondo</b>: sus dos agujeros delanteros miran hacia la cancha.</li>
+    <li>El <b>centro de la placa queda a 527 mm detrás de la línea de fondo</b> (fuera de la cancha).</li>
+    <li>Detrás de la placa, <b>por lo menos 500 mm libres</b> hasta muros, rejas u otras construcciones, para poder subir y bajar el aro.</li>
+    <li>Con el aro a 3,05 m, el alcance es de <b>1,227 m</b>.</li>
+  </ul>
+  <figure>
+    <svg id="svg-planta" role="img" aria-label="Planta de ubicación del aro respecto de la línea de fondo"></svg>
+    <figcaption>Planta. De las medidas del manual sale que entre la línea de fondo y un muro hacen falta al menos
+    <b>1,20 m</b> (527 + 175 + 500 mm) y que el tablero queda <b>≈ 0,80 m dentro de la cancha</b> (1.227 − 427 mm, si
+    el alcance se mide desde la cara del poste, como en el dibujo). En una cancha reglamentaria FIBA el tablero va a
+    1,20 m de la línea de fondo.</figcaption>
+  </figure>
+</section>
+
+<section id="armado">
+  <h2><span class="n">05</span>Armado paso a paso</h2>
+  <p>Cada paso se ve en el 3D: <span class="hint-escritorio">al pasar por él, el modelo muestra lo ya armado y
+  destaca en naranjo lo que se agrega.</span> <span class="hint-movil">toca <b>Ver en 3D</b>.</span></p>
+  <div id="pasos"></div>
+</section>
+
+<section id="altura">
+  <h2><span class="n">06</span>Ajuste de altura</h2>
+  <p>Mirando la regla <span class="k" data-p="J">J</span>: la manivela <span class="k" data-p="H">H</span> girada en
+  sentido <b>antihorario sube</b> el aro y en sentido <b>horario lo baja</b>. Usa el control del 3D para verlo.</p>
+  <div class="tw"><table class="small" id="tabla-alturas"></table></div>
+  <p class="small sub">Alcance, ángulo del brazo y largo del tornillo de elevación salen de la geometría medida en el
+  dibujo lateral del manual: son aproximados. La altura reglamentaria es 3,05 m; 2,60 m es la del minibásquetbol (FIBA),
+  como referencia.</p>
+  <div class="aviso"><b>La escala.</b> Después de fijar una altura, mide la altura real de la <b>cara superior del aro</b>
+  y pega la calcomanía de escala en la barra auxiliar <span class="k" data-p="F">F</span> de modo que la regla marque esa
+  medida. En el 3D la escala ya está puesta: acércate a la barra auxiliar y verás la punta de la regla moverse sobre
+  ella (todo el recorrido cabe en ≈ 17 cm).</div>
+</section>
+
+<section id="cuidados">
+  <h2><span class="n">07</span>Precauciones y mantención</h2>
+  <h3>Antes de usar</h3>
+  <ul>
+    <li>Úsalo sólo cuando <b>todos los pernos estén apretados</b>.</li>
+    <li>Antes de instalar, revisa la lista de empaque, saca todo el embalaje y trabaja con cuidado para no lastimarte. Si se puede, acordona el lugar: la seguridad va en serio.</li>
+  </ul>
+  <h3>Al usarlo</h3>
+  <ul>
+    <li>No golpees el tablero con objetos duros o con punta.</li>
+    <li>No tires ni empujes a la fuerza la barra de tiro <span class="k" data-p="C">C</span>: se daña el tablero.</li>
+    <li><b>No te cuelgues ni te subas al aro.</b></li>
+    <li>Juega según tu condición física; si te sientes mal, para.</li>
+  </ul>
+  <h3>Mantención</h3>
+  <ul>
+    <li>Revisa que todas las uniones estén firmes. Si algo está suelto, apriétalo o cambia la pieza de inmediato.</li>
+    <li><b>Una vez al año</b>, revisa el óxido y la firmeza de las uniones. Si notas algo raro, deja de usarlo hasta revisarlo y repararlo.</li>
+    <li>Si se salta la pintura, retócala a tiempo.</li>
+  </ul>
+</section>
+
+<section id="notas">
+  <h2><span class="n">08</span>Notas sobre el manual y el modelo</h2>
+  <h3>Lo que el manual no dice o dice dos veces</h3>
+  <ul>
+    <li>La letra <b>J</b> se usa para dos piezas: la regla de altura y la placa de anclaje. Aquí J es la regla y la otra se llama «placa de anclaje». En la foto del hoyo, la placa aparece rotulada <b>H</b>, que es la manivela.</li>
+    <li>El paso 1 nombra arandelas <b>[5C]</b> y <b>[5B]</b> para el anclaje, pero la caja no las trae: sólo 8 tuercas <b>[5A]</b>, justo 2 por varilla. En los dibujos van 4 tuercas sobre la placa de anclaje (sostienen la plantilla al hormigonar y sobre ellas se apoya el poste) y 4 encima de la placa base del poste.</li>
+    <li>El manual no da medidas del tablero, del poste ni del brazo, ni el paso del tornillo de elevación (cuántas vueltas de manivela por centímetro).</li>
+    <li>La «barra tope» se llama en el manual <i>gag lever post</i>; que sea el tope inferior del brazo se deduce de su nombre y de su posición en el dibujo.</li>
+  </ul>
+  <h3>Cómo se midió el modelo</h3>
+  <p class="small">Se tomó el dibujo lateral de la página 3 del manual (es una vista de costado sin perspectiva
+  apreciable) y se ubicó cada eje de giro buscando los círculos de los pernos. La escala (1,46 mm por píxel) se fijó
+  para que el aro quede a 3,05 m sobre el piso, con la placa base del poste 20 mm sobre el piso (una tuerca de
+  nivelación). Con esa escala se comprobó lo que el manual sí dice:</p>
+  <div class="tw"><table class="small">
+    <thead><tr><th>Medida</th><th class="r">Manual</th><th class="r">Modelo</th></tr></thead>
+    <tbody>
+      <tr><td>Alcance con el aro a 3,05 m</td><td class="r">1.227 mm</td><td class="r" id="n-alc">1.227 mm</td></tr>
+      <tr><td>Placa base del poste</td><td class="r">350 mm</td><td class="r">343 mm medidos (se usa 350)</td></tr>
+      <tr><td>Varillas sobre el piso</td><td class="r">60 mm</td><td class="r">20 + 16 + 4 + 19 = 59 mm</td></tr>
+      <tr><td>Rango de altura del aro</td><td class="r">1,50 – 3,05 m</td><td class="r" id="n-ang">brazo de −16,9° a +41,6°</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">El poste mide 194 mm en el dibujo; se modeló de 200 mm (la proporción poste/placa del dibujo da 198).
+  El brazo y la barra de tiro miden 1.624 mm entre ejes y forman un paralelogramo casi perfecto (las separaciones en el
+  poste y en el tablero difieren 10 mm en el dibujo; se igualaron). El tablero se midió por proporción en la portada,
+  que tiene perspectiva: ≈ 1,80 × 1,05 m. Del mismo dibujo sale que el tornillo de elevación pasa de ≈ 58 a 95 cm entre
+  3,05 y 1,50 m, y que la barra tope queda a 83 mm sobre el eje del brazo.</p>
+  <p class="small sub">Todo lo marcado <span class="fuente med">medido</span> es aproximado (±2 %). Para cualquier
+  decisión de obra (ubicación exacta, fundación según el suelo) manda el manual y lo que se mida en las piezas reales.</p>
+  <footer>Fuente: manual de usuario del fabricante, 9 páginas en inglés. El PDF no está en el repositorio. Los dibujos y
+  el 3D de esta página están hechos de nuevo a partir de él; no son imágenes del manual.</footer>
+</section>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function () {
+'use strict';
+// =====================================================================
+//  GEOMETRÍA (mm). Marco: f = hacia la cancha, u = hacia arriba, x = lateral.
+//  Origen: eje del poste, a nivel de piso terminado.
+//  Datos del manual: altura 1500–3050, alcance 1227 a 3050, placa 350, varillas
+//  M24 a 282, sobresalen 60, hoyo 800³. El resto se midió en el dibujo lateral
+//  de la pág. 3 (escala 1,4596 mm/px fijada con el aro a 3050): ver "Notas".
+// =====================================================================
+const GEO = {
+  poste: 200, posteTope: 2462, placa: 350, placaE: 16, alza: 20,     // la placa base va 20 mm sobre el piso
+  Cp: [0, 2395], Dp: [0, 1899], L: 1624,                              // ejes en el poste y largo entre ejes
+  vidrio: { ancho: 1800, arriba: 999, abajo: -51, frente: 111.7, e: 12 },   // respecto del eje inferior del tablero
+  aro: { arriba: 73.3, punta: 714.5, rInt: 225, rTubo: 9 },
+  acol: { abajo: -132.5, arriba: 433.8, frente: 136.5, atras: 12.4, lado: 101 },
+  marcoAtras: 34.3,
+  rMedio: 183.6, rFin: 382.1,                                        // agujeros del brazo detrás del poste
+  Fb: [-169.5, 1065.4], Gb: [-270.5, 1065.2],                        // ejes inferiores en la consola
+  gEje: 45,                                                          // el cuerpo de [G] va 45 mm detrás de su perno inferior (oreja)
+  tope: [-50, 1982],                                                 // barra tope [8]
+  largueros: 128, barrasC: 123, ladoC: 930,                          // posición lateral de brazo y barra de tiro
+  hMin: 1500, hMax: 3050, jLargo: 260,
+};
+function pose(h) {
+  const s = (h - GEO.Dp[1] - GEO.aro.arriba) / GEO.L;
+  const th = Math.asin(Math.max(-1, Math.min(1, s)));
+  const c = Math.cos(th), sn = Math.sin(th);
+  const Db = [GEO.L * c, GEO.Dp[1] + GEO.L * sn];
+  const Cb = [GEO.L * c, GEO.Cp[1] + GEO.L * sn];
+  const Gu = [-GEO.rFin * c, GEO.Dp[1] - GEO.rFin * sn];
+  const Fu = [-GEO.rMedio * c, GEO.Dp[1] - GEO.rMedio * sn];
+  const d = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
+  return { h, th, Db, Cb, Gu, Fu, Glen: d(Gu, GEO.Gb), Flen: d(Fu, GEO.Fb),
+    alcance: Db[0] + GEO.vidrio.frente - GEO.poste / 2, punta: Db[0] + GEO.aro.punta };
+}
+const P_MAX = pose(GEO.hMax), P_MIN = pose(GEO.hMin);
+const coma = (v, d) => v.toFixed(d).replace('.', ',');
+const fm = (mm, d = 2) => coma(mm / 1000, d) + ' m';
+const miles = v => Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+const deg = r => r * 180 / Math.PI;
+
+// =====================================================================
+//  DATOS DEL MANUAL
+// =====================================================================
+const PIEZAS = {
+  A: { n: 'Tablero', en: 'backboard', q: '1', d: 'Vidrio templado de 12 mm con marco de aluminio y protector acolchado abajo y a los costados. Se une al brazo [D] abajo y a la barra de tiro [C] a cada lado.', paso: 7 },
+  B: { n: 'Aro', en: 'rim', q: '1', d: 'Aro de competencia con red y tapa inferior. Se apernan al tablero con 4 pernos coche [5].', paso: 6 },
+  C: { n: 'Barra de tiro', en: 'pulling rod', q: '1', d: 'Dos barras unidas que van de la punta del poste a los costados del tablero. Con el brazo forma el paralelogramo.', paso: 5 },
+  D: { n: 'Brazo', en: 'arm', q: '1', d: 'Escalerilla de dos largueros que abraza el poste. Adelante lleva el tablero; atrás, el tornillo de elevación y la barra auxiliar.', paso: 2 },
+  E: { n: 'Poste', en: 'post', q: '1', d: 'Tubo cuadrado de ≈ 200 mm y ≈ 2,44 m, con placa base de 350 × 350 y 8 cartelas. Atrás lleva la consola donde se apoyan [F] y [G].', paso: 1 },
+  F: { n: 'Barra auxiliar', en: 'assisting rod', q: '1', d: 'Barra telescópica entre el brazo y la consola del poste. Lleva pegada la calcomanía de escala.', paso: 4 },
+  G: { n: 'Tornillo de elevación', en: 'lifting rod', q: '1', d: 'Actuador de tornillo entre la cola del brazo y la consola. Se alarga para bajar el aro y se acorta para subirlo.', paso: 3 },
+  H: { n: 'Manivela', en: 'crank handle', q: '1', d: 'Mueve el tornillo de elevación. Antihorario sube el aro; horario lo baja.', paso: 8 },
+  J: { n: 'Regla de altura', en: 'height ruler', q: '1', d: 'Pletina colgada del perno de la barra auxiliar; su punta marca la altura sobre la escala.', paso: 4 },
+  '8': { n: 'Barra tope', en: 'gag lever post', q: '1', d: 'Cruza el poste sobre el eje del brazo, centrada; con fundas de silicona en las puntas.', paso: 2 },
+  '9': { n: 'Perilla de fijación', en: 'star-head screw', q: '1', d: 'Tornillo de perilla que fija la barra tope dentro del poste.', paso: 2 },
+  ANC: { n: 'Kit de anclaje M24', en: 'anchor kit', q: '1 juego', d: '4 varillas en L M24, 2 placas (la de arriba a ras de piso, la «placa de anclaje») y 8 tuercas [5A]. Va empotrado en el hormigón.', paso: 0 },
+  HOR: { n: 'Hormigón', en: 'concrete', q: '≈ 0,51 m³', d: 'Hoyo de 80 × 80 × 80 cm lleno de hormigón. Fraguado: 5 a 7 días.', paso: 0 },
+};
+// pernos: id del manual, medida, cantidad, uso por paso
+const PERNOS = [
+  { id: '2', tipo: 'hex', d: 18, L: 345, q: 2, usa: 'brazo–poste (paso 2) y tornillo de elevación–brazo (paso 3)', con: '4A · 4B · 4C' },
+  { id: '3', tipo: 'hex', d: 16, L: 345, q: 2, usa: 'barra auxiliar y regla–brazo (paso 4) y tablero–brazo (paso 7)', con: '3A · 3B · 3C' },
+  { id: '4', tipo: 'hex', d: 16, L: 320, q: 1, usa: 'barra de tiro–poste (paso 5)', con: '3A · 3B · 3C' },
+  { id: '7', tipo: 'hex', d: 16, L: 180, q: 2, usa: 'tornillo de elevación y barra auxiliar–consola (pasos 3 y 4)', con: '3A · 3B · 3C' },
+  { id: '5', tipo: 'coche', d: 10, L: 100, q: 4, usa: 'aro–tablero (paso 6)', con: '1A' },
+  { id: '6', tipo: 'hex', d: 12, L: 40, q: 2, usa: 'tablero–barra de tiro, uno por lado (paso 7)', con: '2A · 2B · 2C' },
+  { id: '9', tipo: 'perilla', d: 10, L: 30, q: 1, usa: 'fija la barra tope (paso 2)', con: '' },
+  { id: '8', tipo: 'barra', d: 25, L: 300, q: 1, usa: 'barra tope, cruza el poste (paso 2)', con: '+ 2 fundas de silicona' },
+  { id: '1', tipo: 'L', d: 24, L: 740, q: 4, usa: 'varilla de anclaje en L (paso 0)', con: '5A' },
+];
+const TUERCAS = [
+  ['1A', 'Tuerca con flange', 'M10', 4, '[5]'], ['2A', 'Tuerca', 'M12', 2, '[6]'], ['2B', 'Arandela de presión', 'M12', 2, '[6]'],
+  ['2C', 'Arandela plana', 'M12', 2, '[6]'], ['3A', 'Tuerca', 'M16', 5, '[3] [4] [7]'], ['3B', 'Arandela de presión', 'M16', 5, '[3] [4] [7]'],
+  ['3C', 'Arandela plana', 'M16', 5, '[3] [4] [7]'], ['4A', 'Tuerca', 'M18', 2, '[2]'], ['4B', 'Arandela de presión', 'M18', 2, '[2]'],
+  ['4C', 'Arandela plana', 'M18', 2, '[2]'], ['5A', 'Tuerca', 'M24', 8, '[1] anclaje'],
+];
+// cuánto usa cada paso (0..8) de cada cosa de la caja
+const CUAD = [
+  ['[1] varilla M24', 4, { 0: 4 }], ['Placa de anclaje', 2, { 0: 2 }], ['[5A] tuerca M24', 8, { 0: 4, 1: 4 }],
+  ['[2] M18×345', 2, { 2: 1, 3: 1 }], ['[4A·4B·4C] M18', 2, { 2: 1, 3: 1 }],
+  ['[3] M16×345', 2, { 4: 1, 7: 1 }], ['[4] M16×320', 1, { 5: 1 }], ['[7] M16×180', 2, { 3: 1, 4: 1 }],
+  ['[3A·3B·3C] M16', 5, { 3: 1, 4: 2, 5: 1, 7: 1 }],
+  ['[5] coche M10×100', 4, { 6: 4 }], ['[1A] tuerca M10', 4, { 6: 4 }],
+  ['[6] M12×40', 2, { 7: 2 }], ['[2A·2B·2C] M12', 2, { 7: 2 }],
+  ['[8] barra tope', 1, { 2: 1 }], ['[9] perilla', 1, { 2: 1 }], ['Fundas de silicona', 2, { 2: 2 }],
+];
+const PASOS = [
+  { t: 'Fundación y anclaje', destaca: ['ANC'], usa: [['1', 4, 'varillas M24'], ['', 2, 'placas'], ['5A', 4, 'tuercas M24']],
+    html: `<ol><li>Excava un hoyo cuadrado de <b>80 × 80 cm y 80 cm de hondo</b>.</li>
+      <li>Pon el kit de anclaje dentro y llena el hoyo con hormigón.</li>
+      <li>La placa de arriba del anclaje tiene que quedar <b>a nivel con el piso terminado</b> de la cancha.</li>
+      <li>Deja fraguar <b>5 a 7 días</b>.</li></ol>
+      <div class="aviso"><b>Ojo:</b> las medidas del hoyo son de referencia; el manual pide ajustarlas al tipo de suelo.</div>
+      <p class="nota-paso">En los dibujos: las varillas asoman 60 mm sobre el piso, la placa se sostiene nivelada con dos listones atravesados sobre el hoyo y las 4 tuercas van encima de ella. Ubícala como dice <a href="#fundacion">Fundación</a>.</p>`,
+    cam: [[1.7, 0.75, 2.0], [0, -0.3, 0]] },
+  { t: 'Poste', destaca: ['E', '5A'], usa: [['5A', 4, 'tuercas M24']],
+    html: `<p>Pon el poste <span class="k" data-p="E">E</span> sobre la placa de anclaje y apriétalo con las tuercas <b>[5A]</b>.
+      Mide que quede a plomo; si no está vertical, suplézalo con <b>lainas metálicas</b> hasta que lo esté.</p>
+      <p class="nota-paso">El texto nombra también arandelas [5C] y [5B], que no vienen en la caja (ver Notas). La placa base del poste se apoya sobre las 4 tuercas que ya están sobre la placa de anclaje; las otras 4 van encima.</p>`,
+    cam: [[1.25, 1.05, 1.75], [0, 0.45, 0]] },
+  { t: 'Barra tope y brazo', destaca: ['8', '9', 'D', 'p2a'], usa: [['8', 1, 'barra tope'], ['9', 1, 'perilla'], ['', 2, 'fundas'], ['2', 1, 'M18×345'], ['4A·4B·4C', 1, '']],
+    html: `<ol><li>Pasa la barra tope <span class="k" data-p="8">8</span> por el agujero del poste y <b>céntrala</b>: tiene que sobresalir lo mismo por cada lado.</li>
+      <li>Fíjala con la perilla <span class="k" data-p="9">9</span> y ponle las fundas de silicona en las puntas.</li>
+      <li>Une el brazo <span class="k" data-p="D">D</span> al poste con el perno <b>[2]</b> (M18 × 345), arandela plana <b>[4C]</b>, arandela de presión <b>[4B]</b> y tuerca <b>[4A]</b>.</li></ol>`,
+    cam: [[1.55, 2.45, 1.6], [0, 1.85, 0.05]] },
+  { t: 'Tornillo de elevación', destaca: ['G', 'H', 'p2b', 'p7a'], usa: [['2', 1, 'M18×345'], ['4A·4B·4C', 1, ''], ['7', 1, 'M16×180'], ['3A·3B·3C', 1, '']],
+    html: `<ol><li>Une la punta de arriba del tornillo de elevación <span class="k" data-p="G">G</span> a la cola del brazo <span class="k" data-p="D">D</span> con el perno <b>[2]</b>, <b>[4C]</b>, <b>[4B]</b> y <b>[4A]</b>.</li>
+      <li>Une la punta de abajo a la consola del poste con el perno <b>[7]</b> (M16 × 180), <b>[3C]</b>, <b>[3B]</b> y <b>[3A]</b>.</li></ol>`,
+    cam: [[1.35, 1.75, -1.45], [0, 1.3, -0.22]] },
+  { t: 'Barra auxiliar y regla', destaca: ['F', 'J', 'p3a', 'p7b'], usa: [['3', 1, 'M16×345'], ['7', 1, 'M16×180'], ['3A·3B·3C', 2, '']],
+    html: `<ol><li>Une la barra auxiliar <span class="k" data-p="F">F</span> y la regla de altura <span class="k" data-p="J">J</span> al brazo con el perno <b>[3]</b> (M16 × 345), <b>[3C]</b>, <b>[3B]</b> y <b>[3A]</b>.</li>
+      <li>Une la barra auxiliar a la consola del poste con el perno <b>[7]</b>, <b>[3C]</b>, <b>[3B]</b> y <b>[3A]</b>.</li></ol>`,
+    cam: [[-1.3, 1.65, -1.25], [0, 1.4, -0.18]] },
+  { t: 'Barra de tiro', destaca: ['C', 'p4'], usa: [['4', 1, 'M16×320'], ['3A·3B·3C', 1, '']],
+    html: `<p>Une la barra de tiro <span class="k" data-p="C">C</span> a la punta del poste con el perno <b>[4]</b> (M16 × 320), <b>[3C]</b>, <b>[3B]</b> y <b>[3A]</b>.</p>`,
+    cam: [[1.5, 3.2, -1.2], [0, 2.55, 0.15]] },
+  { t: 'Aro', destaca: ['B', 'p5'], usa: [['5', 4, 'coche M10×100'], ['1A', 4, 'tuercas flange']],
+    html: `<ol><li>Mete dos pernos coche <b>[5]</b> en los agujeros de arriba del tablero <span class="k" data-p="A">A</span> y ponles dos tuercas con flange <b>[1A]</b>, <b>sin apretar</b>.</li>
+      <li>Abre la tapa de abajo del aro <span class="k" data-p="B">B</span> y cuélgalo de esos dos pernos.</li>
+      <li>Pon los otros dos pernos <b>[5]</b> abajo con sus tuercas <b>[1A]</b>, aprieta los cuatro y cierra la tapa.</li></ol>`,
+    cam: [[0.95, 3.35, 3.05], [0, 3.0, 1.75]] },
+  { t: 'Tablero', destaca: ['A', 'p3b', 'p6'], usa: [['3', 1, 'M16×345'], ['3A·3B·3C', 1, ''], ['6', 2, 'M12×40'], ['2A·2B·2C', 2, '']],
+    html: `<ol><li>Une el tablero <span class="k" data-p="A">A</span> al brazo <span class="k" data-p="D">D</span> con el perno <b>[3]</b>, <b>[3C]</b>, <b>[3B]</b> y <b>[3A]</b>.</li>
+      <li>Únelo a la barra de tiro <span class="k" data-p="C">C</span> con los pernos <b>[6]</b> (M12 × 40), <b>[2C]</b>, <b>[2B]</b> y <b>[2A]</b>, uno a cada lado.</li></ol>`,
+    cam: [[-2.0, 3.9, -1.3], [0, 3.3, 1.25]] },
+  { t: 'Altura', destaca: ['H', 'J', 'F', 'G'], usa: [],
+    html: `<ol><li>Ajusta la altura mirando la regla <span class="k" data-p="J">J</span>: la manivela <span class="k" data-p="H">H</span> en sentido <b>antihorario sube</b> el aro y en sentido <b>horario lo baja</b>.</li>
+      <li>Con el aro en su altura, pega la calcomanía de escala en la barra auxiliar <span class="k" data-p="F">F</span> según la altura de la <b>cara superior del aro</b>.</li></ol>
+      <p class="nota-paso">Prueba el control <b>Altura del aro</b> del 3D.</p>`,
+    cam: [[4.6, 2.3, 1.1], [0, 1.95, 0.65]], anima: true },
+];
+const PASO_DE = { ANC: 0, HOR: 0, E: 1, '5A': 1, '8': 2, '9': 2, D: 2, p2a: 2, G: 3, H: 3, p2b: 3, p7a: 3,
+  F: 4, J: 4, p3a: 4, p7b: 4, C: 5, p4: 5, A: 6, B: 6, p5: 6, p3b: 7, p6: 7 };
+const INFO_PERNO = {
+  p2a: ['[2] Perno M18 × 345', 'Brazo [D] – poste [E]. Con 4C, 4B y 4A.', 2],
+  p2b: ['[2] Perno M18 × 345', 'Tornillo de elevación [G] – brazo [D]. Con 4C, 4B y 4A.', 3],
+  p3a: ['[3] Perno M16 × 345', 'Barra auxiliar [F] y regla [J] – brazo [D]. Con 3C, 3B y 3A.', 4],
+  p3b: ['[3] Perno M16 × 345', 'Tablero [A] – brazo [D]. Con 3C, 3B y 3A.', 7],
+  p4: ['[4] Perno M16 × 320', 'Barra de tiro [C] – poste [E]. Con 3C, 3B y 3A.', 5],
+  p5: ['[5] Pernos coche M10 × 100 (4)', 'Aro [B] – tablero [A]. Con tuercas con flange 1A.', 6],
+  p6: ['[6] Pernos M12 × 40 (2)', 'Tablero [A] – barra de tiro [C], uno por lado. Con 2C, 2B y 2A.', 7],
+  p7a: ['[7] Perno M16 × 180', 'Tornillo de elevación [G] – consola del poste. Con 3C, 3B y 3A.', 3],
+  p7b: ['[7] Perno M16 × 180', 'Barra auxiliar [F] – consola del poste. Con 3C, 3B y 3A.', 4],
+  '5A': ['[5A] Tuercas M24 (8)', '4 bajo la placa base del poste (sobre la placa de anclaje) y 4 encima.', 1],
+};
+
+// =====================================================================
+//  DOCUMENTO: tablas, figuras, pasos
+// =====================================================================
+const $ = s => document.querySelector(s);
+const NS = 'http://www.w3.org/2000/svg';
+const el = (tag, at = {}, padre) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); if (padre) padre.appendChild(e); return e; };
+const txt = (padre, x, y, s, at = {}) => { const t = el('text', Object.assign({ x, y, class: 'tx' }, at), padre); t.textContent = s; return t; };
+
+// --- tabla de piezas
+(function () {
+  const tb = $('#tabla-piezas tbody');
+  ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', '8', '9', 'ANC'].forEach(k => {
+    const p = PIEZAS[k];
+    const tr = document.createElement('tr'); tr.dataset.pieza = k;
+    tr.innerHTML = `<td><span class="k" data-p="${k}">${k === 'ANC' ? '1' : k}</span></td><td><b>${p.n}</b><br><span class="en">${p.en}</span></td><td class="c">${p.q}</td><td>${p.d}</td>`;
+    tb.appendChild(tr);
+  });
+})();
+
+// --- tuercas y cuadratura
+(function () {
+  $('#tabla-tuercas').innerHTML = TUERCAS.map(t => `<tr><td><b>${t[0]}</b></td><td>${t[1]}</td><td>${t[2]}</td><td class="c">${t[3]}</td><td class="sub">${t[4]}</td></tr>`).join('');
+  let h = '<thead><tr><th>Pieza</th><th class="c">Caja</th>' + [0, 1, 2, 3, 4, 5, 6, 7, 8].map(i => `<th class="c">P${i}</th>`).join('') + '<th class="c">Usa</th><th></th></tr></thead><tbody>';
+  CUAD.forEach(([n, caja, usos]) => {
+    let tot = 0; let cel = '';
+    for (let i = 0; i <= 8; i++) { const v = usos[i] || 0; tot += v; cel += `<td class="c ${v ? '' : 'z'}">${v || '·'}</td>`; }
+    h += `<tr><td style="white-space:nowrap">${n}</td><td class="c"><b>${caja}</b></td>${cel}<td class="c"><b>${tot}</b></td><td class="c ${tot === caja ? 'okc' : ''}">${tot === caja ? '✓' : '✗'}</td></tr>`;
+  });
+  $('#tabla-cuad').innerHTML = h + '</tbody>';
+})();
+
+// --- pernería a escala (todas las filas comparten la escala: viewBox de 380 mm de ancho)
+(function () {
+  const cont = $('#pernos');
+  const ANCHO = 380, ALTO = 40;
+  const NORMA = { 10: [16, 6.4, 8.4], 12: [18, 7.5, 10.8], 16: [24, 10, 14.8], 18: [27, 11.5, 15.8], 24: [36, 15, 21.5] }; // s, k, m
+  PERNOS.forEach(p => {
+    const fila = document.createElement('div'); fila.className = 'perno';
+    const med = p.tipo === 'barra' ? `Ø ${p.d} × ${p.L}` : p.tipo === 'perilla' ? 'perilla' : p.tipo === 'L' ? `M${p.d}, en L` : `M${p.d} × ${p.L}`;
+    fila.innerHTML = `<div class="pl"><b>[${p.id}] ${med}</b><span>${p.q} u. · ${p.usa}${p.con ? ' · ' + p.con : ''}</span></div>`;
+    const svg = el('svg', { viewBox: `-6 ${-ALTO / 2} ${ANCHO} ${p.tipo === 'L' ? ALTO + 34 : ALTO}`, role: 'img', 'aria-label': `Perno ${p.id} a escala` });
+    const g = el('g', {}, svg);
+    const r = p.d / 2, est = 'stroke:var(--fig-ink);stroke-width:.6;fill:var(--fig-fill)';
+    if (p.tipo === 'hex' || p.tipo === 'coche') {
+      const [s, k] = NORMA[p.d];
+      let x0 = 0;
+      if (p.tipo === 'hex') { el('rect', { x: 0, y: -s / 2, width: k, height: s, rx: .8, style: est }, g); el('line', { x1: 0, x2: k, y1: -s / 4, y2: -s / 4, style: 'stroke:var(--fig-soft);stroke-width:.4' }, g); el('line', { x1: 0, x2: k, y1: s / 4, y2: s / 4, style: 'stroke:var(--fig-soft);stroke-width:.4' }, g); x0 = k; }
+      else { el('path', { d: `M6 -12 A 13 13 0 0 0 6 12 Z`, style: est, transform: 'translate(-0.5 0)' }, g); el('rect', { x: 5.5, y: -5, width: 6, height: 10, style: est }, g); x0 = 11.5; }
+      const rosca = p.L <= 40 ? p.L : 30;               // en los dibujos del manual, ≈ 30 mm de hilo en los largos
+      el('rect', { x: x0, y: -r, width: p.L - rosca - (p.tipo === 'coche' ? 6 : 0), height: p.d, style: est }, g);
+      const xr = x0 + p.L - rosca - (p.tipo === 'coche' ? 6 : 0);
+      el('rect', { x: xr, y: -r, width: rosca, height: p.d, style: est.replace('var(--fig-fill)', 'var(--fig-horm)') }, g);
+      for (let x = xr + 1.5; x < xr + rosca - .5; x += 2) el('line', { x1: x, x2: x + 1.2, y1: -r, y2: r, style: 'stroke:var(--fig-soft);stroke-width:.35' }, g);
+    } else if (p.tipo === 'barra') {
+      el('rect', { x: 0, y: -r, width: p.L, height: p.d, rx: 2, style: 'stroke:var(--fig-ink);stroke-width:.6;fill:var(--fig-ink)' }, g);
+      el('rect', { x: 0, y: -r - 4, width: 40, height: p.d + 8, rx: 3, style: 'stroke:var(--fig-ink);stroke-width:.6;fill:var(--fig-soft)' }, g);
+      el('rect', { x: p.L - 40, y: -r - 4, width: 40, height: p.d + 8, rx: 3, style: 'stroke:var(--fig-ink);stroke-width:.6;fill:var(--fig-soft)' }, g);
+    } else if (p.tipo === 'perilla') {
+      el('path', { d: 'M0 -20 Q -4 -10 0 -7 Q -4 0 0 7 Q -4 10 0 20 L 18 20 Q 22 10 18 7 Q 22 0 18 -7 Q 22 -10 18 -20 Z', style: 'stroke:var(--fig-ink);stroke-width:.6;fill:var(--fig-ink)' }, g);
+      el('rect', { x: 18, y: -5, width: 30, height: 10, style: est.replace('var(--fig-fill)', 'var(--fig-horm)') }, g);
+    } else if (p.tipo === 'L') {
+      // la varilla mide ≈ 0,74 m: se dibuja cortada, como en el manual
+      el('rect', { x: 0, y: -r, width: 150, height: p.d, style: est.replace('var(--fig-fill)', 'var(--fig-horm)') }, g);
+      for (let x = 1.5; x < 150; x += 3) el('line', { x1: x, x2: x + 1.8, y1: -r, y2: r, style: 'stroke:var(--fig-soft);stroke-width:.35' }, g);
+      el('rect', { x: 150, y: -r, width: 60, height: p.d, style: est }, g);
+      el('path', { d: `M206 ${-r - 4} l6 4 -6 4 6 4 -6 4 6 4 -6 4 6 4`, style: 'stroke:var(--fig-ink);stroke-width:.6;fill:none' }, g);
+      el('rect', { x: 222, y: -r, width: 90, height: p.d, style: est }, g);
+      el('path', { d: 'M312 -12 A 36 36 0 0 1 348 24 L 348 50 L 324 50 L 324 24 A 12 12 0 0 0 312 12 Z', style: est }, g);   // pata de la L
+      txt(g, 214, r + 9, '≈ 740 mm', { 'font-size': 7, class: 'txs', 'text-anchor': 'middle' });
+    }
+    fila.appendChild(svg); cont.appendChild(fila);
+  });
+  // regla
+  const fila = document.createElement('div'); fila.className = 'perno regla';
+  fila.innerHTML = '<div class="pl"><span>escala común</span></div>';
+  const svg = el('svg', { viewBox: `-6 -4 ${ANCHO} 16` });
+  el('line', { x1: 0, x2: 350, y1: 0, y2: 0, style: 'stroke:var(--fig-ink);stroke-width:.6' }, svg);
+  for (let x = 0; x <= 350; x += 10) el('line', { x1: x, x2: x, y1: 0, y2: x % 50 ? 2.5 : 5, style: 'stroke:var(--fig-ink);stroke-width:.5' }, svg);
+  for (let x = 0; x <= 350; x += 50) txt(svg, x, 11, x === 350 ? '350 mm' : String(x), { 'font-size': 6, 'text-anchor': x === 350 ? 'end' : 'middle' });
+  fila.appendChild(svg); cont.appendChild(fila);
+})();
+
+// --- lista de la caja (se guarda en este navegador)
+(function () {
+  const ITEMS = [['Tablero [A]', '1'], ['Aro [B] con red', '1'], ['Barra de tiro [C]', '1'], ['Brazo [D]', '1'], ['Poste [E]', '1'],
+    ['Barra auxiliar [F]', '1'], ['Tornillo de elevación [G]', '1'], ['Manivela [H]', '1'], ['Regla de altura [J]', '1'],
+    ['Barra tope [8]', '1'], ['Perilla [9]', '1'], ['Fundas de silicona', '2'], ['Calcomanía de escala', '1'],
+    ['Kit de anclaje: varillas M24 [1]', '4'], ['Kit de anclaje: placas', '2'], ['Tuercas M24 [5A]', '8'],
+    ['Pernos M18 × 345 [2]', '2'], ['Pernos M16 × 345 [3]', '2'], ['Perno M16 × 320 [4]', '1'], ['Pernos coche M10 × 100 [5]', '4'],
+    ['Pernos M12 × 40 [6]', '2'], ['Pernos M16 × 180 [7]', '2'], ['Tuercas flange M10 [1A]', '4'], ['M12: tuercas, presión y planas [2A·2B·2C]', '2 + 2 + 2'],
+    ['M16: tuercas, presión y planas [3A·3B·3C]', '5 + 5 + 5'], ['M18: tuercas, presión y planas [4A·4B·4C]', '2 + 2 + 2']];
+  const CLAVE = 'pilauco-tablero-caja';
+  let marc = {};
+  try { marc = JSON.parse(localStorage.getItem(CLAVE) || '{}') || {}; } catch (e) { marc = {}; }
+  const ul = $('#kit');
+  ul.innerHTML = ITEMS.map((it, i) => `<li${marc[i] ? ' class="hecho"' : ''}><input type="checkbox" id="kit-${i}"${marc[i] ? ' checked' : ''}><label for="kit-${i}">${it[0]}</label><span class="q">${it[1]}</span></li>`).join('');
+  const prog = () => { const n = Object.values(marc).filter(Boolean).length; $('#kit-n').textContent = `${n} de ${ITEMS.length}`; $('#kit-bar').style.width = (100 * n / ITEMS.length) + '%'; };
+  const guardar = () => { try { localStorage.setItem(CLAVE, JSON.stringify(marc)); } catch (e) { /* sin almacenamiento: igual funciona */ } };
+  ul.addEventListener('change', e => { const i = +e.target.id.slice(4); marc[i] = e.target.checked; e.target.parentNode.classList.toggle('hecho', e.target.checked); guardar(); prog(); });
+  $('#kit-reset').addEventListener('click', () => { marc = {}; ul.querySelectorAll('input').forEach(c => { c.checked = false; c.parentNode.classList.remove('hecho'); }); guardar(); prog(); });
+  prog();
+})();
+
+// --- vista lateral a escala (misma geometría que el 3D)
+function dibujarPerfil() {
+  const svg = $('#svg-perfil');
+  svg.innerHTML = '';
+  // x = -f (la cancha a la izquierda, como en el manual), y = -u
+  svg.setAttribute('viewBox', '-2520 -4250 3150 5280');
+  const gTierra = el('g', {}, svg);
+  el('rect', { x: -2520, y: 0, width: 3150, height: 1030, style: 'fill:var(--fig-tierra)' }, gTierra);
+  el('rect', { x: -400, y: 0, width: 800, height: 800, style: 'fill:var(--fig-horm);stroke:var(--fig-soft);stroke-width:6' }, gTierra);
+  el('line', { x1: -2520, x2: 630, y1: 0, y2: 0, style: 'stroke:var(--fig-ink);stroke-width:8' }, svg);
+  // anclaje
+  [-141, 141].forEach(x => el('path', { d: `M${x} -60 V 680 q 0 40 ${x < 0 ? -40 : 40} 40 h ${x < 0 ? -60 : 60}`, style: 'stroke:var(--fig-soft);stroke-width:24;fill:none' }, svg));
+  el('rect', { x: -175, y: 0, width: 350, height: 10, style: 'fill:var(--fig-soft)' }, svg);
+  el('rect', { x: -175, y: 600, width: 350, height: 10, style: 'fill:var(--fig-soft)' }, svg);
+  // poste
+  const poste = 'fill:var(--fig-ink)';
+  el('rect', { x: -175, y: -36, width: 350, height: 16, style: poste }, svg);
+  el('path', { d: 'M-100 -36 V -164 L -175 -116 V -36 Z M100 -36 V -164 L 175 -116 V -36 Z', style: poste }, svg);
+  el('rect', { x: -100, y: -GEO.posteTope, width: 200, height: GEO.posteTope - 36, style: poste }, svg);
+  el('path', { d: 'M100 -1138 H 300 L 318 -1110 V -1010 L 295 -985 H 100 Z', style: poste }, svg);
+  const dib = (P, col, op, dash) => {
+    const g = el('g', { style: `opacity:${op}` }, svg);
+    const X = p => -p[0], Y = p => -p[1];
+    const linea = (a, b, w) => el('line', { x1: X(a), y1: Y(a), x2: X(b), y2: Y(b), style: `stroke:${col};stroke-width:${w};stroke-linecap:round${dash ? ';stroke-dasharray:' + dash : ''}` }, g);
+    const c = Math.cos(P.th), s = Math.sin(P.th);
+    const finD = [-(GEO.rFin + 45) * c, GEO.Dp[1] - (GEO.rFin + 45) * s];
+    linea(finD, [P.Db[0] + 40 * c, P.Db[1] + 40 * s], 96);
+    linea([-40 * c, GEO.Cp[1] - 40 * s], P.Cb, 58);
+    linea([GEO.Gb[0] - GEO.gEje, GEO.Gb[1]], P.Gu, 50); linea(GEO.Fb, P.Fu, 56);
+    // tablero
+    const b = P.Db, v = GEO.vidrio, a = GEO.acol;
+    el('rect', { x: -(b[0] + v.frente), y: -(b[1] + v.arriba), width: 58, height: v.arriba - v.abajo, style: `fill:${dash ? 'none' : 'var(--fig-fill)'};stroke:${col};stroke-width:10${dash ? ';stroke-dasharray:' + dash : ''}` }, g);
+    el('rect', { x: -(b[0] + a.frente), y: -(b[1] + a.arriba), width: a.frente - a.atras, height: a.arriba - a.abajo, style: `fill:${col}` }, g);
+    el('line', { x1: -(b[0] + a.frente), x2: -(b[0] + GEO.aro.punta), y1: -(b[1] + GEO.aro.arriba - 9), y2: -(b[1] + GEO.aro.arriba - 9), style: `stroke:${dash ? col : 'var(--naranja)'};stroke-width:18` }, g);
+    return g;
+  };
+  dib(P_MIN, 'var(--naranja)', .8, '40 26');
+  dib(P_MAX, 'var(--fig-ink)', 1, '');
+  // cotas
+  const cota = (x1, y1, x2, y2, s, lado, ang) => {
+    const g = el('g', {}, svg);
+    el('line', { x1, y1, x2, y2, class: 'cota', style: 'stroke-width:7' }, g);
+    const tick = (x, y) => el('line', { x1: x - 24, y1: y + 24, x2: x + 24, y2: y - 24, class: 'cota', style: 'stroke-width:9' }, g);
+    tick(x1, y1); tick(x2, y2);
+    const t = txt(g, (x1 + x2) / 2 + (lado || 0), (y1 + y2) / 2 - (ang ? 0 : 30), s, { 'font-size': 92, 'text-anchor': 'middle', 'font-weight': 600 });
+    if (ang) t.setAttribute('transform', `rotate(-90 ${(x1 + x2) / 2 + lado} ${(y1 + y2) / 2})`);
+    return g;
+  };
+  const xMax = -(P_MAX.punta), xMin = -(P_MIN.punta);
+  cota(xMax - 120, 0, xMax - 120, -GEO.hMax, '3,05 m', -60, true);
+  cota(xMin - 120, 0, xMin - 120, -GEO.hMin, '1,50 m', -60, true);
+  el('line', { x1: xMax - 150, x2: xMax, y1: -GEO.hMax, y2: -GEO.hMax, class: 'cota', style: 'stroke-dasharray:20 16;stroke-width:5' }, svg);
+  el('line', { x1: xMin - 150, x2: xMin, y1: -GEO.hMin, y2: -GEO.hMin, class: 'cota', style: 'stroke-dasharray:20 16;stroke-width:5' }, svg);
+  const yA = -4120;
+  cota(-100, yA, -(P_MAX.Db[0] + GEO.vidrio.frente), yA, 'alcance ' + fm(P_MAX.alcance, 3), 0);
+  el('line', { x1: -100, x2: -100, y1: yA + 30, y2: -GEO.posteTope - 20, class: 'cota', style: 'stroke-dasharray:20 16;stroke-width:5' }, svg);
+  el('line', { x1: -(P_MAX.Db[0] + GEO.vidrio.frente), x2: -(P_MAX.Db[0] + GEO.vidrio.frente), y1: yA + 30, y2: -(P_MAX.Db[1] + GEO.vidrio.arriba) - 20, class: 'cota', style: 'stroke-dasharray:20 16;stroke-width:5' }, svg);
+  cota(470, 0, 470, 800, '0,80', 80, true);
+  txt(svg, -2480, 90, 'piso terminado', { 'font-size': 80, class: 'txs' });
+  txt(svg, -2480, -60, '← cancha', { 'font-size': 80, class: 'txs' });
+  txt(svg, 625, -60, 'atrás →', { 'font-size': 80, class: 'txs', 'text-anchor': 'end' });
+  txt(svg, 0, 960, 'fundación 80 × 80 × 80 cm', { 'font-size': 80, class: 'txs', 'text-anchor': 'middle' });
+  $('#alc-min').textContent = coma(P_MIN.alcance / 1000, 2);
+  const hH = GEO.Dp[1] + GEO.aro.arriba;
+  $('#h-horiz').textContent = coma(hH / 1000, 2); $('#alc-max').textContent = coma(pose(hH).alcance / 1000, 2);
+  $('#n-alc').textContent = miles(P_MAX.alcance) + ' mm';
+  $('#n-ang').textContent = `brazo de ${coma(deg(P_MIN.th), 1).replace('-', '−')}° a +${coma(deg(P_MAX.th), 1)}°`;
+}
+dibujarPerfil();
+
+// --- corte de la fundación
+(function () {
+  const svg = $('#svg-fund');
+  svg.setAttribute('viewBox', '-760 -330 1720 1260');
+  el('rect', { x: -760, y: 0, width: 1720, height: 930, style: 'fill:var(--fig-tierra)' }, svg);
+  el('rect', { x: -400, y: 0, width: 800, height: 800, style: 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:3' }, svg);
+  for (let i = 0; i < 70; i++) { const x = -390 + ((i * 137) % 780), y = 15 + ((i * 263) % 770); el('circle', { cx: x, cy: y, r: 3 + (i % 3), style: 'fill:var(--fig-soft);opacity:.35' }, svg); }
+  el('line', { x1: -760, x2: 960, y1: 0, y2: 0, style: 'stroke:var(--fig-ink);stroke-width:4' }, svg);
+  [-141, 141].forEach(x => el('path', { d: `M${x} -60 V 680 q 0 40 ${x < 0 ? -40 : 40} 40 h ${x < 0 ? -70 : 70}`, style: 'stroke:var(--fig-ink);stroke-width:24;fill:none;stroke-linecap:round' }, svg));
+  [-141, 141].forEach(x => { for (let y = -58; y < 150; y += 9) el('line', { x1: x - 12, x2: x + 12, y1: y, y2: y + 4, style: 'stroke:var(--fig-tierra);stroke-width:2' }, svg); });
+  el('rect', { x: -175, y: 0, width: 350, height: 10, style: 'fill:var(--naranja)' }, svg);
+  el('rect', { x: -175, y: 600, width: 350, height: 10, style: 'fill:var(--fig-ink)' }, svg);
+  // tuercas y placa base del poste
+  const tuerca = (x, y) => el('rect', { x: x - 18, y, width: 36, height: 19, style: 'fill:var(--fig-soft);stroke:var(--fig-ink);stroke-width:2' }, svg);
+  [-141, 141].forEach(x => { tuerca(x, -19); tuerca(x, -59); });
+  el('rect', { x: -175, y: -36, width: 350, height: 16, style: 'fill:var(--fig-ink)' }, svg);
+  el('path', { d: 'M-100 -36 V -164 L -175 -116 V -36 Z M100 -36 V -164 L 175 -116 V -36 Z', style: 'fill:var(--fig-ink)' }, svg);
+  el('path', { d: 'M-100 -36 V -300 l 30 -12 l 40 16 l 40 -16 l 40 16 l 50 -18 V -36 Z', style: 'fill:var(--fig-ink)' }, svg);
+  txt(svg, 0, -250, 'poste [E]', { 'font-size': 34, 'text-anchor': 'middle', style: 'fill:var(--paper)' });
+  // cotas
+  const c = (x1, y1, x2, y2, s, dx, dy, rot) => {
+    el('line', { x1, y1, x2, y2, class: 'cota', style: 'stroke-width:2.5' }, svg);
+    [[x1, y1], [x2, y2]].forEach(([x, y]) => el('line', { x1: x - 10, y1: y + 10, x2: x + 10, y2: y - 10, class: 'cota', style: 'stroke-width:3' }, svg));
+    const t = txt(svg, (x1 + x2) / 2 + dx, (y1 + y2) / 2 + dy, s, { 'font-size': 36, 'text-anchor': 'middle', 'font-weight': 600 });
+    if (rot) t.setAttribute('transform', `rotate(-90 ${(x1 + x2) / 2 + dx} ${(y1 + y2) / 2 + dy})`);
+  };
+  c(-470, 0, -470, 800, '800', -18, 0, true);
+  c(-400, 880, 400, 880, '800', 0, -14);
+  c(-141, 520, 141, 520, '282 (ejes de varillas)', 0, -14);
+  c(-175, 640, 175, 640, '350', 0, 46);
+  c(240, -59, 240, 0, '60', 52, 12);
+  // rótulos
+  const r = (x, y, x2, y2, s, anchor) => { el('line', { x1: x, y1: y, x2, y2, style: 'stroke:var(--fig-soft);stroke-width:2' }, svg); txt(svg, x2 + (anchor === 'end' ? -8 : 8), y2 + 12, s, { 'font-size': 32, 'text-anchor': anchor || 'start' }); };
+  r(175, 5, 470, -130, 'placa de anclaje, a ras de piso', 'start');
+  r(141, 300, 470, 260, 'varilla en L M24 [1] × 4', 'start');
+  r(175, 605, 470, 560, 'placa inferior', 'start');
+  r(300, 420, 470, 420, 'hormigón', 'start');
+  r(400, -2, 470, -55, 'piso terminado', 'start');
+  r(-141, -40, -330, -150, 'tuercas M24 [5A]', 'end');
+  r(-175, -28, -330, -240, 'placa base del poste', 'end');
+})();
+
+// --- planta de ubicación
+(function () {
+  const svg = $('#svg-planta');
+  const Pm = P_MAX;
+  const caraVidrio = Pm.Db[0] + GEO.vidrio.frente;            // desde el eje del poste
+  const yVid = -(caraVidrio - 527);                            // y: línea de fondo en 0, cancha hacia arriba (negativo)
+  const yAro = -(Pm.Db[0] + GEO.vidrio.frente + (GEO.aro.punta - GEO.vidrio.frente) - (GEO.aro.rInt + GEO.aro.rTubo) - 527);
+  svg.setAttribute('viewBox', '-1380 -1620 2760 3020');
+  el('rect', { x: -1380, y: -1620, width: 2760, height: 1620, style: 'fill:var(--fig-cancha)' }, svg);
+  el('line', { x1: -1380, x2: 1380, y1: 0, y2: 0, style: 'stroke:var(--fig-ink);stroke-width:50' }, svg);
+  txt(svg, -1340, -60, 'cancha', { 'font-size': 64, class: 'txs' });
+  txt(svg, -1340, 120, 'línea de fondo (50 mm)', { 'font-size': 56, class: 'txs' });
+  // poste y placa
+  el('rect', { x: -175, y: 527 - 175, width: 350, height: 350, rx: 20, style: 'fill:var(--fig-fill);stroke:var(--fig-ink);stroke-width:8' }, svg);
+  [[-141, -141], [141, -141], [-141, 141], [141, 141]].forEach(([x, y]) => el('circle', { cx: x, cy: 527 + y, r: 16, style: 'fill:var(--fig-ink)' }, svg));
+  el('rect', { x: -100, y: 427, width: 200, height: 200, style: 'fill:var(--fig-ink)' }, svg);
+  // brazo (proyección) y tablero
+  el('rect', { x: -153, y: yVid, width: 50, height: 427 - yVid, style: 'fill:var(--fig-soft);opacity:.45' }, svg);
+  el('rect', { x: 103, y: yVid, width: 50, height: 427 - yVid, style: 'fill:var(--fig-soft);opacity:.45' }, svg);
+  el('rect', { x: -900, y: yVid, width: 1800, height: 60, style: 'fill:var(--fig-ink)' }, svg);
+  el('circle', { cx: 0, cy: yAro, r: GEO.aro.rInt + GEO.aro.rTubo, style: 'fill:none;stroke:var(--naranja);stroke-width:18' }, svg);
+  el('circle', { cx: 0, cy: yAro, r: 14, style: 'fill:var(--naranja)' }, svg);
+  // muro mínimo
+  const yMuro = 527 + 175 + 500;
+  el('line', { x1: -1380, x2: 1380, y1: yMuro, y2: yMuro, style: 'stroke:var(--fig-ink);stroke-width:10;stroke-dasharray:60 40' }, svg);
+  txt(svg, -1340, yMuro + 90, 'muro o reja más cercano posible', { 'font-size': 56, class: 'txs' });
+  // cotas
+  const c = (x1, y1, x2, y2, s, dx, dy, anchor) => {
+    el('line', { x1, y1, x2, y2, class: 'cota', style: 'stroke-width:6' }, svg);
+    [[x1, y1], [x2, y2]].forEach(([x, y]) => el('line', { x1: x - 22, y1: y + 22, x2: x + 22, y2: y - 22, class: 'cota', style: 'stroke-width:8' }, svg));
+    txt(svg, (x1 + x2) / 2 + dx, (y1 + y2) / 2 + dy, s, { 'font-size': 64, 'text-anchor': anchor || 'start', 'font-weight': 600 });
+  };
+  c(330, 0, 330, 527, '527', 34, 22);
+  c(330, 702, 330, yMuro, '≥ 500', 34, 22);
+  c(-330, 427, -330, yVid, 'alcance 1.227', -34, 22, 'end');
+  c(620, yVid, 620, 0, '≈ 800', 34, 22);
+  c(-900, yVid - 130, 900, yVid - 130, 'tablero ≈ 1.800', 0, -30, 'middle');
+  txt(svg, 0, yAro - (GEO.aro.rInt + 70), 'aro', { 'font-size': 56, 'text-anchor': 'middle', class: 'txs' });
+})();
+
+// --- pasos de armado (texto)
+(function () {
+  const cont = $('#pasos');
+  cont.innerHTML = PASOS.map((p, i) => `
+    <article class="paso" id="paso-${i}" data-paso="${i}">
+      <div class="ph"><span class="num">${i}</span><h3>${p.t}</h3></div>
+      <button class="btn ver3d" data-paso="${i}" type="button">Ver en 3D</button>
+      ${p.html}
+      ${p.usa.length ? '<div class="chips">' + p.usa.map(([id, q, n]) => `<span class="chip"><span class="q">${q}×</span>${id ? '[' + id + '] ' : ''}${n}</span>`).join('') + '</div>' : ''}
+    </article>`).join('');
+})();
+
+// --- tabla de alturas
+(function () {
+  const hH = GEO.Dp[1] + GEO.aro.arriba;     // brazo horizontal: el tablero queda lo más lejos del poste
+  const filas = [3050, 2900, 2600, 2400, 2100, hH, 1800, 1500].map(h => {
+    const P = pose(h);
+    return `<tr><td><b>${coma(h / 1000, 2)} m</b>${h === 3050 ? ' <span class="sub">reglamentaria</span>' : h === 2600 ? ' <span class="sub">minibásquetbol</span>' : h === 1500 ? ' <span class="sub">mínima</span>' : h === hH ? ' <span class="sub">brazo horizontal</span>' : ''}</td>
+      <td class="r">${fm(P.alcance, 2)}</td><td class="r">${coma(deg(P.th), 1).replace('-', '−')}°</td><td class="r">${miles(P.Glen)} mm</td><td class="c"><button class="btn" data-h="${Math.round(h)}" style="padding:1px 9px">Ver</button></td></tr>`;
+  }).join('');
+  $('#tabla-alturas').innerHTML = `<thead><tr><th>Aro</th><th class="r">Alcance</th><th class="r">Brazo</th><th class="r">Tornillo [G] entre pernos</th><th></th></tr></thead><tbody>${filas}</tbody>`;
+})();
+
+// =====================================================================
+//  VISOR 3D
+// =====================================================================
+const visor = $('#visor');
+const oscuro = () => document.documentElement.dataset.theme === 'dark' || (document.documentElement.dataset.theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+let API = null;    // se llena si el 3D arranca
+try { API = iniciar3D(); } catch (e) { console.error(e); }
+if (!API) { $('#v-carga').textContent = 'Este navegador no pudo abrir el modelo 3D. El resto de la página funciona igual.'; }
+
+function iniciar3D() {
+  if (!window.THREE) return null;
+  const T = THREE;
+  const dark = oscuro();
+  let renderer;
+  try { renderer = new T.WebGLRenderer({ antialias: true }); } catch (e) { return null; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = T.PCFSoftShadowMap;
+  visor.insertBefore(renderer.domElement, visor.firstChild);
+  const scene = new T.Scene();
+  const BG = dark ? 0x16181D : 0xF0F1F3;
+  scene.background = new T.Color(BG);
+  scene.fog = new T.Fog(BG, 11, 26);
+  const camera = new T.PerspectiveCamera(34, 1, 0.02, 60);
+  const controls = new T.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true; controls.dampingFactor = 0.09;
+  controls.minDistance = 0.4; controls.maxDistance = 14;
+  controls.maxPolarAngle = Math.PI * 0.94;
+
+  scene.add(new T.HemisphereLight(0xffffff, dark ? 0x30343c : 0x8e949c, dark ? 0.62 : 0.5));
+  const sol = new T.DirectionalLight(0xffffff, dark ? 0.85 : 0.62);
+  sol.position.set(3.2, 6.5, 4.2); sol.castShadow = true;
+  sol.shadow.mapSize.set(2048, 2048);
+  Object.assign(sol.shadow.camera, { left: -3, right: 3, top: 3, bottom: -3, near: 1, far: 15 });
+  sol.shadow.bias = -0.0004;
+  scene.add(sol);
+  const rel = new T.DirectionalLight(0xffffff, dark ? 0.32 : 0.22); rel.position.set(-3, 3, -4); scene.add(rel);
+
+  // ---------- materiales ----------
+  const std = (color, rough, metal, extra) => new T.MeshStandardMaterial(Object.assign({ color, roughness: rough, metalness: metal }, extra || {}));
+  const MAT = {
+    acero: std(dark ? 0x3B3F47 : 0x2C2F35, 0.55, 0.35),
+    zinc: std(0xC9CED5, 0.35, 0.45),
+    cromo: std(0xEDEFF2, 0.22, 0.4),
+    vidrio: std(0xDCEAF2, 0.05, 0.0, { transparent: true, opacity: dark ? 0.16 : 0.22, depthWrite: false, side: T.DoubleSide }),
+    alu: std(0xD9DCE0, 0.32, 0.6),
+    blanco: new T.MeshBasicMaterial({ color: 0xFFFFFF }),
+    acol: std(0x151619, 0.92, 0.0),
+    aro: std(0xE0562A, 0.42, 0.25),
+    red: new T.LineBasicMaterial({ color: dark ? 0xE6E6E6 : 0xA9AEB6 }),
+    horm: std(0xA9ACB0, 1, 0, { transparent: true, opacity: 0.5, depthWrite: false }),
+    tierra: std(dark ? 0x1D2025 : 0xD9D6D0, 1, 0),
+    cancha: std(dark ? 0x2A2420 : 0xCFAE84, 0.85, 0),
+    linea: new T.MeshBasicMaterial({ color: dark ? 0xD5D9E0 : 0xFFFFFF }),
+    silicona: std(0x202022, 0.85, 0),
+    madera: std(0xC8A26E, 0.9, 0),
+    hl: std(0xF07C2E, 0.5, 0.2, { emissive: 0x6E2C00 }),
+    hlVidrio: std(0xF6A26B, 0.1, 0, { transparent: true, opacity: 0.35, depthWrite: false, side: T.DoubleSide, emissive: 0x6E2C00 }),
+    sel: std(0x4D8FEA, 0.45, 0.2, { emissive: 0x153563 }),
+  };
+
+  // ---------- ayudas de geometría (mm → m; x lateral, y arriba, z hacia la cancha) ----------
+  const m = v => v / 1000;
+  const V3 = (x, y, z) => new T.Vector3(x, y, z);
+  const REG = {};
+  function marca(clave, obj) {
+    obj.traverse(o => {
+      if (o.isMesh || o.isLineSegments) {
+        (REG[clave] = REG[clave] || []).push(o);
+        o.userData.pieza = clave; o.userData.mat0 = o.material;
+        if (o.isMesh) { o.castShadow = o.material !== MAT.vidrio && o.material !== MAT.horm; o.receiveShadow = true; }
+      }
+    });
+    return obj;
+  }
+  function caja(w, h, d, mat, x, y, z) { const me = new T.Mesh(new T.BoxGeometry(w, h, d), mat); me.position.set(x || 0, y || 0, z || 0); return me; }
+  const UNI_CIL = {};
+  function cilindro(r, mat, seg) { const k = r + '-' + (seg || 20); UNI_CIL[k] = UNI_CIL[k] || new T.CylinderGeometry(r, r, 1, seg || 20); return new T.Mesh(UNI_CIL[k], mat); }
+  const EJE_Y = V3(0, 1, 0);
+  function entre(me, a, b) { const d = b.clone().sub(a); me.position.copy(a).addScaledVector(d, 0.5); me.scale.set(1, d.length(), 1); me.quaternion.setFromUnitVectors(EJE_Y, d.normalize()); return me; }
+  function barra(a, b, w, h, mat) {   // barra rectangular entre dos puntos (w lateral-ish, h perpendicular)
+    const d = b.clone().sub(a), L = d.length();
+    const me = new T.Mesh(new T.BoxGeometry(w, h, L), mat);
+    me.position.copy(a).addScaledVector(d, 0.5);
+    me.quaternion.setFromUnitVectors(V3(0, 0, 1), d.normalize());
+    return me;
+  }
+  function placa(w, d, t, r, agujeros, ventana, mat) { // placa horizontal con esquinas redondeadas
+    const s = new T.Shape(), a = w / 2, b = d / 2;
+    s.moveTo(-a + r, -b); s.lineTo(a - r, -b); s.quadraticCurveTo(a, -b, a, -b + r); s.lineTo(a, b - r); s.quadraticCurveTo(a, b, a - r, b);
+    s.lineTo(-a + r, b); s.quadraticCurveTo(-a, b, -a, b - r); s.lineTo(-a, -b + r); s.quadraticCurveTo(-a, -b, -a + r, -b);
+    (agujeros || []).forEach(([x, y, rr]) => { const h = new T.Path(); h.absarc(x, y, rr, 0, Math.PI * 2, true); s.holes.push(h); });
+    if (ventana) { const [vw, vd] = ventana, h = new T.Path(); h.moveTo(-vw / 2, -vd / 2); h.lineTo(-vw / 2, vd / 2); h.lineTo(vw / 2, vd / 2); h.lineTo(vw / 2, -vd / 2); h.lineTo(-vw / 2, -vd / 2); s.holes.push(h); }
+    const g = new T.ExtrudeGeometry(s, { depth: t, bevelEnabled: false, curveSegments: 6 });
+    g.rotateX(-Math.PI / 2);   // queda acostada, de y=0 a y=t
+    return new T.Mesh(g, mat);
+  }
+  function hex(s, k, mat) { const me = cilindro(s / Math.sqrt(3), mat, 6); me.scale.y = k; return me; }
+  // perno a lo largo de x (cabeza en -x), centrado en el origen; d, L, s, k, m en metros
+  function perno(d, L, mat, conTuerca) {
+    const g = new T.Group();
+    const s = { 0.010: 0.016, 0.012: 0.018, 0.016: 0.024, 0.018: 0.027, 0.024: 0.036 }[d] || d * 1.5;
+    const vastago = cilindro(d / 2, mat, 14); vastago.scale.y = L; vastago.rotation.z = Math.PI / 2; g.add(vastago);
+    const cab = hex(s, d * 0.62, mat); cab.rotation.z = Math.PI / 2; cab.position.x = -L / 2 - d * 0.31; g.add(cab);
+    if (conTuerca !== false) {
+      const tu = hex(s, d * 0.82, mat); tu.rotation.z = Math.PI / 2; tu.position.x = L / 2 - d * 0.9; g.add(tu);
+      const ar = cilindro(s * 0.6, mat, 18); ar.scale.y = 0.003; ar.rotation.z = Math.PI / 2; ar.position.x = L / 2 - d * 1.5; g.add(ar);
+    }
+    return g;
+  }
+
+  const raiz = new T.Group(); scene.add(raiz);
+
+  // ---------- suelo, cancha y fundación ----------
+  const suelo = new T.Group(); raiz.add(suelo);
+  const piso = new T.Mesh(new T.PlaneGeometry(60, 60), MAT.tierra.clone());
+  piso.rotation.x = -Math.PI / 2; piso.position.set(0, -0.0012, 0); piso.receiveShadow = true; suelo.add(piso);
+  const cancha = new T.Mesh(new T.PlaneGeometry(15, 14), MAT.cancha.clone());
+  cancha.rotation.x = -Math.PI / 2; cancha.position.set(0, -0.0006, 0.527 + 7); cancha.receiveShadow = true; suelo.add(cancha);
+  const lineaFondo = caja(15, 0.001, 0.05, MAT.linea, 0, 0.0002, 0.527 - 0.025); suelo.add(lineaFondo);
+  const lineaMuro = new T.Group(); suelo.add(lineaMuro);
+  for (let x = -2; x < 2; x += 0.2) lineaMuro.add(caja(0.12, 0.001, 0.02, MAT.linea, x + 0.06, 0.0002, -(0.175 + 0.5)));
+  const hueco = new T.Group(); raiz.add(hueco);       // se ve con "Bajo tierra"
+  const horm = new T.Mesh(new T.BoxGeometry(0.8, 0.8, 0.8), MAT.horm); horm.position.y = -0.4; hueco.add(marca('HOR', horm));
+  const bordes = new T.LineSegments(new T.EdgesGeometry(new T.BoxGeometry(0.8, 0.8, 0.8)), new T.LineBasicMaterial({ color: dark ? 0x7d8592 : 0x6b7280 }));
+  bordes.position.y = -0.4; hueco.add(bordes);
+  const listones = new T.Group();
+  [-0.09, 0.09].forEach(z => listones.add(caja(1.1, 0.025, 0.05, MAT.madera, 0, 0.0125 + 0.01, z)));
+
+  // ---------- kit de anclaje y tuercas ----------
+  const anc = new T.Group(); raiz.add(anc);
+  const AG = [[-0.141, -0.141, 0.014], [0.141, -0.141, 0.014], [-0.141, 0.141, 0.014], [0.141, 0.141, 0.014]];
+  const pAnc = placa(0.35, 0.35, 0.010, 0.02, AG, [0.155, 0.205], MAT.acero); pAnc.position.y = -0.010; anc.add(pAnc);
+  const pInf = placa(0.35, 0.35, 0.010, 0.02, AG, [0.155, 0.205], MAT.acero); pInf.position.y = -0.610; anc.add(pInf);
+  AG.forEach(([x, z]) => {
+    const sx = Math.sign(x), sz = Math.sign(z);
+    const curva = new T.CurvePath();
+    curva.add(new T.LineCurve3(V3(x, 0.060, z), V3(x, -0.640, z)));
+    curva.add(new T.QuadraticBezierCurve3(V3(x, -0.640, z), V3(x, -0.700, z), V3(x + sx * 0.042, -0.700, z + sz * 0.042)));
+    curva.add(new T.LineCurve3(V3(x + sx * 0.042, -0.700, z + sz * 0.042), V3(x + sx * 0.11, -0.700, z + sz * 0.11)));
+    anc.add(new T.Mesh(new T.TubeGeometry(curva, 40, 0.012, 10, false), MAT.zinc));
+  });
+  marca('ANC', anc);
+  const tuercas = new T.Group(); raiz.add(tuercas);
+  // 4 tuercas sobre la placa de anclaje (la placa base del poste se apoya en ellas) y 4 encima de la placa base
+  AG.forEach(([x, z]) => { [0.0095, 0.036 + 0.0095].forEach(y => { const t = hex(0.036, 0.019, MAT.zinc); t.position.set(x, y, z); tuercas.add(t); }); });
+  marca('5A', tuercas);
+
+  // ---------- poste [E] con consola ----------
+  const gPoste = new T.Group(); raiz.add(gPoste);
+  const ALZ = m(GEO.alza), PE = m(GEO.placaE), TOPE = m(GEO.posteTope);
+  const pBase = placa(0.35, 0.35, PE, 0.025, AG.map(([x, z]) => [x, z, 0.014]), null, MAT.acero); pBase.position.y = ALZ; gPoste.add(pBase);
+  gPoste.add(caja(0.2, TOPE - ALZ - PE, 0.2, MAT.acero, 0, (TOPE + ALZ + PE) / 2, 0));
+  gPoste.add(caja(0.206, 0.006, 0.206, MAT.acero, 0, TOPE + 0.003, 0));
+  // 8 cartelas: perfil trapecio (75 mm hacia afuera, 128 de alto junto al poste, 40 en la punta)
+  const sc = new T.Shape(); sc.moveTo(0, 0); sc.lineTo(0.075, 0); sc.lineTo(0.075, 0.08); sc.lineTo(0, 0.128); sc.lineTo(0, 0);
+  const gCart = new T.ExtrudeGeometry(sc, { depth: 0.008, bevelEnabled: false });
+  // el perfil se dibuja en (hacia afuera, arriba); con rotation.y = -90° "hacia afuera" queda en +z y el
+  // espesor se extruye hacia -x. Cada cara es la de +z girada en 90°.
+  for (let lado = 0; lado < 4; lado++) for (const off of [-0.062, 0.062]) {
+    const piv = new T.Group(); piv.rotation.y = lado * Math.PI / 2; gPoste.add(piv);
+    const me = new T.Mesh(gCart, MAT.acero);
+    me.rotation.y = -Math.PI / 2; me.position.set(off + 0.004, ALZ + PE, 0.1);
+    piv.add(me);
+  }
+  // consola: dos planchas a ±70 mm en la cara trasera
+  const sCon = new T.Shape();
+  [[100, 1138], [300, 1138], [318, 1110], [318, 1010], [295, 985], [100, 985]].forEach(([r, u], i) => i ? sCon.lineTo(m(r), m(u)) : sCon.moveTo(m(r), m(u)));
+  const gCon = new T.ExtrudeGeometry(sCon, { depth: 0.008, bevelEnabled: false });
+  [-0.074, 0.066].forEach(x => { const me = new T.Mesh(gCon, MAT.acero); me.rotation.y = Math.PI / 2; me.position.x = x; me.scale.x = 1; gPoste.add(me); });
+  marca('E', gPoste);
+  // barra tope [8] con fundas, y perilla [9]
+  const gTope = new T.Group(); raiz.add(gTope);
+  const tY = m(GEO.tope[1]), tZ = m(GEO.tope[0]);
+  const bt = cilindro(0.0125, MAT.acero, 18); bt.scale.y = 0.30; bt.rotation.z = Math.PI / 2; bt.position.set(0, tY, tZ); gTope.add(bt);
+  [-1, 1].forEach(sx => { const f = cilindro(0.018, MAT.silicona, 18); f.scale.y = 0.04; f.rotation.z = Math.PI / 2; f.position.set(sx * 0.128, tY, tZ); gTope.add(f); });
+  marca('8', gTope);
+  const gPer = new T.Group(); raiz.add(gPer);
+  const perilla = new T.Mesh(new T.CylinderGeometry(0.02, 0.02, 0.016, 6), MAT.silicona); perilla.rotation.x = Math.PI / 2; perilla.position.set(0, tY, -0.1 - 0.03); gPer.add(perilla);
+  const vast = cilindro(0.005, MAT.zinc, 10); vast.scale.y = 0.03; vast.rotation.x = Math.PI / 2; vast.position.set(0, tY, -0.1 - 0.012); gPer.add(vast);
+  marca('9', gPer);
+
+  // ---------- brazo [D]: gira en el eje inferior del poste ----------
+  const gBrazo = new T.Group(); gBrazo.position.set(0, m(GEO.Dp[1]), m(GEO.Dp[0])); raiz.add(gBrazo);
+  const LL = m(GEO.L), rF = m(GEO.rFin), rM = m(GEO.rMedio), XL = m(GEO.largueros);
+  const z0 = -rF - 0.045, z1 = LL + 0.045;
+  [-XL, XL].forEach(x => gBrazo.add(caja(0.05, 0.096, z1 - z0, MAT.acero, x, 0, (z0 + z1) / 2)));
+  [0.48, 1.06].forEach(z => gBrazo.add(caja(0.206, 0.05, 0.05, MAT.acero, 0, 0, z)));
+  marca('D', gBrazo);
+
+  // ---------- barra de tiro [C]: gira en el eje superior ----------
+  const gC = new T.Group(); gC.position.set(0, m(GEO.Cp[1]), m(GEO.Cp[0])); raiz.add(gC);
+  const XC = m(GEO.barrasC), XCb = m(GEO.ladoC);
+  [-1, 1].forEach(sx => {
+    const a = V3(sx * XC, 0, -0.04), b = V3(sx * XC, 0, 0.36), c = V3(sx * XCb, 0, LL);
+    gC.add(barra(a, b, 0.04, 0.06, MAT.acero));
+    gC.add(barra(b, c, 0.04, 0.06, MAT.acero));
+    const codo = cilindro(0.03, MAT.acero, 16); codo.scale.y = 0.04; codo.position.copy(b); gC.add(codo);
+  });
+  gC.add(caja(0.2, 0.04, 0.03, MAT.acero, 0, 0, 0.30));
+  marca('C', gC);
+
+  // ---------- tablero [A] y aro [B]: siempre vertical, colgado del eje inferior ----------
+  const gTab = new T.Group(); raiz.add(gTab);
+  const Vd = GEO.vidrio, Ac = GEO.acol;
+  const vAncho = m(Vd.ancho), vAlto = m(Vd.arriba - Vd.abajo), vCy = m((Vd.arriba + Vd.abajo) / 2), vZ = m(Vd.frente - Vd.e / 2);
+  const vidrio = caja(vAncho - 0.06, vAlto - 0.06, m(Vd.e), MAT.vidrio, 0, vCy, vZ); vidrio.renderOrder = 2; gTab.add(vidrio);
+  // marco de aluminio (40 de cara, 58 de fondo)
+  const zM = m(Vd.frente) - 0.029;
+  gTab.add(caja(vAncho, 0.04, 0.058, MAT.alu, 0, m(Vd.arriba) - 0.02, zM));
+  gTab.add(caja(vAncho, 0.04, 0.058, MAT.alu, 0, m(Vd.abajo) + 0.02, zM));
+  [-1, 1].forEach(sx => gTab.add(caja(0.04, vAlto - 0.08, 0.058, MAT.alu, sx * (vAncho / 2 - 0.02), vCy, zM)));
+  // líneas blancas pintadas: borde y rectángulo de tiro (590 × 450, línea de 50)
+  const zP = m(Vd.frente) + 0.0008, lw = 0.05;
+  const rect = (w, h, cx, cy) => { [[w, lw, cx, cy + h / 2 - lw / 2], [w, lw, cx, cy - h / 2 + lw / 2], [lw, h - 2 * lw, cx - w / 2 + lw / 2, cy], [lw, h - 2 * lw, cx + w / 2 - lw / 2, cy]].forEach(([a, b, x, y]) => gTab.add(caja(a, b, 0.0012, MAT.blanco, x, y, zP))); };
+  const yCuadro = m(GEO.aro.arriba) - lw + 0.225;
+  rect(0.59, 0.45, 0, yCuadro);
+  // bastidor trasero de acero
+  const zB = m(GEO.marcoAtras) + 0.02;
+  gTab.add(caja(1.76, 0.04, 0.04, MAT.acero, 0, 0.95, zB));
+  gTab.add(caja(1.76, 0.04, 0.04, MAT.acero, 0, 0.0, zB));
+  [-0.86, 0.86].forEach(x => gTab.add(caja(0.04, 0.99, 0.04, MAT.acero, x, 0.475, zB)));
+  gTab.add(caja(0.198, 0.12, 0.11, MAT.acero, 0, 0, 0.0));                      // consola del brazo
+  [-1, 1].forEach(sx => gTab.add(caja(0.012, 0.14, 0.10, MAT.acero, sx * (vAncho / 2 + 0.006), m(GEO.Cp[1] - GEO.Dp[1]), 0.03)));   // orejas de la barra de tiro
+  // protector acolchado: abajo y a los lados
+  const aZ = m((Ac.frente + Ac.atras) / 2), aD = m(Ac.frente - Ac.atras), aAn = vAncho + 0.05;
+  gTab.add(caja(aAn, m(Vd.abajo - Ac.abajo), aD, MAT.acol, 0, m((Vd.abajo + Ac.abajo) / 2), aZ));
+  [-1, 1].forEach(sx => gTab.add(caja(m(Ac.lado), m(Ac.arriba - Vd.abajo), aD, MAT.acol, sx * (aAn / 2 - m(Ac.lado) / 2), m((Ac.arriba + Vd.abajo) / 2), aZ)));
+  marca('A', gTab);
+  const gAro = new T.Group(); gTab.add(gAro);
+  const zAc = m(Vd.frente + (GEO.aro.punta - Vd.frente) - GEO.aro.rInt - GEO.aro.rTubo);   // centro del aro
+  const yAc = m(GEO.aro.arriba - GEO.aro.rTubo), RA = m(GEO.aro.rInt + GEO.aro.rTubo);
+  const anillo = new T.Mesh(new T.TorusGeometry(RA, m(GEO.aro.rTubo), 12, 72), MAT.aro); anillo.rotation.x = Math.PI / 2; anillo.position.set(0, yAc, zAc); gAro.add(anillo);
+  const zFr = m(Ac.frente);
+  gAro.add(caja(0.16, 0.145, 0.012, MAT.aro, 0, 0.0015, zFr + 0.006));                                   // placa de montaje
+  gAro.add(caja(0.12, 0.012, zAc - RA - zFr + 0.01, MAT.aro, 0, yAc, (zFr + zAc - RA) / 2 + 0.005));       // ménsula
+  const sG = new T.Shape(); sG.moveTo(0, 0); sG.lineTo(zAc - RA - zFr + 0.01, 0); sG.lineTo(0, -0.135); sG.lineTo(0, 0);
+  const gus = new T.Mesh(new T.ExtrudeGeometry(sG, { depth: 0.008, bevelEnabled: false }), MAT.aro); gus.rotation.y = -Math.PI / 2; gus.position.set(0.004, yAc, zFr + 0.012); gAro.add(gus);
+  gAro.add(caja(0.10, 0.03, 0.09, MAT.aro, 0, yAc - 0.03, zFr + 0.06));                                  // tapa inferior
+  // red: 12 lazadas, malla de rombos
+  const pts = [], NIV = 7, N = 12;
+  const rad = k => RA * (1 - 0.43 * Math.pow(k / NIV, 0.9)), alt = k => yAc - 0.012 - k * 0.058;
+  const P = (k, i) => { const a = (i + (k % 2) * 0.5) / N * Math.PI * 2; return [Math.cos(a) * rad(k), alt(k), zAc + Math.sin(a) * rad(k)]; };
+  for (let k = 0; k < NIV; k++) for (let i = 0; i < N; i++) {
+    const a = P(k, i), b = P(k + 1, i), c = P(k + 1, (k % 2) ? i + 1 : i - 1 + N);
+    pts.push(...a, ...b, ...a, ...c);
+  }
+  const red = new T.LineSegments(new T.BufferGeometry().setAttribute('position', new T.Float32BufferAttribute(pts, 3)), MAT.red);
+  gAro.add(red);
+  marca('B', gAro);
+
+  // ---------- pernos de las uniones ----------
+  const P2a = perno(0.018, 0.345, MAT.zinc); P2a.position.set(0, m(GEO.Dp[1]), 0); raiz.add(marca('p2a', P2a));
+  const P4 = perno(0.016, 0.320, MAT.zinc); P4.position.set(0, m(GEO.Cp[1]), 0); raiz.add(marca('p4', P4));
+  const P2b = perno(0.018, 0.345, MAT.zinc); P2b.position.set(0, 0, -rF); gBrazo.add(marca('p2b', P2b));
+  const P3a = perno(0.016, 0.345, MAT.zinc); P3a.position.set(0, 0, -rM); gBrazo.add(marca('p3a', P3a));
+  const P3b = perno(0.016, 0.345, MAT.zinc); gTab.add(marca('p3b', P3b));
+  const P7a = perno(0.016, 0.18, MAT.zinc); P7a.position.set(0, m(GEO.Gb[1]), m(GEO.Gb[0])); raiz.add(marca('p7a', P7a));
+  const P7b = perno(0.016, 0.18, MAT.zinc); P7b.position.set(0, m(GEO.Fb[1]), m(GEO.Fb[0])); raiz.add(marca('p7b', P7b));
+  const P6 = new T.Group(); [-1, 1].forEach(sx => { const p = perno(0.012, 0.04, MAT.zinc); p.position.set(sx * (vAncho / 2 + 0.018), m(GEO.Cp[1] - GEO.Dp[1]), 0.0); if (sx < 0) p.rotation.y = Math.PI; P6.add(p); }); gTab.add(marca('p6', P6));
+  const P5 = new T.Group(); [[-0.0635, 0.055], [0.0635, 0.055], [-0.0635, -0.052], [0.0635, -0.052]].forEach(([x, y]) => {
+    const p = perno(0.010, 0.10, MAT.zinc, false); p.rotation.y = Math.PI / 2; p.position.set(x, y, zFr - 0.03); P5.add(p);
+    const tu = hex(0.016, 0.009, MAT.zinc); tu.rotation.x = Math.PI / 2; tu.position.set(x, y, zFr - 0.075); P5.add(tu);
+  }); gAro.add(marca('p5', P5));
+
+  // ---------- tornillo de elevación [G] con manivela [H] ----------
+  const gG = new T.Group(); raiz.add(gG);
+  const cuerpo = cilindro(0.0275, MAT.acero, 22); cuerpo.scale.y = 0.592; cuerpo.position.y = 0.161; gG.add(cuerpo);
+  const vastG = cilindro(0.014, MAT.cromo, 16); gG.add(vastG);
+  const horq = caja(0.05, 0.07, 0.035, MAT.zinc); gG.add(horq);
+  const ojoG = cilindro(0.02, MAT.acero, 16); ojoG.scale.y = 0.06; ojoG.rotation.z = Math.PI / 2; ojoG.position.z = m(GEO.gEje); gG.add(ojoG);
+  gG.add(caja(0.03, 0.04, m(GEO.gEje), MAT.acero, 0, 0, m(GEO.gEje) / 2));   // oreja hacia el perno [7]
+  const caj = caja(0.075, 0.075, 0.09, MAT.acero, 0, -0.165, -0.02); gG.add(caj);
+  marca('G', gG);
+  const gH = new T.Group(); gH.position.set(0, -0.165, -0.065); gG.add(gH);
+  const eje = cilindro(0.007, MAT.zinc, 10); eje.scale.y = 0.06; eje.rotation.x = Math.PI / 2; eje.position.z = -0.03; gH.add(eje);
+  const gGiro = new T.Group(); gGiro.position.z = -0.06; gH.add(gGiro);
+  gGiro.add(caja(0.016, 0.15, 0.012, MAT.acero, 0, 0.07, 0));
+  const pu = cilindro(0.012, MAT.silicona, 14); pu.scale.y = 0.10; pu.rotation.x = Math.PI / 2; pu.position.set(0, 0.14, -0.055); gGiro.add(pu);
+  marca('H', gH);
+
+  // ---------- barra auxiliar [F] con regla [J] y escala ----------
+  const gF = new T.Group(); raiz.add(gF);
+  gF.add(caja(0.05, 0.6, 0.06, MAT.acero, 0, 0.345, 0));
+  const fIn = caja(0.04, 0.45, 0.046, MAT.acero); gF.add(fIn);
+  const ojoF = cilindro(0.022, MAT.acero, 16); ojoF.scale.y = 0.06; ojoF.rotation.z = Math.PI / 2; gF.add(ojoF);
+  // escala: posición de la punta de la regla para cada altura (sale de la geometría, no es lineal)
+  const tip = h => (pose(h).Flen - GEO.jLargo) / 1000;
+  const e0 = tip(GEO.hMax) - 0.012, e1 = tip(GEO.hMin) + 0.012;
+  const cv = document.createElement('canvas'); cv.width = 128; cv.height = 1024;
+  const cx = cv.getContext('2d'); cx.fillStyle = '#F4F1E8'; cx.fillRect(0, 0, 128, 1024); cx.fillStyle = '#111'; cx.font = '600 30px Inter, system-ui, sans-serif';
+  for (let h = 1500; h <= 3050; h += 50) {
+    const v = 1 - (tip(h) - e0) / (e1 - e0), y = v * 1024, mayor = (h % 250 === 0 && h !== 3000) || h === 3050;
+    cx.fillRect(0, y - (mayor ? 2 : 1), mayor ? 52 : 30, mayor ? 4 : 2);
+    if (mayor) cx.fillText(coma(h / 1000, 2).replace(',00', ''), 58, y + 10);
+  }
+  // en la textura, la v crece hacia arriba: la altura 3,05 queda abajo (la barra es más corta arriba)
+  const escala = new T.Mesh(new T.PlaneGeometry(0.046, e1 - e0), new T.MeshStandardMaterial({ map: new T.CanvasTexture(cv), roughness: 0.6 }));
+  escala.rotation.y = Math.PI / 2; escala.position.set(0.0255, (e0 + e1) / 2, 0); gF.add(escala);
+  marca('F', gF);
+  escala.userData.sinResalte = true;      // la calcomanía conserva su escala aunque la barra se destaque
+  const gJ = new T.Group(); gF.add(gJ);
+  gJ.add(caja(0.004, m(GEO.jLargo), 0.012, MAT.alu, 0.03, -m(GEO.jLargo) / 2, 0.017));   // pegada al borde delantero: no tapa los números
+  const punta = new T.Mesh(new T.ConeGeometry(0.008, 0.016, 4), MAT.naranja || MAT.aro); punta.rotation.z = Math.PI; punta.position.set(0.03, -m(GEO.jLargo) - 0.004, 0.012); gJ.add(punta);
+  marca('J', gJ);
+
+  // =====================================================================
+  //  CINEMÁTICA
+  // =====================================================================
+  const Gq = V3(0, m(GEO.Gb[1]), m(GEO.Gb[0] - GEO.gEje)), Fb = V3(0, m(GEO.Fb[1]), m(GEO.Fb[0]));
+  const est = { h: GEO.hMax, desp: 0, paso: null, etq: true, med: false, bajo: false, sel: null, hover: null };
+  const DESP = {   // despiece: desplazamientos en m
+    gTab: V3(0, 0.35, 0.55), gAro: V3(0, 0, 0.35), gC: V3(0, 0.45, 0.05), gBrazo: V3(0, 0.0, 0.3), gG: V3(0, -0.15, -0.45),
+    gF: V3(0, 0.05, -0.3), gH: V3(0, -0.12, -0.12), P2a: V3(0.42, 0, 0), P4: V3(0.42, 0, 0), P7a: V3(0.32, 0, -0.45), P7b: V3(-0.32, 0, -0.3),
+    P2b: V3(0.42, 0, 0), P3a: V3(-0.42, 0, 0), P3b: V3(0.42, 0, 0), P5: V3(0, 0, -0.25), gTope: V3(0, 0.12, 0), gPer: V3(0, 0, -0.18), gPoste: V3(0, 0, 0), anc: V3(0, -0.25, 0), tuercas: V3(0, 0.12, 0),
+  };
+  const OBJ = { gTab, gAro, gC, gBrazo, gG, gF, gH, P2a, P4, P7a, P7b, P2b, P3a, P3b, P5, gTope, gPer, gPoste, anc, tuercas };
+  const BASE = {}; for (const k in OBJ) BASE[k] = OBJ[k].position.clone();
+  let giroH = 0;
+  function aplicar() {
+    const Pz = pose(est.h), e = est.desp;
+    for (const k in OBJ) OBJ[k].position.copy(BASE[k]).addScaledVector(DESP[k], e);
+    gBrazo.rotation.x = -Pz.th; gC.rotation.x = -Pz.th;
+    gTab.position.set(0, m(Pz.Db[1]), m(Pz.Db[0])).addScaledVector(DESP.gTab, e);
+    // puntos de arriba de G y F siguen al brazo (con su despiece)
+    const offB = DESP.gBrazo.clone().multiplyScalar(e);
+    const Gu = V3(0, m(Pz.Gu[1]), m(Pz.Gu[0])).add(offB), Fu = V3(0, m(Pz.Fu[1]), m(Pz.Fu[0])).add(offB);
+    const gb = Gq.clone().addScaledVector(DESP.gG, e), fb = Fb.clone().addScaledVector(DESP.gF, e);
+    const dG = Gu.clone().sub(gb), lG = dG.length(); gG.position.copy(gb); gG.quaternion.setFromUnitVectors(EJE_Y, dG.normalize());
+    vastG.scale.y = Math.max(0.01, lG - 0.035 - 0.40); vastG.position.y = 0.40 + vastG.scale.y / 2; horq.position.y = lG - 0.01;
+    const dF = Fu.clone().sub(fb), lF = dF.length(); gF.position.copy(fb); gF.quaternion.setFromUnitVectors(EJE_Y, dF.normalize());
+    fIn.position.y = lF - 0.255; gJ.position.y = lF;
+    // manivela: el giro acompaña al largo del tornillo (sin dato del paso; sólo indica el sentido)
+    giroH = (Pz.Glen - P_MAX.Glen) / 1000 * 2 * Math.PI * 12;
+    gGiro.rotation.z = giroH;
+    // lectura
+    $('#h-val').textContent = coma(est.h / 1000, 2) + ' m';
+    $('#h-alc').textContent = fm(Pz.alcance, 2);
+    actualizarCotas(Pz);
+    pedir();
+  }
+
+  // ---------- cotas en 3D ----------
+  const gCotas = new T.Group(); raiz.add(gCotas); gCotas.visible = false;
+  const mCota = new T.LineBasicMaterial({ color: dark ? 0xE7E9EE : 0x16181D });
+  const lin = n => { const g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(new Array(n * 3).fill(0), 3)); const l = new T.LineSegments(g, mCota); gCotas.add(l); return l; };
+  const lAlt = lin(6), lAlc = lin(6), lFon = lin(6);
+  const setL = (l, arr) => { const p = l.geometry.attributes.position; arr.forEach((v, i) => { p.array[i] = v; }); p.needsUpdate = true; l.geometry.computeBoundingSphere(); };
+  const COTAS = {};
+  function actualizarCotas(Pz) {
+    const zp = m(Pz.punta) + 0.06, yh = m(est.h);
+    setL(lAlt, [0, 0, zp, 0, yh, zp, -0.04, yh, zp, 0.04, yh, zp, -0.04, 0, zp, 0.04, 0, zp]);
+    const zv = m(Pz.Db[0] + GEO.vidrio.frente), x = 0.45;
+    setL(lAlc, [x, 0.003, 0.1, x, 0.003, zv, x, 0.003, 0.1, x, 0.06, 0.1, x, 0.003, zv, x, 0.06, zv]);
+    setL(lFon, [-x, 0.003, 0, -x, 0.003, 0.527, -x, 0.003, 0, -x, 0.05, 0, -x, 0.003, 0.527, -x, 0.05, 0.527]);
+    COTAS.alt = { p: V3(0, yh / 2, zp), t: 'aro ' + fm(est.h, 2) };
+    COTAS.alc = { p: V3(x, 0.02, (0.1 + zv) / 2), t: 'alcance ' + fm(Pz.alcance, 2) };
+    COTAS.fon = { p: V3(-x, 0.02, 0.26), t: 'a la línea de fondo 0,527' };
+  }
+
+  // =====================================================================
+  //  PASOS, RESALTE Y VISIBILIDAD
+  // =====================================================================
+  const CLAVES = Object.keys(REG);
+  function estado() {
+    const k = est.paso, dest = k == null ? [] : PASOS[k].destaca;
+    const bajo = est.bajo || k === 0;
+    CLAVES.forEach(c => {
+      const visible = (k == null || (PASO_DE[c] != null ? PASO_DE[c] <= k : true)) && (c !== 'HOR' || bajo);
+      REG[c].forEach(o => {
+        o.visible = visible;
+        let mt = o.userData.mat0;
+        if (o.isMesh && mt !== MAT.blanco && c !== 'HOR' && !o.userData.sinResalte) {
+          const resalta = est.sel === c || est.hover === c ? 'sel' : dest.includes(c) ? 'hl' : null;
+          if (resalta) mt = mt === MAT.vidrio ? MAT.hlVidrio : MAT[resalta];
+        }
+        o.material = mt;
+      });
+    });
+    hueco.visible = bajo; bordes.visible = bajo;
+    if (bajo && k === 0) { if (!listones.parent) raiz.add(listones); } else if (listones.parent) raiz.remove(listones);
+    piso.material.transparent = cancha.material.transparent = bajo;
+    piso.material.opacity = cancha.material.opacity = bajo ? 0.28 : 1;
+    piso.material.depthWrite = cancha.material.depthWrite = !bajo;
+    piso.material.needsUpdate = cancha.material.needsUpdate = true;
+    lineaMuro.visible = est.med;
+    gCotas.visible = est.med;
+    // texto del control de pasos
+    $('#p-ttl').innerHTML = k == null ? 'Modelo completo' : `<b>Paso ${k}</b> · ${PASOS[k].t}`;
+    $('#p-ant').disabled = k === 0; $('#p-sig').disabled = k === PASOS.length - 1;
+    $('#p-todo').setAttribute('aria-pressed', k == null ? 'true' : 'false');
+    $('#tg-bajo').setAttribute('aria-pressed', est.bajo ? 'true' : 'false');
+    document.querySelectorAll('.paso').forEach(a => a.classList.toggle('on', k != null && +a.dataset.paso === k));
+    pedir();
+  }
+
+  // ---------- etiquetas (letras del manual) ----------
+  const ANCLAS = {
+    A: () => gTab.localToWorld(V3(-0.62, 0.86, 0.12)),
+    B: () => gAro.localToWorld(V3(0, yAc + 0.03, zAc + RA)),
+    C: () => gC.localToWorld(V3(0.55, 0, LL * 0.62)),
+    D: () => gBrazo.localToWorld(V3(XL + 0.03, 0.05, LL * 0.42)),
+    E: () => V3(0.1, 0.75, 0.1),
+    F: () => gF.localToWorld(V3(0.03, 0.1, 0.03)),
+    G: () => gG.localToWorld(V3(0, 0.22, -0.05)),
+    H: () => gGiro.localToWorld(V3(0, 0.16, -0.08)),
+    J: () => gJ.localToWorld(V3(0.04, -0.06, 0)),
+    '8': () => gTope.localToWorld(V3(-0.19, tY + 0.03, tZ)),
+    '9': () => gPer.localToWorld(V3(0, tY, -0.16)),
+    ANC: () => V3(0.26, -0.42, 0.26),
+  };
+  const capa = $('#tags');
+  const TAGS = {};
+  Object.keys(ANCLAS).forEach(k => {
+    const b = document.createElement('button'); b.className = 'tag'; b.type = 'button';
+    b.textContent = k === 'ANC' ? 'Anclaje' : k; b.title = PIEZAS[k].n; b.dataset.p = k;
+    b.addEventListener('click', ev => { ev.stopPropagation(); seleccionar(k, true); });
+    b.addEventListener('pointerenter', () => marcarDoc(k, true));
+    b.addEventListener('pointerleave', () => marcarDoc(k, false));
+    capa.appendChild(b); TAGS[k] = b;
+  });
+  ['alt', 'alc', 'fon'].forEach(k => { const b = document.createElement('div'); b.className = 'tag cota'; capa.appendChild(b); TAGS['cota-' + k] = b; });
+  const tmp = new T.Vector3();
+  function moverEtiquetas() {
+    const w = visor.clientWidth, h = visor.clientHeight;
+    Object.keys(ANCLAS).forEach(k => {
+      const b = TAGS[k], ok = est.etq && REG[k] && REG[k][0].visible && (k !== 'ANC' || est.bajo || est.paso === 0);
+      if (!ok) { b.style.display = 'none'; return; }
+      tmp.copy(ANCLAS[k]()).project(camera);
+      if (tmp.z > 1 || Math.abs(tmp.x) > 1.05 || Math.abs(tmp.y) > 1.05) { b.style.display = 'none'; return; }
+      b.style.display = ''; b.style.transform = `translate(${(tmp.x + 1) / 2 * w}px,${(1 - tmp.y) / 2 * h}px) translate(-50%,-50%)`;
+      b.classList.toggle('on', est.sel === k);
+    });
+    ['alt', 'alc', 'fon'].forEach(k => {
+      const b = TAGS['cota-' + k], c = COTAS[k];
+      if (!est.med || !c) { b.style.display = 'none'; return; }
+      tmp.copy(c.p).project(camera);
+      if (tmp.z > 1) { b.style.display = 'none'; return; }
+      b.style.display = ''; b.textContent = c.t; b.style.transform = `translate(${(tmp.x + 1) / 2 * w}px,${(1 - tmp.y) / 2 * h}px) translate(-50%,-50%)`;
+    });
+  }
+
+  // ---------- cámara ----------
+  const VISTA_GRAL = [[3.5, 2.6, 4.7], [0, 2.0, 0.8]];
+  let viaje = null, libre = { w: 1, h: 1, H: 1 };
+  // las vistas se pensaron para un visor de proporción ≈ 1,2; si el espacio libre es más angosto, se alejan
+  function ajustar(pos, obj, general) {
+    const t = V3(...obj), d = V3(...pos).sub(t);
+    const tv = Math.tan(camera.fov * Math.PI / 360);
+    const fv = tv * libre.h / libre.H, fh = tv * libre.w / libre.H;     // tangentes del medio ángulo útil
+    if (general) d.setLength(2.15 / Math.min(fv, fh));                    // que entren poste, brazo y tablero
+    else d.multiplyScalar(Math.min(2.2, Math.max(1, 0.3 / Math.min(fv, fh * 0.85))));
+    return [t.clone().add(d), t];
+  }
+  function irA(pos, obj, inst, general) {
+    const [p1, t1] = ajustar(pos, obj, general);
+    if (inst || matchMedia('(prefers-reduced-motion: reduce)').matches) { camera.position.copy(p1); controls.target.copy(t1); controls.update(); pedir(); return; }
+    viaje = { p0: camera.position.clone(), t0: controls.target.clone(), p1, t1, ini: performance.now(), dur: 750 };
+    pedir();
+  }
+
+  // ---------- selección y ficha ----------
+  const ficha = $('#ficha');
+  function textoFicha(k) {
+    if (PIEZAS[k]) { const p = PIEZAS[k]; return `<b>${k === 'ANC' ? '' : '[' + k + '] '}${p.n}</b><span class="en">${p.en} · ${p.q} u.${p.paso != null ? ' · paso ' + p.paso : ''}</span><div class="d">${p.d}</div>`; }
+    const i = INFO_PERNO[k]; if (i) return `<b>${i[0]}</b><span class="en">paso ${i[2]}</span><div class="d">${i[1]}</div>`;
+    return '';
+  }
+  function seleccionar(k, desdeVisor, x, y) {
+    est.sel = k; estado();
+    if (!k) { ficha.hidden = true; return; }
+    ficha.innerHTML = textoFicha(k); ficha.hidden = false;
+    const w = visor.clientWidth, h = visor.clientHeight;
+    if (x == null) { const a = ANCLAS[k] ? ANCLAS[k]() : null; if (a) { tmp.copy(a).project(camera); x = (tmp.x + 1) / 2 * w; y = (1 - tmp.y) / 2 * h; } else { x = w / 2; y = h / 2; } }
+    const fw = ficha.offsetWidth, fh = ficha.offsetHeight;
+    ficha.style.left = Math.max(8, Math.min(w - fw - 8, x + 14)) + 'px';
+    ficha.style.top = Math.max(56, Math.min(h - fh - 130, y + 14)) + 'px';
+    document.querySelectorAll('#tabla-piezas tr[data-pieza]').forEach(tr => tr.classList.toggle('on', tr.dataset.pieza === k));
+  }
+  function marcarDoc(k, si) { document.querySelectorAll(`.k[data-p="${k}"]`).forEach(e => e.classList.toggle('on', si)); }
+  const ray = new T.Raycaster(), ptr = new T.Vector2();
+  let abajo = null;
+  renderer.domElement.addEventListener('pointerdown', e => { abajo = [e.clientX, e.clientY]; });
+  renderer.domElement.addEventListener('pointerup', e => {
+    if (!abajo || Math.hypot(e.clientX - abajo[0], e.clientY - abajo[1]) > 5) return;
+    const r = renderer.domElement.getBoundingClientRect();
+    ptr.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1);
+    ray.setFromCamera(ptr, camera);
+    const cands = []; CLAVES.forEach(c => REG[c].forEach(o => { if (o.isMesh && o.visible && c !== 'HOR') cands.push(o); }));
+    const hit = ray.intersectObjects(cands, false)[0];
+    seleccionar(hit ? hit.object.userData.pieza : null, true, e.clientX - r.left, e.clientY - r.top);
+  });
+
+  // ---------- tamaño y bucle ----------
+  let sucio = true, visible = true;
+  function pedir() { sucio = true; }
+  // el centro del dibujo se corre al centro del espacio libre entre los controles de arriba y el de altura
+  function medir() {
+    const w = visor.clientWidth, h = Math.max(1, visor.clientHeight);
+    const top0 = visor.getBoundingClientRect().top;
+    const arriba = Math.max(...['.v-pasos', '.v-capas'].map(q => { const r = $(q).getBoundingClientRect(); return r.top - top0 < h / 3 && r.height < h / 2 && (q === '.v-pasos' || r.width > w * 0.6) ? r.bottom - top0 : 0; })) + 8;
+    const abajo = ($('.v-altura').offsetHeight || 90) + 16;
+    const corr = Math.max(0, (abajo - arriba) / 2), H = h + 2 * corr;
+    libre = { w, h: Math.max(80, h - arriba - abajo), H };
+    renderer.setSize(w, h, false);
+    camera.aspect = w / H; camera.setViewOffset(w, H, 0, 2 * corr, w, h); camera.updateProjectionMatrix(); pedir();
+  }
+  new ResizeObserver(medir).observe(visor);
+  if ('IntersectionObserver' in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible) pedir(); }).observe(visor);
+  controls.addEventListener('change', pedir);
+  let anim = null;
+  function bucle(t) {
+    requestAnimationFrame(bucle);
+    if (viaje) {
+      const u = Math.min(1, (t - viaje.ini) / viaje.dur), s = u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+      camera.position.lerpVectors(viaje.p0, viaje.p1, s); controls.target.lerpVectors(viaje.t0, viaje.t1, s);
+      if (u >= 1) viaje = null; sucio = true;
+    }
+    if (anim) {
+      const u = ((t - anim.ini) / 5200) % 1, h = GEO.hMin + (GEO.hMax - GEO.hMin) * (0.5 + 0.5 * Math.cos(u * 2 * Math.PI));
+      est.h = h; $('#h-rng').value = h; aplicar();
+      if (t - anim.ini > 5200 * anim.vueltas) { anim = null; est.h = GEO.hMax; $('#h-rng').value = GEO.hMax; aplicar(); $('#h-anim').textContent = '▶'; }
+    }
+    const cambio = controls.update();
+    if (!visible) return;
+    if (sucio || cambio) { renderer.render(scene, camera); moverEtiquetas(); sucio = false; }
+  }
+
+  // ---------- controles del visor ----------
+  const rng = $('#h-rng');
+  rng.addEventListener('input', () => { anim = null; $('#h-anim').textContent = '▶'; est.h = +rng.value; aplicar(); });
+  document.querySelectorAll('[data-h]').forEach(b => b.addEventListener('click', () => { if (b.closest('#tabla-alturas')) mostrarVisor(); fijarAltura(+b.dataset.h); }));
+  function fijarAltura(h) {
+    anim = null; $('#h-anim').textContent = '▶';
+    const h0 = est.h, ini = performance.now();
+    const paso = () => { const u = Math.min(1, (performance.now() - ini) / 700), s = u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2; est.h = h0 + (h - h0) * s; rng.value = est.h; aplicar(); if (u < 1) requestAnimationFrame(paso); };
+    paso();
+  }
+  $('#h-anim').addEventListener('click', () => { if (anim) { anim = null; $('#h-anim').textContent = '▶'; return; } anim = { ini: performance.now(), vueltas: 2 }; $('#h-anim').textContent = '■'; });
+  const tog = (id, clave, fn) => $(id).addEventListener('click', e => { est[clave] = !est[clave]; e.currentTarget.setAttribute('aria-pressed', est[clave] ? 'true' : 'false'); if (fn) fn(); estado(); pedir(); });
+  tog('#tg-etq', 'etq');
+  tog('#tg-med', 'med', () => { aplicar(); });
+  tog('#tg-bajo', 'bajo', () => { if (est.bajo) irA([1.7, 0.75, 2.1], [0, -0.25, 0]); });
+  $('#tg-desp').addEventListener('click', e => {
+    const a = est.desp > 0.5 ? 1 : 0, b = 1 - a, ini = performance.now();
+    e.currentTarget.setAttribute('aria-pressed', b ? 'true' : 'false');
+    const paso = () => { const u = Math.min(1, (performance.now() - ini) / 650), s = u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2; est.desp = a + (b - a) * s; aplicar(); if (u < 1) requestAnimationFrame(paso); };
+    paso();
+  });
+  $('#tg-fit').addEventListener('click', () => { const v = est.paso == null ? VISTA_GRAL : PASOS[est.paso].cam; irA(v[0], v[1], false, est.paso == null); });
+  function irPaso(k, conCamara) {
+    const antes = est.paso;
+    est.paso = k; est.sel = null; ficha.hidden = true;
+    if (k != null && PASOS[k].anima) { if (!anim) { anim = { ini: performance.now(), vueltas: 1 }; $('#h-anim').textContent = '■'; } }
+    else if (antes != null && PASOS[antes].anima && anim) fijarAltura(GEO.hMax);
+    estado();
+    if (conCamara !== false) { const v = k == null ? VISTA_GRAL : PASOS[k].cam; irA(v[0], v[1], false, k == null); }
+  }
+  $('#p-ant').addEventListener('click', () => irPaso(est.paso == null ? 0 : Math.max(0, est.paso - 1)));
+  $('#p-sig').addEventListener('click', () => irPaso(est.paso == null ? 0 : Math.min(PASOS.length - 1, est.paso + 1)));
+  $('#p-todo').addEventListener('click', () => irPaso(null));
+  addEventListener('keydown', e => { if (e.key === 'Escape') seleccionar(null); });
+
+  // ---------- arranque ----------
+  $('#v-carga').hidden = true; $('#v-ui').hidden = false;
+  medir(); aplicar(); estado();
+  irA(VISTA_GRAL[0], VISTA_GRAL[1], true, true);
+  requestAnimationFrame(bucle);
+  const dibujar = () => { if (viaje) { camera.position.copy(viaje.p1); controls.target.copy(viaje.t1); viaje = null; } controls.update(); renderer.render(scene, camera); moverEtiquetas(); };
+  return { irPaso, seleccionar, marcarDoc, fijarAltura, est, scene, camera, renderer, controls, aplicar, estado, pose, GEO, T, dibujar };
+}
+
+// =====================================================================
+//  ENLACES ENTRE EL TEXTO Y EL 3D
+// =====================================================================
+const escritorio = () => matchMedia('(min-width:1080px)').matches;
+function mostrarVisor() { if (!escritorio()) visor.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }
+document.addEventListener('click', e => {
+  const k = e.target.closest('.k[data-p], tr[data-pieza]');
+  if (k && API) { API.seleccionar(k.dataset.p || k.dataset.pieza); mostrarVisor(); return; }
+  const v = e.target.closest('.ver3d');
+  if (v && API) { API.irPaso(+v.dataset.paso); mostrarVisor(); }
+});
+document.addEventListener('pointerover', e => { const k = e.target.closest && e.target.closest('.k[data-p]'); if (k && API && escritorio()) { API.est.hover = k.dataset.p; API.estado(); } });
+document.addEventListener('pointerout', e => { const k = e.target.closest && e.target.closest('.k[data-p]'); if (k && API && API.est.hover) { API.est.hover = null; API.estado(); } });
+document.querySelectorAll('.hint-movil').forEach(s => s.hidden = escritorio());
+document.querySelectorAll('.hint-escritorio').forEach(s => s.hidden = !escritorio());
+
+// índice: marca la sección visible; en escritorio, el 3D sigue al paso que se está leyendo
+(function () {
+  const links = [...document.querySelectorAll('.toc a')];
+  const secs = links.map(a => document.querySelector(a.getAttribute('href')));
+  const pasos = [...document.querySelectorAll('.paso')];
+  const armado = $('#armado');
+  let ultimo = null, pend = false, marcada = null;
+  function revisar() {
+    pend = false;
+    let act = secs[0];
+    secs.forEach(s => { if (s.getBoundingClientRect().top < 150) act = s; });
+    if (act !== marcada) {
+      marcada = act;
+      links.forEach(a => { const on = a.getAttribute('href') === '#' + act.id; a.classList.toggle('on', on); if (on) { const t = a.parentNode; t.scrollTo({ left: a.offsetLeft - t.clientWidth / 2 + a.offsetWidth / 2, behavior: 'smooth' }); } });
+    }
+    if (!API || !escritorio()) return;
+    const r = armado.getBoundingClientRect(), mitad = innerHeight * 0.45;
+    let k = null;
+    if (r.top < mitad && r.bottom > mitad) pasos.forEach(p => { if (p.getBoundingClientRect().top < mitad) k = +p.dataset.paso; });
+    if (k === ultimo) return;
+    ultimo = k;
+    API.irPaso(k);
+  }
+  const pedirRevision = () => { if (!pend) { pend = true; requestAnimationFrame(revisar); } };
+  $('#doc').addEventListener('scroll', pedirRevision, { passive: true });
+  addEventListener('scroll', pedirRevision, { passive: true });
+  addEventListener('resize', pedirRevision);
+  revisar();
+})();
+window.TABLERO = API;
+})();
+</script>
+</body>
+</html>

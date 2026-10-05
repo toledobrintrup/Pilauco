@@ -26,9 +26,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);fon
 .app{height:100%;display:flex;flex-direction:column}
 header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:13px 18px 11px;background:var(--chrome);color:var(--chrome-ink)}
 header h1{font-size:16.5px;font-weight:600;margin:0;letter-spacing:-.012em}
-header a{color:var(--chrome-muted);font-size:12.5px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-left:auto;border:1px solid var(--chrome-line);border-radius:999px;padding:5px 12px}
-header a:hover{color:var(--chrome-ink);border-color:var(--chrome-muted)}
-header .meta{color:var(--chrome-muted);font-size:11.5px}
+header .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
 .stage{position:relative;flex:1;min-height:0;background:var(--paper)}
 .stage canvas{display:block;width:100%;height:100%}
 .panel{position:absolute;left:12px;bottom:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:12.5px;box-shadow:0 1px 2px rgba(16,18,22,.06),0 10px 28px rgba(16,18,22,.10);max-width:240px}
@@ -60,9 +58,9 @@ header .meta{color:var(--chrome-muted);font-size:11.5px}
 <body>
 <div class="app">
   <header>
+    <script src="menu.js" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos</span>
-    <a href="index.html">← Volver al plano</a>
   </header>
   <div class="stage" id="stage">
     <div class="loading" id="loading">Cargando el modelo…</div>
