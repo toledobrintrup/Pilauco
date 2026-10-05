@@ -1349,6 +1349,7 @@ function iniciar3D() {
     const t = V3(...obj), d = V3(...pos).sub(t);
     const tv = Math.tan(camera.fov * Math.PI / 360);
     const fv = tv * libre.h / libre.H, fh = tv * libre.w / libre.H;     // tangentes del medio ángulo útil
+    if (!(Math.min(fv, fh) > 0.02)) return [t.clone().add(d), t];         // visor sin tamaño todavía: sin ajustar
     if (general) d.setLength(2.15 / Math.min(fv, fh));                    // que entren poste, brazo y tablero
     else d.multiplyScalar(Math.min(2.2, Math.max(1, 0.3 / Math.min(fv, fh * 0.85))));
     return [t.clone().add(d), t];
@@ -1396,8 +1397,17 @@ function iniciar3D() {
   let sucio = true, visible = true;
   function pedir() { sucio = true; }
   // el centro del dibujo se corre al centro del espacio libre entre los controles de arriba y el de altura
+  // si el 3D arranca con el visor sin tamaño (pestaña en segundo plano), se encuadra cuando lo tenga
+  let encuadrado = false;
+  function encuadrar() {
+    if (visor.clientWidth < 2 || visor.clientHeight < 2) return;
+    encuadrado = true;
+    const v = est.paso == null ? VISTA_GRAL : PASOS[est.paso].cam;
+    irA(v[0], v[1], true, est.paso == null);
+  }
   function medir() {
     const w = visor.clientWidth, h = Math.max(1, visor.clientHeight);
+    if (w < 2 || h < 2) return;
     const top0 = visor.getBoundingClientRect().top;
     const arriba = Math.max(...['.v-pasos', '.v-capas'].map(q => { const r = $(q).getBoundingClientRect(); return r.top - top0 < h / 3 && r.height < h / 2 && (q === '.v-pasos' || r.width > w * 0.6) ? r.bottom - top0 : 0; })) + 8;
     const abajo = ($('.v-altura').offsetHeight || 90) + 16;
@@ -1405,6 +1415,7 @@ function iniciar3D() {
     libre = { w, h: Math.max(80, h - arriba - abajo), H };
     renderer.setSize(w, h, false);
     camera.aspect = w / H; camera.setViewOffset(w, H, 0, 2 * corr, w, h); camera.updateProjectionMatrix(); pedir();
+    if (!encuadrado) encuadrar();
   }
   new ResizeObserver(medir).observe(visor);
   if ('IntersectionObserver' in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible) pedir(); }).observe(visor);
@@ -1422,6 +1433,7 @@ function iniciar3D() {
       est.h = h; $('#h-rng').value = h; aplicar();
       if (t - anim.ini > 5200 * anim.vueltas) { anim = null; est.h = GEO.hMax; $('#h-rng').value = GEO.hMax; aplicar(); $('#h-anim').textContent = '▶'; }
     }
+    if (!Number.isFinite(camera.position.x + camera.position.y + camera.position.z)) { encuadrado = false; encuadrar(); }
     const cambio = controls.update();
     if (!visible) return;
     if (sucio || cambio) { renderer.render(scene, camera); moverEtiquetas(); sucio = false; }
@@ -1465,7 +1477,7 @@ function iniciar3D() {
   // ---------- arranque ----------
   $('#v-carga').hidden = true; $('#v-ui').hidden = false;
   medir(); aplicar(); estado();
-  irA(VISTA_GRAL[0], VISTA_GRAL[1], true, true);
+  encuadrar();
   requestAnimationFrame(bucle);
   const dibujar = () => { if (viaje) { camera.position.copy(viaje.p1); controls.target.copy(viaje.t1); viaje = null; } controls.update(); renderer.render(scene, camera); moverEtiquetas(); };
   return { irPaso, seleccionar, marcarDoc, fijarAltura, est, scene, camera, renderer, controls, aplicar, estado, pose, GEO, T, dibujar };
