@@ -326,6 +326,191 @@ def pernos_y_alzaprimas(areas, pilares, perfil):
         out.append(l)
     return VAL, pernos, out
 
+# ---------------------------------------------------------------------------------------------
+# Malla (detalle del ingeniero): ACMA C-188 con su cara superior a 2,5 cm de la cara de la losa.
+# Paneles estándar en filas traslapadas; cada panel se recorta al contorno de la losa (MALLA_BORDE desde la
+# cara exterior del alma del C) y alrededor de los pilares del nivel 2.
+# ---------------------------------------------------------------------------------------------
+# Panel estándar (catálogo): 2,60 × 5,00 m; 18 barras de 5,00 m (la primera a 2,5 cm del costado) y 33 de 2,60 m
+# (la primera a 10 cm de cada punta); Ø6 a 15 cm; 39,03 kg por panel.
+# Traslapo según ACMA (NCh 219): al menos 4 alambres transversales de cada malla y no menos de 30 cm entre los
+# últimos alambres. Con cuadrícula de 15 cm son 3 cuadrículas (45 cm) más las puntas de los dos paneles:
+# 45 + 2 × 10 = 65 cm donde se juntan las puntas y 45 + 2 × 2,5 = 50 cm en los costados. El ingeniero no lo
+# indicó; si acepta el de Armacero (30 cm entre bordes de panel), salen los paneles de 'alternativas'.
+MALLA = {'tipo': 'ACMA C-188', 'd': 0.6, 'sep': 15.0, 'panel': [260.0, 500.0], 'traslapo': {'costado': 50.0, 'punta': 65.0},
+         'n_largas': 18, 'sal_largas': 2.5, 'n_cortas': 33, 'sal_cortas': 10.0,
+         'kg_m': 0.222, 'kg_panel': 39.03, 'recubrimiento': 2.5}
+ALTERNATIVAS = [('Armacero: 30 cm entre bordes de panel', 30.0, 30.0)]
+MALLA_BORDE = 3.0       # cm desde el borde de la losa hasta la punta de las barras (alma de 3 mm + recubrimiento)
+MALLA_PILAR = 2.0       # cm de holgura alrededor de cada pilar que atraviesa la losa
+MALLA_MIN = 5.0         # cm: un trozo de barra más corto que esto no se pone
+DESFASE = 225.0         # cm (15 cuadrículas): las filas impares se corren a lo largo para que no se junten 4 paneles
+CHOQUE = 31.75 / 20 + 0.3   # cm: una barra a menos de esto del eje de un perno toca su cabeza (Ø31,75 + Ø6)
+
+def inset(pol, d):
+    """Polígono rectilíneo corrido d hacia adentro en todos sus lados."""
+    p = pol[:] if area_firmada(pol) > 0 else pol[::-1]
+    n = len(p); lineas = []
+    for i in range(n):
+        a, b = p[i], p[(i + 1) % n]
+        dx, dy = b[0] - a[0], b[1] - a[1]; L = math.hypot(dx, dy)
+        lineas.append(((a[0] - dy / L * d, a[1] + dx / L * d), (dx / L, dy / L)))
+    out = []
+    for i in range(n):
+        (p1, d1), (p2, d2) = lineas[i - 1], lineas[i]
+        den = d1[0] * d2[1] - d1[1] * d2[0]
+        if abs(den) < 1e-9: out.append(list(p2)); continue
+        t = ((p2[0] - p1[0]) * d2[1] - (p2[1] - p1[1]) * d2[0]) / den
+        out.append([round(p1[0] + d1[0] * t, 2), round(p1[1] + d1[1] * t, 2)])
+    return out
+
+def _unir(iv):
+    out = []
+    for a, b in sorted(iv):
+        if out and a <= out[-1][1] + 1e-6: out[-1][1] = max(out[-1][1], b)
+        else: out.append([a, b])
+    return out
+
+def _barra(R, pilares, eje, c, t0, t1):
+    """Trozos de la barra eje=c ('y': barra horizontal y=c entre x=t0 y x=t1) dentro de R y fuera de los pilares.
+    Una barra que cae justo sobre el contorno cuenta como de adentro (se miran los dos lados de la recta)."""
+    k = 'y' if eje == 'y' else 'x'
+    iv = _unir(intervalos(R, k, c - 1e-4) + intervalos(R, k, c + 1e-4))
+    tr = [(max(a, t0), min(b, t1)) for a, b in iv if min(b, t1) > max(a, t0)]
+    for p in pilares:
+        x0, y0, x1, y1 = p['seccion']
+        x0 -= MALLA_PILAR; y0 -= MALLA_PILAR; x1 += MALLA_PILAR; y1 += MALLA_PILAR
+        lo, hi, q0, q1 = (y0, y1, x0, x1) if eje == 'y' else (x0, x1, y0, y1)
+        if not (lo < c < hi): continue
+        nuevo = []
+        for a, b in tr:
+            if b <= q0 or a >= q1: nuevo.append((a, b)); continue
+            if q0 > a: nuevo.append((a, q0))
+            if q1 < b: nuevo.append((q1, b))
+        tr = nuevo
+    return [[round(c, 1), round(a, 1), round(b, 1)] for a, b in tr if b - a >= MALLA_MIN]
+
+def _recorte_area(R, r):
+    """Área del contorno R recortado al rectángulo r = (x0, y0, x1, y1) (Sutherland–Hodgman)."""
+    P = R
+    for k, v, sg in ((0, r[0], 1), (0, r[2], -1), (1, r[1], 1), (1, r[3], -1)):
+        out = []
+        for i, a in enumerate(P):
+            b = P[(i + 1) % len(P)]; ina = sg * (a[k] - v) >= 0; inb = sg * (b[k] - v) >= 0
+            if ina: out.append(a)
+            if ina != inb:
+                t = (v - a[k]) / (b[k] - a[k]); out.append([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t])
+        P = out
+        if not P: return 0.0
+    return abs(area_firmada(P)) if len(P) >= 3 else 0.0
+
+def _rects(R, largo_en_x, desde_max_x, desde_max_y, desfase, sx, sy, tc, tp):
+    """Rectángulos de panel de un reparto: filas a lo ancho del panel, paneles a lo largo; las filas impares se corren
+    'desfase' a lo largo. (sx, sy) corre todo el reparto hacia afuera de la esquina de partida. Un panel solo se pone
+    si el anterior de su fila (o la fila anterior) no alcanza el borde."""
+    w, l = MALLA['panel']
+    xs = [p[0] for p in R]; ys = [p[1] for p in R]
+    X0, X1, Y0, Y1 = min(xs) - sx, max(xs) + sx, min(ys) - sy, max(ys) + sy
+    # coordenadas locales: a = a lo largo del panel, b = a lo ancho, medidas desde la esquina de partida
+    A = (X1 - X0) if largo_en_x else (Y1 - Y0); B = (Y1 - Y0) if largo_en_x else (X1 - X0)
+    out = []
+    j = 0
+    while j == 0 or j * (w - tc) + tc < B:
+        b = j * (w - tc); corr = desfase if j % 2 else 0.0
+        i = 0
+        while True:
+            a = i * (l - tp) - corr
+            if i > 0 and a + tp >= A: break
+            if a + l > 0:
+                u, v = (a, b) if largo_en_x else (b, a)
+                dx, dy = (l, w) if largo_en_x else (w, l)
+                px0 = X1 - dx - u if desde_max_x else X0 + u
+                py0 = Y1 - dy - v if desde_max_y else Y0 + v
+                out.append((i, j, px0, py0, dx, dy))
+            i += 1
+        j += 1
+    return out
+
+def _lineas_barras(rects, largo_en_x):
+    s = MALLA['sep']
+    larg = (MALLA['n_largas'], MALLA['sal_largas']); cort = (MALLA['n_cortas'], MALLA['sal_cortas'])
+    (n_x, o_x), (n_y, o_y) = (larg, cort) if largo_en_x else (cort, larg)
+    ly = sorted(set(round(r[3] + o_x + k * s, 1) for r in rects for k in range(n_x)))
+    lx = sorted(set(round(r[2] + o_y + k * s, 1) for r in rects for k in range(n_y)))
+    return lx, ly
+
+def _choques(pernos, lx, ly):
+    import bisect
+    def cerca(v, ls):
+        i = bisect.bisect_left(ls, v)
+        return min([abs(v - ls[k]) for k in (i - 1, i) if 0 <= k < len(ls)] or [1e9]) < CHOQUE
+    return sum(1 for p in pernos if cerca(p['x'], lx) or cerca(p['y'], ly))
+
+def _paneles(R, pilares, rects, largo_en_x):
+    s = MALLA['sep']
+    larg = (MALLA['n_largas'], MALLA['sal_largas']); cort = (MALLA['n_cortas'], MALLA['sal_cortas'])
+    (n_x, o_x), (n_y, o_y) = (larg, cort) if largo_en_x else (cort, larg)   # n_x barras paralelas a x, repartidas en y
+    paneles = []
+    for (i, j, px0, py0, dx, dy) in rects:
+        bx = [b for k in range(n_x) for b in _barra(R, pilares, 'y', py0 + o_x + k * s, px0, px0 + dx)]
+        by = [b for k in range(n_y) for b in _barra(R, pilares, 'x', px0 + o_y + k * s, py0, py0 + dy)]
+        if not bx and not by: continue
+        largo = sum(b[2] - b[1] for b in bx + by)
+        # entero: todas sus barras, completas (ni el borde ni un pilar le cortan nada)
+        entero = len(bx) == n_x and len(by) == n_y and largo >= n_x * dx + n_y * dy - 0.5
+        paneles.append({'i': i, 'j': j, 'x0': round(px0, 1), 'y0': round(py0, 1), 'x1': round(px0 + dx, 1), 'y1': round(py0 + dy, 1),
+                        'cortado': not entero, 'bx': bx, 'by': by, 'm': round(largo / 100, 2)})
+    return paneles
+
+def _repartos(R, tc, tp):
+    for largo_en_x in (True, False):
+        for mx in (False, True):
+            for my in (False, True):
+                for des in (DESFASE, 0.0):
+                    yield largo_en_x, mx, my, des
+
+def _contar(R, rects):
+    return sum(1 for r in rects if _recorte_area(R, (r[2], r[3], r[2] + r[4], r[3] + r[5])) > 150.0)
+
+def malla(perim, pilares, pernos):
+    R = inset(perim, MALLA_BORDE)
+    tc, tp = MALLA['traslapo']['costado'], MALLA['traslapo']['punta']
+    # 1) el reparto con menos paneles (a igualdad, con filas desfasadas: no se juntan 4 paneles en una esquina)
+    mejor = None
+    for largo_en_x, mx, my, des in _repartos(R, tc, tp):
+        ps = _paneles(R, pilares, _rects(R, largo_en_x, mx, my, des, 0, 0, tc, tp), largo_en_x)
+        nota = (len(ps), 0 if des else 1, sum(1 for p in ps if p['cortado']))
+        if mejor is None or nota < mejor[0]: mejor = (nota, (largo_en_x, mx, my, des), ps)
+    (n0, _, _), (largo_en_x, mx, my, des), ps = mejor
+    # 2) correr el reparto (0 a 14 cm en cada sentido) para que las barras toquen la menor cantidad de cabezas de perno,
+    #    sin agregar paneles
+    cand = []
+    for sx in range(15):
+        for sy in range(15):
+            rs = _rects(R, largo_en_x, mx, my, des, sx, sy, tc, tp)
+            if _contar(R, rs) > n0: continue
+            cand.append((_choques(pernos, *_lineas_barras(rs, largo_en_x)), sx, sy, rs))
+    cand.sort(key=lambda c: (c[0], c[1] + c[2]))
+    choques0 = _choques(pernos, *_lineas_barras(_rects(R, largo_en_x, mx, my, des, 0, 0, tc, tp), largo_en_x))
+    corr = (0, 0)
+    for ch, sx, sy, rs in cand[:12]:
+        p2 = _paneles(R, pilares, rs, largo_en_x)
+        if len(p2) <= n0: ps, corr = p2, (sx, sy); break
+    lx, ly = _lineas_barras([(0, 0, p['x0'], p['y0'], p['x1'] - p['x0'], p['y1'] - p['y0']) for p in ps], largo_en_x)
+    choques = _choques(pernos, lx, ly)
+    # orden de colocación: fila por fila y, en cada fila, a lo largo
+    ps.sort(key=lambda p: (p['j'], p['x0'] if largo_en_x else p['y0']))
+    for k, p in enumerate(ps): p['n'] = k + 1
+    m_barra = sum(p['m'] for p in ps)
+    # cuántos paneles saldrían con otros traslapos (mismo método, sin correr el reparto)
+    alt = []
+    for nombre, c2, p2 in ALTERNATIVAS:
+        n = min(len(_paneles(R, pilares, _rects(R, lx_, mx_, my_, d_, 0, 0, c2, p2), lx_)) for lx_, mx_, my_, d_ in _repartos(R, c2, p2))
+        alt.append({'criterio': nombre, 'costado': c2, 'punta': p2, 'paneles': n})
+    return dict(MALLA, borde=MALLA_BORDE, largo_en='x' if largo_en_x else 'y', desfase=des, corrimiento=list(corr),
+                contorno=R, paneles=ps, m_barra=round(m_barra, 1), kg_obra=round(m_barra * MALLA['kg_m'], 0),
+                choques=choques, choques_sin_correr=choques0, alternativas=alt)
+
 def main(f_losa, f_placa, salida, f_extra=None):
     L = json.load(open(f_losa)); P = json.load(open(f_placa))
     X = json.load(open(f_extra)) if f_extra else {}
@@ -357,8 +542,10 @@ def main(f_losa, f_placa, salida, f_extra=None):
         'perimetro': perim, 'hueco_escalera': L.get('hueco_escalera'), 'hueco_interior': None,
         'marco': marco, 'areas': areas, 'pilares_n2': pilares, 'grilla': X.get('grilla', {}),
         'perfilC': {'h': 150, 'b': 50, 't': 3, 'r': 3},
-        'pernos': pernos, 'valles_mm': valles, 'perno': {'d': 19.05, 'largo': 127.0, 'largo_compra': 131.8, 'cabeza_d': 31.75, 'cabeza_h': 9.5},
+        'pernos': pernos, 'valles_mm': valles, 'perno': {'d': 19.05, 'largo': 127.0, 'largo_compra': 131.8, 'cabeza_d': 31.75, 'cabeza_h': 9.5,
+                                                      'sold_d': 27.0, 'sold_h': 6.4, 'quema_desnudo': 4.8, 'quema_placa': [9.5, 11.1]},
         'alzaprimas': alzaprimas, 'luz_max_alzaprima': LUZ_MAX_ALZ, 'puntal_sep_max': PUNTAL_SEP_MAX,
+        'malla': malla(perim, pil_borde + pil_dentro, pernos),
         'placa': P, 'diferencias': X.get('diferencias', []), 'notas': X.get('notas', []), 'cotizacion': X.get('cotizacion'),
         'cotizacion_pernos': X.get('cotizacion_pernos'),
     }
@@ -377,6 +564,10 @@ def main(f_losa, f_placa, salida, f_extra=None):
     print('PERNOS', len(pernos), dict(sorted(pa.items())))
     print('PUNTALES', sum(len(l['puntales']) for l in alzaprimas), dict(sorted(collections.Counter(l['area'] for l in alzaprimas for _ in l['puntales']).items())))
     print('ALZAPRIMAS (líneas)', len(alzaprimas), 'tramos', sum(len(l['tramos']) for l in alzaprimas), dict(sorted(collections.Counter(l['area'] for l in alzaprimas).items())), 'metros', round(sum(t[1] - t[0] for l in alzaprimas for t in l['tramos']) / 100, 1))
+    M = out['malla']
+    print('MALLA', M['tipo'], 'paneles', len(M['paneles']), 'cortados', sum(1 for p in M['paneles'] if p['cortado']), 'largo en', M['largo_en'],
+          'desfase', M['desfase'], 'corrimiento', M['corrimiento'], 'choques', M['choques'], 'sin correr', M['choques_sin_correr'], 'alternativas', M['alternativas'],
+          'barras', sum(len(p['bx']) + len(p['by']) for p in M['paneles']), 'm', M['m_barra'], 'kg', M['kg_obra'])
     print(salida, len(js), 'bytes')
 
 if __name__ == '__main__':

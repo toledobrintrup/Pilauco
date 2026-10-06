@@ -180,7 +180,8 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
 .v-pill .ttl{padding:0 6px;font-size:12.5px;white-space:nowrap;max-width:46vw;overflow:hidden;text-overflow:ellipsis}
 .v-pill .ttl b{color:var(--naranja);font-weight:650;font-variant-numeric:tabular-nums}
 .v-pill button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
-.v-capas{position:absolute;top:12px;right:12px;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.v-capas{position:absolute;top:12px;right:12px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;pointer-events:none}
+.v-capas > *{pointer-events:auto}   /* la caja es tan ancha como la barra de navegación: el hueco junto a las capas deja pasar al 3D */
 .v-capas .grp{display:flex;flex-direction:column;gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:5px;box-shadow:var(--shadow)}
 .tg{font:inherit;font-size:12px;font-weight:500;border:0;background:transparent;color:var(--muted);border-radius:8px;padding:4px 9px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:7px;white-space:nowrap}
 .tg::before{content:"";width:8px;height:8px;border-radius:2px;border:1.5px solid currentColor;flex:none}
@@ -473,6 +474,7 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="nav3d.js"></script>
 <script>
 (function () {
 'use strict';
@@ -1344,6 +1346,7 @@ function iniciar3D() {
   // ---------- cámara ----------
   const VISTA_GRAL = [[3.5, 2.6, 4.7], [0, 2.0, 0.8]];
   let viaje = null, libre = { w: 1, h: 1, H: 1 };
+  let nav = null;    // navegación común (nav3d.js); si no cargó, quedan OrbitControls y los vuelos de aquí
   // las vistas se pensaron para un visor de proporción ≈ 1,2; si el espacio libre es más angosto, se alejan
   function ajustar(pos, obj, general) {
     const t = V3(...obj), d = V3(...pos).sub(t);
@@ -1356,6 +1359,7 @@ function iniciar3D() {
   }
   function irA(pos, obj, inst, general) {
     const [p1, t1] = ajustar(pos, obj, general);
+    if (nav) { nav.irA(p1, t1, inst ? 0 : 750); return; }
     if (inst || matchMedia('(prefers-reduced-motion: reduce)').matches) { camera.position.copy(p1); controls.target.copy(t1); controls.update(); pedir(); return; }
     viaje = { p0: camera.position.clone(), t0: controls.target.clone(), p1, t1, ini: performance.now(), dur: 750 };
     pedir();
@@ -1417,6 +1421,33 @@ function iniciar3D() {
     camera.aspect = w / H; camera.setViewOffset(w, H, 0, 2 * corr, w, h); camera.updateProjectionMatrix(); pedir();
     if (!encuadrado) encuadrar();
   }
+  // la vista de inicio es la del paso que se está mostrando (la general si no hay paso)
+  const vistaActual = () => { const v = est.paso == null ? VISTA_GRAL : PASOS[est.paso].cam; return ajustar(v[0], v[1], est.paso == null); };
+  if (window.Nav3D) {
+    try {
+      nav = Nav3D.conectar({
+        camera, controls, dom: renderer.domElement,
+        // las piezas visibles (sin el bloque de hormigón, que es transparente) y el suelo si no se mira bajo tierra
+        objetivos: () => {
+          const l = [];
+          CLAVES.forEach(c => { if (c !== 'HOR') REG[c].forEach(o => { if (o.isMesh && o.visible) l.push(o); }); });
+          if (!(est.bajo || est.paso === 0)) l.push(piso, cancha);
+          return l;
+        },
+        planoY: 0,
+        inicio: vistaActual,
+        contenedor: $('.v-capas'), enFlujo: true,
+        distMin: 0.15, distMax: 14,
+        pedir,
+      });
+    } catch (err) { console.error(err); nav = null; controls.enableZoom = true; }   // sigue con OrbitControls solo
+  }
+  if (nav) {
+    $('#tg-fit').hidden = true;     // lo mismo que el botón de inicio de la barra
+    $('.v-ayuda').innerHTML = Nav3D.ayudaLineas.join('<br>') + '<br>Toca una pieza';
+    // doble clic / doble toque: la cámara vuela y la ficha quedaría fuera de lugar (la pieza sigue marcada)
+    renderer.domElement.addEventListener('nav3d-doble', () => { ficha.hidden = true; });
+  }
   new ResizeObserver(medir).observe(visor);
   if ('IntersectionObserver' in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible) pedir(); }).observe(visor);
   controls.addEventListener('change', pedir);
@@ -1434,6 +1465,7 @@ function iniciar3D() {
       if (t - anim.ini > 5200 * anim.vueltas) { anim = null; est.h = GEO.hMax; $('#h-rng').value = GEO.hMax; aplicar(); $('#h-anim').textContent = '▶'; }
     }
     if (!Number.isFinite(camera.position.x + camera.position.y + camera.position.z)) { encuadrado = false; encuadrar(); }
+    if (nav && nav.actualizar(t)) sucio = true;
     const cambio = controls.update();
     if (!visible) return;
     if (sucio || cambio) { renderer.render(scene, camera); moverEtiquetas(); sucio = false; }
@@ -1460,7 +1492,7 @@ function iniciar3D() {
     const paso = () => { const u = Math.min(1, (performance.now() - ini) / 650), s = u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2; est.desp = a + (b - a) * s; aplicar(); if (u < 1) requestAnimationFrame(paso); };
     paso();
   });
-  $('#tg-fit').addEventListener('click', () => { const v = est.paso == null ? VISTA_GRAL : PASOS[est.paso].cam; irA(v[0], v[1], false, est.paso == null); });
+  $('#tg-fit').addEventListener('click', () => { if (nav) { nav.vistaInicio(); return; } const v = est.paso == null ? VISTA_GRAL : PASOS[est.paso].cam; irA(v[0], v[1], false, est.paso == null); });
   function irPaso(k, conCamara) {
     const antes = est.paso;
     est.paso = k; est.sel = null; ficha.hidden = true;
@@ -1479,7 +1511,7 @@ function iniciar3D() {
   medir(); aplicar(); estado();
   encuadrar();
   requestAnimationFrame(bucle);
-  const dibujar = () => { if (viaje) { camera.position.copy(viaje.p1); controls.target.copy(viaje.t1); viaje = null; } controls.update(); renderer.render(scene, camera); moverEtiquetas(); };
+  const dibujar = () => { if (nav) nav.saltar(); if (viaje) { camera.position.copy(viaje.p1); controls.target.copy(viaje.t1); viaje = null; } controls.update(); renderer.render(scene, camera); moverEtiquetas(); };
   return { irPaso, seleccionar, marcarDoc, fijarAltura, est, scene, camera, renderer, controls, aplicar, estado, pose, GEO, T, dibujar };
 }
 

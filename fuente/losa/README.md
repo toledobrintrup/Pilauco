@@ -18,7 +18,13 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
 - **Alzaprimas** con el criterio del ingeniero: luz máxima sin apoyo 1,87 m; cada vano entre vigas
   receptoras se divide en espacios iguales y entre espacio y espacio va una línea: 17 líneas, que en
   terreno son 25 tramos de solera porque algunas pasan bajo una viga.
-- Pendiente: malla ACMA C-188 a 2,5 cm de la cara superior y hormigón.
+  Falta que el ingeniero confirme si las alzaprimas eran para la placa o para las vigas: su ejemplo habla de
+  6,88 m "entre pilar y pilar".
+- **Malla ACMA C-188** (detalle del ingeniero) con su cara superior a 2,5 cm de la cara de la losa: paneles de
+  2,60 × 5,00 m (18 barras Ø6 de 5,00 m y 33 de 2,60 m, a 15 cm), traslapados según la regla de ACMA (NCh 219: 4
+  alambres de cada malla y 30 cm entre los últimos; 50 cm en los costados y 65 en las puntas; el ingeniero no lo
+  dio), recortados a 3 cm del borde y a 2 cm de los pilares: 50 paneles (43 con el traslapo de 30 cm de Armacero).
+- **Hormigón** hasta los 15 cm: llena los valles de la placa y sube 8,65 cm sobre la cresta (≈ 50 m³).
 
 ## Cómo se armó
 
@@ -35,7 +41,7 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
    del C en el perímetro (5 cm del borde) y hasta 5 mm del eje de la viga donde un área toca a otra; se
    ponen cada 95 cm (avance útil) desde un borde (se prueban los dos y queda el reparto con menos
    piezas); la última va cortada. Una franja de menos de 10 cm sobre el ala de una viga no lleva placa.
-7. **Pernos y alzaprimas.** `generar_losa_js.py` busca, para cada plancha, las vigas perpendiculares que
+6. **Pernos y alzaprimas.** `generar_losa_js.py` busca, para cada plancha, las vigas perpendiculares que
    pasan bajo al menos la mitad de su ancho (los tramos seguidos de una misma viga cuentan como una línea)
    y pone un perno en cada valle que las cruza (los valles salen de la sección de la ficha, medidos desde el
    borde de la plancha entera aunque esté cortada). Sobre una misma viga, los candidatos a menos de 12 cm son
@@ -44,7 +50,12 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
    que van en los valles pero no cada cuánto; si especificó otra separación, se cambia ahí.
    Las líneas de alzaprimas se cortan donde pasan bajo una viga paralela a las planchas.
    Dos revisiones independientes recontaron pernos y alzaprimas y los dibujaron sobre el plano.
-6. **Pilares del nivel 2.** 30 pilares nacen sobre las vigas y atraviesan la losa (19 en el borde, 11
+7. **Malla.** `generar_losa_js.py` reparte paneles en filas con su traslapo sobre el contorno de la losa corrido 3 cm
+   hacia adentro; prueba las dos orientaciones, las cuatro esquinas de partida y filas desfasadas, y deja el reparto
+   con menos paneles. Después lo corre hasta 14 cm en cada sentido, sin sumar paneles, para que las barras pasen lo
+   más lejos posible de las cabezas de los pernos. Cada barra se recorta al contorno y alrededor de los pilares (con 2 cm de holgura); quedan en
+   `losa.js` como trozos (posición, desde, hasta) por panel.
+8. **Pilares del nivel 2.** 30 pilares nacen sobre las vigas y atraviesan la losa (19 en el borde, 11
    adentro). Donde tocan el alma del C, el C se corta en piezas; en el eje 5 y en A1 el alma pasa por
    fuera y solo se recortan las alas. Cada plancha anota qué pilares la tocan.
 
@@ -56,5 +67,5 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
 - `generar_losa_js.py` — escribe `losa.js`: `python3 generar_losa_js.py losa.json placa.json ../../losa.js textos.json` (`textos.json` trae las diferencias y notas que muestra la página).
 
 La ficha técnica, el plano y la foto marcada no están en el repositorio (el plano lleva datos
-personales en la viñeta). Espesor: el plano dice e = 14,35 cm (placa 6,35 + 8 de hormigón); la losa
-que se va a hacer es de 15 cm, la altura del perfil C. Confirmar con el ingeniero.
+personales en la viñeta). Espesor: el plano dice e = 14,35 cm (placa 6,35 + 8 de hormigón); el detalle
+del ingeniero del 05-10-2026, posterior, la acota en 15 cm, la altura del perfil C, y es la que usa el modelo.

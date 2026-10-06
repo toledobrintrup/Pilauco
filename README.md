@@ -58,18 +58,24 @@ perfil C 150×50×3** (también alrededor del hueco de la escalera, cortado dond
 pilares del nivel 2) y las **66 planchas Instadeck 0,8** de las 8 áreas marcadas en obra, con la
 sección real de la ficha técnica y la dirección de cada paño del plano del ingeniero. Encima, los
 **610 pernos Nelson** en las vigas receptoras, como indicó el ingeniero (uno en cada valle: la separación
-no venía en sus hojas) y las **17 líneas de alzaprimas** con su criterio de 1,87 m de luz máxima sin apoyo.
+no venía en sus hojas), soldados al arco a través de la placa; las **17 líneas de alzaprimas** con su
+criterio de 1,87 m de luz máxima sin apoyo (bajo la placa; falta que el ingeniero confirme si eran para la
+placa o para las vigas); la **malla ACMA C-188** en 50 paneles traslapados según ACMA, y el **hormigón** hasta los
+15 cm (≈ 50 m³). Cada capa se prende y se apaga.
 
-- **Armado, despiece y montaje.** El despiece se anima solo o con un deslizador por pieza (marco,
-  placa, pernos, separación de planchas y cada área). El montaje coloca el marco tramo por tramo y
-  después las planchas una por una y los pernos, área por área, con una línea de tiempo.
+- **Armado, despiece y montaje.** El despiece se anima solo o con un deslizador por pieza (hormigón,
+  malla, marco, placa, pernos, separación de planchas y cada área). El montaje coloca el marco tramo
+  por tramo, las planchas una por una y los pernos área por área, las alzaprimas, la malla panel por
+  panel y al final se ve el vaciado del hormigón, con una línea de tiempo.
+- **Navegación:** la rueda o el pellizco acercan hacia donde apunta el cursor o los dedos, doble clic
+  se acerca a ese punto, y hay botones para acercar, alejar, volver al inicio y ver en planta.
 - **Detalle de cada pieza:** sección del C con su peso por metro, detalle del borde sobre la viga,
   sección de la placa con las tablas de la ficha, plan de corte del C en barras de 6 m, y tabla de
   luces y alzaprimas por área según la ficha.
 - **Diferencias con lo anotado en obra** (largos, cantidades y la cotización), cada una explicada.
 - En la vista 3D aparece como la capa "Losa colaborante".
 
-Cómo se armó y qué falta (pernos Nelson, malla, hormigón) está en `fuente/losa/README.md`.
+Cómo se armó cada parte está en `fuente/losa/README.md`.
 
 ## Tablero de básquetbol
 

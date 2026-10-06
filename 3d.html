@@ -39,7 +39,7 @@ header .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
 .btn{font:inherit;font-size:12px;font-weight:500;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 11px;cursor:pointer}
 .btn:hover{border-color:var(--accent)}
 a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-size:11.5px;padding:4px 10px}
-.hint{position:absolute;right:12px;bottom:12px;font-size:11px;color:var(--muted);background:var(--panel);border:1px solid var(--line);padding:6px 10px;border-radius:8px;pointer-events:none;max-width:220px;text-align:right;line-height:1.4}
+.hint{position:absolute;right:12px;bottom:60px;font-size:11px;color:var(--muted);background:var(--panel);border:1px solid var(--line);padding:6px 10px;border-radius:8px;pointer-events:none;max-width:220px;text-align:right;line-height:1.4}
 .aviso{position:absolute;top:12px;left:12px;right:12px;max-width:520px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:9px 12px;font-size:12px;line-height:1.5;color:var(--muted)}
 .aviso b{color:var(--ink);font-weight:500}
 .loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px}
@@ -93,6 +93,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="nav3d.js"></script>
 <script src="data.js"></script>
 <script src="estructura.js"></script>
 <script src="losa.js"></script>
@@ -380,7 +381,8 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   }
   window.addEventListener('resize', resize);
 
-  function fit(){
+  // vista de inicio: [posición, objetivo] según el tamaño del visor
+  function encuadre(){
     const cx = cm(DATA_N1.W) / 2, cz = cm(DATA_N1.H) / 2, cy = PISO;
     // radio base para encajar el ancho/largo del edificio; en pantallas angostas
     // (celular en vertical) el FOV horizontal es mucho menor que el vertical, asi
@@ -393,11 +395,13 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     const distH = mitad / Math.tan(hfov / 2);
     const dist = Math.max(distV, distH, mitad * 1.3);
     const dir = new THREE.Vector3(0.62, 0.52, 0.62).normalize();
-    camera.position.set(cx + dir.x * dist, cy + dir.y * dist, cz + dir.z * dist);
-    controls.target.set(cx, cy * 0.6, cz);
+    return [new THREE.Vector3(cx + dir.x * dist, cy + dir.y * dist, cz + dir.z * dist), new THREE.Vector3(cx, cy * 0.6, cz)];
+  }
+  function fit(){
+    const [pos, obj] = encuadre();
+    camera.position.copy(pos); controls.target.copy(obj);
     controls.update();
   }
-  document.getElementById('fit').addEventListener('click', fit);
 
   // ---------- controles de visibilidad y explosion de pisos ----------
   const chkN1 = document.getElementById('chk-n1'), chkN2 = document.getElementById('chk-n2'), chkRoof = document.getElementById('chk-roof');
@@ -465,13 +469,37 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     ficha.hidden = false;
   });
 
+  // ---------- navegación (nav3d.js): zoom hacia el cursor, doble clic, planta/3D, teclado ----------
+  // si nav3d.js falla, el modelo sigue cargando con OrbitControls solo (con su zoom de siempre)
+  let nav = null;
+  if (window.Nav3D){
+    try {
+      nav = Nav3D.conectar({
+        camera, controls, dom: renderer.domElement,
+        objetivos: () => [grupoN1, slabN1, grupoN2, slabN2, grupoRoof, grupoEstructura, grupoLosa].filter(g => g.visible),
+        planoY: PISO,
+        inicio: encuadre,
+        contenedor: stage, lado: 'derecha', vertical: '(max-width: 639px)',
+        distMin: 0.3, distMax: 150,
+      });
+    } catch (err){ console.error(err); nav = null; controls.enableZoom = true; }
+  }
+  // doble clic / doble toque: la cámara vuela, así que la ficha del primer clic quedaría fuera de lugar
+  renderer.domElement.addEventListener('nav3d-doble', () => { ficha.hidden = true; });
+  document.getElementById('fit').addEventListener('click', () => { if (nav) nav.vistaInicio(); else fit(); });
+  if (nav){
+    const hint = document.getElementById('hint');
+    hint.textContent = '';
+    Nav3D.ayudaLineas.forEach((l, i) => { if (i) hint.appendChild(document.createElement('br')); hint.appendChild(document.createTextNode(l)); });
+  }
+
   // ---------- arranque ----------
   resize(); fit();
   document.getElementById('loading').hidden = true;
   document.getElementById('aviso').hidden = false;
   document.getElementById('panel').hidden = false;
   document.getElementById('hint').hidden = false;
-  (function loop(){ requestAnimationFrame(loop); controls.update(); renderer.render(scene, camera); })();
+  (function loop(t){ requestAnimationFrame(loop); if (nav) nav.actualizar(t); controls.update(); renderer.render(scene, camera); })();
 })();
 </script>
 </body>
