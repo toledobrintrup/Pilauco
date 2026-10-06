@@ -181,6 +181,10 @@ def piezas_marco(c, pilares):
 # ceil(L / 1,87) espacios iguales y lleva ese número menos uno de líneas de alzaprimas.
 # ---------------------------------------------------------------------------------------------
 LUZ_MAX_ALZ = 187.0
+# Separación máxima entre puntales A LO LARGO de cada línea (bajo la solera). El ingeniero no la indicó:
+# 1,0 m es una referencia a confirmar con él.
+PUNTAL_SEP_MAX = 100.0
+PUNTAL_BORDE = 15.0       # cm desde el extremo de cada tramo de solera al primer puntal
 
 def _vigas_ejes():
     import os, re
@@ -311,6 +315,14 @@ def pernos_y_alzaprimas(areas, pilares, perfil):
             cur = max(cur, c1)
         if l['a1'] - cur > 5: tramos.append([round(cur, 1), round(l['a1'], 1)])
         l['tramos'] = tramos
+        # puntales repartidos parejo a lo largo de cada tramo, a no más de PUNTAL_SEP_MAX entre sí
+        pun = []
+        for t0, t1 in tramos:
+            u0, u1 = t0 + PUNTAL_BORDE, t1 - PUNTAL_BORDE
+            if u1 <= u0: pun.append(round((t0 + t1) / 2, 1)); continue
+            n = max(1, math.ceil((u1 - u0) / PUNTAL_SEP_MAX - 1e-9))
+            pun += [round(u0 + (u1 - u0) * i / n, 1) for i in range(n + 1)]
+        l['puntales'] = pun
         out.append(l)
     return VAL, pernos, out
 
@@ -346,11 +358,12 @@ def main(f_losa, f_placa, salida, f_extra=None):
         'marco': marco, 'areas': areas, 'pilares_n2': pilares, 'grilla': X.get('grilla', {}),
         'perfilC': {'h': 150, 'b': 50, 't': 3, 'r': 3},
         'pernos': pernos, 'valles_mm': valles, 'perno': {'d': 19.05, 'largo': 127.0, 'largo_compra': 131.8, 'cabeza_d': 31.75, 'cabeza_h': 9.5},
-        'alzaprimas': alzaprimas, 'luz_max_alzaprima': LUZ_MAX_ALZ,
+        'alzaprimas': alzaprimas, 'luz_max_alzaprima': LUZ_MAX_ALZ, 'puntal_sep_max': PUNTAL_SEP_MAX,
         'placa': P, 'diferencias': X.get('diferencias', []), 'notas': X.get('notas', []), 'cotizacion': X.get('cotizacion'),
         'cotizacion_pernos': X.get('cotizacion_pernos'),
     }
     cifras = {'{pernos}': str(len(pernos)), '{alz_lineas}': str(len(alzaprimas)), '{alz_tramos}': str(sum(len(l['tramos']) for l in alzaprimas)),
+              '{puntales}': str(sum(len(l['puntales']) for l in alzaprimas)),
               '{alz_metros}': f"{sum(t[1] - t[0] for l in alzaprimas for t in l['tramos']) / 100:.0f}".replace('.', ',')}
     for clave in ('diferencias', 'notas'):
         out[clave] = [functools.reduce(lambda t, kv: t.replace(*kv), cifras.items(), x) for x in out[clave]]
@@ -362,6 +375,7 @@ def main(f_losa, f_placa, salida, f_extra=None):
     import collections
     pa = collections.Counter(p['area'] for p in pernos)
     print('PERNOS', len(pernos), dict(sorted(pa.items())))
+    print('PUNTALES', sum(len(l['puntales']) for l in alzaprimas), dict(sorted(collections.Counter(l['area'] for l in alzaprimas for _ in l['puntales']).items())))
     print('ALZAPRIMAS (líneas)', len(alzaprimas), 'tramos', sum(len(l['tramos']) for l in alzaprimas), dict(sorted(collections.Counter(l['area'] for l in alzaprimas).items())), 'metros', round(sum(t[1] - t[0] for l in alzaprimas for t in l['tramos']) / 100, 1))
     print(salida, len(js), 'bytes')
 

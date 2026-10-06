@@ -260,8 +260,8 @@ details.areas[open] summary::before{content:"▾ ";}
   <figure>
     <svg id="svg-planta" role="img" aria-label="Planta de la losa colaborante con áreas, planchas y marco"></svg>
     <figcaption>Planta de la losa: cada rectángulo delgado es una plancha (avance útil 0,95 m) y la flecha indica hacia dónde corre.
-    En amarillo, el marco de perfil C con el número de cada tramo; en morado, los pernos Nelson; en verde segmentado, las líneas
-    de alzaprimas; en rojo, los pilares del nivel 2. Toca una fila de la tabla para verla en el 3D.</figcaption>
+    En amarillo, el marco de perfil C con el número de cada tramo; en morado, los pernos Nelson; en verde, las líneas de
+    alzaprimas (solera) con sus puntales; en rojo, los pilares del nivel 2. Toca una fila de la tabla para verla en el 3D.</figcaption>
   </figure>
   <div class="tw"><table id="tabla-areas"></table></div>
   <div id="dif-areas"></div>
@@ -315,7 +315,11 @@ details.areas[open] summary::before{content:"▾ ";}
   <h2><span class="n">05</span>Alzaprimas</h2>
   <p>El ingeniero indicó considerar <b>1,87 m como luz máxima sin apoyo</b> mientras el hormigón está fresco. Cada vano
   entre vigas receptoras se divide en espacios iguales de 1,87 m o menos, y entre espacio y espacio va una línea de
-  alzaprimas. Su ejemplo: 6,88 m entre pilares da 4 espacios de 1,72 m, o sea 3 alzaprimas.</p>
+  alzaprimas. Su ejemplo: 6,88 m entre pilares da 4 espacios de 1,72 m, o sea 3 alzaprimas. Con vanos de 1,87 a 3,74 m
+  la línea queda <b>al centro</b> del vano; con vanos más largos, en los tercios.</p>
+  <p>Cada línea es una <b>solera</b> (tablón o perfil) apoyada bajo la placa, que reparte el apoyo bajo todas las planchas,
+  sobre <b>puntales repartidos a lo largo</b> de ella, también al centro del paño. Cada cuánto van los puntales en ese sentido
+  no viene en la indicación: el modelo usa 1,0 m como máximo, como referencia para confirmar con el ingeniero.</p>
   <div class="tw"><table class="small" id="tabla-apoyos"></table></div>
   <p class="small sub" id="txt-apoyos"></p>
 </section>
@@ -429,7 +433,7 @@ function maxFlecha(nVanos, et) {
     ['Marco perimetral', fm(LARGO_PZ, 1), `C 150×50×3: ${N_PZ} piezas entre pilares en ${L.marco.length} tramos · ≈ ${coma(LARGO_PZ / 100 * KG_M_C, 0)} kg <span class="fuente calc">calculado</span>`],
     ['Planchas Instadeck', N_PLANCHAS + ' planchas', `${coma(M2_PLACA, 1)} m² de placa · ≈ ${miles(M2_PLACA * PL.peso)} kg <span class="fuente calc">calculado</span>`],
     ['Pernos Nelson', L.pernos.length + ' pernos', `Ø19 × 5" en los valles de las vigas receptoras <span class="fuente man">ingeniero</span>; uno por valle <span class="fuente calc">criterio del modelo</span>`],
-    ['Alzaprimas', (L.alzaprimas || []).length + ' líneas', `${(L.alzaprimas || []).reduce((t, l) => t + l.tramos.length, 0)} tramos de solera, ${fm((L.alzaprimas || []).reduce((t, l) => t + l.tramos.reduce((u, q) => u + q[1] - q[0], 0), 0), 0)}; luz máxima sin apoyo 1,87 m <span class="fuente man">ingeniero</span>`],
+    ['Alzaprimas', (L.alzaprimas || []).reduce((t, l) => t + (l.puntales || []).length, 0) + ' puntales', `En ${(L.alzaprimas || []).length} líneas al centro o tercio de cada vano (luz máx. 1,87 m) <span class="fuente man">ingeniero</span>; a 1,0 m entre sí a lo largo de la línea <span class="fuente calc">referencia</span>`],
     ['Placa', '0,8 mm · 63,5 mm', `Avance útil 950 mm · ${coma(PL.peso, 2)} kg/m² · acero G37 galv. G-90 <span class="fuente man">ficha</span>`],
     ['Hormigón (después)', '≈ ' + coma(SUP / 1e4 * VOL_M2, 1) + ' m³', `${coma(VOL_M2, 4)} m³/m² con losa de ${coma(ESP, 0)} cm, sin pérdidas <span class="fuente calc">calculado</span>`],
   ];
@@ -484,7 +488,11 @@ function dibujarPlanta() {
     g.addEventListener('click', () => API && API.verArea(a.n));
   });
   // líneas de alzaprimas y pernos
-  (L.alzaprimas || []).forEach(l => { const ns = l.dir === 'NS'; l.tramos.forEach(([t0, t1]) => el('line', { x1: ns ? t0 : l.pos, y1: ns ? l.pos : t0, x2: ns ? t1 : l.pos, y2: ns ? l.pos : t1, style: 'stroke:#2E9E6A;stroke-width:6;stroke-dasharray:24 14' }, svg)); });
+  (L.alzaprimas || []).forEach(l => {
+    const ns = l.dir === 'NS';
+    l.tramos.forEach(([t0, t1]) => el('line', { x1: ns ? t0 : l.pos, y1: ns ? l.pos : t0, x2: ns ? t1 : l.pos, y2: ns ? l.pos : t1, style: 'stroke:#2E9E6A;stroke-width:5' }, svg));
+    (l.puntales || []).forEach(c => el('rect', { x: (ns ? c : l.pos) - 7, y: (ns ? l.pos : c) - 7, width: 14, height: 14, style: 'fill:#2E9E6A' }, svg));
+  });
   L.pernos.forEach(p => el('circle', { cx: p.x, cy: p.y, r: 4.5, style: 'fill:#6B4FBB' }, svg));
   // pilares del nivel 2 que nacen sobre las vigas y atraviesan la losa
   PIL2.forEach(p => { const [x0, y0, x1, y1] = p.seccion; el('rect', { x: x0, y: y0, width: x1 - x0, height: y1 - y0, style: 'fill:#C2410C;stroke:var(--paper);stroke-width:2' }, svg); });
@@ -637,14 +645,16 @@ dibujarPlaca();
     const maxV = Math.max(0, ...[...grupos.values()].flat()), nV = Math.max(0, ...[...grupos.values()].map(v => v.length));
     const limF = maxFlecha(nV, ESP), okF = maxV <= limF;
     const lin = ALZ.filter(l => l.area === a.n), tramos = lin.reduce((t, l) => t + l.tramos.length, 0), metros = lin.reduce((t, l) => t + l.tramos.reduce((u, q) => u + q[1] - q[0], 0), 0);
+    const pun = lin.reduce((t, l) => t + (l.puntales || []).length, 0);
     return `<tr data-area="${a.n}"><td><span class="sw" style="background:${a.color}"></span><b>${a.n}</b></td>
-      <td>${desc.join('<br>') || '—'}</td><td class="c"><b>${lin.length || '—'}</b>${tramos > lin.length ? ` <span class="sub">(${tramos} tramos)</span>` : ''}</td><td class="r">${lin.length ? fm(metros, 1) : '—'}</td>
+      <td>${desc.join('<br>') || '—'}</td><td class="c"><b>${lin.length || '—'}</b>${tramos > lin.length ? ` <span class="sub">(${tramos} tramos)</span>` : ''}</td><td class="r">${lin.length ? fm(metros, 1) : '—'}</td><td class="c"><b>${pun || '—'}</b></td>
       <td class="r ${okF ? 'okv' : 'dif'}">${fm(limF, 2)}${okF ? '' : ' ✗'}</td></tr>`;
   }).join('');
   const tot = ALZ.length, totT = ALZ.reduce((t, l) => t + l.tramos.length, 0), totM = ALZ.reduce((t, l) => t + l.tramos.reduce((u, q) => u + q[1] - q[0], 0), 0);
-  $('#tabla-apoyos').innerHTML = `<thead><tr><th>Área</th><th>Vanos entre vigas receptoras (m) → espacios</th><th class="c">Líneas</th><th class="r">Metros</th><th class="r">Máx. por flecha</th></tr></thead><tbody>${filas}
-    <tr><td><b>Total</b></td><td></td><td class="c"><b>${tot}</b> <span class="sub">(${totT} tramos)</span></td><td class="r"><b>${fm(totM, 1)}</b></td><td></td></tr></tbody>`;
-  $('#txt-apoyos').innerHTML = `Las líneas corren paralelas a las vigas receptoras, bajo la placa, y se ven en el 3D con la capa <b>Alzaprimas</b>. Donde una línea pasa bajo una viga, la solera se corta en dos tramos. Cuando un área tiene planchas con vanos distintos (el área 5 entre los ejes 2–4 y entre 4–5), cada grupo va en su renglón. "Máx. por flecha" es la distancia máxima entre apoyos de la losa terminada según la ficha (control de deformaciones, ${coma(ESP, 0)} cm de espesor); ninguna luz la pasa. Cada cuánto van los puntales a lo largo de cada solera no viene en la indicación: en el 3D se dibuja solo un puntal en cada extremo de cada tramo.`;
+  const totP = ALZ.reduce((t, l) => t + (l.puntales || []).length, 0);
+  $('#tabla-apoyos').innerHTML = `<thead><tr><th>Área</th><th>Vanos entre vigas receptoras (m) → espacios</th><th class="c">Líneas</th><th class="r">Solera</th><th class="c">Puntales</th><th class="r">Máx. por flecha</th></tr></thead><tbody>${filas}
+    <tr><td><b>Total</b></td><td></td><td class="c"><b>${tot}</b> <span class="sub">(${totT} tramos)</span></td><td class="r"><b>${fm(totM, 1)}</b></td><td class="c"><b>${totP}</b></td><td></td></tr></tbody>`;
+  $('#txt-apoyos').innerHTML = `Las líneas corren paralelas a las vigas receptoras, bajo la placa, y se ven en el 3D con la capa <b>Alzaprimas</b>. Donde una línea pasa bajo una viga, la solera se corta en dos tramos. Cuando un área tiene planchas con vanos distintos (el área 5 entre los ejes 2–4 y entre 4–5), cada grupo va en su renglón. "Máx. por flecha" es la distancia máxima entre apoyos de la losa terminada según la ficha (control de deformaciones, ${coma(ESP, 0)} cm de espesor); ninguna luz la pasa. Puntales a 1,0 m como máximo a lo largo de cada solera (referencia) y a 15 cm de cada extremo de tramo.`;
 })();
 
 (function pernos() {
@@ -889,18 +899,20 @@ function iniciar3D() {
     PERNOS_AREA[a.n] = { g, lista };
   });
 
-  // ---------- alzaprimas: una solera bajo la placa en cada línea, con puntales en sus extremos ----------
+  // ---------- alzaprimas: en cada línea, una solera bajo la placa sobre puntales repartidos a lo largo ----------
   const gAlz = new T.Group(); scene.add(gAlz); gAlz.visible = false;
+  const geoPuntal = new T.CylinderGeometry(0.03, 0.03, Z0 / 100 - 0.09, 8);
   (L.alzaprimas || []).forEach(l => {
     const ns = l.dir === 'NS';
     l.tramos.forEach(([t0, t1], j) => {
       const largo = (t1 - t0) / 100;
       const sol = new T.Mesh(new T.BoxGeometry(ns ? largo : 0.09, 0.09, ns ? 0.09 : largo), MAT.alz);
       sol.position.set(ns ? (t0 + t1) / 200 : l.pos / 100, Z0 / 100 - 0.045, ns ? l.pos / 100 : (t0 + t1) / 200);
-      const info = `<b>Alzaprimas</b> · área ${l.area}${l.tramos.length > 1 ? `, tramo ${j + 1} de ${l.tramos.length}` : ''}<div class="d">Solera de ${fm(t1 - t0, 2)}; divide un vano de ${fm(l.vano, 2)} en ${l.espacios} espacios de ${fm(l.vano / l.espacios, 2)} (máximo sin apoyo ${fm(L.luz_max_alzaprima, 2)}, indicación del ingeniero)</div>`;
+      const pun = (l.puntales || []).filter(c => c >= t0 - 0.5 && c <= t1 + 0.5);
+      const info = `<b>Línea de alzaprimas</b> · área ${l.area}${l.tramos.length > 1 ? `, tramo ${j + 1} de ${l.tramos.length}` : ''}<div class="d">Solera de ${fm(t1 - t0, 2)} sobre ${pun.length} puntales. Va al ${l.espacios === 2 ? 'centro' : 'tercio'} de un vano de ${fm(l.vano, 2)} (${l.espacios} espacios de ${fm(l.vano / l.espacios, 2)}; máximo sin apoyo ${fm(L.luz_max_alzaprima, 2)}, indicación del ingeniero)</div>`;
       sol.userData.info = info; gAlz.add(sol);
-      [t0 + 12, t1 - 12].forEach(c => {
-        const pu = new T.Mesh(new T.CylinderGeometry(0.03, 0.03, Z0 / 100 - 0.09, 8), MAT.alz);
+      pun.forEach(c => {
+        const pu = new T.Mesh(geoPuntal, MAT.alz);
         pu.position.set(ns ? c / 100 : l.pos / 100, (Z0 / 100 - 0.09) / 2, ns ? l.pos / 100 : c / 100); pu.userData.info = info; gAlz.add(pu);
       });
     });
