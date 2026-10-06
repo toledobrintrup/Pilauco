@@ -38,6 +38,7 @@ header .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
 .panel input[type=range]{width:100%;accent-color:var(--accent)}
 .btn{font:inherit;font-size:12px;font-weight:500;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 11px;cursor:pointer}
 .btn:hover{border-color:var(--accent)}
+a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-size:11.5px;padding:4px 10px}
 .hint{position:absolute;right:12px;bottom:12px;font-size:11px;color:var(--muted);background:var(--panel);border:1px solid var(--line);padding:6px 10px;border-radius:8px;pointer-events:none;max-width:220px;text-align:right;line-height:1.4}
 .aviso{position:absolute;top:12px;left:12px;right:12px;max-width:520px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:9px 12px;font-size:12px;line-height:1.5;color:var(--muted)}
 .aviso b{color:var(--ink);font-weight:500}
@@ -68,7 +69,8 @@ header .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
       <b>Qué es esto:</b> los volúmenes de cada recinto a su altura real (3,46 m de piso a piso)
       y el techo de un agua con sus aleros. Activa <b>Ver estructura</b> para ver la estructura de
       acero de los planos del ingeniero, pieza por pieza y con la sección de su perfil; toca una
-      pieza para ver su perfil, dónde está y su largo.
+      pieza para ver su perfil, dónde está y su largo. <b>Losa colaborante</b> agrega el marco C y
+      las placas del entrepiso; su vista especial trae el despiece y el montaje.
     </div>
     <div class="panel" id="panel" hidden>
       <div class="row"><label><input type="checkbox" id="chk-n1" checked> Nivel 1</label></div>
@@ -76,6 +78,8 @@ header .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
       <div class="row"><label><input type="checkbox" id="chk-roof" checked> Techo</label></div>
       <div class="row"><label><input type="checkbox" id="chk-estructura"> Ver estructura</label></div>
       <div id="grupos-acero" hidden></div>
+      <div class="row"><label><input type="checkbox" id="chk-losa"> Losa colaborante</label></div>
+      <div class="row"><a class="btn losa" href="losa.html">Vista losa colaborante →</a></div>
       <div class="sep"></div>
       <div class="row lbl">Separar pisos</div>
       <div class="row"><input type="range" id="explode" min="0" max="3" step="0.05" value="0"></div>
@@ -91,6 +95,7 @@ header .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script src="data.js"></script>
 <script src="estructura.js"></script>
+<script src="losa.js"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -296,7 +301,54 @@ header .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
   const grupoEstructura = buildEstructura();
   grupoEstructura.visible = false;
 
-  scene.add(grupoN1, grupoN2, slabN1, slabN2, grupoRoof, grupoEstructura);
+  // ---------- losa colaborante del entrepiso (losa.js): marco perimetral C 150x50x3 y placas
+  // Instadeck con su sección real, sobre la cara superior de las vigas. El detalle está en losa.html.
+  function buildLosa(){
+    const g = new THREE.Group();
+    if (typeof DATA_LOSA === 'undefined') return g;
+    const Lo = DATA_LOSA, z0 = cm(Lo.z_viga), mm = v => v / 1000;
+    const matC = new THREE.MeshLambertMaterial({color: dark ? 0xF2C14E : 0xE3A622});
+    const matP = new THREE.MeshLambertMaterial({color: dark ? 0xB9C0C9 : 0xB8BFC8, side: THREE.DoubleSide});
+    const {h, b, t} = Lo.perfilC, sC = new THREE.Shape();
+    [[0,0],[b,0],[b,t],[t,t],[t,h-t],[b,h-t],[b,h],[0,h]].forEach(([x, y], i) => i ? sC.lineTo(mm(x), mm(y)) : sC.moveTo(mm(x), mm(y)));
+    const geoC = new THREE.ExtrudeGeometry(sC, {depth: 1, bevelEnabled: false});
+    // cada tramo va en piezas: los pilares del nivel 2 que tocan el alma del C lo interrumpen
+    Lo.marco.forEach(c => {
+      const x = new THREE.Vector3(c.interior[0], 0, c.interior[1]).normalize(), y = ARRIBA.clone(), z = new THREE.Vector3().crossVectors(x, y);
+      const A = new THREE.Vector3(cm(c.a[0]), z0, cm(c.a[1])), B = new THREE.Vector3(cm(c.b[0]), z0, cm(c.b[1])), u = B.clone().sub(A).normalize();
+      (c.piezas || [{s0: 0, s1: c.largo, largo: c.largo}]).forEach(pz => {
+        const m = new THREE.Mesh(geoC, matC);
+        m.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(x, y, z)); m.scale.set(1, 1, cm(pz.largo));
+        m.position.copy(A).addScaledVector(u, cm(u.dot(z) >= 0 ? pz.s0 : pz.s1));
+        m.userData.losa = `<b>Perfil C 150×50×3</b> · marco de la losa<br><span class="sub">Tramo ${c.id} · pieza de ${(pz.largo / 100).toFixed(2).replace('.', ',')} m</span>`;
+        g.add(m);
+      });
+    });
+    const pr = Lo.placa.perfil, e = Lo.placa.espesor, cache = {};
+    function geoPlaca(w){
+      const k = Math.round(w); if (cache[k]) return cache[k];
+      const pts = [];
+      for (let i = 0; i < pr.length; i++){ const p = pr[i]; if (p[0] <= k){ pts.push(p); continue; } const q = pr[i-1]; if (q && q[0] < k) pts.push([k, q[1] + (p[1]-q[1]) * (k-q[0]) / (p[0]-q[0])]); break; }
+      const s = new THREE.Shape();
+      pts.forEach((p, i) => i ? s.lineTo(mm(p[0]), mm(p[1])) : s.moveTo(mm(p[0]), mm(p[1])));
+      for (let i = pts.length - 1; i >= 0; i--) s.lineTo(mm(pts[i][0]), mm(pts[i][1] + e));
+      s.closePath();
+      return cache[k] = new THREE.ExtrudeGeometry(s, {depth: 1, bevelEnabled: false});
+    }
+    Lo.areas.forEach(a => a.piezas.forEach((p, i) => {
+      const ns = a.dir === 'NS', z = ns ? new THREE.Vector3(0, 0, 1) : new THREE.Vector3(1, 0, 0), x = new THREE.Vector3().crossVectors(ARRIBA, z);
+      const m = new THREE.Mesh(geoPlaca(p.ancho * 10), matP);
+      m.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(x, ARRIBA, z)); m.scale.set(1, 1, cm(p.largo));
+      m.position.set(cm(p.x0), z0, cm(ns ? p.y0 : p.y1));
+      m.userData.losa = `<b>Placa Instadeck 0,8</b> · área ${a.n}<br><span class="sub">plancha ${p.k} · ${(p.largo / 100).toFixed(2).replace('.', ',')} m × ${(p.ancho / 100).toFixed(2).replace('.', ',')} m${p.cortada ? ' (cortada)' : ''}</span>`;
+      g.add(m);
+    }));
+    return g;
+  }
+  const grupoLosa = buildLosa();
+  grupoLosa.visible = false;
+
+  scene.add(grupoN1, grupoN2, slabN1, slabN2, grupoRoof, grupoEstructura, grupoLosa);
 
   // suelo de referencia
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(60, 60), new THREE.MeshBasicMaterial({color: BG}));
@@ -350,6 +402,7 @@ header .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
   // ---------- controles de visibilidad y explosion de pisos ----------
   const chkN1 = document.getElementById('chk-n1'), chkN2 = document.getElementById('chk-n2'), chkRoof = document.getElementById('chk-roof');
   const chkEstructura = document.getElementById('chk-estructura');
+  const chkLosa = document.getElementById('chk-losa');
   const explode = document.getElementById('explode');
   const cajaGrupos = document.getElementById('grupos-acero');
   const chkGrupo = {};
@@ -370,15 +423,16 @@ header .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
     grupoN2.visible = slabN2.visible = chkN2.checked;
     grupoRoof.visible = chkRoof.checked;
     grupoEstructura.visible = chkEstructura.checked;
+    grupoLosa.visible = chkLosa.checked;
     cajaGrupos.hidden = !chkEstructura.checked;
     Object.keys(chkGrupo).forEach(k => { grupoEstructura.userData.sub[k].visible = chkGrupo[k].checked; });
-    if (!chkEstructura.checked) ficha.hidden = true;
+    if (!chkEstructura.checked && !chkLosa.checked) ficha.hidden = true;
     const off = parseFloat(explode.value);
     grupoN2.position.y = slabN2.position.y = off;
     grupoRoof.position.y = off;
     grupoEstructura.traverse(o => { if (o.userData.superior) o.position.y = o.userData.y0 + off; });
   }
-  [chkN1, chkN2, chkRoof, chkEstructura, explode].forEach(el => el.addEventListener('input', aplica));
+  [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, explode].forEach(el => el.addEventListener('input', aplica));
 
   // ---------- ficha de una pieza: clic (sin arrastrar) sobre la estructura ----------
   const ficha = document.getElementById('ficha');
@@ -388,12 +442,19 @@ header .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
   renderer.domElement.addEventListener('pointerup', e => {
     if (!abajo || Math.hypot(e.clientX - abajo[0], e.clientY - abajo[1]) > 5) return;
     abajo = null;
-    if (!grupoEstructura.visible) return;
+    if (!grupoEstructura.visible && !grupoLosa.visible) return;
     const r = renderer.domElement.getBoundingClientRect();
     puntero.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     raycaster.setFromCamera(puntero, camera);
-    const hit = raycaster.intersectObjects(grupoEstructura.children, true).find(h => h.object.visible && h.object.parent.visible && h.object.userData.miembro);
+    const objetivos = [grupoEstructura, grupoLosa].filter(gr => gr.visible);
+    const hit = raycaster.intersectObjects(objetivos, true).find(h => h.object.visible && h.object.parent.visible && (h.object.userData.miembro || h.object.userData.losa));
     if (!hit){ ficha.hidden = true; return; }
+    if (hit.object.userData.losa){
+      ficha.innerHTML = hit.object.userData.losa;
+      ficha.style.left = Math.min(e.clientX - r.left + 12, r.width - 270) + 'px';
+      ficha.style.top = Math.max(e.clientY - r.top - 50, 8) + 'px';
+      ficha.hidden = false; return;
+    }
     const mb = hit.object.userData.miembro;
     const largo = (hit.object.userData.largo).toFixed(2).replace('.', ',');
     const clase = {pilar: 'pilar', viga: 'viga', diagonal: 'diagonal', otro: 'celosía', cabio: 'cabio', puntal: 'puntal',

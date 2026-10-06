@@ -2,12 +2,13 @@
 
 Plano interactivo de la vivienda (proyecto de permiso de edificación), pensado para
 consultarlo en obra desde el teléfono. Incluye **nivel 1 y nivel 2**, una **vista 3D** con
-los dos niveles a su altura real y la estructura de acero, y la ficha del **tablero de
-básquetbol**. Se pasa de una vista a otra con el menú de arriba (pestañas en pantalla
+los dos niveles a su altura real y la estructura de acero, la **losa colaborante** del
+entrepiso pieza por pieza y la ficha del **tablero de básquetbol**. Se pasa de una vista a otra con el menú de arriba (pestañas en pantalla
 ancha, menú desplegable en el teléfono).
 
 👉 **Ver el plano:** https://toledobrintrup.github.io/Pilauco/
 👉 **Vista 3D:** https://toledobrintrup.github.io/Pilauco/3d.html
+👉 **Losa colaborante:** https://toledobrintrup.github.io/Pilauco/losa.html
 👉 **Tablero:** https://toledobrintrup.github.io/Pilauco/tablero.html
 
 ## Qué se puede hacer
@@ -49,6 +50,24 @@ la planta de techumbre. La estructura se extrajo de las 29 vistas de los planos 
 dibujándola de vuelta sobre cada lámina original; cómo se hizo, la comparación con la lista
 de materiales del ingeniero y las diferencias entre láminas están en
 `fuente/ingenieria/README.md`.
+
+## Losa colaborante
+
+El entrepiso, pieza por pieza, sobre las vigas reales de la estructura: el **marco perimetral de
+perfil C 150×50×3** (también alrededor del hueco de la escalera, cortado donde lo atraviesan los
+pilares del nivel 2) y las **66 planchas Instadeck 0,8** de las 8 áreas marcadas en obra, con la
+sección real de la ficha técnica y la dirección de cada paño del plano del ingeniero.
+
+- **Armado, despiece y montaje.** El despiece se anima solo o con un deslizador por pieza (marco,
+  placa, separación de planchas y cada área). El montaje coloca el marco tramo por tramo y después
+  las planchas una por una, área por área, con una línea de tiempo.
+- **Detalle de cada pieza:** sección del C con su peso por metro, detalle del borde sobre la viga,
+  sección de la placa con las tablas de la ficha, plan de corte del C en barras de 6 m, y tabla de
+  luces y alzaprimas por área según la ficha.
+- **Diferencias con lo anotado en obra** (largos, cantidades y la cotización), cada una explicada.
+- En la vista 3D aparece como la capa "Losa colaborante".
+
+Cómo se armó y qué falta (pernos Nelson, malla, hormigón) está en `fuente/losa/README.md`.
 
 ## Tablero de básquetbol
 
@@ -111,7 +130,10 @@ Base: plano L3 PLARQ2 (Planta Arquitectura Nivel 2, GVArq, dic. 2025, esc. 1:50)
 - `index.html` — el plano: geometría, lógica e interfaz de las dos plantas en un solo archivo.
 - `3d.html` — la vista 3D (Three.js vía CDN, sin paso de compilación).
 - `tablero.html` — el tablero de básquetbol: manual traducido, figuras y 3D animado, todo en un archivo.
-- `menu.js` — el menú común a las tres vistas; para sumar una vista se agrega a su lista.
+- `losa.html` — la losa colaborante: 3D con despiece y montaje, y el detalle de cada pieza.
+- `losa.js` — los datos de la losa (áreas, planchas, marco C, pilares que la atraviesan); se genera con `fuente/losa/generar_losa_js.py`.
+- `menu.js` — el menú común a todas las vistas; para sumar una vista se agrega a su lista.
+- `fuente/losa/` — cómo se sacó la losa del plano, de las áreas marcadas en obra y de la ficha Instadeck.
 - `data.js` — los datos de ambas plantas (`DATA_N1`, `DATA_N2`), compartidos por `index.html` y `3d.html`: una sola fuente, nada duplicado.
 - `estructura.js` — la estructura de acero pieza por pieza (perfil y extremos de cada una) para la capa "Ver estructura" de `3d.html`; se genera desde `fuente/ingenieria/datos/modelo.json`.
 - `fuente/nivel1/` — scripts que extraen la planta del nivel 1 desde el PDF, con las decisiones documentadas.

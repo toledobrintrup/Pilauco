@@ -1,0 +1,991 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#1B1E24">
+<meta name="description" content="Losa colaborante del entrepiso de Casa Pilauco: marco perimetral C 150×50×3 y placa Instadeck 0,8 sobre las vigas reales, con despiece animado, montaje plancha por plancha y detalle de cada pieza.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%233D5A73'/%3E%3Cg stroke='%23fff' stroke-width='2.2' fill='none' stroke-linejoin='round'%3E%3Cpath d='M4 19h24M4 24h24'/%3E%3Cpath d='M5 19l3-5h3l3 5 3-5h3l3 5'/%3E%3C/g%3E%3C/svg%3E">
+<title>Losa colaborante</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --paper:#FFFFFF; --panel:#F7F8FA; --ink:#16181D; --muted:#6B7280; --line:#E3E6EB; --line2:#EFF1F4;
+  --accent:#3D5A73; --hi:#D9731A; --hi-soft:rgba(217,115,26,.10); --hi-borde:rgba(217,115,26,.38);
+  --ok:#2F7D4A; --ok-soft:rgba(47,125,74,.10); --med:#9A6A12; --med-soft:rgba(154,106,18,.11); --calc:#3D5A73; --calc-soft:rgba(61,90,115,.10);
+  --mal:#B42318; --mal-soft:rgba(180,35,24,.08);
+  --shadow:0 1px 2px rgba(16,18,22,.06),0 10px 28px rgba(16,18,22,.10);
+  --chrome:#1B1E24; --chrome-ink:#F0F2F5; --chrome-muted:#9AA0AC; --chrome-line:#343943; --chrome-hi:rgba(255,255,255,.10);
+  --fig-ink:#2B2F36; --fig-soft:#8B929C; --fig-fill:#F1F2F4; --fig-horm:#DCDDDF; --fig-viga:#1D63B8; --fig-c:#C98A0E; --fig-placa:#8C96A3;
+  --ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+  --paper:#14161A; --panel:#1A1D23; --ink:#E7E9EE; --muted:#8A909C; --line:#2A2E37; --line2:#212530;
+  --accent:#8FB4D4; --hi:#F09A4E; --hi-soft:rgba(240,154,78,.12); --hi-borde:rgba(240,154,78,.40);
+  --ok:#74C08E; --ok-soft:rgba(116,192,142,.12); --med:#E0B25A; --med-soft:rgba(224,178,90,.12); --calc:#8FB4D4; --calc-soft:rgba(143,180,212,.13);
+  --mal:#F08A80; --mal-soft:rgba(240,138,128,.10);
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
+  --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
+  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-horm:#30333A; --fig-viga:#5AA9F0; --fig-c:#F2C14E; --fig-placa:#A3ACB8;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#14161A; --panel:#1A1D23; --ink:#E7E9EE; --muted:#8A909C; --line:#2A2E37; --line2:#212530;
+  --accent:#8FB4D4; --hi:#F09A4E; --hi-soft:rgba(240,154,78,.12); --hi-borde:rgba(240,154,78,.40);
+  --ok:#74C08E; --ok-soft:rgba(116,192,142,.12); --med:#E0B25A; --med-soft:rgba(224,178,90,.12); --calc:#8FB4D4; --calc-soft:rgba(143,180,212,.13);
+  --mal:#F08A80; --mal-soft:rgba(240,138,128,.10);
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
+  --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
+  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-horm:#30333A; --fig-viga:#5AA9F0; --fig-c:#F2C14E; --fig-placa:#A3ACB8;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;font-feature-settings:"cv05","ss01"}
+header.top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:12px 18px 11px;background:var(--chrome);color:var(--chrome-ink)}
+header.top h1{font-size:16.5px;font-weight:600;margin:0;letter-spacing:-.012em}
+header.top h1 small{font-weight:400;color:var(--chrome-muted);font-size:12.5px;margin-left:9px;letter-spacing:0}
+header.top .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
+@media (max-width:760px){header.top .meta{display:none}header.top h1 small{display:block;margin:2px 0 0}}
+
+.main{display:flex;flex-direction:column}
+.visor{position:relative;height:min(70svh,660px);min-height:420px;background:var(--panel);border-bottom:1px solid var(--line);overflow:hidden;touch-action:none}
+.doc{min-width:0}
+@media (min-width:1080px){
+  html,body{height:100%}
+  body{overflow:hidden}
+  .app{height:100%;display:flex;flex-direction:column}
+  .main{flex:1;min-height:0;flex-direction:row}
+  .doc{width:min(44%,700px);flex:none;overflow-y:auto;border-right:1px solid var(--line);order:1}
+  .visor{flex:1;height:auto;min-height:0;border-bottom:0;order:2}
+}
+
+.toc{position:sticky;top:0;z-index:5;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding:9px 22px;background:var(--paper);border-bottom:1px solid var(--line)}
+.toc::-webkit-scrollbar{display:none}
+.toc a{flex:none;font-size:12px;font-weight:500;color:var(--muted);text-decoration:none;padding:4px 10px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.toc a:hover{color:var(--ink);border-color:var(--line)}
+.toc a.on{color:var(--ink);background:var(--line2);border-color:var(--line)}
+.doc-in{max-width:700px;padding:6px 26px 90px}
+section{padding-top:30px;scroll-margin-top:44px}
+h2{font-size:19px;font-weight:650;letter-spacing:-.015em;margin:0 0 10px;display:flex;align-items:baseline;gap:10px}
+h2 .n{font-size:11.5px;font-weight:600;color:var(--hi);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+h3{font-size:14.5px;font-weight:600;margin:22px 0 6px}
+p{margin:0 0 10px}
+.lead{font-size:15px;margin:16px 0 14px}
+.sub{color:var(--muted)}
+.small{font-size:12.5px}
+a{color:var(--accent)}
+.specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px 0 6px}
+.spec{border:1px solid var(--line);border-radius:10px;padding:10px 12px 9px;background:var(--panel);min-width:0}
+.spec .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:500}
+.spec .v{font-size:17.5px;font-weight:620;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin:2px 0 3px;line-height:1.25}
+.spec .d{font-size:12px;color:var(--muted);line-height:1.4}
+@media (max-width:420px){.specs{grid-template-columns:1fr}}
+.fuente{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:1px 6px;border-radius:999px;vertical-align:1px;margin-left:4px;white-space:nowrap}
+.fuente.man{color:var(--ok);background:var(--ok-soft)}
+.fuente.med{color:var(--med);background:var(--med-soft)}
+.fuente.calc{color:var(--calc);background:var(--calc-soft)}
+.tw{overflow-x:auto;margin:10px 0 6px;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:12.5px;font-variant-numeric:tabular-nums}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:500;text-align:left;padding:8px 9px;border-bottom:1px solid var(--line);background:var(--panel);white-space:nowrap}
+td{padding:7px 9px;border-bottom:1px solid var(--line2);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.c,th.c{text-align:center}
+td.r,th.r{text-align:right}
+tbody tr[data-area]{cursor:pointer}
+tbody tr[data-area]:hover td,tbody tr.on td{background:var(--hi-soft)}
+td.dif{color:var(--mal);font-weight:600}
+td.okv{color:var(--ok)}
+.sw{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:6px;border:1px solid rgba(0,0,0,.15)}
+figure{margin:14px 0 10px}
+figure svg{display:block;width:100%;height:auto}
+figcaption{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45}
+svg .tx{font-family:var(--ui);fill:var(--fig-ink)}
+svg .txs{font-family:var(--ui);fill:var(--fig-soft)}
+.aviso{border:1px solid var(--hi-borde);background:var(--hi-soft);border-radius:10px;padding:9px 12px;margin:10px 0;font-size:13px}
+.aviso b{color:var(--hi)}
+.pendiente{border:1px dashed var(--line);border-radius:10px;padding:10px 12px;margin:8px 0;font-size:13px;color:var(--muted)}
+.pendiente b{color:var(--ink)}
+.barras{display:flex;flex-direction:column;gap:4px;margin:8px 0}
+.barra{display:grid;grid-template-columns:52px minmax(0,1fr) 54px;gap:8px;align-items:center;font-size:11.5px;font-variant-numeric:tabular-nums}
+.barra .b{display:flex;height:16px;border-radius:3px;overflow:hidden;background:var(--line2);border:1px solid var(--line)}
+.barra .b i{display:block;height:100%;border-right:1px solid var(--paper);background:var(--fig-c);opacity:.85;font-style:normal;font-size:9.5px;color:#fff;overflow:hidden;white-space:nowrap;padding-left:3px;line-height:15px}
+.barra .b i.r{background:transparent;opacity:1;color:var(--muted)}
+footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.btn{font:inherit;font-size:12.5px;font-weight:500;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:4px 11px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--hi-borde);color:var(--hi)}
+.btn:focus-visible,.toc a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---------- visor ---------- */
+.visor canvas{display:block;width:100%;height:100%;outline:none}
+.v-carga{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:13px;text-align:center;padding:20px}
+.v-ui{position:absolute;inset:0;pointer-events:none}
+.v-ui > *{pointer-events:auto}
+.v-modo{position:absolute;top:12px;left:12px;display:flex;gap:6px;flex-wrap:wrap;max-width:calc(100% - 200px)}
+.pill{display:flex;align-items:center;gap:2px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:3px;box-shadow:var(--shadow)}
+.pill button{font:inherit;font-size:12.5px;border:0;background:transparent;color:var(--ink);border-radius:999px;cursor:pointer;padding:4px 10px;line-height:1.3;white-space:nowrap}
+.pill button:hover{background:var(--line2)}
+.pill button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.v-capas{position:absolute;top:12px;right:12px;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.v-capas .grp{display:flex;flex-direction:column;gap:3px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:5px;box-shadow:var(--shadow)}
+.tg{font:inherit;font-size:12px;font-weight:500;border:0;background:transparent;color:var(--muted);border-radius:8px;padding:4px 9px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:7px;white-space:nowrap}
+.tg::before{content:"";width:8px;height:8px;border-radius:2px;border:1.5px solid currentColor;flex:none}
+.tg[aria-pressed="true"]{color:var(--ink)}
+.tg[aria-pressed="true"]::before{background:var(--sw,var(--hi));border-color:var(--sw,var(--hi))}
+.tg:hover{background:var(--line2)}
+.tg:disabled{opacity:.45;cursor:default}
+.tg.accion::before{content:"⤢";width:auto;height:auto;border:0;font-size:12px;line-height:1;background:none}
+.v-panel{position:absolute;left:12px;bottom:12px;width:min(380px,calc(100% - 24px));background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:10px 12px 11px;box-shadow:var(--shadow);max-height:calc(100% - 70px);overflow-y:auto}
+.v-panel .cab{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.v-panel .cab .lbl{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:600;flex:1}
+.sl{display:grid;grid-template-columns:118px minmax(0,1fr) 34px;gap:8px;align-items:center;font-size:12px;padding:2px 0}
+.sl label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sl input{width:100%;accent-color:var(--hi);margin:0}
+.sl output{font-variant-numeric:tabular-nums;color:var(--muted);text-align:right;font-size:11.5px}
+.sl .sw{margin-right:5px}
+details.areas summary{font-size:12px;color:var(--muted);cursor:pointer;padding:4px 0;list-style:none}
+details.areas summary::-webkit-details-marker{display:none}
+details.areas summary::before{content:"▸ ";}
+details.areas[open] summary::before{content:"▾ ";}
+.tl{display:flex;align-items:center;gap:8px}
+.tl input{flex:1;accent-color:var(--hi)}
+.tl .play{font:inherit;font-size:13px;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;flex:none}
+.tl .play:hover{border-color:var(--hi-borde);color:var(--hi)}
+.tl select{font:inherit;font-size:12px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);padding:2px 4px}
+.tl-txt{font-size:12px;color:var(--muted);margin-top:6px;min-height:18px;font-variant-numeric:tabular-nums}
+.tl-txt b{color:var(--ink);font-weight:600}
+.tags{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.tag{position:absolute;left:0;top:0;pointer-events:auto;font:inherit;font-size:11px;font-weight:700;min-width:22px;height:21px;padding:0 6px;border:1.5px solid var(--ink);border-radius:6px;background:var(--paper);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);will-change:transform;box-shadow:0 1px 3px rgba(0,0,0,.18);white-space:nowrap}
+.tag.c{font-size:10px;font-weight:600;min-width:0;height:18px;padding:0 4px;border-width:1px;border-color:var(--hi);color:var(--hi)}
+.tag:hover,.tag.on{border-color:var(--hi);color:var(--hi)}
+.ficha{position:absolute;z-index:3;pointer-events:none;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px 11px;font-size:12.5px;line-height:1.45;box-shadow:var(--shadow);max-width:280px}
+.ficha b{font-weight:620}
+.ficha .d{color:var(--muted)}
+.v-ayuda{position:absolute;right:12px;bottom:12px;font-size:11px;color:var(--muted);pointer-events:none;text-align:right;line-height:1.4;max-width:150px}
+@media (max-width:1079px){.v-ayuda{display:none}}
+@media (max-width:640px){
+  .doc-in{padding:4px 16px 70px}
+  .toc{padding:8px 16px}
+  .v-modo{top:8px;left:8px;max-width:calc(100% - 16px)}
+  .v-capas{top:50px;left:8px;right:8px;align-items:stretch}
+  .v-capas .grp{flex-direction:row;overflow-x:auto;scrollbar-width:none;border-radius:999px;padding:3px}
+  .v-capas .grp::-webkit-scrollbar{display:none}
+  .v-panel{left:8px;right:8px;bottom:8px;width:auto;max-height:46%}
+  .sl{grid-template-columns:96px minmax(0,1fr) 30px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <script src="menu.js" data-vista="losa"></script>
+  <h1>Losa colaborante <small>Entrepiso · marco C 150×50×3 + placa Instadeck 0,8</small></h1>
+  <span class="meta">Fuentes: planta estructura nivel 1 (rev. 08-04-2026), ficha Instadeck (ago. 2026) y áreas marcadas en obra</span>
+</header>
+<div class="main">
+  <div class="visor" id="visor">
+    <div class="v-carga" id="v-carga">Cargando la losa…</div>
+    <div class="tags" id="tags"></div>
+    <div class="v-ui" id="v-ui" hidden>
+      <div class="v-modo">
+        <div class="pill" role="group" aria-label="Modo">
+          <button data-modo="armado" aria-pressed="true">Armado</button>
+          <button data-modo="despiece" aria-pressed="false">Despiece</button>
+          <button data-modo="montaje" aria-pressed="false">Montaje</button>
+        </div>
+      </div>
+      <div class="v-capas">
+        <div class="grp" role="group" aria-label="Capas">
+          <button class="tg" id="tg-vigas" aria-pressed="true" style="--sw:var(--fig-viga)">Vigas</button>
+          <button class="tg" id="tg-marco" aria-pressed="true" style="--sw:var(--fig-c)">Marco C</button>
+          <button class="tg" id="tg-placa" aria-pressed="true" style="--sw:var(--fig-placa)">Placa</button>
+          <button class="tg" id="tg-pil2" aria-pressed="true" style="--sw:#C2410C">Pilares N2</button>
+          <button class="tg" id="tg-pilares" aria-pressed="false" style="--sw:#E8A07A">Pilares N1</button>
+          <button class="tg" id="tg-color" aria-pressed="false">Color por área</button>
+          <button class="tg" id="tg-etq" aria-pressed="true">Etiquetas</button>
+          <button class="tg accion" id="tg-fit">Encuadrar</button>
+        </div>
+      </div>
+      <div class="v-panel" id="v-panel">
+        <div id="p-armado">
+          <div class="cab"><span class="lbl">Losa armada</span></div>
+          <div class="tl-txt" id="txt-armado"></div>
+        </div>
+        <div id="p-despiece" hidden>
+          <div class="cab"><span class="lbl">Despiece</span><button class="btn" id="d-auto">▶ Automático</button><button class="btn" id="d-cero">Armar</button></div>
+          <div class="sl"><label for="s-todo"><b>Todo</b></label><input type="range" id="s-todo" min="0" max="1" step="0.01" value="0"><output id="o-todo">0 %</output></div>
+          <div class="sl"><label for="s-marco"><span class="sw" style="background:var(--fig-c)"></span>Marco C</label><input type="range" id="s-marco" min="0" max="1" step="0.01" value="0"><output id="o-marco">0 %</output></div>
+          <div class="sl"><label for="s-placa"><span class="sw" style="background:var(--fig-placa)"></span>Placa (todas)</label><input type="range" id="s-placa" min="0" max="1" step="0.01" value="0"><output id="o-placa">0 %</output></div>
+          <div class="sl"><label for="s-sep">Separar planchas</label><input type="range" id="s-sep" min="0" max="1" step="0.01" value="0"><output id="o-sep">0 %</output></div>
+          <details class="areas" id="det-areas"><summary>Por área</summary><div id="sl-areas"></div></details>
+        </div>
+        <div id="p-montaje" hidden>
+          <div class="cab"><span class="lbl">Montaje pieza por pieza</span>
+            <select id="m-vel" aria-label="Velocidad"><option value="0.5">0,5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></div>
+          <div class="tl"><button class="play" id="m-play" aria-label="Reproducir">▶</button><input type="range" id="m-t" min="0" max="1000" step="1" value="0" aria-label="Avance del montaje"></div>
+          <div class="tl-txt" id="m-txt"></div>
+        </div>
+      </div>
+      <div class="v-ayuda">Arrastrar: girar<br>Rueda: acercar<br>Clic derecho: desplazar<br>Toca una pieza</div>
+    </div>
+    <div class="ficha" id="ficha" hidden></div>
+  </div>
+
+  <div class="doc" id="doc">
+    <nav class="toc" id="toc" aria-label="Secciones">
+      <a href="#resumen">Resumen</a><a href="#areas">Áreas</a><a href="#marco">Marco C</a><a href="#placa">Placa</a><a href="#apoyos">Apoyos</a><a href="#siguiente">Lo que viene</a><a href="#notas">Notas</a>
+    </nav>
+    <div class="doc-in">
+<section id="resumen" style="padding-top:14px">
+  <p class="lead">El entrepiso es una <b>losa colaborante</b>: planchas de acero <b>Instadeck 0,8</b> apoyadas sobre las vigas
+  de acero, hormigón encima y conectores de corte que hacen trabajar todo junto. Por ahora el modelo trae el
+  <b>marco perimetral de perfil C 150×50×3</b> que contiene el hormigón y las <b>planchas</b> con su dirección, área por área.
+  Los pernos Nelson, la malla y el hormigón vienen después.</p>
+  <div class="specs" id="specs"></div>
+  <p class="small sub"><span class="fuente man">plano</span> dato del plano o de la ficha ·
+  <span class="fuente med">obra</span> lo que se marcó a mano en el plano ·
+  <span class="fuente calc">calculado</span> sale del modelo.</p>
+</section>
+
+<section id="areas">
+  <h2><span class="n">01</span>Áreas y planchas</h2>
+  <p>Las 8 áreas que se marcaron en el plano, cada una con la dirección de sus planchas. Las planchas corren
+  <b>perpendiculares a las vigas que las sostienen</b>. El hueco de la escalera (ejes 2–3, B–A) no lleva losa.</p>
+  <figure>
+    <svg id="svg-planta" role="img" aria-label="Planta de la losa colaborante con áreas, planchas y marco"></svg>
+    <figcaption>Planta de la losa: cada rectángulo delgado es una plancha (avance útil 0,95 m) y la flecha indica hacia dónde corre.
+    En naranjo, el marco de perfil C con el número de cada tramo. Toca una fila de la tabla para verla en el 3D.</figcaption>
+  </figure>
+  <div class="tw"><table id="tabla-areas"></table></div>
+  <div id="dif-areas"></div>
+</section>
+
+<section id="marco">
+  <h2><span class="n">02</span>Marco perimetral: perfil C 150×50×3</h2>
+  <p>Un canal C de 150 mm de alto, alas de 50 mm y 3 mm de espesor recorre todo el borde de la losa, incluido el
+  hueco de la escalera. Va apoyado sobre el ala superior de la viga de borde, con el alma vertical en el borde y las alas
+  hacia adentro: el alma contiene el hormigón y su alto, 150 mm, es el espesor de la losa.</p>
+  <figure><svg id="svg-c" role="img" aria-label="Sección del perfil C 150x50x3 con sus medidas"></svg>
+    <figcaption>Sección del perfil a escala. Peso calculado con radio interior igual al espesor.</figcaption></figure>
+  <figure><svg id="svg-borde" role="img" aria-label="Detalle del borde de la losa sobre la viga"></svg>
+    <figcaption>Detalle del borde: viga, perfil C y placa a escala. En gris punteado, lo que falta: hormigón y malla.</figcaption></figure>
+  <h3>Tramos del marco</h3>
+  <div class="tw"><table id="tabla-marco" class="small"></table></div>
+  <h3>Compra y cortes (barras de 6 m)</h3>
+  <p class="small" id="txt-cortes"></p>
+  <div class="barras" id="barras"></div>
+</section>
+
+<section id="placa">
+  <h2><span class="n">03</span>Placa colaborante Instadeck 0,8</h2>
+  <p>Plancha trapezoidal de acero galvanizado: tres nervios por plancha, 63,5 mm de alto y 950 mm de <b>avance útil</b>
+  (lo que cubre cada plancha descontando el traslapo con la vecina).</p>
+  <figure><svg id="svg-placa" role="img" aria-label="Sección de la placa Instadeck con sus medidas"></svg>
+    <figcaption id="cap-placa">Sección de una plancha a escala, tomada del dibujo de la ficha técnica.</figcaption></figure>
+  <div class="specs" id="specs-placa"></div>
+  <h3>Espesor de losa y hormigón</h3>
+  <div class="tw"><table class="small" id="tabla-espesor"></table></div>
+  <div class="aviso" id="aviso-espesor"></div>
+  <h3>Datos de la ficha</h3>
+  <ul class="small" id="lista-ficha"></ul>
+</section>
+
+<section id="apoyos">
+  <h2><span class="n">04</span>Apoyos y alzaprimas</h2>
+  <p>La ficha da el largo máximo que la placa aguanta <b>sin alzaprimas</b> mientras el hormigón está fresco, según cuántos
+  tramos seguidos cubre la plancha. Con las vigas reales de cada área queda así:</p>
+  <div class="tw"><table class="small" id="tabla-apoyos"></table></div>
+  <p class="small sub" id="txt-apoyos"></p>
+</section>
+
+<section id="siguiente">
+  <h2><span class="n">05</span>Lo que viene</h2>
+  <div class="pendiente"><b>Pernos conectores (Nelson).</b> Se sueldan a través de la placa al ala de la viga, en los valles
+  de la plancha. La ficha muestra el conector de corte sobre la viga en los bordes perpendicular y paralelo.</div>
+  <div class="pendiente"><b>Malla de retracción.</b> Mínimo 1,8 cm²/m en cada dirección (A63-42H), a 2,5 cm bajo la cara
+  superior según el detalle de la ficha.</div>
+  <div class="pendiente"><b>Sellado de nervios y hormigón.</b> Nervios sellados en los bordes perpendiculares; hormigón H25
+  como mínimo. Volumen estimado en <a href="#placa">Placa</a>.</div>
+</section>
+
+<section id="notas">
+  <h2><span class="n">06</span>Notas</h2>
+  <ul class="small" id="lista-notas"></ul>
+  <footer>Planos y ficha técnica no están en el repositorio: el plano lleva datos personales en la viñeta. Los dibujos de
+  esta página están hechos de nuevo a partir de ellos.</footer>
+</section>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="estructura.js"></script>
+<script src="losa.js"></script>
+<script>
+(function () {
+'use strict';
+const L = DATA_LOSA, E = DATA_ESTRUCTURA;
+const $ = s => document.querySelector(s);
+const coma = (v, d) => (Math.round(v * Math.pow(10, d)) / Math.pow(10, d)).toFixed(d).replace('.', ',');
+const miles = v => Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+const fm = (cm, d = 2) => coma(cm / 100, d) + ' m';
+const NS = 'http://www.w3.org/2000/svg';
+const el = (tag, at = {}, padre) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); if (padre) padre.appendChild(e); return e; };
+const txt = (padre, x, y, s, at = {}) => { const t = el('text', Object.assign({ x, y, class: 'tx' }, at), padre); t.textContent = s; return t; };
+const oscuro = () => document.documentElement.dataset.theme === 'dark' || (document.documentElement.dataset.theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+
+// =====================================================================
+//  CÁLCULOS (todo en cm salvo indicación)
+// =====================================================================
+const ESP = L.espesor;                 // espesor total de la losa (cm)
+const Z0 = L.z_viga;                   // cara superior de las vigas de entrepiso
+const PC = L.perfilC;                  // mm
+const PL = L.placa;                    // mm
+const areaPol = pts => Math.abs(pts.reduce((s, p, i) => { const q = pts[(i + 1) % pts.length]; return s + p[0] * q[1] - q[0] * p[1]; }, 0)) / 2;
+const SUP = areaPol(L.perimetro) - (L.hueco_interior ? areaPol(L.hueco_interior) : 0);   // cm²
+const LARGO_C = L.marco.reduce((s, c) => s + c.largo, 0);
+const LARGO_PZ = L.marco.reduce((s, c) => s + c.piezas.reduce((t, p) => t + p.largo, 0), 0);   // descontado el ancho de los pilares
+const N_PZ = L.marco.reduce((s, c) => s + c.piezas.length, 0);
+const PIL2 = L.pilares_n2 || [];
+// sección del C con radio interior = t: almas y alas rectas + 2 esquinas de cuarto de anillo
+const secC = (() => { const { h, b, t } = PC, r = PC.r == null ? t : PC.r;
+  return t * (h - 2 * (r + t)) + 2 * t * (b - (r + t)) + 2 * Math.PI / 4 * ((r + t) ** 2 - r ** 2); })();   // mm²
+const KG_M_C = secC * 1e-6 * 7850;
+const PIEZAS = L.areas.flatMap(a => a.piezas.map(p => Object.assign({ area: a.n }, p)));
+const M2_PLACA = PIEZAS.reduce((s, p) => s + p.ancho * p.largo, 0) / 1e4;
+const N_PLANCHAS = L.areas.reduce((s, a) => s + a.planchas, 0);
+const VOL_M2 = ESP / 100 - (L.placa.vacio_m3m2 != null ? L.placa.vacio_m3m2 : 0.0285);   // m³/m²; de la tabla de la ficha
+const COLOR_AREA = L.areas.reduce((o, a) => (o[a.n] = a.color, o), {});
+
+// apoyos de cada área: vigas de entrepiso perpendiculares a las planchas que la cruzan
+const VIGAS = E.miembros.filter(m => m.c === 'viga' && /entrepiso/.test(m.d || ''));
+function apoyos(a) {
+  // por plancha: las vigas perpendiculares que cruzan su ancho (al menos la mitad) y caen dentro de su largo
+  const ns = a.dir === 'NS';
+  let peor = null;
+  a.piezas.forEach(p => {
+    const c0 = ns ? p.x0 : p.y0, c1 = ns ? p.x1 : p.y1, l0 = ns ? p.y0 : p.x0, l1 = ns ? p.y1 : p.x1;
+    const lin = new Set();
+    VIGAS.forEach(m => {
+      const horiz = Math.abs(m.a[1] - m.b[1]) < 1, vert = Math.abs(m.a[0] - m.b[0]) < 1;
+      if (ns ? !horiz : !vert) return;
+      const lo = ns ? Math.min(m.a[0], m.b[0]) : Math.min(m.a[1], m.b[1]), hi = ns ? Math.max(m.a[0], m.b[0]) : Math.max(m.a[1], m.b[1]);
+      const pos = ns ? m.a[1] : m.a[0];
+      if (Math.min(hi, c1) - Math.max(lo, c0) >= 0.5 * (c1 - c0) && pos >= l0 - 25 && pos <= l1 + 25) lin.add(Math.round(pos * 10) / 10);
+    });
+    const v = [...lin].sort((q, r) => q - r);
+    const vanos = v.slice(1).map((q, i) => q - v[i]).filter(d => d > 20);
+    const max = vanos.length ? Math.max(...vanos) : 0;
+    if (!peor || max > peor.max) peor = { lineas: v, vanos, max, pieza: p };
+  });
+  return peor || { lineas: [], vanos: [], max: 0 };
+}
+// largo máximo sin alzaprimas (ficha): filas = 1, 2 y 3 o más vanos; columnas = hormigón sobre la cresta
+const SIN_ALZ = L.placa.sin_alzaprima;   // {hc:[5,6,8,10,12], filas:[[..],[..],[..]]}
+function maxSinAlz(nVanos, hc) {
+  const f = SIN_ALZ.filas[Math.min(3, Math.max(1, nVanos)) - 1], H = SIN_ALZ.hc;
+  if (hc <= H[0]) return f[0];
+  for (let i = 1; i < H.length; i++) if (hc <= H[i]) return f[i - 1] + (f[i] - f[i - 1]) * (hc - H[i - 1]) / (H[i] - H[i - 1]);
+  return f[f.length - 1];
+}
+const HC = ESP - PL.alto / 10;   // hormigón sobre la cresta (cm)
+// "control de deformaciones": distancia máxima entre apoyos en servicio, según el espesor total
+function maxFlecha(nVanos, et) {
+  const D = L.placa.deformacion, c = Math.min(3, Math.max(1, nVanos)) - 1, E2 = D.et;
+  if (et <= E2[0]) return D.filas[0][c];
+  for (let i = 1; i < E2.length; i++) if (et <= E2[i]) return D.filas[i - 1][c] + (D.filas[i][c] - D.filas[i - 1][c]) * (et - E2[i - 1]) / (E2[i] - E2[i - 1]);
+  return D.filas[E2.length - 1][c];
+}
+
+// =====================================================================
+//  TEXTO: resumen, tablas, figuras
+// =====================================================================
+(function resumen() {
+  const s = [
+    ['Superficie de losa', coma(SUP / 1e4, 1) + ' m²', `${L.areas.length} áreas; sin el hueco de la escalera <span class="fuente calc">calculado</span>`],
+    ['Espesor de losa', coma(ESP, ESP % 1 ? 2 : 0) + ' cm', `Plano: e = ${coma(L.espesor_plano, 2)} cm (placa 6,35 + ${coma(L.espesor_plano - 6.35, 0)} de hormigón) <span class="fuente man">plano</span>`],
+    ['Marco perimetral', fm(LARGO_PZ, 1), `C 150×50×3: ${N_PZ} piezas entre pilares en ${L.marco.length} tramos · ≈ ${coma(LARGO_PZ / 100 * KG_M_C, 0)} kg <span class="fuente calc">calculado</span>`],
+    ['Planchas Instadeck', N_PLANCHAS + ' planchas', `${coma(M2_PLACA, 1)} m² de placa · ≈ ${miles(M2_PLACA * PL.peso)} kg <span class="fuente calc">calculado</span>`],
+    ['Placa', '0,8 mm · 63,5 mm', `Avance útil 950 mm · ${coma(PL.peso, 2)} kg/m² · acero G37 galv. G-90 <span class="fuente man">ficha</span>`],
+    ['Hormigón (después)', '≈ ' + coma(SUP / 1e4 * VOL_M2, 1) + ' m³', `${coma(VOL_M2, 4)} m³/m² con losa de ${coma(ESP, 0)} cm, sin pérdidas <span class="fuente calc">calculado</span>`],
+  ];
+  $('#specs').innerHTML = s.map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
+})();
+
+(function tablaAreas() {
+  const filas = L.areas.map(a => {
+    const d = a.dueno || {};
+    const ok = (x, y, tol) => x == null || y == null ? '' : Math.abs(x - y) <= tol ? 'okv' : 'dif';
+    const largoMax = Math.max(...a.piezas.map(p => p.largo));
+    // largos distintos (más de 5 cm de diferencia) de las planchas completas del área
+    const largos = [...new Set(a.piezas.filter(p => p.largo > largoMax * 0.75).map(p => Math.round(p.largo)))].sort((p, q) => p - q)
+      .filter((v, i, arr) => i === 0 || v - arr[i - 1] > 5);
+    return `<tr data-area="${a.n}"><td><span class="sw" style="background:${a.color}"></span><b>${a.n}</b></td>
+      <td>${a.ejes || ''}</td><td class="c">${a.dir === 'NS' ? '↕ N–S' : '↔ E–O'}</td>
+      <td class="r">${fm(a.ancho, 2)}</td><td class="r">${largos.map(v => coma(v / 100, 2)).join(' / ')} m</td><td class="r"><b>${a.planchas}</b></td>
+      <td class="r ${ok(d.largo_m, largoMax / 100, 0.06)}">${d.largo_m != null ? coma(d.largo_m, 2) : '—'}</td>
+      <td class="r ${ok(d.ancho_m, a.ancho / 100, 0.06)}">${d.ancho_m != null ? coma(d.ancho_m, 2) : '—'}</td>
+      <td class="r ${ok(d.n, a.planchas, 0)}">${d.n != null ? d.n : '—'}</td></tr>`;
+  }).join('');
+  const tot = L.areas.reduce((s, a) => s + a.planchas, 0), totD = L.areas.reduce((s, a) => s + ((a.dueno || {}).n || 0), 0);
+  $('#tabla-areas').innerHTML = `<thead><tr><th>Área</th><th>Ejes</th><th class="c">Planchas</th><th class="r">Ancho</th><th class="r">Largo</th><th class="r">N°</th>
+    <th class="r">Obra: largo</th><th class="r">ancho</th><th class="r">N°</th></tr></thead><tbody>${filas}
+    <tr><td colspan="5"><b>Total</b></td><td class="r"><b>${tot}</b></td><td colspan="2"></td><td class="r">${totD}</td></tr></tbody>`;
+  const dif = (L.diferencias || []);
+  $('#dif-areas').innerHTML = dif.length ? `<div class="aviso"><b>Diferencias con lo marcado en obra.</b><ul class="small" style="margin:6px 0 0;padding-left:18px">${dif.map(d => `<li>${d}</li>`).join('')}</ul></div>` : '';
+})();
+
+function dibujarPlanta() {
+  const svg = $('#svg-planta');
+  const xs = L.perimetro.map(p => p[0]), ys = L.perimetro.map(p => p[1]);
+  const x0 = Math.min(...xs) - 140, x1 = Math.max(...xs) + 140, y0 = Math.min(...ys) - 140, y1 = Math.max(...ys) + 120;
+  svg.setAttribute('viewBox', `${x0} ${y0} ${x1 - x0} ${y1 - y0}`);
+  const ejes = el('g', {}, svg);
+  const G = L.grilla;
+  Object.entries(G.numeros).forEach(([n, x]) => { el('line', { x1: x, x2: x, y1: y0 + 60, y2: y1 - 20, style: 'stroke:var(--fig-soft);stroke-width:2;stroke-dasharray:18 10;opacity:.6' }, ejes); txt(ejes, x, y0 + 45, n, { 'font-size': 42, 'text-anchor': 'middle', class: 'txs' }); });
+  Object.entries(G.letras).forEach(([n, y]) => { el('line', { x1: x0 + 70, x2: x1 - 20, y1: y, y2: y, style: 'stroke:var(--fig-soft);stroke-width:2;stroke-dasharray:18 10;opacity:.6' }, ejes); txt(ejes, x0 + 50, y + 14, n, { 'font-size': 38, 'text-anchor': 'middle', class: 'txs' }); });
+  // vigas de entrepiso
+  VIGAS.forEach(m => el('line', { x1: m.a[0], y1: m.a[1], x2: m.b[0], y2: m.b[1], style: `stroke:var(--fig-viga);stroke-width:${(E.perfiles[m.p] || {}).b || 12};opacity:.35` }, svg));
+  // áreas y planchas
+  L.areas.forEach(a => {
+    const g = el('g', { 'data-area': a.n, style: 'cursor:pointer' }, svg);
+    el('polygon', { points: a.poligono.map(p => p.join(',')).join(' '), style: `fill:${a.color};fill-opacity:.22;stroke:${a.color};stroke-width:10` }, g);
+    a.piezas.forEach(p => el('rect', { x: p.x0, y: p.y0, width: p.x1 - p.x0, height: p.y1 - p.y0, style: `fill:none;stroke:var(--fig-placa);stroke-width:${p.cortada ? 4 : 2.5}${p.cortada ? ';stroke-dasharray:14 8' : ''}` }, g));
+    const cx = a.centro[0], cy = a.centro[1];
+    const flecha = a.dir === 'NS' ? `M${cx} ${cy - 120} V${cy + 120} M${cx - 30} ${cy - 80} L${cx} ${cy - 120} L${cx + 30} ${cy - 80} M${cx - 30} ${cy + 80} L${cx} ${cy + 120} L${cx + 30} ${cy + 80}`
+      : `M${cx - 120} ${cy} H${cx + 120} M${cx - 80} ${cy - 30} L${cx - 120} ${cy} L${cx - 80} ${cy + 30} M${cx + 80} ${cy - 30} L${cx + 120} ${cy} L${cx + 80} ${cy + 30}`;
+    el('path', { d: flecha, style: 'fill:none;stroke:var(--fig-ink);stroke-width:9;stroke-linecap:round;stroke-linejoin:round' }, g);
+    el('circle', { cx: cx + (a.dir === 'NS' ? 95 : 0), cy: cy + (a.dir === 'NS' ? 0 : -85), r: 48, style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:6' }, g);
+    txt(g, cx + (a.dir === 'NS' ? 95 : 0), cy + (a.dir === 'NS' ? 17 : -68), String(a.n), { 'font-size': 50, 'text-anchor': 'middle', 'font-weight': 700 });
+    g.addEventListener('click', () => API && API.verArea(a.n));
+  });
+  // pilares del nivel 2 que nacen sobre las vigas y atraviesan la losa
+  PIL2.forEach(p => { const [x0, y0, x1, y1] = p.seccion; el('rect', { x: x0, y: y0, width: x1 - x0, height: y1 - y0, style: 'fill:#C2410C;stroke:var(--paper);stroke-width:2' }, svg); });
+  // hueco de escalera
+  if (L.hueco_escalera) {
+    const h = L.hueco_escalera, hx = h.map(p => p[0]), hy = h.map(p => p[1]);
+    const g = el('g', {}, svg);
+    el('polygon', { points: h.map(p => p.join(',')).join(' '), style: 'fill:none;stroke:var(--fig-soft);stroke-width:5' }, g);
+    el('path', { d: `M${Math.min(...hx)} ${Math.min(...hy)} L${Math.max(...hx)} ${Math.max(...hy)} M${Math.max(...hx)} ${Math.min(...hy)} L${Math.min(...hx)} ${Math.max(...hy)}`, style: 'stroke:var(--fig-soft);stroke-width:4' }, g);
+    txt(g, (Math.min(...hx) + Math.max(...hx)) / 2, (Math.min(...hy) + Math.max(...hy)) / 2 - 20, 'escalera', { 'font-size': 44, 'text-anchor': 'middle', class: 'txs' });
+    txt(g, (Math.min(...hx) + Math.max(...hx)) / 2, (Math.min(...hy) + Math.max(...hy)) / 2 + 30, 'sin losa', { 'font-size': 44, 'text-anchor': 'middle', class: 'txs' });
+  }
+  // marco C, en piezas entre pilares
+  L.marco.forEach((c, i) => {
+    const nx = c.interior[0], ny = c.interior[1], L0 = Math.hypot(c.b[0] - c.a[0], c.b[1] - c.a[1]), ux = (c.b[0] - c.a[0]) / L0, uy = (c.b[1] - c.a[1]) / L0;
+    c.piezas.forEach(pz => el('line', { x1: c.a[0] + ux * pz.s0 + nx * 2.5, y1: c.a[1] + uy * pz.s0 + ny * 2.5, x2: c.a[0] + ux * pz.s1 + nx * 2.5, y2: c.a[1] + uy * pz.s1 + ny * 2.5, style: 'stroke:var(--fig-c);stroke-width:12' }, svg));
+    const mx = (c.a[0] + c.b[0]) / 2 - nx * 48, my = (c.a[1] + c.b[1]) / 2 - ny * 48;
+    txt(svg, mx, my + 13, c.id, { 'font-size': 34, 'text-anchor': 'middle', style: 'fill:var(--fig-c);font-weight:700' });
+  });
+}
+dibujarPlanta();
+
+function dibujarC() {
+  const svg = $('#svg-c'), { h, b, t } = PC, r = PC.r == null ? t : PC.r;
+  svg.setAttribute('viewBox', '-70 -32 190 220');
+  // sección: alma a la izquierda (cara exterior del borde), alas hacia la derecha (hacia la losa)
+  const ro = r + t;
+  const d = `M ${b} 0 L ${ro} 0 A ${ro} ${ro} 0 0 0 0 ${ro} L 0 ${h - ro} A ${ro} ${ro} 0 0 0 ${ro} ${h} L ${b} ${h} L ${b} ${h - t} L ${ro} ${h - t} A ${r} ${r} 0 0 1 ${t} ${h - ro} L ${t} ${ro} A ${r} ${r} 0 0 1 ${ro} ${t} L ${b} ${t} Z`;
+  el('path', { d, style: 'fill:var(--fig-c);stroke:var(--fig-ink);stroke-width:.6' }, svg);
+  const cota = (x1, y1, x2, y2, s, dx, dy, rot) => {
+    el('line', { x1, y1, x2, y2, style: 'stroke:var(--fig-ink);stroke-width:.5' }, svg);
+    [[x1, y1], [x2, y2]].forEach(([x, y]) => el('line', { x1: x - 2.5, y1: y + 2.5, x2: x + 2.5, y2: y - 2.5, style: 'stroke:var(--fig-ink);stroke-width:.7' }, svg));
+    const tt = txt(svg, (x1 + x2) / 2 + dx, (y1 + y2) / 2 + dy, s, { 'font-size': 8.5, 'text-anchor': 'middle', 'font-weight': 600 });
+    if (rot) tt.setAttribute('transform', `rotate(-90 ${(x1 + x2) / 2 + dx} ${(y1 + y2) / 2 + dy})`);
+  };
+  cota(-14, 0, -14, h, String(h), -5, 0, true);
+  cota(0, -14, b, -14, String(b), 0, -4);
+  cota(0, h + 14, b, h + 14, String(b), 0, 11);
+  el('line', { x1: b + 6, y1: h - t, x2: b + 30, y2: h - t - 18, style: 'stroke:var(--fig-soft);stroke-width:.5' }, svg);
+  txt(svg, b + 32, h - t - 18, `t = ${t} mm`, { 'font-size': 8, class: 'txs' });
+  txt(svg, b + 12, h / 2 - 6, 'hacia la losa →', { 'font-size': 7.5, class: 'txs' });
+  txt(svg, -52, h / 2 + 30, '← borde', { 'font-size': 7.5, class: 'txs', transform: `rotate(-90 -52 ${h / 2 + 30})` });
+  txt(svg, b + 12, h / 2 + 10, `${coma(secC / 100, 2)} cm²`, { 'font-size': 8, class: 'txs' });
+  txt(svg, b + 12, h / 2 + 22, `≈ ${coma(KG_M_C, 2)} kg/m`, { 'font-size': 8, class: 'txs' });
+}
+dibujarC();
+
+function dibujarBorde() {
+  // corte perpendicular al borde, en mm: x = desde el borde hacia la losa, y = desde la cara superior de la viga
+  const svg = $('#svg-borde'), { h, b, t } = PC;
+  svg.setAttribute('viewBox', '-140 -60 640 300');
+  const H = ESP * 10;
+  // viga IPE (ala superior y parte del alma)
+  const bf = 150, tf = 10.7, tw = 7.1;
+  el('path', { d: `M -10 0 L ${bf - 10} 0 L ${bf - 10} ${tf} L ${bf / 2 - 10 + tw / 2} ${tf} L ${bf / 2 - 10 + tw / 2} 140 L ${bf / 2 - 10 - tw / 2} 140 L ${bf / 2 - 10 - tw / 2} ${tf} L -10 ${tf} Z`, transform: 'scale(1,1)', style: 'fill:var(--fig-viga);opacity:.55' }, svg);
+  // hormigón (pendiente) y malla
+  el('rect', { x: t, y: -H, width: 490, height: H, style: 'fill:var(--fig-horm);opacity:.35;stroke:var(--fig-soft);stroke-dasharray:6 4;stroke-width:1' }, svg);
+  el('line', { x1: t + 8, x2: 490, y1: -H + 25, y2: -H + 25, style: 'stroke:var(--fig-soft);stroke-width:1.2;stroke-dasharray:3 3' }, svg);
+  txt(svg, 300, -H + 20, 'malla (después), 2,5 cm bajo la cara', { 'font-size': 10, class: 'txs' });
+  // perfil C: alma en x=0..t, alas hacia +x
+  el('path', { d: `M 0 0 L ${b} 0 L ${b} ${-t} L ${t} ${-t} L ${t} ${-(H - t)} L ${b} ${-(H - t)} L ${b} ${-H} L 0 ${-H} Z`, style: 'fill:var(--fig-c);stroke:var(--fig-ink);stroke-width:.6' }, svg);
+  // placa: perfil real, empezando en la punta del ala del C
+  const prof = PL.perfil, x0 = b + 2;
+  let d = '';
+  prof.forEach(([x, y], i) => { if (x0 + x > 495) return; d += (d ? ' L ' : 'M ') + (x0 + x) + ' ' + (-(y)); });
+  el('path', { d, style: 'fill:none;stroke:var(--fig-placa);stroke-width:2.2;stroke-linejoin:round' }, svg);
+  // cotas
+  const cota = (x1, y1, x2, y2, s, dx, dy, rot) => {
+    el('line', { x1, y1, x2, y2, style: 'stroke:var(--fig-ink);stroke-width:.8' }, svg);
+    [[x1, y1], [x2, y2]].forEach(([x, y]) => el('line', { x1: x - 4, y1: y + 4, x2: x + 4, y2: y - 4, style: 'stroke:var(--fig-ink);stroke-width:1' }, svg));
+    const tt = txt(svg, (x1 + x2) / 2 + dx, (y1 + y2) / 2 + dy, s, { 'font-size': 12, 'text-anchor': 'middle', 'font-weight': 600 });
+    if (rot) tt.setAttribute('transform', `rotate(-90 ${(x1 + x2) / 2 + dx} ${(y1 + y2) / 2 + dy})`);
+  };
+  cota(-30, 0, -30, -H, coma(H, 0) + ' losa', -8, 0, true);
+  cota(505, 0, 505, -PL.alto, coma(PL.alto, 1), 12, 0, true);
+  cota(530, -PL.alto, 530, -H, coma(H - PL.alto, 1), 12, 0, true);
+  txt(svg, -10, 32, 'viga de borde', { 'font-size': 11, class: 'txs' });
+  txt(svg, 60, -H - 12, 'perfil C 150×50×3', { 'font-size': 11, style: 'fill:var(--fig-c);font-weight:600' });
+  txt(svg, 230, -PL.alto - 10, 'placa Instadeck 0,8', { 'font-size': 11, class: 'txs' });
+  txt(svg, -130, -H - 30, 'borde de la losa', { 'font-size': 10, class: 'txs' });
+  el('line', { x1: 0, x2: 0, y1: -H - 26, y2: -H - 4, style: 'stroke:var(--fig-soft);stroke-width:1' }, svg);
+}
+dibujarBorde();
+
+(function tablaMarco() {
+  const vig = t => t.replace(/V-[^ ]+ \(([^)]+)\)/g, '$1').replace(/(IPE \d+)(, \1)+/g, '$1');
+  $('#tabla-marco').innerHTML = `<thead><tr><th>Tramo</th><th class="r">Largo</th><th>Piezas entre pilares</th><th>Sobre</th></tr></thead><tbody>` +
+    L.marco.map(c => `<tr data-c="${c.id}"><td><b>${c.id}</b></td><td class="r">${fm(c.largo, 2)}</td><td>${c.piezas.map(p => coma(p.largo / 100, 2)).join(' · ')}${c.pilares.length ? `<br><span class="sub">${c.pilares.length === 1 ? 'lo corta 1 pilar' : `lo cortan ${c.pilares.length} pilares`}</span>` : ''}${(c.muescas || []).length ? `<br><span class="sub">corrido; alas recortadas en ${c.muescas.length} pilares</span>` : ''}</td><td class="sub">${vig(c.vigas || '')}</td></tr>`).join('') +
+    `<tr><td><b>Total</b></td><td class="r"><b>${fm(LARGO_PZ, 2)}</b></td><td colspan="2" class="sub">${N_PZ} piezas · ${fm(LARGO_C - LARGO_PZ, 2)} quedan dentro de los pilares · ≈ ${coma(LARGO_PZ / 100 * KG_M_C, 0)} kg</td></tr></tbody>`;
+  // cortes en barras de 6 m: primero los más largos (los de más de 6 m se arman con barras enteras + un resto)
+  const BARRA = 600;
+  const trozos = [];
+  L.marco.forEach(c => c.piezas.forEach((pz, j) => { const id0 = c.id + (c.piezas.length > 1 ? String.fromCharCode(97 + j) : ''); let r = pz.largo, k = 1; while (r > BARRA + 0.1) { trozos.push({ id: id0 + '·' + k++, l: BARRA }); r -= BARRA; } trozos.push({ id: id0 + (k > 1 ? '·' + k : ''), l: r }); }));
+  trozos.sort((p, q) => q.l - p.l);
+  const barras = [];
+  trozos.forEach(tz => { const b = barras.find(b => b.libre >= tz.l + 0.3); if (b) { b.t.push(tz); b.libre -= tz.l + 0.3; } else barras.push({ t: [tz], libre: BARRA - tz.l - 0.3 }); });
+  const resto = barras.reduce((s, b) => s + b.libre, 0);
+  $('#txt-cortes').innerHTML = `<b>${barras.length} barras de 6 m</b> para ${fm(LARGO_PZ, 1)} de marco en ${N_PZ} piezas (cortes de 3 mm incluidos). Sobran ≈ ${fm(resto, 1)} (${coma(100 * resto / (barras.length * BARRA), 0)} %). Las piezas de más de 6 m se arman con barras enteras más un resto, soldadas a tope. Plan de corte sugerido, sin contar traslapos ni ajustes en las esquinas (letras = piezas de un mismo tramo, de su inicio a su fin):`;
+  $('#barras').innerHTML = barras.map((b, i) => `<div class="barra"><span>Barra ${i + 1}</span><span class="b">${b.t.map(tz => `<i style="width:${100 * tz.l / BARRA}%" title="${tz.id}: ${fm(tz.l)}">${tz.id}</i>`).join('')}<i class="r" style="width:${100 * b.libre / BARRA}%"></i></span><span>${fm(BARRA - b.libre, 2)}</span></div>`).join('');
+})();
+
+function dibujarPlaca() {
+  const svg = $('#svg-placa'), pr = PL.perfil, W = PL.total, Hh = PL.alto;
+  svg.setAttribute('viewBox', `-40 -60 ${W + 80} 170`);
+  let d = ''; pr.forEach(([x, y], i) => { d += (i ? ' L ' : 'M ') + x + ' ' + (-y); });
+  el('path', { d, style: 'fill:none;stroke:var(--fig-placa);stroke-width:3;stroke-linejoin:round' }, svg);
+  const cota = (x1, y1, x2, y2, s, dx, dy, rot) => {
+    el('line', { x1, y1, x2, y2, style: 'stroke:var(--fig-ink);stroke-width:1' }, svg);
+    [[x1, y1], [x2, y2]].forEach(([x, y]) => el('line', { x1: x - 5, y1: y + 5, x2: x + 5, y2: y - 5, style: 'stroke:var(--fig-ink);stroke-width:1.2' }, svg));
+    const tt = txt(svg, (x1 + x2) / 2 + dx, (y1 + y2) / 2 + dy, s, { 'font-size': 15, 'text-anchor': 'middle', 'font-weight': 600 });
+    if (rot) tt.setAttribute('transform', `rotate(-90 ${(x1 + x2) / 2 + dx} ${(y1 + y2) / 2 + dy})`);
+  };
+  cota(0, 40, PL.util, 40, `avance útil ${PL.util} mm`, 0, 22);
+  cota(-20, 0, -20, -Hh, coma(Hh, 1), -10, 0, true);
+  if (PL.paso) cota(PL.x_nervio0, -Hh - 20, PL.x_nervio0 + PL.paso, -Hh - 20, `${coma(PL.paso, 1)} mm entre nervios`, 0, -8);
+  $('#cap-placa').textContent = `Sección de una plancha a escala, tomada del dibujo vectorial de la ficha técnica: ${PL.nervios} nervios, ancho total ${miles(W)} mm, avance útil ${PL.util} mm. ${PL.cotas_texto || ''}`;
+  const s = [
+    ['Espesor', '0,8 mm', 'Acero estructural G37, galvanizado G-90 (ASTM A653) <span class="fuente man">ficha</span>'],
+    ['Peso', coma(PL.peso, 2) + ' kg/m²', 'Ficha: 8,03 en la portada; 8,00 en las tablas <span class="fuente man">ficha</span>'],
+    ['Alto y avance', '63,5 · 950 mm', `${PL.nervios} nervios por plancha <span class="fuente man">ficha</span>`],
+    ['Largos', '1,5 a 15 m', 'Más largo, a consulta (transporte) <span class="fuente man">ficha</span>'],
+  ];
+  $('#specs-placa').innerHTML = s.map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
+  const T = PL.tabla_espesores;   // [[total cm, hormigón sobre cresta cm, m3/m2, kg/m2 total]]
+  $('#tabla-espesor').innerHTML = `<thead><tr><th class="r">Losa total</th><th class="r">Hormigón sobre la cresta</th><th class="r">Hormigón</th><th class="r">Peso propio</th></tr></thead><tbody>` +
+    T.map(r => `<tr${Math.abs(r[0] - L.espesor_plano) < 0.01 ? ' class="on"' : ''}><td class="r">${coma(r[0], 2)} cm${Math.abs(r[0] - L.espesor_plano) < 0.01 ? ' <span class="fuente man">plano</span>' : ''}</td><td class="r">${coma(r[1], 0)} cm</td><td class="r">${coma(r[2], 3)} m³/m²</td><td class="r">${r[3]} kg/m²</td></tr>`).join('') +
+    `<tr><td class="r"><b>${coma(ESP, 2)} cm</b> <span class="fuente calc">esta losa</span></td><td class="r">${coma(HC, 2)} cm</td><td class="r">${coma(VOL_M2, 4)} m³/m²</td><td class="r">≈ ${miles(VOL_M2 * 2400 + PL.peso)} kg/m²</td></tr></tbody>`;
+  $('#aviso-espesor').innerHTML = `<b>Espesor.</b> El plano del ingeniero dice <b>e = ${coma(L.espesor_plano, 2)} cm</b> (una de las losas de la tabla: placa 6,35 + 8 cm de hormigón sobre la cresta). Con el marco de 150 mm y la losa de ${coma(ESP, 0)} cm que se va a hacer, quedan ${coma(HC, 2)} cm sobre la cresta: ${coma((ESP - L.espesor_plano) * 10, 1)} mm más que en el plano. Conviene confirmarlo con el ingeniero.`;
+  $('#lista-ficha').innerHTML = (PL.notas_ficha || []).map(n => `<li>${n}</li>`).join('');
+}
+dibujarPlaca();
+
+(function tablaApoyos() {
+  const filas = L.areas.map(a => {
+    const ap = apoyos(a), nV = ap.vanos.length, maxV = ap.max;
+    const lim = maxSinAlz(nV, HC), ok = maxV <= lim, limF = maxFlecha(nV, ESP), okF = maxV <= limF;
+    return `<tr data-area="${a.n}"><td><span class="sw" style="background:${a.color}"></span><b>${a.n}</b></td><td class="c">${nV || '—'}</td>
+      <td>${ap.vanos.map(v => coma(v / 100, 2)).join(' · ') || '—'}</td><td class="r">${fm(lim, 2)}</td>
+      <td class="${ok ? 'okv' : 'dif'}">${nV ? (ok ? 'no necesita' : 'sí, en luces > ' + coma(lim / 100, 2) + ' m') : 'revisar'}</td>
+      <td class="r ${okF ? 'okv' : 'dif'}">${fm(limF, 2)}${okF ? '' : ' ✗'}</td></tr>`;
+  }).join('');
+  $('#tabla-apoyos').innerHTML = `<thead><tr><th>Área</th><th class="c">Vanos</th><th>Luces entre vigas (m)</th><th class="r">Máx. sin alzaprima</th><th>¿Alzaprimas al hormigonar?</th><th class="r">Máx. por flecha</th></tr></thead><tbody>${filas}</tbody>`;
+  $('#txt-apoyos').innerHTML = `Para cada área, la plancha con la luz más larga: luces entre ejes de las vigas que la sostienen (perpendiculares a ella); "vanos" es cuántos tramos seguidos cubre (1, 2, o 3 y más). "Máx. sin alzaprima" es la tabla de la ficha para el hormigón fresco, interpolada para ${coma(HC, 2)} cm sobre la cresta. "Máx. por flecha" es la distancia máxima entre apoyos de la losa ya terminada (control de deformaciones de la ficha) para ${coma(ESP, 0)} cm de espesor; una ✗ quiere decir que alguna luz la pasa. Es una lectura de las tablas, no un cálculo: alzaprimas y luces las decide el ingeniero.`;
+})();
+
+$('#lista-notas').innerHTML = (L.notas || []).map(n => `<li>${n}</li>`).join('');
+
+// =====================================================================
+//  3D
+// =====================================================================
+const visor = $('#visor');
+let API = null;
+try { API = iniciar3D(); } catch (e) { console.error(e); }
+if (!API) $('#v-carga').textContent = 'Este navegador no pudo abrir el 3D. El resto de la página funciona igual.';
+
+function iniciar3D() {
+  if (!window.THREE) return null;
+  const T = THREE, dark = oscuro();
+  let renderer;
+  try { renderer = new T.WebGLRenderer({ antialias: true }); } catch (e) { return null; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  visor.insertBefore(renderer.domElement, visor.firstChild);
+  const scene = new T.Scene();
+  const BG = dark ? 0x16181D : 0xF0F1F3;
+  scene.background = new T.Color(BG);
+  const camera = new T.PerspectiveCamera(36, 1, 0.05, 400);
+  const controls = new T.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true; controls.dampingFactor = 0.09; controls.maxPolarAngle = Math.PI * 0.95;
+  scene.add(new T.HemisphereLight(0xffffff, dark ? 0x30343c : 0x9aa0a8, dark ? 0.7 : 0.62));
+  const sol = new T.DirectionalLight(0xffffff, dark ? 0.75 : 0.7); sol.position.set(12, 30, 18); scene.add(sol);
+  const rel = new T.DirectionalLight(0xffffff, 0.3); rel.position.set(-15, 12, -10); scene.add(rel);
+  const piso = new T.Mesh(new T.PlaneGeometry(120, 120), new T.MeshBasicMaterial({ color: BG }));
+  piso.rotation.x = -Math.PI / 2; piso.position.y = -0.01; scene.add(piso);
+  const grid = new T.GridHelper(80, 80, dark ? 0x2A2E37 : 0xE3E6EB, dark ? 0x2A2E37 : 0xE3E6EB); grid.position.set(10, -0.005, 7); scene.add(grid);
+
+  const W = (x, y, z) => new T.Vector3(x / 100, z / 100, y / 100);   // app (cm) -> mundo (m)
+  const std = (color, extra) => new T.MeshStandardMaterial(Object.assign({ color, roughness: 0.55, metalness: 0.25 }, extra || {}));
+  const MAT = {
+    viga: std(dark ? 0x5AA9F0 : 0x1D63B8, { transparent: true, opacity: 0.9 }),
+    pilar: std(dark ? 0xF08C4A : 0xC2410C, { transparent: true, opacity: 0.45 }),
+    pilar2: std(dark ? 0xF08C4A : 0xC2410C),
+    c: std(dark ? 0xF2C14E : 0xE3A622, { roughness: 0.45, metalness: 0.35 }),
+    placa: std(dark ? 0xB9C0C9 : 0xC5CBD3, { roughness: 0.35, metalness: 0.55, side: T.DoubleSide }),
+    sel: std(0x4D8FEA, { emissive: 0x153563, side: T.DoubleSide }),
+  };
+  const matArea = {};
+  L.areas.forEach(a => { matArea[a.n] = std(new T.Color(a.color).getHex(), { roughness: 0.45, metalness: 0.2, side: T.DoubleSide }); });
+
+  // ---------- vigas y pilares (secciones reales) ----------
+  function seccionI(p) {
+    const s = new T.Shape(), m = v => v / 100, { h, b, tf, tw } = p, H = h / 2, B = b / 2, w = tw / 2;
+    [[-B, -H], [B, -H], [B, -H + tf], [w, -H + tf], [w, H - tf], [B, H - tf], [B, H], [-B, H], [-B, H - tf], [-w, H - tf], [-w, -H + tf], [-B, -H + tf]].forEach(([x, y], i) => i ? s.lineTo(m(x), m(y)) : s.moveTo(m(x), m(y)));
+    s.closePath(); return s;
+  }
+  function seccionGen(p) {
+    if (p.forma === 'I') return seccionI(p);
+    const s = new T.Shape(), m = v => v / 100;
+    if (p.forma === 'tubo_rect') { const H = p.h / 2, B = p.b / 2, t = p.t; [[-B, -H], [B, -H], [B, H], [-B, H]].forEach(([x, y], i) => i ? s.lineTo(m(x), m(y)) : s.moveTo(m(x), m(y))); s.closePath(); const hh = new T.Path(); [[-B + t, -H + t], [-B + t, H - t], [B - t, H - t], [B - t, -H + t]].forEach(([x, y], i) => i ? hh.lineTo(m(x), m(y)) : hh.moveTo(m(x), m(y))); hh.closePath(); s.holes.push(hh); return s; }
+    if (p.forma === 'tubo_circ') { s.absarc(0, 0, m(p.d / 2), 0, Math.PI * 2, false); const hh = new T.Path(); hh.absarc(0, 0, m(p.d / 2 - p.t), 0, Math.PI * 2, true); s.holes.push(hh); return s; }
+    s.absarc(0, 0, 0.05, 0, Math.PI * 2, false); return s;
+  }
+  const geoPerfil = {};
+  const geoDe = n => geoPerfil[n] || (geoPerfil[n] = new T.ExtrudeGeometry(seccionGen(E.perfiles[n] || E.perfiles.desconocido), { depth: 1, bevelEnabled: false, curveSegments: 12 }));
+  const ARRIBA = new T.Vector3(0, 1, 0);
+  function piezaLineal(geo, mat, a, b, alma) {
+    const dir = new T.Vector3().subVectors(b, a), largo = dir.length(); if (largo < 1e-3) return null;
+    const z = dir.clone().normalize();
+    let y = Math.abs(z.y) > 0.95 ? (alma === 'Y' ? new T.Vector3(0, 0, 1) : new T.Vector3(1, 0, 0)) : ARRIBA.clone();
+    y.addScaledVector(z, -y.dot(z)).normalize();
+    const x = new T.Vector3().crossVectors(y, z).normalize();
+    const me = new T.Mesh(geo, mat); me.quaternion.setFromRotationMatrix(new T.Matrix4().makeBasis(x, y, z)); me.position.copy(a); me.scale.set(1, 1, largo);
+    return me;
+  }
+  const gVigas = new T.Group(), gPilares = new T.Group(); scene.add(gVigas, gPilares);
+  VIGAS.forEach(m => { const me = piezaLineal(geoDe(m.p), MAT.viga, W(...m.a), W(...m.b)); if (me) { me.userData.info = `<b>${m.p}</b> · viga<div class="d">${m.d}</div>`; gVigas.add(me); } });
+  E.miembros.filter(m => m.c === 'pilar' && Math.max(m.a[2], m.b[2]) <= Z0 + 2).forEach(m => { const me = piezaLineal(geoDe(m.p), MAT.pilar, W(...m.a), W(...m.b), m.alma); if (me) { me.userData.info = `<b>${m.p}</b> · pilar nivel 1<div class="d">${m.d || ''}</div>`; gPilares.add(me); } });
+  gPilares.visible = false;
+
+  // ---------- marco C: alma vertical en el borde, alas hacia la losa ----------
+  const gMarco = new T.Group(); scene.add(gMarco);
+  const shC = (() => { const { h, b, t } = PC, m = v => v / 1000, s = new T.Shape();
+    [[0, 0], [b, 0], [b, t], [t, t], [t, h - t], [b, h - t], [b, h], [0, h]].forEach(([x, y], i) => i ? s.lineTo(m(x), m(y)) : s.moveTo(m(x), m(y))); s.closePath(); return s; })();
+  const geoC = new T.ExtrudeGeometry(shC, { depth: 1, bevelEnabled: false });
+  const rectGeo = (x0, y0, x1, y1) => { const m = v => v / 1000, r = new T.Shape(); r.moveTo(m(x0), m(y0)); r.lineTo(m(x1), m(y0)); r.lineTo(m(x1), m(y1)); r.lineTo(m(x0), m(y1)); r.closePath(); return new T.ExtrudeGeometry(r, { depth: 1, bevelEnabled: false }); };
+  const geoAlma = rectGeo(0, 0, PC.t, PC.h), geoAlaInf = rectGeo(PC.t, 0, PC.b, PC.t), geoAlaSup = rectGeo(PC.t, PC.h - PC.t, PC.b, PC.h);
+  // cada tramo va en piezas: los pilares del nivel 2 que nacen en el borde lo interrumpen
+  const MARCO = [], TRAMOS = [];
+  L.marco.forEach(c => {
+    const xL = new T.Vector3(c.interior[0], 0, c.interior[1]).normalize(), yL = ARRIBA.clone(), zL = new T.Vector3().crossVectors(xL, yL);
+    const A = W(c.a[0], c.a[1], Z0), B = W(c.b[0], c.b[1], Z0), u = new T.Vector3().subVectors(B, A).normalize();
+    const vig = (c.vigas || '').replace(/V-[^ ]+ \(([^)]+)\)/g, '$1').replace(/(IPE \d+)(, \1)+/g, '$1');
+    const tramo = { c, piezas: [], centro: A.clone().add(B).multiplyScalar(0.5).add(new T.Vector3(0, ESP / 200, 0)), normal: xL };
+    const adelante = u.dot(zL) >= 0, rot = new T.Quaternion().setFromRotationMatrix(new T.Matrix4().makeBasis(xL, yL, zL));
+    const tramoMesh = (geo, f0, f1) => {   // un trozo de [f0, f1] cm a lo largo del tramo
+      const me = new T.Mesh(geo, MAT.c); me.quaternion.copy(rot); me.scale.set(1, 1, (f1 - f0) / 100);
+      me.position.copy(A).addScaledVector(u, (adelante ? f0 : f1) / 100); return me;
+    };
+    c.piezas.forEach((pz, j) => {
+      const grupo = new T.Group(); gMarco.add(grupo);
+      const mu = (c.muescas || []).filter(m => m.s1 > pz.s0 && m.s0 < pz.s1).sort((p, q) => p.s0 - q.s0);
+      let me;
+      if (!mu.length) { me = tramoMesh(geoC, pz.s0, pz.s1); grupo.add(me); }
+      else {
+        // alma corrida; las alas se recortan donde pasa el pilar
+        me = tramoMesh(geoAlma, pz.s0, pz.s1); grupo.add(me);
+        let f = pz.s0;
+        mu.forEach(m => { if (m.s0 - f > 0.5) { grupo.add(tramoMesh(geoAlaInf, f, m.s0)); grupo.add(tramoMesh(geoAlaSup, f, m.s0)); } f = Math.max(f, m.s1); });
+        if (pz.s1 - f > 0.5) { grupo.add(tramoMesh(geoAlaInf, f, pz.s1)); grupo.add(tramoMesh(geoAlaSup, f, pz.s1)); }
+      }
+      const nombre = c.id + (c.piezas.length > 1 ? String.fromCharCode(97 + j) : '');
+      const info = { info: `<b>Marco ${nombre}</b> · perfil C 150×50×3<div class="d">${fm(pz.largo, 2)}${c.piezas.length > 1 ? ` · pieza ${j + 1} de ${c.piezas.length} del tramo ${c.id}` : ''} · sobre ${vig}${mu.length ? `<br>Alas recortadas en ${mu.length} pilar${mu.length > 1 ? 'es' : ''}: el alma pasa por fuera` : ''}</div>`, tipo: 'C', id: c.id };
+      grupo.children.forEach(o => { o.userData = info; });
+      const m = { c, pz, j, nombre, grupo, mesh: me, mallas: grupo.children.slice(), normal: xL };
+      MARCO.push(m); tramo.piezas.push(m);
+    });
+    TRAMOS.push(tramo);
+  });
+
+  // pilares del nivel 2: nacen sobre las vigas y atraviesan la losa (se muestran 80 cm)
+  const gPil2 = new T.Group(); scene.add(gPil2);
+  const MIEMBRO = {}; E.miembros.forEach(m => { MIEMBRO[m.id] = m; });
+  PIL2.forEach(p => {
+    const mb = MIEMBRO[p.id]; if (!mb) return;
+    const me = piezaLineal(geoDe(mb.p), MAT.pilar2, W(p.x, p.y, Z0), W(p.x, p.y, Z0 + 80), mb.alma);
+    if (me) { me.userData.info = `<b>${mb.p}</b> · pilar del nivel 2<div class="d">${mb.d || ''} · ${p.borde ? 'en el borde: corta el marco C' : 'perfora la placa'}</div>`; gPil2.add(me); }
+  });
+
+  // ---------- placas: perfil de la ficha con espesor, cortado al ancho de cada pieza ----------
+  const gPlaca = new T.Group(); scene.add(gPlaca);
+  function perfilCortado(w) {   // w en mm; devuelve la polilínea hasta x = w
+    const pr = PL.perfil, out = [];
+    for (let i = 0; i < pr.length; i++) {
+      const p = pr[i];
+      if (p[0] <= w) { out.push(p); continue; }
+      const q = pr[i - 1]; if (q && q[0] < w) out.push([w, q[1] + (p[1] - q[1]) * (w - q[0]) / (p[0] - q[0])]);
+      break;
+    }
+    return out;
+  }
+  function formaChapa(pts, e) {   // polilínea abierta -> contorno cerrado de espesor e (mm), hacia arriba/adentro
+    const n = pts.length, nor = [];
+    for (let i = 0; i < n; i++) {
+      const a = pts[Math.max(0, i - 1)], b = pts[Math.min(n - 1, i + 1)];
+      let dx = b[0] - a[0], dy = b[1] - a[1]; const l = Math.hypot(dx, dy) || 1; dx /= l; dy /= l;
+      nor.push([-dy, dx]);
+    }
+    const s = new T.Shape(), m = v => v / 1000;
+    pts.forEach((p, i) => i ? s.lineTo(m(p[0]), m(p[1])) : s.moveTo(m(p[0]), m(p[1])));
+    for (let i = n - 1; i >= 0; i--) s.lineTo(m(pts[i][0] + nor[i][0] * e), m(pts[i][1] + nor[i][1] * e));
+    s.closePath(); return s;
+  }
+  const geoPlaca = {};
+  const geoDePlaca = w => { const k = Math.round(w); return geoPlaca[k] || (geoPlaca[k] = new T.ExtrudeGeometry(formaChapa(perfilCortado(k), PL.espesor), { depth: 1, bevelEnabled: false })); };
+  const PLACAS = [];
+  L.areas.forEach(a => {
+    const ga = new T.Group(); gPlaca.add(ga);
+    a.piezas.forEach((p, k) => {
+      const ns = a.dir === 'NS';
+      // eje local x = a lo ancho de la plancha, y = arriba, z = a lo largo (sentido de las planchas)
+      const zL = ns ? new T.Vector3(0, 0, 1) : new T.Vector3(1, 0, 0);
+      const xL = new T.Vector3().crossVectors(ARRIBA, zL);   // base derecha: NS → +X ; EO → -Z (hacia el norte)
+      const origen = ns ? W(p.x0, p.y0, Z0) : W(p.x0, p.y1, Z0);
+      const ancho = p.ancho * 10, largo = p.largo / 100;
+      const me = new T.Mesh(geoDePlaca(ancho), MAT.placa);
+      me.quaternion.setFromRotationMatrix(new T.Matrix4().makeBasis(xL, ARRIBA, zL)); me.scale.set(1, 1, largo);
+      const gp = new T.Group(); gp.add(me); me.position.copy(origen); ga.add(gp);
+      me.userData = { info: `<b>Área ${a.n} · plancha ${p.k} de ${a.planchas}</b>${p.cortada ? ' (cortada)' : ''}<div class="d">${fm(p.largo, 2)} de largo × ${fm(p.ancho, 2)} de ancho · ≈ ${coma(p.ancho * p.largo / 1e4 * PL.peso, 0)} kg${p.pilares.length ? `<br>Perforada por ${p.pilares.length === 1 ? 'el pilar' : 'los pilares'} ${p.pilares.join(', ')}` : ''}</div>`, tipo: 'placa', area: a.n, mat0: MAT.placa };
+      PLACAS.push({ a, p, k, grupo: gp, mesh: me, ancho: xL.clone(), centro: origen.clone().addScaledVector(xL, p.ancho / 200).addScaledVector(zL, largo / 2) });
+    });
+  });
+  const CENTRO_LOSA = (() => { const c = new T.Vector3(); PLACAS.forEach(q => c.add(q.centro)); return c.multiplyScalar(1 / PLACAS.length); })();
+  const CENTRO_AREA = {};
+  L.areas.forEach(a => { CENTRO_AREA[a.n] = W(a.centro[0], a.centro[1], Z0 + ESP * 10); });
+
+  // =====================================================================
+  //  ESTADO: despiece (sliders) y montaje (línea de tiempo)
+  // =====================================================================
+  const est = { modo: 'armado', sC: 0, sP: 0, sep: 0, sA: {}, t: 0, play: false, vel: 1, colorArea: false, etq: true, sel: null };
+  L.areas.forEach(a => { est.sA[a.n] = 0; });
+  const ease = u => u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+  // orden de montaje: marco tramo por tramo, después cada área plancha por plancha
+  const SECUENCIA = [...MARCO.map(m => ({ tipo: 'C', m })), ...PLACAS.map(q => ({ tipo: 'P', q }))];
+  const NSEC = SECUENCIA.length, VENT = Math.min(0.12, 6 / NSEC);
+  SECUENCIA.forEach((s, i) => { s.t0 = i / NSEC * (1 - VENT); });
+
+  function aplicar() {
+    const mont = est.modo === 'montaje';
+    MARCO.forEach((m, i) => {
+      let off = new T.Vector3(), vis = true;
+      if (mont) { const s = SECUENCIA[i], u = Math.max(0, Math.min(1, (est.t - s.t0) / VENT)); vis = est.t >= s.t0; off.y = (1 - ease(u)) * 1.4; }
+      else if (est.modo === 'despiece') { off.y = est.sC * 0.9; off.addScaledVector(m.normal, -est.sC * 0.6); }
+      m.grupo.position.copy(off); m.grupo.visible = vis;
+    });
+    PLACAS.forEach((q, i) => {
+      let off = new T.Vector3(), vis = true;
+      if (mont) {
+        const s = SECUENCIA[MARCO.length + i], u = Math.max(0, Math.min(1, (est.t - s.t0) / VENT)); vis = est.t >= s.t0;
+        const e = 1 - ease(u); off.y = e * 1.6; off.addScaledVector(q.ancho, e * 0.8);
+      } else if (est.modo === 'despiece') {
+        const sa = est.sA[q.a.n] || 0;
+        off.y = est.sP * 1.8 + sa * 1.1;
+        const h = new T.Vector3().subVectors(CENTRO_AREA[q.a.n], CENTRO_LOSA); h.y = 0;
+        off.addScaledVector(h, sa * 0.35);
+        off.addScaledVector(q.ancho, est.sep * 0.18 * q.k);
+      }
+      q.grupo.position.copy(off); q.grupo.visible = vis;
+    });
+    if (mont) {
+      const i = Math.min(NSEC - 1, Math.max(0, Math.floor(est.t / (1 - VENT) * NSEC)));
+      const s = SECUENCIA[i];
+      $('#m-txt').innerHTML = est.t >= 0.999 ? '<b>Listo:</b> marco y placas en su lugar. Siguen pernos, malla y hormigón.'
+        : s.tipo === 'C' ? `<b>Marco C</b> · pieza ${s.m.nombre} (${fm(s.m.pz.largo, 2)}) · ${i + 1} de ${MARCO.length}`
+        : `<b>Área ${s.q.a.n}</b> · plancha ${s.q.p.k} de ${s.q.a.planchas}${s.q.p.cortada ? ' (cortada)' : ''} · ${fm(s.q.p.largo, 2)} · pieza ${i + 1} de ${NSEC}`;
+    }
+    pedir();
+  }
+
+  // ---------- etiquetas ----------
+  const capa = $('#tags'), TAGS = [];
+  L.areas.forEach(a => {
+    const b = document.createElement('button'); b.className = 'tag'; b.textContent = a.n; b.title = `Área ${a.n}`;
+    b.style.borderColor = a.color; b.addEventListener('click', e => { e.stopPropagation(); verArea(a.n); });
+    capa.appendChild(b); const ps = PLACAS.filter(q => q.a.n === a.n);
+    TAGS.push({ b, pos: () => { const c = new T.Vector3(); ps.forEach(q => c.add(q.centro).add(q.grupo.position)); return ps.length ? c.multiplyScalar(1 / ps.length).add(new T.Vector3(0, 0.3, 0)) : CENTRO_AREA[a.n]; }, vis: () => gPlaca.visible && ps.some(q => q.grupo.visible) });
+  });
+  TRAMOS.forEach(t => {
+    const b = document.createElement('div'); b.className = 'tag c'; b.textContent = t.c.id; b.style.pointerEvents = 'none';
+    const g0 = t.piezas[0] ? t.piezas[0].grupo : null;
+    capa.appendChild(b); TAGS.push({ b, pos: () => t.centro.clone().add(g0 ? g0.position : new T.Vector3()).addScaledVector(t.normal, -0.25).add(new T.Vector3(0, 0.15, 0)), vis: () => gMarco.visible && t.piezas.some(m => m.grupo.visible), chico: true });
+  });
+  const tmp = new T.Vector3();
+  function moverEtiquetas() {
+    const w = visor.clientWidth, h = visor.clientHeight, lejos = camera.position.distanceTo(controls.target) > 26;
+    TAGS.forEach(t => {
+      if (!est.etq || !t.vis() || (t.chico && lejos)) { t.b.style.display = 'none'; return; }
+      tmp.copy(t.pos()).project(camera);
+      if (tmp.z > 1 || Math.abs(tmp.x) > 1.05 || Math.abs(tmp.y) > 1.05) { t.b.style.display = 'none'; return; }
+      t.b.style.display = ''; t.b.style.transform = `translate(${(tmp.x + 1) / 2 * w}px,${(1 - tmp.y) / 2 * h}px) translate(-50%,-50%)`;
+    });
+  }
+
+  // ---------- cámara ----------
+  const caja = new T.Box3().setFromObject(gPlaca).union(new T.Box3().setFromObject(gMarco));
+  const CEN = caja.getCenter(new T.Vector3()), RAD = caja.getSize(new T.Vector3()).length() / 2;
+  let viaje = null;
+  // encuadre: la losa (vista en diagonal) tiene que caber en el espacio libre entre los controles
+  let libre = { w: 1, h: 1, H: 1 };
+  function vistaGeneral() {
+    const dir = new T.Vector3(0.62, 0.95, 0.95).normalize();
+    const tv = Math.tan(camera.fov * Math.PI / 360), f = Math.min(tv * libre.h / libre.H, tv * libre.w / libre.H);
+    const d = f > 0.02 ? RAD * 0.74 / f : RAD * 2.4;
+    return [CEN.clone().addScaledVector(dir, d), CEN.clone()];
+  }
+  function irA(p, t, inst) {
+    if (inst || matchMedia('(prefers-reduced-motion: reduce)').matches) { camera.position.copy(p); controls.target.copy(t); controls.update(); pedir(); return; }
+    viaje = { p0: camera.position.clone(), t0: controls.target.clone(), p1: p.clone(), t1: t.clone(), ini: performance.now(), dur: 800 }; pedir();
+  }
+  function verArea(n) {
+    const ps = PLACAS.filter(q => q.a.n === n); if (!ps.length) return;
+    const bx = new T.Box3(); ps.forEach(q => bx.expandByObject(q.mesh));
+    const c = bx.getCenter(new T.Vector3()), r = Math.max(2.5, bx.getSize(new T.Vector3()).length() / 2);
+    irA(c.clone().add(new T.Vector3(0.6, 0.9, 1).normalize().multiplyScalar(r * 2.3)), c);
+    seleccionar('area', n);
+    document.querySelectorAll('tr[data-area]').forEach(tr => tr.classList.toggle('on', +tr.dataset.area === n));
+    if (!matchMedia('(min-width:1080px)').matches) visor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ---------- selección ----------
+  const ficha = $('#ficha');
+  function seleccionar(tipo, id, info, x, y) {
+    est.sel = tipo ? { tipo, id } : null;
+    PLACAS.forEach(q => { q.mesh.material = est.sel && est.sel.tipo === 'area' && q.a.n === est.sel.id ? MAT.sel : (est.colorArea ? matArea[q.a.n] : MAT.placa); });
+    MARCO.forEach(m => { const mt = est.sel && est.sel.tipo === 'C' && m.c.id === est.sel.id ? MAT.sel : MAT.c; m.mallas.forEach(o => { o.material = mt; }); });
+    if (info) { ficha.innerHTML = info; ficha.hidden = false; const w = visor.clientWidth, h = visor.clientHeight; ficha.style.left = Math.min(w - 290, x + 14) + 'px'; ficha.style.top = Math.max(56, Math.min(h - 140, y + 10)) + 'px'; }
+    else ficha.hidden = true;
+    pedir();
+  }
+  const ray = new T.Raycaster(), ptr = new T.Vector2(); let abajo = null;
+  renderer.domElement.addEventListener('pointerdown', e => { abajo = [e.clientX, e.clientY]; });
+  renderer.domElement.addEventListener('pointerup', e => {
+    if (!abajo || Math.hypot(e.clientX - abajo[0], e.clientY - abajo[1]) > 5) return;
+    const r = renderer.domElement.getBoundingClientRect();
+    ptr.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1); ray.setFromCamera(ptr, camera);
+    const objs = []; [gMarco, gPlaca, gVigas, gPilares, gPil2].forEach(g => g.visible && g.traverse(o => { if (o.isMesh && o.visible && o.parent.visible) objs.push(o); }));
+    const hit = ray.intersectObjects(objs, false)[0];
+    if (!hit) { seleccionar(null); return; }
+    const u = hit.object.userData;
+    seleccionar(u.tipo === 'C' ? 'C' : u.tipo === 'placa' ? 'area' : 'otra', u.tipo === 'C' ? u.id : u.area, u.info, e.clientX - r.left, e.clientY - r.top);
+  });
+
+  // ---------- render bajo demanda ----------
+  let sucio = true; const pedir = () => { sucio = true; };
+  let encuadrado = false;
+  function medir() {
+    const w = visor.clientWidth, h = visor.clientHeight; if (w < 2 || h < 2) return;
+    const top0 = visor.getBoundingClientRect().top;
+    const fondo = q => { const r = $(q).getBoundingClientRect(); return r.height ? r.bottom - top0 : 0; };
+    const arriba = Math.max(fondo('.v-modo'), w < 640 ? fondo('.v-capas') : 0) + 8;
+    const pan = $('#v-panel').getBoundingClientRect(), abajo = pan.width > w * 0.55 ? h - (pan.top - top0) + 8 : 24;
+    const corr = Math.max(0, (abajo - arriba) / 2), H = h + 2 * corr;
+    libre = { w, h: Math.max(80, h - arriba - abajo), H };
+    renderer.setSize(w, h, false); camera.aspect = w / H; camera.setViewOffset(w, H, 0, 2 * corr, w, h); camera.updateProjectionMatrix();
+    if (!encuadrado) { encuadrado = true; const [p, t] = vistaGeneral(); irA(p, t, true); }
+    pedir();
+  }
+  new ResizeObserver(medir).observe(visor);
+  controls.addEventListener('change', pedir);
+  let ultimo = performance.now(), auto = null;
+  function bucle(now) {
+    requestAnimationFrame(bucle);
+    const dt = Math.min(0.1, (now - ultimo) / 1000); ultimo = now;
+    if (viaje) { const u = Math.min(1, (now - viaje.ini) / viaje.dur), s = ease(u); camera.position.lerpVectors(viaje.p0, viaje.p1, s); controls.target.lerpVectors(viaje.t0, viaje.t1, s); if (u >= 1) viaje = null; sucio = true; }
+    if (est.modo === 'montaje' && est.play) { est.t = Math.min(1, est.t + dt * est.vel / 45); $('#m-t').value = Math.round(est.t * 1000); if (est.t >= 1) { est.play = false; $('#m-play').textContent = '▶'; } aplicar(); }
+    if (auto) { const u = ((now - auto) / 7000) % 1, v = 0.5 - 0.5 * Math.cos(u * 2 * Math.PI); fijarDespiece(v, true); }
+    if (!Number.isFinite(camera.position.x)) { encuadrado = false; medir(); }
+    const cambio = controls.update();
+    if (sucio || cambio) { renderer.render(scene, camera); moverEtiquetas(); sucio = false; }
+  }
+
+  // ---------- controles ----------
+  const pct = v => Math.round(v * 100) + ' %';
+  function fijarDespiece(v, desdeAuto) {
+    est.sC = Math.min(1, v * 1.6); est.sP = Math.max(0, Math.min(1, v * 1.6 - 0.25)); est.sep = Math.max(0, v * 1.4 - 0.4);
+    L.areas.forEach((a, i) => { est.sA[a.n] = Math.max(0, Math.min(1, v * 1.5 - 0.3 - i * 0.02)); });
+    sincronizarSliders(v); aplicar();
+    if (!desdeAuto) auto = null;
+  }
+  function sincronizarSliders(todo) {
+    if (todo != null) { $('#s-todo').value = todo; $('#o-todo').textContent = pct(todo); }
+    $('#s-marco').value = est.sC; $('#o-marco').textContent = pct(est.sC);
+    $('#s-placa').value = est.sP; $('#o-placa').textContent = pct(est.sP);
+    $('#s-sep').value = est.sep; $('#o-sep').textContent = pct(est.sep);
+    L.areas.forEach(a => { const s = $('#s-a' + a.n); if (s) { s.value = est.sA[a.n]; $('#o-a' + a.n).textContent = pct(est.sA[a.n]); } });
+  }
+  $('#sl-areas').innerHTML = L.areas.map(a => `<div class="sl"><label for="s-a${a.n}"><span class="sw" style="background:${a.color}"></span>Área ${a.n}</label><input type="range" id="s-a${a.n}" min="0" max="1" step="0.01" value="0"><output id="o-a${a.n}">0 %</output></div>`).join('');
+  $('#s-todo').addEventListener('input', e => fijarDespiece(+e.target.value));
+  [['#s-marco', 'sC'], ['#s-placa', 'sP'], ['#s-sep', 'sep']].forEach(([q, k]) => $(q).addEventListener('input', e => { auto = null; est[k] = +e.target.value; sincronizarSliders(); aplicar(); }));
+  L.areas.forEach(a => $('#s-a' + a.n).addEventListener('input', e => { auto = null; est.sA[a.n] = +e.target.value; sincronizarSliders(); aplicar(); }));
+  $('#d-auto').addEventListener('click', () => { if (auto) { auto = null; $('#d-auto').textContent = '▶ Automático'; } else { auto = performance.now(); $('#d-auto').textContent = '❚❚ Pausa'; } });
+  $('#d-cero').addEventListener('click', () => { auto = null; $('#d-auto').textContent = '▶ Automático'; fijarDespiece(0); });
+  function modo(m) {
+    est.modo = m; auto = null; $('#d-auto').textContent = '▶ Automático';
+    document.querySelectorAll('[data-modo]').forEach(b => b.setAttribute('aria-pressed', b.dataset.modo === m ? 'true' : 'false'));
+    $('#p-armado').hidden = m !== 'armado'; $('#p-despiece').hidden = m !== 'despiece'; $('#p-montaje').hidden = m !== 'montaje';
+    if (m === 'montaje') { if (est.t >= 1) est.t = 0; est.play = true; $('#m-play').textContent = '❚❚'; }
+    else est.play = false;
+    aplicar();
+  }
+  document.querySelectorAll('[data-modo]').forEach(b => b.addEventListener('click', () => modo(b.dataset.modo)));
+  $('#m-play').addEventListener('click', () => { est.play = !est.play; if (est.play && est.t >= 1) est.t = 0; $('#m-play').textContent = est.play ? '❚❚' : '▶'; });
+  $('#m-t').addEventListener('input', e => { est.play = false; $('#m-play').textContent = '▶'; est.t = +e.target.value / 1000; aplicar(); });
+  $('#m-vel').addEventListener('change', e => { est.vel = +e.target.value; });
+  const tog = (id, fn) => $(id).addEventListener('click', e => { const on = e.currentTarget.getAttribute('aria-pressed') !== 'true'; e.currentTarget.setAttribute('aria-pressed', on ? 'true' : 'false'); fn(on); pedir(); });
+  tog('#tg-vigas', on => { gVigas.visible = on; });
+  tog('#tg-marco', on => { gMarco.visible = on; });
+  tog('#tg-placa', on => { gPlaca.visible = on; });
+  tog('#tg-pilares', on => { gPilares.visible = on; });
+  tog('#tg-pil2', on => { gPil2.visible = on; });
+  tog('#tg-color', on => { est.colorArea = on; seleccionar(est.sel && est.sel.tipo, est.sel && est.sel.id); });
+  tog('#tg-etq', on => { est.etq = on; });
+  $('#tg-fit').addEventListener('click', () => { const [p, t] = vistaGeneral(); irA(p, t); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') seleccionar(null); });
+  $('#txt-armado').innerHTML = `Marco C en ${MARCO.length} piezas (${TRAMOS.length} tramos) · ${N_PLANCHAS} planchas (${PLACAS.length} piezas) en ${L.areas.length} áreas · ${PIL2.length} pilares del nivel 2 la atraviesan. Prueba <b>Despiece</b> o <b>Montaje</b>.`;
+
+  // ---------- arranque ----------
+  $('#v-carga').hidden = true; $('#v-ui').hidden = false;
+  medir(); aplicar();
+  requestAnimationFrame(bucle);
+  const dibujar = () => { if (viaje) { camera.position.copy(viaje.p1); controls.target.copy(viaje.t1); viaje = null; } controls.update(); renderer.render(scene, camera); moverEtiquetas(); };
+  return { verArea, est, aplicar, modo, fijarDespiece, scene, camera, renderer, controls, dibujar, T };
+}
+
+// tablas ↔ 3D
+document.addEventListener('click', e => { const tr = e.target.closest('tr[data-area]'); if (tr && API) API.verArea(+tr.dataset.area); });
+(function () {
+  const links = [...document.querySelectorAll('.toc a')], secs = links.map(a => document.querySelector(a.getAttribute('href')));
+  let pend = false, marcada = null;
+  const revisar = () => { pend = false; let act = secs[0]; secs.forEach(s => { if (s.getBoundingClientRect().top < 150) act = s; }); if (act === marcada) return; marcada = act; links.forEach(a => { const on = a.getAttribute('href') === '#' + act.id; a.classList.toggle('on', on); if (on) { const t = a.parentNode; t.scrollTo({ left: a.offsetLeft - t.clientWidth / 2 + a.offsetWidth / 2 }); } }); };
+  const pedirR = () => { if (!pend) { pend = true; requestAnimationFrame(revisar); } };
+  $('#doc').addEventListener('scroll', pedirR, { passive: true }); addEventListener('scroll', pedirR, { passive: true }); revisar();
+})();
+window.LOSA = API;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,4364 @@
+{
+ "convenciones": "cm en el marco de la app: X crece hacia el eje 6 (este), Y crece hacia el eje A (sur), Z hacia arriba. Z = 346 es la cara superior de todas las vigas de entrepiso (apoyo del C y de las planchas). perimetro y poligonos van en sentido horario visto desde arriba con el norte arriba (con Y al sur, el area con signo de Shoelace es positiva). Borde exterior de la losa = cara exterior del ala superior de la viga de borde; en el hueco de escalera, la cara que mira al hueco. Donde una linea de borde cambia de perfil se usa una sola recta, la mas exterior (eje 1: X -0.8; eje 5: X 1793.2). Entre dos areas vecinas el limite va por el EJE de la viga comun; las 3 esquinas entrantes (2xI, 2xB, 3xB) se asignan al area cuyo eje queda mas cerca del centro del cuadradito. Marco C 150x50x3 (h 15, ala 5, e 0.3): alma vertical con su cara exterior sobre el perimetro, alas hacia la losa (interior = normal unitaria hacia la losa), ala inferior apoyada en z 346, ala superior en z 361; largo_cm medido por la cara exterior del alma (esquinas a inglete). Planchas Instadeck: avance util 95 cm, alto 6.35 cm (e = 14.35 del plano = 6.35 de placa + 8.0 de hormigon sobre la cresta). Corren en la direccion dir del area (NS = a lo largo de Y, EO = a lo largo de X) y se colocan una al lado de otra desde el borde indicado en se_parte_desde; su largo va de borde a borde del area, descontando 0.3 cm (alma del C) en los bordes exteriores. n = ceil(ancho/95); la ultima va cortada a lo largo. Si la ultima saldria de 4.7 cm o menos se omite (queda sobre el ala del C y de la viga). Resaltos de menos de 1 cm en el borde se ignoran al colocar planchas. destaje = rectangulo [xmin, ymin, xmax, ymax] que se le recorta a esa plancha. Pilares de nivel 2 (nacen en z 346, seccion = caja del perfil): perforaciones_pilar = ids de pilares interiores que atraviesan la plancha (agujero con la seccion de pilares_nivel2.dentro_de_la_losa); destajes_pilar = pilares de borde que entran en la plancha: rect = seccion del pilar recortada a la plancha (poligono si queda en L), abierto_hacia = lados de la plancha a los que llega el recorte; si entre el pilar y el borde de la plancha quedaria una franja de menos de 5 cm (franja_hasta_borde_cm), rect_corte es el recorte a hacer en obra, que se lleva hasta el borde.",
+ "perimetro": [
+  [
+   -0.8,
+   -772.6
+  ],
+  [
+   662.7,
+   -772.6
+  ],
+  [
+   662.7,
+   -177.5
+  ],
+  [
+   1793.2,
+   -177.5
+  ],
+  [
+   1793.2,
+   2056.2
+  ],
+  [
+   1001.7,
+   2056.2
+  ],
+  [
+   1001.7,
+   1702.2
+  ],
+  [
+   658.7,
+   1702.2
+  ],
+  [
+   658.7,
+   1836.1
+  ],
+  [
+   -0.8,
+   1836.1
+  ]
+ ],
+ "perimetro_cm": 9513.4,
+ "area_losa_m2": 413.55,
+ "area_entre_ejes_m2": 405.83,
+ "z": {
+  "apoyo_vigas_cm": 346,
+  "C_inferior_cm": 346,
+  "C_superior_cm": 361,
+  "losa_superior_si_e_14_35_cm": 360.35,
+  "nota": "El plano dice e = 14.35 cm y el dueno habla de losa de 15. Con e = 14.35 el C sobresale 0.65 cm; con 15 queda a ras."
+ },
+ "marco_c": [
+  {
+   "id": "C1",
+   "a": [
+    -0.8,
+    -772.6
+   ],
+   "b": [
+    662.7,
+    -772.6
+   ],
+   "interior": [
+    0.0,
+    1.0
+   ],
+   "vigas": "V-K-1-2 (IPE 300)",
+   "largo_cm": 663.5,
+   "nota": "Eje K entre 1 y 2. Cara norte del ala del IPE 300 (Y = -765.1 - 7.5).",
+   "pilares_nivel2_que_lo_cortan": []
+  },
+  {
+   "id": "C2",
+   "a": [
+    662.7,
+    -772.6
+   ],
+   "b": [
+    662.7,
+    -177.5
+   ],
+   "interior": [
+    -1.0,
+    0.0
+   ],
+   "vigas": "V-2-K-I (IPE 450)",
+   "largo_cm": 595.1,
+   "nota": "Eje 2 entre K e I. Cara este del ala del IPE 450 (X = 653.2 + 9.5). Al este no hay losa.",
+   "pilares_nivel2_que_lo_cortan": []
+  },
+  {
+   "id": "C3",
+   "a": [
+    662.7,
+    -177.5
+   ],
+   "b": [
+    1793.2,
+    -177.5
+   ],
+   "interior": [
+    0.0,
+    1.0
+   ],
+   "vigas": "V-I-2-4 (IPE 300), V-I-4-5 (IPE 300)",
+   "largo_cm": 1130.5,
+   "nota": "Eje I entre 2 y 5. Cara norte del ala de los IPE 300 (Y = -170 - 7.5).",
+   "pilares_nivel2_que_lo_cortan": []
+  },
+  {
+   "id": "C4",
+   "a": [
+    1793.2,
+    -177.5
+   ],
+   "b": [
+    1793.2,
+    2056.2
+   ],
+   "interior": [
+    -1.0,
+    0.0
+   ],
+   "vigas": "V-5-I-H (IPE 270), V-5-H-G3 (IPE 270), V-5-G3-G (IPE 270), V-5-G-F2 (IPE 270), V-5-F2-E4 (IPE 270), V-5-E4-E (IPE 270), V-5-E-D (IPE 300), V-5-D-Y1173 (IPE 300), V-5-Y1173-Y1438 (IPE 300), V-5-Y1438-C (IPE 300), V-5-C-A1 (IPE 450)",
+   "largo_cm": 2233.7,
+   "nota": "Eje 5 entre I y A1. Recta unica en la cara mas exterior, X = 1793.2 (ala del IPE 450 de C-A1). El perfil de la viga cambia: IPE 270 de I a E (cara 1790.45; el C queda 2.75 cm fuera del ala, unos 11.3 m) e IPE 300 de E a C (cara 1791.2; 2.0 cm fuera, 5.5 m). Hay que decidir si se escalona el C o se suplementa.",
+   "pilares_nivel2_que_lo_cortan": [
+    {
+     "id": "P-5xH-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 187.4,
+     "tramo_cm": [
+      179.9,
+      194.9
+     ],
+     "franja_desde_cara_exterior_cm": [
+      2.0,
+      5.0
+     ],
+     "corta": "solo alas (el alma pasa por fuera del pilar)"
+    },
+    {
+     "id": "P-5xH1-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 259.8,
+     "tramo_cm": [
+      252.3,
+      267.3
+     ],
+     "franja_desde_cara_exterior_cm": [
+      2.0,
+      5.0
+     ],
+     "corta": "solo alas (el alma pasa por fuera del pilar)"
+    },
+    {
+     "id": "P-5xE3-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 867.6,
+     "tramo_cm": [
+      860.1,
+      875.1
+     ],
+     "franja_desde_cara_exterior_cm": [
+      2.0,
+      5.0
+     ],
+     "corta": "solo alas (el alma pasa por fuera del pilar)"
+    },
+    {
+     "id": "P-5xE-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 1136.0,
+     "tramo_cm": [
+      1128.5,
+      1143.5
+     ],
+     "franja_desde_cara_exterior_cm": [
+      2.0,
+      5.0
+     ],
+     "corta": "solo alas (el alma pasa por fuera del pilar)"
+    },
+    {
+     "id": "P-5xC4-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 1324.3,
+     "tramo_cm": [
+      1316.8,
+      1331.8
+     ],
+     "franja_desde_cara_exterior_cm": [
+      2.0,
+      5.0
+     ],
+     "corta": "solo alas (el alma pasa por fuera del pilar)"
+    },
+    {
+     "id": "P-5xA4-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 1945.4,
+     "tramo_cm": [
+      1937.9,
+      1952.9
+     ],
+     "franja_desde_cara_exterior_cm": [
+      2.0,
+      5.0
+     ],
+     "corta": "solo alas (el alma pasa por fuera del pilar)"
+    },
+    {
+     "id": "P-5xA1-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 2222.7,
+     "tramo_cm": [
+      2215.2,
+      2230.2
+     ],
+     "franja_desde_cara_exterior_cm": [
+      2.0,
+      5.0
+     ],
+     "corta": "solo alas (el alma pasa por fuera del pilar)"
+    }
+   ]
+  },
+  {
+   "id": "C5",
+   "a": [
+    1793.2,
+    2056.2
+   ],
+   "b": [
+    1001.7,
+    2056.2
+   ],
+   "interior": [
+    0.0,
+    -1.0
+   ],
+   "vigas": "V-A1-3-5 (IPE 600)",
+   "largo_cm": 791.5,
+   "nota": "Eje A1 entre 5 y 3. Cara sur del ala del IPE 600 (Y = 2045.2 + 11).",
+   "pilares_nivel2_que_lo_cortan": [
+    {
+     "id": "P-5xA1-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 9.5,
+     "tramo_cm": [
+      2.0,
+      17.0
+     ],
+     "franja_desde_cara_exterior_cm": [
+      3.5,
+      5.0
+     ],
+     "corta": "solo alas (el alma pasa por fuera del pilar)"
+    },
+    {
+     "id": "P-3xA1-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 786.0,
+     "tramo_cm": [
+      778.5,
+      791.5
+     ],
+     "franja_desde_cara_exterior_cm": [
+      3.5,
+      5.0
+     ],
+     "corta": "solo alas (el alma pasa por fuera del pilar)"
+    }
+   ]
+  },
+  {
+   "id": "C6",
+   "a": [
+    1001.7,
+    2056.2
+   ],
+   "b": [
+    1001.7,
+    1702.2
+   ],
+   "interior": [
+    1.0,
+    0.0
+   ],
+   "vigas": "V-3-B-A1 (IPE 220)",
+   "largo_cm": 354.0,
+   "nota": "Eje 3 entre A1 y B, lado del hueco de escalera. Cara que mira al hueco del IPE 220 (X = 1007.2 - 5.5).",
+   "pilares_nivel2_que_lo_cortan": [
+    {
+     "id": "P-3xA1-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 11.0,
+     "tramo_cm": [
+      3.5,
+      18.5
+     ],
+     "franja_desde_cara_exterior_cm": [
+      0.0,
+      5.0
+     ],
+     "corta": "alma y alas"
+    },
+    {
+     "id": "P-3xA3-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 225.6,
+     "tramo_cm": [
+      218.1,
+      233.1
+     ],
+     "franja_desde_cara_exterior_cm": [
+      0.0,
+      5.0
+     ],
+     "corta": "alma y alas"
+    },
+    {
+     "id": "P-3xB-N2",
+     "perfil": "HEB 160",
+     "a_cm_desde_a": 354.0,
+     "tramo_cm": [
+      353.5,
+      354.0
+     ],
+     "franja_desde_cara_exterior_cm": [
+      0.0,
+      5.0
+     ],
+     "corta": "alma y alas"
+    }
+   ]
+  },
+  {
+   "id": "C7",
+   "a": [
+    1001.7,
+    1702.2
+   ],
+   "b": [
+    658.7,
+    1702.2
+   ],
+   "interior": [
+    0.0,
+    -1.0
+   ],
+   "vigas": "V-B-2-3 (IPE 300)",
+   "largo_cm": 343.0,
+   "nota": "Eje B entre 3 y 2, lado del hueco de escalera. Cara que mira al hueco del IPE 300 (Y = 1694.7 + 7.5).",
+   "pilares_nivel2_que_lo_cortan": [
+    {
+     "id": "P-3xB-N2",
+     "perfil": "HEB 160",
+     "a_cm_desde_a": 0.0,
+     "tramo_cm": [
+      0.0,
+      2.5
+     ],
+     "franja_desde_cara_exterior_cm": [
+      0.0,
+      5.0
+     ],
+     "corta": "alma y alas"
+    }
+   ]
+  },
+  {
+   "id": "C8",
+   "a": [
+    658.7,
+    1702.2
+   ],
+   "b": [
+    658.7,
+    1836.1
+   ],
+   "interior": [
+    -1.0,
+    0.0
+   ],
+   "vigas": "V-2-B-A3 (IPE 220)",
+   "largo_cm": 133.9,
+   "nota": "Eje 2 entre B y A3, lado del hueco de escalera. Cara que mira al hueco del IPE 220 (X = 653.2 + 5.5).",
+   "pilares_nivel2_que_lo_cortan": [
+    {
+     "id": "P-2xA3-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 128.4,
+     "tramo_cm": [
+      120.9,
+      133.9
+     ],
+     "franja_desde_cara_exterior_cm": [
+      0.0,
+      5.0
+     ],
+     "corta": "alma y alas"
+    }
+   ]
+  },
+  {
+   "id": "C9",
+   "a": [
+    658.7,
+    1836.1
+   ],
+   "b": [
+    -0.8,
+    1836.1
+   ],
+   "interior": [
+    0.0,
+    -1.0
+   ],
+   "vigas": "V-A3-1-2 (IPE 220)",
+   "largo_cm": 659.5,
+   "nota": "Eje A3 entre 2 y 1. Cara sur del ala del IPE 220 (Y = 1830.6 + 5.5).",
+   "pilares_nivel2_que_lo_cortan": [
+    {
+     "id": "P-2xA3-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 5.5,
+     "tramo_cm": [
+      0.0,
+      13.0
+     ],
+     "franja_desde_cara_exterior_cm": [
+      0.0,
+      5.0
+     ],
+     "corta": "alma y alas"
+    },
+    {
+     "id": "P-1xA3-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 652.0,
+     "tramo_cm": [
+      644.5,
+      659.5
+     ],
+     "franja_desde_cara_exterior_cm": [
+      0.0,
+      5.0
+     ],
+     "corta": "alma y alas"
+    }
+   ]
+  },
+  {
+   "id": "C10",
+   "a": [
+    -0.8,
+    1836.1
+   ],
+   "b": [
+    -0.8,
+    -772.6
+   ],
+   "interior": [
+    1.0,
+    0.0
+   ],
+   "vigas": "V-1-K-J (IPE 300), V-1-J-I (IPE 300), V-1-I-H (IPE 300), V-1-H-G3 (IPE 300), V-1-G3-F (IPE 270), V-1-F-Y736 (IPE 270), V-1-Y736-Y991 (IPE 270), V-1-Y991-D (IPE 270), V-1-D-B1 (IPE 270), V-1-B1-B (IPE 270), V-1-B-A3 (IPE 270)",
+   "largo_cm": 2608.7,
+   "nota": "Eje 1 entre A3 y K. Recta unica en X = -0.8 (cara del IPE 300 de K a G3). Del G3 al A3 la viga es IPE 270 (cara -0.05): el C queda 0.75 cm fuera del ala, no importa.",
+   "pilares_nivel2_que_lo_cortan": [
+    {
+     "id": "P-1xA3-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 5.5,
+     "tramo_cm": [
+      0.0,
+      13.0
+     ],
+     "franja_desde_cara_exterior_cm": [
+      0.0,
+      5.0
+     ],
+     "corta": "alma y alas"
+    },
+    {
+     "id": "P-1xB-N2",
+     "perfil": "HEB 160",
+     "a_cm_desde_a": 141.4,
+     "tramo_cm": [
+      133.4,
+      149.4
+     ],
+     "franja_desde_cara_exterior_cm": [
+      0.0,
+      5.0
+     ],
+     "corta": "alma y alas"
+    },
+    {
+     "id": "P-1xB1-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 202.3,
+     "tramo_cm": [
+      194.8,
+      209.8
+     ],
+     "franja_desde_cara_exterior_cm": [
+      0.0,
+      5.0
+     ],
+     "corta": "alma y alas"
+    },
+    {
+     "id": "P-1xD-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 732.0,
+     "tramo_cm": [
+      724.5,
+      739.5
+     ],
+     "franja_desde_cara_exterior_cm": [
+      0.0,
+      5.0
+     ],
+     "corta": "alma y alas"
+    },
+    {
+     "id": "P-1xY991-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 844.7,
+     "tramo_cm": [
+      837.2,
+      852.2
+     ],
+     "franja_desde_cara_exterior_cm": [
+      0.0,
+      5.0
+     ],
+     "corta": "alma y alas"
+    },
+    {
+     "id": "P-1xE1-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 958.5,
+     "tramo_cm": [
+      951.0,
+      966.0
+     ],
+     "franja_desde_cara_exterior_cm": [
+      0.0,
+      5.0
+     ],
+     "corta": "alma y alas"
+    },
+    {
+     "id": "P-1xG1-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 1597.6,
+     "tramo_cm": [
+      1590.1,
+      1605.1
+     ],
+     "franja_desde_cara_exterior_cm": [
+      0.0,
+      5.0
+     ],
+     "corta": "alma y alas"
+    },
+    {
+     "id": "P-1xH-N2",
+     "perfil": "CUAD 150x150x4",
+     "a_cm_desde_a": 1826.2,
+     "tramo_cm": [
+      1818.7,
+      1833.7
+     ],
+     "franja_desde_cara_exterior_cm": [
+      0.0,
+      5.0
+     ],
+     "corta": "alma y alas"
+    }
+   ]
+  }
+ ],
+ "areas": [
+  {
+   "n": 1,
+   "nombre": "Área 1",
+   "ejes": "1-2 / K-H",
+   "color_dueno": "amarillo",
+   "poligono": [
+    [
+     -0.8,
+     -772.6
+    ],
+    [
+     662.7,
+     -772.6
+    ],
+    [
+     662.7,
+     -177.5
+    ],
+    [
+     653.2,
+     -177.5
+    ],
+    [
+     653.2,
+     9.9
+    ],
+    [
+     -0.8,
+     9.9
+    ]
+   ],
+   "poligono_ejes": [
+    [
+     6.7,
+     -765.1
+    ],
+    [
+     653.2,
+     -765.1
+    ],
+    [
+     653.2,
+     9.9
+    ],
+    [
+     6.7,
+     9.9
+    ]
+   ],
+   "poligono_neto_planchas": [
+    [
+     -0.5,
+     -772.3
+    ],
+    [
+     662.4,
+     -772.3
+    ],
+    [
+     662.4,
+     -177.5
+    ],
+    [
+     653.2,
+     -177.5
+    ],
+    [
+     653.2,
+     9.9
+    ],
+    [
+     -0.5,
+     9.9
+    ]
+   ],
+   "area_m2": 51.74,
+   "dir": "NS",
+   "bahias": [
+    "L01",
+    "L02",
+    "L03"
+   ],
+   "planchas": {
+    "n": 7,
+    "largo_cm": 782.2,
+    "ancho_cubierto_cm": 662.9,
+    "ultima_cortada_cm": 92.9,
+    "n_segun_ceil": 7,
+    "largos_cm": [
+     {
+      "largo_cm": 782.2,
+      "cantidad": 7
+     }
+    ],
+    "se_parte_desde": "oeste",
+    "detalle": [
+     {
+      "k": 1,
+      "ancho_cm": 95.0,
+      "largo_cm": 782.2,
+      "x": [
+       -0.5,
+       94.5
+      ],
+      "y": [
+       -772.3,
+       9.9
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-1xH-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         -0.5,
+         2.4,
+         14.2,
+         9.9
+        ],
+        "area_cm2": 110.2,
+        "abierto_hacia": [
+         "oeste",
+         "sur"
+        ]
+       }
+      ]
+     },
+     {
+      "k": 2,
+      "ancho_cm": 95.0,
+      "largo_cm": 782.2,
+      "x": [
+       94.5,
+       189.5
+      ],
+      "y": [
+       -772.3,
+       9.9
+      ]
+     },
+     {
+      "k": 3,
+      "ancho_cm": 95.0,
+      "largo_cm": 782.2,
+      "x": [
+       189.5,
+       284.5
+      ],
+      "y": [
+       -772.3,
+       9.9
+      ]
+     },
+     {
+      "k": 4,
+      "ancho_cm": 95.0,
+      "largo_cm": 782.2,
+      "x": [
+       284.5,
+       379.5
+      ],
+      "y": [
+       -772.3,
+       9.9
+      ]
+     },
+     {
+      "k": 5,
+      "ancho_cm": 95.0,
+      "largo_cm": 782.2,
+      "x": [
+       379.5,
+       474.5
+      ],
+      "y": [
+       -772.3,
+       9.9
+      ]
+     },
+     {
+      "k": 6,
+      "ancho_cm": 95.0,
+      "largo_cm": 782.2,
+      "x": [
+       474.5,
+       569.5
+      ],
+      "y": [
+       -772.3,
+       9.9
+      ]
+     },
+     {
+      "k": 7,
+      "ancho_cm": 92.9,
+      "largo_cm": 782.2,
+      "x": [
+       569.5,
+       662.4
+      ],
+      "y": [
+       -772.3,
+       9.9
+      ],
+      "destaje": [
+       [
+        653.2,
+        -177.5,
+        662.4,
+        9.9
+       ]
+      ],
+      "poligono": [
+       [
+        569.5,
+        -772.3
+       ],
+       [
+        662.4,
+        -772.3
+       ],
+       [
+        662.4,
+        -177.5
+       ],
+       [
+        653.2,
+        -177.5
+       ],
+       [
+        653.2,
+        9.9
+       ],
+       [
+        569.5,
+        9.9
+       ]
+      ],
+      "perforaciones_pilar": [
+       "P-2xH-N2"
+      ]
+     }
+    ]
+   },
+   "dueno": {
+    "largo_m": 7.92,
+    "ancho_m": 7.3,
+    "n": 8,
+    "texto": "AREA 1 / LARGO=7,92 m / ANCHO= 7,30 / 8 PLANCHAS DE 7,92m"
+   },
+   "cotizacion_fila": 8,
+   "medidas_entre_caras_de_vigas": {
+    "x": [
+     -0.8,
+     662.7
+    ],
+    "y": [
+     -772.6,
+     19.4
+    ],
+    "ex_cm": 663.5,
+    "ny_cm": 792.0,
+    "perfiles": {
+     "O": [
+      "IPE 300"
+     ],
+     "E": [
+      "IPE 450"
+     ],
+     "N": [
+      "IPE 300"
+     ],
+     "S": [
+      "IPE 450"
+     ]
+    }
+   },
+   "comparacion": [
+    "largo: dueno 792 cm / modelo 782.2 cm (dif +9.8) / entre caras exteriores de vigas 792.0 cm",
+    "ancho: dueno 730 cm / modelo 662.9 cm (dif +67.1) / entre caras exteriores de vigas 663.5 cm",
+    "planchas: dueno 8 / modelo 7 / cotizacion fila 1 = 8"
+   ],
+   "nota": "Plancha 7 con destaje X 653.2-662.4, Y -177.5-9.9. Plancha 1: destaje por el pilar P-1xH-N2 (X -0.5-14.2, Y 2.4-9.9)."
+  },
+  {
+   "n": 2,
+   "nombre": "Área 2",
+   "ejes": "1-2 / H-F",
+   "color_dueno": "naranjo",
+   "poligono": [
+    [
+     -0.8,
+     9.9
+    ],
+    [
+     653.2,
+     9.9
+    ],
+    [
+     653.2,
+     625.3
+    ],
+    [
+     -0.8,
+     625.3
+    ]
+   ],
+   "poligono_ejes": [
+    [
+     6.7,
+     9.9
+    ],
+    [
+     653.2,
+     9.9
+    ],
+    [
+     653.2,
+     625.3
+    ],
+    [
+     6.7,
+     625.3
+    ]
+   ],
+   "poligono_neto_planchas": [
+    [
+     -0.5,
+     9.9
+    ],
+    [
+     653.2,
+     9.9
+    ],
+    [
+     653.2,
+     625.3
+    ],
+    [
+     -0.5,
+     625.3
+    ]
+   ],
+   "area_m2": 40.25,
+   "dir": "EO",
+   "bahias": [
+    "L04",
+    "L05"
+   ],
+   "planchas": {
+    "n": 7,
+    "largo_cm": 653.7,
+    "ancho_cubierto_cm": 615.4,
+    "ultima_cortada_cm": 45.4,
+    "n_segun_ceil": 7,
+    "largos_cm": [
+     {
+      "largo_cm": 653.7,
+      "cantidad": 7
+     }
+    ],
+    "se_parte_desde": "norte",
+    "detalle": [
+     {
+      "k": 1,
+      "ancho_cm": 95.0,
+      "largo_cm": 653.7,
+      "y": [
+       9.9,
+       104.9
+      ],
+      "x": [
+       -0.5,
+       653.2
+      ],
+      "perforaciones_pilar": [
+       "P-2xH-N2"
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-1xH-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         -0.5,
+         9.9,
+         14.2,
+         17.4
+        ],
+        "area_cm2": 110.2,
+        "abierto_hacia": [
+         "oeste",
+         "norte"
+        ]
+       }
+      ]
+     },
+     {
+      "k": 2,
+      "ancho_cm": 95.0,
+      "largo_cm": 653.7,
+      "y": [
+       104.9,
+       199.9
+      ],
+      "x": [
+       -0.5,
+       653.2
+      ]
+     },
+     {
+      "k": 3,
+      "ancho_cm": 95.0,
+      "largo_cm": 653.7,
+      "y": [
+       199.9,
+       294.9
+      ],
+      "x": [
+       -0.5,
+       653.2
+      ],
+      "perforaciones_pilar": [
+       "P-2xG2-N2"
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-1xG1-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         -0.5,
+         231.0,
+         14.2,
+         246.0
+        ],
+        "area_cm2": 220.5,
+        "abierto_hacia": [
+         "oeste"
+        ]
+       }
+      ]
+     },
+     {
+      "k": 4,
+      "ancho_cm": 95.0,
+      "largo_cm": 653.7,
+      "y": [
+       294.9,
+       389.9
+      ],
+      "x": [
+       -0.5,
+       653.2
+      ]
+     },
+     {
+      "k": 5,
+      "ancho_cm": 95.0,
+      "largo_cm": 653.7,
+      "y": [
+       389.9,
+       484.9
+      ],
+      "x": [
+       -0.5,
+       653.2
+      ],
+      "perforaciones_pilar": [
+       "P-2xF2-N2"
+      ]
+     },
+     {
+      "k": 6,
+      "ancho_cm": 95.0,
+      "largo_cm": 653.7,
+      "y": [
+       484.9,
+       579.9
+      ],
+      "x": [
+       -0.5,
+       653.2
+      ]
+     },
+     {
+      "k": 7,
+      "ancho_cm": 45.4,
+      "largo_cm": 653.7,
+      "y": [
+       579.9,
+       625.3
+      ],
+      "x": [
+       -0.5,
+       653.2
+      ]
+     }
+    ]
+   },
+   "dueno": {
+    "largo_m": 6.7,
+    "ancho_m": 6.45,
+    "n": 7,
+    "texto": "AREA 2 / LARGO = 6,70m. / ANCHO =6,45M. / 7 PLANCHAS DE 6,70m"
+   },
+   "cotizacion_fila": 7,
+   "medidas_entre_caras_de_vigas": {
+    "x": [
+     -0.8,
+     658.7
+    ],
+    "y": [
+     0.4,
+     636.3
+    ],
+    "ex_cm": 659.5,
+    "ny_cm": 635.9,
+    "perfiles": {
+     "O": [
+      "IPE 270",
+      "IPE 300"
+     ],
+     "E": [
+      "IPE 220"
+     ],
+     "N": [
+      "IPE 450"
+     ],
+     "S": [
+      "IPE 600"
+     ]
+    }
+   },
+   "comparacion": [
+    "largo: dueno 670 cm / modelo 653.7 cm (dif +16.3) / entre caras exteriores de vigas 659.5 cm",
+    "ancho: dueno 645 cm / modelo 615.4 cm (dif +29.6) / entre caras exteriores de vigas 635.9 cm",
+    "planchas: dueno 7 / modelo 7 / cotizacion fila 2 = 7"
+   ],
+   "nota": "Plancha 1: destaje por el pilar P-1xH-N2 (X -0.5-14.2, Y 9.9-17.4). Plancha 3: destaje por el pilar P-1xG1-N2 (X -0.5-14.2, Y 231.0-246.0)."
+  },
+  {
+   "n": 3,
+   "nombre": "Área 3",
+   "ejes": "1-3 / F-B (1-2 desde F, 2-3 desde E4)",
+   "color_dueno": "rosado",
+   "poligono": [
+    [
+     -0.8,
+     625.3
+    ],
+    [
+     653.2,
+     625.3
+    ],
+    [
+     653.2,
+     655.6
+    ],
+    [
+     1007.2,
+     655.6
+    ],
+    [
+     1007.2,
+     1694.7
+    ],
+    [
+     1001.7,
+     1694.7
+    ],
+    [
+     1001.7,
+     1702.2
+    ],
+    [
+     658.7,
+     1702.2
+    ],
+    [
+     658.7,
+     1694.7
+    ],
+    [
+     -0.8,
+     1694.7
+    ]
+   ],
+   "poligono_ejes": [
+    [
+     6.7,
+     625.3
+    ],
+    [
+     653.2,
+     625.3
+    ],
+    [
+     653.2,
+     655.6
+    ],
+    [
+     1007.2,
+     655.6
+    ],
+    [
+     1007.2,
+     1694.7
+    ],
+    [
+     6.7,
+     1694.7
+    ]
+   ],
+   "poligono_neto_planchas": [
+    [
+     -0.5,
+     625.3
+    ],
+    [
+     653.2,
+     625.3
+    ],
+    [
+     653.2,
+     655.6
+    ],
+    [
+     1007.2,
+     655.6
+    ],
+    [
+     1007.2,
+     1694.7
+    ],
+    [
+     1001.7,
+     1694.7
+    ],
+    [
+     1001.7,
+     1701.9
+    ],
+    [
+     658.7,
+     1701.9
+    ],
+    [
+     658.7,
+     1694.7
+    ],
+    [
+     -0.5,
+     1694.7
+    ]
+   ],
+   "area_m2": 106.98,
+   "dir": "EO",
+   "bahias": [
+    "L06",
+    "L07",
+    "L08",
+    "L09",
+    "L10",
+    "L11"
+   ],
+   "planchas": {
+    "n": 12,
+    "largo_cm": 1007.7,
+    "ancho_cubierto_cm": 1076.6,
+    "ultima_cortada_cm": 31.6,
+    "n_segun_ceil": 12,
+    "largos_cm": [
+     {
+      "largo_cm": 1007.7,
+      "cantidad": 12
+     }
+    ],
+    "se_parte_desde": "norte",
+    "detalle": [
+     {
+      "k": 1,
+      "ancho_cm": 95.0,
+      "largo_cm": 1007.7,
+      "y": [
+       625.3,
+       720.3
+      ],
+      "x": [
+       -0.5,
+       1007.2
+      ],
+      "destaje": [
+       [
+        653.2,
+        625.3,
+        1007.2,
+        655.6
+       ]
+      ],
+      "poligono": [
+       [
+        -0.5,
+        625.3
+       ],
+       [
+        653.2,
+        625.3
+       ],
+       [
+        653.2,
+        655.6
+       ],
+       [
+        1007.2,
+        655.6
+       ],
+       [
+        1007.2,
+        720.3
+       ],
+       [
+        -0.5,
+        720.3
+       ]
+      ]
+     },
+     {
+      "k": 2,
+      "ancho_cm": 95.0,
+      "largo_cm": 1007.7,
+      "y": [
+       720.3,
+       815.3
+      ],
+      "x": [
+       -0.5,
+       1007.2
+      ],
+      "perforaciones_pilar": [
+       "P-2xE2-N2"
+      ]
+     },
+     {
+      "k": 3,
+      "ancho_cm": 95.0,
+      "largo_cm": 1007.7,
+      "y": [
+       815.3,
+       910.3
+      ],
+      "x": [
+       -0.5,
+       1007.2
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-1xE1-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         -0.5,
+         870.1,
+         14.2,
+         885.1
+        ],
+        "area_cm2": 220.5,
+        "abierto_hacia": [
+         "oeste"
+        ]
+       }
+      ]
+     },
+     {
+      "k": 4,
+      "ancho_cm": 95.0,
+      "largo_cm": 1007.7,
+      "y": [
+       910.3,
+       1005.3
+      ],
+      "x": [
+       -0.5,
+       1007.2
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-1xY991-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         -0.5,
+         983.9,
+         14.2,
+         998.9
+        ],
+        "area_cm2": 220.5,
+        "abierto_hacia": [
+         "oeste"
+        ]
+       }
+      ]
+     },
+     {
+      "k": 5,
+      "ancho_cm": 95.0,
+      "largo_cm": 1007.7,
+      "y": [
+       1005.3,
+       1100.3
+      ],
+      "x": [
+       -0.5,
+       1007.2
+      ],
+      "perforaciones_pilar": [
+       "P-3xD-N2"
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-1xD-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         -0.5,
+         1096.6,
+         14.2,
+         1100.3
+        ],
+        "area_cm2": 54.4,
+        "abierto_hacia": [
+         "oeste",
+         "sur"
+        ]
+       }
+      ]
+     },
+     {
+      "k": 6,
+      "ancho_cm": 95.0,
+      "largo_cm": 1007.7,
+      "y": [
+       1100.3,
+       1195.3
+      ],
+      "x": [
+       -0.5,
+       1007.2
+      ],
+      "perforaciones_pilar": [
+       "P-3xD-N2"
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-1xD-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         -0.5,
+         1100.3,
+         14.2,
+         1111.6
+        ],
+        "area_cm2": 166.1,
+        "abierto_hacia": [
+         "oeste",
+         "norte"
+        ]
+       }
+      ]
+     },
+     {
+      "k": 7,
+      "ancho_cm": 95.0,
+      "largo_cm": 1007.7,
+      "y": [
+       1195.3,
+       1290.3
+      ],
+      "x": [
+       -0.5,
+       1007.2
+      ]
+     },
+     {
+      "k": 8,
+      "ancho_cm": 95.0,
+      "largo_cm": 1007.7,
+      "y": [
+       1290.3,
+       1385.3
+      ],
+      "x": [
+       -0.5,
+       1007.2
+      ],
+      "perforaciones_pilar": [
+       "P-3xC1-N2"
+      ]
+     },
+     {
+      "k": 9,
+      "ancho_cm": 95.0,
+      "largo_cm": 1007.7,
+      "y": [
+       1385.3,
+       1480.3
+      ],
+      "x": [
+       -0.5,
+       1007.2
+      ]
+     },
+     {
+      "k": 10,
+      "ancho_cm": 95.0,
+      "largo_cm": 1007.7,
+      "y": [
+       1480.3,
+       1575.3
+      ],
+      "x": [
+       -0.5,
+       1007.2
+      ],
+      "perforaciones_pilar": [
+       "P-3xC-N2"
+      ]
+     },
+     {
+      "k": 11,
+      "ancho_cm": 95.0,
+      "largo_cm": 1007.7,
+      "y": [
+       1575.3,
+       1670.3
+      ],
+      "x": [
+       -0.5,
+       1007.2
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-1xB1-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         -0.5,
+         1626.3,
+         14.2,
+         1641.3
+        ],
+        "area_cm2": 220.5,
+        "abierto_hacia": [
+         "oeste"
+        ]
+       }
+      ]
+     },
+     {
+      "k": 12,
+      "ancho_cm": 31.6,
+      "largo_cm": 1007.7,
+      "y": [
+       1670.3,
+       1701.9
+      ],
+      "x": [
+       -0.5,
+       1007.2
+      ],
+      "destaje": [
+       [
+        1001.7,
+        1694.7,
+        1007.2,
+        1701.9
+       ],
+       [
+        -0.5,
+        1694.7,
+        658.7,
+        1701.9
+       ]
+      ],
+      "poligono": [
+       [
+        -0.5,
+        1670.3
+       ],
+       [
+        1007.2,
+        1670.3
+       ],
+       [
+        1007.2,
+        1694.7
+       ],
+       [
+        1001.7,
+        1694.7
+       ],
+       [
+        1001.7,
+        1701.9
+       ],
+       [
+        658.7,
+        1701.9
+       ],
+       [
+        658.7,
+        1694.7
+       ],
+       [
+        -0.5,
+        1694.7
+       ]
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-1xB-N2",
+        "perfil": "HEB 160",
+        "rect": [
+         -0.5,
+         1686.7,
+         14.7,
+         1694.7
+        ],
+        "area_cm2": 121.6,
+        "abierto_hacia": [
+         "oeste",
+         "sur"
+        ]
+       },
+       {
+        "id": "P-3xB-N2",
+        "perfil": "HEB 160",
+        "rect": [
+         999.2,
+         1686.7,
+         1007.2,
+         1701.9
+        ],
+        "area_cm2": 82.0,
+        "poligono": [
+         [
+          999.2,
+          1686.7
+         ],
+         [
+          1007.2,
+          1686.7
+         ],
+         [
+          1007.2,
+          1694.7
+         ],
+         [
+          1001.7,
+          1694.7
+         ],
+         [
+          1001.7,
+          1701.9
+         ],
+         [
+          999.2,
+          1701.9
+         ]
+        ],
+        "abierto_hacia": [
+         "este",
+         "sur"
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "dueno": {
+    "largo_m": 10.34,
+    "ancho_m": 10.89,
+    "n": 12,
+    "texto": "AREA 3 / LARGO =10,34 m / ANCHO = 10,89 m / 12 PL DE 10,34 m"
+   },
+   "cotizacion_fila": 13,
+   "medidas_entre_caras_de_vigas": {
+    "x": [
+     -0.0,
+     1012.7
+    ],
+    "y": [
+     614.3,
+     1704.2
+    ],
+    "ex_cm": 1012.8,
+    "ny_cm": 1089.9,
+    "perfiles": {
+     "O": [
+      "IPE 270"
+     ],
+     "E": [
+      "IPE 220"
+     ],
+     "N": [
+      "IPE 600"
+     ],
+     "S": [
+      "IPE 300",
+      "IPE 450"
+     ]
+    }
+   },
+   "comparacion": [
+    "largo: dueno 1034 cm / modelo 1007.7 cm (dif +26.3) / entre caras exteriores de vigas 1012.8 cm",
+    "ancho: dueno 1089 cm / modelo 1076.6 cm (dif +12.4) / entre caras exteriores de vigas 1089.9 cm",
+    "planchas: dueno 12 / modelo 12 / cotizacion fila 3 = 13"
+   ],
+   "nota": "Plancha 1 con destaje X 653.2-1007.2, Y 625.3-655.6. Plancha 12 con destaje X 1001.7-1007.2, Y 1694.7-1701.9; X -0.5-658.7, Y 1694.7-1701.9. Plancha 3: destaje por el pilar P-1xE1-N2 (X -0.5-14.2, Y 870.1-885.1). Plancha 4: destaje por el pilar P-1xY991-N2 (X -0.5-14.2, Y 983.9-998.9). Plancha 5: destaje por el pilar P-1xD-N2 (X -0.5-14.2, Y 1096.6-1100.3). Plancha 6: destaje por el pilar P-1xD-N2 (X -0.5-14.2, Y 1100.3-1111.6). Plancha 11: destaje por el pilar P-1xB1-N2 (X -0.5-14.2, Y 1626.3-1641.3). Plancha 12: destaje por el pilar P-1xB-N2 (X -0.5-14.7, Y 1686.7-1694.7). Plancha 12: destaje en L por el pilar P-3xB-N2 (X 999.2-1007.2, Y 1686.7-1701.9)."
+  },
+  {
+   "n": 4,
+   "nombre": "Área 4",
+   "ejes": "1-2 / B-A3",
+   "color_dueno": "verde",
+   "poligono": [
+    [
+     -0.8,
+     1694.7
+    ],
+    [
+     658.7,
+     1694.7
+    ],
+    [
+     658.7,
+     1836.1
+    ],
+    [
+     -0.8,
+     1836.1
+    ]
+   ],
+   "poligono_ejes": [
+    [
+     6.7,
+     1694.7
+    ],
+    [
+     653.2,
+     1694.7
+    ],
+    [
+     653.2,
+     1830.6
+    ],
+    [
+     6.7,
+     1830.6
+    ]
+   ],
+   "poligono_neto_planchas": [
+    [
+     -0.5,
+     1694.7
+    ],
+    [
+     658.4,
+     1694.7
+    ],
+    [
+     658.4,
+     1835.8
+    ],
+    [
+     -0.5,
+     1835.8
+    ]
+   ],
+   "area_m2": 9.33,
+   "dir": "NS",
+   "bahias": [
+    "L12"
+   ],
+   "planchas": {
+    "n": 7,
+    "largo_cm": 141.1,
+    "ancho_cubierto_cm": 658.9,
+    "ultima_cortada_cm": 88.9,
+    "n_segun_ceil": 7,
+    "largos_cm": [
+     {
+      "largo_cm": 141.1,
+      "cantidad": 7
+     }
+    ],
+    "se_parte_desde": "oeste",
+    "detalle": [
+     {
+      "k": 1,
+      "ancho_cm": 95.0,
+      "largo_cm": 141.1,
+      "x": [
+       -0.5,
+       94.5
+      ],
+      "y": [
+       1694.7,
+       1835.8
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-1xB-N2",
+        "perfil": "HEB 160",
+        "rect": [
+         -0.5,
+         1694.7,
+         14.7,
+         1702.7
+        ],
+        "area_cm2": 121.6,
+        "abierto_hacia": [
+         "oeste",
+         "norte"
+        ]
+       },
+       {
+        "id": "P-1xA3-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         -0.5,
+         1823.1,
+         14.2,
+         1835.8
+        ],
+        "area_cm2": 186.7,
+        "abierto_hacia": [
+         "oeste",
+         "sur"
+        ]
+       }
+      ]
+     },
+     {
+      "k": 2,
+      "ancho_cm": 95.0,
+      "largo_cm": 141.1,
+      "x": [
+       94.5,
+       189.5
+      ],
+      "y": [
+       1694.7,
+       1835.8
+      ]
+     },
+     {
+      "k": 3,
+      "ancho_cm": 95.0,
+      "largo_cm": 141.1,
+      "x": [
+       189.5,
+       284.5
+      ],
+      "y": [
+       1694.7,
+       1835.8
+      ]
+     },
+     {
+      "k": 4,
+      "ancho_cm": 95.0,
+      "largo_cm": 141.1,
+      "x": [
+       284.5,
+       379.5
+      ],
+      "y": [
+       1694.7,
+       1835.8
+      ]
+     },
+     {
+      "k": 5,
+      "ancho_cm": 95.0,
+      "largo_cm": 141.1,
+      "x": [
+       379.5,
+       474.5
+      ],
+      "y": [
+       1694.7,
+       1835.8
+      ]
+     },
+     {
+      "k": 6,
+      "ancho_cm": 95.0,
+      "largo_cm": 141.1,
+      "x": [
+       474.5,
+       569.5
+      ],
+      "y": [
+       1694.7,
+       1835.8
+      ]
+     },
+     {
+      "k": 7,
+      "ancho_cm": 88.9,
+      "largo_cm": 141.1,
+      "x": [
+       569.5,
+       658.4
+      ],
+      "y": [
+       1694.7,
+       1835.8
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-2xA3-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         645.7,
+         1823.1,
+         658.4,
+         1835.8
+        ],
+        "area_cm2": 161.3,
+        "abierto_hacia": [
+         "este",
+         "sur"
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "dueno": {
+    "largo_m": 1.65,
+    "ancho_m": 6.9,
+    "n": 8,
+    "texto": "AREA 4 / LARGO =1,65m. / ANCHO= 6,90m. / SON 8 PL. DE L=1,65m."
+   },
+   "cotizacion_fila": 8,
+   "medidas_entre_caras_de_vigas": {
+    "x": [
+     -0.0,
+     658.7
+    ],
+    "y": [
+     1685.2,
+     1836.1
+    ],
+    "ex_cm": 658.8,
+    "ny_cm": 150.9,
+    "perfiles": {
+     "O": [
+      "IPE 270"
+     ],
+     "E": [
+      "IPE 220"
+     ],
+     "N": [
+      "IPE 450"
+     ],
+     "S": [
+      "IPE 220"
+     ]
+    }
+   },
+   "comparacion": [
+    "largo: dueno 165 cm / modelo 141.1 cm (dif +23.9) / entre caras exteriores de vigas 150.9 cm",
+    "ancho: dueno 690 cm / modelo 658.9 cm (dif +31.1) / entre caras exteriores de vigas 658.8 cm",
+    "planchas: dueno 8 / modelo 7 / cotizacion fila 4 = 8"
+   ],
+   "nota": "Plancha 1: destaje por el pilar P-1xB-N2 (X -0.5-14.7, Y 1694.7-1702.7). Plancha 1: destaje por el pilar P-1xA3-N2 (X -0.5-14.2, Y 1823.1-1835.8). Plancha 7: destaje por el pilar P-2xA3-N2 (X 645.7-658.4, Y 1823.1-1835.8)."
+  },
+  {
+   "n": 5,
+   "nombre": "Área 5",
+   "ejes": "2-5 / I-E4 (2-4) e I-F2+273 (4-5)",
+   "color_dueno": "verde",
+   "poligono": [
+    [
+     653.2,
+     -177.5
+    ],
+    [
+     1793.2,
+     -177.5
+    ],
+    [
+     1793.2,
+     685.3
+    ],
+    [
+     1257.3,
+     685.3
+    ],
+    [
+     1257.3,
+     655.6
+    ],
+    [
+     653.2,
+     655.6
+    ]
+   ],
+   "poligono_ejes": [
+    [
+     653.2,
+     -170.0
+    ],
+    [
+     1783.7,
+     -170.0
+    ],
+    [
+     1783.7,
+     685.3
+    ],
+    [
+     1257.3,
+     685.3
+    ],
+    [
+     1257.3,
+     655.6
+    ],
+    [
+     653.2,
+     655.6
+    ]
+   ],
+   "poligono_neto_planchas": [
+    [
+     653.2,
+     -177.2
+    ],
+    [
+     1792.9,
+     -177.2
+    ],
+    [
+     1792.9,
+     685.3
+    ],
+    [
+     1257.3,
+     685.3
+    ],
+    [
+     1257.3,
+     655.6
+    ],
+    [
+     653.2,
+     655.6
+    ]
+   ],
+   "area_m2": 96.57,
+   "dir": "NS",
+   "bahias": [
+    "L13",
+    "L14",
+    "L15",
+    "L16",
+    "L17",
+    "L18",
+    "L19",
+    "L20",
+    "L21",
+    "L22"
+   ],
+   "planchas": {
+    "n": 12,
+    "largo_cm": 862.5,
+    "ancho_cubierto_cm": 1139.7,
+    "ultima_cortada_cm": 94.7,
+    "n_segun_ceil": 12,
+    "largos_cm": [
+     {
+      "largo_cm": 862.5,
+      "cantidad": 6
+     },
+     {
+      "largo_cm": 832.8,
+      "cantidad": 6
+     }
+    ],
+    "se_parte_desde": "oeste",
+    "detalle": [
+     {
+      "k": 1,
+      "ancho_cm": 95.0,
+      "largo_cm": 832.8,
+      "x": [
+       653.2,
+       748.2
+      ],
+      "y": [
+       -177.2,
+       655.6
+      ],
+      "perforaciones_pilar": [
+       "P-2xH-N2",
+       "P-2xG2-N2",
+       "P-2xF2-N2"
+      ]
+     },
+     {
+      "k": 2,
+      "ancho_cm": 95.0,
+      "largo_cm": 832.8,
+      "x": [
+       748.2,
+       843.2
+      ],
+      "y": [
+       -177.2,
+       655.6
+      ]
+     },
+     {
+      "k": 3,
+      "ancho_cm": 95.0,
+      "largo_cm": 832.8,
+      "x": [
+       843.2,
+       938.2
+      ],
+      "y": [
+       -177.2,
+       655.6
+      ]
+     },
+     {
+      "k": 4,
+      "ancho_cm": 95.0,
+      "largo_cm": 832.8,
+      "x": [
+       938.2,
+       1033.2
+      ],
+      "y": [
+       -177.2,
+       655.6
+      ],
+      "perforaciones_pilar": [
+       "P-3xH-N2",
+       "P-3xG2-N2",
+       "P-3xF2-N2",
+       "P-3xF1-N2"
+      ]
+     },
+     {
+      "k": 5,
+      "ancho_cm": 95.0,
+      "largo_cm": 832.8,
+      "x": [
+       1033.2,
+       1128.2
+      ],
+      "y": [
+       -177.2,
+       655.6
+      ]
+     },
+     {
+      "k": 6,
+      "ancho_cm": 95.0,
+      "largo_cm": 832.8,
+      "x": [
+       1128.2,
+       1223.2
+      ],
+      "y": [
+       -177.2,
+       655.6
+      ]
+     },
+     {
+      "k": 7,
+      "ancho_cm": 95.0,
+      "largo_cm": 862.5,
+      "x": [
+       1223.2,
+       1318.2
+      ],
+      "y": [
+       -177.2,
+       685.3
+      ],
+      "destaje": [
+       [
+        1223.2,
+        655.6,
+        1257.3,
+        685.3
+       ]
+      ],
+      "poligono": [
+       [
+        1223.2,
+        -177.2
+       ],
+       [
+        1318.2,
+        -177.2
+       ],
+       [
+        1318.2,
+        685.3
+       ],
+       [
+        1257.3,
+        685.3
+       ],
+       [
+        1257.3,
+        655.6
+       ],
+       [
+        1223.2,
+        655.6
+       ]
+      ]
+     },
+     {
+      "k": 8,
+      "ancho_cm": 95.0,
+      "largo_cm": 862.5,
+      "x": [
+       1318.2,
+       1413.2
+      ],
+      "y": [
+       -177.2,
+       685.3
+      ]
+     },
+     {
+      "k": 9,
+      "ancho_cm": 95.0,
+      "largo_cm": 862.5,
+      "x": [
+       1413.2,
+       1508.2
+      ],
+      "y": [
+       -177.2,
+       685.3
+      ]
+     },
+     {
+      "k": 10,
+      "ancho_cm": 95.0,
+      "largo_cm": 862.5,
+      "x": [
+       1508.2,
+       1603.2
+      ],
+      "y": [
+       -177.2,
+       685.3
+      ]
+     },
+     {
+      "k": 11,
+      "ancho_cm": 95.0,
+      "largo_cm": 862.5,
+      "x": [
+       1603.2,
+       1698.2
+      ],
+      "y": [
+       -177.2,
+       685.3
+      ]
+     },
+     {
+      "k": 12,
+      "ancho_cm": 94.7,
+      "largo_cm": 862.5,
+      "x": [
+       1698.2,
+       1792.9
+      ],
+      "y": [
+       -177.2,
+       685.3
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-5xH-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         1776.2,
+         2.4,
+         1791.2,
+         17.4
+        ],
+        "area_cm2": 225.0,
+        "abierto_hacia": [],
+        "franja_hasta_borde_cm": {
+         "este": 1.7
+        },
+        "rect_corte": [
+         1776.2,
+         2.4,
+         1792.9,
+         17.4
+        ]
+       },
+       {
+        "id": "P-5xH1-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         1776.2,
+         74.8,
+         1791.2,
+         89.8
+        ],
+        "area_cm2": 225.0,
+        "abierto_hacia": [],
+        "franja_hasta_borde_cm": {
+         "este": 1.7
+        },
+        "rect_corte": [
+         1776.2,
+         74.8,
+         1792.9,
+         89.8
+        ]
+       },
+       {
+        "id": "P-5xE3-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         1776.2,
+         682.6,
+         1791.2,
+         685.3
+        ],
+        "area_cm2": 40.5,
+        "abierto_hacia": [
+         "sur"
+        ],
+        "franja_hasta_borde_cm": {
+         "este": 1.7
+        },
+        "rect_corte": [
+         1776.2,
+         682.6,
+         1792.9,
+         685.3
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "dueno": {
+    "largo_m": 8.7,
+    "ancho_m": 11.5,
+    "n": 12,
+    "texto": "AREA 5 / LARGO =8,70m / ANCHO=11,50m / SON 12 PL. DE 8,70m"
+   },
+   "cotizacion_fila": 12,
+   "medidas_entre_caras_de_vigas": {
+    "x": [
+     643.7,
+     1790.5
+    ],
+    "y": [
+     -177.5,
+     692.8
+    ],
+    "ex_cm": 1146.8,
+    "ny_cm": 870.3,
+    "perfiles": {
+     "O": [
+      "IPE 220",
+      "IPE 450"
+     ],
+     "E": [
+      "IPE 270"
+     ],
+     "N": [
+      "IPE 300"
+     ],
+     "S": [
+      "IPE 300"
+     ]
+    }
+   },
+   "comparacion": [
+    "largo: dueno 870 cm / modelo 862.5 cm (dif +7.5) / entre caras exteriores de vigas 870.3 cm",
+    "ancho: dueno 1150 cm / modelo 1139.7 cm (dif +10.3) / entre caras exteriores de vigas 1146.8 cm",
+    "planchas: dueno 12 / modelo 12 / cotizacion fila 5 = 12"
+   ],
+   "nota": "Plancha 7 con destaje X 1223.2-1257.3, Y 655.6-685.3. Plancha 12: destaje por el pilar P-5xH-N2 (X 1776.2-1792.9, Y 2.4-17.4, incluye la franja de 1.7 cm que quedaba hasta el borde). Plancha 12: destaje por el pilar P-5xH1-N2 (X 1776.2-1792.9, Y 74.8-89.8, incluye la franja de 1.7 cm que quedaba hasta el borde). Plancha 12: destaje por el pilar P-5xE3-N2 (X 1776.2-1792.9, Y 682.6-685.3, incluye la franja de 1.7 cm que quedaba hasta el borde)."
+  },
+  {
+   "n": 6,
+   "nombre": "Área 6",
+   "ejes": "3-4 / E4-D",
+   "color_dueno": "amarillo",
+   "poligono": [
+    [
+     1007.2,
+     655.6
+    ],
+    [
+     1257.3,
+     655.6
+    ],
+    [
+     1257.3,
+     1104.1
+    ],
+    [
+     1007.2,
+     1104.1
+    ]
+   ],
+   "poligono_ejes": [
+    [
+     1007.2,
+     655.6
+    ],
+    [
+     1257.3,
+     655.6
+    ],
+    [
+     1257.3,
+     1104.1
+    ],
+    [
+     1007.2,
+     1104.1
+    ]
+   ],
+   "poligono_neto_planchas": [
+    [
+     1007.2,
+     655.6
+    ],
+    [
+     1257.3,
+     655.6
+    ],
+    [
+     1257.3,
+     1104.1
+    ],
+    [
+     1007.2,
+     1104.1
+    ]
+   ],
+   "area_m2": 11.22,
+   "dir": "EO",
+   "bahias": [
+    "L23"
+   ],
+   "planchas": {
+    "n": 5,
+    "largo_cm": 250.1,
+    "ancho_cubierto_cm": 448.5,
+    "ultima_cortada_cm": 68.5,
+    "n_segun_ceil": 5,
+    "largos_cm": [
+     {
+      "largo_cm": 250.1,
+      "cantidad": 5
+     }
+    ],
+    "se_parte_desde": "norte",
+    "detalle": [
+     {
+      "k": 1,
+      "ancho_cm": 95.0,
+      "largo_cm": 250.1,
+      "y": [
+       655.6,
+       750.6
+      ],
+      "x": [
+       1007.2,
+       1257.3
+      ]
+     },
+     {
+      "k": 2,
+      "ancho_cm": 95.0,
+      "largo_cm": 250.1,
+      "y": [
+       750.6,
+       845.6
+      ],
+      "x": [
+       1007.2,
+       1257.3
+      ]
+     },
+     {
+      "k": 3,
+      "ancho_cm": 95.0,
+      "largo_cm": 250.1,
+      "y": [
+       845.6,
+       940.6
+      ],
+      "x": [
+       1007.2,
+       1257.3
+      ]
+     },
+     {
+      "k": 4,
+      "ancho_cm": 95.0,
+      "largo_cm": 250.1,
+      "y": [
+       940.6,
+       1035.6
+      ],
+      "x": [
+       1007.2,
+       1257.3
+      ]
+     },
+     {
+      "k": 5,
+      "ancho_cm": 68.5,
+      "largo_cm": 250.1,
+      "y": [
+       1035.6,
+       1104.1
+      ],
+      "x": [
+       1007.2,
+       1257.3
+      ],
+      "perforaciones_pilar": [
+       "P-3xD-N2"
+      ]
+     }
+    ]
+   },
+   "dueno": {
+    "largo_m": 2.9,
+    "ancho_m": null,
+    "n": null,
+    "texto": "AREA 6 / LARGO=2,90m / ANCHO= (en blanco) / SON (en blanco) PL DE 2,90 m"
+   },
+   "cotizacion_fila": 6,
+   "medidas_entre_caras_de_vigas": {
+    "x": [
+     1001.7,
+     1262.8
+    ],
+    "y": [
+     645.6,
+     1111.6
+    ],
+    "ex_cm": 261.1,
+    "ny_cm": 466.0,
+    "perfiles": {
+     "O": [
+      "IPE 220"
+     ],
+     "E": [
+      "IPE 220"
+     ],
+     "N": [
+      "IPE 500"
+     ],
+     "S": [
+      "IPE 300"
+     ]
+    }
+   },
+   "comparacion": [
+    "largo: dueno 290 cm / modelo 250.1 cm (dif +39.9) / entre caras exteriores de vigas 261.1 cm",
+    "ancho: el dueno lo dejo en blanco / modelo 448.5 cm",
+    "planchas: dueno (en blanco) / modelo 5 / cotizacion fila 6 = 6"
+   ],
+   "nota": ""
+  },
+  {
+   "n": 7,
+   "nombre": "Área 7",
+   "ejes": "4-5 / F2+273-D",
+   "color_dueno": "naranjo",
+   "poligono": [
+    [
+     1257.3,
+     685.3
+    ],
+    [
+     1793.2,
+     685.3
+    ],
+    [
+     1793.2,
+     1104.1
+    ],
+    [
+     1257.3,
+     1104.1
+    ]
+   ],
+   "poligono_ejes": [
+    [
+     1257.3,
+     685.3
+    ],
+    [
+     1783.7,
+     685.3
+    ],
+    [
+     1783.7,
+     1104.1
+    ],
+    [
+     1257.3,
+     1104.1
+    ]
+   ],
+   "poligono_neto_planchas": [
+    [
+     1257.3,
+     685.3
+    ],
+    [
+     1792.9,
+     685.3
+    ],
+    [
+     1792.9,
+     1104.1
+    ],
+    [
+     1257.3,
+     1104.1
+    ]
+   ],
+   "area_m2": 22.44,
+   "dir": "NS",
+   "bahias": [
+    "L24",
+    "L25"
+   ],
+   "planchas": {
+    "n": 6,
+    "largo_cm": 418.8,
+    "ancho_cubierto_cm": 535.6,
+    "ultima_cortada_cm": 60.6,
+    "n_segun_ceil": 6,
+    "largos_cm": [
+     {
+      "largo_cm": 418.8,
+      "cantidad": 6
+     }
+    ],
+    "se_parte_desde": "oeste",
+    "detalle": [
+     {
+      "k": 1,
+      "ancho_cm": 95.0,
+      "largo_cm": 418.8,
+      "x": [
+       1257.3,
+       1352.3
+      ],
+      "y": [
+       685.3,
+       1104.1
+      ]
+     },
+     {
+      "k": 2,
+      "ancho_cm": 95.0,
+      "largo_cm": 418.8,
+      "x": [
+       1352.3,
+       1447.3
+      ],
+      "y": [
+       685.3,
+       1104.1
+      ]
+     },
+     {
+      "k": 3,
+      "ancho_cm": 95.0,
+      "largo_cm": 418.8,
+      "x": [
+       1447.3,
+       1542.3
+      ],
+      "y": [
+       685.3,
+       1104.1
+      ]
+     },
+     {
+      "k": 4,
+      "ancho_cm": 95.0,
+      "largo_cm": 418.8,
+      "x": [
+       1542.3,
+       1637.3
+      ],
+      "y": [
+       685.3,
+       1104.1
+      ]
+     },
+     {
+      "k": 5,
+      "ancho_cm": 95.0,
+      "largo_cm": 418.8,
+      "x": [
+       1637.3,
+       1732.3
+      ],
+      "y": [
+       685.3,
+       1104.1
+      ]
+     },
+     {
+      "k": 6,
+      "ancho_cm": 60.6,
+      "largo_cm": 418.8,
+      "x": [
+       1732.3,
+       1792.9
+      ],
+      "y": [
+       685.3,
+       1104.1
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-5xE3-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         1776.2,
+         685.3,
+         1791.2,
+         697.6
+        ],
+        "area_cm2": 184.5,
+        "abierto_hacia": [
+         "norte"
+        ],
+        "franja_hasta_borde_cm": {
+         "este": 1.7
+        },
+        "rect_corte": [
+         1776.2,
+         685.3,
+         1792.9,
+         697.6
+        ]
+       },
+       {
+        "id": "P-5xE-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         1776.2,
+         951.0,
+         1791.2,
+         966.0
+        ],
+        "area_cm2": 225.0,
+        "abierto_hacia": [],
+        "franja_hasta_borde_cm": {
+         "este": 1.7
+        },
+        "rect_corte": [
+         1776.2,
+         951.0,
+         1792.9,
+         966.0
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "dueno": {
+    "largo_m": 4.59,
+    "ancho_m": 5.46,
+    "n": 6,
+    "texto": "AREA 7 / LARGO =4,59 / ANCHO =5,46 / SON 6 PL DE 4,59m"
+   },
+   "cotizacion_fila": 6,
+   "medidas_entre_caras_de_vigas": {
+    "x": [
+     1251.8,
+     1791.2
+    ],
+    "y": [
+     677.8,
+     1111.6
+    ],
+    "ex_cm": 539.4,
+    "ny_cm": 433.8,
+    "perfiles": {
+     "O": [
+      "IPE 220"
+     ],
+     "E": [
+      "IPE 270",
+      "IPE 300"
+     ],
+     "N": [
+      "IPE 300"
+     ],
+     "S": [
+      "IPE 300"
+     ]
+    }
+   },
+   "comparacion": [
+    "largo: dueno 459 cm / modelo 418.8 cm (dif +40.2) / entre caras exteriores de vigas 433.8 cm",
+    "ancho: dueno 546 cm / modelo 535.6 cm (dif +10.4) / entre caras exteriores de vigas 539.4 cm",
+    "planchas: dueno 6 / modelo 6 / cotizacion fila 7 = 6"
+   ],
+   "nota": "Plancha 6: destaje por el pilar P-5xE3-N2 (X 1776.2-1792.9, Y 685.3-697.6, incluye la franja de 1.7 cm que quedaba hasta el borde). Plancha 6: destaje por el pilar P-5xE-N2 (X 1776.2-1792.9, Y 951.0-966.0, incluye la franja de 1.7 cm que quedaba hasta el borde)."
+  },
+  {
+   "n": 8,
+   "nombre": "Área 8",
+   "ejes": "3-5 / D-A1",
+   "color_dueno": "verde",
+   "poligono": [
+    [
+     1007.2,
+     1104.1
+    ],
+    [
+     1793.2,
+     1104.1
+    ],
+    [
+     1793.2,
+     2056.2
+    ],
+    [
+     1001.7,
+     2056.2
+    ],
+    [
+     1001.7,
+     1694.7
+    ],
+    [
+     1007.2,
+     1694.7
+    ]
+   ],
+   "poligono_ejes": [
+    [
+     1007.2,
+     1104.1
+    ],
+    [
+     1783.7,
+     1104.1
+    ],
+    [
+     1783.7,
+     2045.2
+    ],
+    [
+     1007.2,
+     2045.2
+    ]
+   ],
+   "poligono_neto_planchas": [
+    [
+     1007.2,
+     1104.1
+    ],
+    [
+     1792.9,
+     1104.1
+    ],
+    [
+     1792.9,
+     2055.9
+    ],
+    [
+     1002.0,
+     2055.9
+    ],
+    [
+     1002.0,
+     1694.7
+    ],
+    [
+     1007.2,
+     1694.7
+    ]
+   ],
+   "area_m2": 75.03,
+   "dir": "EO",
+   "bahias": [
+    "L26",
+    "L27",
+    "L28",
+    "L29",
+    "L30",
+    "L31"
+   ],
+   "planchas": {
+    "n": 10,
+    "largo_cm": 790.9,
+    "ancho_cubierto_cm": 951.8,
+    "ultima_cortada_cm": 95.0,
+    "n_segun_ceil": 11,
+    "largos_cm": [
+     {
+      "largo_cm": 790.9,
+      "cantidad": 4
+     },
+     {
+      "largo_cm": 785.7,
+      "cantidad": 6
+     }
+    ],
+    "se_parte_desde": "norte",
+    "detalle": [
+     {
+      "k": 1,
+      "ancho_cm": 95.0,
+      "largo_cm": 785.7,
+      "y": [
+       1104.1,
+       1199.1
+      ],
+      "x": [
+       1007.2,
+       1792.9
+      ],
+      "perforaciones_pilar": [
+       "P-3xD-N2"
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-5xC4-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         1776.2,
+         1139.3,
+         1791.2,
+         1154.3
+        ],
+        "area_cm2": 225.0,
+        "abierto_hacia": [],
+        "franja_hasta_borde_cm": {
+         "este": 1.7
+        },
+        "rect_corte": [
+         1776.2,
+         1139.3,
+         1792.9,
+         1154.3
+        ]
+       }
+      ]
+     },
+     {
+      "k": 2,
+      "ancho_cm": 95.0,
+      "largo_cm": 785.7,
+      "y": [
+       1199.1,
+       1294.1
+      ],
+      "x": [
+       1007.2,
+       1792.9
+      ]
+     },
+     {
+      "k": 3,
+      "ancho_cm": 95.0,
+      "largo_cm": 785.7,
+      "y": [
+       1294.1,
+       1389.1
+      ],
+      "x": [
+       1007.2,
+       1792.9
+      ],
+      "perforaciones_pilar": [
+       "P-3xC1-N2"
+      ]
+     },
+     {
+      "k": 4,
+      "ancho_cm": 95.0,
+      "largo_cm": 785.7,
+      "y": [
+       1389.1,
+       1484.1
+      ],
+      "x": [
+       1007.2,
+       1792.9
+      ]
+     },
+     {
+      "k": 5,
+      "ancho_cm": 95.0,
+      "largo_cm": 785.7,
+      "y": [
+       1484.1,
+       1579.1
+      ],
+      "x": [
+       1007.2,
+       1792.9
+      ],
+      "perforaciones_pilar": [
+       "P-3xC-N2"
+      ]
+     },
+     {
+      "k": 6,
+      "ancho_cm": 95.0,
+      "largo_cm": 785.7,
+      "y": [
+       1579.1,
+       1674.1
+      ],
+      "x": [
+       1007.2,
+       1792.9
+      ]
+     },
+     {
+      "k": 7,
+      "ancho_cm": 95.0,
+      "largo_cm": 790.9,
+      "y": [
+       1674.1,
+       1769.1
+      ],
+      "x": [
+       1002.0,
+       1792.9
+      ],
+      "destaje": [
+       [
+        1002.0,
+        1674.1,
+        1007.2,
+        1694.7
+       ]
+      ],
+      "poligono": [
+       [
+        1007.2,
+        1674.1
+       ],
+       [
+        1792.9,
+        1674.1
+       ],
+       [
+        1792.9,
+        1769.1
+       ],
+       [
+        1002.0,
+        1769.1
+       ],
+       [
+        1002.0,
+        1694.7
+       ],
+       [
+        1007.2,
+        1694.7
+       ]
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-3xB-N2",
+        "perfil": "HEB 160",
+        "rect": [
+         1002.0,
+         1686.7,
+         1015.2,
+         1702.7
+        ],
+        "area_cm2": 169.6,
+        "poligono": [
+         [
+          1007.2,
+          1686.7
+         ],
+         [
+          1015.2,
+          1686.7
+         ],
+         [
+          1015.2,
+          1702.7
+         ],
+         [
+          1002.0,
+          1702.7
+         ],
+         [
+          1002.0,
+          1694.7
+         ],
+         [
+          1007.2,
+          1694.7
+         ]
+        ],
+        "abierto_hacia": [
+         "oeste"
+        ]
+       },
+       {
+        "id": "P-5xA4-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         1776.2,
+         1760.4,
+         1791.2,
+         1769.1
+        ],
+        "area_cm2": 130.5,
+        "abierto_hacia": [
+         "sur"
+        ],
+        "franja_hasta_borde_cm": {
+         "este": 1.7
+        },
+        "rect_corte": [
+         1776.2,
+         1760.4,
+         1792.9,
+         1769.1
+        ]
+       }
+      ]
+     },
+     {
+      "k": 8,
+      "ancho_cm": 95.0,
+      "largo_cm": 790.9,
+      "y": [
+       1769.1,
+       1864.1
+      ],
+      "x": [
+       1002.0,
+       1792.9
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-3xA3-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         1002.0,
+         1823.1,
+         1014.7,
+         1838.1
+        ],
+        "area_cm2": 190.5,
+        "abierto_hacia": [
+         "oeste"
+        ]
+       },
+       {
+        "id": "P-5xA4-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         1776.2,
+         1769.1,
+         1791.2,
+         1775.4
+        ],
+        "area_cm2": 94.5,
+        "abierto_hacia": [
+         "norte"
+        ],
+        "franja_hasta_borde_cm": {
+         "este": 1.7
+        },
+        "rect_corte": [
+         1776.2,
+         1769.1,
+         1792.9,
+         1775.4
+        ]
+       }
+      ]
+     },
+     {
+      "k": 9,
+      "ancho_cm": 95.0,
+      "largo_cm": 790.9,
+      "y": [
+       1864.1,
+       1959.1
+      ],
+      "x": [
+       1002.0,
+       1792.9
+      ]
+     },
+     {
+      "k": 10,
+      "ancho_cm": 95.0,
+      "largo_cm": 790.9,
+      "y": [
+       1959.1,
+       2054.1
+      ],
+      "x": [
+       1002.0,
+       1792.9
+      ],
+      "destajes_pilar": [
+       {
+        "id": "P-3xA1-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         1002.0,
+         2037.7,
+         1014.7,
+         2052.7
+        ],
+        "area_cm2": 190.5,
+        "abierto_hacia": [
+         "oeste"
+        ],
+        "franja_hasta_borde_cm": {
+         "sur": 1.4
+        },
+        "rect_corte": [
+         1002.0,
+         2037.7,
+         1014.7,
+         2054.1
+        ]
+       },
+       {
+        "id": "P-5xA1-N2",
+        "perfil": "CUAD 150x150x4",
+        "rect": [
+         1776.2,
+         2037.7,
+         1791.2,
+         2052.7
+        ],
+        "area_cm2": 225.0,
+        "abierto_hacia": [],
+        "franja_hasta_borde_cm": {
+         "este": 1.7,
+         "sur": 1.4
+        },
+        "rect_corte": [
+         1776.2,
+         2037.7,
+         1792.9,
+         2054.1
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "dueno": {
+    "largo_m": 7.91,
+    "ancho_m": 9.61,
+    "n": 10,
+    "texto": "AREA 8 / LARGO = 7,91 m / ANCHO=9,61 m / SON 10 PL. DE 7,91 m"
+   },
+   "cotizacion_fila": 10,
+   "medidas_entre_caras_de_vigas": {
+    "x": [
+     1001.7,
+     1793.2
+    ],
+    "y": [
+     1096.6,
+     2056.2
+    ],
+    "ex_cm": 791.5,
+    "ny_cm": 959.6,
+    "perfiles": {
+     "O": [
+      "IPE 220"
+     ],
+     "E": [
+      "IPE 300",
+      "IPE 450"
+     ],
+     "N": [
+      "IPE 300"
+     ],
+     "S": [
+      "IPE 600"
+     ]
+    }
+   },
+   "comparacion": [
+    "largo: dueno 791 cm / modelo 790.9 cm (dif +0.1) / entre caras exteriores de vigas 791.5 cm",
+    "ancho: dueno 961 cm / modelo 951.8 cm (dif +9.2) / entre caras exteriores de vigas 959.6 cm",
+    "planchas: dueno 10 / modelo 10 / cotizacion fila 8 = 10"
+   ],
+   "nota": "ceil(951.8/95) = 11, pero la 11.a plancha seria de solo 1.8 cm: esa franja queda sobre el ala inferior del C (4.7 cm libres) y el ala de la viga, asi que se ponen 10 planchas completas. Plancha 7 con destaje X 1002.0-1007.2, Y 1674.1-1694.7. Plancha 1: destaje por el pilar P-5xC4-N2 (X 1776.2-1792.9, Y 1139.3-1154.3, incluye la franja de 1.7 cm que quedaba hasta el borde). Plancha 7: destaje en L por el pilar P-3xB-N2 (X 1002.0-1015.2, Y 1686.7-1702.7). Plancha 7: destaje por el pilar P-5xA4-N2 (X 1776.2-1792.9, Y 1760.4-1769.1, incluye la franja de 1.7 cm que quedaba hasta el borde). Plancha 8: destaje por el pilar P-3xA3-N2 (X 1002.0-1014.7, Y 1823.1-1838.1). Plancha 8: destaje por el pilar P-5xA4-N2 (X 1776.2-1792.9, Y 1769.1-1775.4, incluye la franja de 1.7 cm que quedaba hasta el borde). Plancha 10: destaje por el pilar P-3xA1-N2 (X 1002.0-1014.7, Y 2037.7-2054.1, incluye la franja de 1.4 cm que quedaba hasta el borde). Plancha 10: destaje por el pilar P-5xA1-N2 (X 1776.2-1792.9, Y 2037.7-2054.1, incluye la franja de 1.7/1.4 cm que quedaba hasta el borde)."
+  }
+ ],
+ "hueco_escalera": [
+  [
+   653.2,
+   1694.7
+  ],
+  [
+   1007.2,
+   1694.7
+  ],
+  [
+   1007.2,
+   2170.3
+  ],
+  [
+   653.2,
+   2170.3
+  ]
+ ],
+ "hueco_escalera_nota": "Rectangulo entre ejes 2-3 y B-A (vigas: IPE 300 en B, IPE 220 en A, IPE 220 en ejes 2 y 3). Libre entre caras de vigas: X 658.7-1001.7, Y 1702.2-2164.8. En la losa es una muesca abierta al sur: al oeste la losa llega solo hasta A3 (Y 1836.1) y al este hasta A1 (Y 2056.2). No lleva placa colaborante.",
+ "pilares_nivel2": {
+  "en_el_borde": [
+   {
+    "id": "P-1xH-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 6.7,
+    "y": 9.9,
+    "seccion": [
+     -0.8,
+     2.4,
+     14.2,
+     17.4
+    ],
+    "areas": [
+     1,
+     2
+    ],
+    "sale_fuera_del_borde_cm": 0.0,
+    "corta_C": [
+     {
+      "tramo": "C10",
+      "tramo_cm": [
+       1818.7,
+       1833.7
+      ],
+      "franja_desde_cara_exterior_cm": [
+       0.0,
+       5.0
+      ],
+      "corta": "alma y alas"
+     }
+    ],
+    "planchas": [
+     "A1-k1",
+     "A2-k1"
+    ]
+   },
+   {
+    "id": "P-1xG1-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 6.7,
+    "y": 238.5,
+    "seccion": [
+     -0.8,
+     231.0,
+     14.2,
+     246.0
+    ],
+    "areas": [
+     2
+    ],
+    "sale_fuera_del_borde_cm": 0.0,
+    "corta_C": [
+     {
+      "tramo": "C10",
+      "tramo_cm": [
+       1590.1,
+       1605.1
+      ],
+      "franja_desde_cara_exterior_cm": [
+       0.0,
+       5.0
+      ],
+      "corta": "alma y alas"
+     }
+    ],
+    "planchas": [
+     "A2-k3"
+    ]
+   },
+   {
+    "id": "P-1xE1-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 6.7,
+    "y": 877.6,
+    "seccion": [
+     -0.8,
+     870.1,
+     14.2,
+     885.1
+    ],
+    "areas": [
+     3
+    ],
+    "sale_fuera_del_borde_cm": 0.0,
+    "corta_C": [
+     {
+      "tramo": "C10",
+      "tramo_cm": [
+       951.0,
+       966.0
+      ],
+      "franja_desde_cara_exterior_cm": [
+       0.0,
+       5.0
+      ],
+      "corta": "alma y alas"
+     }
+    ],
+    "planchas": [
+     "A3-k3"
+    ]
+   },
+   {
+    "id": "P-1xY991-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 6.7,
+    "y": 991.4,
+    "seccion": [
+     -0.8,
+     983.9,
+     14.2,
+     998.9
+    ],
+    "areas": [
+     3
+    ],
+    "sale_fuera_del_borde_cm": 0.0,
+    "corta_C": [
+     {
+      "tramo": "C10",
+      "tramo_cm": [
+       837.2,
+       852.2
+      ],
+      "franja_desde_cara_exterior_cm": [
+       0.0,
+       5.0
+      ],
+      "corta": "alma y alas"
+     }
+    ],
+    "planchas": [
+     "A3-k4"
+    ]
+   },
+   {
+    "id": "P-1xD-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 6.7,
+    "y": 1104.1,
+    "seccion": [
+     -0.8,
+     1096.6,
+     14.2,
+     1111.6
+    ],
+    "areas": [
+     3
+    ],
+    "sale_fuera_del_borde_cm": 0.0,
+    "corta_C": [
+     {
+      "tramo": "C10",
+      "tramo_cm": [
+       724.5,
+       739.5
+      ],
+      "franja_desde_cara_exterior_cm": [
+       0.0,
+       5.0
+      ],
+      "corta": "alma y alas"
+     }
+    ],
+    "planchas": [
+     "A3-k5",
+     "A3-k6"
+    ]
+   },
+   {
+    "id": "P-1xB1-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 6.7,
+    "y": 1633.8,
+    "seccion": [
+     -0.8,
+     1626.3,
+     14.2,
+     1641.3
+    ],
+    "areas": [
+     3
+    ],
+    "sale_fuera_del_borde_cm": 0.0,
+    "corta_C": [
+     {
+      "tramo": "C10",
+      "tramo_cm": [
+       194.8,
+       209.8
+      ],
+      "franja_desde_cara_exterior_cm": [
+       0.0,
+       5.0
+      ],
+      "corta": "alma y alas"
+     }
+    ],
+    "planchas": [
+     "A3-k11"
+    ]
+   },
+   {
+    "id": "P-1xB-N2",
+    "perfil": "HEB 160",
+    "x": 6.7,
+    "y": 1694.7,
+    "seccion": [
+     -1.3,
+     1686.7,
+     14.7,
+     1702.7
+    ],
+    "areas": [
+     3,
+     4
+    ],
+    "sale_fuera_del_borde_cm": 0.5,
+    "corta_C": [
+     {
+      "tramo": "C10",
+      "tramo_cm": [
+       133.4,
+       149.4
+      ],
+      "franja_desde_cara_exterior_cm": [
+       0.0,
+       5.0
+      ],
+      "corta": "alma y alas"
+     }
+    ],
+    "planchas": [
+     "A3-k12",
+     "A4-k1"
+    ]
+   },
+   {
+    "id": "P-1xA3-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 6.7,
+    "y": 1830.6,
+    "seccion": [
+     -0.8,
+     1823.1,
+     14.2,
+     1838.1
+    ],
+    "areas": [
+     4
+    ],
+    "sale_fuera_del_borde_cm": 2.0,
+    "corta_C": [
+     {
+      "tramo": "C9",
+      "tramo_cm": [
+       644.5,
+       659.5
+      ],
+      "franja_desde_cara_exterior_cm": [
+       0.0,
+       5.0
+      ],
+      "corta": "alma y alas"
+     },
+     {
+      "tramo": "C10",
+      "tramo_cm": [
+       0.0,
+       13.0
+      ],
+      "franja_desde_cara_exterior_cm": [
+       0.0,
+       5.0
+      ],
+      "corta": "alma y alas"
+     }
+    ],
+    "planchas": [
+     "A4-k1"
+    ]
+   },
+   {
+    "id": "P-2xA3-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 653.2,
+    "y": 1830.6,
+    "seccion": [
+     645.7,
+     1823.1,
+     660.7,
+     1838.1
+    ],
+    "areas": [
+     4
+    ],
+    "sale_fuera_del_borde_cm": 2.8,
+    "corta_C": [
+     {
+      "tramo": "C8",
+      "tramo_cm": [
+       120.9,
+       133.9
+      ],
+      "franja_desde_cara_exterior_cm": [
+       0.0,
+       5.0
+      ],
+      "corta": "alma y alas"
+     },
+     {
+      "tramo": "C9",
+      "tramo_cm": [
+       0.0,
+       13.0
+      ],
+      "franja_desde_cara_exterior_cm": [
+       0.0,
+       5.0
+      ],
+      "corta": "alma y alas"
+     }
+    ],
+    "planchas": [
+     "A4-k7"
+    ]
+   },
+   {
+    "id": "P-3xB-N2",
+    "perfil": "HEB 160",
+    "x": 1007.2,
+    "y": 1694.7,
+    "seccion": [
+     999.2,
+     1686.7,
+     1015.2,
+     1702.7
+    ],
+    "areas": [
+     3,
+     8
+    ],
+    "sale_fuera_del_borde_cm": 0.5,
+    "corta_C": [
+     {
+      "tramo": "C6",
+      "tramo_cm": [
+       353.5,
+       354.0
+      ],
+      "franja_desde_cara_exterior_cm": [
+       0.0,
+       5.0
+      ],
+      "corta": "alma y alas"
+     },
+     {
+      "tramo": "C7",
+      "tramo_cm": [
+       0.0,
+       2.5
+      ],
+      "franja_desde_cara_exterior_cm": [
+       0.0,
+       5.0
+      ],
+      "corta": "alma y alas"
+     }
+    ],
+    "planchas": [
+     "A3-k12",
+     "A8-k7"
+    ]
+   },
+   {
+    "id": "P-3xA3-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 1007.2,
+    "y": 1830.6,
+    "seccion": [
+     999.7,
+     1823.1,
+     1014.7,
+     1838.1
+    ],
+    "areas": [
+     8
+    ],
+    "sale_fuera_del_borde_cm": 2.0,
+    "corta_C": [
+     {
+      "tramo": "C6",
+      "tramo_cm": [
+       218.1,
+       233.1
+      ],
+      "franja_desde_cara_exterior_cm": [
+       0.0,
+       5.0
+      ],
+      "corta": "alma y alas"
+     }
+    ],
+    "planchas": [
+     "A8-k8"
+    ]
+   },
+   {
+    "id": "P-3xA1-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 1007.2,
+    "y": 2045.2,
+    "seccion": [
+     999.7,
+     2037.7,
+     1014.7,
+     2052.7
+    ],
+    "areas": [
+     8
+    ],
+    "sale_fuera_del_borde_cm": 2.0,
+    "corta_C": [
+     {
+      "tramo": "C5",
+      "tramo_cm": [
+       778.5,
+       791.5
+      ],
+      "franja_desde_cara_exterior_cm": [
+       3.5,
+       5.0
+      ],
+      "corta": "solo alas (el alma pasa por fuera del pilar)"
+     },
+     {
+      "tramo": "C6",
+      "tramo_cm": [
+       3.5,
+       18.5
+      ],
+      "franja_desde_cara_exterior_cm": [
+       0.0,
+       5.0
+      ],
+      "corta": "alma y alas"
+     }
+    ],
+    "planchas": [
+     "A8-k10"
+    ]
+   },
+   {
+    "id": "P-5xH-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 1783.7,
+    "y": 9.9,
+    "seccion": [
+     1776.2,
+     2.4,
+     1791.2,
+     17.4
+    ],
+    "areas": [
+     5
+    ],
+    "sale_fuera_del_borde_cm": 0.0,
+    "corta_C": [
+     {
+      "tramo": "C4",
+      "tramo_cm": [
+       179.9,
+       194.9
+      ],
+      "franja_desde_cara_exterior_cm": [
+       2.0,
+       5.0
+      ],
+      "corta": "solo alas (el alma pasa por fuera del pilar)"
+     }
+    ],
+    "planchas": [
+     "A5-k12"
+    ]
+   },
+   {
+    "id": "P-5xH1-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 1783.7,
+    "y": 82.3,
+    "seccion": [
+     1776.2,
+     74.8,
+     1791.2,
+     89.8
+    ],
+    "areas": [
+     5
+    ],
+    "sale_fuera_del_borde_cm": 0.0,
+    "corta_C": [
+     {
+      "tramo": "C4",
+      "tramo_cm": [
+       252.3,
+       267.3
+      ],
+      "franja_desde_cara_exterior_cm": [
+       2.0,
+       5.0
+      ],
+      "corta": "solo alas (el alma pasa por fuera del pilar)"
+     }
+    ],
+    "planchas": [
+     "A5-k12"
+    ]
+   },
+   {
+    "id": "P-5xE3-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 1783.7,
+    "y": 690.1,
+    "seccion": [
+     1776.2,
+     682.6,
+     1791.2,
+     697.6
+    ],
+    "areas": [
+     5,
+     7
+    ],
+    "sale_fuera_del_borde_cm": 0.0,
+    "corta_C": [
+     {
+      "tramo": "C4",
+      "tramo_cm": [
+       860.1,
+       875.1
+      ],
+      "franja_desde_cara_exterior_cm": [
+       2.0,
+       5.0
+      ],
+      "corta": "solo alas (el alma pasa por fuera del pilar)"
+     }
+    ],
+    "planchas": [
+     "A5-k12",
+     "A7-k6"
+    ]
+   },
+   {
+    "id": "P-5xE-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 1783.7,
+    "y": 958.5,
+    "seccion": [
+     1776.2,
+     951.0,
+     1791.2,
+     966.0
+    ],
+    "areas": [
+     7
+    ],
+    "sale_fuera_del_borde_cm": 0.0,
+    "corta_C": [
+     {
+      "tramo": "C4",
+      "tramo_cm": [
+       1128.5,
+       1143.5
+      ],
+      "franja_desde_cara_exterior_cm": [
+       2.0,
+       5.0
+      ],
+      "corta": "solo alas (el alma pasa por fuera del pilar)"
+     }
+    ],
+    "planchas": [
+     "A7-k6"
+    ]
+   },
+   {
+    "id": "P-5xC4-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 1783.7,
+    "y": 1146.8,
+    "seccion": [
+     1776.2,
+     1139.3,
+     1791.2,
+     1154.3
+    ],
+    "areas": [
+     8
+    ],
+    "sale_fuera_del_borde_cm": 0.0,
+    "corta_C": [
+     {
+      "tramo": "C4",
+      "tramo_cm": [
+       1316.8,
+       1331.8
+      ],
+      "franja_desde_cara_exterior_cm": [
+       2.0,
+       5.0
+      ],
+      "corta": "solo alas (el alma pasa por fuera del pilar)"
+     }
+    ],
+    "planchas": [
+     "A8-k1"
+    ]
+   },
+   {
+    "id": "P-5xA4-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 1783.7,
+    "y": 1767.9,
+    "seccion": [
+     1776.2,
+     1760.4,
+     1791.2,
+     1775.4
+    ],
+    "areas": [
+     8
+    ],
+    "sale_fuera_del_borde_cm": 0.0,
+    "corta_C": [
+     {
+      "tramo": "C4",
+      "tramo_cm": [
+       1937.9,
+       1952.9
+      ],
+      "franja_desde_cara_exterior_cm": [
+       2.0,
+       5.0
+      ],
+      "corta": "solo alas (el alma pasa por fuera del pilar)"
+     }
+    ],
+    "planchas": [
+     "A8-k7",
+     "A8-k8"
+    ]
+   },
+   {
+    "id": "P-5xA1-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 1783.7,
+    "y": 2045.2,
+    "seccion": [
+     1776.2,
+     2037.7,
+     1791.2,
+     2052.7
+    ],
+    "areas": [
+     8
+    ],
+    "sale_fuera_del_borde_cm": 0.0,
+    "corta_C": [
+     {
+      "tramo": "C4",
+      "tramo_cm": [
+       2215.2,
+       2230.2
+      ],
+      "franja_desde_cara_exterior_cm": [
+       2.0,
+       5.0
+      ],
+      "corta": "solo alas (el alma pasa por fuera del pilar)"
+     },
+     {
+      "tramo": "C5",
+      "tramo_cm": [
+       2.0,
+       17.0
+      ],
+      "franja_desde_cara_exterior_cm": [
+       3.5,
+       5.0
+      ],
+      "corta": "solo alas (el alma pasa por fuera del pilar)"
+     }
+    ],
+    "planchas": [
+     "A8-k10"
+    ]
+   }
+  ],
+  "dentro_de_la_losa": [
+   {
+    "id": "P-2xH-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 653.2,
+    "y": 9.9,
+    "seccion": [
+     645.7,
+     2.4,
+     660.7,
+     17.4
+    ],
+    "areas": [
+     1,
+     2,
+     5
+    ]
+   },
+   {
+    "id": "P-2xG2-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 653.2,
+    "y": 227,
+    "seccion": [
+     645.7,
+     219.5,
+     660.7,
+     234.5
+    ],
+    "areas": [
+     2,
+     5
+    ]
+   },
+   {
+    "id": "P-2xF2-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 653.2,
+    "y": 412,
+    "seccion": [
+     645.7,
+     404.5,
+     660.7,
+     419.5
+    ],
+    "areas": [
+     2,
+     5
+    ]
+   },
+   {
+    "id": "P-2xE2-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 653.2,
+    "y": 771.5,
+    "seccion": [
+     645.7,
+     764.0,
+     660.7,
+     779.0
+    ],
+    "areas": [
+     3
+    ]
+   },
+   {
+    "id": "P-3xH-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 1007.2,
+    "y": 9.9,
+    "seccion": [
+     999.7,
+     2.4,
+     1014.7,
+     17.4
+    ],
+    "areas": [
+     5
+    ]
+   },
+   {
+    "id": "P-3xG2-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 1007.2,
+    "y": 227,
+    "seccion": [
+     999.7,
+     219.5,
+     1014.7,
+     234.5
+    ],
+    "areas": [
+     5
+    ]
+   },
+   {
+    "id": "P-3xF2-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 1007.2,
+    "y": 412,
+    "seccion": [
+     999.7,
+     404.5,
+     1014.7,
+     419.5
+    ],
+    "areas": [
+     5
+    ]
+   },
+   {
+    "id": "P-3xF1-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 1007.2,
+    "y": 518.9,
+    "seccion": [
+     999.7,
+     511.4,
+     1014.7,
+     526.4
+    ],
+    "areas": [
+     5
+    ]
+   },
+   {
+    "id": "P-3xD-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 1007.2,
+    "y": 1104.1,
+    "seccion": [
+     999.7,
+     1096.6,
+     1014.7,
+     1111.6
+    ],
+    "areas": [
+     3,
+     6,
+     8
+    ]
+   },
+   {
+    "id": "P-3xC1-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 1007.2,
+    "y": 1320.5,
+    "seccion": [
+     999.7,
+     1313.0,
+     1014.7,
+     1328.0
+    ],
+    "areas": [
+     3,
+     8
+    ]
+   },
+   {
+    "id": "P-3xC-N2",
+    "perfil": "CUAD 150x150x4",
+    "x": 1007.2,
+    "y": 1511.9,
+    "seccion": [
+     999.7,
+     1504.4,
+     1014.7,
+     1519.4
+    ],
+    "areas": [
+     3,
+     8
+    ]
+   }
+  ],
+  "nota": "Pilares que nacen en z 346 (seccion = caja del perfil; el HEB 160 se toma por su caja de 16 x 16). Los del borde cortan el C (corta_C: en que tramo, en que largo y si corta el alma o solo las alas; se corta y se suelda al pilar) y ademas se meten en las planchas vecinas (pasan 8 a 12 cm mas alla del ala del C): cada plancha afectada lo trae en destajes_pilar (y cada pilar lista sus planchas). En el eje 5 la recta del C (X 1793.2, cara del IPE 450 de C-A1) deja el alma (X 1792.9-1793.2) 1.7 cm por fuera de la cara este de los 7 pilares (X 1791.2): ahi el C sigue corrido y solo se destajan sus alas en la franja X 1788.2-1791.2; en las planchas queda una franja de 1.7 cm entre pilar y alma del C que se corta junto con el destaje (rect_corte). Lo mismo en el eje A1 con P-3xA1 y P-5xA1: el alma (Y 2055.9-2056.2) pasa 3.2 cm al sur de la cara del pilar (Y 2052.7) y solo se destajan las alas en la franja Y 2051.2-2052.7. Los de dentro perforan las planchas (perforaciones_pilar)."
+ },
+ "resumen": {
+  "planchas_total": 66,
+  "planchas_por_area": [
+   7,
+   7,
+   12,
+   7,
+   12,
+   5,
+   6,
+   10
+  ],
+  "dueno_por_area": [
+   8,
+   7,
+   12,
+   8,
+   12,
+   null,
+   6,
+   10
+  ],
+  "cotizacion_por_fila": [
+   8,
+   7,
+   13,
+   8,
+   12,
+   6,
+   6,
+   10
+  ],
+  "metros_lineales_de_plancha": 449.44,
+  "m2_cubiertos_por_planchas": 413.12,
+  "marco_c_m": 95.13,
+  "planchas_con_destaje_de_pilar_de_borde": 17,
+  "destajes_de_pilar_de_borde": 25,
+  "planchas_con_perforacion_de_pilar_interior": 15
+ },
+ "chequeos": {
+  "traslapes_panos": [],
+  "areas_vs_foto": {
+   "1": {
+    "dif_simetrica_cm2": 0.0,
+    "dir_foto": "NS",
+    "dir_plano": [
+     "NS"
+    ],
+    "tipo": "Polygon"
+   },
+   "2": {
+    "dif_simetrica_cm2": 0.0,
+    "dir_foto": "EO",
+    "dir_plano": [
+     "EO"
+    ],
+    "tipo": "Polygon"
+   },
+   "3": {
+    "dif_simetrica_cm2": 0.0,
+    "dir_foto": "EO",
+    "dir_plano": [
+     "EO"
+    ],
+    "tipo": "Polygon"
+   },
+   "4": {
+    "dif_simetrica_cm2": 0.0,
+    "dir_foto": "NS",
+    "dir_plano": [
+     "NS"
+    ],
+    "tipo": "Polygon"
+   },
+   "5": {
+    "dif_simetrica_cm2": 0.0,
+    "dir_foto": "NS",
+    "dir_plano": [
+     "NS"
+    ],
+    "tipo": "Polygon"
+   },
+   "6": {
+    "dif_simetrica_cm2": 0.0,
+    "dir_foto": "EO",
+    "dir_plano": [
+     "EO"
+    ],
+    "tipo": "Polygon"
+   },
+   "7": {
+    "dif_simetrica_cm2": 0.0,
+    "dir_foto": "NS",
+    "dir_plano": [
+     "NS"
+    ],
+    "tipo": "Polygon"
+   },
+   "8": {
+    "dif_simetrica_cm2": 0.0,
+    "dir_foto": "EO",
+    "dir_plano": [
+     "EO"
+    ],
+    "tipo": "Polygon"
+   }
+  },
+  "union_ejes_m2": 405.833,
+  "union_ejes_tipo": "Polygon",
+  "union_ejes_huecos_interiores": 0,
+  "escalera_toca_areas_cm2": 0.0,
+  "contorno_contiene_ejes": true,
+  "franja_borde_m2": 7.72,
+  "franja_borde_max_ancho_menor_12cm": true,
+  "esquinas_entrantes": [
+   [
+    [
+     653.2,
+     -170.0
+    ],
+    [
+     662.7,
+     -177.5
+    ]
+   ],
+   [
+    [
+     1007.2,
+     1694.7
+    ],
+    [
+     1001.7,
+     1702.2
+    ]
+   ],
+   [
+    [
+     653.2,
+     1694.7
+    ],
+    [
+     658.7,
+     1702.2
+    ]
+   ]
+  ],
+  "areas_finales_cubren_contorno_cm2": 0.0,
+  "areas_finales_traslape_cm2": 0.0
+ },
+ "fuentes": "plano rev 08-04-2026 (Planta Estructura 1er Nivel: 31 rotulos \"Losa Instadek e=14,35 cm\" + 31 flechas de direccion) + foto del dueno (8 areas marcadas con destacador) + vigas de entrepiso de estructura.js + ficha INSTADECK (avance util 950 mm, alto 63.5 mm)."
+}
