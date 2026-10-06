@@ -56,11 +56,13 @@ de materiales del ingeniero y las diferencias entre láminas están en
 El entrepiso, pieza por pieza, sobre las vigas reales de la estructura: el **marco perimetral de
 perfil C 150×50×3** (también alrededor del hueco de la escalera, cortado donde lo atraviesan los
 pilares del nivel 2) y las **66 planchas Instadeck 0,8** de las 8 áreas marcadas en obra, con la
-sección real de la ficha técnica y la dirección de cada paño del plano del ingeniero.
+sección real de la ficha técnica y la dirección de cada paño del plano del ingeniero. Encima, los
+**610 pernos Nelson** en las vigas receptoras, como indicó el ingeniero (uno en cada valle: la separación
+no venía en sus hojas) y las **17 líneas de alzaprimas** con su criterio de 1,87 m de luz máxima sin apoyo.
 
 - **Armado, despiece y montaje.** El despiece se anima solo o con un deslizador por pieza (marco,
-  placa, separación de planchas y cada área). El montaje coloca el marco tramo por tramo y después
-  las planchas una por una, área por área, con una línea de tiempo.
+  placa, pernos, separación de planchas y cada área). El montaje coloca el marco tramo por tramo y
+  después las planchas una por una y los pernos, área por área, con una línea de tiempo.
 - **Detalle de cada pieza:** sección del C con su peso por metro, detalle del borde sobre la viga,
   sección de la placa con las tablas de la ficha, plan de corte del C en barras de 6 m, y tabla de
   luces y alzaprimas por área según la ficha.

@@ -202,6 +202,8 @@ details.areas[open] summary::before{content:"▾ ";}
           <button class="tg" id="tg-vigas" aria-pressed="true" style="--sw:var(--fig-viga)">Vigas</button>
           <button class="tg" id="tg-marco" aria-pressed="true" style="--sw:var(--fig-c)">Marco C</button>
           <button class="tg" id="tg-placa" aria-pressed="true" style="--sw:var(--fig-placa)">Placa</button>
+          <button class="tg" id="tg-pernos" aria-pressed="true" style="--sw:#6B4FBB">Pernos</button>
+          <button class="tg" id="tg-alz" aria-pressed="false" style="--sw:#2E9E6A">Alzaprimas</button>
           <button class="tg" id="tg-pil2" aria-pressed="true" style="--sw:#C2410C">Pilares N2</button>
           <button class="tg" id="tg-pilares" aria-pressed="false" style="--sw:#E8A07A">Pilares N1</button>
           <button class="tg" id="tg-color" aria-pressed="false">Color por área</button>
@@ -219,6 +221,7 @@ details.areas[open] summary::before{content:"▾ ";}
           <div class="sl"><label for="s-todo"><b>Todo</b></label><input type="range" id="s-todo" min="0" max="1" step="0.01" value="0"><output id="o-todo">0 %</output></div>
           <div class="sl"><label for="s-marco"><span class="sw" style="background:var(--fig-c)"></span>Marco C</label><input type="range" id="s-marco" min="0" max="1" step="0.01" value="0"><output id="o-marco">0 %</output></div>
           <div class="sl"><label for="s-placa"><span class="sw" style="background:var(--fig-placa)"></span>Placa (todas)</label><input type="range" id="s-placa" min="0" max="1" step="0.01" value="0"><output id="o-placa">0 %</output></div>
+          <div class="sl"><label for="s-pernos"><span class="sw" style="background:#6B4FBB"></span>Pernos</label><input type="range" id="s-pernos" min="0" max="1" step="0.01" value="0"><output id="o-pernos">0 %</output></div>
           <div class="sl"><label for="s-sep">Separar planchas</label><input type="range" id="s-sep" min="0" max="1" step="0.01" value="0"><output id="o-sep">0 %</output></div>
           <details class="areas" id="det-areas"><summary>Por área</summary><div id="sl-areas"></div></details>
         </div>
@@ -236,7 +239,7 @@ details.areas[open] summary::before{content:"▾ ";}
 
   <div class="doc" id="doc">
     <nav class="toc" id="toc" aria-label="Secciones">
-      <a href="#resumen">Resumen</a><a href="#areas">Áreas</a><a href="#marco">Marco C</a><a href="#placa">Placa</a><a href="#apoyos">Apoyos</a><a href="#siguiente">Lo que viene</a><a href="#notas">Notas</a>
+      <a href="#resumen">Resumen</a><a href="#areas">Áreas</a><a href="#marco">Marco C</a><a href="#placa">Placa</a><a href="#pernos">Pernos</a><a href="#apoyos">Alzaprimas</a><a href="#siguiente">Lo que viene</a><a href="#notas">Notas</a>
     </nav>
     <div class="doc-in">
 <section id="resumen" style="padding-top:14px">
@@ -257,7 +260,8 @@ details.areas[open] summary::before{content:"▾ ";}
   <figure>
     <svg id="svg-planta" role="img" aria-label="Planta de la losa colaborante con áreas, planchas y marco"></svg>
     <figcaption>Planta de la losa: cada rectángulo delgado es una plancha (avance útil 0,95 m) y la flecha indica hacia dónde corre.
-    En naranjo, el marco de perfil C con el número de cada tramo. Toca una fila de la tabla para verla en el 3D.</figcaption>
+    En amarillo, el marco de perfil C con el número de cada tramo; en morado, los pernos Nelson; en verde segmentado, las líneas
+    de alzaprimas; en rojo, los pilares del nivel 2. Toca una fila de la tabla para verla en el 3D.</figcaption>
   </figure>
   <div class="tw"><table id="tabla-areas"></table></div>
   <div id="dif-areas"></div>
@@ -293,26 +297,39 @@ details.areas[open] summary::before{content:"▾ ";}
   <ul class="small" id="lista-ficha"></ul>
 </section>
 
+<section id="pernos">
+  <h2><span class="n">04</span>Pernos Nelson</h2>
+  <p>Según el ingeniero (consulta del 05-10-2026), los pernos van en las <b>vigas receptoras</b>: las que reciben la carga de
+  la losa. Son las que quedan <b>perpendiculares a las planchas</b>, donde las planchas apoyan; en las vigas paralelas a las
+  planchas no van. Cada perno va soldado sobre el ala de la viga, a través de la placa, <b>en un valle</b>. La separación
+  ("cada cuánto") no viene en estas hojas, así que el modelo pone <b>uno en cada valle</b>.</p>
+  <figure><svg id="svg-perno" role="img" aria-label="Detalle del perno Nelson en el valle de la placa sobre la viga"></svg>
+    <figcaption>Corte a lo largo de una viga receptora, a escala: la plancha cruza la viga y en cada valle va un perno.
+    Medidas del detalle del ingeniero (perno Ø19 × 5", malla ACMA C-188 a 2,5 cm de la cara superior, losa de 15).</figcaption></figure>
+  <div class="specs" id="specs-pernos"></div>
+  <div class="tw"><table class="small" id="tabla-pernos"></table></div>
+  <div class="aviso" id="aviso-pernos"></div>
+</section>
+
 <section id="apoyos">
-  <h2><span class="n">04</span>Apoyos y alzaprimas</h2>
-  <p>La ficha da el largo máximo que la placa aguanta <b>sin alzaprimas</b> mientras el hormigón está fresco, según cuántos
-  tramos seguidos cubre la plancha. Con las vigas reales de cada área queda así:</p>
+  <h2><span class="n">05</span>Alzaprimas</h2>
+  <p>El ingeniero indicó considerar <b>1,87 m como luz máxima sin apoyo</b> mientras el hormigón está fresco. Cada vano
+  entre vigas receptoras se divide en espacios iguales de 1,87 m o menos, y entre espacio y espacio va una línea de
+  alzaprimas. Su ejemplo: 6,88 m entre pilares da 4 espacios de 1,72 m, o sea 3 alzaprimas.</p>
   <div class="tw"><table class="small" id="tabla-apoyos"></table></div>
   <p class="small sub" id="txt-apoyos"></p>
 </section>
 
 <section id="siguiente">
-  <h2><span class="n">05</span>Lo que viene</h2>
-  <div class="pendiente"><b>Pernos conectores (Nelson).</b> Se sueldan a través de la placa al ala de la viga, en los valles
-  de la plancha. La ficha muestra el conector de corte sobre la viga en los bordes perpendicular y paralelo.</div>
-  <div class="pendiente"><b>Malla de retracción.</b> Mínimo 1,8 cm²/m en cada dirección (A63-42H), a 2,5 cm bajo la cara
-  superior según el detalle de la ficha.</div>
+  <h2><span class="n">06</span>Lo que viene</h2>
+  <div class="pendiente"><b>Malla de retracción.</b> Según el detalle del ingeniero: malla ACMA C-188 (1,88 cm²/m), a 2,5 cm de la
+  cara superior de la losa, a la altura de la cabeza de los pernos. La ficha pide como mínimo 1,8 cm²/m en cada dirección.</div>
   <div class="pendiente"><b>Sellado de nervios y hormigón.</b> Nervios sellados en los bordes perpendiculares; hormigón H25
   como mínimo. Volumen estimado en <a href="#placa">Placa</a>.</div>
 </section>
 
 <section id="notas">
-  <h2><span class="n">06</span>Notas</h2>
+  <h2><span class="n">07</span>Notas</h2>
   <ul class="small" id="lista-notas"></ul>
   <footer>Planos y ficha técnica no están en el repositorio: el plano lleva datos personales en la viñeta. Los dibujos de
   esta página están hechos de nuevo a partir de ellos.</footer>
@@ -411,6 +428,8 @@ function maxFlecha(nVanos, et) {
     ['Espesor de losa', coma(ESP, ESP % 1 ? 2 : 0) + ' cm', `Plano: e = ${coma(L.espesor_plano, 2)} cm (placa 6,35 + ${coma(L.espesor_plano - 6.35, 0)} de hormigón) <span class="fuente man">plano</span>`],
     ['Marco perimetral', fm(LARGO_PZ, 1), `C 150×50×3: ${N_PZ} piezas entre pilares en ${L.marco.length} tramos · ≈ ${coma(LARGO_PZ / 100 * KG_M_C, 0)} kg <span class="fuente calc">calculado</span>`],
     ['Planchas Instadeck', N_PLANCHAS + ' planchas', `${coma(M2_PLACA, 1)} m² de placa · ≈ ${miles(M2_PLACA * PL.peso)} kg <span class="fuente calc">calculado</span>`],
+    ['Pernos Nelson', L.pernos.length + ' pernos', `Ø19 × 5" en los valles de las vigas receptoras <span class="fuente man">ingeniero</span>; uno por valle <span class="fuente calc">criterio del modelo</span>`],
+    ['Alzaprimas', (L.alzaprimas || []).length + ' líneas', `${(L.alzaprimas || []).reduce((t, l) => t + l.tramos.length, 0)} tramos de solera, ${fm((L.alzaprimas || []).reduce((t, l) => t + l.tramos.reduce((u, q) => u + q[1] - q[0], 0), 0), 0)}; luz máxima sin apoyo 1,87 m <span class="fuente man">ingeniero</span>`],
     ['Placa', '0,8 mm · 63,5 mm', `Avance útil 950 mm · ${coma(PL.peso, 2)} kg/m² · acero G37 galv. G-90 <span class="fuente man">ficha</span>`],
     ['Hormigón (después)', '≈ ' + coma(SUP / 1e4 * VOL_M2, 1) + ' m³', `${coma(VOL_M2, 4)} m³/m² con losa de ${coma(ESP, 0)} cm, sin pérdidas <span class="fuente calc">calculado</span>`],
   ];
@@ -464,6 +483,9 @@ function dibujarPlanta() {
     txt(g, cx + (a.dir === 'NS' ? 95 : 0), cy + (a.dir === 'NS' ? 17 : -68), String(a.n), { 'font-size': 50, 'text-anchor': 'middle', 'font-weight': 700 });
     g.addEventListener('click', () => API && API.verArea(a.n));
   });
+  // líneas de alzaprimas y pernos
+  (L.alzaprimas || []).forEach(l => { const ns = l.dir === 'NS'; l.tramos.forEach(([t0, t1]) => el('line', { x1: ns ? t0 : l.pos, y1: ns ? l.pos : t0, x2: ns ? t1 : l.pos, y2: ns ? l.pos : t1, style: 'stroke:#2E9E6A;stroke-width:6;stroke-dasharray:24 14' }, svg)); });
+  L.pernos.forEach(p => el('circle', { cx: p.x, cy: p.y, r: 4.5, style: 'fill:#6B4FBB' }, svg));
   // pilares del nivel 2 que nacen sobre las vigas y atraviesan la losa
   PIL2.forEach(p => { const [x0, y0, x1, y1] = p.seccion; el('rect', { x: x0, y: y0, width: x1 - x0, height: y1 - y0, style: 'fill:#C2410C;stroke:var(--paper);stroke-width:2' }, svg); });
   // hueco de escalera
@@ -596,17 +618,87 @@ function dibujarPlaca() {
 dibujarPlaca();
 
 (function tablaApoyos() {
+  const ALZ = L.alzaprimas || [];
+  const ns = a => a.dir === 'NS';
   const filas = L.areas.map(a => {
-    const ap = apoyos(a), nV = ap.vanos.length, maxV = ap.max;
-    const lim = maxSinAlz(nV, HC), ok = maxV <= lim, limF = maxFlecha(nV, ESP), okF = maxV <= limF;
-    return `<tr data-area="${a.n}"><td><span class="sw" style="background:${a.color}"></span><b>${a.n}</b></td><td class="c">${nV || '—'}</td>
-      <td>${ap.vanos.map(v => coma(v / 100, 2)).join(' · ') || '—'}</td><td class="r">${fm(lim, 2)}</td>
-      <td class="${ok ? 'okv' : 'dif'}">${nV ? (ok ? 'no necesita' : 'sí, en luces > ' + coma(lim / 100, 2) + ' m') : 'revisar'}</td>
+    // vanos de cada plancha completa; las planchas con los mismos vanos forman un grupo
+    const grupos = new Map();
+    a.piezas.filter(q => q.ancho > 40).forEach(q => {
+      const c0 = ns(a) ? q.x0 : q.y0, c1 = ns(a) ? q.x1 : q.y1, l0 = ns(a) ? q.y0 : q.x0, l1 = ns(a) ? q.y1 : q.x1;
+      const lin = [...new Set(VIGAS.filter(m => (ns(a) ? Math.abs(m.a[1] - m.b[1]) < 1 : Math.abs(m.a[0] - m.b[0]) < 1)).filter(m => {
+        const lo = ns(a) ? Math.min(m.a[0], m.b[0]) : Math.min(m.a[1], m.b[1]), hi = ns(a) ? Math.max(m.a[0], m.b[0]) : Math.max(m.a[1], m.b[1]), pos = ns(a) ? m.a[1] : m.a[0];
+        return pos >= l0 - 12 && pos <= l1 + 12 && Math.min(hi, c1) - Math.max(lo, c0) >= 0.5 * (c1 - c0);
+      }).map(m => Math.round((ns(a) ? m.a[1] : m.a[0]) * 10) / 10))].sort((p, q) => p - q);
+      const vanos = lin.slice(1).map((v, i) => v - lin[i]).filter(d => d > 20);
+      const k = vanos.map(v => v.toFixed(0)).join('/');
+      if (!grupos.has(k)) grupos.set(k, vanos);
+    });
+    const desc = [...grupos.values()].filter(v => v.length).map(vs => vs.map(v => { const n = Math.ceil(v / L.luz_max_alzaprima - 1e-9); return `${coma(v / 100, 2)}${n > 1 ? ` <span class="sub">→ ${n} × ${coma(v / n / 100, 2)}</span>` : ''}`; }).join(' · '));
+    const maxV = Math.max(0, ...[...grupos.values()].flat()), nV = Math.max(0, ...[...grupos.values()].map(v => v.length));
+    const limF = maxFlecha(nV, ESP), okF = maxV <= limF;
+    const lin = ALZ.filter(l => l.area === a.n), tramos = lin.reduce((t, l) => t + l.tramos.length, 0), metros = lin.reduce((t, l) => t + l.tramos.reduce((u, q) => u + q[1] - q[0], 0), 0);
+    return `<tr data-area="${a.n}"><td><span class="sw" style="background:${a.color}"></span><b>${a.n}</b></td>
+      <td>${desc.join('<br>') || '—'}</td><td class="c"><b>${lin.length || '—'}</b>${tramos > lin.length ? ` <span class="sub">(${tramos} tramos)</span>` : ''}</td><td class="r">${lin.length ? fm(metros, 1) : '—'}</td>
       <td class="r ${okF ? 'okv' : 'dif'}">${fm(limF, 2)}${okF ? '' : ' ✗'}</td></tr>`;
   }).join('');
-  $('#tabla-apoyos').innerHTML = `<thead><tr><th>Área</th><th class="c">Vanos</th><th>Luces entre vigas (m)</th><th class="r">Máx. sin alzaprima</th><th>¿Alzaprimas al hormigonar?</th><th class="r">Máx. por flecha</th></tr></thead><tbody>${filas}</tbody>`;
-  $('#txt-apoyos').innerHTML = `Para cada área, la plancha con la luz más larga: luces entre ejes de las vigas que la sostienen (perpendiculares a ella); "vanos" es cuántos tramos seguidos cubre (1, 2, o 3 y más). "Máx. sin alzaprima" es la tabla de la ficha para el hormigón fresco, interpolada para ${coma(HC, 2)} cm sobre la cresta. "Máx. por flecha" es la distancia máxima entre apoyos de la losa ya terminada (control de deformaciones de la ficha) para ${coma(ESP, 0)} cm de espesor; una ✗ quiere decir que alguna luz la pasa. Es una lectura de las tablas, no un cálculo: alzaprimas y luces las decide el ingeniero.`;
+  const tot = ALZ.length, totT = ALZ.reduce((t, l) => t + l.tramos.length, 0), totM = ALZ.reduce((t, l) => t + l.tramos.reduce((u, q) => u + q[1] - q[0], 0), 0);
+  $('#tabla-apoyos').innerHTML = `<thead><tr><th>Área</th><th>Vanos entre vigas receptoras (m) → espacios</th><th class="c">Líneas</th><th class="r">Metros</th><th class="r">Máx. por flecha</th></tr></thead><tbody>${filas}
+    <tr><td><b>Total</b></td><td></td><td class="c"><b>${tot}</b> <span class="sub">(${totT} tramos)</span></td><td class="r"><b>${fm(totM, 1)}</b></td><td></td></tr></tbody>`;
+  $('#txt-apoyos').innerHTML = `Las líneas corren paralelas a las vigas receptoras, bajo la placa, y se ven en el 3D con la capa <b>Alzaprimas</b>. Donde una línea pasa bajo una viga, la solera se corta en dos tramos. Cuando un área tiene planchas con vanos distintos (el área 5 entre los ejes 2–4 y entre 4–5), cada grupo va en su renglón. "Máx. por flecha" es la distancia máxima entre apoyos de la losa terminada según la ficha (control de deformaciones, ${coma(ESP, 0)} cm de espesor); ninguna luz la pasa. Cada cuánto van los puntales a lo largo de cada solera no viene en la indicación: en el 3D se dibuja solo un puntal en cada extremo de cada tramo.`;
 })();
+
+(function pernos() {
+  const P = L.pernos, PN = L.perno;
+  const etiqueta = id => { const m = id.match(/^V-([^-]+)-(.+)$/); return m ? `${m[1].replace('ap', "a'")} (${m[2].replace(/-/g, '–').replace(/ap/g, "a'")})` : id; };
+  const filas = L.areas.map(a => {
+    const lista = P.filter(p => p.area === a.n);
+    const vigas = {}; lista.forEach(p => { vigas[p.viga] = (vigas[p.viga] || 0) + 1; });
+    const txt = Object.entries(vigas).sort((p, q) => p[0] < q[0] ? -1 : 1).map(([v, n]) => `${etiqueta(v)}: ${n}`).join(' · ');
+    return `<tr data-area="${a.n}"><td><span class="sw" style="background:${a.color}"></span><b>${a.n}</b></td><td class="c">${a.dir === 'NS' ? '↕' : '↔'}</td><td class="small">${txt}</td><td class="r"><b>${lista.length}</b></td></tr>`;
+  }).join('');
+  $('#tabla-pernos').innerHTML = `<thead><tr><th>Área</th><th class="c">Planchas</th><th>Vigas receptoras: pernos</th><th class="r">Pernos</th></tr></thead><tbody>${filas}
+    <tr><td colspan="3"><b>Total</b></td><td class="r"><b>${P.length}</b></td></tr></tbody>`;
+  const nVigas = new Set(P.map(p => p.viga)).size;
+  $('#specs-pernos').innerHTML = [
+    ['Pernos', P.length, `en ${nVigas} tramos de viga receptora <span class="fuente calc">conteo</span>`],
+    ['Perno', 'Ø19 × 5"', `Ø 3/4" × 5" <span class="fuente man">ingeniero</span>; la cotización lo trae de 5 3/16" (${coma(PN.largo_compra, 0)} mm), que queda en ≈ ${coma(PN.largo, 0)} mm al soldarlo <span class="fuente med">cotización</span>`],
+  ].map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
+  const cot = L.cotizacion_pernos || 850;
+  $('#aviso-pernos').innerHTML = `<b>Contra la cotización.</b> La cotización de pernos pide <b>${cot}</b>; con un perno por valle salen <b>${P.length}</b> (${cot - P.length} menos; la cotización trae un ${coma(100 * (cot - P.length) / P.length, 0)} % más). El ingeniero dice que la separación ya la especificó, pero no está en estas hojas: si no es uno por valle (por ejemplo, dos por valle en algunas vigas), con esa indicación se recalcula al tiro. Donde dos áreas apoyan en la misma viga, cada valle lleva un solo perno, y el borde del perno queda al menos a 2,5 cm de la cara de los pilares.`;
+})();
+
+function dibujarPerno() {
+  // corte a lo largo de la viga receptora: la plancha la cruza; mm, y hacia arriba = negativo en el SVG
+  const svg = $('#svg-perno'), PN = L.perno, H = ESP * 10, pr = PL.perfil;
+  svg.setAttribute('viewBox', '-150 -230 1250 330');
+  el('rect', { x: -20, y: 0, width: 1000, height: 10.7, style: 'fill:var(--fig-viga)' }, svg);
+  el('rect', { x: -20, y: 10.7, width: 1000, height: 60, style: 'fill:var(--fig-viga);opacity:.35' }, svg);
+  el('rect', { x: -20, y: -H, width: 1000, height: H, style: 'fill:var(--fig-horm);opacity:.35;stroke:var(--fig-soft);stroke-dasharray:6 4;stroke-width:1' }, svg);
+  el('line', { x1: -20, x2: 980, y1: -(H - 25), y2: -(H - 25), style: 'stroke:var(--fig-ink);stroke-width:2;stroke-dasharray:10 5' }, svg);
+  let d = ''; pr.forEach(([x, y], i) => { d += (i ? ' L ' : 'M ') + x + ' ' + (-y); });
+  el('path', { d, style: 'fill:none;stroke:var(--fig-placa);stroke-width:3;stroke-linejoin:round' }, svg);
+  L.valles_mm.forEach(v => {
+    const g = el('g', {}, svg);
+    el('rect', { x: v - PN.d / 2, y: -(PN.largo - PN.cabeza_h), width: PN.d, height: PN.largo - PN.cabeza_h, style: 'fill:#6B4FBB' }, g);
+    el('rect', { x: v - PN.cabeza_d / 2, y: -PN.largo, width: PN.cabeza_d, height: PN.cabeza_h, rx: 2, style: 'fill:#6B4FBB' }, g);
+    el('path', { d: `M ${v - 14} 0 L ${v - 9.5} -6 L ${v + 9.5} -6 L ${v + 14} 0 Z`, style: 'fill:#6B4FBB;opacity:.7' }, g);
+  });
+  const cota = (x1, y1, x2, y2, s, dx, dy, rot) => {
+    el('line', { x1, y1, x2, y2, style: 'stroke:var(--fig-ink);stroke-width:1' }, svg);
+    [[x1, y1], [x2, y2]].forEach(([x, y]) => el('line', { x1: x - 5, y1: y + 5, x2: x + 5, y2: y - 5, style: 'stroke:var(--fig-ink);stroke-width:1.2' }, svg));
+    const tt = txt(svg, (x1 + x2) / 2 + dx, (y1 + y2) / 2 + dy, s, { 'font-size': 15, 'text-anchor': 'middle', 'font-weight': 600 });
+    if (rot) tt.setAttribute('transform', `rotate(-90 ${(x1 + x2) / 2 + dx} ${(y1 + y2) / 2 + dy})`);
+  };
+  cota(-50, 0, -50, -H, coma(H, 0) + ' losa', -12, 0, true);
+  cota(-95, 0, -95, -PN.largo, coma(PN.largo, 0) + ' perno', -12, 0, true);
+  cota(1000, -H, 1000, -(H - 25), '25', 22, 5);
+  cota(L.valles_mm[1], -175, L.valles_mm[2], -175, coma(L.valles_mm[2] - L.valles_mm[1], 0) + ' entre valles', 0, -8);
+  txt(svg, 330, 50, 'viga receptora (IPE), corte a lo largo', { 'font-size': 15, style: 'fill:var(--paper)' });
+  txt(svg, 1010, -(H - 25) + 30, 'malla C-188', { 'font-size': 14, class: 'txs' });
+  txt(svg, 735, -20, 'placa Instadeck', { 'font-size': 14, class: 'txs' });
+  txt(svg, L.valles_mm[1] + 22, -PN.largo + 32, 'perno Ø19 × 5"', { 'font-size': 14, style: 'fill:#6B4FBB;font-weight:600' });
+}
+dibujarPerno();
 
 $('#lista-notas').innerHTML = (L.notas || []).map(n => `<li>${n}</li>`).join('');
 
@@ -647,6 +739,8 @@ function iniciar3D() {
     c: std(dark ? 0xF2C14E : 0xE3A622, { roughness: 0.45, metalness: 0.35 }),
     placa: std(dark ? 0xB9C0C9 : 0xC5CBD3, { roughness: 0.35, metalness: 0.55, side: T.DoubleSide }),
     sel: std(0x4D8FEA, { emissive: 0x153563, side: T.DoubleSide }),
+    perno: std(dark ? 0xA48AF0 : 0x6B4FBB, { roughness: 0.4, metalness: 0.5 }),
+    alz: std(dark ? 0x5CC795 : 0x2E9E6A, { roughness: 0.7, metalness: 0.1 }),
   };
   const matArea = {};
   L.areas.forEach(a => { matArea[a.n] = std(new T.Color(a.color).getHex(), { roughness: 0.45, metalness: 0.2, side: T.DoubleSide }); });
@@ -773,6 +867,45 @@ function iniciar3D() {
       PLACAS.push({ a, p, k, grupo: gp, mesh: me, ancho: xL.clone(), centro: origen.clone().addScaledVector(xL, p.ancho / 200).addScaledVector(zL, largo / 2) });
     });
   });
+  // ---------- pernos Nelson: uno por valle sobre cada viga receptora (instancias por área) ----------
+  const gPernos = new T.Group(); scene.add(gPernos);
+  const PN = L.perno, mm = v => v / 1000;
+  const geoVast = new T.CylinderGeometry(mm(PN.d / 2), mm(PN.d / 2), mm(PN.largo - PN.cabeza_h), 12);
+  geoVast.translate(0, mm((PN.largo - PN.cabeza_h) / 2), 0);
+  const geoCab = new T.CylinderGeometry(mm(PN.cabeza_d / 2), mm(PN.cabeza_d / 2), mm(PN.cabeza_h), 16);
+  geoCab.translate(0, mm(PN.largo - PN.cabeza_h / 2), 0);
+  const geoCol = new T.CylinderGeometry(mm(14), mm(15), mm(6), 12); geoCol.translate(0, mm(3), 0);
+  const PERNOS_AREA = {};
+  const mtx = new T.Matrix4();
+  L.areas.forEach(a => {
+    const lista = L.pernos.filter(p => p.area === a.n); if (!lista.length) return;
+    const g = new T.Group(); gPernos.add(g);
+    [geoVast, geoCab, geoCol].forEach(geo => {
+      const im = new T.InstancedMesh(geo, MAT.perno, lista.length);
+      lista.forEach((p, i) => { mtx.makeTranslation(p.x / 100, (Z0 + PL.espesor / 10) / 100, p.y / 100); im.setMatrixAt(i, mtx); });
+      im.userData = { tipo: 'perno', area: a.n, lista };
+      g.add(im);
+    });
+    PERNOS_AREA[a.n] = { g, lista };
+  });
+
+  // ---------- alzaprimas: una solera bajo la placa en cada línea, con puntales en sus extremos ----------
+  const gAlz = new T.Group(); scene.add(gAlz); gAlz.visible = false;
+  (L.alzaprimas || []).forEach(l => {
+    const ns = l.dir === 'NS';
+    l.tramos.forEach(([t0, t1], j) => {
+      const largo = (t1 - t0) / 100;
+      const sol = new T.Mesh(new T.BoxGeometry(ns ? largo : 0.09, 0.09, ns ? 0.09 : largo), MAT.alz);
+      sol.position.set(ns ? (t0 + t1) / 200 : l.pos / 100, Z0 / 100 - 0.045, ns ? l.pos / 100 : (t0 + t1) / 200);
+      const info = `<b>Alzaprimas</b> · área ${l.area}${l.tramos.length > 1 ? `, tramo ${j + 1} de ${l.tramos.length}` : ''}<div class="d">Solera de ${fm(t1 - t0, 2)}; divide un vano de ${fm(l.vano, 2)} en ${l.espacios} espacios de ${fm(l.vano / l.espacios, 2)} (máximo sin apoyo ${fm(L.luz_max_alzaprima, 2)}, indicación del ingeniero)</div>`;
+      sol.userData.info = info; gAlz.add(sol);
+      [t0 + 12, t1 - 12].forEach(c => {
+        const pu = new T.Mesh(new T.CylinderGeometry(0.03, 0.03, Z0 / 100 - 0.09, 8), MAT.alz);
+        pu.position.set(ns ? c / 100 : l.pos / 100, (Z0 / 100 - 0.09) / 2, ns ? l.pos / 100 : c / 100); pu.userData.info = info; gAlz.add(pu);
+      });
+    });
+  });
+
   const CENTRO_LOSA = (() => { const c = new T.Vector3(); PLACAS.forEach(q => c.add(q.centro)); return c.multiplyScalar(1 / PLACAS.length); })();
   const CENTRO_AREA = {};
   L.areas.forEach(a => { CENTRO_AREA[a.n] = W(a.centro[0], a.centro[1], Z0 + ESP * 10); });
@@ -780,11 +913,16 @@ function iniciar3D() {
   // =====================================================================
   //  ESTADO: despiece (sliders) y montaje (línea de tiempo)
   // =====================================================================
-  const est = { modo: 'armado', sC: 0, sP: 0, sep: 0, sA: {}, t: 0, play: false, vel: 1, colorArea: false, etq: true, sel: null };
+  const est = { modo: 'armado', sC: 0, sP: 0, sS: 0, sep: 0, sA: {}, t: 0, play: false, vel: 1, colorArea: false, etq: true, sel: null };
   L.areas.forEach(a => { est.sA[a.n] = 0; });
   const ease = u => u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
   // orden de montaje: marco tramo por tramo, después cada área plancha por plancha
-  const SECUENCIA = [...MARCO.map(m => ({ tipo: 'C', m })), ...PLACAS.map(q => ({ tipo: 'P', q }))];
+  const SECUENCIA = [...MARCO.map(m => ({ tipo: 'C', m }))];
+  L.areas.forEach(a => {
+    PLACAS.filter(q => q.a.n === a.n).forEach(q => SECUENCIA.push({ tipo: 'P', q }));
+    if (PERNOS_AREA[a.n]) SECUENCIA.push({ tipo: 'S', n: a.n, pa: PERNOS_AREA[a.n] });
+  });
+  const IDX = new Map(); SECUENCIA.forEach((s, i) => IDX.set(s.q || s.m || s.pa, i));
   const NSEC = SECUENCIA.length, VENT = Math.min(0.12, 6 / NSEC);
   SECUENCIA.forEach((s, i) => { s.t0 = i / NSEC * (1 - VENT); });
 
@@ -792,14 +930,14 @@ function iniciar3D() {
     const mont = est.modo === 'montaje';
     MARCO.forEach((m, i) => {
       let off = new T.Vector3(), vis = true;
-      if (mont) { const s = SECUENCIA[i], u = Math.max(0, Math.min(1, (est.t - s.t0) / VENT)); vis = est.t >= s.t0; off.y = (1 - ease(u)) * 1.4; }
+      if (mont) { const s = SECUENCIA[IDX.get(m)], u = Math.max(0, Math.min(1, (est.t - s.t0) / VENT)); vis = est.t >= s.t0; off.y = (1 - ease(u)) * 1.4; }
       else if (est.modo === 'despiece') { off.y = est.sC * 0.9; off.addScaledVector(m.normal, -est.sC * 0.6); }
       m.grupo.position.copy(off); m.grupo.visible = vis;
     });
     PLACAS.forEach((q, i) => {
       let off = new T.Vector3(), vis = true;
       if (mont) {
-        const s = SECUENCIA[MARCO.length + i], u = Math.max(0, Math.min(1, (est.t - s.t0) / VENT)); vis = est.t >= s.t0;
+        const s = SECUENCIA[IDX.get(q)], u = Math.max(0, Math.min(1, (est.t - s.t0) / VENT)); vis = est.t >= s.t0;
         const e = 1 - ease(u); off.y = e * 1.6; off.addScaledVector(q.ancho, e * 0.8);
       } else if (est.modo === 'despiece') {
         const sa = est.sA[q.a.n] || 0;
@@ -810,11 +948,22 @@ function iniciar3D() {
       }
       q.grupo.position.copy(off); q.grupo.visible = vis;
     });
+    Object.entries(PERNOS_AREA).forEach(([n, pa]) => {
+      let off = new T.Vector3(), vis = true;
+      if (mont) { const s = SECUENCIA[IDX.get(pa)], u = Math.max(0, Math.min(1, (est.t - s.t0) / VENT)); vis = est.t >= s.t0; off.y = (1 - ease(u)) * 0.9; }
+      else if (est.modo === 'despiece') {
+        const sa = est.sA[n] || 0;
+        off.y = est.sP * 1.8 + sa * 1.1 + est.sS * 0.9;
+        const h = new T.Vector3().subVectors(CENTRO_AREA[n], CENTRO_LOSA); h.y = 0; off.addScaledVector(h, sa * 0.35);
+      }
+      pa.g.position.copy(off); pa.g.visible = vis;
+    });
     if (mont) {
       const i = Math.min(NSEC - 1, Math.max(0, Math.floor(est.t / (1 - VENT) * NSEC)));
       const s = SECUENCIA[i];
       $('#m-txt').innerHTML = est.t >= 0.999 ? '<b>Listo:</b> marco y placas en su lugar. Siguen pernos, malla y hormigón.'
         : s.tipo === 'C' ? `<b>Marco C</b> · pieza ${s.m.nombre} (${fm(s.m.pz.largo, 2)}) · ${i + 1} de ${MARCO.length}`
+        : s.tipo === 'S' ? `<b>Área ${s.n}</b> · ${s.pa.lista.length} pernos Nelson soldados en los valles, sobre las vigas receptoras`
         : `<b>Área ${s.q.a.n}</b> · plancha ${s.q.p.k} de ${s.q.a.planchas}${s.q.p.cortada ? ' (cortada)' : ''} · ${fm(s.q.p.largo, 2)} · pieza ${i + 1} de ${NSEC}`;
     }
     pedir();
@@ -886,10 +1035,16 @@ function iniciar3D() {
     if (!abajo || Math.hypot(e.clientX - abajo[0], e.clientY - abajo[1]) > 5) return;
     const r = renderer.domElement.getBoundingClientRect();
     ptr.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1); ray.setFromCamera(ptr, camera);
-    const objs = []; [gMarco, gPlaca, gVigas, gPilares, gPil2].forEach(g => g.visible && g.traverse(o => { if (o.isMesh && o.visible && o.parent.visible) objs.push(o); }));
+    const objs = []; [gMarco, gPlaca, gPernos, gAlz, gVigas, gPilares, gPil2].forEach(g => g.visible && g.traverse(o => { if (o.isMesh && o.visible && o.parent.visible) objs.push(o); }));
     const hit = ray.intersectObjects(objs, false)[0];
     if (!hit) { seleccionar(null); return; }
     const u = hit.object.userData;
+    if (u.tipo === 'perno') {
+      const p = u.lista[hit.instanceId];
+      const enViga = L.pernos.filter(q => q.viga === p.viga).length;
+      seleccionar('otra', null, `<b>Perno Nelson Ø19 × 5"</b> · área ${p.area}<div class="d">Sobre la viga ${p.viga.replace(/^V-/, '')} (${p.perfil}), en un valle de la placa · ${enViga} pernos en esa viga</div>`, e.clientX - r.left, e.clientY - r.top);
+      return;
+    }
     seleccionar(u.tipo === 'C' ? 'C' : u.tipo === 'placa' ? 'area' : 'otra', u.tipo === 'C' ? u.id : u.area, u.info, e.clientX - r.left, e.clientY - r.top);
   });
 
@@ -925,7 +1080,7 @@ function iniciar3D() {
   // ---------- controles ----------
   const pct = v => Math.round(v * 100) + ' %';
   function fijarDespiece(v, desdeAuto) {
-    est.sC = Math.min(1, v * 1.6); est.sP = Math.max(0, Math.min(1, v * 1.6 - 0.25)); est.sep = Math.max(0, v * 1.4 - 0.4);
+    est.sC = Math.min(1, v * 1.6); est.sP = Math.max(0, Math.min(1, v * 1.6 - 0.25)); est.sS = Math.max(0, Math.min(1, v * 1.6 - 0.45)); est.sep = Math.max(0, v * 1.4 - 0.4);
     L.areas.forEach((a, i) => { est.sA[a.n] = Math.max(0, Math.min(1, v * 1.5 - 0.3 - i * 0.02)); });
     sincronizarSliders(v); aplicar();
     if (!desdeAuto) auto = null;
@@ -935,11 +1090,12 @@ function iniciar3D() {
     $('#s-marco').value = est.sC; $('#o-marco').textContent = pct(est.sC);
     $('#s-placa').value = est.sP; $('#o-placa').textContent = pct(est.sP);
     $('#s-sep').value = est.sep; $('#o-sep').textContent = pct(est.sep);
+    $('#s-pernos').value = est.sS; $('#o-pernos').textContent = pct(est.sS);
     L.areas.forEach(a => { const s = $('#s-a' + a.n); if (s) { s.value = est.sA[a.n]; $('#o-a' + a.n).textContent = pct(est.sA[a.n]); } });
   }
   $('#sl-areas').innerHTML = L.areas.map(a => `<div class="sl"><label for="s-a${a.n}"><span class="sw" style="background:${a.color}"></span>Área ${a.n}</label><input type="range" id="s-a${a.n}" min="0" max="1" step="0.01" value="0"><output id="o-a${a.n}">0 %</output></div>`).join('');
   $('#s-todo').addEventListener('input', e => fijarDespiece(+e.target.value));
-  [['#s-marco', 'sC'], ['#s-placa', 'sP'], ['#s-sep', 'sep']].forEach(([q, k]) => $(q).addEventListener('input', e => { auto = null; est[k] = +e.target.value; sincronizarSliders(); aplicar(); }));
+  [['#s-marco', 'sC'], ['#s-placa', 'sP'], ['#s-pernos', 'sS'], ['#s-sep', 'sep']].forEach(([q, k]) => $(q).addEventListener('input', e => { auto = null; est[k] = +e.target.value; sincronizarSliders(); aplicar(); }));
   L.areas.forEach(a => $('#s-a' + a.n).addEventListener('input', e => { auto = null; est.sA[a.n] = +e.target.value; sincronizarSliders(); aplicar(); }));
   $('#d-auto').addEventListener('click', () => { if (auto) { auto = null; $('#d-auto').textContent = '▶ Automático'; } else { auto = performance.now(); $('#d-auto').textContent = '❚❚ Pausa'; } });
   $('#d-cero').addEventListener('click', () => { auto = null; $('#d-auto').textContent = '▶ Automático'; fijarDespiece(0); });
@@ -961,11 +1117,13 @@ function iniciar3D() {
   tog('#tg-placa', on => { gPlaca.visible = on; });
   tog('#tg-pilares', on => { gPilares.visible = on; });
   tog('#tg-pil2', on => { gPil2.visible = on; });
+  tog('#tg-pernos', on => { gPernos.visible = on; });
+  tog('#tg-alz', on => { gAlz.visible = on; });
   tog('#tg-color', on => { est.colorArea = on; seleccionar(est.sel && est.sel.tipo, est.sel && est.sel.id); });
   tog('#tg-etq', on => { est.etq = on; });
   $('#tg-fit').addEventListener('click', () => { const [p, t] = vistaGeneral(); irA(p, t); });
   addEventListener('keydown', e => { if (e.key === 'Escape') seleccionar(null); });
-  $('#txt-armado').innerHTML = `Marco C en ${MARCO.length} piezas (${TRAMOS.length} tramos) · ${N_PLANCHAS} planchas (${PLACAS.length} piezas) en ${L.areas.length} áreas · ${PIL2.length} pilares del nivel 2 la atraviesan. Prueba <b>Despiece</b> o <b>Montaje</b>.`;
+  $('#txt-armado').innerHTML = `Marco C en ${MARCO.length} piezas (${TRAMOS.length} tramos) · ${N_PLANCHAS} planchas (${PLACAS.length} piezas) en ${L.areas.length} áreas · ${L.pernos.length} pernos Nelson · ${PIL2.length} pilares del nivel 2 la atraviesan. Prueba <b>Despiece</b> o <b>Montaje</b>.`;
 
   // ---------- arranque ----------
   $('#v-carga').hidden = true; $('#v-ui').hidden = false;

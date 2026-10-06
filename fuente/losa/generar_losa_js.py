@@ -12,7 +12,7 @@ La distribución de planchas NO viene del JSON: se calcula aquí, igual para tod
 
 Uso (desde fuente/losa): python3 generar_losa_js.py losa.json placa.json ../../losa.js textos.json
 """
-import sys, json, math
+import sys, json, math, functools
 
 UTIL = 95.0          # cm, avance útil
 ALA_C = 5.0          # cm, ala del perfil C (la plancha llega a su punta)
@@ -172,6 +172,148 @@ def piezas_marco(c, pilares):
     if L - cur >= 10.0: trozos.append([round(cur, 1), round(L, 1)])
     return [{'s0': t[0], 's1': t[1], 'largo': round(t[1] - t[0], 1)} for t in trozos], [h[2] for h in cortes], muescas
 
+
+# ---------------------------------------------------------------------------------------------
+# Pernos Nelson (indicación del ingeniero, consulta del 05-10-2026): van en las VIGAS RECEPTORAS,
+# las que reciben la carga de la losa = las perpendiculares a las planchas (no las paralelas), uno
+# en cada valle de la placa que cruza la viga. Perno Ø19 (3/4") x 5" sobre el ala de la IPE.
+# Alzaprimas: luz máxima sin apoyo 1,87 m → cada vano entre vigas receptoras se divide en
+# ceil(L / 1,87) espacios iguales y lleva ese número menos uno de líneas de alzaprimas.
+# ---------------------------------------------------------------------------------------------
+LUZ_MAX_ALZ = 187.0
+
+def _vigas_ejes():
+    import os, re
+    raiz = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'estructura.js')
+    E = json.loads(re.sub(r'^const DATA_ESTRUCTURA = |;\s*$', '', open(raiz).read().strip()))
+    out = []
+    for m in E['miembros']:
+        if m['c'] != 'viga' or 'entrepiso' not in (m.get('d') or ''): continue
+        (x0, y0), (x1, y1) = m['a'][:2], m['b'][:2]
+        b = E['perfiles'].get(m['p'], {}).get('b', 10)
+        if abs(y0 - y1) < 1: out.append({'id': m['id'], 'p': m['p'], 'b': b, 'dir': 'EO', 'pos': y0, 'lo': min(x0, x1), 'hi': max(x0, x1)})
+        elif abs(x0 - x1) < 1: out.append({'id': m['id'], 'p': m['p'], 'b': b, 'dir': 'NS', 'pos': x0, 'lo': min(y0, y1), 'hi': max(y0, y1)})
+    return out
+VIGAS = _vigas_ejes()
+
+def _lineas(vigas):
+    """Une los tramos colineales y seguidos de una misma viga (el eje 1 viene en 5 piezas entre F y B)."""
+    out = []
+    for v in sorted(vigas, key=lambda v: (v['dir'], round(v['pos'], 1), v['lo'])):
+        u = out[-1] if out else None
+        if u and u['dir'] == v['dir'] and abs(u['pos'] - v['pos']) < 0.6 and v['lo'] <= u['hi'] + 1.0:
+            u['hi'] = max(u['hi'], v['hi']); u['tramos'].append(v)
+        else:
+            out.append({'dir': v['dir'], 'pos': v['pos'], 'lo': v['lo'], 'hi': v['hi'], 'tramos': [v]})
+    return out
+LINEAS = _lineas(VIGAS)
+
+def tramo_en(linea, c):
+    for v in linea['tramos']:
+        if v['lo'] - 0.5 <= c <= v['hi'] + 0.5: return v
+    return None
+
+def valles_mm(perfil):
+    """Centro del tramo plano de cada valle donde va el perno (en los valles partidos por el rigidizador,
+    el primer lado). Devuelve [42.1, 286.1, 603.1, 918.9] para la Instadeck."""
+    flats = [[x0, x1] for (x0, y0), (x1, y1) in zip(perfil, perfil[1:]) if y0 <= 0.7 and y1 <= 0.7 and x1 - x0 > 5]
+    valles = []
+    for f in flats:
+        if valles and f[0] - valles[-1][-1][1] < 20: valles[-1].append(f)
+        else: valles.append([f])
+    return [round((v[0][0] + v[0][1]) / 2, 1) for v in valles]
+
+def receptoras(area, q):
+    """Vigas perpendiculares a la plancha q que caen dentro de su largo (± 12 cm) y pasan bajo ella
+    (cubren al menos la mitad de su ancho)."""
+    ns = area['dir'] == 'NS'
+    l0, l1 = (q['y0'], q['y1']) if ns else (q['x0'], q['x1'])
+    c0, c1 = (q['x0'], q['x1']) if ns else (q['y0'], q['y1'])
+    return [v for v in LINEAS if v['dir'] == ('EO' if ns else 'NS') and l0 - 12 <= v['pos'] <= l1 + 12
+            and min(v['hi'], c1) - max(v['lo'], c0) >= 0.5 * (c1 - c0)]
+
+def _dist_rect(x, y, r):
+    dx = max(r[0] - x, 0, x - r[2]); dy = max(r[1] - y, 0, y - r[3])
+    return math.hypot(dx, dy)
+
+PERNO_D = 1.905           # cm, vástago Ø19 (3/4")
+HOLGURA_PILAR = 2.5       # cm entre el borde del vástago y la cara del pilar
+JUNTAR_VALLE = 12.0       # cm: dos candidatos más cerca que esto sobre la misma viga son el mismo valle
+                          # (los valles de una plancha están a 24,4 cm o más entre sí)
+
+def pernos_y_alzaprimas(areas, pilares, perfil):
+    VAL = valles_mm(perfil)
+    cand, alz = [], []
+    for a in areas:
+        ns = a['dir'] == 'NS'
+        # origen de cada plancha completa (k): las piezas de una plancha partida conservan sus valles
+        origen = {}
+        for q in a['piezas']:
+            o = q['x0'] if ns else q['y1']
+            origen[q['k']] = min(origen.get(q['k'], o), o) if ns else max(origen.get(q['k'], o), o)
+        for q in a['piezas']:
+            o = origen[q['k']]
+            c0, c1 = (q['x0'], q['x1']) if ns else (q['y0'], q['y1'])
+            vs = receptoras(a, q)
+            for vi, v in enumerate(VAL):
+                c = o + v / 10 if ns else o - v / 10
+                if not (c0 + 1.0 <= c <= c1 - 1.0): continue       # el valle tiene que caer en esta pieza
+                for L in vs:
+                    t = tramo_en(L, c)
+                    if not t: continue
+                    x, y = (c, L['pos']) if ns else (L['pos'], c)
+                    if any(_dist_rect(x, y, p['seccion']) < HOLGURA_PILAR + PERNO_D / 2 for p in pilares): continue
+                    cand.append({'x': round(x, 1), 'y': round(y, 1), 'area': a['n'], 'viga': t['id'], 'perfil': t['p'],
+                                 'linea': (L['dir'], round(L['pos'], 1)), 'c': c, 'union': vi == len(VAL) - 1})
+            # alzaprimas: vanos entre vigas receptoras consecutivas de esta plancha
+            pos = sorted(set(round(v['pos'], 1) for v in vs))
+            for p0, p1 in zip(pos, pos[1:]):
+                Lv = p1 - p0
+                n = math.ceil(Lv / LUZ_MAX_ALZ - 1e-9)
+                for k in range(1, n):
+                    alz.append({'area': a['n'], 'dir': a['dir'], 'pos': round(p0 + Lv * k / n, 1), 'a0': c0, 'a1': c1, 'vano': round(Lv, 1), 'espacios': n})
+    # un perno por valle real en cada línea de viga, sin importar de qué área venga el candidato;
+    # en el valle de la unión se prefiere la mitad derecha de la plancha anterior (918,9 mm), igual en todas las áreas
+    pernos = []
+    por_linea = {}
+    for c in cand: por_linea.setdefault(c['linea'], []).append(c)
+    for linea, cs in por_linea.items():
+        cs.sort(key=lambda c: c['c'])
+        grupo = []
+        def cerrar(g):
+            if not g: return
+            elegido = next((c for c in g if c['union']), g[0])
+            pernos.append({k: elegido[k] for k in ('x', 'y', 'area', 'viga', 'perfil')})
+        for c in cs:
+            if grupo and abs(c['c'] - grupo[0]['c']) >= JUNTAR_VALLE:
+                cerrar(grupo); grupo = []
+            grupo.append(c)
+        cerrar(grupo)
+    pernos.sort(key=lambda p: (p['area'], p['viga'], p['x'], p['y']))
+    # líneas de alzaprimas: juntar las de planchas vecinas en una sola línea y cortarla donde pasa
+    # bajo una viga paralela a las planchas (la solera no puede atravesarla)
+    lineas = {}
+    for l in alz:
+        k = (l['area'], l['dir'], l['pos'])
+        if k in lineas: lineas[k]['a0'] = min(lineas[k]['a0'], l['a0']); lineas[k]['a1'] = max(lineas[k]['a1'], l['a1'])
+        else: lineas[k] = dict(l)
+    out = []
+    for l in sorted(lineas.values(), key=lambda l: (l['area'], l['pos'])):
+        ns = l['dir'] == 'NS'
+        cortes = []
+        for v in VIGAS:
+            if v['dir'] != ('NS' if ns else 'EO'): continue           # vigas paralelas a las planchas
+            if not (v['lo'] - 0.5 <= l['pos'] <= v['hi'] + 0.5): continue
+            if l['a0'] + 5 < v['pos'] < l['a1'] - 5: cortes.append((v['pos'] - v['b'] / 2, v['pos'] + v['b'] / 2))
+        tramos, cur = [], l['a0']
+        for c0, c1 in sorted(cortes):
+            if c0 - cur > 5: tramos.append([round(cur, 1), round(c0, 1)])
+            cur = max(cur, c1)
+        if l['a1'] - cur > 5: tramos.append([round(cur, 1), round(l['a1'], 1)])
+        l['tramos'] = tramos
+        out.append(l)
+    return VAL, pernos, out
+
 def main(f_losa, f_placa, salida, f_extra=None):
     L = json.load(open(f_losa)); P = json.load(open(f_placa))
     X = json.load(open(f_extra)) if f_extra else {}
@@ -196,19 +338,31 @@ def main(f_losa, f_placa, salida, f_extra=None):
                       'vigas': c['vigas'], 'piezas': pz, 'pilares': cortan, 'muescas': muescas})
     pilares = [{'id': p['id'], 'perfil': p['perfil'], 'x': p['x'], 'y': p['y'], 'seccion': p['seccion'], 'borde': p in pil_borde}
                for p in pil_borde + pil_dentro]
+    valles, pernos, alzaprimas = pernos_y_alzaprimas(areas, pil_borde + pil_dentro, P['perfil'])
     out = {
         'fuente': L.get('fuentes', ''),
         'z_viga': 346, 'espesor': 15, 'espesor_plano': 14.35,
         'perimetro': perim, 'hueco_escalera': L.get('hueco_escalera'), 'hueco_interior': None,
         'marco': marco, 'areas': areas, 'pilares_n2': pilares, 'grilla': X.get('grilla', {}),
         'perfilC': {'h': 150, 'b': 50, 't': 3, 'r': 3},
+        'pernos': pernos, 'valles_mm': valles, 'perno': {'d': 19.05, 'largo': 127.0, 'largo_compra': 131.8, 'cabeza_d': 31.75, 'cabeza_h': 9.5},
+        'alzaprimas': alzaprimas, 'luz_max_alzaprima': LUZ_MAX_ALZ,
         'placa': P, 'diferencias': X.get('diferencias', []), 'notas': X.get('notas', []), 'cotizacion': X.get('cotizacion'),
+        'cotizacion_pernos': X.get('cotizacion_pernos'),
     }
+    cifras = {'{pernos}': str(len(pernos)), '{alz_lineas}': str(len(alzaprimas)), '{alz_tramos}': str(sum(len(l['tramos']) for l in alzaprimas)),
+              '{alz_metros}': f"{sum(t[1] - t[0] for l in alzaprimas for t in l['tramos']) / 100:.0f}".replace('.', ',')}
+    for clave in ('diferencias', 'notas'):
+        out[clave] = [functools.reduce(lambda t, kv: t.replace(*kv), cifras.items(), x) for x in out[clave]]
     js = '// Generado por fuente/losa/generar_losa_js.py — no editar a mano.\nconst DATA_LOSA = ' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n'
     open(salida, 'w').write(js)
     for a in areas:
         print(f"Área {a['n']}: {a['dir']} ancho {a['ancho']/100:.2f} m → {a['planchas']} planchas; piezas {len(a['piezas'])}; largos {sorted(set(p['largo'] for p in a['piezas']))}; con pilar {sum(1 for p in a['piezas'] if p['pilares'])}")
     for c in marco: print(c['id'], c['largo'], '→', [p['largo'] for p in c['piezas']], 'cortan', c['pilares'], 'muescas', [m['pilar'] for m in c['muescas']])
+    import collections
+    pa = collections.Counter(p['area'] for p in pernos)
+    print('PERNOS', len(pernos), dict(sorted(pa.items())))
+    print('ALZAPRIMAS (líneas)', len(alzaprimas), 'tramos', sum(len(l['tramos']) for l in alzaprimas), dict(sorted(collections.Counter(l['area'] for l in alzaprimas).items())), 'metros', round(sum(t[1] - t[0] for l in alzaprimas for t in l['tramos']) / 100, 1))
     print(salida, len(js), 'bytes')
 
 if __name__ == '__main__':
