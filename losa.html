@@ -204,9 +204,9 @@ details.areas[open] summary::before{content:"▾ ";}
           <button class="tg" id="tg-marco" aria-pressed="true" style="--sw:var(--fig-c)">Marco C</button>
           <button class="tg" id="tg-placa" aria-pressed="true" style="--sw:var(--fig-placa)">Placa</button>
           <button class="tg" id="tg-pernos" aria-pressed="true" style="--sw:#6B4FBB">Pernos</button>
-          <button class="tg" id="tg-malla" aria-pressed="true" style="--sw:var(--fig-malla)">Malla</button>
+          <button class="tg" id="tg-malla" aria-pressed="false" style="--sw:var(--fig-malla)">Malla</button>
           <button class="tg" id="tg-horm" aria-pressed="false" style="--sw:var(--fig-horm2)">Hormigón</button>
-          <button class="tg" id="tg-alz" aria-pressed="false" style="--sw:#2E9E6A">Alzaprimas</button>
+          <button class="tg" id="tg-alz" aria-pressed="true" style="--sw:#2E9E6A">Alzaprimas</button>
           <button class="tg" id="tg-pil2" aria-pressed="true" style="--sw:#C2410C">Pilares N2</button>
           <button class="tg" id="tg-pilares" aria-pressed="false" style="--sw:#E8A07A">Pilares N1</button>
           <button class="tg" id="tg-color" aria-pressed="false">Color por área</button>
@@ -1036,7 +1036,7 @@ function iniciar3D() {
   // ---------- alzaprimas: en cada línea, una solera bajo la placa sobre puntales repartidos a lo largo ----------
   // la solera va de canto bajo los valles de la placa; cada puntal es una alzaprima metálica telescópica
   // (placa base, tubo exterior, tubo interior y cabezal en U que recibe la solera), parada en el piso del nivel 1
-  const gAlz = new T.Group(); scene.add(gAlz); gAlz.visible = false;
+  const gAlz = new T.Group(); scene.add(gAlz);
   const gAlzIn = new T.Group(); gAlz.add(gAlzIn);
   MAT.madera = std(dark ? 0xC9A06A : 0xB58650, { roughness: 0.85, metalness: 0 });
   const SOL_B = 0.05, SOL_H = 0.15, Y_SOL = Z0 / 100 - SOL_H;   // solera de 2×6" de canto (referencia)
@@ -1069,7 +1069,7 @@ function iniciar3D() {
   }
 
   // ---------- malla ACMA C-188: paneles con traslapo, a 2,5 cm de la cara superior ----------
-  const gMalla = new T.Group(); scene.add(gMalla);
+  const gMalla = new T.Group(); scene.add(gMalla); gMalla.visible = false;
   const MA = L.malla, MALLAS = [];
   if (MA) {
     const rB = MA.d / 200;
@@ -1435,7 +1435,7 @@ function iniciar3D() {
   tog('#tg-color', on => { est.colorArea = on; seleccionar(est.sel && est.sel.tipo, est.sel && est.sel.id); });
   tog('#tg-etq', on => { est.etq = on; });
   addEventListener('keydown', e => { if (e.key === 'Escape') seleccionar(null); });
-  $('#txt-armado').innerHTML = `Marco C en ${MARCO.length} piezas (${TRAMOS.length} tramos) · ${N_PLANCHAS} planchas (${PLACAS.length} piezas) en ${L.areas.length} áreas · ${L.pernos.length} pernos Nelson · malla en ${MA_N} paneles · ≈ ${coma(VOL_HORM, 1)} m³ de hormigón (capa apagada) · ${PIL2.length} pilares del nivel 2 la atraviesan. Prueba <b>Despiece</b> o <b>Montaje</b>.`;
+  $('#txt-armado').innerHTML = `Marco C en ${MARCO.length} piezas (${TRAMOS.length} tramos) · ${N_PLANCHAS} planchas (${PLACAS.length} piezas) en ${L.areas.length} áreas · ${L.pernos.length} pernos Nelson · ${PUNT.length} alzaprimas · malla en ${MA_N} paneles y ≈ ${coma(VOL_HORM, 1)} m³ de hormigón (capas apagadas: se prenden a la derecha) · ${PIL2.length} pilares del nivel 2 la atraviesan. Prueba <b>Despiece</b> o <b>Montaje</b>.`;
 
   // ---------- arranque ----------
   $('#v-carga').hidden = true; $('#v-ui').hidden = false;
