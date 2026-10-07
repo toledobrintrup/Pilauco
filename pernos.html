@@ -502,7 +502,7 @@ function dibujarPlanta() {
   }
   // pernos: perforación y anillo libre
   const valles = [-PL.util + VALLES.centros[0], -PL.util + VALLES.centros[1], VALLES.union - PL.util, VALLES.centros[0], VALLES.centros[1]];
-  const conPerno = [valles[1], valles[2], valles[4]];
+  const conPerno = [valles[1], valles[2], valles[3]];   // una fila de la lámina: valles seguidos
   valles.forEach(v => {
     if (v < X0 + 20 || v > X1 - 20) return;
     if (!conPerno.includes(v)) return;
@@ -513,7 +513,7 @@ function dibujarPlanta() {
   cota(svg, conPerno[1], Y1 - 40, conPerno[2], Y1 - 40, coma((conPerno[2] - conPerno[1]) / 10, 1) + ' cm', 0, -10, false, FS);
   llamada(svg, conPerno[1] + R_PERF * 0.7, zs + R_PERF * 0.7, conPerno[1] + 60, zs + 150, `perforación Ø${coma(D_PERF, 0)} con anillo libre`, 'start', FS);
   llamada(svg, conPerno[1] + 14, zs - 20, conPerno[1] + 60, Y0 + 80, 'valle de la unión: la broca corta el gancho del traslapo', 'start', FS - 2);
-  $('#cap-planta').innerHTML = `Planta, a escala. En gris, las crestas de los nervios; en azul, el ala de la viga, que se ve por cada perforación; en naranjo, los nervios sellados. Cada perno va al centro de su valle, con la perforación de Ø${coma(D_PERF, 0)} mm y el anillo libre alrededor. En la lámina 11 los pernos van cada 45 a 55 cm; llevados al centro de un valle, quedan a 31,7 o 63,3 cm, según caigan los valles.`;
+  $('#cap-planta').innerHTML = `Planta, a escala. En gris, las crestas de los nervios; en azul, el ala de la viga, que se ve por cada perforación; en naranjo, los nervios sellados. Cada perno va al centro de su valle, con la perforación de Ø${coma(D_PERF, 0)} mm y el anillo libre alrededor. En la lámina 11 los pernos de una fila van cada 45 a 55 cm; aquí cada fila va completa en valles seguidos, a 31,7 cm, con los mismos pernos (queda más corta: si el ingeniero la necesita más larga, agrega pernos).`;
 }
 
 // la perforación en detalle (planta y corte, mm, escala 2:1 en pantalla)
@@ -700,7 +700,7 @@ function iniciar3D() {
     // planchas
     const xs = [-PL.util, 0];   // dos planchas lado a lado (mm, origen de cada una)
     const valles = [xs[0] + VALLES.centros[0], xs[0] + VALLES.centros[1], xs[0] + VALLES.union, xs[1] + VALLES.centros[0], xs[1] + VALLES.centros[1]];
-    const conPerno = [valles[1], valles[2], valles[4]];
+    const conPerno = [valles[1], valles[2], valles[3]];   // una fila: valles seguidos
     const pernos = conPerno.map(v => ({ x: m(v), z: zs }));
     const crestas = []; { let a = null; PL.perfil.forEach(([x, y]) => { if (y > 5 && a == null) a = x; if (y <= 5 && a != null) { crestas.push([a, x]); a = null; } }); }
     const sellar = (z, haciaAtras) => xs.forEach(o => crestas.forEach(([a, c]) => {   // tapas en los extremos abiertos de los nervios

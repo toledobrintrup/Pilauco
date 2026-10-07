@@ -14,8 +14,9 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
   de cada paño según el plano del ingeniero.
 - **Pernos Nelson Ø19 × 5"** según el ingeniero: van en las vigas receptoras, las perpendiculares a las
   planchas, en los valles de la placa (consulta del 05-10-2026). Su lámina 11 (07-10-2026) da la cantidad y la
-  posición: 215 pernos (la cotización pide 850). Como la posición es estimativa, cada uno se lleva al valle más
-  cercano de su viga (de los 644 valles completos que cruzan vigas receptoras, contando los dos lados de las juntas a tope).
+  posición: 215 pernos en 46 filas (la cotización pide 850). Como la posición es estimativa, cada fila que el ingeniero
+  dibuja seguida se lleva completa a valles seguidos de su viga, con los mismos pernos (de los 644 valles completos que
+  cruzan vigas receptoras, contando los dos lados de las juntas a tope). Si la fila le queda corta, él agrega pernos.
 - **Alzaprimas** con el criterio del ingeniero: luz máxima sin apoyo 1,87 m; cada vano entre vigas
   receptoras se divide en espacios iguales y entre espacio y espacio va una línea: 17 líneas, que en
   terreno son 25 tramos de solera porque algunas pasan bajo una viga.
@@ -54,9 +55,12 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
    dos planchas en la unión), con una perforación de Ø35 mm alrededor; donde la plancha termina sobre la viga (en el
    borde, contra el C; entre dos áreas, en el eje) se corre hacia su plancha para que la perforación no corte el ala
    del C ni la plancha vecina, y su centro queda a 31,7 mm o más del borde del ala (AWS D1.1). Cada perno lleva el
-   tipo de encuentro de la placa con su viga (borde, mismo sentido, ortogonal o corrida). Después lleva cada perno de
-   la lámina al valle libre más cercano de su línea de viga, uno a uno, sin cambiar el orden y a 4 diámetros o más del
-   siguiente (mínimo movimiento total, AISC 360-16 I8.2d). Sin `pernos_ingeniero.json`, pone uno en cada valle.
+   tipo de encuentro de la placa con su viga (borde, mismo sentido, ortogonal o corrida). Después junta los pernos de la
+   lámina en filas (en la lámina van a ≈ 50 cm dentro de una fila y a 1 m o más entre filas) y lleva cada fila completa
+   a valles seguidos de su línea de viga, a 31,7 cm (más de 4 diámetros, AISC 360-16 I8.2d), con los mismos pernos, en
+   el mismo orden, con un valle vacío o más entre filas y centrada donde la dibujó el ingeniero (mínimo movimiento total).
+   Las 7 filas que cruzan un pilar del nivel 2 saltan solo el valle que tapa el pilar; en las juntas a tope toda la fila
+   va al mismo lado de la viga. Sin `pernos_ingeniero.json`, pone uno en cada valle.
    Las líneas de alzaprimas se cortan donde pasan bajo una viga paralela a las planchas.
    Dos extracciones independientes de la lámina (por relleno y por imagen) dieron los mismos 215 pernos.
 7. **Malla.** `generar_losa_js.py` reparte paneles en filas con su traslapo sobre el contorno de la losa corrido 3 cm

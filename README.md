@@ -58,7 +58,7 @@ perfil C 150×50×3** (también alrededor del hueco de la escalera, cortado dond
 pilares del nivel 2) y las **66 planchas Instadeck 0,8** de las 8 áreas marcadas en obra, con la
 sección real de la ficha técnica y la dirección de cada paño del plano del ingeniero. Encima, los
 **215 pernos Nelson** en las vigas receptoras, con la cantidad y la posición de la lámina 11 del ingeniero
-(07-10-2026), cada uno al centro del valle más cercano de su viga, con la placa perforada (Ø35 mm, con un anillo libre
+(07-10-2026): cada fila que él dibuja seguida va completa a valles seguidos de su viga, al centro de cada valle, con la placa perforada (Ø35 mm, con un anillo libre
 alrededor del perno) y soldado al arco directo al ala; las **17 líneas de alzaprimas** con su
 criterio de 1,87 m de luz máxima sin apoyo (bajo la placa; falta que el ingeniero confirme si eran para la
 placa o para las vigas); la **malla ACMA C-188** en 50 paneles traslapados según ACMA, y el **hormigón** hasta los
