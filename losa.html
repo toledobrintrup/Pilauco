@@ -311,8 +311,8 @@ details.areas[open] summary::before{content:"▾ ";}
   caer en un valle, el modelo lleva cada uno al <b>valle más cercano de su viga</b>.</p>
   <figure><svg id="svg-perno" role="img" aria-label="Detalle del perno Nelson en el valle de la placa sobre la viga"></svg>
     <figcaption>Corte a lo largo de una viga receptora, a escala: la plancha cruza la viga y los pernos van al centro de algunos valles
-    (la lámina 11 los pone cada ≈ 50 cm). En cada perno la placa se perfora y el perno se suelda al arco directo al ala; abajo solo
-    queda el collar de soldadura, sin cabeza. Medidas del detalle del ingeniero
+    (la lámina 11 los pone cada ≈ 50 cm). En cada perno la placa se perfora y el perno se suelda al arco directo al ala, con un anillo libre
+    alrededor (el perno no lleva cabeza abajo). Medidas del detalle del ingeniero
     (perno Ø19 × 5", malla ACMA C-188 a 2,5 cm de la cara superior, losa de 15).</figcaption></figure>
   <div class="specs" id="specs-pernos"></div>
   <p class="small" id="txt-ajuste"></p>
@@ -806,12 +806,12 @@ dibujarPlaca();
     ['Pernos', P.length, `En ${nVigas} tramos de viga receptora, según la lámina 11 <span class="fuente man">ingeniero</span>`],
     ['Ajuste al valle', conPlano.length ? `≈ ${coma(movs.reduce((t, m) => t + m, 0) / movs.length, 0)} cm` : '—', conPlano.length ? `Lo que se movió en promedio cada perno para caer en un valle (máximo ${coma(Math.max(...movs), 0)} cm) <span class="fuente calc">ajustado</span>` : ''],
     ['Perno', 'Ø19 × 5"', `Ø 3/4" × 5" <span class="fuente man">ingeniero</span>; la cotización lo trae de 5 3/16" (${coma(PN.largo_compra, 0)} mm) <span class="fuente med">cotización</span>. Cabeza Ø${coma(PN.cabeza_d, 1)} × ${coma(PN.cabeza_h, 1)} mm arriba; abajo no lleva cabeza <span class="fuente man">catálogo</span>`],
-    ['Perforación', `Ø${coma(L.perforacion * 10, 0)} mm`, `Con sierra copa bimetálica alrededor de cada perno, para soldarlo directo al ala de la viga. Deja holgura al anillo cerámico (Ø30,9 mm) y al collar <span class="fuente calc">referencia</span>`],
-    ['Soldadura', 'al arco', `Con pistola de pernos y anillo cerámico estándar, sobre el ala desnuda (sin pintura). Deja un collar completo alrededor de la base de ≈ Ø${coma(PN.sold_d, 0)} × ${coma(PN.sold_h, 1)} mm (AWS D1.1) <span class="fuente man">catálogo</span>`],
+    ['Perforación', `Ø${coma(L.perforacion * 10, 0)} mm`, `Con sierra copa bimetálica alrededor de cada perno, para soldarlo directo al ala de la viga. Deja un anillo libre de ${coma((L.perforacion * 10 - PN.d) / 2, 0)} mm alrededor del perno y cabe el anillo cerámico de la soldadura (Ø30,9 mm) <span class="fuente calc">referencia</span>`],
+    ['Soldadura', 'al arco', `Con pistola de pernos y anillo cerámico estándar, sobre el ala desnuda (sin pintura), por la perforación <span class="fuente man">catálogo</span>`],
   ].map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
   const cot = L.cotizacion_pernos || 850;
   const alas = [...new Set(P.map(p => p.perfil))].map(n => (E.perfiles[n] || {}).tf * 10).filter(Boolean);
-  $('#txt-soldadura').innerHTML = `<b>Con la placa perforada.</b> En cada perno la placa se perfora con una sierra copa de ${coma(L.perforacion * 10, 0)} mm y el perno se suelda directo al ala de la viga, como sobre acero plano: no hay que calificar la soldadura a través de la placa, y el perno se acorta solo ${coma(PN.quema_desnudo, 1)} mm, así que el de 5 3/16" (${coma(PN.largo_compra, 1)} mm) queda en <b>${coma(PN.largo_compra - PN.quema_desnudo, 0)} mm</b>, los 5" del detalle del ingeniero. Sobresale ${coma(PN.largo_compra - PN.quema_desnudo - PL.alto, 0)} mm de la cresta (mínimo 38) y le quedan ${coma(ESP * 10 - PN.largo_compra + PN.quema_desnudo, 0)} mm de hormigón encima (mínimo 13; los dos mínimos son de AISC 360). El ala de la viga tiene que medir al menos el diámetro del perno dividido por 2,5 (7,6 mm, AISC 360): las vigas receptoras tienen alas de ${coma(Math.min(...alas), 1)} a ${coma(Math.max(...alas), 1)} mm. Tres cuidados: la broca guía de la sierra copa no debe marcar el ala justo donde va el perno (se saca la guía después de marcar, o se usa una plantilla); el ala tiene que quedar limpia y sin pintura; y como el perno ya no sujeta la placa, la placa se fija a cada viga con un tornillo autoperforante por valle, al lado del agujero. Detalles de cada caso en <a href="pernos.html">Pernos: instalación</a>.`;
+  $('#txt-soldadura').innerHTML = `<b>Con la placa perforada.</b> En cada perno la placa se perfora con una sierra copa de ${coma(L.perforacion * 10, 0)} mm y el perno se suelda directo al ala de la viga, como sobre acero plano: no hay que calificar la soldadura a través de la placa, y el perno se acorta solo ${coma(PN.quema_desnudo, 1)} mm, así que el de 5 3/16" (${coma(PN.largo_compra, 1)} mm) queda en <b>${coma(PN.largo_compra - PN.quema_desnudo, 0)} mm</b>, los 5" del detalle del ingeniero. Sobresale ${coma(PN.largo_compra - PN.quema_desnudo - PL.alto, 0)} mm de la cresta (mínimo 38) y le quedan ${coma(ESP * 10 - PN.largo_compra + PN.quema_desnudo, 0)} mm de hormigón encima (mínimo 13; los dos mínimos son de AISC 360). El ala de la viga tiene que medir al menos el diámetro del perno dividido por 2,5 (7,6 mm, AISC 360): las vigas receptoras tienen alas de ${coma(Math.min(...alas), 1)} a ${coma(Math.max(...alas), 1)} mm. Dos cuidados: la broca guía de la sierra copa no debe marcar el ala justo donde va el perno (se saca la guía después de marcar, o se usa una plantilla), y el ala tiene que quedar limpia y sin pintura. Como el perno ya no sujeta la placa a la viga, falta que el ingeniero diga cómo se fija. Detalles de cada caso en <a href="pernos.html">Pernos: instalación</a>.`;
   $('#txt-ajuste').innerHTML = conPlano.length ? `<b>Cómo se ajustaron.</b> Los ${conPlano.length} pernos se sacaron de la lámina por su relleno (uno no tiene contorno) y se ubicaron con la grilla de ejes (error menor a 1 cm). En el plano van cada ≈ ${coma(sepMed, 0)} cm sobre cada viga, y los valles de la placa cruzan la viga cada 31,7 cm: de los ${L.valles_receptoras} valles que hay sobre las vigas receptoras, se usan ${P.length}. Cada perno se llevó al valle más cercano de su misma viga, sin juntar dos en un valle, sin cambiar su orden y a 4 diámetros (7,6 cm) o más del siguiente (AISC 360); en el plano de arriba, el círculo vacío es donde lo dibujó el ingeniero y el punto, el valle donde queda. El perno va al <b>centro del valle</b>, encima del rigidizador o, en el valle de la unión entre dos planchas, del gancho del traslapo (la broca los corta): queda a ≈ 76 mm del alma del nervio hacia cada lado, en la "posición fuerte" de AISC 360. Donde la plancha termina sobre la viga (en el borde, en la punta del ala del C; entre dos áreas, en el eje, a tope), el perno se corrió hasta ${coma(Math.max(...conPlano.map(p => Math.abs(p.corrido || 0))), 1)} cm hacia su plancha para que la perforación no corte el ala del C ni la plancha vecina (${conPlano.filter(p => p.corrido).length} pernos).${lejos.length ? ` <b>${lejos.length} pernos del plano quedan sobre un pilar del nivel 2 o junto a él</b> (pilares de los ejes ${[...new Set(lejos.map(pilarDe))].join(' · ')}; ${encima} dibujados encima): su valle más cercano queda tapado por el pilar, así que pasan al valle libre siguiente, a ${coma(Math.min(...lejos.map(p => Math.abs(p.mov))), 0)}–${coma(Math.max(...lejos.map(p => Math.abs(p.mov))), 0)} cm. La lámina 11 no dibuja esos pilares: conviene confirmar con el ingeniero que van ahí. El borde de cada perno queda al menos a 2,5 cm de la cara de los pilares.` : ''}` : '';
   $('#aviso-pernos').innerHTML = `<b>Contra la cotización.</b> La cotización pide <b>${cot}</b> pernos y la lámina del ingeniero, <b>${P.length}</b>: ${cot - P.length} menos. Conviene ajustar la compra (con algunos de repuesto para las pruebas de soldadura).`;
 })();
@@ -862,9 +862,6 @@ function dibujarPerno() {
     const g = el('g', {}, svg);
     el('rect', { x: v - PN.d / 2, y: -(PN.largo - PN.cabeza_h), width: PN.d, height: PN.largo - PN.cabeza_h, style: 'fill:#6B4FBB' }, g);
     el('rect', { x: v - PN.cabeza_d / 2, y: -PN.largo, width: PN.cabeza_d, height: PN.cabeza_h, rx: 2, style: 'fill:#6B4FBB' }, g);
-    // collar de soldadura sobre el ala desnuda, dentro de la perforación
-    const r0 = PN.sold_d / 2, r1 = PN.d / 2, hS = PN.sold_h;
-    el('path', { d: `M ${v - r0} 0 Q ${v - r0} ${-hS} ${v - r1} ${-hS} L ${v + r1} ${-hS} Q ${v + r0} ${-hS} ${v + r0} 0 Z`, style: 'fill:var(--fig-sold)' }, g);
   });
   const cota = (x1, y1, x2, y2, s, dx, dy, rot) => {
     el('line', { x1, y1, x2, y2, style: 'stroke:var(--fig-ink);stroke-width:1' }, svg);
@@ -885,10 +882,10 @@ function dibujarPerno() {
   txt(svg, VALLES_C[0] + 22, -PN.largo + 32, 'perno Ø19 × 5"', { 'font-size': 14, style: 'fill:#6B4FBB;font-weight:600' });
   txt(svg, VALLES_C[2] - 24, -PL.alto - 30, 'en la unión de', { 'font-size': 12.5, 'text-anchor': 'end', class: 'txs' });
   txt(svg, VALLES_C[2] - 24, -PL.alto - 14, 'dos planchas', { 'font-size': 12.5, 'text-anchor': 'end', class: 'txs' });
-  // llamadas: perforación y collar de soldadura
+  // llamada: la perforación con su anillo libre
   const v0 = VALLES_C[0];
   el('path', { d: `M ${v0 + RP} -2 L ${v0 + 60} 84 L ${v0 + 72} 84`, style: 'fill:none;stroke:var(--fig-ink);stroke-width:1' }, svg);
-  txt(svg, v0 + 76, 89, `perforación Ø${coma(RP * 2, 0)} (sierra copa) · collar de soldadura ≈ Ø${coma(PN.sold_d, 0)} sobre el ala`, { 'font-size': 14, style: 'fill:var(--fig-ink);font-weight:600' });
+  txt(svg, v0 + 76, 89, `perforación Ø${coma(RP * 2, 0)} (sierra copa), con ${coma(RP - PN.d / 2, 0)} mm libres alrededor del perno`, { 'font-size': 14, style: 'fill:var(--fig-ink);font-weight:600' });
 }
 dibujarPerno();
 
@@ -1081,8 +1078,7 @@ function iniciar3D() {
   const geoCab = new T.CylinderGeometry(mm(PN.cabeza_d / 2), mm(PN.cabeza_d / 2), mm(PN.cabeza_h), 16);
   geoCab.translate(0, mm(PN.largo - PN.cabeza_h / 2), 0);
   // soldadura al arco: la placa se perfora con broca de copa alrededor del perno y el vástago se suelda directo al ala
-  // de la viga; deja un collar de soldadura bajo alrededor de la base. El perno no tiene cabeza abajo
-  const geoSold = new T.CylinderGeometry(mm(PN.d / 2 + 0.4), mm(PN.sold_d / 2), mm(PN.sold_h), 20, 1, true); geoSold.translate(0, mm(PN.sold_h / 2), 0);
+  // de la viga. No se dibuja el collar de soldadura: así se ve la perforación con su anillo libre. El perno no tiene cabeza abajo
   // la perforación de la placa: un disco oscuro del diámetro de la broca, justo sobre el rigidizador del valle que se corta
   const R_PERF = (L.perforacion || 3.5) * 5;   // mm
   const geoAgujero = new T.CircleGeometry(mm(R_PERF), 28); geoAgujero.rotateX(-Math.PI / 2); geoAgujero.translate(0, mm(6.2), 0);
@@ -1094,7 +1090,7 @@ function iniciar3D() {
   L.areas.forEach(a => {
     const lista = L.pernos.filter(p => p.area === a.n); if (!lista.length) return;
     const g = new T.Group(); gPernos.add(g);
-    [[geoVast, MAT.perno], [geoCab, MAT.perno], [geoSold, MAT.sold]].concat(window.Placa3D ? [] : [[geoAgujero, MAT.agujero], [geoBordeAg, MAT.bordeAg]]).forEach(([geo, mat]) => {
+    [[geoVast, MAT.perno], [geoCab, MAT.perno]].concat(window.Placa3D ? [] : [[geoAgujero, MAT.agujero], [geoBordeAg, MAT.bordeAg]]).forEach(([geo, mat]) => {
       const im = new T.InstancedMesh(geo, mat, lista.length);
       lista.forEach((p, i) => { mtx.makeTranslation(p.x / 100, Z0 / 100, p.y / 100); im.setMatrixAt(i, mtx); });   // sobre el ala desnuda
       im.userData = { tipo: 'perno', area: a.n, lista };

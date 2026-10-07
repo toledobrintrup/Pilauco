@@ -83,8 +83,8 @@ Cómo se armó cada parte está en `fuente/losa/README.md`.
 `pernos.html` muestra, en 2D y en 3D, cómo se instala cada perno Nelson según cómo llega la placa a la viga: en el
 borde contra el perfil C, donde se juntan planchas en el mismo sentido (a tope, con los nervios alineados), donde se
 juntan planchas ortogonales (hasta tocarse, con los nervios sellados) y donde la plancha pasa corrida. Trae la
-perforación de Ø35 mm con su anillo libre, el collar de soldadura, los tornillos de fijación y la instalación paso a
-paso (viga, planchas, fijación, perforación, soldadura, revisión, malla y hormigón). La placa con sus perforaciones se
+perforación de Ø35 mm con su anillo libre y la instalación paso a paso (viga, planchas, perforación, soldadura,
+revisión y sellado, malla y hormigón). La placa con sus perforaciones se
 arma con `placa3d.js`, que usa también la vista de la losa.
 
 ## Tablero de básquetbol

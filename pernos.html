@@ -212,7 +212,6 @@ details.areas[open] summary::before{content:"▾ ";}
           <button class="tg" id="tg-c" aria-pressed="true" style="--sw:var(--fig-c)">Perfil C</button>
           <button class="tg" id="tg-placa" aria-pressed="true" style="--sw:var(--fig-placa)">Placa</button>
           <button class="tg" id="tg-perno" aria-pressed="true" style="--sw:#6B4FBB">Pernos</button>
-          <button class="tg" id="tg-fij" aria-pressed="true" style="--sw:#C2410C">Tornillos</button>
           <button class="tg" id="tg-malla" aria-pressed="false" style="--sw:var(--fig-malla)">Malla</button>
           <button class="tg" id="tg-horm" aria-pressed="false" style="--sw:var(--fig-horm2)">Hormigón</button>
           <button class="tg" id="tg-etq" aria-pressed="true">Etiquetas</button>
@@ -264,7 +263,7 @@ details.areas[open] summary::before{content:"▾ ";}
   <h2><span class="n">02</span>La perforación</h2>
   <figure><svg id="svg-agujero" role="img" aria-label="Planta y corte de la perforación alrededor de un perno"></svg>
     <figcaption>Perforación alrededor de un perno, ampliada. El anillo libre entre el perno y el borde del agujero lo deja la broca;
-    el collar de soldadura y el anillo cerámico (que se rompe y se saca después de soldar) caben dentro.</figcaption></figure>
+    el anillo cerámico que se usa al soldar (se rompe y se saca después) cabe dentro.</figcaption></figure>
   <div class="specs" id="specs-perf"></div>
   <p class="small" id="txt-perf"></p>
 </section>
@@ -315,7 +314,6 @@ const PL = L.placa, PC = L.perfilC, PN = L.perno, ESP = L.espesor * 10;
 const D_PERF = (L.perforacion || 3.5) * 10, R_PERF = D_PERF / 2;   // perforación
 const HOLG = 2;                    // mm entre el borde del agujero y el extremo de la plancha (o la punta del ala del C)
 const ANILLO = { d: 30.9, di: 19.05, h: 16.7 };   // anillo cerámico estándar 3/4" (Nelson 100-101-152)
-const FIJ_LADO = 40;               // mm del centro del valle al tornillo autoperforante, junto al agujero
 const AJUSTE = R_PERF + HOLG;      // mm del extremo de la plancha al centro del perno, como mínimo
 const QUEMA = PN.quema_desnudo || 4.8, LARGO = PN.largo_compra - QUEMA;   // perno soldado sobre acero desnudo
 // centros de valle de una plancha (mm desde su borde): entre las dos mitades que separa el rigidizador; el último es el de
@@ -436,12 +434,10 @@ function dibujarCorte() {
     }
     cota(svg, 0, -42, hueco[0], -42, coma(hueco[0], 0), 0, -6, false, 12);
   }
-  // perno con su collar, la perforación y el anillo libre
+  // perno, con la perforación y el anillo libre alrededor
   const g = el('g', {}, svg);
   el('rect', { x: zs - PN.d / 2, y: -(LARGO - PN.cabeza_h), width: PN.d, height: LARGO - PN.cabeza_h, style: 'fill:#6B4FBB' }, g);
   el('rect', { x: zs - PN.cabeza_d / 2, y: -LARGO, width: PN.cabeza_d, height: PN.cabeza_h, rx: 1.5, style: 'fill:#6B4FBB' }, g);
-  const r0 = PN.sold_d / 2, r1 = PN.d / 2, hS = PN.sold_h;
-  el('path', { d: `M ${zs - r0} 0 Q ${zs - r0} ${-hS} ${zs - r1} ${-hS} L ${zs + r1} ${-hS} Q ${zs + r0} ${-hS} ${zs + r0} 0 Z`, style: 'fill:var(--fig-sold)' }, g);
   // cotas
   cota(svg, hueco[0], -16, hueco[1], -16, `Ø${coma(D_PERF, 0)}`, 30, 4, false, 12);
   cota(svg, zs + PN.d / 2, -30, hueco[1], -30, coma(R_PERF - PN.d / 2, 0), 16, 4, false, 12);
@@ -504,27 +500,20 @@ function dibujarPlanta() {
       [-PL.util, 0].forEach(o => crestas.forEach(([a, c]) => el('rect', { x: o + a, y: 0, width: c - a, height: 12, style: 'fill:#E07A2E;opacity:.9' }, svg)));
     }
   }
-  // pernos: perforación, anillo libre y tornillos de fijación en cada valle
+  // pernos: perforación y anillo libre
   const valles = [-PL.util + VALLES.centros[0], -PL.util + VALLES.centros[1], VALLES.union - PL.util, VALLES.centros[0], VALLES.centros[1]];
   const conPerno = [valles[1], valles[2], valles[4]];
-  const tornillo = (x, y) => el('path', { d: `M ${x - 9} ${y - 9} L ${x + 9} ${y + 9} M ${x - 9} ${y + 9} L ${x + 9} ${y - 9}`, style: 'stroke:#C2410C;stroke-width:4' }, svg);
-  if (tipo === 'ortogonal') [-560, 0, 560].forEach(x => tornillo(x, -42));   // borde de la plancha paralela, a 90 cm o menos
   valles.forEach(v => {
     if (v < X0 + 20 || v > X1 - 20) return;
-    const perno = conPerno.includes(v);
-    tornillo(v - FIJ_LADO, zs);                        // en el fondo plano del valle, al lado del agujero
-    if (tipo === 'mismo') tornillo(v - FIJ_LADO, -zs); // la plancha del otro lado también se fija
-    if (!perno) return;
+    if (!conPerno.includes(v)) return;
     el('circle', { cx: v, cy: zs, r: R_PERF, style: 'fill:var(--fig-viga);fill-opacity:.35;stroke:var(--fig-ink);stroke-width:1' }, svg);
-    el('circle', { cx: v, cy: zs, r: PN.sold_d / 2, style: 'fill:var(--fig-sold)' }, svg);
     el('circle', { cx: v, cy: zs, r: PN.d / 2, style: 'fill:#6B4FBB' }, svg);
   });
   cota(svg, conPerno[0], Y1 - 40, conPerno[1], Y1 - 40, coma((conPerno[1] - conPerno[0]) / 10, 1) + ' cm', 0, -10, false, FS);
   cota(svg, conPerno[1], Y1 - 40, conPerno[2], Y1 - 40, coma((conPerno[2] - conPerno[1]) / 10, 1) + ' cm', 0, -10, false, FS);
   llamada(svg, conPerno[1] + R_PERF * 0.7, zs + R_PERF * 0.7, conPerno[1] + 60, zs + 150, `perforación Ø${coma(D_PERF, 0)} con anillo libre`, 'start', FS);
-  llamada(svg, conPerno[1] - FIJ_LADO - 6, zs + 8, conPerno[1] - 80, zs + 210, 'tornillo autoperforante', 'end', FS);
   llamada(svg, conPerno[1] + 14, zs - 20, conPerno[1] + 60, Y0 + 80, 'valle de la unión: la broca corta el gancho del traslapo', 'start', FS - 2);
-  $('#cap-planta').innerHTML = `Planta, a escala. En gris, las crestas de los nervios; en azul, el ala de la viga; en naranjo, los nervios sellados; las cruces son los tornillos. Cada perno va al centro de su valle, con la perforación de Ø${coma(D_PERF, 0)} mm; en cada valle sobre la viga va además un tornillo autoperforante en el fondo plano, para fijar la placa (el perno ya no la sujeta)${est.tipo === 'mismo' ? ', también en la plancha del otro lado' : est.tipo === 'ortogonal' ? ', y el borde de la plancha paralela se fija cada 90 cm o menos' : ''}. En la lámina 11 los pernos van cada 45 a 55 cm; llevados al centro de un valle, quedan a 31,7 o 63,3 cm, según caigan los valles.`;
+  $('#cap-planta').innerHTML = `Planta, a escala. En gris, las crestas de los nervios; en azul, el ala de la viga, que se ve por cada perforación; en naranjo, los nervios sellados. Cada perno va al centro de su valle, con la perforación de Ø${coma(D_PERF, 0)} mm y el anillo libre alrededor. En la lámina 11 los pernos van cada 45 a 55 cm; llevados al centro de un valle, quedan a 31,7 o 63,3 cm, según caigan los valles.`;
 }
 
 // la perforación en detalle (planta y corte, mm, escala 2:1 en pantalla)
@@ -536,7 +525,6 @@ function dibujarAgujero() {
   el('rect', { x: cx - 60, y: cy - 42, width: 120, height: 84, style: 'fill:var(--fig-placa);opacity:.35' }, svg);
   el('circle', { cx, cy, r: R_PERF, style: 'fill:var(--fig-viga);fill-opacity:.4;stroke:var(--fig-ink);stroke-width:.6' }, svg);
   el('circle', { cx, cy, r: ANILLO.d / 2, style: 'fill:none;stroke:var(--fig-soft);stroke-width:.5;stroke-dasharray:2 1.5' }, svg);
-  el('circle', { cx, cy, r: PN.sold_d / 2, style: 'fill:var(--fig-sold)' }, svg);
   el('circle', { cx, cy, r: PN.d / 2, style: 'fill:#6B4FBB' }, svg);
   txt(svg, cx, cy + 56, 'planta', { 'font-size': 8, 'text-anchor': 'middle', class: 'txs' });
   cota(svg, cx - R_PERF, cy - 50, cx + R_PERF, cy - 50, `Ø${coma(D_PERF, 0)} perforación`, 0, -4, false, 7);
@@ -545,8 +533,6 @@ function dibujarAgujero() {
   el('rect', { x: x0 - 60, y: y0, width: 120, height: 8, style: 'fill:var(--fig-viga);opacity:.7' }, svg);
   [[x0 - 60, x0 - R_PERF], [x0 + R_PERF, x0 + 60]].forEach(([a, b]) => el('rect', { x: a, y: y0 - PL.espesor, width: b - a, height: PL.espesor, style: 'fill:var(--fig-placa)' }, svg));
   el('rect', { x: x0 - PN.d / 2, y: y0 - 60, width: PN.d, height: 60, style: 'fill:#6B4FBB' }, svg);
-  const r0 = PN.sold_d / 2, r1 = PN.d / 2, hS = PN.sold_h;
-  el('path', { d: `M ${x0 - r0} ${y0} Q ${x0 - r0} ${y0 - hS} ${x0 - r1} ${y0 - hS} L ${x0 + r1} ${y0 - hS} Q ${x0 + r0} ${y0 - hS} ${x0 + r0} ${y0} Z`, style: 'fill:var(--fig-sold)' }, svg);
   el('rect', { x: x0 - ANILLO.d / 2, y: y0 - ANILLO.h, width: ANILLO.d, height: ANILLO.h, style: 'fill:none;stroke:var(--fig-soft);stroke-width:.5;stroke-dasharray:2 1.5' }, svg);
   txt(svg, x0, y0 + 20, 'corte', { 'font-size': 8, 'text-anchor': 'middle', class: 'txs' });
   cota(svg, x0 + PN.d / 2, y0 - 26, x0 + R_PERF, y0 - 26, coma(R_PERF - PN.d / 2, 0), 12, 3, false, 7);
@@ -561,11 +547,11 @@ function dibujarAgujero() {
 const TEXTOS = {
   borde: {
     texto: b => `La plancha llega perpendicular al borde y termina en la punta del ala del perfil C, ${coma(PC.b / 10, 0)} cm adentro del borde (más 2 mm de holgura). El perno va al centro del valle; en las vigas angostas se corre hacia la losa para que la perforación no corte el ala del C: con una ${'{viga}'} queda a ${'{zs}'} mm del eje. El perno nunca se suelda al C: su ala de 3 mm es muy delgada (AWS pide un tercio del diámetro, 6,4 mm). El perfil C hace de moldaje del borde.`,
-    traslapo: `En el borde no hay traslapo: la plancha termina contra el ala del C. Entre plancha y plancha (lado a lado) va el traslapo lateral de fábrica, el gancho de una sobre la pestaña de la otra, en el centro del valle de la unión, cosido con un tornillo autoperforante cada 50 cm (manual de la Instadeck; la ficha pide fijar bordes y uniones a 90 cm o menos). Los nervios que quedan abiertos hacia el borde conviene sellarlos (la ficha pide "sellar nervios"), para que el hormigón no entre bajo las crestas.`,
+    traslapo: `En el borde no hay traslapo: la plancha termina contra el ala del C. Entre plancha y plancha (lado a lado) va el traslapo lateral de fábrica, el gancho de una sobre la pestaña de la otra, en el centro del valle de la unión. Los nervios que quedan abiertos hacia el borde conviene sellarlos (la ficha pide "sellar nervios"), para que el hormigón no entre bajo las crestas.`,
   },
   mismo: {
     texto: b => `Dos áreas con planchas en el mismo sentido se encuentran sobre la viga, de punta a punta. Van <b>a tope en el eje</b>, sin traslapo, y con los nervios alineados para que los nervios de hormigón sigan corridos de un lado al otro (SDI). Cada plancha apoya ${coma(PERF['IPE 220'].b * 5, 0)} mm o más sobre el ala (el mínimo de SDI es 38 mm). El perno va en el valle de una de las dos, corrido ${'{zs}'} mm del eje hacia ella, para que la perforación no corte la otra.`,
-    traslapo: `Sobre la viga van a tope: SDI pide que en la losa colaborante los extremos de las planchas no se traslapen sobre la viga. El "nervio montado" corresponde al traslapo lateral, entre planchas que van lado a lado: ahí el gancho de una plancha monta sobre la pestaña de la siguiente, en el centro del valle de la unión, y se cose con un tornillo autoperforante cada 50 cm (manual de la Instadeck). Montar un nervio completo para ajustar el ancho no aparece en la ficha ni en SDI (quedarían dos capas de chapa); el modelo corta la última plancha a lo largo.`,
+    traslapo: `Sobre la viga van a tope: SDI pide que en la losa colaborante los extremos de las planchas no se traslapen sobre la viga. El "nervio montado" corresponde al traslapo lateral, entre planchas que van lado a lado: ahí el gancho de una plancha monta sobre la pestaña de la siguiente, en el centro del valle de la unión. Montar un nervio completo para ajustar el ancho no aparece en la ficha ni en SDI (quedarían dos capas de chapa); el modelo corta la última plancha a lo largo.`,
   },
   ortogonal: {
     texto: b => `Una plancha llega perpendicular a la viga y la otra corre paralela a ella. Llegan <b>hasta tocarse en el eje</b>: la perpendicular termina contra el costado de la paralela. El perno va en el valle de la perpendicular (la plancha paralela solo apoya su borde en el ala), corrido ${'{zs}'} mm del eje para que la perforación no corte la plancha paralela.`,
@@ -573,7 +559,7 @@ const TEXTOS = {
   },
   corrida: {
     texto: b => `La plancha pasa entera sobre la viga, sin junta. El perno va en el eje de la viga, al centro del valle. Es el caso más común en esta losa.`,
-    traslapo: `No hay junta sobre la viga. Entre planchas vecinas, lado a lado, va el traslapo lateral de fábrica en el valle de la unión, cosido con un tornillo autoperforante cada 50 cm (manual de la Instadeck); donde ese valle lleva perno, la broca corta también el gancho del traslapo.`,
+    traslapo: `No hay junta sobre la viga. Entre planchas vecinas, lado a lado, va el traslapo lateral de fábrica en el valle de la unión; donde ese valle lleva perno, la broca corta también el gancho del traslapo.`,
   },
 };
 
@@ -590,34 +576,33 @@ function textosTipo() {
   const mmC = [...new Set(ps.filter(p => p.corrido).map(p => coma(Math.abs(p.corrido) * 10, 1)))].join(', ');
   $('#d-donde').innerHTML = ps.length ? `<b>${ps.length} de los ${L.pernos.length} pernos</b> son de este tipo, en ${Object.keys(vigas).length} tramos de viga: ${lista}.${!corridos ? ' Todos van en el eje de la viga.' : corridos === ps.length ? ` Todos van corridos del eje (${mmC} mm).` : ` ${corridos} van corridos del eje (${mmC} mm), los demás en el eje.`}` : 'En esta losa no hay pernos de este tipo.';
   const av = $('#d-aviso');
-  if (tipo === 'mismo') { av.hidden = false; av.innerHTML = `<b>Nervios alineados.</b> En el reparto de planchas del modelo, los nervios de las áreas que se juntan a tope quedan corridos ${DESFASES.map(d => `${coma(d.cm, 1)} cm entre las áreas ${d.a} y ${d.b}`).join(', ')}. En obra se alinean con un hilo o línea de tiza antes de fijar (SDI), corriendo las planchas de una de las dos áreas.`; }
+  if (tipo === 'mismo') { av.hidden = false; av.innerHTML = `<b>Nervios alineados.</b> En el reparto de planchas del modelo, los nervios de las áreas que se juntan a tope quedan corridos ${DESFASES.map(d => `${coma(d.cm, 1)} cm entre las áreas ${d.a} y ${d.b}`).join(', ')}. En obra se alinean con un hilo o línea de tiza (SDI), corriendo las planchas de una de las dos áreas.`; }
   else if (tipo === 'borde') { av.hidden = false; av.innerHTML = `<b>Moldaje del borde.</b> El perfil C mide 150 mm, lo mismo que la losa, así que hace de moldaje. La ficha de la placa también pide sellar los nervios abiertos en los bordes.`; }
   else av.hidden = true;
 }
 
 (function generales() {
   const s = [
-    ['Perforación', `Ø${coma(D_PERF, 0)} mm`, `Sierra copa bimetálica; anillo libre de ${coma(R_PERF - PN.d / 2, 0)} mm al perno y ${coma(R_PERF - PN.sold_d / 2, 0)} mm al collar <span class="fuente med">referencia</span>`],
+    ['Perforación', `Ø${coma(D_PERF, 0)} mm`, `Sierra copa bimetálica; deja un anillo libre de ${coma(R_PERF - PN.d / 2, 0)} mm alrededor del perno <span class="fuente med">referencia</span>`],
     ['Perno soldado', `${coma(LARGO, 0)} mm`, `El de 5 3/16" (${coma(PN.largo_compra, 1)} mm) pierde ${coma(QUEMA, 1)} mm al soldarlo sobre acero desnudo <span class="fuente man">Nelson</span>`],
     ['Pernos', L.pernos.length, `Cantidad y posición de la lámina 11, cada uno al centro de su valle <span class="fuente man">ingeniero</span>`],
-    ['Tornillos de fijación', `≈ ${L.valles_receptoras}`, `Uno por valle en cada viga receptora y a cada lado de las juntas, en el fondo plano del valle (la ficha pide fijar en todos los valles), más la costura lateral <span class="fuente calc">calculado</span>`],
+    ['Casos', '4', `Borde contra el C ${POR_TIPO.borde.length}, mismo sentido ${POR_TIPO.mismo.length}, ortogonales ${POR_TIPO.ortogonal.length}, plancha corrida ${POR_TIPO.corrida.length} <span class="fuente calc">calculado</span>`],
   ];
   $('#specs').innerHTML = s.map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
   const s2 = [
     ['Diámetro', `${coma(D_PERF, 0)} mm`, `Rango razonable 32 a 38 mm: con 32 queda muy justo para el anillo cerámico (Ø${coma(ANILLO.d, 1)}); con menos de ${coma(ANILLO.d, 1)} el anillo apoya sobre la placa y no sobre el ala <span class="fuente med">referencia</span>`],
     ['Herramienta', 'sierra copa', `Bimetálica de 35 mm en taladro de mano. Sin la broca guía, o con plantilla: la guía marcaría el ala justo donde va el perno`],
-    ['Anillo libre', `${coma(R_PERF - PN.d / 2, 0)} mm`, `Entre el perno y el borde del agujero; ${coma(R_PERF - PN.sold_d / 2, 0)} mm hasta el collar de soldadura (Ø${coma(PN.sold_d, 0)}). Queda sobre el ala de la viga: el hormigón lo rellena <span class="fuente calc">calculado</span>`],
-    ['Fondo del valle', `${coma(VALLES.fondo, 0)} mm`, `Fondo plano del valle, con el rigidizador al medio: la perforación cabe con ${coma((VALLES.fondo - D_PERF) / 2, 0)} mm a cada lado, donde va el tornillo de fijación <span class="fuente man">ficha</span>`],
+    ['Anillo libre', `${coma(R_PERF - PN.d / 2, 0)} mm`, `Entre el perno y el borde del agujero: la broca no puede quedar pegada al perno. Queda sobre el ala de la viga y el hormigón lo rellena <span class="fuente calc">calculado</span>`],
+    ['Fondo del valle', `${coma(VALLES.fondo, 0)} mm`, `Fondo plano del valle, con el rigidizador al medio: la perforación cabe con ${coma((VALLES.fondo - D_PERF) / 2, 0)} mm a cada lado <span class="fuente man">ficha</span>`],
   ];
   $('#specs-perf').innerHTML = s2.map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
-  $('#txt-perf').innerHTML = `Como la placa se perfora, el perno se suelda sobre el ala desnuda (sin pintura, limpia y seca), igual que sobre acero plano: no hace falta calificar la soldadura a través de la placa. Al centro del valle el perno queda a ≈ 76 mm del alma del nervio hacia cada lado, en la "posición fuerte" de AISC 360. Dos cosas que deja la broca: corta el rigidizador del fondo del valle, que es hueco por debajo y queda como un pequeño túnel sobre el ala, que hay que sellar en los bordes del ala antes de hormigonar; y en el valle de la unión entre dos planchas corta las dos chapas y el gancho del traslapo. Como el perno ya no sujeta la placa, la placa se fija a la viga con un tornillo autoperforante por valle (ficha Instadeck: fijar en todos los valles; SDI: a 460 mm o menos).`;
+  $('#txt-perf').innerHTML = `Como la placa se perfora, el perno se suelda sobre el ala desnuda (sin pintura, limpia y seca), igual que sobre acero plano: no hace falta calificar la soldadura a través de la placa. Al centro del valle el perno queda a ≈ 76 mm del alma del nervio hacia cada lado, en la "posición fuerte" de AISC 360. Dos cosas que deja la broca: corta el rigidizador del fondo del valle, que es hueco por debajo y queda como un pequeño túnel sobre el ala, que hay que sellar en los bordes del ala antes de hormigonar; y en el valle de la unión entre dos planchas corta las dos chapas y el gancho del traslapo.`;
   const pasos = [
     ['Viga lista', 'Ala de la viga limpia, seca y sin pintura en la línea de los pernos. En el borde, el perfil C ya puesto.'],
     ['Planchas', 'Se colocan según el caso: a tope, hasta tocarse o corridas, con el traslapo lateral de fábrica entre planchas.'],
-    ['Fijación', 'Un tornillo autoperforante por valle en cada viga, en el fondo plano del valle, al lado de donde va el perno; el borde de la plancha paralela a la viga cada 90 cm o menos; y la costura lateral cada 50 cm.'],
     ['Trazado y perforación', `Se marca el centro de cada valle según la lámina y se perfora Ø${coma(D_PERF, 0)} mm con sierra copa, sin marcar el ala.`],
-    ['Soldadura', 'Pistola de pernos con anillo cerámico: el perno se suelda al ala y deja un collar completo alrededor de su base.'],
-    ['Revisión y sellado', 'Se rompe y saca el anillo cerámico, se revisa el collar (360°) y se prueba doblando algunos pernos. Se sellan los nervios abiertos y el túnel del rigidizador.'],
+    ['Soldadura', 'Pistola de pernos con anillo cerámico: el perno se suelda al arco directo al ala, por la perforación.'],
+    ['Revisión y sellado', 'Se rompe y saca el anillo cerámico, se revisa la soldadura y se prueba doblando algunos pernos. Se sellan los nervios abiertos y el túnel del rigidizador.'],
     ['Malla', 'Malla C-188 sobre separadores, con su cara superior a 2,5 cm de la cara de la losa.'],
     ['Hormigón', 'Se hormigona hasta los 15 cm.'],
   ];
@@ -629,11 +614,11 @@ function textosTipo() {
   $('#tabla-tipos').innerHTML = `<thead><tr><th>Caso</th><th class="r">Pernos</th><th>Vigas</th><th class="r">Del eje</th></tr></thead><tbody>${filas}<tr><td><b>Total</b></td><td class="r"><b>${L.pernos.length}</b></td><td colspan="2"></td></tr></tbody>`;
   $('#txt-tipos').innerHTML = `"Del eje" es cuánto se corre el perno del eje de la viga hacia su plancha (0 = en el eje). Toca una fila para ver ese caso.`;
   const notas = [
-    `<b>Perforación y fijación.</b> Perforar es una decisión de obra: la placa de 0,8 mm G-90 también se puede soldar a través (informe ICC-ES ESR-2856). Con la perforación la soldadura es más simple de controlar, pero hay que fijar la placa aparte (un tornillo por valle en cada viga). Confirmarlo con el ingeniero.`,
-    `<b>Diámetro.</b> Ni Nelson ni las normas dan un diámetro para perforar en obra; los ${coma(D_PERF, 0)} mm salen del anillo cerámico (Ø${coma(ANILLO.d, 1)}) y del collar (Ø${coma(PN.sold_d, 0)}) más holgura.`,
+    `<b>Perforación.</b> Perforar es una decisión de obra: la placa de 0,8 mm G-90 también se puede soldar a través (informe ICC-ES ESR-2856). Con la perforación la soldadura es más simple de controlar, pero el perno ya no sujeta la placa a la viga. Confirmarlo con el ingeniero.`,
+    `<b>Diámetro.</b> Ni Nelson ni las normas dan un diámetro para perforar en obra; los ${coma(D_PERF, 0)} mm salen del anillo cerámico (Ø${coma(ANILLO.d, 1)}) más holgura.`,
     `<b>Juntas en el mismo sentido.</b> A tope sobre la viga, con los nervios alineados (SDI). El traslapo de un nervio solo existe entre planchas lado a lado, y es el traslapo lateral de fábrica.`,
     `<b>Juntas ortogonales.</b> Las planchas llegan hasta tocarse en el eje; los nervios abiertos de la perpendicular se sellan.`,
-    `<b>Para el ingeniero:</b> ¿acepta la perforación de ${coma(D_PERF, 0)} mm y la fijación con tornillos? ¿Los pernos de los bordes y de las juntas pueden ir corridos hasta ${coma(Math.max(...L.pernos.map(p => Math.abs(p.corrido || 0))) * 10, 0)} mm del eje de la viga?`,
+    `<b>Para el ingeniero:</b> ¿acepta la perforación de ${coma(D_PERF, 0)} mm? Como el perno ya no sujeta la placa, ¿cómo se fija la placa a las vigas? ¿Los pernos de los bordes y de las juntas pueden ir corridos hasta ${coma(Math.max(...L.pernos.map(p => Math.abs(p.corrido || 0))) * 10, 0)} mm del eje de la viga?`,
   ];
   $('#lista-notas').innerHTML = notas.map(n => `<li>${n}</li>`).join('');
 })();
@@ -671,7 +656,6 @@ function iniciar3D() {
     perno: std(dark ? 0xA48AF0 : 0x6B4FBB, { roughness: 0.4, metalness: 0.5 }),
     sold: std(dark ? 0x9BA1AB : 0x5E636B, { roughness: 0.85, metalness: 0.4 }),
     anillo: std(0xEDE6DA, { roughness: 0.9, metalness: 0 }),
-    tornillo: std(dark ? 0xF08C4A : 0xC2410C, { roughness: 0.4, metalness: 0.6 }),
     sello: std(0xE07A2E, { roughness: 0.95, metalness: 0 }),
     malla: std(dark ? 0xD3D7DE : 0x3B414B, { roughness: 0.6, metalness: 0.45 }),
     horm: std(dark ? 0x74777D : 0xA9A89F, { roughness: 0.95, metalness: 0, transparent: true, opacity: 0.32, depthWrite: false, side: T.DoubleSide }),
@@ -680,7 +664,7 @@ function iniciar3D() {
   const m = v => v / 1000;
   const LEN = 1.9, LEN_V = 2.6, LZ = 0.75;                      // m: ancho de las dos planchas, largo de la viga, largo de las planchas a cada lado
   const raiz = new T.Group(); scene.add(raiz);
-  const capas = { viga: new T.Group(), c: new T.Group(), placa: new T.Group(), perno: new T.Group(), fij: new T.Group(), malla: new T.Group(), horm: new T.Group() };
+  const capas = { viga: new T.Group(), c: new T.Group(), placa: new T.Group(), perno: new T.Group(), malla: new T.Group(), horm: new T.Group() };
   Object.values(capas).forEach(g => raiz.add(g));
   const BASE_ANCHO = new T.Matrix4().makeBasis(new T.Vector3(0, 0, 1), new T.Vector3(0, 1, 0), new T.Vector3(-1, 0, 0));   // ancho → +z, largo → -x
   const capaTags = $('#tags'); let TAGS = [];
@@ -723,7 +707,7 @@ function iniciar3D() {
       const tr = Placa3D.tramo(PL.perfil, c - a, a), sh = new T.Shape();
       tr.forEach(([x, y], i) => i ? sh.lineTo(m(x), m(y)) : sh.moveTo(m(x), m(y))); sh.closePath();
       const t = new T.Mesh(new T.ExtrudeGeometry(sh, { depth: 0.012, bevelEnabled: false }), MAT.sello);
-      t.position.set(m(o + a), 0, z + (haciaAtras ? -0.013 : 0.001)); capas.placa.add(t); PASO.push({ o: t, paso: 5 });
+      t.position.set(m(o + a), 0, z + (haciaAtras ? -0.013 : 0.001)); capas.placa.add(t); PASO.push({ o: t, paso: 4 });
     }));
     const planchasPerp = (z0, z1, conAg, mat, paso) => xs.forEach(o => {
       const largo = z1 - z0;
@@ -735,11 +719,10 @@ function iniciar3D() {
         PASO.push({ o: g, paso, perforada: ag.length ? perf : null });
       });
     });
-    let zPl = [-LZ, LZ];   // largo de las planchas con pernos (para la costura lateral)
     if (tipo === 'corrida') planchasPerp(-LZ, LZ, true, MAT.placa, 1);
-    else if (tipo === 'borde') { planchasPerp(zIni, LZ, true, MAT.placa, 1); sellar(zIni, false); zPl = [zIni, LZ]; tag('la placa termina en la punta del ala del C', new T.Vector3(0.62, m(PL.alto) + 0.03, zIni + 0.04), 1); }
+    else if (tipo === 'borde') { planchasPerp(zIni, LZ, true, MAT.placa, 1); sellar(zIni, false); tag('la placa termina en la punta del ala del C', new T.Vector3(0.62, m(PL.alto) + 0.03, zIni + 0.04), 1); }
     else {
-      planchasPerp(0, LZ, true, MAT.placa, 1); zPl = [0, LZ];
+      planchasPerp(0, LZ, true, MAT.placa, 1);
       if (tipo === 'mismo') { planchasPerp(-LZ, 0, false, MAT.placa2, 1); tag('a tope en el eje, nervios alineados', new T.Vector3(-0.62, m(PL.alto) + 0.03, 0), 1); }
       else {
         // plancha paralela a la viga, del lado sin pernos, con su borde en el eje
@@ -751,56 +734,43 @@ function iniciar3D() {
         sellar(0, false);
       }
     }
-    // pernos, collares, anillos cerámicos y la broca (animación)
+    // pernos, anillos cerámicos y la broca (animación)
     const gShank = new T.CylinderGeometry(m(PN.d / 2), m(PN.d / 2), m(LARGO - PN.cabeza_h), 16); gShank.translate(0, m((LARGO - PN.cabeza_h) / 2), 0);
     const gHead = new T.CylinderGeometry(m(PN.cabeza_d / 2), m(PN.cabeza_d / 2), m(PN.cabeza_h), 24); gHead.translate(0, m(LARGO - PN.cabeza_h / 2), 0);
-    const gCol = new T.CylinderGeometry(m(PN.d / 2 + 0.4), m(PN.sold_d / 2), m(PN.sold_h), 24, 1, true); gCol.translate(0, m(PN.sold_h / 2), 0);
     const gAn = new T.CylinderGeometry(m(ANILLO.d / 2), m(ANILLO.d / 2), m(ANILLO.h), 24, 1, false); gAn.translate(0, m(ANILLO.h / 2), 0);
     const gBroca = new T.CylinderGeometry(m(R_PERF), m(R_PERF), 0.045, 28, 1, true); gBroca.translate(0, 0.0225, 0);
     const gEje = new T.CylinderGeometry(0.005, 0.005, 0.12, 8); gEje.translate(0, 0.045 + 0.06, 0);
     pernos.forEach((p, i) => {
       const gp = new T.Group(); gp.position.set(p.x, 0, p.z); capas.perno.add(gp);
-      const sh = new T.Mesh(gShank, MAT.perno), hd = new T.Mesh(gHead, MAT.perno), col = new T.Mesh(gCol, MAT.sold), an = new T.Mesh(gAn, MAT.anillo);
-      gp.add(sh, hd); PASO.push({ o: sh, paso: 4, cae: true }, { o: hd, paso: 4, cae: true });
-      gp.add(col); PASO.push({ o: col, paso: 4, desde: 0.6 });
-      gp.add(an); PASO.push({ o: an, paso: 4, hasta: 5.5, cae: true });
+      const sh = new T.Mesh(gShank, MAT.perno), hd = new T.Mesh(gHead, MAT.perno), an = new T.Mesh(gAn, MAT.anillo);
+      gp.add(sh, hd); PASO.push({ o: sh, paso: 3, cae: true }, { o: hd, paso: 3, cae: true });
+      gp.add(an); PASO.push({ o: an, paso: 3, hasta: 4.5, cae: true });
       const br = new T.Group(); br.add(new T.Mesh(gBroca, MAT.broca), new T.Mesh(gEje, MAT.broca)); br.position.set(p.x, 0, p.z); capas.perno.add(br);
-      PASO.push({ o: br, paso: 3, broca: true });
-      if (i === 1) { tag(`perforación Ø${coma(D_PERF, 0)} con anillo libre`, new T.Vector3(p.x - 0.16, 0.01, p.z + 0.1), 3); tag('perno Ø19 × 5"', new T.Vector3(p.x + 0.12, m(LARGO) + 0.03, p.z), 4); }
+      PASO.push({ o: br, paso: 2, broca: true });
+      if (i === 1) { tag(`perforación Ø${coma(D_PERF, 0)} con anillo libre`, new T.Vector3(p.x - 0.16, 0.01, p.z + 0.1), 2); tag('perno Ø19 × 5"', new T.Vector3(p.x + 0.12, m(LARGO) + 0.03, p.z), 3); }
     });
-    // tornillos autoperforantes: uno por valle sobre la viga, en el fondo plano a 40 mm del centro (no sobre el rigidizador)
-    const gT = new T.CylinderGeometry(0.0055, 0.0055, 0.006, 6); gT.translate(0, m(PL.espesor) + 0.003, 0);
-    const tornillo = (x, y, z) => { const t = new T.Mesh(gT, MAT.tornillo); t.position.set(x, y, z); capas.fij.add(t); PASO.push({ o: t, paso: 2, cae: true }); };
-    valles.forEach(v => {
-      tornillo(m(v - FIJ_LADO), 0, zs);                                  // planchas con perno
-      if (tipo === 'mismo') tornillo(m(v - FIJ_LADO), 0, -zs);          // la otra plancha también apoya su extremo en la viga
-    });
-    if (tipo === 'ortogonal') [-0.85, 0, 0.85].forEach(x => tornillo(x, 0, -0.042));   // borde de la paralela, cada 90 cm o menos
-    // costura lateral (traslapo entre planchas) cada 50 cm, sobre el gancho
-    const yG = m(19) - m(PL.espesor);
-    for (let z = zPl[0] + 0.12; z < zPl[1] - 0.05; z += 0.5) if (Math.abs(z - zs) > 0.06) tornillo(m(xs[1] + 5), yG, z);
     // malla, con su grilla corrida para que ninguna barra pase por un perno
     const yMs = m(ESP - (L.malla ? L.malla.recubrimiento * 10 : 25)), zM0 = tipo === 'borde' ? m(-b / 2 + 30) : -LZ;
     const ox = m(desfase(conPerno, 150)), oz = m(desfase([zs * 1000 - zM0 * 1000], 150));
     const gBar = len => new T.CylinderGeometry(0.003, 0.003, len, 6);
-    for (let z = zM0 + oz; z < LZ; z += 0.15) { const b2 = new T.Mesh(gBar(LEN - 0.06), MAT.malla); b2.rotation.z = Math.PI / 2; b2.position.set(0, yMs - 0.009, z); capas.malla.add(b2); PASO.push({ o: b2, paso: 6, cae: true }); }
-    for (let x = -LEN / 2 + ((ox + LEN / 2) % 0.15); x < LEN / 2; x += 0.15) { const b2 = new T.Mesh(gBar(LZ - zM0 - 0.03), MAT.malla); b2.rotation.x = Math.PI / 2; b2.position.set(x, yMs - 0.003, (zM0 + LZ) / 2); capas.malla.add(b2); PASO.push({ o: b2, paso: 6, cae: true }); }
+    for (let z = zM0 + oz; z < LZ; z += 0.15) { const b2 = new T.Mesh(gBar(LEN - 0.06), MAT.malla); b2.rotation.z = Math.PI / 2; b2.position.set(0, yMs - 0.009, z); capas.malla.add(b2); PASO.push({ o: b2, paso: 5, cae: true }); }
+    for (let x = -LEN / 2 + ((ox + LEN / 2) % 0.15); x < LEN / 2; x += 0.15) { const b2 = new T.Mesh(gBar(LZ - zM0 - 0.03), MAT.malla); b2.rotation.x = Math.PI / 2; b2.position.set(x, yMs - 0.003, (zM0 + LZ) / 2); capas.malla.add(b2); PASO.push({ o: b2, paso: 5, cae: true }); }
     const zH0 = tipo === 'borde' ? m(-b / 2 + PC.t) : -LZ;
-    const hb = new T.Mesh(new T.BoxGeometry(LEN, m(ESP), LZ - zH0), MAT.horm); hb.position.set(0, m(ESP) / 2, (LZ + zH0) / 2); capas.horm.add(hb); PASO.push({ o: hb, paso: 7, vaciado: true });
+    const hb = new T.Mesh(new T.BoxGeometry(LEN, m(ESP), LZ - zH0), MAT.horm); hb.position.set(0, m(ESP) / 2, (LZ + zH0) / 2); capas.horm.add(hb); PASO.push({ o: hb, paso: 6, vaciado: true });
     aplicar(); encuadrar();
   }
   // ---------- instalación paso a paso ----------
-  const NP = 8;
+  const NP = 7;
   function aplicar() {
     const tP = est.t * NP;   // paso actual (fraccional)
     PASO.forEach(q => {
       const u = Math.max(0, Math.min(1, tP - q.paso));   // avance dentro de su paso
       let vis = tP >= q.paso;
       if (q.hasta != null && tP >= q.hasta) vis = false;
-      if (q.perforada != null) vis = q.perforada ? tP >= 3.55 : tP < 3.55 && tP >= q.paso;
+      if (q.perforada != null) vis = q.perforada ? tP >= 2.55 : tP < 2.55 && tP >= q.paso;
       q.o.visible = vis;
       if (!vis) return;
-      if (q.broca) { const e2 = Math.min(1, u * 1.4); q.o.visible = tP < 4; q.o.position.y = 0.06 * (1 - Math.sin(Math.PI * Math.min(1, e2))); q.o.rotation.y = tP * 40; return; }
+      if (q.broca) { const e2 = Math.min(1, u * 1.4); q.o.visible = tP < 3; q.o.position.y = 0.06 * (1 - Math.sin(Math.PI * Math.min(1, e2))); q.o.rotation.y = tP * 40; return; }
       if (q.cae) { const e2 = 1 - Math.min(1, u * 2); q.o.position.y = (q.o.userData.y0 == null ? (q.o.userData.y0 = q.o.position.y) : q.o.userData.y0) + e2 * 0.15; }
       if (q.desde != null) q.o.visible = u >= q.desde || tP >= q.paso + 1;
       if (q.vaciado) { const e2 = Math.min(1, u * 1.3); q.o.scale.y = Math.max(0.001, e2); q.o.position.y = m(ESP) * e2 / 2; }
@@ -808,7 +778,7 @@ function iniciar3D() {
     const i = Math.min(NP - 1, Math.floor(tP + 1e-6));
     const P = window.__PASOS || [];
     const listo = est.t >= 1 - 1e-9;
-    $('#m-txt').innerHTML = listo ? '<b>Listo.</b> Perno soldado, placa fijada, malla y hormigón.' : P[i] ? `<b>${i + 1}. ${P[i][0]}.</b> ${P[i][1]}` : '';
+    $('#m-txt').innerHTML = listo ? '<b>Listo.</b> Pernos soldados en sus perforaciones, malla y hormigón.' : P[i] ? `<b>${i + 1}. ${P[i][0]}.</b> ${P[i][1]}` : '';
     document.querySelectorAll('#m-pasos button').forEach((b, k) => b.setAttribute('aria-pressed', k === i && !listo ? 'true' : 'false'));
     pedir();
   }
@@ -870,10 +840,10 @@ function iniciar3D() {
   $('#m-t').addEventListener('input', e => { est.play = false; marcaPlay(); est.t = +e.target.value / 1000; capasDelPaso(Math.floor(est.t * NP - 1e-9)); aplicar(); });
   $('#m-vel').addEventListener('change', e => { est.vel = +e.target.value; });
   function capasDelPaso(i) {
-    [['#tg-malla', 6], ['#tg-horm', 7]].forEach(([id, p]) => { const b = $(id); if (i >= p && b.getAttribute('aria-pressed') !== 'true') b.click(); });
+    [['#tg-malla', 5], ['#tg-horm', 6]].forEach(([id, p]) => { const b = $(id); if (i >= p && b.getAttribute('aria-pressed') !== 'true') b.click(); });
   }
   const tog = (id, fn) => $(id).addEventListener('click', e => { const on = e.currentTarget.getAttribute('aria-pressed') !== 'true'; e.currentTarget.setAttribute('aria-pressed', on ? 'true' : 'false'); fn(on); pedir(); });
-  [['#tg-viga', 'viga'], ['#tg-c', 'c'], ['#tg-placa', 'placa'], ['#tg-perno', 'perno'], ['#tg-fij', 'fij'], ['#tg-malla', 'malla'], ['#tg-horm', 'horm']].forEach(([id, k]) => {
+  [['#tg-viga', 'viga'], ['#tg-c', 'c'], ['#tg-placa', 'placa'], ['#tg-perno', 'perno'], ['#tg-malla', 'malla'], ['#tg-horm', 'horm']].forEach(([id, k]) => {
     capas[k].visible = $(id).getAttribute('aria-pressed') === 'true'; tog(id, on => { capas[k].visible = on; }); });
   tog('#tg-etq', on => { est.etq = on; });
   // ---------- arranque ----------
