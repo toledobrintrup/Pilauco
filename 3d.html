@@ -326,19 +326,23 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
       });
     });
     const pr = Lo.placa.perfil, e = Lo.placa.espesor, cache = {};
-    function geoPlaca(w){
-      const k = Math.round(w); if (cache[k]) return cache[k];
-      const pts = [];
-      for (let i = 0; i < pr.length; i++){ const p = pr[i]; if (p[0] <= k){ pts.push(p); continue; } const q = pr[i-1]; if (q && q[0] < k) pts.push([k, q[1] + (p[1]-q[1]) * (k-q[0]) / (p[0]-q[0])]); break; }
+    // tramo del perfil entre d0 y d0 + w (mm): las piezas de una plancha cortada siguen los nervios de la plancha entera
+    function geoPlaca(w, d0){
+      const k = Math.round(w), o = Math.round(d0 || 0), key = k + '_' + o; if (cache[key]) return cache[key];
+      const pts = [], fin = o + k, en = (q, p, x) => [x - o, q[1] + (p[1]-q[1]) * (x-q[0]) / (p[0]-q[0])];
+      for (let i = 0; i < pr.length; i++){ const p = pr[i], q = pr[i-1];
+        if (q && q[0] < o && p[0] > o) pts.push(en(q, p, o));
+        if (p[0] >= o && p[0] <= fin) pts.push([p[0] - o, p[1]]);
+        if (q && q[0] < fin && p[0] > fin){ pts.push(en(q, p, fin)); break; } }
       const s = new THREE.Shape();
       pts.forEach((p, i) => i ? s.lineTo(mm(p[0]), mm(p[1])) : s.moveTo(mm(p[0]), mm(p[1])));
       for (let i = pts.length - 1; i >= 0; i--) s.lineTo(mm(pts[i][0]), mm(pts[i][1] + e));
       s.closePath();
-      return cache[k] = new THREE.ExtrudeGeometry(s, {depth: 1, bevelEnabled: false});
+      return cache[key] = new THREE.ExtrudeGeometry(s, {depth: 1, bevelEnabled: false});
     }
     Lo.areas.forEach(a => a.piezas.forEach((p, i) => {
       const ns = a.dir === 'NS', z = ns ? new THREE.Vector3(0, 0, 1) : new THREE.Vector3(1, 0, 0), x = new THREE.Vector3().crossVectors(ARRIBA, z);
-      const m = new THREE.Mesh(geoPlaca(p.ancho * 10), matP);
+      const m = new THREE.Mesh(geoPlaca(p.ancho * 10, p.d0), matP);
       m.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(x, ARRIBA, z)); m.scale.set(1, 1, cm(p.largo));
       m.position.set(cm(p.x0), z0, cm(ns ? p.y0 : p.y1));
       m.userData.losa = `<b>Placa Instadeck 0,8</b> · área ${a.n}<br><span class="sub">plancha ${p.k} · ${(p.largo / 100).toFixed(2).replace('.', ',')} m × ${(p.ancho / 100).toFixed(2).replace('.', ',')} m${p.cortada ? ' (cortada)' : ''}</span>`;

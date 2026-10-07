@@ -10,6 +10,8 @@
       ico: '<path d="M10 2.5 17 6.5v7L10 17.5 3 13.5v-7z"/><path d="M3 6.5 10 10.5l7-4M10 10.5v7"/>' },
     { id: 'losa', href: 'losa.html', t: 'Losa', d: 'Losa colaborante del entrepiso: marco C, placa, pernos, malla, hormigón, despiece y montaje',
       ico: '<path d="M2.5 12.5h15M2.5 15.5h15"/><path d="M3 12.5l2-3h2l2 3 2-3h2l2 3"/><path d="M5 9.5V7M15 9.5V7"/>' },
+    { id: 'pernos', href: 'pernos.html', t: 'Pernos', d: 'Pernos Nelson: perforación, soldadura y cada caso de instalación en 2D y 3D, paso a paso',
+      ico: '<path d="M8.5 5.5h3M10 5.5v9"/><path d="M6.5 3.5h7"/><path d="M3 16.5h14"/><circle cx="10" cy="15.5" r="2.5"/>' },
     { id: 'tablero', href: 'tablero.html', t: 'Tablero', d: 'Aro de básquetbol: piezas, fundación, armado paso a paso y 3D',
       ico: '<rect x="3" y="2.5" width="14" height="9" rx="1"/><rect x="7.5" y="5.5" width="5" height="4"/><path d="M6.5 13.5h7l-1.2 4h-4.6z"/>' },
   ];

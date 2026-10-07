@@ -1,0 +1,915 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#1B1E24">
+<meta name="description" content="Cómo se instalan los pernos Nelson de la losa colaborante de Casa Pilauco: perforación de la placa alrededor de cada perno, soldadura al ala de la viga y los cuatro casos (borde contra el perfil C, juntas en el mismo sentido, juntas ortogonales y plancha corrida), en 2D y 3D, paso a paso.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%236B4FBB'/%3E%3Cg fill='%23fff'%3E%3Crect x='14' y='9' width='4' height='14'/%3E%3Crect x='10' y='7' width='12' height='4' rx='1'/%3E%3C/g%3E%3Cpath d='M5 25h22' stroke='%23fff' stroke-width='2.2'/%3E%3C/svg%3E">
+<title>Pernos: instalación</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --paper:#FFFFFF; --panel:#F7F8FA; --ink:#16181D; --muted:#6B7280; --line:#E3E6EB; --line2:#EFF1F4;
+  --accent:#3D5A73; --hi:#D9731A; --hi-soft:rgba(217,115,26,.10); --hi-borde:rgba(217,115,26,.38);
+  --ok:#2F7D4A; --ok-soft:rgba(47,125,74,.10); --med:#9A6A12; --med-soft:rgba(154,106,18,.11); --calc:#3D5A73; --calc-soft:rgba(61,90,115,.10);
+  --mal:#B42318; --mal-soft:rgba(180,35,24,.08);
+  --shadow:0 1px 2px rgba(16,18,22,.06),0 10px 28px rgba(16,18,22,.10);
+  --chrome:#1B1E24; --chrome-ink:#F0F2F5; --chrome-muted:#9AA0AC; --chrome-line:#343943; --chrome-hi:rgba(255,255,255,.10);
+  --fig-ink:#2B2F36; --fig-soft:#8B929C; --fig-fill:#F1F2F4; --fig-horm:#DCDDDF; --fig-viga:#1D63B8; --fig-c:#C98A0E; --fig-placa:#8C96A3; --fig-malla:#3B414B; --fig-horm2:#B4B3AA; --fig-sold:#5E636B;
+  --ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+  --paper:#14161A; --panel:#1A1D23; --ink:#E7E9EE; --muted:#8A909C; --line:#2A2E37; --line2:#212530;
+  --accent:#8FB4D4; --hi:#F09A4E; --hi-soft:rgba(240,154,78,.12); --hi-borde:rgba(240,154,78,.40);
+  --ok:#74C08E; --ok-soft:rgba(116,192,142,.12); --med:#E0B25A; --med-soft:rgba(224,178,90,.12); --calc:#8FB4D4; --calc-soft:rgba(143,180,212,.13);
+  --mal:#F08A80; --mal-soft:rgba(240,138,128,.10);
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
+  --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
+  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-horm:#30333A; --fig-viga:#5AA9F0; --fig-c:#F2C14E; --fig-placa:#A3ACB8; --fig-malla:#D3D7DE; --fig-horm2:#8A8D93; --fig-sold:#9BA1AB;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#14161A; --panel:#1A1D23; --ink:#E7E9EE; --muted:#8A909C; --line:#2A2E37; --line2:#212530;
+  --accent:#8FB4D4; --hi:#F09A4E; --hi-soft:rgba(240,154,78,.12); --hi-borde:rgba(240,154,78,.40);
+  --ok:#74C08E; --ok-soft:rgba(116,192,142,.12); --med:#E0B25A; --med-soft:rgba(224,178,90,.12); --calc:#8FB4D4; --calc-soft:rgba(143,180,212,.13);
+  --mal:#F08A80; --mal-soft:rgba(240,138,128,.10);
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
+  --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
+  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-horm:#30333A; --fig-viga:#5AA9F0; --fig-c:#F2C14E; --fig-placa:#A3ACB8; --fig-malla:#D3D7DE; --fig-horm2:#8A8D93; --fig-sold:#9BA1AB;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;font-feature-settings:"cv05","ss01"}
+header.top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:12px 18px 11px;background:var(--chrome);color:var(--chrome-ink)}
+header.top h1{font-size:16.5px;font-weight:600;margin:0;letter-spacing:-.012em}
+header.top h1 small{font-weight:400;color:var(--chrome-muted);font-size:12.5px;margin-left:9px;letter-spacing:0}
+header.top .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
+@media (max-width:760px){header.top .meta{display:none}header.top h1 small{display:block;margin:2px 0 0}}
+
+.main{display:flex;flex-direction:column}
+.visor{position:relative;height:min(70svh,660px);min-height:420px;background:var(--panel);border-bottom:1px solid var(--line);overflow:hidden;touch-action:none}
+.doc{min-width:0}
+@media (min-width:1080px){
+  html,body{height:100%}
+  body{overflow:hidden}
+  .app{height:100%;display:flex;flex-direction:column}
+  .main{flex:1;min-height:0;flex-direction:row}
+  .doc{width:min(44%,700px);flex:none;overflow-y:auto;border-right:1px solid var(--line);order:1}
+  .visor{flex:1;height:auto;min-height:0;border-bottom:0;order:2}
+}
+
+.toc{position:sticky;top:0;z-index:5;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding:9px 22px;background:var(--paper);border-bottom:1px solid var(--line)}
+.toc::-webkit-scrollbar{display:none}
+.toc a{flex:none;font-size:12px;font-weight:500;color:var(--muted);text-decoration:none;padding:4px 10px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.toc a:hover{color:var(--ink);border-color:var(--line)}
+.toc a.on{color:var(--ink);background:var(--line2);border-color:var(--line)}
+.doc-in{max-width:700px;padding:6px 26px 90px}
+section{padding-top:30px;scroll-margin-top:44px}
+h2{font-size:19px;font-weight:650;letter-spacing:-.015em;margin:0 0 10px;display:flex;align-items:baseline;gap:10px}
+h2 .n{font-size:11.5px;font-weight:600;color:var(--hi);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+h3{font-size:14.5px;font-weight:600;margin:22px 0 6px}
+p{margin:0 0 10px}
+.lead{font-size:15px;margin:16px 0 14px}
+.sub{color:var(--muted)}
+.small{font-size:12.5px}
+a{color:var(--accent)}
+.specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px 0 6px}
+.spec{border:1px solid var(--line);border-radius:10px;padding:10px 12px 9px;background:var(--panel);min-width:0}
+.spec .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:500}
+.spec .v{font-size:17.5px;font-weight:620;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin:2px 0 3px;line-height:1.25}
+.spec .d{font-size:12px;color:var(--muted);line-height:1.4}
+@media (max-width:420px){.specs{grid-template-columns:1fr}}
+.fuente{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:1px 6px;border-radius:999px;vertical-align:1px;margin-left:4px;white-space:nowrap}
+.fuente.man{color:var(--ok);background:var(--ok-soft)}
+.fuente.med{color:var(--med);background:var(--med-soft)}
+.fuente.calc{color:var(--calc);background:var(--calc-soft)}
+.tw{overflow-x:auto;margin:10px 0 6px;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:12.5px;font-variant-numeric:tabular-nums}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:500;text-align:left;padding:8px 9px;border-bottom:1px solid var(--line);background:var(--panel);white-space:nowrap}
+td{padding:7px 9px;border-bottom:1px solid var(--line2);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.c,th.c{text-align:center}
+td.r,th.r{text-align:right}
+tbody tr[data-area]{cursor:pointer}
+tbody tr[data-area]:hover td,tbody tr.on td{background:var(--hi-soft)}
+td.dif{color:var(--mal);font-weight:600}
+td.okv{color:var(--ok)}
+.sw{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:6px;border:1px solid rgba(0,0,0,.15)}
+figure{margin:14px 0 10px}
+figure svg{display:block;width:100%;height:auto}
+figcaption{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45}
+svg .tx{font-family:var(--ui);fill:var(--fig-ink)}
+svg .txs{font-family:var(--ui);fill:var(--fig-soft)}
+.aviso{border:1px solid var(--hi-borde);background:var(--hi-soft);border-radius:10px;padding:9px 12px;margin:10px 0;font-size:13px}
+.aviso b{color:var(--hi)}
+.pendiente{border:1px dashed var(--line);border-radius:10px;padding:10px 12px;margin:8px 0;font-size:13px;color:var(--muted)}
+.pendiente b{color:var(--ink)}
+.barras{display:flex;flex-direction:column;gap:4px;margin:8px 0}
+.barra{display:grid;grid-template-columns:52px minmax(0,1fr) 54px;gap:8px;align-items:center;font-size:11.5px;font-variant-numeric:tabular-nums}
+.barra .b{display:flex;height:16px;border-radius:3px;overflow:hidden;background:var(--line2);border:1px solid var(--line)}
+.barra .b i{display:block;height:100%;border-right:1px solid var(--paper);background:var(--fig-c);opacity:.85;font-style:normal;font-size:9.5px;color:#fff;overflow:hidden;white-space:nowrap;padding-left:3px;line-height:15px}
+.barra .b i.r{background:transparent;opacity:1;color:var(--muted)}
+footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.btn{font:inherit;font-size:12.5px;font-weight:500;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:4px 11px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--hi-borde);color:var(--hi)}
+.btn:focus-visible,.toc a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---------- visor ---------- */
+.visor canvas{display:block;width:100%;height:100%;outline:none}
+.v-carga{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:13px;text-align:center;padding:20px}
+.v-ui{position:absolute;inset:0;pointer-events:none}
+.v-ui > *{pointer-events:auto}
+.v-modo{position:absolute;top:12px;left:12px;display:flex;gap:6px;flex-wrap:wrap;max-width:calc(100% - 200px)}
+.pill{display:flex;align-items:center;gap:2px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:3px;box-shadow:var(--shadow)}
+.pill button{font:inherit;font-size:12.5px;border:0;background:transparent;color:var(--ink);border-radius:999px;cursor:pointer;padding:4px 10px;line-height:1.3;white-space:nowrap}
+.pill button:hover{background:var(--line2)}
+.pill button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.v-capas{position:absolute;top:12px;right:12px;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.v-capas .grp{display:flex;flex-direction:column;gap:3px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:5px;box-shadow:var(--shadow)}
+.tg{font:inherit;font-size:12px;font-weight:500;border:0;background:transparent;color:var(--muted);border-radius:8px;padding:4px 9px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:7px;white-space:nowrap}
+.tg::before{content:"";width:8px;height:8px;border-radius:2px;border:1.5px solid currentColor;flex:none}
+.tg[aria-pressed="true"]{color:var(--ink)}
+.tg[aria-pressed="true"]::before{background:var(--sw,var(--hi));border-color:var(--sw,var(--hi))}
+.tg:hover{background:var(--line2)}
+.tg:disabled{opacity:.45;cursor:default}
+.tg.accion::before{content:"⤢";width:auto;height:auto;border:0;font-size:12px;line-height:1;background:none}
+.v-panel{position:absolute;left:12px;bottom:12px;width:min(380px,calc(100% - 24px));background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:10px 12px 11px;box-shadow:var(--shadow);max-height:calc(100% - 70px);overflow-y:auto}
+.v-panel .cab{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.v-panel .cab .lbl{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:600;flex:1}
+.sl{display:grid;grid-template-columns:118px minmax(0,1fr) 34px;gap:8px;align-items:center;font-size:12px;padding:2px 0}
+.sl label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sl input{width:100%;accent-color:var(--hi);margin:0}
+.sl output{font-variant-numeric:tabular-nums;color:var(--muted);text-align:right;font-size:11.5px}
+.sl .sw{margin-right:5px}
+details.areas summary{font-size:12px;color:var(--muted);cursor:pointer;padding:4px 0;list-style:none}
+details.areas summary::-webkit-details-marker{display:none}
+details.areas summary::before{content:"▸ ";}
+details.areas[open] summary::before{content:"▾ ";}
+.tl{display:flex;align-items:center;gap:8px}
+.tl input{flex:1;accent-color:var(--hi)}
+.tl .play{font:inherit;font-size:13px;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;flex:none}
+.tl .play:hover{border-color:var(--hi-borde);color:var(--hi)}
+.tl select{font:inherit;font-size:12px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);padding:2px 4px}
+.tl-txt{font-size:12px;color:var(--muted);margin-top:6px;min-height:18px;font-variant-numeric:tabular-nums}
+.tl-txt b{color:var(--ink);font-weight:600}
+.tags{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.tag{position:absolute;left:0;top:0;pointer-events:auto;font:inherit;font-size:11px;font-weight:700;min-width:22px;height:21px;padding:0 6px;border:1.5px solid var(--ink);border-radius:6px;background:var(--paper);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);will-change:transform;box-shadow:0 1px 3px rgba(0,0,0,.18);white-space:nowrap}
+.tag.c{font-size:10px;font-weight:600;min-width:0;height:18px;padding:0 4px;border-width:1px;border-color:var(--hi);color:var(--hi)}
+.tag:hover,.tag.on{border-color:var(--hi);color:var(--hi)}
+.ficha{position:absolute;z-index:3;pointer-events:none;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px 11px;font-size:12.5px;line-height:1.45;box-shadow:var(--shadow);max-width:280px}
+.ficha b{font-weight:620}
+.ficha .d{color:var(--muted)}
+.v-ayuda{position:absolute;right:12px;bottom:58px;font-size:11px;color:var(--muted);pointer-events:none;text-align:right;line-height:1.4;max-width:190px}
+@media (max-width:1079px){.v-ayuda{display:none}}
+@media (max-width:640px){
+  .doc-in{padding:4px 16px 70px}
+  .toc{padding:8px 16px}
+  .v-modo{top:8px;left:8px;max-width:calc(100% - 16px)}
+  .v-capas{top:50px;left:8px;right:8px;align-items:stretch}
+  .v-capas .grp{flex-direction:row;overflow-x:auto;scrollbar-width:none;border-radius:999px;padding:3px}
+  .v-capas .grp::-webkit-scrollbar{display:none}
+  .v-panel{left:8px;right:8px;bottom:8px;width:auto;max-height:46%}
+  #v-ui .nav3d-barra{top:96px;bottom:auto;right:8px}
+  .sl{grid-template-columns:96px minmax(0,1fr) 30px}
+}
+
+/* ---------- propio de esta página ---------- */
+.tag.d{pointer-events:none;font-size:10.5px;font-weight:600;height:auto;min-width:0;padding:2px 7px;border-width:1px;border-color:var(--line);color:var(--ink);background:var(--paper);opacity:.94;cursor:default}
+.pasos{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.pasos button{font:inherit;font-size:11.5px;font-weight:600;min-width:28px;height:26px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--muted);cursor:pointer;font-variant-numeric:tabular-nums}
+.pasos button:hover{border-color:var(--hi-borde);color:var(--hi)}
+.pasos button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.pasos-lista{padding-left:20px;margin:6px 0 0}
+.pasos-lista li{margin:0 0 6px}
+#tabla-tipos tr.on td{background:var(--hi-soft)}
+.v-panel .tl-txt{min-height:36px}
+@media (max-width:640px){#tipos{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;max-width:calc(100vw - 16px)}#tipos::-webkit-scrollbar{display:none}#tipos button{font-size:12px;padding:4px 9px;flex:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <script src="menu.js" data-vista="pernos"></script>
+  <h1>Pernos Nelson <small>Cómo se instalan: borde, juntas sobre vigas interiores y plancha corrida</small></h1>
+  <span class="meta">Fuentes: lámina 11 de pernos (07-10-2026), detalle del ingeniero (05-10-2026), ficha y manual de Instadeck, catálogo Nelson, SDI, AISC 360, AWS D1.1 e ICC-ES ESR-2856</span>
+</header>
+<div class="main">
+  <div class="visor" id="visor">
+    <div class="v-carga" id="v-carga">Cargando el detalle…</div>
+    <div class="tags" id="tags"></div>
+    <div class="v-ui" id="v-ui" hidden>
+      <div class="v-modo">
+        <div class="pill" role="group" aria-label="Tipo de instalación" id="tipos"></div>
+      </div>
+      <div class="v-capas">
+        <div class="grp" role="group" aria-label="Capas">
+          <button class="tg" id="tg-viga" aria-pressed="true" style="--sw:var(--fig-viga)">Viga</button>
+          <button class="tg" id="tg-c" aria-pressed="true" style="--sw:var(--fig-c)">Perfil C</button>
+          <button class="tg" id="tg-placa" aria-pressed="true" style="--sw:var(--fig-placa)">Placa</button>
+          <button class="tg" id="tg-perno" aria-pressed="true" style="--sw:#6B4FBB">Pernos</button>
+          <button class="tg" id="tg-fij" aria-pressed="true" style="--sw:#C2410C">Tornillos</button>
+          <button class="tg" id="tg-malla" aria-pressed="false" style="--sw:var(--fig-malla)">Malla</button>
+          <button class="tg" id="tg-horm" aria-pressed="false" style="--sw:var(--fig-horm2)">Hormigón</button>
+          <button class="tg" id="tg-etq" aria-pressed="true">Etiquetas</button>
+        </div>
+      </div>
+      <div class="v-panel" id="v-panel">
+        <div class="cab"><span class="lbl">Instalación paso a paso</span>
+          <select id="m-vel" aria-label="Velocidad"><option value="0.5">0,5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></div>
+        <div class="tl"><button class="play" id="m-play" aria-label="Reproducir">▶</button><input type="range" id="m-t" min="0" max="1000" step="1" value="1000" aria-label="Avance de la instalación"></div>
+        <div class="pasos" id="m-pasos"></div>
+        <div class="tl-txt" id="m-txt"></div>
+      </div>
+      <div class="v-ayuda" id="v-ayuda"></div>
+    </div>
+    <div class="ficha" id="ficha" hidden></div>
+  </div>
+
+  <div class="doc" id="doc">
+    <nav class="toc" id="toc" aria-label="Secciones">
+      <a href="#resumen">Resumen</a><a href="#detalle">Detalle</a><a href="#perforacion">Perforación</a><a href="#pasos">Pasos</a><a href="#todos">Todos los casos</a><a href="#notas">Notas</a>
+    </nav>
+    <div class="doc-in">
+<section id="resumen" style="padding-top:14px">
+  <p class="lead">Cada perno Nelson va al <b>centro de un valle</b> de la placa, sobre una viga receptora. Alrededor de cada uno la
+  placa se <b>perfora con una sierra copa</b> y el perno se suelda al arco directo al ala de la viga; entre el perno y el borde del
+  agujero queda un <b>anillo libre</b>, porque la broca no puede quedar pegada al perno. Cómo llega la placa a la viga cambia el
+  detalle: en el borde contra el perfil C, donde se juntan planchas del mismo sentido, donde se juntan planchas ortogonales y donde
+  la plancha pasa corrida.</p>
+  <div class="specs" id="specs"></div>
+  <p class="small sub"><span class="fuente man">fuente</span> dato de una ficha, norma o del ingeniero ·
+  <span class="fuente calc">calculado</span> sale del modelo · <span class="fuente med">referencia</span> valor propuesto, a confirmar.</p>
+</section>
+
+<section id="detalle">
+  <h2><span class="n">01</span><span id="d-titulo"></span></h2>
+  <p id="d-texto"></p>
+  <figure><svg id="svg-corte" role="img" aria-label="Corte transversal a la viga con el perno, la perforación y las planchas"></svg>
+    <figcaption id="cap-corte"></figcaption></figure>
+  <figure><svg id="svg-planta" role="img" aria-label="Planta del encuentro de las planchas sobre la viga, con los pernos y las perforaciones"></svg>
+    <figcaption id="cap-planta"></figcaption></figure>
+  <h3>Traslapo de las planchas</h3>
+  <p id="d-traslapo"></p>
+  <div class="aviso" id="d-aviso" hidden></div>
+  <h3>En esta losa</h3>
+  <p class="small" id="d-donde"></p>
+</section>
+
+<section id="perforacion">
+  <h2><span class="n">02</span>La perforación</h2>
+  <figure><svg id="svg-agujero" role="img" aria-label="Planta y corte de la perforación alrededor de un perno"></svg>
+    <figcaption>Perforación alrededor de un perno, ampliada. El anillo libre entre el perno y el borde del agujero lo deja la broca;
+    el collar de soldadura y el anillo cerámico (que se rompe y se saca después de soldar) caben dentro.</figcaption></figure>
+  <div class="specs" id="specs-perf"></div>
+  <p class="small" id="txt-perf"></p>
+</section>
+
+<section id="pasos">
+  <h2><span class="n">03</span>Pasos de la instalación</h2>
+  <ol class="pasos-lista" id="lista-pasos"></ol>
+</section>
+
+<section id="todos">
+  <h2><span class="n">04</span>Todos los casos</h2>
+  <div class="tw"><table class="small" id="tabla-tipos"></table></div>
+  <p class="small sub" id="txt-tipos"></p>
+</section>
+
+<section id="notas">
+  <h2><span class="n">05</span>Notas y preguntas para el ingeniero</h2>
+  <ul class="small" id="lista-notas"></ul>
+  <footer>Dibujos hechos de nuevo a partir de la ficha de la placa, la lámina del ingeniero y las normas citadas. Las fuentes
+  externas no están en el repositorio.</footer>
+</section>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="nav3d.js"></script>
+<script src="placa3d.js"></script>
+<script src="estructura.js"></script>
+<script src="losa.js"></script>
+<script>
+(function () {
+'use strict';
+const L = DATA_LOSA, E = DATA_ESTRUCTURA;
+const $ = s => document.querySelector(s);
+const coma = (v, d) => (Math.round(v * Math.pow(10, d)) / Math.pow(10, d)).toFixed(d).replace('.', ',');
+const NS = 'http://www.w3.org/2000/svg';
+const el = (tag, at = {}, padre) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); if (padre) padre.appendChild(e); return e; };
+const txt = (padre, x, y, s, at = {}) => { const t = el('text', Object.assign({ x, y, class: 'tx' }, at), padre); t.textContent = s; return t; };
+const oscuro = () => document.documentElement.dataset.theme === 'dark' || (document.documentElement.dataset.theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+
+// =====================================================================
+//  DATOS (mm salvo indicación)
+// =====================================================================
+const PL = L.placa, PC = L.perfilC, PN = L.perno, ESP = L.espesor * 10;
+const D_PERF = (L.perforacion || 3.5) * 10, R_PERF = D_PERF / 2;   // perforación
+const HOLG = 2;                    // mm entre el borde del agujero y el extremo de la plancha (o la punta del ala del C)
+const ANILLO = { d: 30.9, di: 19.05, h: 16.7 };   // anillo cerámico estándar 3/4" (Nelson 100-101-152)
+const FIJ_LADO = 40;               // mm del centro del valle al tornillo autoperforante, junto al agujero
+const AJUSTE = R_PERF + HOLG;      // mm del extremo de la plancha al centro del perno, como mínimo
+const QUEMA = PN.quema_desnudo || 4.8, LARGO = PN.largo_compra - QUEMA;   // perno soldado sobre acero desnudo
+// centros de valle de una plancha (mm desde su borde): entre las dos mitades que separa el rigidizador; el último es el de
+// la unión con la plancha siguiente (mitad en cada plancha, con el gancho del traslapo al medio)
+const VALLES = (() => {
+  const pr = PL.perfil, fl = [];
+  for (let i = 1; i < pr.length; i++) if (pr[i - 1][1] <= 0.7 && pr[i][1] <= 0.7 && pr[i][0] - pr[i - 1][0] > 5) fl.push([pr[i - 1][0], pr[i][0]]);
+  const g = []; fl.forEach(f => { if (g.length && f[0] - g[g.length - 1][1] < 20) g[g.length - 1][1] = f[1]; else g.push(f.slice()); });
+  return { centros: g.slice(1, -1).map(v => (v[0] + v[1]) / 2), union: (g[g.length - 1][0] + PL.util + g[0][1]) / 2, fondo: g[1][1] - g[1][0] };
+})();
+const PERF = E.perfiles;
+// cuánto quedan corridos los nervios entre áreas del mismo sentido que se juntan a tope sobre una viga (cm)
+const DESFASES = (() => {
+  const paso = PL.util / 30;   // cm entre valles (3 por plancha)
+  const grilla = a => { const q = a.piezas.find(p => !(p.d0) && p.ancho >= 94.9); return q ? (a.dir === 'NS' ? q.x0 : q.y1) : null; };
+  const out = [];
+  L.areas.forEach((a, i) => L.areas.slice(i + 1).forEach(b => {
+    if (a.dir !== b.dir) return;
+    // comparten un lado perpendicular a las planchas (horizontal si van N-S, vertical si van E-O)
+    const lados = pol => pol.map((p, k) => [p, pol[(k + 1) % pol.length]]);
+    const toca = lados(a.poligono).some(([p, q]) => lados(b.poligono).some(([r, t]) => {
+      const hor = a.dir === 'NS', k = hor ? 1 : 0, o = hor ? 0 : 1;
+      if (Math.abs(p[k] - q[k]) > 0.5 || Math.abs(r[k] - t[k]) > 0.5 || Math.abs(p[k] - r[k]) > 0.5) return false;
+      return Math.min(Math.max(p[o], q[o]), Math.max(r[o], t[o])) - Math.max(Math.min(p[o], q[o]), Math.min(r[o], t[o])) > 10;
+    }));
+    const ga = grilla(a), gb = grilla(b); if (!toca || ga == null || gb == null) return;
+    let d = ((ga - gb) % paso + paso) % paso; if (d > paso / 2) d = paso - d;
+    out.push({ a: a.n, b: b.n, cm: d });
+  }));
+  return out;
+})();
+const nombreViga = id => { const m = id.match(/^V-([^-]+)-(.+)$/); return m ? `${m[1].replace('ap', "a'")} (${m[2].replace(/-/g, '–').replace(/ap/g, "a'")})` : id; };
+
+const TIPOS = [
+  { id: 'borde', corto: 'Borde (perfil C)', t: 'Borde: la plancha llega al perfil C' },
+  { id: 'mismo', corto: 'Mismo sentido', t: 'Viga interior: planchas en el mismo sentido' },
+  { id: 'ortogonal', corto: 'Ortogonales', t: 'Viga interior: planchas ortogonales' },
+  { id: 'corrida', corto: 'Plancha corrida', t: 'Viga interior: la plancha pasa corrida' },
+];
+// pernos de la losa por tipo (vienen de losa.js, calculados por el generador)
+const POR_TIPO = {};
+TIPOS.forEach(t => { POR_TIPO[t.id] = L.pernos.filter(p => p.tipo === t.id); });
+// la viga del detalle: la más angosta de cada tipo (el caso más justo)
+const vigaDe = id => { const ps = POR_TIPO[id]; if (!ps.length) return 'IPE 300'; return ps.map(p => p.perfil).sort((a, b) => PERF[a].b - PERF[b].b)[0]; };
+// dónde va el perno a lo ancho de la viga (mm desde el eje; + hacia la plancha que lleva el perno)
+function posicion(tipo, b) {
+  const r = v => Math.round(v * 10) / 10;
+  if (tipo === 'borde') { const punta = -b / 2 + PC.b; return r(Math.max(0, punta + HOLG + AJUSTE)); }   // la plancha empieza 2 mm después de la punta del C
+  if (tipo === 'corrida') return 0;
+  return r(AJUSTE);                    // junta en el eje: el agujero no toca la plancha del otro lado
+}
+
+const est = { tipo: 'borde', t: 1, play: false, vel: 1, etq: true };
+
+// =====================================================================
+//  2D
+// =====================================================================
+const cota = (svg, x1, y1, x2, y2, s, dx, dy, rot, fs) => {
+  el('line', { x1, y1, x2, y2, style: 'stroke:var(--fig-ink);stroke-width:.8' }, svg);
+  [[x1, y1], [x2, y2]].forEach(([x, y]) => el('line', { x1: x - 3, y1: y + 3, x2: x + 3, y2: y - 3, style: 'stroke:var(--fig-ink);stroke-width:1' }, svg));
+  if (!s) return;
+  const t = txt(svg, (x1 + x2) / 2 + dx, (y1 + y2) / 2 + dy, s, { 'font-size': fs || 10, 'text-anchor': 'middle', 'font-weight': 600 });
+  if (rot) t.setAttribute('transform', `rotate(-90 ${(x1 + x2) / 2 + dx} ${(y1 + y2) / 2 + dy})`);
+};
+const llamada = (svg, x0, y0, x1, y1, s, ancla, fs) => {
+  fs = fs || 12; const k = fs / 12;
+  el('path', { d: `M ${x0} ${y0} L ${x1} ${y1} L ${x1 + (ancla === 'end' ? -8 : 8) * k} ${y1}`, style: `fill:none;stroke:var(--fig-soft);stroke-width:${0.8 * k}` }, svg);
+  txt(svg, x1 + (ancla === 'end' ? -11 : 11) * k, y1 + fs * 0.35, s, { 'font-size': fs, class: 'txs', 'text-anchor': ancla === 'end' ? 'end' : 'start' });
+};
+
+// corte transversal a la viga, por el valle del perno (mm; y hacia arriba = negativo)
+function dibujarCorte() {
+  const svg = $('#svg-corte'); svg.innerHTML = '';
+  const tipo = est.tipo, viga = vigaDe(tipo), P = PERF[viga], b = P.b * 10, tf = P.tf * 10, tw = P.tw * 10, h = P.h * 10;
+  const zs = posicion(tipo, b), H = ESP, X0 = -260, X1 = 260;
+  svg.setAttribute('viewBox', `${X0 - 60} ${-H - 46} ${X1 - X0 + 120} ${H + 46 + 120}`);
+  // viga (ala y parte del alma)
+  el('path', { d: `M ${-b / 2} 0 H ${b / 2} V ${tf} H ${tw / 2} V 95 H ${-tw / 2} V ${tf} H ${-b / 2} Z`, style: 'fill:var(--fig-viga);opacity:.7' }, svg);
+  el('line', { x1: 0, x2: 0, y1: -H - 30, y2: 110, style: 'stroke:var(--fig-soft);stroke-width:.6;stroke-dasharray:10 3 2 3' }, svg);
+  txt(svg, 0, 110, `eje de la viga ${viga}`, { 'font-size': 12, 'text-anchor': 'middle', class: 'txs' });
+  // hormigón (se dibuja primero, la placa y el perno van encima); en el caso ortogonal no entra bajo la cresta de la paralela
+  const zh0 = tipo === 'borde' ? -b / 2 + PC.t : X0;
+  const prPar = Placa3D.tramo(PL.perfil, -X0, 0).map(([x, y]) => [-x, y]);
+  if (tipo === 'ortogonal') {
+    el('rect', { x: 0, y: -H, width: X1, height: H, style: 'fill:var(--fig-horm2);opacity:.28' }, svg);
+    el('path', { d: `M ${X0} ${-H} L 0 ${-H} ` + prPar.map(([x, y]) => `L ${x} ${-y}`).join(' ') + ' Z', style: 'fill:var(--fig-horm2);opacity:.28' }, svg);
+  } else el('rect', { x: zh0, y: -H, width: X1 - zh0, height: H, style: 'fill:var(--fig-horm2);opacity:.28' }, svg);
+  // malla (antes que el perno: el perno queda delante)
+  const MA = L.malla, dB = MA ? MA.d * 10 : 6, zS = H - (MA ? MA.recubrimiento * 10 : 25);
+  el('line', { x1: zh0 + 30, x2: X1, y1: -(zS - 1.5 * dB), y2: -(zS - 1.5 * dB), style: `stroke:var(--fig-malla);stroke-width:${dB}` }, svg);
+  for (let x = zh0 + 40; x < X1; x += 150) if (Math.abs(x - zs) > 25) el('circle', { cx: x, cy: -(zS - dB / 2), r: dB / 2, style: 'fill:var(--fig-malla)' }, svg);
+  // placas: corte por el centro del valle; detrás, la cresta del nervio (línea de trazos)
+  const e = PL.espesor, alto = PL.alto, hueco = [zs - R_PERF, zs + R_PERF];
+  const tramoPlaca = (z0, z1, conHueco) => {
+    const segs = conHueco ? [[z0, Math.min(z1, hueco[0])], [Math.max(z0, hueco[1]), z1]] : [[z0, z1]];
+    segs.filter(([a, c]) => c - a > 0.5).forEach(([a, c]) => el('rect', { x: a, y: -e - 0.6, width: c - a, height: e + 1.2, style: 'fill:var(--fig-placa)' }, svg));
+    el('line', { x1: z0, x2: z1, y1: -alto, y2: -alto, style: 'stroke:var(--fig-placa);stroke-width:1.2;stroke-dasharray:5 3' }, svg);
+  };
+  if (tipo === 'borde') {
+    const xC = -b / 2;   // cara exterior del alma del C
+    el('path', { d: `M ${xC} 0 H ${xC + PC.b} V ${-PC.t} H ${xC + PC.t} V ${-(H - PC.t)} H ${xC + PC.b} V ${-H} H ${xC} Z`, style: 'fill:var(--fig-c);stroke:var(--fig-ink);stroke-width:.4' }, svg);
+    tramoPlaca(xC + PC.b + HOLG, X1, true);
+    llamada(svg, xC + 2, -H * 0.6, xC - 30, -H * 0.6, 'perfil C 150×50×3', 'end');
+    cota(svg, xC + PC.b, -42, hueco[0], -42, coma(hueco[0] - xC - PC.b, 0), 0, -6, false, 12);
+    llamada(svg, xC + PC.b + HOLG, -2, xC + 120, 44, 'la plancha empieza 2 mm después de la punta del ala del C');
+  } else if (tipo === 'corrida') {
+    tramoPlaca(X0, X1, true);
+  } else {
+    tramoPlaca(0, X1, true);
+    if (tipo === 'mismo') {
+      tramoPlaca(X0, 0, false);   // la otra plancha, del lado donde no va el perno
+      llamada(svg, 0, -2, -90, 44, 'a tope en el eje, nervios alineados', 'end');
+    } else {
+      // la plancha paralela a la viga: se ve su sección, con el borde en el eje
+      el('path', { d: prPar.map(([x, y], i) => (i ? 'L ' : 'M ') + x + ' ' + (-y)).join(' '), style: 'fill:none;stroke:var(--fig-placa);stroke-width:2.2;stroke-linejoin:round' }, svg);
+      llamada(svg, -150, -alto, -232, -alto - 34, 'plancha paralela a la viga, en corte');
+      llamada(svg, 0, -6, -90, 44, 'se tocan en el eje', 'end');
+    }
+    cota(svg, 0, -42, hueco[0], -42, coma(hueco[0], 0), 0, -6, false, 12);
+  }
+  // perno con su collar, la perforación y el anillo libre
+  const g = el('g', {}, svg);
+  el('rect', { x: zs - PN.d / 2, y: -(LARGO - PN.cabeza_h), width: PN.d, height: LARGO - PN.cabeza_h, style: 'fill:#6B4FBB' }, g);
+  el('rect', { x: zs - PN.cabeza_d / 2, y: -LARGO, width: PN.cabeza_d, height: PN.cabeza_h, rx: 1.5, style: 'fill:#6B4FBB' }, g);
+  const r0 = PN.sold_d / 2, r1 = PN.d / 2, hS = PN.sold_h;
+  el('path', { d: `M ${zs - r0} 0 Q ${zs - r0} ${-hS} ${zs - r1} ${-hS} L ${zs + r1} ${-hS} Q ${zs + r0} ${-hS} ${zs + r0} 0 Z`, style: 'fill:var(--fig-sold)' }, g);
+  // cotas
+  cota(svg, hueco[0], -16, hueco[1], -16, `Ø${coma(D_PERF, 0)}`, 30, 4, false, 12);
+  cota(svg, zs + PN.d / 2, -30, hueco[1], -30, coma(R_PERF - PN.d / 2, 0), 16, 4, false, 12);
+  cota(svg, zs, 62, b / 2, 62, coma(b / 2 - zs, 1), 0, 15, false, 12);
+  if (zs > 0.5) cota(svg, 0, 84, zs, 84, coma(zs, 1), zs < 30 ? 24 : 0, 15, false, 12);
+  cota(svg, X1 + 22, 0, X1 + 22, -LARGO, `${coma(LARGO, 0)} perno`, 14, 0, true, 12);
+  cota(svg, X1 + 46, 0, X1 + 46, -H, `${coma(H, 0)} losa`, 14, 0, true, 12);
+  llamada(svg, zs + PN.d / 2 + 2, -40, zs + 70, -70, 'perno Ø19 × 5", al centro del valle');
+  llamada(svg, hueco[1] - 2, -1, zs + 90, -30, `anillo libre de ${coma(R_PERF - PN.d / 2, 0)} mm`);
+  $('#cap-corte').innerHTML = `Corte perpendicular a la viga por el centro del valle donde va el perno, a escala (mm). Viga ${viga}, la más angosta de este caso en la losa. Detrás, en trazos, la cresta del nervio. El perno va ${zs ? `a <b>${coma(zs, 1)} mm del eje</b>, corrido para que la perforación no toque ${tipo === 'borde' ? 'el ala del C' : 'la plancha del otro lado'}` : '<b>en el eje</b>'}; su base queda a ${coma(b / 2 - zs - PN.d / 2, 1)} mm del borde del ala (AWS pide 22,2 o más).`;
+}
+
+// planta del encuentro (mm): x a lo largo de la viga, y a lo ancho (hacia abajo = hacia la plancha con perno)
+function dibujarPlanta() {
+  const svg = $('#svg-planta'); svg.innerHTML = '';
+  const tipo = est.tipo, viga = vigaDe(tipo), b = PERF[viga].b * 10, zs = posicion(tipo, b);
+  const X0 = -700, X1 = 700, Y0 = -330, Y1 = 330;
+  svg.setAttribute('viewBox', `${X0 - 20} ${Y0 - 30} ${X1 - X0 + 40} ${Y1 - Y0 + 60}`);
+  // a lo ancho: + hacia la plancha con perno (abajo en el dibujo)
+  const Y = z => z;
+  // viga
+  el('rect', { x: X0, y: Y(-b / 2), width: X1 - X0, height: b, style: 'fill:var(--fig-viga);opacity:.16;stroke:var(--fig-viga);stroke-width:1.2;stroke-dasharray:8 4' }, svg);
+  el('line', { x1: X0, x2: X1, y1: 0, y2: 0, style: 'stroke:var(--fig-soft);stroke-width:.8;stroke-dasharray:14 4 3 4' }, svg);
+  const FS = 24;
+  txt(svg, X1 - 6, b / 2 + 30, `ala de la viga ${viga} (${coma(b, 0)} mm)`, { 'font-size': FS, 'text-anchor': 'end', style: 'fill:var(--fig-viga);font-weight:600' });
+  // planchas perpendiculares a la viga: nervios (crestas) como franjas; dos planchas, origen en x = -950
+  const crestas = [];   // [x0, x1] de las crestas de una plancha (mm desde su borde)
+  { const pr = PL.perfil; let a = null; pr.forEach(([x, y]) => { if (y > PL.alto * 0.5 && a == null) a = x; if (y <= PL.alto * 0.5 && a != null) { crestas.push([a, x]); a = null; } }); }
+  const planchaPerp = (z0, z1, conPernos) => {
+    [-PL.util, 0].forEach(o => {
+      el('rect', { x: o, y: Math.min(z0, z1), width: PL.util, height: Math.abs(z1 - z0), style: 'fill:var(--fig-placa);opacity:.18' }, svg);
+      crestas.forEach(([a, c]) => el('rect', { x: o + a, y: Math.min(z0, z1), width: c - a, height: Math.abs(z1 - z0), style: 'fill:var(--fig-placa);opacity:.55' }, svg));
+      el('rect', { x: o, y: Math.min(z0, z1), width: PL.util, height: Math.abs(z1 - z0), style: 'fill:none;stroke:var(--fig-placa);stroke-width:1.2' }, svg);
+    });
+  };
+  if (tipo === 'borde') {
+    const xC = -b / 2;
+    el('rect', { x: X0, y: Y0, width: X1 - X0, height: xC - Y0, style: 'fill:var(--paper)' }, svg);
+    el('rect', { x: X0, y: xC, width: X1 - X0, height: PC.b, style: 'fill:var(--fig-c);opacity:.55;stroke:var(--fig-c)' }, svg);
+    txt(svg, X0 + 10, xC + PC.b / 2 + 8, 'perfil C (alas hacia la losa)', { 'font-size': FS - 4, style: 'fill:var(--fig-ink)' });
+    txt(svg, X0 + 10, xC - 14, 'borde de la losa', { 'font-size': FS, class: 'txs' });
+    [-PL.util, 0].forEach(o => crestas.forEach(([a, c]) => el('rect', { x: o + a, y: xC + PC.b + HOLG, width: c - a, height: 12, style: 'fill:#E07A2E;opacity:.9' }, svg)));
+    planchaPerp(xC + PC.b + HOLG, Y1, true);
+  } else if (tipo === 'corrida') {
+    planchaPerp(Y0, Y1, true);
+  } else {
+    planchaPerp(0, Y1, true);
+    if (tipo === 'mismo') {
+      planchaPerp(Y0, 0, false);
+      txt(svg, X0 + 10, -16, 'a tope en el eje · nervios alineados', { 'font-size': FS, style: 'fill:var(--fig-ink);font-weight:600' });
+    } else {
+      // plancha paralela a la viga: sus nervios corren a lo largo
+      let o = 0; const ys = [];
+      crestas.forEach(([a, c]) => ys.push([-c, -a]));
+      ys.forEach(([a, c]) => { if (a > Y0) el('rect', { x: X0, y: Math.max(Y0, a), width: X1 - X0, height: c - Math.max(Y0, a), style: 'fill:var(--fig-placa);opacity:.55' }, svg); });
+      el('rect', { x: X0, y: Y0, width: X1 - X0, height: -Y0, style: 'fill:var(--fig-placa);fill-opacity:.18;stroke:var(--fig-placa);stroke-width:1.2' }, svg);
+      txt(svg, X0 + 10, -16, 'se tocan en el eje · nervios sellados', { 'font-size': FS, style: 'fill:var(--fig-ink);font-weight:600' });
+      txt(svg, X0 + 10, Y0 + 30, 'plancha paralela a la viga', { 'font-size': FS, class: 'txs' });
+      // tapas de nervio (sellado) en los extremos abiertos de la perpendicular
+      [-PL.util, 0].forEach(o => crestas.forEach(([a, c]) => el('rect', { x: o + a, y: 0, width: c - a, height: 12, style: 'fill:#E07A2E;opacity:.9' }, svg)));
+    }
+  }
+  // pernos: perforación, anillo libre y tornillos de fijación en cada valle
+  const valles = [-PL.util + VALLES.centros[0], -PL.util + VALLES.centros[1], VALLES.union - PL.util, VALLES.centros[0], VALLES.centros[1]];
+  const conPerno = [valles[1], valles[2], valles[4]];
+  const tornillo = (x, y) => el('path', { d: `M ${x - 9} ${y - 9} L ${x + 9} ${y + 9} M ${x - 9} ${y + 9} L ${x + 9} ${y - 9}`, style: 'stroke:#C2410C;stroke-width:4' }, svg);
+  if (tipo === 'ortogonal') [-560, 0, 560].forEach(x => tornillo(x, -42));   // borde de la plancha paralela, a 90 cm o menos
+  valles.forEach(v => {
+    if (v < X0 + 20 || v > X1 - 20) return;
+    const perno = conPerno.includes(v);
+    tornillo(v - FIJ_LADO, zs);                        // en el fondo plano del valle, al lado del agujero
+    if (tipo === 'mismo') tornillo(v - FIJ_LADO, -zs); // la plancha del otro lado también se fija
+    if (!perno) return;
+    el('circle', { cx: v, cy: zs, r: R_PERF, style: 'fill:var(--fig-viga);fill-opacity:.35;stroke:var(--fig-ink);stroke-width:1' }, svg);
+    el('circle', { cx: v, cy: zs, r: PN.sold_d / 2, style: 'fill:var(--fig-sold)' }, svg);
+    el('circle', { cx: v, cy: zs, r: PN.d / 2, style: 'fill:#6B4FBB' }, svg);
+  });
+  cota(svg, conPerno[0], Y1 - 40, conPerno[1], Y1 - 40, coma((conPerno[1] - conPerno[0]) / 10, 1) + ' cm', 0, -10, false, FS);
+  cota(svg, conPerno[1], Y1 - 40, conPerno[2], Y1 - 40, coma((conPerno[2] - conPerno[1]) / 10, 1) + ' cm', 0, -10, false, FS);
+  llamada(svg, conPerno[1] + R_PERF * 0.7, zs + R_PERF * 0.7, conPerno[1] + 60, zs + 150, `perforación Ø${coma(D_PERF, 0)} con anillo libre`, 'start', FS);
+  llamada(svg, conPerno[1] - FIJ_LADO - 6, zs + 8, conPerno[1] - 80, zs + 210, 'tornillo autoperforante', 'end', FS);
+  llamada(svg, conPerno[1] + 14, zs - 20, conPerno[1] + 60, Y0 + 80, 'valle de la unión: la broca corta el gancho del traslapo', 'start', FS - 2);
+  $('#cap-planta').innerHTML = `Planta, a escala. En gris, las crestas de los nervios; en azul, el ala de la viga; en naranjo, los nervios sellados; las cruces son los tornillos. Cada perno va al centro de su valle, con la perforación de Ø${coma(D_PERF, 0)} mm; en cada valle sobre la viga va además un tornillo autoperforante en el fondo plano, para fijar la placa (el perno ya no la sujeta)${est.tipo === 'mismo' ? ', también en la plancha del otro lado' : est.tipo === 'ortogonal' ? ', y el borde de la plancha paralela se fija cada 90 cm o menos' : ''}. En la lámina 11 los pernos van cada 45 a 55 cm; llevados al centro de un valle, quedan a 31,7 o 63,3 cm, según caigan los valles.`;
+}
+
+// la perforación en detalle (planta y corte, mm, escala 2:1 en pantalla)
+function dibujarAgujero() {
+  const svg = $('#svg-agujero'); svg.innerHTML = '';
+  svg.setAttribute('viewBox', '-150 -110 300 150');
+  // planta (izquierda)
+  const cx = -70, cy = -40;
+  el('rect', { x: cx - 60, y: cy - 42, width: 120, height: 84, style: 'fill:var(--fig-placa);opacity:.35' }, svg);
+  el('circle', { cx, cy, r: R_PERF, style: 'fill:var(--fig-viga);fill-opacity:.4;stroke:var(--fig-ink);stroke-width:.6' }, svg);
+  el('circle', { cx, cy, r: ANILLO.d / 2, style: 'fill:none;stroke:var(--fig-soft);stroke-width:.5;stroke-dasharray:2 1.5' }, svg);
+  el('circle', { cx, cy, r: PN.sold_d / 2, style: 'fill:var(--fig-sold)' }, svg);
+  el('circle', { cx, cy, r: PN.d / 2, style: 'fill:#6B4FBB' }, svg);
+  txt(svg, cx, cy + 56, 'planta', { 'font-size': 8, 'text-anchor': 'middle', class: 'txs' });
+  cota(svg, cx - R_PERF, cy - 50, cx + R_PERF, cy - 50, `Ø${coma(D_PERF, 0)} perforación`, 0, -4, false, 7);
+  // corte (derecha)
+  const x0 = 70, y0 = 20;
+  el('rect', { x: x0 - 60, y: y0, width: 120, height: 8, style: 'fill:var(--fig-viga);opacity:.7' }, svg);
+  [[x0 - 60, x0 - R_PERF], [x0 + R_PERF, x0 + 60]].forEach(([a, b]) => el('rect', { x: a, y: y0 - PL.espesor, width: b - a, height: PL.espesor, style: 'fill:var(--fig-placa)' }, svg));
+  el('rect', { x: x0 - PN.d / 2, y: y0 - 60, width: PN.d, height: 60, style: 'fill:#6B4FBB' }, svg);
+  const r0 = PN.sold_d / 2, r1 = PN.d / 2, hS = PN.sold_h;
+  el('path', { d: `M ${x0 - r0} ${y0} Q ${x0 - r0} ${y0 - hS} ${x0 - r1} ${y0 - hS} L ${x0 + r1} ${y0 - hS} Q ${x0 + r0} ${y0 - hS} ${x0 + r0} ${y0} Z`, style: 'fill:var(--fig-sold)' }, svg);
+  el('rect', { x: x0 - ANILLO.d / 2, y: y0 - ANILLO.h, width: ANILLO.d, height: ANILLO.h, style: 'fill:none;stroke:var(--fig-soft);stroke-width:.5;stroke-dasharray:2 1.5' }, svg);
+  txt(svg, x0, y0 + 20, 'corte', { 'font-size': 8, 'text-anchor': 'middle', class: 'txs' });
+  cota(svg, x0 + PN.d / 2, y0 - 26, x0 + R_PERF, y0 - 26, coma(R_PERF - PN.d / 2, 0), 12, 3, false, 7);
+  txt(svg, x0 + R_PERF + 6, y0 - 8, 'placa', { 'font-size': 7, class: 'txs' });
+  txt(svg, x0 - R_PERF - 4, y0 - ANILLO.h - 2, 'anillo cerámico', { 'font-size': 7, class: 'txs', 'text-anchor': 'end' });
+  txt(svg, x0 - 58, y0 + 6.5, 'ala de la viga', { 'font-size': 6.5, style: 'fill:var(--paper)' });
+}
+
+// =====================================================================
+//  TEXTOS
+// =====================================================================
+const TEXTOS = {
+  borde: {
+    texto: b => `La plancha llega perpendicular al borde y termina en la punta del ala del perfil C, ${coma(PC.b / 10, 0)} cm adentro del borde (más 2 mm de holgura). El perno va al centro del valle; en las vigas angostas se corre hacia la losa para que la perforación no corte el ala del C: con una ${'{viga}'} queda a ${'{zs}'} mm del eje. El perno nunca se suelda al C: su ala de 3 mm es muy delgada (AWS pide un tercio del diámetro, 6,4 mm). El perfil C hace de moldaje del borde.`,
+    traslapo: `En el borde no hay traslapo: la plancha termina contra el ala del C. Entre plancha y plancha (lado a lado) va el traslapo lateral de fábrica, el gancho de una sobre la pestaña de la otra, en el centro del valle de la unión, cosido con un tornillo autoperforante cada 50 cm (manual de la Instadeck; la ficha pide fijar bordes y uniones a 90 cm o menos). Los nervios que quedan abiertos hacia el borde conviene sellarlos (la ficha pide "sellar nervios"), para que el hormigón no entre bajo las crestas.`,
+  },
+  mismo: {
+    texto: b => `Dos áreas con planchas en el mismo sentido se encuentran sobre la viga, de punta a punta. Van <b>a tope en el eje</b>, sin traslapo, y con los nervios alineados para que los nervios de hormigón sigan corridos de un lado al otro (SDI). Cada plancha apoya ${coma(PERF['IPE 220'].b * 5, 0)} mm o más sobre el ala (el mínimo de SDI es 38 mm). El perno va en el valle de una de las dos, corrido ${'{zs}'} mm del eje hacia ella, para que la perforación no corte la otra.`,
+    traslapo: `Sobre la viga van a tope: SDI pide que en la losa colaborante los extremos de las planchas no se traslapen sobre la viga. El "nervio montado" corresponde al traslapo lateral, entre planchas que van lado a lado: ahí el gancho de una plancha monta sobre la pestaña de la siguiente, en el centro del valle de la unión, y se cose con un tornillo autoperforante cada 50 cm (manual de la Instadeck). Montar un nervio completo para ajustar el ancho no aparece en la ficha ni en SDI (quedarían dos capas de chapa); el modelo corta la última plancha a lo largo.`,
+  },
+  ortogonal: {
+    texto: b => `Una plancha llega perpendicular a la viga y la otra corre paralela a ella. Llegan <b>hasta tocarse en el eje</b>: la perpendicular termina contra el costado de la paralela. El perno va en el valle de la perpendicular (la plancha paralela solo apoya su borde en el ala), corrido ${'{zs}'} mm del eje para que la perforación no corte la plancha paralela.`,
+    traslapo: `No hay traslapo: se tocan. Los extremos de los nervios de la plancha perpendicular quedan abiertos contra la paralela y se sellan (tapa de nervio o espuma), para que el hormigón no se escape bajo las crestas; la ficha de la placa lo pide en las condiciones de borde perpendicular.`,
+  },
+  corrida: {
+    texto: b => `La plancha pasa entera sobre la viga, sin junta. El perno va en el eje de la viga, al centro del valle. Es el caso más común en esta losa.`,
+    traslapo: `No hay junta sobre la viga. Entre planchas vecinas, lado a lado, va el traslapo lateral de fábrica en el valle de la unión, cosido con un tornillo autoperforante cada 50 cm (manual de la Instadeck); donde ese valle lleva perno, la broca corta también el gancho del traslapo.`,
+  },
+};
+
+function textosTipo() {
+  const tipo = est.tipo, T0 = TIPOS.find(t => t.id === tipo), viga = vigaDe(tipo), b = PERF[viga].b * 10, zs = posicion(tipo, b);
+  const rel = s => s.replace('{viga}', viga).replace('{zs}', coma(zs, 0));
+  $('#d-titulo').textContent = T0.t;
+  $('#d-texto').innerHTML = rel(TEXTOS[tipo].texto(b));
+  $('#d-traslapo').innerHTML = TEXTOS[tipo].traslapo;
+  const ps = POR_TIPO[tipo], vigas = {};
+  ps.forEach(p => { (vigas[p.viga] = vigas[p.viga] || { n: 0, perfil: p.perfil }).n++; });
+  const lista = Object.entries(vigas).sort((a, b) => a[0] < b[0] ? -1 : 1).map(([v, d]) => `${nombreViga(v)}: ${d.n}`).join(' · ');
+  const corridos = ps.filter(p => p.corrido).length;
+  const mmC = [...new Set(ps.filter(p => p.corrido).map(p => coma(Math.abs(p.corrido) * 10, 1)))].join(', ');
+  $('#d-donde').innerHTML = ps.length ? `<b>${ps.length} de los ${L.pernos.length} pernos</b> son de este tipo, en ${Object.keys(vigas).length} tramos de viga: ${lista}.${!corridos ? ' Todos van en el eje de la viga.' : corridos === ps.length ? ` Todos van corridos del eje (${mmC} mm).` : ` ${corridos} van corridos del eje (${mmC} mm), los demás en el eje.`}` : 'En esta losa no hay pernos de este tipo.';
+  const av = $('#d-aviso');
+  if (tipo === 'mismo') { av.hidden = false; av.innerHTML = `<b>Nervios alineados.</b> En el reparto de planchas del modelo, los nervios de las áreas que se juntan a tope quedan corridos ${DESFASES.map(d => `${coma(d.cm, 1)} cm entre las áreas ${d.a} y ${d.b}`).join(', ')}. En obra se alinean con un hilo o línea de tiza antes de fijar (SDI), corriendo las planchas de una de las dos áreas.`; }
+  else if (tipo === 'borde') { av.hidden = false; av.innerHTML = `<b>Moldaje del borde.</b> El perfil C mide 150 mm, lo mismo que la losa, así que hace de moldaje. La ficha de la placa también pide sellar los nervios abiertos en los bordes.`; }
+  else av.hidden = true;
+}
+
+(function generales() {
+  const s = [
+    ['Perforación', `Ø${coma(D_PERF, 0)} mm`, `Sierra copa bimetálica; anillo libre de ${coma(R_PERF - PN.d / 2, 0)} mm al perno y ${coma(R_PERF - PN.sold_d / 2, 0)} mm al collar <span class="fuente med">referencia</span>`],
+    ['Perno soldado', `${coma(LARGO, 0)} mm`, `El de 5 3/16" (${coma(PN.largo_compra, 1)} mm) pierde ${coma(QUEMA, 1)} mm al soldarlo sobre acero desnudo <span class="fuente man">Nelson</span>`],
+    ['Pernos', L.pernos.length, `Cantidad y posición de la lámina 11, cada uno al centro de su valle <span class="fuente man">ingeniero</span>`],
+    ['Tornillos de fijación', `≈ ${L.valles_receptoras}`, `Uno por valle en cada viga receptora y a cada lado de las juntas, en el fondo plano del valle (la ficha pide fijar en todos los valles), más la costura lateral <span class="fuente calc">calculado</span>`],
+  ];
+  $('#specs').innerHTML = s.map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
+  const s2 = [
+    ['Diámetro', `${coma(D_PERF, 0)} mm`, `Rango razonable 32 a 38 mm: con 32 queda muy justo para el anillo cerámico (Ø${coma(ANILLO.d, 1)}); con menos de ${coma(ANILLO.d, 1)} el anillo apoya sobre la placa y no sobre el ala <span class="fuente med">referencia</span>`],
+    ['Herramienta', 'sierra copa', `Bimetálica de 35 mm en taladro de mano. Sin la broca guía, o con plantilla: la guía marcaría el ala justo donde va el perno`],
+    ['Anillo libre', `${coma(R_PERF - PN.d / 2, 0)} mm`, `Entre el perno y el borde del agujero; ${coma(R_PERF - PN.sold_d / 2, 0)} mm hasta el collar de soldadura (Ø${coma(PN.sold_d, 0)}). Queda sobre el ala de la viga: el hormigón lo rellena <span class="fuente calc">calculado</span>`],
+    ['Fondo del valle', `${coma(VALLES.fondo, 0)} mm`, `Fondo plano del valle, con el rigidizador al medio: la perforación cabe con ${coma((VALLES.fondo - D_PERF) / 2, 0)} mm a cada lado, donde va el tornillo de fijación <span class="fuente man">ficha</span>`],
+  ];
+  $('#specs-perf').innerHTML = s2.map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
+  $('#txt-perf').innerHTML = `Como la placa se perfora, el perno se suelda sobre el ala desnuda (sin pintura, limpia y seca), igual que sobre acero plano: no hace falta calificar la soldadura a través de la placa. Al centro del valle el perno queda a ≈ 76 mm del alma del nervio hacia cada lado, en la "posición fuerte" de AISC 360. Dos cosas que deja la broca: corta el rigidizador del fondo del valle, que es hueco por debajo y queda como un pequeño túnel sobre el ala, que hay que sellar en los bordes del ala antes de hormigonar; y en el valle de la unión entre dos planchas corta las dos chapas y el gancho del traslapo. Como el perno ya no sujeta la placa, la placa se fija a la viga con un tornillo autoperforante por valle (ficha Instadeck: fijar en todos los valles; SDI: a 460 mm o menos).`;
+  const pasos = [
+    ['Viga lista', 'Ala de la viga limpia, seca y sin pintura en la línea de los pernos. En el borde, el perfil C ya puesto.'],
+    ['Planchas', 'Se colocan según el caso: a tope, hasta tocarse o corridas, con el traslapo lateral de fábrica entre planchas.'],
+    ['Fijación', 'Un tornillo autoperforante por valle en cada viga, en el fondo plano del valle, al lado de donde va el perno; el borde de la plancha paralela a la viga cada 90 cm o menos; y la costura lateral cada 50 cm.'],
+    ['Trazado y perforación', `Se marca el centro de cada valle según la lámina y se perfora Ø${coma(D_PERF, 0)} mm con sierra copa, sin marcar el ala.`],
+    ['Soldadura', 'Pistola de pernos con anillo cerámico: el perno se suelda al ala y deja un collar completo alrededor de su base.'],
+    ['Revisión y sellado', 'Se rompe y saca el anillo cerámico, se revisa el collar (360°) y se prueba doblando algunos pernos. Se sellan los nervios abiertos y el túnel del rigidizador.'],
+    ['Malla', 'Malla C-188 sobre separadores, con su cara superior a 2,5 cm de la cara de la losa.'],
+    ['Hormigón', 'Se hormigona hasta los 15 cm.'],
+  ];
+  $('#lista-pasos').innerHTML = pasos.map(([t, d], i) => `<li><b>${t}.</b> ${d}</li>`).join('');
+  window.__PASOS = pasos;
+  const filas = TIPOS.map(t => { const ps = POR_TIPO[t.id], perfiles = {}; ps.forEach(p => { perfiles[p.perfil] = (perfiles[p.perfil] || 0) + 1; });
+    const zs = [...new Set(ps.map(p => coma(Math.abs(p.corrido || 0) * 10, 1)))];
+    return `<tr data-tipo="${t.id}" tabindex="0" style="cursor:pointer"><td><b>${t.corto}</b></td><td class="r"><b>${ps.length}</b></td><td>${Object.entries(perfiles).sort((a, b) => PERF[a[0]].b - PERF[b[0]].b).map(([k, n]) => `${k}: ${n}`).join(' · ')}</td><td class="r">${zs.join(' / ')} mm</td></tr>`; }).join('');
+  $('#tabla-tipos').innerHTML = `<thead><tr><th>Caso</th><th class="r">Pernos</th><th>Vigas</th><th class="r">Del eje</th></tr></thead><tbody>${filas}<tr><td><b>Total</b></td><td class="r"><b>${L.pernos.length}</b></td><td colspan="2"></td></tr></tbody>`;
+  $('#txt-tipos').innerHTML = `"Del eje" es cuánto se corre el perno del eje de la viga hacia su plancha (0 = en el eje). Toca una fila para ver ese caso.`;
+  const notas = [
+    `<b>Perforación y fijación.</b> Perforar es una decisión de obra: la placa de 0,8 mm G-90 también se puede soldar a través (informe ICC-ES ESR-2856). Con la perforación la soldadura es más simple de controlar, pero hay que fijar la placa aparte (un tornillo por valle en cada viga). Confirmarlo con el ingeniero.`,
+    `<b>Diámetro.</b> Ni Nelson ni las normas dan un diámetro para perforar en obra; los ${coma(D_PERF, 0)} mm salen del anillo cerámico (Ø${coma(ANILLO.d, 1)}) y del collar (Ø${coma(PN.sold_d, 0)}) más holgura.`,
+    `<b>Juntas en el mismo sentido.</b> A tope sobre la viga, con los nervios alineados (SDI). El traslapo de un nervio solo existe entre planchas lado a lado, y es el traslapo lateral de fábrica.`,
+    `<b>Juntas ortogonales.</b> Las planchas llegan hasta tocarse en el eje; los nervios abiertos de la perpendicular se sellan.`,
+    `<b>Para el ingeniero:</b> ¿acepta la perforación de ${coma(D_PERF, 0)} mm y la fijación con tornillos? ¿Los pernos de los bordes y de las juntas pueden ir corridos hasta ${coma(Math.max(...L.pernos.map(p => Math.abs(p.corrido || 0))) * 10, 0)} mm del eje de la viga?`,
+  ];
+  $('#lista-notas').innerHTML = notas.map(n => `<li>${n}</li>`).join('');
+})();
+
+// =====================================================================
+//  3D
+// =====================================================================
+const visor = $('#visor');
+let API = null;
+try { API = iniciar3D(); } catch (e) { console.error(e); }
+if (!API) $('#v-carga').textContent = 'Este navegador no pudo abrir el 3D. El resto de la página funciona igual.';
+
+function iniciar3D() {
+  if (!window.THREE || !window.Placa3D) return null;
+  const T = THREE, dark = oscuro();
+  let renderer;
+  try { renderer = new T.WebGLRenderer({ antialias: true }); } catch (e) { return null; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  visor.insertBefore(renderer.domElement, visor.firstChild);
+  const scene = new T.Scene(), BG = dark ? 0x16181D : 0xF0F1F3;
+  scene.background = new T.Color(BG);
+  const camera = new T.PerspectiveCamera(34, 1, 0.005, 60);
+  const controls = new T.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true; controls.dampingFactor = 0.09; controls.maxPolarAngle = Math.PI * 0.97;
+  scene.add(new T.HemisphereLight(0xffffff, dark ? 0x30343c : 0x9aa0a8, dark ? 0.72 : 0.62));
+  const sol = new T.DirectionalLight(0xffffff, dark ? 0.75 : 0.7); sol.position.set(2, 5, 3); scene.add(sol);
+  const rel = new T.DirectionalLight(0xffffff, 0.32); rel.position.set(-3, 2, -2); scene.add(rel);
+  const bajo = new T.DirectionalLight(0xffffff, 0.3); bajo.position.set(1, -4, 2); scene.add(bajo);
+  const std = (color, extra) => new T.MeshStandardMaterial(Object.assign({ color, roughness: 0.55, metalness: 0.25 }, extra || {}));
+  const MAT = {
+    viga: std(dark ? 0x5AA9F0 : 0x1D63B8),
+    c: std(dark ? 0xF2C14E : 0xE3A622, { roughness: 0.45, metalness: 0.35 }),
+    placa: std(dark ? 0xB9C0C9 : 0xC5CBD3, { roughness: 0.35, metalness: 0.55, side: T.DoubleSide }),
+    placa2: std(dark ? 0x9FA9B6 : 0xAEB6C1, { roughness: 0.35, metalness: 0.55, side: T.DoubleSide }),
+    perno: std(dark ? 0xA48AF0 : 0x6B4FBB, { roughness: 0.4, metalness: 0.5 }),
+    sold: std(dark ? 0x9BA1AB : 0x5E636B, { roughness: 0.85, metalness: 0.4 }),
+    anillo: std(0xEDE6DA, { roughness: 0.9, metalness: 0 }),
+    tornillo: std(dark ? 0xF08C4A : 0xC2410C, { roughness: 0.4, metalness: 0.6 }),
+    sello: std(0xE07A2E, { roughness: 0.95, metalness: 0 }),
+    malla: std(dark ? 0xD3D7DE : 0x3B414B, { roughness: 0.6, metalness: 0.45 }),
+    horm: std(dark ? 0x74777D : 0xA9A89F, { roughness: 0.95, metalness: 0, transparent: true, opacity: 0.32, depthWrite: false, side: T.DoubleSide }),
+    broca: std(0xC9A227, { roughness: 0.35, metalness: 0.8 }),
+  };
+  const m = v => v / 1000;
+  const LEN = 1.9, LEN_V = 2.6, LZ = 0.75;                      // m: ancho de las dos planchas, largo de la viga, largo de las planchas a cada lado
+  const raiz = new T.Group(); scene.add(raiz);
+  const capas = { viga: new T.Group(), c: new T.Group(), placa: new T.Group(), perno: new T.Group(), fij: new T.Group(), malla: new T.Group(), horm: new T.Group() };
+  Object.values(capas).forEach(g => raiz.add(g));
+  const BASE_ANCHO = new T.Matrix4().makeBasis(new T.Vector3(0, 0, 1), new T.Vector3(0, 1, 0), new T.Vector3(-1, 0, 0));   // ancho → +z, largo → -x
+  const capaTags = $('#tags'); let TAGS = [];
+  const tag = (txt0, p, paso) => { const b = document.createElement('div'); b.className = 'tag d'; b.textContent = txt0; capaTags.appendChild(b); TAGS.push({ b, p, paso: paso || 0 }); };
+  const cacheP = {};
+  let PASO = [];   // por objeto animable: { o, paso, tipo }
+
+  function seccionI(P) {
+    const s = new T.Shape(), H = P.h * 10, B = P.b * 10 / 2, tf = P.tf * 10, w = P.tw * 10 / 2;
+    [[-B, -H], [B, -H], [B, -H + tf], [w, -H + tf], [w, -tf], [B, -tf], [B, 0], [-B, 0], [-B, -tf], [-w, -tf], [-w, -H + tf], [-B, -H + tf]]
+      .forEach(([x, y], i) => i ? s.lineTo(m(x), m(y)) : s.moveTo(m(x), m(y)));
+    s.closePath(); return s;
+  }
+  // la mejor posición de una grilla de barras (paso 150 mm) para que ninguna pase por un perno
+  const desfase = (pos, paso) => { let mejor = 0, dm = -1; for (let o = 0; o < paso; o += 1) { const d = Math.min(...pos.map(p => { const r = ((p - o) % paso + paso) % paso; return Math.min(r, paso - r); })); if (d > dm) { dm = d; mejor = o; } } return mejor; };
+  function construir() {
+    Object.values(capas).forEach(g => { g.traverse(o => { if (o.geometry) o.geometry.dispose(); }); while (g.children.length) g.remove(g.children[0]); });
+    capaTags.innerHTML = ''; TAGS = []; PASO = [];
+    const tipo = est.tipo, viga = vigaDe(tipo), P = PERF[viga], b = P.b * 10, zs = m(posicion(tipo, b));
+    // viga (con el ala superior en y = 0); más larga que las planchas para que se vea en la vista de inicio
+    const gv = new T.Mesh(new T.ExtrudeGeometry(seccionI(P), { depth: LEN_V, bevelEnabled: false }), MAT.viga);
+    gv.quaternion.setFromRotationMatrix(BASE_ANCHO); gv.position.set(LEN_V / 2, 0, 0); capas.viga.add(gv); PASO.push({ o: gv, paso: 0 });
+    tag(`viga ${viga}`, new T.Vector3(LEN_V / 2 - 0.12, -P.h / 200, m(b / 2) + 0.03), 0);
+    // perfil C del borde
+    let zIni = -LZ;
+    if (tipo === 'borde') {
+      const s = new T.Shape(); [[0, 0], [PC.b, 0], [PC.b, PC.t], [PC.t, PC.t], [PC.t, ESP - PC.t], [PC.b, ESP - PC.t], [PC.b, ESP], [0, ESP]].forEach(([x, y], i) => i ? s.lineTo(m(x), m(y)) : s.moveTo(m(x), m(y))); s.closePath();
+      const gc = new T.Mesh(new T.ExtrudeGeometry(s, { depth: LEN_V, bevelEnabled: false }), MAT.c);
+      gc.quaternion.setFromRotationMatrix(BASE_ANCHO); gc.position.set(LEN_V / 2, 0, m(-b / 2)); capas.c.add(gc); PASO.push({ o: gc, paso: 0 });
+      zIni = m(-b / 2 + PC.b + HOLG);
+      tag('perfil C 150×50×3', new T.Vector3(-LEN_V / 2 + 0.2, m(ESP) + 0.02, m(-b / 2)), 0);
+    }
+    // planchas
+    const xs = [-PL.util, 0];   // dos planchas lado a lado (mm, origen de cada una)
+    const valles = [xs[0] + VALLES.centros[0], xs[0] + VALLES.centros[1], xs[0] + VALLES.union, xs[1] + VALLES.centros[0], xs[1] + VALLES.centros[1]];
+    const conPerno = [valles[1], valles[2], valles[4]];
+    const pernos = conPerno.map(v => ({ x: m(v), z: zs }));
+    const crestas = []; { let a = null; PL.perfil.forEach(([x, y]) => { if (y > 5 && a == null) a = x; if (y <= 5 && a != null) { crestas.push([a, x]); a = null; } }); }
+    const sellar = (z, haciaAtras) => xs.forEach(o => crestas.forEach(([a, c]) => {   // tapas en los extremos abiertos de los nervios
+      const tr = Placa3D.tramo(PL.perfil, c - a, a), sh = new T.Shape();
+      tr.forEach(([x, y], i) => i ? sh.lineTo(m(x), m(y)) : sh.moveTo(m(x), m(y))); sh.closePath();
+      const t = new T.Mesh(new T.ExtrudeGeometry(sh, { depth: 0.012, bevelEnabled: false }), MAT.sello);
+      t.position.set(m(o + a), 0, z + (haciaAtras ? -0.013 : 0.001)); capas.placa.add(t); PASO.push({ o: t, paso: 5 });
+    }));
+    const planchasPerp = (z0, z1, conAg, mat, paso) => xs.forEach(o => {
+      const largo = z1 - z0;
+      const ag = conAg ? pernos.map(p => ({ c: (p.x - m(o)) * 1000, s: p.z - z0 })) : [];
+      [false, true].forEach(perf => {
+        if (perf && !ag.length) return;
+        const g = Placa3D.crear({ perfil: PL.perfil, espesor: PL.espesor, ancho: o === xs[0] ? PL.util : PL.perfil[PL.perfil.length - 1][0], d0: 0, largo, agujeros: perf ? ag : [], radio: R_PERF, material: mat, cache: cacheP });
+        g.position.set(m(o), 0, z0); capas.placa.add(g);
+        PASO.push({ o: g, paso, perforada: ag.length ? perf : null });
+      });
+    });
+    let zPl = [-LZ, LZ];   // largo de las planchas con pernos (para la costura lateral)
+    if (tipo === 'corrida') planchasPerp(-LZ, LZ, true, MAT.placa, 1);
+    else if (tipo === 'borde') { planchasPerp(zIni, LZ, true, MAT.placa, 1); sellar(zIni, false); zPl = [zIni, LZ]; tag('la placa termina en la punta del ala del C', new T.Vector3(0.62, m(PL.alto) + 0.03, zIni + 0.04), 1); }
+    else {
+      planchasPerp(0, LZ, true, MAT.placa, 1); zPl = [0, LZ];
+      if (tipo === 'mismo') { planchasPerp(-LZ, 0, false, MAT.placa2, 1); tag('a tope en el eje, nervios alineados', new T.Vector3(-0.62, m(PL.alto) + 0.03, 0), 1); }
+      else {
+        // plancha paralela a la viga, del lado sin pernos, con su borde en el eje
+        const g = Placa3D.crear({ perfil: PL.perfil, espesor: PL.espesor, ancho: 760, d0: 0, largo: LEN, agujeros: [], material: MAT.placa2, cache: cacheP });
+        g.quaternion.setFromRotationMatrix(new T.Matrix4().makeBasis(new T.Vector3(0, 0, -1), new T.Vector3(0, 1, 0), new T.Vector3(1, 0, 0)));
+        g.position.set(-LEN / 2, 0, 0); capas.placa.add(g); PASO.push({ o: g, paso: 1 });
+        tag('plancha paralela a la viga', new T.Vector3(-0.55, m(PL.alto) + 0.03, -0.4), 1);
+        tag('se tocan en el eje', new T.Vector3(-0.62, m(PL.alto) + 0.03, 0.02), 1);
+        sellar(0, false);
+      }
+    }
+    // pernos, collares, anillos cerámicos y la broca (animación)
+    const gShank = new T.CylinderGeometry(m(PN.d / 2), m(PN.d / 2), m(LARGO - PN.cabeza_h), 16); gShank.translate(0, m((LARGO - PN.cabeza_h) / 2), 0);
+    const gHead = new T.CylinderGeometry(m(PN.cabeza_d / 2), m(PN.cabeza_d / 2), m(PN.cabeza_h), 24); gHead.translate(0, m(LARGO - PN.cabeza_h / 2), 0);
+    const gCol = new T.CylinderGeometry(m(PN.d / 2 + 0.4), m(PN.sold_d / 2), m(PN.sold_h), 24, 1, true); gCol.translate(0, m(PN.sold_h / 2), 0);
+    const gAn = new T.CylinderGeometry(m(ANILLO.d / 2), m(ANILLO.d / 2), m(ANILLO.h), 24, 1, false); gAn.translate(0, m(ANILLO.h / 2), 0);
+    const gBroca = new T.CylinderGeometry(m(R_PERF), m(R_PERF), 0.045, 28, 1, true); gBroca.translate(0, 0.0225, 0);
+    const gEje = new T.CylinderGeometry(0.005, 0.005, 0.12, 8); gEje.translate(0, 0.045 + 0.06, 0);
+    pernos.forEach((p, i) => {
+      const gp = new T.Group(); gp.position.set(p.x, 0, p.z); capas.perno.add(gp);
+      const sh = new T.Mesh(gShank, MAT.perno), hd = new T.Mesh(gHead, MAT.perno), col = new T.Mesh(gCol, MAT.sold), an = new T.Mesh(gAn, MAT.anillo);
+      gp.add(sh, hd); PASO.push({ o: sh, paso: 4, cae: true }, { o: hd, paso: 4, cae: true });
+      gp.add(col); PASO.push({ o: col, paso: 4, desde: 0.6 });
+      gp.add(an); PASO.push({ o: an, paso: 4, hasta: 5.5, cae: true });
+      const br = new T.Group(); br.add(new T.Mesh(gBroca, MAT.broca), new T.Mesh(gEje, MAT.broca)); br.position.set(p.x, 0, p.z); capas.perno.add(br);
+      PASO.push({ o: br, paso: 3, broca: true });
+      if (i === 1) { tag(`perforación Ø${coma(D_PERF, 0)} con anillo libre`, new T.Vector3(p.x - 0.16, 0.01, p.z + 0.1), 3); tag('perno Ø19 × 5"', new T.Vector3(p.x + 0.12, m(LARGO) + 0.03, p.z), 4); }
+    });
+    // tornillos autoperforantes: uno por valle sobre la viga, en el fondo plano a 40 mm del centro (no sobre el rigidizador)
+    const gT = new T.CylinderGeometry(0.0055, 0.0055, 0.006, 6); gT.translate(0, m(PL.espesor) + 0.003, 0);
+    const tornillo = (x, y, z) => { const t = new T.Mesh(gT, MAT.tornillo); t.position.set(x, y, z); capas.fij.add(t); PASO.push({ o: t, paso: 2, cae: true }); };
+    valles.forEach(v => {
+      tornillo(m(v - FIJ_LADO), 0, zs);                                  // planchas con perno
+      if (tipo === 'mismo') tornillo(m(v - FIJ_LADO), 0, -zs);          // la otra plancha también apoya su extremo en la viga
+    });
+    if (tipo === 'ortogonal') [-0.85, 0, 0.85].forEach(x => tornillo(x, 0, -0.042));   // borde de la paralela, cada 90 cm o menos
+    // costura lateral (traslapo entre planchas) cada 50 cm, sobre el gancho
+    const yG = m(19) - m(PL.espesor);
+    for (let z = zPl[0] + 0.12; z < zPl[1] - 0.05; z += 0.5) if (Math.abs(z - zs) > 0.06) tornillo(m(xs[1] + 5), yG, z);
+    // malla, con su grilla corrida para que ninguna barra pase por un perno
+    const yMs = m(ESP - (L.malla ? L.malla.recubrimiento * 10 : 25)), zM0 = tipo === 'borde' ? m(-b / 2 + 30) : -LZ;
+    const ox = m(desfase(conPerno, 150)), oz = m(desfase([zs * 1000 - zM0 * 1000], 150));
+    const gBar = len => new T.CylinderGeometry(0.003, 0.003, len, 6);
+    for (let z = zM0 + oz; z < LZ; z += 0.15) { const b2 = new T.Mesh(gBar(LEN - 0.06), MAT.malla); b2.rotation.z = Math.PI / 2; b2.position.set(0, yMs - 0.009, z); capas.malla.add(b2); PASO.push({ o: b2, paso: 6, cae: true }); }
+    for (let x = -LEN / 2 + ((ox + LEN / 2) % 0.15); x < LEN / 2; x += 0.15) { const b2 = new T.Mesh(gBar(LZ - zM0 - 0.03), MAT.malla); b2.rotation.x = Math.PI / 2; b2.position.set(x, yMs - 0.003, (zM0 + LZ) / 2); capas.malla.add(b2); PASO.push({ o: b2, paso: 6, cae: true }); }
+    const zH0 = tipo === 'borde' ? m(-b / 2 + PC.t) : -LZ;
+    const hb = new T.Mesh(new T.BoxGeometry(LEN, m(ESP), LZ - zH0), MAT.horm); hb.position.set(0, m(ESP) / 2, (LZ + zH0) / 2); capas.horm.add(hb); PASO.push({ o: hb, paso: 7, vaciado: true });
+    aplicar(); encuadrar();
+  }
+  // ---------- instalación paso a paso ----------
+  const NP = 8;
+  function aplicar() {
+    const tP = est.t * NP;   // paso actual (fraccional)
+    PASO.forEach(q => {
+      const u = Math.max(0, Math.min(1, tP - q.paso));   // avance dentro de su paso
+      let vis = tP >= q.paso;
+      if (q.hasta != null && tP >= q.hasta) vis = false;
+      if (q.perforada != null) vis = q.perforada ? tP >= 3.55 : tP < 3.55 && tP >= q.paso;
+      q.o.visible = vis;
+      if (!vis) return;
+      if (q.broca) { const e2 = Math.min(1, u * 1.4); q.o.visible = tP < 4; q.o.position.y = 0.06 * (1 - Math.sin(Math.PI * Math.min(1, e2))); q.o.rotation.y = tP * 40; return; }
+      if (q.cae) { const e2 = 1 - Math.min(1, u * 2); q.o.position.y = (q.o.userData.y0 == null ? (q.o.userData.y0 = q.o.position.y) : q.o.userData.y0) + e2 * 0.15; }
+      if (q.desde != null) q.o.visible = u >= q.desde || tP >= q.paso + 1;
+      if (q.vaciado) { const e2 = Math.min(1, u * 1.3); q.o.scale.y = Math.max(0.001, e2); q.o.position.y = m(ESP) * e2 / 2; }
+    });
+    const i = Math.min(NP - 1, Math.floor(tP + 1e-6));
+    const P = window.__PASOS || [];
+    const listo = est.t >= 1 - 1e-9;
+    $('#m-txt').innerHTML = listo ? '<b>Listo.</b> Perno soldado, placa fijada, malla y hormigón.' : P[i] ? `<b>${i + 1}. ${P[i][0]}.</b> ${P[i][1]}` : '';
+    document.querySelectorAll('#m-pasos button').forEach((b, k) => b.setAttribute('aria-pressed', k === i && !listo ? 'true' : 'false'));
+    pedir();
+  }
+  // ---------- cámara ----------
+  let libre = { w: 1, h: 1, H: 1 };
+  function vistaInicio() {
+    const dir = new T.Vector3(0.7, 0.62, 0.95).normalize(), cen = new T.Vector3(0.1, 0.04, 0.08);
+    const tv = Math.tan(camera.fov * Math.PI / 360), f = Math.min(tv * libre.h / libre.H, tv * libre.w / libre.H);
+    return [cen.clone().addScaledVector(dir, f > 0.02 ? (libre.w < 640 ? 0.9 : 0.62) / f : 1.8), cen];
+  }
+  let nav = null;
+  function encuadrar() { const [p, t] = vistaInicio(); if (nav) nav.irA(p, t, 0); else { camera.position.copy(p); controls.target.copy(t); } pedir(); }
+  // ---------- etiquetas ----------
+  const tmp = new T.Vector3();
+  function moverEtiquetas() {
+    const w = visor.clientWidth, h = visor.clientHeight;
+    TAGS.forEach(t => {
+      if (!est.etq || est.t * NP < t.paso) { t.b.style.display = 'none'; return; }
+      tmp.copy(t.p).project(camera);
+      if (tmp.z > 1 || Math.abs(tmp.x) > 1.02 || Math.abs(tmp.y) > 1.02) { t.b.style.display = 'none'; return; }
+      t.b.style.display = ''; t.b.style.transform = `translate(${(tmp.x + 1) / 2 * w}px,${(1 - tmp.y) / 2 * h}px) translate(-50%,-50%)`;
+    });
+  }
+  // ---------- render ----------
+  let sucio = true; const pedir = () => { sucio = true; };
+  function medir() {
+    const w = visor.clientWidth, h = visor.clientHeight; if (w < 2 || h < 2) return;
+    const top0 = visor.getBoundingClientRect().top;
+    const fondo = q => { const r = $(q).getBoundingClientRect(); return r.height ? r.bottom - top0 : 0; };
+    const arriba = Math.max(fondo('.v-modo'), w < 640 ? fondo('.v-capas') : 0) + 8;
+    const pan = $('#v-panel').getBoundingClientRect(), abajo = pan.width > w * 0.55 ? h - (pan.top - top0) + 8 : 24;
+    const corr = Math.max(0, (abajo - arriba) / 2), H = h + 2 * corr;
+    libre = { w: w - (w < 640 ? 52 : Math.min(w * 0.3, $('.v-capas').offsetWidth + 12)), h: Math.max(80, h - arriba - abajo), H };
+    renderer.setSize(w, h, false); camera.aspect = w / H; camera.setViewOffset(w, H, 0, 2 * corr, w, h); camera.updateProjectionMatrix();
+    if (!medir.listo) { medir.listo = true; encuadrar(); }
+    pedir();
+  }
+  try {
+    nav = window.Nav3D ? Nav3D.conectar({ camera, controls, dom: renderer.domElement, objetivos: () => [raiz], planoY: 0, inicio: vistaInicio,
+      contenedor: $('#v-ui'), lado: 'derecha', vertical: '(max-width: 640px)', pedir, distMin: 0.02, distMax: 8 }) : null;
+  } catch (e) { console.error(e); nav = null; controls.enableZoom = true; }
+  if (nav) $('#v-ayuda').innerHTML = Nav3D.ayudaLineas.join('<br>');
+  new ResizeObserver(medir).observe(visor);
+  controls.addEventListener('change', pedir);
+  let ultimo = performance.now();
+  function bucle(now) {
+    requestAnimationFrame(bucle);
+    const dt = Math.min(0.1, (now - ultimo) / 1000); ultimo = now;
+    if (est.play) { est.t = Math.min(1, est.t + dt * est.vel / 24); $('#m-t').value = Math.round(est.t * 1000); if (est.t >= 1) { est.play = false; marcaPlay(); } aplicar(); }
+    if (nav && nav.actualizar(now)) sucio = true;
+    const cambio = controls.update();
+    if (sucio || cambio || est.play) { renderer.render(scene, camera); moverEtiquetas(); sucio = false; }
+  }
+  // ---------- controles ----------
+  $('#m-pasos').innerHTML = (window.__PASOS || []).map((p, i) => `<button title="${p[0]}" aria-label="Paso ${i + 1}: ${p[0]}">${i + 1}</button>`).join('');
+  document.querySelectorAll('#m-pasos button').forEach((b, i) => b.addEventListener('click', () => { est.play = false; marcaPlay(); est.t = (i + 0.98) / NP; capasDelPaso(i); $('#m-t').value = Math.round(est.t * 1000); aplicar(); }));
+  const marcaPlay = () => { $('#m-play').textContent = est.play ? '❚❚' : '▶'; $('#m-play').setAttribute('aria-label', est.play ? 'Pausa' : 'Reproducir'); };
+  $('#m-play').addEventListener('click', () => { est.play = !est.play; if (est.play && est.t >= 1) est.t = 0; if (est.play) capasDelPaso(NP); marcaPlay(); });
+  $('#m-t').addEventListener('input', e => { est.play = false; marcaPlay(); est.t = +e.target.value / 1000; capasDelPaso(Math.floor(est.t * NP - 1e-9)); aplicar(); });
+  $('#m-vel').addEventListener('change', e => { est.vel = +e.target.value; });
+  function capasDelPaso(i) {
+    [['#tg-malla', 6], ['#tg-horm', 7]].forEach(([id, p]) => { const b = $(id); if (i >= p && b.getAttribute('aria-pressed') !== 'true') b.click(); });
+  }
+  const tog = (id, fn) => $(id).addEventListener('click', e => { const on = e.currentTarget.getAttribute('aria-pressed') !== 'true'; e.currentTarget.setAttribute('aria-pressed', on ? 'true' : 'false'); fn(on); pedir(); });
+  [['#tg-viga', 'viga'], ['#tg-c', 'c'], ['#tg-placa', 'placa'], ['#tg-perno', 'perno'], ['#tg-fij', 'fij'], ['#tg-malla', 'malla'], ['#tg-horm', 'horm']].forEach(([id, k]) => {
+    capas[k].visible = $(id).getAttribute('aria-pressed') === 'true'; tog(id, on => { capas[k].visible = on; }); });
+  tog('#tg-etq', on => { est.etq = on; });
+  // ---------- arranque ----------
+  $('#v-carga').hidden = true; $('#v-ui').hidden = false;
+  medir(); construir();
+  requestAnimationFrame(bucle);
+  const dibujar = () => { if (nav) nav.saltar(); controls.update(); renderer.render(scene, camera); moverEtiquetas(); };
+  return { construir, aplicar, est, scene, camera, renderer, controls, dibujar, T, capas };
+}
+
+// los botones de caso existen aunque el 3D no cargue
+$('#tipos').innerHTML = TIPOS.map(t => `<button data-tipo="${t.id}" aria-pressed="false">${t.corto}</button>`).join('');
+document.querySelectorAll('#tipos [data-tipo]').forEach(b => b.addEventListener('click', () => elegir(b.dataset.tipo)));
+function elegir(tipo) {
+  est.tipo = tipo;
+  document.querySelectorAll('#tipos [data-tipo]').forEach(b => b.setAttribute('aria-pressed', b.dataset.tipo === tipo ? 'true' : 'false'));
+  document.querySelectorAll('#tabla-tipos tr[data-tipo]').forEach(tr => tr.classList.toggle('on', tr.dataset.tipo === tipo));
+  textosTipo(); dibujarCorte(); dibujarPlanta();
+  if (API) { $('#tg-c').disabled = tipo !== 'borde'; API.construir(); }
+  const h = location.hash.slice(1);
+  if (!h || TIPOS.some(t => t.id === h)) { try { history.replaceState(null, '', '#' + tipo); } catch (e) { /* sin historial */ } }
+}
+document.addEventListener('click', e => { const tr = e.target.closest('tr[data-tipo]'); if (tr) elegir(tr.dataset.tipo); });
+document.addEventListener('keydown', e => { const tr = e.target.closest && e.target.closest('tr[data-tipo]'); if (tr && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); elegir(tr.dataset.tipo); } });
+addEventListener('hashchange', () => { const h = location.hash.slice(1); if (TIPOS.some(t => t.id === h) && h !== est.tipo) elegir(h); });
+dibujarAgujero();
+elegir(TIPOS.some(t => '#' + t.id === location.hash) ? location.hash.slice(1) : 'borde');
+(function () {
+  const links = [...document.querySelectorAll('.toc a')], secs = links.map(a => document.querySelector(a.getAttribute('href')));
+  let pend = false, marcada = null;
+  const revisar = () => { pend = false; let act = secs[0]; secs.forEach(s => { if (s.getBoundingClientRect().top < 150) act = s; }); if (act === marcada) return; marcada = act; links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + act.id)); };
+  const pedirR = () => { if (!pend) { pend = true; requestAnimationFrame(revisar); } };
+  $('#doc').addEventListener('scroll', pedirR, { passive: true }); addEventListener('scroll', pedirR, { passive: true }); revisar();
+})();
+window.PERNOS = API;
+})();
+</script>
+</body>
+</html>

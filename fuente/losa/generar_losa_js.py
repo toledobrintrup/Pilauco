@@ -5,7 +5,7 @@ Instadeck sacada del dibujo vectorial de la ficha).
 
 La distribución de planchas NO viene del JSON: se calcula aquí, igual para todas las áreas:
 - la plancha llega hasta la punta del ala del perfil C en los bordes del perímetro (5 cm desde
-  el borde + 2 mm de holgura) y hasta 5 mm del eje de la viga donde el área toca a otra área;
+  el borde + 2 mm de holgura) y hasta el eje de la viga donde el área toca a otra área (a tope);
 - se ponen de a 95 cm (avance útil) desde el borde oeste (planchas N-S) o sur (planchas E-O);
   la última va cortada a lo largo;
 - si el área tiene un quiebre dentro de una franja, la plancha se corta en piezas.
@@ -17,7 +17,8 @@ import sys, json, math, functools
 UTIL = 95.0          # cm, avance útil
 ALA_C = 5.0          # cm, ala del perfil C (la plancha llega a su punta)
 HOLGURA_BORDE = 0.2  # cm
-HOLGURA_EJE = 0.5    # cm, a cada lado del eje de la viga entre dos áreas
+HOLGURA_EJE = 0.0    # cm: entre dos áreas las planchas llegan hasta el eje de la viga (a tope, como pide SDI para las
+                     # juntas en el mismo sentido y "hasta que se tocan" en las ortogonales)
 
 def area_firmada(p):
     return sum(p[i][0] * p[(i + 1) % len(p)][1] - p[(i + 1) % len(p)][0] * p[i][1] for i in range(len(p))) / 2
@@ -227,6 +228,21 @@ def valles_mm(perfil):
         else: valles.append([f])
     return [round((v[0][0] + v[0][1]) / 2, 1) for v in valles]
 
+def centros_mm(perfil, util=950.0):
+    """Centros de los valles completos de una plancha (mm desde su origen): los interiores, entre las dos mitades que
+    separa el rigidizador, y el de la unión con la plancha siguiente: [321.7, 638.7, 955.2] en la Instadeck."""
+    fl = [[x0, x1] for (x0, y0), (x1, y1) in zip(perfil, perfil[1:]) if y0 <= 0.7 and y1 <= 0.7 and x1 - x0 > 5]
+    g = []
+    for f in fl:
+        if g and f[0] - g[-1][1] < 20: g[-1][1] = f[1]
+        else: g.append(list(f))
+    return [round((v[0] + v[1]) / 2, 1) for v in g[1:-1]] + [round((g[-1][0] + util + g[0][1]) / 2, 1)]
+
+def mitades_mm(perfil):
+    """Centro de cada tramo plano de los valles (los valles partidos por el rigidizador tienen dos, y el valle de
+    la unión entre planchas tiene uno en cada plancha): [42.1, 286.1, 357.3, 603.1, 674.3, 918.9] en la Instadeck."""
+    return [round((x0 + x1) / 2, 1) for (x0, y0), (x1, y1) in zip(perfil, perfil[1:]) if y0 <= 0.7 and y1 <= 0.7 and x1 - x0 > 5]
+
 def receptoras(area, q):
     """Vigas perpendiculares a la plancha q que caen dentro de su largo (± 12 cm) y pasan bajo ella
     (cubren al menos la mitad de su ancho)."""
@@ -242,33 +258,57 @@ def _dist_rect(x, y, r):
 
 PERNO_D = 1.905           # cm, vástago Ø19 (3/4")
 HOLGURA_PILAR = 2.5       # cm entre el borde del vástago y la cara del pilar
-JUNTAR_VALLE = 12.0       # cm: dos candidatos más cerca que esto sobre la misma viga son el mismo valle
-                          # (los valles de una plancha están a 24,4 cm o más entre sí)
+PERFORACION = 3.5         # cm, diámetro del agujero que se hace con broca de copa en la placa alrededor de cada perno
+HOLGURA_PLACA = 0.2       # cm entre el borde del agujero y el extremo de la plancha (no se corta el ala del C ni la plancha vecina)
+SEP_MIN = 4 * PERNO_D     # cm, separación mínima entre pernos (4 d en cualquier dirección, AISC 360-16 I8.2d)
+BORDE_ALA = 3.17          # cm del centro del perno al borde del ala de la viga (base del perno a 22,2 mm o más, AWS D1.1 7.4.5)
+JUNTAR_VALLE = 12.0       # cm: candidatos seguidos (a menos de 9 cm uno de otro) que caben en 12 cm sobre la misma viga
+                          # son el mismo valle: sus dos mitades están a 7,1–7,3 cm y los valles de una plancha a 24,4 cm o más
+
+def _dentro(pt, pol):
+    x, y = pt; ok = False
+    for i in range(len(pol)):
+        (x0, y0), (x1, y1) = pol[i], pol[(i + 1) % len(pol)]
+        if (y0 > y) != (y1 > y) and x < x0 + (y - y0) * (x1 - x0) / (y1 - y0): ok = not ok
+    return ok
+
+def tipo_union(c, s_, l0, l1, areas):
+    """Cómo llega la placa a la viga donde va el perno: 'corrida' (la plancha pasa sobre la viga), 'borde' (termina
+    contra el perfil C del perímetro), 'mismo' (al otro lado hay planchas en el mismo sentido) u 'ortogonal'."""
+    eje = c['eje']
+    if l0 <= eje - c['b'] / 2 + 1.0 and l1 >= eje + c['b'] / 2 - 1.0: return 'corrida'   # la plancha pasa sobre toda el ala
+    lado = 1 if abs(l1 - eje) <= abs(l0 - eje) else -1        # la plancha termina en l1: al otro lado de la viga, hacia +
+    p = eje + lado * (c['b'] / 2 + 3.0)
+    pt = (c['c'], p) if c['dir'] == 'NS' else (p, c['c'])
+    otra = next((a for a in areas if a['n'] != c['area'] and _dentro(pt, a['poligono'])), None)
+    if otra is None: return 'borde'
+    return 'mismo' if otra['dir'] == c['dir'] else 'ortogonal'
 
 def pernos_y_alzaprimas(areas, pilares, perfil):
     VAL = valles_mm(perfil)
+    CENTROS = centros_mm(perfil)
     cand, alz = [], []
     for a in areas:
         ns = a['dir'] == 'NS'
-        # origen de cada plancha completa (k): las piezas de una plancha partida conservan sus valles
-        origen = {}
         for q in a['piezas']:
-            o = q['x0'] if ns else q['y1']
-            origen[q['k']] = min(origen.get(q['k'], o), o) if ns else max(origen.get(q['k'], o), o)
-        for q in a['piezas']:
-            o = origen[q['k']]
+            o = q['x0'] - q.get('d0', 0) / 10 if ns else q['y1'] + q.get('d0', 0) / 10   # origen de su plancha (grilla)
             c0, c1 = (q['x0'], q['x1']) if ns else (q['y0'], q['y1'])
             vs = receptoras(a, q)
-            for vi, v in enumerate(VAL):
+            l0, l1 = (q['y0'], q['y1']) if ns else (q['x0'], q['x1'])   # la plancha a lo largo
+            for v in [CENTROS[-1] - UTIL * 10] + CENTROS[:-1]:   # la unión con la plancha anterior (≈ 5 mm) y los dos interiores
                 c = o + v / 10 if ns else o - v / 10
-                if not (c0 + 1.0 <= c <= c1 - 1.0): continue       # el valle tiene que caer en esta pieza
+                # el fondo del valle tiene que estar entero (3 cm a cada lado del centro) en planchas de esta área que
+                # cubren el mismo largo: así no quedan medios valles de borde ni valles de una plancha cortada
+                lo_, hi_ = c - 3.0, c + 3.0
+                cub = [(p['x0'], p['x1']) if ns else (p['y0'], p['y1']) for p in a['piezas']
+                       if min(l1, (p['y1'] if ns else p['x1'])) - max(l0, (p['y0'] if ns else p['x0'])) > 1.0]
+                if not (any(u0 <= lo_ <= u1 for u0, u1 in cub) and any(u0 <= hi_ <= u1 for u0, u1 in cub)): continue
+                if not (c0 - 1e-6 <= c <= c1 + 1e-6): continue                # cada valle lo propone la pieza donde cae su centro
                 for L in vs:
                     t = tramo_en(L, c)
                     if not t: continue
-                    x, y = (c, L['pos']) if ns else (L['pos'], c)
-                    if any(_dist_rect(x, y, p['seccion']) < HOLGURA_PILAR + PERNO_D / 2 for p in pilares): continue
-                    cand.append({'x': round(x, 1), 'y': round(y, 1), 'area': a['n'], 'viga': t['id'], 'perfil': t['p'],
-                                 'linea': (L['dir'], round(L['pos'], 1)), 'c': c, 'union': vi == len(VAL) - 1})
+                    cand.append({'area': a['n'], 'dir': a['dir'], 'viga': t['id'], 'perfil': t['p'], 'b': t['b'], 'eje': L['pos'],
+                                 'linea': (L['dir'], round(L['pos'], 1)), 'c': c, 'l0': l0, 'l1': l1})
             # alzaprimas: vanos entre vigas receptoras consecutivas de esta plancha
             pos = sorted(set(round(v['pos'], 1) for v in vs))
             for p0, p1 in zip(pos, pos[1:]):
@@ -276,23 +316,37 @@ def pernos_y_alzaprimas(areas, pilares, perfil):
                 n = math.ceil(Lv / LUZ_MAX_ALZ - 1e-9)
                 for k in range(1, n):
                     alz.append({'area': a['n'], 'dir': a['dir'], 'pos': round(p0 + Lv * k / n, 1), 'a0': c0, 'a1': c1, 'vano': round(Lv, 1), 'espacios': n})
-    # un perno por valle real en cada línea de viga, sin importar de qué área venga el candidato;
-    # en el valle de la unión se prefiere la mitad derecha de la plancha anterior (918,9 mm), igual en todas las áreas
+    # cada valle real de cada línea de viga da una posición, al CENTRO del valle (entre sus dos mitades, partidas por el
+    # rigidizador, o entre las mitades de dos planchas en la unión). Alrededor del perno la placa se perfora con broca
+    # de copa (PERFORACION) y el perno se suelda directo al ala. A lo ancho de la viga va en el eje, salvo donde la
+    # plancha termina sobre la viga: ahí se corre hacia su plancha para que el agujero no corte el ala del C ni la
+    # plancha vecina.
     pernos = []
     por_linea = {}
     for c in cand: por_linea.setdefault(c['linea'], []).append(c)
+    R = PERFORACION / 2 + HOLGURA_PLACA
     for linea, cs in por_linea.items():
         cs.sort(key=lambda c: c['c'])
-        grupo = []
-        def cerrar(g):
-            if not g: return
-            elegido = next((c for c in g if c['union']), g[0])
-            pernos.append({k: elegido[k] for k in ('x', 'y', 'area', 'viga', 'perfil')})
-        for c in cs:
-            if grupo and abs(c['c'] - grupo[0]['c']) >= JUNTAR_VALLE:
-                cerrar(grupo); grupo = []
-            grupo.append(c)
-        cerrar(grupo)
+        valles = []
+        for area in sorted(set(c['area'] for c in cs)):
+            grupos = []
+            for c in (c for c in cs if c['area'] == area):
+                if grupos and c['c'] - grupos[-1][-1]['c'] < 9.0 and c['c'] - grupos[-1][0]['c'] < JUNTAR_VALLE: grupos[-1].append(c)
+                else: grupos.append([c])
+            for g in grupos:
+                c0 = sum(q['c'] for q in g) / len(g)
+                l0, l1 = max(q['l0'] for q in g), min(q['l1'] for q in g)
+                s_ = min(max(g[0]['eje'], l0 + R), l1 - R)
+                if abs(s_ - g[0]['eje']) > g[0]['b'] / 2 - BORDE_ALA: continue   # el perno quedaría muy cerca del borde del ala
+                ns = g[0]['dir'] == 'NS'
+                x, y = (c0, s_) if ns else (s_, c0)
+                if any(_dist_rect(x, y, p['seccion']) < HOLGURA_PILAR + PERNO_D / 2 for p in pilares): continue
+                tipo = tipo_union(g[0], s_, l0, l1, areas)
+                valles.append(dict(x=round(x, 2), y=round(y, 2), area=area, viga=g[0]['viga'], perfil=g[0]['perfil'],
+                                   corrido=round(s_ - g[0]['eje'], 2), tipo=tipo, linea=linea, c=c0))
+        # en las juntas a tope quedan los valles de los dos lados; el ajuste elige (a 4 d o más entre pernos)
+        valles.sort(key=lambda v: v['c'])
+        pernos.extend(valles)
     pernos.sort(key=lambda p: (p['area'], p['viga'], p['x'], p['y']))
     # líneas de alzaprimas: juntar las de planchas vecinas en una sola línea y cortarla donde pasa
     # bajo una viga paralela a las planchas (la solera no puede atravesarla)
@@ -511,6 +565,71 @@ def malla(perim, pilares, pernos):
                 contorno=R, paneles=ps, m_barra=round(m_barra, 1), kg_obra=round(m_barra * MALLA['kg_m'], 0),
                 choques=choques, choques_sin_correr=choques0, alternativas=alt)
 
+# ---------------------------------------------------------------------------------------------
+# Pernos del ingeniero (lámina 11, 07-10-2026): cantidad y posición aproximada de cada perno sobre su viga
+# (pernos_ingeniero.json, sacado del plano con pernos_desde_plano.py). Como la posición es estimativa y el
+# perno tiene que caer en un valle, cada perno del plano se lleva al valle más cercano de su misma línea de
+# viga, uno a uno y sin cruzarse con los vecinos (mínimo movimiento total, programación dinámica).
+# ---------------------------------------------------------------------------------------------
+def linea_de(viga_id):
+    for L in LINEAS:
+        if any(v['id'] == viga_id for v in L['tramos']): return (L['dir'], round(L['pos'], 1))
+    return None
+
+def ajustar_a_valles(puntos, valles):
+    por_linea = {}
+    for v in valles: por_linea.setdefault(v['linea'], []).append(v)
+    grupos = {}
+    for p in puntos: grupos.setdefault(linea_de(p['viga']), []).append(p)
+    pernos, problemas = [], []
+    for linea, ps in grupos.items():
+        vs = sorted(por_linea.get(linea, []), key=lambda v: v['c'])
+        coord = (lambda p: p['x']) if linea and linea[0] == 'EO' else (lambda p: p['y'])
+        ps = sorted(ps, key=coord)
+        n, m = len(ps), len(vs)
+        if n > m:
+            problemas.append(f'{linea}: {n} pernos en el plano y solo {m} valles'); continue
+        INF = float('inf')
+        # f[i][j]: mínimo movimiento de los primeros i pernos con el perno i-1 en el valle j (a SEP_MIN = 4 d o más del anterior)
+        f = [[INF] * m for _ in range(n)]; de = [[-1] * m for _ in range(n)]
+        for j in range(m): f[0][j] = abs(coord(ps[0]) - vs[j]['c'])
+        for i in range(1, n):
+            mejor, jm, k = INF, -1, 0
+            for j in range(m):
+                while k < j and vs[j]['c'] - vs[k]['c'] >= SEP_MIN - 1e-6:
+                    if f[i - 1][k] < mejor: mejor, jm = f[i - 1][k], k
+                    k += 1
+                if jm >= 0: f[i][j] = mejor + abs(coord(ps[i]) - vs[j]['c']); de[i][j] = jm
+        j = min(range(m), key=lambda j: f[n - 1][j])
+        if f[n - 1][j] == INF:
+            problemas.append(f'{linea}: no caben {n} pernos a 4 d'); continue
+        elegidos = []
+        for i in range(n - 1, -1, -1): elegidos.append((ps[i], vs[j])); j = de[i][j]
+        for p, v in reversed(elegidos):
+            pernos.append({'x': v['x'], 'y': v['y'], 'area': v['area'], 'viga': v['viga'], 'perfil': v['perfil'],
+                           'plano': [p['x'], p['y']], 'mov': round(v['c'] - coord(p), 1), 'viga_plano': p['viga'],
+                           'corrido': v['corrido'], 'tipo': v['tipo']})
+    pernos.sort(key=lambda p: (p['area'], p['viga'], p['x'], p['y']))
+    return pernos, problemas
+
+def poner_d0(area):
+    """Origen de cada plancha según la grilla del área: las planchas se ponen de a UTIL desde un borde, así que el
+    origen del perfil (borde oeste en NS, borde sur en EO) de la plancha k sale de las planchas enteras. La pieza de
+    una plancha cortada conserva el tramo de perfil que le toca (d0 = mm desde el origen de su plancha): si el reparto
+    parte del lado opuesto al origen del perfil, a la última plancha se le corta el lado del origen."""
+    ns = area['dir'] == 'NS'
+    o = lambda q: q['x0'] if ns else q['y1']
+    llenas = {}
+    for q in area['piezas']:
+        if q['ancho'] >= UTIL - 0.05: llenas.setdefault(q['k'], o(q))
+    ks = sorted(llenas)
+    sg = 1.0 if (llenas[ks[-1]] - llenas[ks[0]]) * (1 if ns else -1) > 0 else -1.0   # sentido del reparto respecto del perfil
+    base_k, base = ks[0], llenas[ks[0]]
+    for q in area['piezas']:
+        org = base + (q['k'] - base_k) * UTIL * sg * (1 if ns else -1)
+        d0 = (q['x0'] - org) * 10 if ns else (org - q['y1']) * 10
+        q['d0'] = round(max(0.0, d0), 1)
+
 def main(f_losa, f_placa, salida, f_extra=None):
     L = json.load(open(f_losa)); P = json.load(open(f_placa))
     X = json.load(open(f_extra)) if f_extra else {}
@@ -520,6 +639,7 @@ def main(f_losa, f_placa, salida, f_extra=None):
     areas = []
     for a in L['areas']:
         F, ancho, n, piezas = planchas(a, perim)
+        poner_d0({'dir': a['dir'], 'piezas': piezas})
         for q in piezas:
             r = (q['x0'], q['y0'], q['x1'], q['y1'])
             q['pilares'] = [p['id'] for p in pil_borde + pil_dentro if rect_inter(r, p['seccion'])]
@@ -535,21 +655,38 @@ def main(f_losa, f_placa, salida, f_extra=None):
                       'vigas': c['vigas'], 'piezas': pz, 'pilares': cortan, 'muescas': muescas})
     pilares = [{'id': p['id'], 'perfil': p['perfil'], 'x': p['x'], 'y': p['y'], 'seccion': p['seccion'], 'borde': p in pil_borde}
                for p in pil_borde + pil_dentro]
-    valles, pernos, alzaprimas = pernos_y_alzaprimas(areas, pil_borde + pil_dentro, P['perfil'])
+    valles, valles_libres, alzaprimas = pernos_y_alzaprimas(areas, pil_borde + pil_dentro, P['perfil'])
+    import os
+    f_ing = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pernos_ingeniero.json')
+    ING = json.load(open(f_ing)) if os.path.exists(f_ing) else None
+    if ING:
+        pernos, problemas = ajustar_a_valles(ING['puntos'], valles_libres)
+        for t in problemas: print('OJO pernos:', t)
+    else:
+        pernos = []   # sin la lámina: uno por valle, y en las juntas a tope uno solo para los dos lados
+        for p in sorted(valles_libres, key=lambda p: (p['linea'], p['c'])):
+            if pernos and pernos[-1]['linea'] == p['linea'] and p['c'] - pernos[-1]['c'] < JUNTAR_VALLE: continue
+            pernos.append(p)
+        pernos = [{k: v for k, v in p.items() if k not in ('linea', 'c')} for p in pernos]
+    # control: separación mínima entre pernos de una misma línea de viga
+    for lin in set(linea_de(p['viga']) for p in pernos):
+        cs = sorted((p['x'] if lin[0] == 'EO' else p['y']) for p in pernos if linea_de(p['viga']) == lin)
+        if any(b - a < SEP_MIN for a, b in zip(cs, cs[1:])): print('OJO pernos a menos de 4 d en', lin)
     out = {
         'fuente': L.get('fuentes', ''),
         'z_viga': 346, 'espesor': 15, 'espesor_plano': 14.35,
         'perimetro': perim, 'hueco_escalera': L.get('hueco_escalera'), 'hueco_interior': None,
         'marco': marco, 'areas': areas, 'pilares_n2': pilares, 'grilla': X.get('grilla', {}),
         'perfilC': {'h': 150, 'b': 50, 't': 3, 'r': 3},
-        'pernos': pernos, 'valles_mm': valles, 'perno': {'d': 19.05, 'largo': 127.0, 'largo_compra': 131.8, 'cabeza_d': 31.75, 'cabeza_h': 9.5,
+        'pernos': pernos, 'valles_mm': valles, 'valles_receptoras': len(valles_libres), 'perforacion': PERFORACION,
+        'pernos_fuente': ING['fuente'] if ING else None, 'perno': {'d': 19.05, 'largo': 127.0, 'largo_compra': 131.8, 'cabeza_d': 31.75, 'cabeza_h': 9.5,
                                                       'sold_d': 27.0, 'sold_h': 6.4, 'quema_desnudo': 4.8, 'quema_placa': [9.5, 11.1]},
         'alzaprimas': alzaprimas, 'luz_max_alzaprima': LUZ_MAX_ALZ, 'puntal_sep_max': PUNTAL_SEP_MAX,
         'malla': malla(perim, pil_borde + pil_dentro, pernos),
         'placa': P, 'diferencias': X.get('diferencias', []), 'notas': X.get('notas', []), 'cotizacion': X.get('cotizacion'),
         'cotizacion_pernos': X.get('cotizacion_pernos'),
     }
-    cifras = {'{pernos}': str(len(pernos)), '{alz_lineas}': str(len(alzaprimas)), '{alz_tramos}': str(sum(len(l['tramos']) for l in alzaprimas)),
+    cifras = {'{pernos}': str(len(pernos)), '{valles}': str(len(valles_libres)), '{alz_lineas}': str(len(alzaprimas)), '{alz_tramos}': str(sum(len(l['tramos']) for l in alzaprimas)),
               '{puntales}': str(sum(len(l['puntales']) for l in alzaprimas)),
               '{alz_metros}': f"{sum(t[1] - t[0] for l in alzaprimas for t in l['tramos']) / 100:.0f}".replace('.', ',')}
     for clave in ('diferencias', 'notas'):
@@ -561,7 +698,10 @@ def main(f_losa, f_placa, salida, f_extra=None):
     for c in marco: print(c['id'], c['largo'], '→', [p['largo'] for p in c['piezas']], 'cortan', c['pilares'], 'muescas', [m['pilar'] for m in c['muescas']])
     import collections
     pa = collections.Counter(p['area'] for p in pernos)
-    print('PERNOS', len(pernos), dict(sorted(pa.items())))
+    print('PERNOS', len(pernos), dict(sorted(pa.items())), 'de', len(valles_libres), 'valles')
+    if ING: print('  movidos al valle: máx', max(abs(p['mov']) for p in pernos), 'cm; promedio', round(sum(abs(p['mov']) for p in pernos) / len(pernos), 1), 'cm;',
+                  'corridos hacia su plancha:', sum(1 for p in pernos if p['corrido']), '(máx', max(abs(p['corrido']) for p in pernos), 'cm);',
+                  'por tipo:', dict(collections.Counter(p['tipo'] for p in pernos)))
     print('PUNTALES', sum(len(l['puntales']) for l in alzaprimas), dict(sorted(collections.Counter(l['area'] for l in alzaprimas for _ in l['puntales']).items())))
     print('ALZAPRIMAS (líneas)', len(alzaprimas), 'tramos', sum(len(l['tramos']) for l in alzaprimas), dict(sorted(collections.Counter(l['area'] for l in alzaprimas).items())), 'metros', round(sum(t[1] - t[0] for l in alzaprimas for t in l['tramos']) / 100, 1))
     M = out['malla']

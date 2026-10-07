@@ -57,8 +57,9 @@ El entrepiso, pieza por pieza, sobre las vigas reales de la estructura: el **mar
 perfil C 150×50×3** (también alrededor del hueco de la escalera, cortado donde lo atraviesan los
 pilares del nivel 2) y las **66 planchas Instadeck 0,8** de las 8 áreas marcadas en obra, con la
 sección real de la ficha técnica y la dirección de cada paño del plano del ingeniero. Encima, los
-**610 pernos Nelson** en las vigas receptoras, como indicó el ingeniero (uno en cada valle: la separación
-no venía en sus hojas), soldados al arco a través de la placa; las **17 líneas de alzaprimas** con su
+**215 pernos Nelson** en las vigas receptoras, con la cantidad y la posición de la lámina 11 del ingeniero
+(07-10-2026), cada uno al centro del valle más cercano de su viga, con la placa perforada (Ø35 mm, con un anillo libre
+alrededor del perno) y soldado al arco directo al ala; las **17 líneas de alzaprimas** con su
 criterio de 1,87 m de luz máxima sin apoyo (bajo la placa; falta que el ingeniero confirme si eran para la
 placa o para las vigas); la **malla ACMA C-188** en 50 paneles traslapados según ACMA, y el **hormigón** hasta los
 15 cm (≈ 50 m³). Cada capa se prende y se apaga.
@@ -76,6 +77,15 @@ placa o para las vigas); la **malla ACMA C-188** en 50 paneles traslapados segú
 - En la vista 3D aparece como la capa "Losa colaborante".
 
 Cómo se armó cada parte está en `fuente/losa/README.md`.
+
+## Pernos: instalación
+
+`pernos.html` muestra, en 2D y en 3D, cómo se instala cada perno Nelson según cómo llega la placa a la viga: en el
+borde contra el perfil C, donde se juntan planchas en el mismo sentido (a tope, con los nervios alineados), donde se
+juntan planchas ortogonales (hasta tocarse, con los nervios sellados) y donde la plancha pasa corrida. Trae la
+perforación de Ø35 mm con su anillo libre, el collar de soldadura, los tornillos de fijación y la instalación paso a
+paso (viga, planchas, fijación, perforación, soldadura, revisión, malla y hormigón). La placa con sus perforaciones se
+arma con `placa3d.js`, que usa también la vista de la losa.
 
 ## Tablero de básquetbol
 
@@ -140,7 +150,10 @@ Base: plano L3 PLARQ2 (Planta Arquitectura Nivel 2, GVArq, dic. 2025, esc. 1:50)
 - `tablero.html` — el tablero de básquetbol: manual traducido, figuras y 3D animado, todo en un archivo.
 - `losa.html` — la losa colaborante: 3D con despiece y montaje, y el detalle de cada pieza.
 - `losa.js` — los datos de la losa (áreas, planchas, marco C, pilares que la atraviesan); se genera con `fuente/losa/generar_losa_js.py`.
+- `pernos.html` — cómo se instalan los pernos Nelson, caso por caso, en 2D y 3D.
 - `menu.js` — el menú común a todas las vistas; para sumar una vista se agrega a su lista.
+- `nav3d.js` — la navegación común de los 3D: zoom hacia el cursor, doble clic, botones de inicio y planta, teclado.
+- `placa3d.js` — la placa colaborante en 3D con las perforaciones de los pernos (losa y pernos).
 - `fuente/losa/` — cómo se sacó la losa del plano, de las áreas marcadas en obra y de la ficha Instadeck.
 - `data.js` — los datos de ambas plantas (`DATA_N1`, `DATA_N2`), compartidos por `index.html` y `3d.html`: una sola fuente, nada duplicado.
 - `estructura.js` — la estructura de acero pieza por pieza (perfil y extremos de cada una) para la capa "Ver estructura" de `3d.html`; se genera desde `fuente/ingenieria/datos/modelo.json`.

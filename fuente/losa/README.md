@@ -12,9 +12,10 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
 - **Placa colaborante Instadeck 0,8** en las 8 áreas marcadas en obra, con la sección real de la
   ficha (sacada del dibujo vectorial, escalada con la cota de 950 mm de avance útil) y la dirección
   de cada paño según el plano del ingeniero.
-- **Pernos Nelson Ø19 × 5"** según la indicación del ingeniero (consulta del 05-10-2026): van en las
-  vigas receptoras, las perpendiculares a las planchas, en los valles de la placa. Sus hojas no dan la
-  separación, así que el modelo pone uno en cada valle: 610 pernos (la cotización pide 850).
+- **Pernos Nelson Ø19 × 5"** según el ingeniero: van en las vigas receptoras, las perpendiculares a las
+  planchas, en los valles de la placa (consulta del 05-10-2026). Su lámina 11 (07-10-2026) da la cantidad y la
+  posición: 215 pernos (la cotización pide 850). Como la posición es estimativa, cada uno se lleva al valle más
+  cercano de su viga (de los 644 valles completos que cruzan vigas receptoras, contando los dos lados de las juntas a tope).
 - **Alzaprimas** con el criterio del ingeniero: luz máxima sin apoyo 1,87 m; cada vano entre vigas
   receptoras se divide en espacios iguales y entre espacio y espacio va una línea: 17 líneas, que en
   terreno son 25 tramos de solera porque algunas pasan bajo una viga.
@@ -38,18 +39,26 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
 4. **Conciliación y verificación.** Las tres fuentes se juntaron en `losa.json` y dos revisores
    independientes lo dibujaron encima del plano y de la foto para buscar errores.
 5. **Planchas.** `generar_losa_js.py` reparte las planchas de cada área: llegan hasta la punta del ala
-   del C en el perímetro (5 cm del borde) y hasta 5 mm del eje de la viga donde un área toca a otra; se
+   del C en el perímetro (5 cm del borde) y hasta el eje de la viga donde un área toca a otra (a tope); se
    ponen cada 95 cm (avance útil) desde un borde (se prueban los dos y queda el reparto con menos
    piezas); la última va cortada. Una franja de menos de 10 cm sobre el ala de una viga no lleva placa.
-6. **Pernos y alzaprimas.** `generar_losa_js.py` busca, para cada plancha, las vigas perpendiculares que
-   pasan bajo al menos la mitad de su ancho (los tramos seguidos de una misma viga cuentan como una línea)
-   y pone un perno en cada valle que las cruza (los valles salen de la sección de la ficha, medidos desde el
-   borde de la plancha entera aunque esté cortada). Sobre una misma viga, los candidatos a menos de 12 cm son
-   el mismo valle y llevan un solo perno, venga de un área o de otra; el borde del perno queda al menos a
-   2,5 cm de la cara de los pilares. "Uno por valle" es un criterio del modelo: las hojas del ingeniero dicen
-   que van en los valles pero no cada cuánto; si especificó otra separación, se cambia ahí.
+6. **Pernos y alzaprimas.** `pernos_desde_plano.py` saca los pernos de la lámina 11 (no está en el repositorio:
+   la viñeta trae datos personales): cada perno es un punto negro de 12 pt; se buscan por el relleno (la planta se
+   pasa a imagen y se erosiona: solo quedan los puntos sólidos; uno no tiene círculo de contorno) y se ubican con
+   las burbujas de los ejes, descartando las que están dibujadas fuera de su eje. Quedan en `pernos_ingeniero.json`.
+   `generar_losa_js.py` busca, para cada plancha, las vigas perpendiculares que pasan bajo al menos la mitad de su
+   ancho (los tramos seguidos de una misma viga cuentan como una línea) y marca cada valle que las cruza (los valles
+   salen de la sección de la ficha, medidos desde el borde de la plancha entera aunque esté cortada); sobre una misma
+   viga, los candidatos a menos de 12 cm son el mismo valle, y el borde del perno queda al menos a 2,5 cm de la cara
+   de los pilares. El perno va al centro del valle (entre las dos mitades que separa el rigidizador, o entre las de
+   dos planchas en la unión), con una perforación de Ø35 mm alrededor; donde la plancha termina sobre la viga (en el
+   borde, contra el C; entre dos áreas, en el eje) se corre hacia su plancha para que la perforación no corte el ala
+   del C ni la plancha vecina, y su centro queda a 31,7 mm o más del borde del ala (AWS D1.1). Cada perno lleva el
+   tipo de encuentro de la placa con su viga (borde, mismo sentido, ortogonal o corrida). Después lleva cada perno de
+   la lámina al valle libre más cercano de su línea de viga, uno a uno, sin cambiar el orden y a 4 diámetros o más del
+   siguiente (mínimo movimiento total, AISC 360-16 I8.2d). Sin `pernos_ingeniero.json`, pone uno en cada valle.
    Las líneas de alzaprimas se cortan donde pasan bajo una viga paralela a las planchas.
-   Dos revisiones independientes recontaron pernos y alzaprimas y los dibujaron sobre el plano.
+   Dos extracciones independientes de la lámina (por relleno y por imagen) dieron los mismos 215 pernos.
 7. **Malla.** `generar_losa_js.py` reparte paneles en filas con su traslapo sobre el contorno de la losa corrido 3 cm
    hacia adentro; prueba las dos orientaciones, las cuatro esquinas de partida y filas desfasadas, y deja el reparto
    con menos paneles. Después lo corre hasta 14 cm en cada sentido, sin sumar paneles, para que las barras pasen lo
@@ -64,6 +73,7 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
 - `losa.json` — áreas (polígono, dirección, paños del plano, lo anotado en obra), perímetro, tramos
   del marco y hueco de escalera, en cm en el marco de la app.
 - `placa.json` — sección de la placa y tablas de la ficha; se arma con `placa_desde_ficha.py`.
+- `pernos_ingeniero.json` — pernos de la lámina 11 en cm; se arma con `pernos_desde_plano.py "Plano 11, ubicacion pernos.pdf" pernos_ingeniero.json`.
 - `generar_losa_js.py` — escribe `losa.js`: `python3 generar_losa_js.py losa.json placa.json ../../losa.js textos.json` (`textos.json` trae las diferencias y notas que muestra la página).
 
 La ficha técnica, el plano y la foto marcada no están en el repositorio (el plano lleva datos

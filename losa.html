@@ -184,7 +184,7 @@ details.areas[open] summary::before{content:"▾ ";}
 <header class="top">
   <script src="menu.js" data-vista="losa"></script>
   <h1>Losa colaborante <small>Entrepiso de 15 cm · marco C, placa Instadeck 0,8, pernos, malla C-188 y hormigón</small></h1>
-  <span class="meta">Fuentes: planta estructura nivel 1 (rev. 08-04-2026), detalle del ingeniero (05-10-2026), fichas de Instadeck, pernos Nelson y mallas ACMA, y áreas marcadas en obra</span>
+  <span class="meta">Fuentes: planta estructura nivel 1 (rev. 08-04-2026), detalle del ingeniero (05-10-2026), lámina 11 de pernos (07-10-2026), fichas de Instadeck, pernos Nelson y mallas ACMA, y áreas marcadas en obra</span>
 </header>
 <div class="main">
   <div class="visor" id="visor">
@@ -264,7 +264,8 @@ details.areas[open] summary::before{content:"▾ ";}
   <figure>
     <svg id="svg-planta" role="img" aria-label="Planta de la losa colaborante con áreas, planchas y marco"></svg>
     <figcaption>Planta de la losa: cada rectángulo delgado es una plancha (avance útil 0,95 m) y la flecha indica hacia dónde corre.
-    En amarillo, el marco de perfil C con el número de cada tramo; en morado, los pernos Nelson; en verde, las líneas de
+    En amarillo, el marco de perfil C con el número de cada tramo; en morado, los pernos Nelson en su valle (el círculo vacío es
+    donde los dibujó el ingeniero); en verde, las líneas de
     alzaprimas (solera) con sus puntales; en rojo, los pilares del nivel 2. Toca una fila de la tabla para verla en el 3D.</figcaption>
   </figure>
   <div class="tw"><table id="tabla-areas"></table></div>
@@ -305,13 +306,16 @@ details.areas[open] summary::before{content:"▾ ";}
   <h2><span class="n">04</span>Pernos Nelson</h2>
   <p>Según el ingeniero (consulta del 05-10-2026), los pernos van en las <b>vigas receptoras</b>: las que reciben la carga de
   la losa. Son las que quedan <b>perpendiculares a las planchas</b>, donde las planchas apoyan; en las vigas paralelas a las
-  planchas no van. Cada perno va soldado sobre el ala de la viga, a través de la placa, <b>en un valle</b>. La separación
-  ("cada cuánto") no viene en estas hojas, así que el modelo pone <b>uno en cada valle</b>.</p>
+  planchas no van. Cada perno va al centro de un valle, en una perforación de la placa, soldado directo al ala de la viga. La <b>lámina 11</b>
+  del ingeniero (07-10-2026) da la cantidad y la posición de cada perno. Como esa posición es estimativa y el perno tiene que
+  caer en un valle, el modelo lleva cada uno al <b>valle más cercano de su viga</b>.</p>
   <figure><svg id="svg-perno" role="img" aria-label="Detalle del perno Nelson en el valle de la placa sobre la viga"></svg>
-    <figcaption>Corte a lo largo de una viga receptora, a escala: la plancha cruza la viga y en cada valle va un perno, soldado
-    al arco a través de la placa; abajo solo queda el collar de soldadura, sin cabeza. Medidas del detalle del ingeniero
+    <figcaption>Corte a lo largo de una viga receptora, a escala: la plancha cruza la viga y los pernos van al centro de algunos valles
+    (la lámina 11 los pone cada ≈ 50 cm). En cada perno la placa se perfora y el perno se suelda al arco directo al ala; abajo solo
+    queda el collar de soldadura, sin cabeza. Medidas del detalle del ingeniero
     (perno Ø19 × 5", malla ACMA C-188 a 2,5 cm de la cara superior, losa de 15).</figcaption></figure>
   <div class="specs" id="specs-pernos"></div>
+  <p class="small" id="txt-ajuste"></p>
   <p class="small" id="txt-soldadura"></p>
   <div class="tw"><table class="small" id="tabla-pernos"></table></div>
   <div class="aviso" id="aviso-pernos"></div>
@@ -368,6 +372,8 @@ details.areas[open] summary::before{content:"▾ ";}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script src="nav3d.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
+<script src="placa3d.js"></script>
 <script src="estructura.js"></script>
 <script src="losa.js"></script>
 <script>
@@ -459,7 +465,7 @@ function maxFlecha(nVanos, et) {
     ['Espesor de losa', coma(ESP, ESP % 1 ? 2 : 0) + ' cm', `Plano: e = ${coma(L.espesor_plano, 2)} cm (placa 6,35 + ${coma(L.espesor_plano - 6.35, 0)} de hormigón) <span class="fuente man">plano</span>`],
     ['Marco perimetral', fm(LARGO_PZ, 1), `C 150×50×3: ${N_PZ} piezas entre pilares en ${L.marco.length} tramos · ≈ ${coma(LARGO_PZ / 100 * KG_M_C, 0)} kg <span class="fuente calc">calculado</span>`],
     ['Planchas Instadeck', N_PLANCHAS + ' planchas', `${coma(M2_PLACA, 1)} m² de placa · ≈ ${miles(M2_PLACA * PL.peso)} kg <span class="fuente calc">calculado</span>`],
-    ['Pernos Nelson', L.pernos.length + ' pernos', `Ø19 × 5" en los valles de las vigas receptoras <span class="fuente man">ingeniero</span>; uno por valle <span class="fuente calc">criterio del modelo</span>`],
+    ['Pernos Nelson', L.pernos.length + ' pernos', `Ø19 × 5", cantidad y posición de la lámina 11 <span class="fuente man">ingeniero</span>; cada uno en el valle más cercano <span class="fuente calc">ajustado</span>`],
     ['Alzaprimas', (L.alzaprimas || []).reduce((t, l) => t + (l.puntales || []).length, 0) + ' puntales', `En ${(L.alzaprimas || []).length} líneas, al centro o en los tercios de cada vano (luz máx. 1,87 m) <span class="fuente man">ingeniero</span>; a 1,0 m entre sí a lo largo de la línea <span class="fuente calc">referencia</span>`],
     ['Placa', '0,8 mm · 63,5 mm', `Avance útil 950 mm · ${coma(PL.peso, 2)} kg/m² · acero G37 galv. G-90 <span class="fuente man">ficha</span>`],
     ['Malla C-188', MA_N + ' paneles', `2,60 × 5,00 m, Ø6 a 15 cm; ${MA_CORT} van cortados · ≈ ${miles(MA_N * (L.malla ? L.malla.kg_panel : 39.03))} kg <span class="fuente calc">calculado</span>`],
@@ -521,7 +527,11 @@ function dibujarPlanta() {
     l.tramos.forEach(([t0, t1]) => el('line', { x1: ns ? t0 : l.pos, y1: ns ? l.pos : t0, x2: ns ? t1 : l.pos, y2: ns ? l.pos : t1, style: 'stroke:#2E9E6A;stroke-width:5' }, svg));
     (l.puntales || []).forEach(c => el('rect', { x: (ns ? c : l.pos) - 7, y: (ns ? l.pos : c) - 7, width: 14, height: 14, style: 'fill:#2E9E6A' }, svg));
   });
-  L.pernos.forEach(p => el('circle', { cx: p.x, cy: p.y, r: 4.5, style: 'fill:#6B4FBB' }, svg));
+  L.pernos.forEach(p => {
+    if (p.plano) { el('line', { x1: p.plano[0], y1: p.plano[1], x2: p.x, y2: p.y, style: 'stroke:#6B4FBB;stroke-width:2.5;opacity:.8' }, svg);
+      el('circle', { cx: p.plano[0], cy: p.plano[1], r: 9, style: 'fill:none;stroke:#6B4FBB;stroke-width:2.5;opacity:.8' }, svg); }
+    el('circle', { cx: p.x, cy: p.y, r: 7, style: 'fill:#6B4FBB' }, svg);
+  });
   // pilares del nivel 2 que nacen sobre las vigas y atraviesan la losa
   PIL2.forEach(p => { const [x0, y0, x1, y1] = p.seccion; el('rect', { x: x0, y: y0, width: x1 - x0, height: y1 - y0, style: 'fill:#C2410C;stroke:var(--paper);stroke-width:2' }, svg); });
   // hueco de escalera
@@ -780,39 +790,79 @@ dibujarPlaca();
   }).join('');
   $('#tabla-pernos').innerHTML = `<thead><tr><th>Área</th><th class="c">Planchas</th><th>Vigas receptoras: pernos</th><th class="r">Pernos</th></tr></thead><tbody>${filas}
     <tr><td colspan="3"><b>Total</b></td><td class="r"><b>${P.length}</b></td></tr></tbody>`;
-  const nVigas = new Set(P.map(p => p.viga)).size;
+  const nVigas = new Set(P.map(p => p.viga)).size, conPlano = P.filter(p => p.plano);
+  const movs = conPlano.map(p => Math.abs(p.mov));
+  const aCara = (p, q) => { const [a, b, c, d] = q.seccion; return Math.hypot(Math.max(a - p.plano[0], 0, p.plano[0] - c), Math.max(b - p.plano[1], 0, p.plano[1] - d)); };
+  const lejos = conPlano.filter(p => Math.abs(p.mov) > 12 && PIL2.some(q => aCara(p, q) <= 10));   // dibujados sobre un pilar o junto a él
+  const encima = lejos.filter(p => PIL2.some(q => aCara(p, q) === 0)).length;
+  const MIEMBRO = E.miembros.reduce((o, m) => (o[m.id] = m, o), {});
+  // separación típica entre pernos del plano sobre una misma viga (a lo largo de la viga)
+  const seps = []; Object.values(conPlano.reduce((o, p) => ((o[p.viga_plano] = o[p.viga_plano] || []).push(p), o), {})).forEach(ps => {
+    const m = MIEMBRO[ps[0].viga_plano], eo = m && Math.abs(m.a[1] - m.b[1]) < 1;
+    const h = ps.map(p => eo ? p.plano[0] : p.plano[1]).sort((a, b) => a - b); h.slice(1).forEach((x, i) => seps.push(x - h[i])); });
+  seps.sort((a, b) => a - b); const sepMed = seps.length ? seps[Math.floor(seps.length / 2)] : 0;
+  const pilarDe = p => { const q = PIL2.reduce((m, q) => !m || aCara(p, q) < aCara(p, m) ? q : m, null); return q ? q.id.replace(/^P-/, '').replace(/-N2$/, '').replace('x', ' / ').replace('ap', "a'") : '?'; };
   $('#specs-pernos').innerHTML = [
-    ['Pernos', P.length, `en ${nVigas} tramos de viga receptora <span class="fuente calc">conteo</span>`],
+    ['Pernos', P.length, `En ${nVigas} tramos de viga receptora, según la lámina 11 <span class="fuente man">ingeniero</span>`],
+    ['Ajuste al valle', conPlano.length ? `≈ ${coma(movs.reduce((t, m) => t + m, 0) / movs.length, 0)} cm` : '—', conPlano.length ? `Lo que se movió en promedio cada perno para caer en un valle (máximo ${coma(Math.max(...movs), 0)} cm) <span class="fuente calc">ajustado</span>` : ''],
     ['Perno', 'Ø19 × 5"', `Ø 3/4" × 5" <span class="fuente man">ingeniero</span>; la cotización lo trae de 5 3/16" (${coma(PN.largo_compra, 0)} mm) <span class="fuente med">cotización</span>. Cabeza Ø${coma(PN.cabeza_d, 1)} × ${coma(PN.cabeza_h, 1)} mm arriba; abajo no lleva cabeza <span class="fuente man">catálogo</span>`],
-    ['Soldadura', 'al arco', `Con pistola de pernos y anillo cerámico, a través de la placa, directo al ala de la viga. Deja un collar de soldadura completo alrededor de la base (AWS D1.1); sobre acero desnudo mide ≈ Ø${coma(PN.sold_d, 0)} × ${coma(PN.sold_h, 1)} mm <span class="fuente man">catálogo</span>. A través de la placa se usa otro anillo (cara de Ø34 mm) y el catálogo no da el tamaño del collar`],
+    ['Perforación', `Ø${coma(L.perforacion * 10, 0)} mm`, `Con sierra copa bimetálica alrededor de cada perno, para soldarlo directo al ala de la viga. Deja holgura al anillo cerámico (Ø30,9 mm) y al collar <span class="fuente calc">referencia</span>`],
+    ['Soldadura', 'al arco', `Con pistola de pernos y anillo cerámico estándar, sobre el ala desnuda (sin pintura). Deja un collar completo alrededor de la base de ≈ Ø${coma(PN.sold_d, 0)} × ${coma(PN.sold_h, 1)} mm (AWS D1.1) <span class="fuente man">catálogo</span>`],
   ].map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
   const cot = L.cotizacion_pernos || 850;
-  const quema = PN.quema_placa || [9.5, 11.1], final = PN.largo_compra - (quema[0] + quema[1]) / 2;
   const alas = [...new Set(P.map(p => p.perfil))].map(n => (E.perfiles[n] || {}).tf * 10).filter(Boolean);
-  $('#txt-soldadura').innerHTML = `<b>Soldar a través de la placa.</b> Se puede: el informe ICC-ES ESR-2856 del fabricante lo permite a través de una placa de hasta calibre 16 (≈ 1,5 mm) con galvanizado de hasta G-90, apretada contra el ala, limpia y seca; la Instadeck es de 0,8 mm G-90. El ala de la viga tiene que tener al menos el diámetro del perno dividido por 2,5 (7,6 mm para Ø19): las vigas receptoras tienen alas de ${coma(Math.min(...alas), 1)} a ${coma(Math.max(...alas), 1)} mm, así que cumplen. Al soldar, el perno se acorta: ${coma(PN.quema_desnudo, 1)} mm sobre acero desnudo, pero ${coma(quema[0], 1)} a ${coma(quema[1], 1)} mm a través de la placa. El de 5 3/16" (${coma(PN.largo_compra, 1)} mm) queda en <b>≈ ${coma(final, 0)} mm</b> soldado a través de la placa y en ${coma(PN.largo_compra - PN.quema_desnudo, 0)} mm si la placa va perforada. Con ${coma(final, 0)} mm sigue cumpliendo lo mínimo: sobresale ${coma(final - PL.alto, 0)} mm de la cresta (mínimo 38) y le quedan ${coma(ESP * 10 - final, 0)} mm de hormigón encima (mínimo 13; los dos mínimos son de AISC 360). La figura y el 3D usan los ${coma(PN.largo, 0)} mm del detalle del ingeniero (5"). Conviene preguntarle cuál de las dos formas quiere.`;
-  $('#aviso-pernos').innerHTML = `<b>Contra la cotización.</b> La cotización de pernos pide <b>${cot}</b>; con un perno por valle salen <b>${P.length}</b> (${cot - P.length} menos; la cotización trae un ${coma(100 * (cot - P.length) / P.length, 0)} % más). El ingeniero dice que la separación ya la especificó, pero no está en estas hojas: si no es uno por valle (por ejemplo, dos por valle en algunas vigas), con esa indicación se recalcula al tiro. Donde dos áreas apoyan en la misma viga, cada valle lleva un solo perno, y el borde del perno queda al menos a 2,5 cm de la cara de los pilares.`;
+  $('#txt-soldadura').innerHTML = `<b>Con la placa perforada.</b> En cada perno la placa se perfora con una sierra copa de ${coma(L.perforacion * 10, 0)} mm y el perno se suelda directo al ala de la viga, como sobre acero plano: no hay que calificar la soldadura a través de la placa, y el perno se acorta solo ${coma(PN.quema_desnudo, 1)} mm, así que el de 5 3/16" (${coma(PN.largo_compra, 1)} mm) queda en <b>${coma(PN.largo_compra - PN.quema_desnudo, 0)} mm</b>, los 5" del detalle del ingeniero. Sobresale ${coma(PN.largo_compra - PN.quema_desnudo - PL.alto, 0)} mm de la cresta (mínimo 38) y le quedan ${coma(ESP * 10 - PN.largo_compra + PN.quema_desnudo, 0)} mm de hormigón encima (mínimo 13; los dos mínimos son de AISC 360). El ala de la viga tiene que medir al menos el diámetro del perno dividido por 2,5 (7,6 mm, AISC 360): las vigas receptoras tienen alas de ${coma(Math.min(...alas), 1)} a ${coma(Math.max(...alas), 1)} mm. Tres cuidados: la broca guía de la sierra copa no debe marcar el ala justo donde va el perno (se saca la guía después de marcar, o se usa una plantilla); el ala tiene que quedar limpia y sin pintura; y como el perno ya no sujeta la placa, la placa se fija a cada viga con un tornillo autoperforante por valle, al lado del agujero. Detalles de cada caso en <a href="pernos.html">Pernos: instalación</a>.`;
+  $('#txt-ajuste').innerHTML = conPlano.length ? `<b>Cómo se ajustaron.</b> Los ${conPlano.length} pernos se sacaron de la lámina por su relleno (uno no tiene contorno) y se ubicaron con la grilla de ejes (error menor a 1 cm). En el plano van cada ≈ ${coma(sepMed, 0)} cm sobre cada viga, y los valles de la placa cruzan la viga cada 31,7 cm: de los ${L.valles_receptoras} valles que hay sobre las vigas receptoras, se usan ${P.length}. Cada perno se llevó al valle más cercano de su misma viga, sin juntar dos en un valle, sin cambiar su orden y a 4 diámetros (7,6 cm) o más del siguiente (AISC 360); en el plano de arriba, el círculo vacío es donde lo dibujó el ingeniero y el punto, el valle donde queda. El perno va al <b>centro del valle</b>, encima del rigidizador o, en el valle de la unión entre dos planchas, del gancho del traslapo (la broca los corta): queda a ≈ 76 mm del alma del nervio hacia cada lado, en la "posición fuerte" de AISC 360. Donde la plancha termina sobre la viga (en el borde, en la punta del ala del C; entre dos áreas, en el eje, a tope), el perno se corrió hasta ${coma(Math.max(...conPlano.map(p => Math.abs(p.corrido || 0))), 1)} cm hacia su plancha para que la perforación no corte el ala del C ni la plancha vecina (${conPlano.filter(p => p.corrido).length} pernos).${lejos.length ? ` <b>${lejos.length} pernos del plano quedan sobre un pilar del nivel 2 o junto a él</b> (pilares de los ejes ${[...new Set(lejos.map(pilarDe))].join(' · ')}; ${encima} dibujados encima): su valle más cercano queda tapado por el pilar, así que pasan al valle libre siguiente, a ${coma(Math.min(...lejos.map(p => Math.abs(p.mov))), 0)}–${coma(Math.max(...lejos.map(p => Math.abs(p.mov))), 0)} cm. La lámina 11 no dibuja esos pilares: conviene confirmar con el ingeniero que van ahí. El borde de cada perno queda al menos a 2,5 cm de la cara de los pilares.` : ''}` : '';
+  $('#aviso-pernos').innerHTML = `<b>Contra la cotización.</b> La cotización pide <b>${cot}</b> pernos y la lámina del ingeniero, <b>${P.length}</b>: ${cot - P.length} menos. Conviene ajustar la compra (con algunos de repuesto para las pruebas de soldadura).`;
 })();
 
+// centros de los valles de la placa (mm desde el borde de la plancha): entre las dos mitades que separa el rigidizador;
+// el último es el valle de la unión con la plancha siguiente (mitad en cada plancha)
+const VALLES_C = (() => {
+  const pr = PL.perfil, fl = [];
+  for (let i = 1; i < pr.length; i++) if (pr[i - 1][1] <= 0.7 && pr[i][1] <= 0.7 && pr[i][0] - pr[i - 1][0] > 5) fl.push([pr[i - 1][0], pr[i][0]]);
+  const g = []; fl.forEach(f => { if (g.length && f[0] - g[g.length - 1][1] < 20) g[g.length - 1][1] = f[1]; else g.push(f.slice()); });
+  const c = g.slice(1, -1).map(v => (v[0] + v[1]) / 2);
+  return c.concat([(g[g.length - 1][0] + PL.util + g[0][1]) / 2]);   // [321.7, 638.7, 955.2]
+})();
+// partes de una polilínea fuera de los intervalos [a, b] (los agujeros)
+function sinAgujeros(pts, huecos) {
+  const fuera = x => !huecos.some(([a, b]) => x > a && x < b), out = []; let cur = [];
+  const corte = (p, q, x) => [x, p[1] + (q[1] - p[1]) * (x - p[0]) / (q[0] - p[0])];
+  pts.forEach((q, i) => {
+    if (i) { const p = pts[i - 1];
+      huecos.forEach(([a, b]) => { [a, b].forEach(x => { if ((p[0] - x) * (q[0] - x) < 0) { const c = corte(p, q, x); if (x === a) { cur.push(c); out.push(cur); cur = []; } else cur.push(c); } }); }); }
+    if (fuera(q[0])) cur.push(q);
+  });
+  if (cur.length > 1) out.push(cur);
+  return out.filter(t => t.length > 1);
+}
 function dibujarPerno() {
   // corte a lo largo de la viga receptora: la plancha la cruza; mm, y hacia arriba = negativo en el SVG
-  const svg = $('#svg-perno'), PN = L.perno, H = ESP * 10, pr = PL.perfil, MA = L.malla;
+  const svg = $('#svg-perno'), PN = L.perno, H = ESP * 10, MA = L.malla, RP = (L.perforacion || 3.5) * 5;
   svg.setAttribute('viewBox', '-150 -230 1250 330');
-  el('rect', { x: -20, y: 0, width: 1000, height: 10.7, style: 'fill:var(--fig-viga)' }, svg);
-  el('rect', { x: -20, y: 10.7, width: 1000, height: 60, style: 'fill:var(--fig-viga);opacity:.35' }, svg);
-  // hormigón: de la cara de la losa hasta la placa (llena los valles)
-  let dh = `M -20 ${-H} L 980 ${-H} L 980 0`; for (let i = pr.length - 1; i >= 0; i--) if (pr[i][0] <= 980) dh += ` L ${pr[i][0]} ${-pr[i][1]}`; dh += ` L -20 ${-pr[0][1]} Z`;
+  const X1 = 980;
+  // la plancha y el comienzo de la siguiente (traslapo lateral en el valle de la unión)
+  const conPerno = [VALLES_C[0], VALLES_C[2]], huecos = conPerno.map(v => [v - RP, v + RP]);
+  const p1 = PL.perfil, p2 = window.Placa3D ? Placa3D.tramo(PL.perfil.map(([x, y]) => [x + PL.util, y]), X1 - PL.util, PL.util).map(([x, y]) => [x + PL.util, y]) : [];
+  el('rect', { x: -20, y: 0, width: X1 + 20, height: 10.7, style: 'fill:var(--fig-viga)' }, svg);
+  el('rect', { x: -20, y: 10.7, width: X1 + 20, height: 60, style: 'fill:var(--fig-viga);opacity:.35' }, svg);
+  // hormigón: de la cara de la losa hasta la placa, y por los agujeros hasta el ala
+  let dh = `M -20 ${-H} L ${X1} ${-H} L ${X1} 0`; for (let i = p1.length - 1; i >= 0; i--) if (p1[i][0] <= X1) dh += ` L ${p1[i][0]} ${-p1[i][1]}`; dh += ` L -20 ${-p1[0][1]} Z`;
   el('path', { d: dh, style: 'fill:var(--fig-horm2);opacity:.45' }, svg);
-  let d = ''; pr.forEach(([x, y], i) => { d += (i ? ' L ' : 'M ') + x + ' ' + (-y); });
-  el('path', { d, style: 'fill:none;stroke:var(--fig-placa);stroke-width:3;stroke-linejoin:round' }, svg);
+  const linea = pts => { let d = ''; pts.forEach(([x, y], i) => { d += (i ? ' L ' : 'M ') + x + ' ' + (-y); }); return d; };
+  const corta = (pts, h) => window.Placa3D ? Placa3D.sinHuecos(pts, h) : sinAgujeros(pts, h);
+  corta(p1, huecos).concat(corta(p2, huecos)).forEach(t =>
+    el('path', { d: linea(t), style: 'fill:none;stroke:var(--fig-placa);stroke-width:3;stroke-linejoin:round' }, svg));
   // malla en corte: barras a lo largo (línea) abajo y las que cruzan (círculos) arriba, cara superior a 25 mm de la cara
   const dB = MA ? MA.d * 10 : 6, zS = H - (MA ? MA.recubrimiento * 10 : 25);
-  el('line', { x1: -20, x2: 980, y1: -(zS - 1.5 * dB), y2: -(zS - 1.5 * dB), style: `stroke:var(--fig-malla);stroke-width:${dB}` }, svg);
-  for (let x = 30; x < 980; x += (MA ? MA.sep * 10 : 150)) el('circle', { cx: x, cy: -(zS - dB / 2), r: dB / 2, style: 'fill:var(--fig-malla)' }, svg);
-  L.valles_mm.forEach(v => {
+  el('line', { x1: -20, x2: X1, y1: -(zS - 1.5 * dB), y2: -(zS - 1.5 * dB), style: `stroke:var(--fig-malla);stroke-width:${dB}` }, svg);
+  for (let x = 30; x < X1; x += (MA ? MA.sep * 10 : 150)) el('circle', { cx: x, cy: -(zS - dB / 2), r: dB / 2, style: 'fill:var(--fig-malla)' }, svg);
+  conPerno.forEach(v => {
     const g = el('g', {}, svg);
     el('rect', { x: v - PN.d / 2, y: -(PN.largo - PN.cabeza_h), width: PN.d, height: PN.largo - PN.cabeza_h, style: 'fill:#6B4FBB' }, g);
     el('rect', { x: v - PN.cabeza_d / 2, y: -PN.largo, width: PN.cabeza_d, height: PN.cabeza_h, rx: 2, style: 'fill:#6B4FBB' }, g);
-    // collar de soldadura al arco: anillo bajo y abombado alrededor de la base, sobre la placa
+    // collar de soldadura sobre el ala desnuda, dentro de la perforación
     const r0 = PN.sold_d / 2, r1 = PN.d / 2, hS = PN.sold_h;
     el('path', { d: `M ${v - r0} 0 Q ${v - r0} ${-hS} ${v - r1} ${-hS} L ${v + r1} ${-hS} Q ${v + r0} ${-hS} ${v + r0} 0 Z`, style: 'fill:var(--fig-sold)' }, g);
   });
@@ -824,17 +874,21 @@ function dibujarPerno() {
   };
   cota(-50, 0, -50, -H, coma(H, 0) + ' losa', -12, 0, true);
   cota(-95, 0, -95, -PN.largo, coma(PN.largo, 0) + ' perno', -12, 0, true);
-  cota(1000, -H, 1000, -zS, coma(H - zS, 0), 22, 5);
-  cota(L.valles_mm[1], -175, L.valles_mm[2], -175, coma(L.valles_mm[2] - L.valles_mm[1], 0) + ' entre valles', 0, -8);
+  cota(X1 + 20, -H, X1 + 20, -zS, coma(H - zS, 0), 22, 5);
+  cota(VALLES_C[0], -175, VALLES_C[1], -175, coma(VALLES_C[1] - VALLES_C[0], 0) + ' entre valles', 0, -8);
+  cota(huecos[0][0], 26, huecos[0][1], 26, '', 0, 0);
   txt(svg, 330, 50, 'viga receptora (IPE), corte a lo largo', { 'font-size': 15, style: 'fill:var(--paper)' });
-  txt(svg, 1010, -(zS - dB) + 30, `malla ${MA ? MA.tipo.replace('ACMA ', '') : 'C-188'}`, { 'font-size': 14, class: 'txs' });
+  txt(svg, X1 + 30, -(zS - dB) + 30, `malla ${MA ? MA.tipo.replace('ACMA ', '') : 'C-188'}`, { 'font-size': 14, class: 'txs' });
   txt(svg, 735, -20, 'placa Instadeck', { 'font-size': 14, class: 'txs' });
-  txt(svg, 700, -H + 22, 'hormigón', { 'font-size': 14, class: 'txs' });
-  txt(svg, L.valles_mm[1] + 22, -PN.largo + 32, 'perno Ø19 × 5"', { 'font-size': 14, style: 'fill:#6B4FBB;font-weight:600' });
-  // llamada al collar de soldadura del primer perno
-  const v0 = L.valles_mm[0];
-  el('path', { d: `M ${v0 + PN.sold_d / 2 + 2} ${-PN.sold_h / 2} L ${v0 + 40} 84 L ${v0 + 52} 84`, style: 'fill:none;stroke:var(--fig-ink);stroke-width:1' }, svg);
-  txt(svg, v0 + 56, 89, `soldadura al arco · collar ≈ Ø${coma(PN.sold_d, 0)} × ${coma(PN.sold_h, 1)} mm`, { 'font-size': 14, style: 'fill:var(--fig-ink);font-weight:600' });
+  txt(svg, 470, -H + 22, 'hormigón', { 'font-size': 14, class: 'txs' });
+  txt(svg, VALLES_C[1] - 46, -PL.alto - 14, 'valle sin perno', { 'font-size': 13, class: 'txs' });
+  txt(svg, VALLES_C[0] + 22, -PN.largo + 32, 'perno Ø19 × 5"', { 'font-size': 14, style: 'fill:#6B4FBB;font-weight:600' });
+  txt(svg, VALLES_C[2] - 24, -PL.alto - 30, 'en la unión de', { 'font-size': 12.5, 'text-anchor': 'end', class: 'txs' });
+  txt(svg, VALLES_C[2] - 24, -PL.alto - 14, 'dos planchas', { 'font-size': 12.5, 'text-anchor': 'end', class: 'txs' });
+  // llamadas: perforación y collar de soldadura
+  const v0 = VALLES_C[0];
+  el('path', { d: `M ${v0 + RP} -2 L ${v0 + 60} 84 L ${v0 + 72} 84`, style: 'fill:none;stroke:var(--fig-ink);stroke-width:1' }, svg);
+  txt(svg, v0 + 76, 89, `perforación Ø${coma(RP * 2, 0)} (sierra copa) · collar de soldadura ≈ Ø${coma(PN.sold_d, 0)} sobre el ala`, { 'font-size': 14, style: 'fill:var(--fig-ink);font-weight:600' });
 }
 dibujarPerno();
 
@@ -968,13 +1022,14 @@ function iniciar3D() {
 
   // ---------- placas: perfil de la ficha con espesor, cortado al ancho de cada pieza ----------
   const gPlaca = new T.Group(); scene.add(gPlaca);
-  function perfilCortado(w) {   // w en mm; devuelve la polilínea hasta x = w
-    const pr = PL.perfil, out = [];
+  function perfilCortado(w, d0) {   // mm: el tramo del perfil entre x = d0 y x = d0 + w, corrido para que parta en 0
+    d0 = d0 || 0; const pr = PL.perfil, out = [], d1 = d0 + w;
+    const en = (q, p, x) => [x - d0, q[1] + (p[1] - q[1]) * (x - q[0]) / (p[0] - q[0])];
     for (let i = 0; i < pr.length; i++) {
-      const p = pr[i];
-      if (p[0] <= w) { out.push(p); continue; }
-      const q = pr[i - 1]; if (q && q[0] < w) out.push([w, q[1] + (p[1] - q[1]) * (w - q[0]) / (p[0] - q[0])]);
-      break;
+      const p = pr[i], q = pr[i - 1];
+      if (q && q[0] < d0 && p[0] > d0) out.push(en(q, p, d0));
+      if (p[0] >= d0 && p[0] <= d1) out.push([p[0] - d0, p[1]]);
+      if (q && q[0] < d1 && p[0] > d1) { out.push(en(q, p, d1)); break; }
     }
     return out;
   }
@@ -991,42 +1046,57 @@ function iniciar3D() {
     s.closePath(); return s;
   }
   const geoPlaca = {};
-  const geoDePlaca = w => { const k = Math.round(w); return geoPlaca[k] || (geoPlaca[k] = new T.ExtrudeGeometry(formaChapa(perfilCortado(k), PL.espesor), { depth: 1, bevelEnabled: false })); };
+  const geoDePlaca = (w, d0) => { const k = Math.round(w) + '_' + Math.round(d0 || 0); return geoPlaca[k] || (geoPlaca[k] = new T.ExtrudeGeometry(formaChapa(perfilCortado(Math.round(w), Math.round(d0 || 0)), PL.espesor), { depth: 1, bevelEnabled: false })); };
   const PLACAS = [];
   L.areas.forEach(a => {
     const ga = new T.Group(); gPlaca.add(ga);
     a.piezas.forEach((p, k) => {
-      const ns = a.dir === 'NS';
+      // d0: dónde empieza la pieza en el perfil de su plancha entera (losa.js, según la grilla de planchas del área)
+      const ns = a.dir === 'NS', d0 = p.d0 || 0;
       // eje local x = a lo ancho de la plancha, y = arriba, z = a lo largo (sentido de las planchas)
       const zL = ns ? new T.Vector3(0, 0, 1) : new T.Vector3(1, 0, 0);
       const xL = new T.Vector3().crossVectors(ARRIBA, zL);   // base derecha: NS → +X ; EO → -Z (hacia el norte)
       const origen = ns ? W(p.x0, p.y0, Z0) : W(p.x0, p.y1, Z0);
       const ancho = p.ancho * 10, largo = p.largo / 100;
-      const me = new T.Mesh(geoDePlaca(ancho), MAT.placa);
-      me.quaternion.setFromRotationMatrix(new T.Matrix4().makeBasis(xL, ARRIBA, zL)); me.scale.set(1, 1, largo);
-      const gp = new T.Group(); gp.add(me); me.position.copy(origen); ga.add(gp);
-      me.userData = { info: `<b>Área ${a.n} · plancha ${p.k} de ${a.planchas}</b>${p.cortada ? ' (cortada)' : ''}<div class="d">${fm(p.largo, 2)} de largo × ${fm(p.ancho, 2)} de ancho · ≈ ${coma(p.ancho * p.largo / 1e4 * PL.peso, 0)} kg${p.pilares.length ? `<br>Perforada por ${p.pilares.length === 1 ? 'el pilar' : 'los pilares'} ${p.pilares.join(', ')}` : ''}</div>`, tipo: 'placa', area: a.n, mat0: MAT.placa };
-      PLACAS.push({ a, p, k, grupo: gp, mesh: me, ancho: xL.clone(), centro: origen.clone().addScaledVector(xL, p.ancho / 200).addScaledVector(zL, largo / 2) });
+      // los pernos de esta área que caen en esta pieza: la placa lleva su perforación
+      const agujeros = L.pernos.filter(q => q.area === a.n).map(q => ({ c: (ns ? q.x - p.x0 : p.y1 - q.y) * 10, s: (ns ? q.y - p.y0 : q.x - p.x0) / 100 }));
+      const hecha = ag => window.Placa3D ? Placa3D.crear({ perfil: PL.perfil, espesor: PL.espesor, ancho, d0, largo, agujeros: ag, radio: (L.perforacion || 3.5) * 5, material: MAT.placa, cache: geoPlaca })
+        : (() => { const m = new T.Mesh(geoDePlaca(ancho, d0), MAT.placa); m.scale.set(1, 1, largo); return m; })();
+      const me = hecha(agujeros);
+      // la misma pieza sin perforar: es la que se ve en el montaje hasta que se perfora y se sueldan los pernos
+      const sin = window.Placa3D && agujeros.some(h => h.c > -30 && h.c < ancho + 30 && h.s > -0.05 && h.s < largo + 0.05) ? hecha([]) : null;
+      const gp = new T.Group(); ga.add(gp);
+      [me, sin].filter(Boolean).forEach(o => { o.quaternion.setFromRotationMatrix(new T.Matrix4().makeBasis(xL, ARRIBA, zL)); o.position.copy(origen); gp.add(o); });
+      if (sin) sin.visible = false;
+      const datos = { info: `<b>Área ${a.n} · plancha ${p.k} de ${a.planchas}</b>${p.cortada ? ' (cortada)' : ''}<div class="d">${fm(p.largo, 2)} de largo × ${fm(p.ancho, 2)} de ancho · ≈ ${coma(p.ancho * p.largo / 1e4 * PL.peso, 0)} kg${p.pilares.length ? `<br>Perforada por ${p.pilares.length === 1 ? 'el pilar' : 'los pilares'} ${p.pilares.join(', ')}` : ''}</div>`, tipo: 'placa', area: a.n, mat0: MAT.placa };
+      [me, sin].filter(Boolean).forEach(o => { o.userData = datos; o.traverse(c => { c.userData = datos; }); });
+      PLACAS.push({ a, p, k, d0, largo, grupo: gp, mesh: me, sin, ancho: xL.clone(), centro: origen.clone().addScaledVector(xL, p.ancho / 200).addScaledVector(zL, largo / 2) });
     });
   });
-  // ---------- pernos Nelson: uno por valle sobre cada viga receptora (instancias por área) ----------
+  // ---------- pernos Nelson: los de la lámina 11, cada uno en su valle (instancias por área) ----------
   const gPernos = new T.Group(); scene.add(gPernos);
   const PN = L.perno, mm = v => v / 1000;
   const geoVast = new T.CylinderGeometry(mm(PN.d / 2), mm(PN.d / 2), mm(PN.largo - PN.cabeza_h), 12);
   geoVast.translate(0, mm((PN.largo - PN.cabeza_h) / 2), 0);
   const geoCab = new T.CylinderGeometry(mm(PN.cabeza_d / 2), mm(PN.cabeza_d / 2), mm(PN.cabeza_h), 16);
   geoCab.translate(0, mm(PN.largo - PN.cabeza_h / 2), 0);
-  // soldadura al arco: el vástago se suelda a través de la placa al ala de la viga y deja un filete (cordón) bajo,
-  // del ancho del anillo cerámico, que sube por el vástago; el perno no tiene cabeza abajo
+  // soldadura al arco: la placa se perfora con broca de copa alrededor del perno y el vástago se suelda directo al ala
+  // de la viga; deja un collar de soldadura bajo alrededor de la base. El perno no tiene cabeza abajo
   const geoSold = new T.CylinderGeometry(mm(PN.d / 2 + 0.4), mm(PN.sold_d / 2), mm(PN.sold_h), 20, 1, true); geoSold.translate(0, mm(PN.sold_h / 2), 0);
+  // la perforación de la placa: un disco oscuro del diámetro de la broca, justo sobre el rigidizador del valle que se corta
+  const R_PERF = (L.perforacion || 3.5) * 5;   // mm
+  const geoAgujero = new T.CircleGeometry(mm(R_PERF), 28); geoAgujero.rotateX(-Math.PI / 2); geoAgujero.translate(0, mm(6.2), 0);
+  const geoBordeAg = new T.RingGeometry(mm(R_PERF - 1.2), mm(R_PERF), 28); geoBordeAg.rotateX(-Math.PI / 2); geoBordeAg.translate(0, mm(6.3), 0);
+  MAT.agujero = new T.MeshBasicMaterial({ color: dark ? 0x0D0F12 : 0x2A2E35 });
+  MAT.bordeAg = new T.MeshBasicMaterial({ color: dark ? 0x8E96A3 : 0x9AA1AC });
   const PERNOS_AREA = {};
   const mtx = new T.Matrix4();
   L.areas.forEach(a => {
     const lista = L.pernos.filter(p => p.area === a.n); if (!lista.length) return;
     const g = new T.Group(); gPernos.add(g);
-    [[geoVast, MAT.perno], [geoCab, MAT.perno], [geoSold, MAT.sold]].forEach(([geo, mat]) => {
+    [[geoVast, MAT.perno], [geoCab, MAT.perno], [geoSold, MAT.sold]].concat(window.Placa3D ? [] : [[geoAgujero, MAT.agujero], [geoBordeAg, MAT.bordeAg]]).forEach(([geo, mat]) => {
       const im = new T.InstancedMesh(geo, mat, lista.length);
-      lista.forEach((p, i) => { mtx.makeTranslation(p.x / 100, (Z0 + PL.espesor / 10) / 100, p.y / 100); im.setMatrixAt(i, mtx); });
+      lista.forEach((p, i) => { mtx.makeTranslation(p.x / 100, Z0 / 100, p.y / 100); im.setMatrixAt(i, mtx); });   // sobre el ala desnuda
       im.userData = { tipo: 'perno', area: a.n, lista };
       g.add(im);
     });
@@ -1131,12 +1201,12 @@ function iniciar3D() {
     const me = new T.Mesh(geo, MAT.horm); me.position.y = (Z0 * 10 + H_VALLE) / 1000; me.userData.info = infoH; gHorm.add(me);
     // valles de cada plancha, con el mismo perfil de la placa por encima de la chapa
     const geoValle = {};
-    const deValle = w => { const k = Math.round(w); if (geoValle[k]) return geoValle[k];
-      const pts = perfilCortado(k), n = pts.length, s = new T.Shape(), m = v => v / 1000, e = PL.espesor;
+    const deValle = (w, d0) => { const k = Math.round(w) + '_' + Math.round(d0 || 0); if (geoValle[k]) return geoValle[k];
+      const pts = perfilCortado(Math.round(w), Math.round(d0 || 0)), n = pts.length, s = new T.Shape(), m = v => v / 1000, e = PL.espesor;
       const top = pts.map((p, i) => { const a = pts[Math.max(0, i - 1)], b = pts[Math.min(n - 1, i + 1)]; let dx = b[0] - a[0], dy = b[1] - a[1]; const l = Math.hypot(dx, dy) || 1; return [p[0] - dy / l * e, p[1] + dx / l * e]; });
       s.moveTo(m(top[0][0]), m(H_VALLE)); top.forEach(([x, y]) => s.lineTo(m(x), m(Math.min(y, H_VALLE - 0.2)))); s.lineTo(m(top[n - 1][0]), m(H_VALLE)); s.closePath();
       return (geoValle[k] = new T.ExtrudeGeometry(s, { depth: 1, bevelEnabled: false })); };
-    PLACAS.forEach(q => { const v = new T.Mesh(deValle(q.p.ancho * 10), MAT.horm); v.quaternion.copy(q.mesh.quaternion); v.scale.copy(q.mesh.scale); v.position.copy(q.mesh.position); v.userData.info = infoH; gHorm.add(v); });
+    PLACAS.forEach(q => { const v = new T.Mesh(deValle(q.p.ancho * 10, q.d0), MAT.horm); v.quaternion.copy(q.mesh.quaternion); v.scale.set(1, 1, q.largo); v.position.copy(q.mesh.position); v.userData.info = infoH; gHorm.add(v); });
     // franja junto al borde, entre el alma del C y la punta de la placa (va sobre el ala inferior del C)
     const geoBordeH = rectGeo(PC.t, PC.t, PC.b, H_VALLE);
     TRAMOS.forEach(t => { const c = t.c, xL = t.normal, zL = new T.Vector3().crossVectors(xL, ARRIBA);
@@ -1193,6 +1263,8 @@ function iniciar3D() {
         off.addScaledVector(q.ancho, est.sep * 0.18 * q.k);
       }
       q.grupo.position.copy(off); q.grupo.visible = vis;
+      // en el montaje la placa se perfora recién cuando llegan los pernos de su área
+      if (q.sin) { const sp = mont && PERNOS_AREA[q.a.n] ? SECUENCIA[IDX.get(PERNOS_AREA[q.a.n])] : null, perf = !sp || est.t >= sp.t0; q.mesh.visible = perf; q.sin.visible = !perf; }
     });
     Object.entries(PERNOS_AREA).forEach(([n, pa]) => {
       let off = new T.Vector3(), vis = true;
@@ -1226,7 +1298,7 @@ function iniciar3D() {
       const s = SECUENCIA[i];
       $('#m-txt').innerHTML = est.t >= 0.999 ? `<b>Listo.</b> Losa de ${coma(ESP, 0)} cm con marco, placas, pernos, malla y hormigón (≈ ${coma(VOL_H, 1)} m³). Las alzaprimas se sacan cuando el hormigón alcanza su resistencia.`
         : s.tipo === 'C' ? `<b>Marco C</b> · pieza ${s.m.nombre} (${fm(s.m.pz.largo, 2)}) · ${i + 1} de ${MARCO.length}`
-        : s.tipo === 'S' ? `<b>Área ${s.n}</b> · ${s.pa.lista.length} pernos Nelson soldados al arco en los valles, a través de la placa, sobre las vigas receptoras`
+        : s.tipo === 'S' ? `<b>Área ${s.n}</b> · se perfora la placa (Ø${coma(L.perforacion * 10, 0)} mm) y se sueldan al arco ${s.pa.lista.length} pernos Nelson al centro de los valles, directo sobre las vigas receptoras`
         : s.tipo === 'A' ? `<b>Alzaprimas</b> · ${PUNT.length} puntales con sus soleras bajo la placa, antes de cargarla <span class="sub">(por confirmar con el ingeniero)</span>`
         : s.tipo === 'M' ? `<b>Malla ${MA.tipo}</b> · panel ${s.mz.p.n} de ${MALLAS.length}${s.mz.p.cortado ? ' (con cortes)' : ''}, sobre separadores, con su cara a ${coma(MA.recubrimiento, 1)} cm de la cara de la losa`
         : s.tipo === 'H' ? `<b>Hormigonado</b> · ${coma(Math.max(0, ESP * avance(s)), 1)} de ${coma(ESP, 0)} cm · ≈ ${coma(VOL_H, 1)} m³`
@@ -1297,7 +1369,7 @@ function iniciar3D() {
   const ficha = $('#ficha');
   function seleccionar(tipo, id, info, x, y) {
     est.sel = tipo ? { tipo, id } : null;
-    PLACAS.forEach(q => { q.mesh.material = est.sel && est.sel.tipo === 'area' && q.a.n === est.sel.id ? MAT.sel : (est.colorArea ? matArea[q.a.n] : MAT.placa); });
+    PLACAS.forEach(q => { const mt = est.sel && est.sel.tipo === 'area' && q.a.n === est.sel.id ? MAT.sel : (est.colorArea ? matArea[q.a.n] : MAT.placa); [q.mesh, q.sin].filter(Boolean).forEach(m => m.traverse(o => { if (o.isMesh) o.material = mt; })); });
     MARCO.forEach(m => { const mt = est.sel && est.sel.tipo === 'C' && m.c.id === est.sel.id ? MAT.sel : MAT.c; m.mallas.forEach(o => { o.material = mt; }); });
     if (info) { ficha.innerHTML = info; ficha.hidden = false; const w = visor.clientWidth, h = visor.clientHeight; ficha.style.left = Math.min(w - 290, x + 14) + 'px'; ficha.style.top = Math.max(56, Math.min(h - 140, y + 10)) + 'px'; }
     else ficha.hidden = true;
@@ -1309,7 +1381,8 @@ function iniciar3D() {
     if (!abajo || Math.hypot(e.clientX - abajo[0], e.clientY - abajo[1]) > 5) return;
     const r = renderer.domElement.getBoundingClientRect();
     ptr.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1); ray.setFromCamera(ptr, camera);
-    const objs = []; [gHorm, gMalla, gMarco, gPlaca, gPernos, gAlz, gVigas, gPilares, gPil2].forEach(g => g.visible && g.traverse(o => { if (o.isMesh && o.visible && o.parent.visible) objs.push(o); }));
+    const seVe = o => { for (let p = o; p; p = p.parent) if (!p.visible) return false; return true; };
+    const objs = []; [gHorm, gMalla, gMarco, gPlaca, gPernos, gAlz, gVigas, gPilares, gPil2].forEach(g => g.visible && g.traverse(o => { if (o.isMesh && seVe(o)) objs.push(o); }));
     // durante el vaciado, lo que el plano de corte esconde no se toca
     const hit = ray.intersectObjects(objs, false).find(h => h.object.material !== MAT.horm || h.point.y <= planoH.constant + 1e-4);
     if (!hit) { seleccionar(null); return; }
@@ -1318,7 +1391,7 @@ function iniciar3D() {
     if (u.tipo === 'perno') {
       const p = u.lista[hit.instanceId];
       const enViga = L.pernos.filter(q => q.viga === p.viga).length;
-      seleccionar('otra', null, `<b>Perno Nelson Ø19 × 5"</b> · área ${p.area}<div class="d">Sobre la viga ${p.viga.replace(/^V-/, '')} (${p.perfil}), en un valle de la placa · ${enViga} pernos en esa viga</div>`, e.clientX - r.left, e.clientY - r.top);
+      seleccionar('otra', null, `<b>Perno Nelson Ø19 × 5"</b> · área ${p.area}<div class="d">Sobre la viga ${p.viga.replace(/^V-/, '')} (${p.perfil}), en un valle de la placa · ${enViga} pernos en esa viga${p.plano ? `<br>Lámina 11 del ingeniero: movido ${coma(Math.abs(p.mov), 0)} cm para caer en el valle` : ''}</div>`, e.clientX - r.left, e.clientY - r.top);
       return;
     }
     seleccionar(u.tipo === 'C' ? 'C' : u.tipo === 'placa' ? 'area' : 'otra', u.tipo === 'C' ? u.id : u.area, u.info, e.clientX - r.left, e.clientY - r.top);
