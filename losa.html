@@ -264,7 +264,7 @@ details.areas[open] summary::before{content:"▾ ";}
   <figure>
     <svg id="svg-planta" role="img" aria-label="Planta de la losa colaborante con áreas, planchas y marco"></svg>
     <figcaption>Planta de la losa: cada rectángulo delgado es una plancha (avance útil 0,95 m) y la flecha indica hacia dónde corre.
-    En amarillo, el marco de perfil C con el número de cada tramo; en morado, los pernos Nelson, uno en cada valle de los tramos
+    En amarillo, el marco de perfil C con el número de cada tramo; en morado, los pernos Nelson, uno en cada valle de las vigas
     que marca el ingeniero; en verde, las líneas de
     alzaprimas (solera) con sus puntales; en rojo, los pilares del nivel 2. Toca una fila de la tabla para verla en el 3D.</figcaption>
   </figure>
@@ -307,11 +307,11 @@ details.areas[open] summary::before{content:"▾ ";}
   <p>Según el ingeniero (consulta del 05-10-2026), los pernos van en las <b>vigas receptoras</b>: las que reciben la carga de
   la losa. Son las que quedan <b>perpendiculares a las planchas</b>, donde las planchas apoyan; en las vigas paralelas a las
   planchas no van. Cada perno va al centro de un valle, en una perforación de la placa, soldado directo al ala de la viga. La <b>lámina 11</b>
-  del ingeniero (07-10-2026) marca con puntos los <b>tramos de viga que llevan pernos</b>. Los puntos son una marca, no la
-  cantidad: en cada tramo va un perno en <b>todos los valles</b>, desde el valle del primer punto hasta el del último.</p>
+  del ingeniero (07-10-2026) marca con puntos las <b>vigas que llevan pernos</b>. Los puntos son un esquema, no la
+  cantidad: en cada viga marcada va un perno en <b>todos sus valles</b>.</p>
   <figure><svg id="svg-perno" role="img" aria-label="Detalle del perno Nelson en el valle de la placa sobre la viga"></svg>
-    <figcaption>Corte a lo largo de una viga receptora, a escala: la plancha cruza la viga y en el tramo que marca la lámina 11
-    va un perno al centro de cada valle, a 31,7 cm. En cada perno la placa se perfora y el perno se suelda al arco directo al ala, con un anillo libre
+    <figcaption>Corte a lo largo de una viga receptora, a escala: la plancha cruza la viga y va un perno al centro de cada valle,
+    a 31,7 cm. En cada perno la placa se perfora y el perno se suelda al arco directo al ala, con un anillo libre
     alrededor (el perno no lleva cabeza abajo). Medidas del detalle del ingeniero
     (perno Ø19 × 5", malla ACMA C-188 a 2,5 cm de la cara superior, losa de 15).</figcaption></figure>
   <div class="specs" id="specs-pernos"></div>
@@ -465,7 +465,7 @@ function maxFlecha(nVanos, et) {
     ['Espesor de losa', coma(ESP, ESP % 1 ? 2 : 0) + ' cm', `Plano: e = ${coma(L.espesor_plano, 2)} cm (placa 6,35 + ${coma(L.espesor_plano - 6.35, 0)} de hormigón) <span class="fuente man">plano</span>`],
     ['Marco perimetral', fm(LARGO_PZ, 1), `C 150×50×3: ${N_PZ} piezas entre pilares en ${L.marco.length} tramos · ≈ ${coma(LARGO_PZ / 100 * KG_M_C, 0)} kg <span class="fuente calc">calculado</span>`],
     ['Planchas Instadeck', N_PLANCHAS + ' planchas', `${coma(M2_PLACA, 1)} m² de placa · ≈ ${miles(M2_PLACA * PL.peso)} kg <span class="fuente calc">calculado</span>`],
-    ['Pernos Nelson', L.pernos.length + ' pernos', `Ø19 × 5", tramos de la lámina 11 <span class="fuente man">ingeniero</span>; uno en cada valle del tramo <span class="fuente calc">ajustado</span>`],
+    ['Pernos Nelson', L.pernos.length + ' pernos', `Ø19 × 5", vigas de la lámina 11 <span class="fuente man">ingeniero</span>; uno en cada valle <span class="fuente calc">ajustado</span>`],
     ['Alzaprimas', (L.alzaprimas || []).reduce((t, l) => t + (l.puntales || []).length, 0) + ' puntales', `En ${(L.alzaprimas || []).length} líneas, al centro o en los tercios de cada vano (luz máx. 1,87 m) <span class="fuente man">ingeniero</span>; a 1,0 m entre sí a lo largo de la línea <span class="fuente calc">referencia</span>`],
     ['Placa', '0,8 mm · 63,5 mm', `Avance útil 950 mm · ${coma(PL.peso, 2)} kg/m² · acero G37 galv. G-90 <span class="fuente man">ficha</span>`],
     ['Malla C-188', MA_N + ' paneles', `2,60 × 5,00 m, Ø6 a 15 cm; ${MA_CORT} van cortados · ≈ ${miles(MA_N * (L.malla ? L.malla.kg_panel : 39.03))} kg <span class="fuente calc">calculado</span>`],
@@ -527,7 +527,7 @@ function dibujarPlanta() {
     l.tramos.forEach(([t0, t1]) => el('line', { x1: ns ? t0 : l.pos, y1: ns ? l.pos : t0, x2: ns ? t1 : l.pos, y2: ns ? l.pos : t1, style: 'stroke:#2E9E6A;stroke-width:5' }, svg));
     (l.puntales || []).forEach(c => el('rect', { x: (ns ? c : l.pos) - 7, y: (ns ? l.pos : c) - 7, width: 14, height: 14, style: 'fill:#2E9E6A' }, svg));
   });
-  // pernos: uno en cada valle de los tramos que marca la lámina 11
+  // pernos: uno en cada valle de las vigas que marca la lámina 11
   L.pernos.forEach(p => el('circle', { cx: p.x, cy: p.y, r: 6, style: 'fill:#6B4FBB' }, svg));
   // pilares del nivel 2 que nacen sobre las vigas y atraviesan la losa
   PIL2.forEach(p => { const [x0, y0, x1, y1] = p.seccion; el('rect', { x: x0, y: y0, width: x1 - x0, height: y1 - y0, style: 'fill:#C2410C;stroke:var(--paper);stroke-width:2' }, svg); });
@@ -787,21 +787,10 @@ dibujarPlaca();
   }).join('');
   $('#tabla-pernos').innerHTML = `<thead><tr><th>Área</th><th class="c">Planchas</th><th>Vigas receptoras: pernos</th><th class="r">Pernos</th></tr></thead><tbody>${filas}
     <tr><td colspan="3"><b>Total</b></td><td class="r"><b>${P.length}</b></td></tr></tbody>`;
-  const nVigas = new Set(P.map(p => p.viga)).size, MAR = L.marcas_plano || [];
-  const aCara = (p, q) => { const [a, b, c, d] = q.seccion; return Math.hypot(Math.max(a - p.x, 0, p.x - c), Math.max(b - p.y, 0, p.y - d)); };
-  // filas de la lámina: sus marcas y sus pernos (uno en cada valle del tramo que marcan)
-  const porFila = lista => lista.reduce((o, p) => ((o[p.fila] = o[p.fila] || []).push(p), o), {});
-  const MF = porFila(MAR), PF = porFila(P);
-  const FILAS = Object.keys(MF).map(k => ({ marcas: MF[k], pernos: PF[k] || [] }));
-  const ejeFila = ps => { const xs = ps.map(p => p.x), ys = ps.map(p => p.y); return Math.max(...xs) - Math.min(...xs) >= Math.max(...ys) - Math.min(...ys) ? 'x' : 'y'; };
-  const enFila = FILAS.filter(f => f.marcas.length > 1), sueltas = FILAS.length - enFila.length;
-  // separación típica entre las marcas de una fila
-  const seps = []; enFila.forEach(f => { const k = ejeFila(f.marcas), h = f.marcas.map(m => m[k]).sort((a, b) => a - b); h.slice(1).forEach((x, i) => seps.push(x - h[i])); });
-  seps.sort((a, b) => a - b); const sepMed = seps.length ? seps[Math.floor(seps.length / 2)] : 0;
-  const pilarDe = p => { const q = PIL2.reduce((m, q) => !m || aCara(p, q) < aCara(p, m) ? q : m, null); return q ? q.id.replace(/^P-/, '').replace(/-N2$/, '').replace('x', ' / ').replace('ap', "a'") : '?'; };
+  const nVigas = new Set(P.map(p => p.viga)).size, MAR = L.marcas_plano || [], SIN = L.vigas_sin_marcas || [];
   $('#specs-pernos').innerHTML = [
-    ['Pernos', P.length, `Uno en cada valle de los tramos que marca la lámina 11 <span class="fuente man">ingeniero</span>, en ${nVigas} tramos de viga receptora <span class="fuente calc">calculado</span>`],
-    ['Lámina 11', `${MAR.length} marcas`, `${enFila.length} filas, con las marcas a ≈ ${coma(sepMed, 0)} cm, y ${sueltas} sueltas. Marcan el tramo, no la cantidad <span class="fuente man">ingeniero</span>`],
+    ['Pernos', P.length, `Uno en cada valle de las ${nVigas} vigas receptoras que marca la lámina 11 <span class="fuente man">ingeniero</span>`],
+    ['Lámina 11', `${MAR.length} puntos`, `Un esquema: marcan qué vigas llevan pernos, no la cantidad ni la posición <span class="fuente man">ingeniero</span>`],
     ['Perno', 'Ø19 × 5"', `Ø 3/4" × 5" <span class="fuente man">ingeniero</span>; la cotización lo trae de 5 3/16" (${coma(PN.largo_compra, 0)} mm) <span class="fuente med">cotización</span>. Cabeza Ø${coma(PN.cabeza_d, 1)} × ${coma(PN.cabeza_h, 1)} mm arriba; abajo no lleva cabeza <span class="fuente man">catálogo</span>`],
     ['Perforación', `Ø${coma(L.perforacion * 10, 0)} mm`, `Con sierra copa bimetálica alrededor de cada perno, para soldarlo directo al ala de la viga. Deja un anillo libre de ${coma((L.perforacion * 10 - PN.d) / 2, 0)} mm alrededor del perno y cabe el anillo cerámico de la soldadura (Ø30,9 mm) <span class="fuente calc">referencia</span>`],
     ['Soldadura', 'al arco', `Con pistola de pernos y anillo cerámico estándar, sobre el ala desnuda (sin pintura), por la perforación <span class="fuente man">catálogo</span>`],
@@ -809,14 +798,9 @@ dibujarPlaca();
   const cot = L.cotizacion_pernos || 850;
   const alas = [...new Set(P.map(p => p.perfil))].map(n => (E.perfiles[n] || {}).tf * 10).filter(Boolean);
   $('#txt-soldadura').innerHTML = `<b>Con la placa perforada.</b> En cada perno la placa se perfora con una sierra copa de ${coma(L.perforacion * 10, 0)} mm y el perno se suelda directo al ala de la viga, como sobre acero plano: no hay que calificar la soldadura a través de la placa, y el perno se acorta solo ${coma(PN.quema_desnudo, 1)} mm, así que el de 5 3/16" (${coma(PN.largo_compra, 1)} mm) queda en <b>${coma(PN.largo_compra - PN.quema_desnudo, 0)} mm</b>, los 5" del detalle del ingeniero. Sobresale ${coma(PN.largo_compra - PN.quema_desnudo - PL.alto, 0)} mm de la cresta (mínimo 38) y le quedan ${coma(ESP * 10 - PN.largo_compra + PN.quema_desnudo, 0)} mm de hormigón encima (mínimo 13; los dos mínimos son de AISC 360). El ala de la viga tiene que medir al menos el diámetro del perno dividido por 2,5 (7,6 mm, AISC 360): las vigas receptoras tienen alas de ${coma(Math.min(...alas), 1)} a ${coma(Math.max(...alas), 1)} mm. Dos cuidados: la broca guía de la sierra copa no debe marcar el ala justo donde va el perno (se saca la guía después de marcar, o se usa una plantilla), y el ala tiene que quedar limpia y sin pintura. Como el perno ya no sujeta la placa a la viga, falta que el ingeniero diga cómo se fija. Detalles de cada caso en <a href="pernos.html">Pernos: instalación</a>.`;
-  // filas que cruzan un pilar del nivel 2: el pilar tapa un valle y ahí no va perno
-  const salto = ps => { const k = ejeFila(ps), s = ps.slice().sort((a, b) => a[k] - b[k]); const i = s.findIndex((p, j) => j && p[k] - s[j - 1][k] > 44); return i > 0 ? [s[i - 1], s[i]] : null; };
-  const saltan = FILAS.filter(f => f.pernos.length > 1 && salto(f.pernos));
-  const pilarSalto = f => { const [a, b] = salto(f.pernos); return pilarDe({ x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }); };
-  const encima = saltan.flatMap(f => f.marcas).filter(m => PIL2.some(q => aCara(m, q) === 0)).length;
-  const de6 = FILAS.filter(f => f.marcas.length === 6).map(f => f.pernos.length);
-  $('#txt-ajuste').innerHTML = MAR.length ? `<b>Cómo se ubicaron.</b> Las ${MAR.length} marcas se sacaron de la lámina por su relleno (una no tiene contorno) y se ubicaron con la grilla de ejes (error menor a 1 cm). Van en <b>${enFila.length} filas</b>, con las marcas cada ≈ ${coma(sepMed, 0)} cm${sueltas ? `, y ${sueltas} sueltas` : ''}. Las marcas no son la cantidad de pernos: cada fila indica el tramo de viga que lleva pernos, y van en <b>todos los valles</b> del tramo, desde el valle más cercano a la primera marca hasta el más cercano a la última (una marca suelta es un perno en su valle). Como los valles cruzan la viga cada 31,7 cm${de6.length ? `, una fila de 6 marcas lleva de ${Math.min(...de6)} a ${Math.max(...de6)} pernos` : ''}: en total son <b>${P.length} pernos</b> (sobre las vigas receptoras hay ${L.valles_receptoras} valles). Donde se juntan dos áreas va un perno por valle, y toda la fila al mismo lado de la viga. El perno va al <b>centro del valle</b>, encima del rigidizador o, en el valle de la unión entre dos planchas, del gancho del traslapo (la broca los corta): queda a ≈ 76 mm del alma del nervio hacia cada lado, en la "posición fuerte" de AISC 360. Donde la plancha termina sobre la viga (en el borde, en la punta del ala del C; entre dos áreas, en el eje, a tope), el perno se corrió hasta ${coma(Math.max(...P.map(p => Math.abs(p.corrido || 0))), 1)} cm hacia su plancha para que la perforación no corte el ala del C ni la plancha vecina (${P.filter(p => p.corrido).length} pernos).${saltan.length ? ` <b>${saltan.length} filas cruzan un pilar del nivel 2</b> (pilares de los ejes ${[...new Set(saltan.map(pilarSalto))].join(' · ')}${encima ? `; ${encima} marcas de la lámina caen justo encima de uno` : ''}): ahí el pilar tapa un valle, que queda sin perno. La lámina 11 no dibuja esos pilares: conviene confirmar con el ingeniero que las filas van ahí.` : ''} El borde de cada perno queda al menos a 2,5 cm de la cara de los pilares.` : '';
-  $('#aviso-pernos').innerHTML = `<b>Contra la cotización.</b> La cotización pide <b>${cot}</b> pernos y los tramos de la lámina del ingeniero llevan <b>${P.length}</b>: ${cot - P.length} menos. Conviene ajustar la compra (con algunos de repuesto para las pruebas de soldadura).`;
+  const vallesSin = SIN.reduce((t, s) => t + s.valles, 0);
+  $('#txt-ajuste').innerHTML = MAR.length ? `<b>Cómo se ubicaron.</b> Los ${MAR.length} puntos de la lámina se sacaron por su relleno (uno no tiene contorno) y se ubicaron con la grilla de ejes (error menor a 1 cm). Son un esquema: marcan <b>qué vigas llevan pernos</b>, y en cada una va un perno en <b>todos sus valles</b>, a 31,7 cm, del principio al fin de la viga. Son <b>${P.length} pernos</b> en ${nVigas} vigas receptoras. Donde un pilar del nivel 2 tapa un valle, ahí no va perno. Donde se juntan dos áreas a tope, las dos planchas tienen su valle a 2 a 4 cm una de otra: va un perno por valle (dos quedarían a menos de 4 diámetros), al lado de la viga donde el ingeniero dibujó los puntos. Donde se cruzan dos vigas y sus valles de la esquina caen casi en el mismo punto, va un solo perno. El perno va al <b>centro del valle</b>, encima del rigidizador o, en el valle de la unión entre dos planchas, del gancho del traslapo (la broca los corta): queda a ≈ 76 mm del alma del nervio hacia cada lado, en la "posición fuerte" de AISC 360. Donde la plancha termina sobre la viga (en el borde, en la punta del ala del C; entre dos áreas, en el eje, a tope), el perno se corrió hasta ${coma(Math.max(...P.map(p => Math.abs(p.corrido || 0))), 1)} cm hacia su plancha para que la perforación no corte el ala del C ni la plancha vecina (${P.filter(p => p.corrido).length} pernos). El borde de cada perno queda al menos a 2,5 cm de la cara de los pilares.${SIN.length ? ` <b>${SIN.length} trozos cortos de viga receptora no tienen ningún punto en la lámina</b> y quedan sin pernos (${vallesSin} valles): ${Object.entries(SIN.reduce((o, s) => { const e = s.viga.split('-')[1].replace('ap', "a'"); (o[e] = o[e] || []).push(s); return o; }, {})).map(([e, ss]) => `eje ${e}, ${ss.length} trozo${ss.length > 1 ? 's' : ''} con ${ss.reduce((t, s) => t + s.valles, 0)} valle${ss.reduce((t, s) => t + s.valles, 0) > 1 ? 's' : ''}`).join(' · ')}. Conviene preguntarle al ingeniero si también llevan.` : ''}` : '';
+  $('#aviso-pernos').innerHTML = `<b>Contra la cotización.</b> La cotización pide <b>${cot}</b> pernos y las vigas que marca el ingeniero llevan <b>${P.length}</b>: ${cot - P.length} menos. Conviene ajustar la compra (con algunos de repuesto para las pruebas de soldadura).`;
 })();
 
 // centros de los valles de la placa (mm desde el borde de la plancha): entre las dos mitades que separa el rigidizador;
@@ -1390,8 +1374,7 @@ function iniciar3D() {
     if (u.tipo === 'perno') {
       const p = u.lista[hit.instanceId];
       const enViga = L.pernos.filter(q => q.viga === p.viga).length;
-      const filaDe = p => L.pernos.filter(q => q.fila === p.fila).length;
-      seleccionar('otra', null, `<b>Perno Nelson Ø19 × 5"</b> · área ${p.area}<div class="d">Sobre la viga ${p.viga.replace(/^V-/, '')} (${p.perfil}), en un valle de la placa · ${enViga} pernos en esa viga${p.fila ? `<br>Tramo marcado en la lámina 11 con ${(L.marcas_plano || []).filter(m => m.fila === p.fila).length} puntos: lleva ${filaDe(p)} pernos, uno en cada valle` : ''}</div>`, e.clientX - r.left, e.clientY - r.top);
+      seleccionar('otra', null, `<b>Perno Nelson Ø19 × 5"</b> · área ${p.area}<div class="d">Sobre la viga ${p.viga.replace(/^V-/, '')} (${p.perfil}), en un valle de la placa · ${enViga} pernos en esa viga, uno en cada valle</div>`, e.clientX - r.left, e.clientY - r.top);
       return;
     }
     seleccionar(u.tipo === 'C' ? 'C' : u.tipo === 'placa' ? 'area' : 'otra', u.tipo === 'C' ? u.id : u.area, u.info, e.clientX - r.left, e.clientY - r.top);
