@@ -568,7 +568,8 @@ def malla(perim, pilares, pernos):
 # ---------------------------------------------------------------------------------------------
 # Pernos del ingeniero (lámina 11, 07-10-2026): pernos_ingeniero.json (sacado del plano con pernos_desde_plano.py)
 # trae los puntos que dibujó sobre las vigas. Los puntos son un esquema, no la cantidad ni la posición: marcan qué
-# vigas llevan pernos, y en esas vigas va un perno en TODOS los valles (lo aclaró el dueño el 07-10-2026).
+# vigas llevan pernos, y en esas vigas va un perno en TODOS los valles (lo aclaró el dueño el 07-10-2026). Los trozos
+# cortos de viga receptora que la lámina no marca también llevan, por decisión del dueño (07-10-2026).
 # ---------------------------------------------------------------------------------------------
 def linea_de(viga_id):
     for L in LINEAS:
@@ -578,11 +579,11 @@ def linea_de(viga_id):
 CASILLA = 9.0    # cm: candidatos más cerca que esto son el mismo valle, a los dos lados de una junta a tope
 
 def ajustar_a_valles(puntos, valles):
-    """Cada viga receptora con al menos un punto en la lámina lleva un perno en cada uno de sus valles. Donde un
+    """Cada viga receptora lleva un perno en cada uno de sus valles (con o sin puntos en la lámina). Donde un
     pilar del nivel 2 tapa el valle no hay valle libre y no va perno. En una junta a tope (valles de las dos planchas
     a los dos lados del eje, a 2 a 4 cm uno de otro) va un perno por valle, al lado donde el ingeniero dibujó los
     puntos de esa viga: dos pernos quedarían a menos de 4 diámetros. Devuelve los pernos, las marcas de la lámina y
-    las vigas receptoras sin marcas (que quedan sin pernos)."""
+    las vigas receptoras sin puntos en la lámina (que también llevan pernos)."""
     marcas_de = {}
     for p in puntos: marcas_de.setdefault(p['viga'], []).append(p)
     por_viga = {}
@@ -595,13 +596,12 @@ def ajustar_a_valles(puntos, valles):
         for v in vs:
             if casillas and v['c'] - casillas[-1][0]['c'] < CASILLA: casillas[-1].append(v)
             else: casillas.append([v])
-        if not ms:
-            sin_marcas.append({'viga': vid, 'valles': len(casillas), 'area': sorted(set(v['area'] for v in vs))}); continue
+        if not ms: sin_marcas.append({'viga': vid, 'valles': len(casillas), 'area': sorted(set(v['area'] for v in vs))})
         if not vs:
             problemas.append(f'{vid}: {len(ms)} puntos en la lámina y ningún valle libre'); continue
         linea = vs[0]['linea']
         perp = (lambda p: p['y']) if linea[0] == 'EO' else (lambda p: p['x'])
-        lado = sum(perp(p) - linea[1] for p in ms) / len(ms)   # dónde dibujó los puntos el ingeniero, respecto del eje
+        lado = sum(perp(p) - linea[1] for p in ms) / len(ms) if ms else 0.0   # dónde dibujó los puntos el ingeniero, respecto del eje
         for k in casillas:
             v = min(k, key=lambda v: (0 if len(k) == 1 or v['corrido'] * lado > 0 else 1, v['c']))
             pernos.append({'x': v['x'], 'y': v['y'], 'area': v['area'], 'viga': v['viga'], 'perfil': v['perfil'],

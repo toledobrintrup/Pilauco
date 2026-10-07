@@ -15,9 +15,9 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
 - **Pernos Nelson Ø19 × 5"** según el ingeniero: van en las vigas receptoras, las perpendiculares a las
   planchas, en los valles de la placa (consulta del 05-10-2026). Su lámina 11 (07-10-2026) marca dónde van
   con 215 puntos sobre 46 vigas. Los puntos son un esquema, no la cantidad (lo aclaró el dueño el 07-10-2026):
-  cada viga marcada lleva un perno en todos sus valles. Son 584 pernos (la cotización pide 850), uno por valle; los 644
-  valles completos que cruzan vigas receptoras cuentan por separado los dos lados de las juntas a tope. 5 trozos cortos
-  de viga receptora no tienen ningún punto (12 valles) y quedan sin pernos hasta que el ingeniero diga.
+  cada viga marcada lleva un perno en todos sus valles. 5 trozos cortos de viga receptora sin ningún punto (12 valles)
+  también llevan, por decisión del dueño. Son 596 pernos (la cotización pide 850), uno por valle; los 644 valles
+  completos que cruzan vigas receptoras cuentan por separado los dos lados de las juntas a tope.
 - **Alzaprimas** con el criterio del ingeniero: luz máxima sin apoyo 1,87 m; cada vano entre vigas
   receptoras se divide en espacios iguales y entre espacio y espacio va una línea: 17 líneas, que en
   terreno son 25 tramos de solera porque algunas pasan bajo una viga.
@@ -57,7 +57,7 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
    borde, contra el C; entre dos áreas, en el eje) se corre hacia su plancha para que la perforación no corte el ala
    del C ni la plancha vecina, y su centro queda a 31,7 mm o más del borde del ala (AWS D1.1). Cada perno lleva el
    tipo de encuentro de la placa con su viga (borde, mismo sentido, ortogonal o corrida). Después pone un perno en cada valle
-   de cada viga que tiene al menos un punto de la lámina, a 31,7 cm (más de 4 diámetros, AISC 360-16 I8.2d). Donde un
+   de cada viga receptora (las que tienen puntos en la lámina y, por decisión del dueño, los 5 trozos cortos sin puntos), a 31,7 cm (más de 4 diámetros, AISC 360-16 I8.2d). Donde un
    pilar del nivel 2 tapa un valle no va perno; en las juntas a tope va un perno por valle (los valles de las dos
    planchas quedan a 2 a 4 cm), al lado de la viga donde el ingeniero dibujó sus puntos. Donde se cruzan dos vigas y
    los valles de la esquina dan dos pernos a menos de 4 diámetros, queda uno (2 cruces, en E4 con los ejes 3 y 4). Sin `pernos_ingeniero.json`, pone uno en cada valle.

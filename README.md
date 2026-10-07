@@ -57,8 +57,8 @@ El entrepiso, pieza por pieza, sobre las vigas reales de la estructura: el **mar
 perfil C 150×50×3** (también alrededor del hueco de la escalera, cortado donde lo atraviesan los
 pilares del nivel 2) y las **66 planchas Instadeck 0,8** de las 8 áreas marcadas en obra, con la
 sección real de la ficha técnica y la dirección de cada paño del plano del ingeniero. Encima, los
-**584 pernos Nelson** en las vigas receptoras que marca la lámina 11 del ingeniero
-(07-10-2026): uno en cada valle de esas vigas, al centro del valle, con la placa perforada (Ø35 mm, con un anillo libre
+**596 pernos Nelson** en las vigas receptoras que marca la lámina 11 del ingeniero
+(07-10-2026), más 5 trozos cortos que agregó el dueño: uno en cada valle de esas vigas, al centro del valle, con la placa perforada (Ø35 mm, con un anillo libre
 alrededor del perno) y soldado al arco directo al ala; las **17 líneas de alzaprimas** con su
 criterio de 1,87 m de luz máxima sin apoyo (bajo la placa; falta que el ingeniero confirme si eran para la
 placa o para las vigas); la **malla ACMA C-188** en 50 paneles traslapados según ACMA, y el **hormigón** hasta los
