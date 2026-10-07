@@ -566,34 +566,30 @@ def malla(perim, pilares, pernos):
                 choques=choques, choques_sin_correr=choques0, alternativas=alt)
 
 # ---------------------------------------------------------------------------------------------
-# Pernos del ingeniero (lámina 11, 07-10-2026): cantidad y posición aproximada de cada perno sobre su viga
-# (pernos_ingeniero.json, sacado del plano con pernos_desde_plano.py). Como la posición es estimativa y el
-# perno tiene que caer en un valle, cada fila de pernos del plano se lleva entera a valles seguidos de su misma
-# línea de viga, sin cambiar la cantidad ni el orden (mínimo movimiento total, programación dinámica).
+# Pernos del ingeniero (lámina 11, 07-10-2026): pernos_ingeniero.json (sacado del plano con pernos_desde_plano.py)
+# trae los puntos que dibujó sobre cada viga. Los puntos son una marca, no la cantidad: cada fila de puntos indica
+# el tramo de viga que lleva pernos, y van en TODOS los valles de ese tramo.
 # ---------------------------------------------------------------------------------------------
 def linea_de(viga_id):
     for L in LINEAS:
         if any(v['id'] == viga_id for v in L['tramos']): return (L['dir'], round(L['pos'], 1))
     return None
 
-RACHA = 80.0     # cm: en la lámina los pernos de una fila van a ≈ 50 cm; entre una fila y la siguiente hay 1 m o más
+RACHA = 80.0     # cm: en la lámina los puntos de una fila van a ≈ 50 cm; entre una fila y la siguiente hay 1 m o más
 CASILLA = 9.0    # cm: candidatos más cerca que esto son el mismo valle, a los dos lados de una junta a tope
 SALTO = 44.0     # cm: dos valles seguidos de una viga están a 31,7 cm; más que esto es que falta uno (pilar, cambio de área)
 
 def ajustar_a_valles(puntos, valles):
-    """Cada fila que el ingeniero dibuja seguida va entera a valles consecutivos de su línea de viga, con la misma
-    cantidad de pernos: como en la lámina van a ≈ 50 cm y los valles están a 31,7 cm, la fila queda más corta que en
-    el plano, centrada donde él la dibujó (mínimo movimiento total). Si necesita la fila más larga, agrega pernos.
-    Entre una fila y la siguiente queda al menos un valle vacío. Donde la fila cruza un pilar del nivel 2 (la lámina
-    no los dibuja), salta solo el valle que tapa el pilar: correrla entera para no cruzarlo la alejaría hasta 1,4 m de
-    donde la dibujó el ingeniero. En una junta a tope (valles a los dos lados de la viga) toda la fila va al mismo
-    lado: al que la dibujó el ingeniero."""
-    INF = float('inf')
+    """Cada fila de puntos de la lámina marca un tramo de su línea de viga: lleva un perno en cada valle, desde el
+    valle más cercano al primer punto hasta el más cercano al último (un punto suelto, un perno en su valle). Donde
+    la fila cruza un pilar del nivel 2 (la lámina no los dibuja) no hay valle libre y ahí no va perno. En una junta a
+    tope (valles a los dos lados de la viga) va un perno por valle, y toda la fila al mismo lado: al que la dibujó el
+    ingeniero. Devuelve los pernos y las marcas de la lámina (con la fila a la que pertenecen)."""
     por_linea = {}
     for v in valles: por_linea.setdefault(v['linea'], []).append(v)
     grupos = {}
     for p in puntos: grupos.setdefault(linea_de(p['viga']), []).append(p)
-    pernos, problemas, avisos, nf = [], [], [], 0
+    pernos, marcas, problemas, avisos, nf = [], [], [], [], 0
     for linea, ps in sorted(grupos.items(), key=lambda kv: str(kv[0])):
         eo = bool(linea) and linea[0] == 'EO'
         coord = (lambda p: p['x']) if eo else (lambda p: p['y'])
@@ -604,41 +600,31 @@ def ajustar_a_valles(puntos, valles):
             if casillas and v['c'] - casillas[-1][0]['c'] < CASILLA: casillas[-1].append(v)
             else: casillas.append([v])
         cc = [sum(v['c'] for v in k) / len(k) for k in casillas]
+        if not cc:
+            problemas.append(f'{linea}: {len(ps)} puntos de la lámina y ningún valle'); continue
         filas = []
         for p in ps:
             if filas and coord(p) - coord(filas[-1][-1]) <= RACHA: filas[-1].append(p)
             else: filas.append([p])
-        m, R = len(casillas), len(filas)
-        def saltos(s, n): return sum(1 for i in range(s, s + n - 1) if cc[i + 1] - cc[i] > SALTO)
-        def costo(f, s):
-            if s + len(f) > m: return INF
-            return sum(abs(coord(p) - cc[s + i]) for i, p in enumerate(f))
-        # F[r][s]: mínimo costo de las filas 0..r con la fila r desde la casilla s (y un valle vacío antes de ella)
-        F = [[INF] * m for _ in range(R)]; de = [[-1] * m for _ in range(R)]
-        for s in range(m): F[0][s] = costo(filas[0], s)
-        for r in range(1, R):
-            mejor, sm = INF, -1
-            for s in range(m):
-                k = s - len(filas[r - 1]) - 1   # la fila anterior puede partir a más tardar aquí
-                if k >= 0 and F[r - 1][k] < mejor: mejor, sm = F[r - 1][k], k
-                if sm >= 0: F[r][s] = mejor + costo(filas[r], s); de[r][s] = sm
-        s = min(range(m), key=lambda s: F[R - 1][s]) if m else -1
-        if s < 0 or F[R - 1][s] == INF:
-            problemas.append(f'{linea}: no caben sus {R} filas ({len(ps)} pernos) en {m} valles'); continue
-        inicio = [0] * R
-        for r in range(R - 1, -1, -1): inicio[r] = s; s = de[r][s]
-        for f, s in zip(filas, inicio):
+        cerca = lambda x: min(range(len(cc)), key=lambda j: abs(cc[j] - x))
+        fin = -1
+        for f in filas:
             nf += 1
-            if saltos(s, len(f)): avisos.append(f'{linea}: la fila de {len(f)} salta un valle (pilar o cambio de área)')
+            s0, s1 = max(cerca(coord(f[0])), fin + 1), cerca(coord(f[-1]))
+            for p in f: marcas.append({'x': p['x'], 'y': p['y'], 'fila': nf})
+            if s1 < s0:
+                problemas.append(f'{linea}: la fila de {len(f)} puntos cae en los valles de la anterior'); continue
+            fin = s1
+            if any(cc[j + 1] - cc[j] > SALTO for j in range(s0, s1)):
+                avisos.append(f'{linea}: la fila de {len(f)} puntos cruza un valle que falta (pilar o cambio de área)')
             lado = sum(perp(p) - linea[1] for p in f) / len(f)   # dónde dibujó la fila el ingeniero, respecto del eje
-            for i, p in enumerate(f):
-                k = casillas[s + i]
-                v = min(k, key=lambda v: (0 if len(k) == 1 or v['corrido'] * lado > 0 else 1, abs(v['c'] - coord(p))))
+            for j in range(s0, s1 + 1):
+                k = casillas[j]
+                v = min(k, key=lambda v: (0 if len(k) == 1 or v['corrido'] * lado > 0 else 1, abs(v['c'] - cc[j])))
                 pernos.append({'x': v['x'], 'y': v['y'], 'area': v['area'], 'viga': v['viga'], 'perfil': v['perfil'],
-                               'plano': [p['x'], p['y']], 'mov': round(v['c'] - coord(p), 1), 'viga_plano': p['viga'],
                                'corrido': v['corrido'], 'tipo': v['tipo'], 'fila': nf})
     pernos.sort(key=lambda p: (p['area'], p['viga'], p['x'], p['y']))
-    return pernos, problemas + avisos
+    return pernos, marcas, problemas + avisos
 
 def poner_d0(area):
     """Origen de cada plancha según la grilla del área: las planchas se ponen de a UTIL desde un borde, así que el
@@ -688,10 +674,10 @@ def main(f_losa, f_placa, salida, f_extra=None):
     f_ing = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pernos_ingeniero.json')
     ING = json.load(open(f_ing)) if os.path.exists(f_ing) else None
     if ING:
-        pernos, problemas = ajustar_a_valles(ING['puntos'], valles_libres)
+        pernos, marcas, problemas = ajustar_a_valles(ING['puntos'], valles_libres)
         for t in problemas: print('OJO pernos:', t)
     else:
-        pernos = []   # sin la lámina: uno por valle, y en las juntas a tope uno solo para los dos lados
+        marcas, pernos = [], []   # sin la lámina: uno por valle, y en las juntas a tope uno solo para los dos lados
         for p in sorted(valles_libres, key=lambda p: (p['linea'], p['c'])):
             if pernos and pernos[-1]['linea'] == p['linea'] and p['c'] - pernos[-1]['c'] < JUNTAR_VALLE: continue
             pernos.append(p)
@@ -706,7 +692,7 @@ def main(f_losa, f_placa, salida, f_extra=None):
         'perimetro': perim, 'hueco_escalera': L.get('hueco_escalera'), 'hueco_interior': None,
         'marco': marco, 'areas': areas, 'pilares_n2': pilares, 'grilla': X.get('grilla', {}),
         'perfilC': {'h': 150, 'b': 50, 't': 3, 'r': 3},
-        'pernos': pernos, 'valles_mm': valles, 'valles_receptoras': len(valles_libres), 'perforacion': PERFORACION,
+        'pernos': pernos, 'marcas_plano': marcas, 'valles_mm': valles, 'valles_receptoras': len(valles_libres), 'perforacion': PERFORACION,
         'pernos_fuente': ING['fuente'] if ING else None, 'perno': {'d': 19.05, 'largo': 127.0, 'largo_compra': 131.8, 'cabeza_d': 31.75, 'cabeza_h': 9.5,
                                                       'sold_d': 27.0, 'sold_h': 6.4, 'quema_desnudo': 4.8, 'quema_placa': [9.5, 11.1]},
         'alzaprimas': alzaprimas, 'luz_max_alzaprima': LUZ_MAX_ALZ, 'puntal_sep_max': PUNTAL_SEP_MAX,
@@ -727,7 +713,7 @@ def main(f_losa, f_placa, salida, f_extra=None):
     import collections
     pa = collections.Counter(p['area'] for p in pernos)
     print('PERNOS', len(pernos), dict(sorted(pa.items())), 'de', len(valles_libres), 'valles')
-    if ING: print('  movidos al valle: máx', max(abs(p['mov']) for p in pernos), 'cm; promedio', round(sum(abs(p['mov']) for p in pernos) / len(pernos), 1), 'cm;',
+    if ING: print('  marcas de la lámina:', len(marcas), 'en', len(set(m['fila'] for m in marcas)), 'filas;',
                   'corridos hacia su plancha:', sum(1 for p in pernos if p['corrido']), '(máx', max(abs(p['corrido']) for p in pernos), 'cm);',
                   'por tipo:', dict(collections.Counter(p['tipo'] for p in pernos)))
     print('PUNTALES', sum(len(l['puntales']) for l in alzaprimas), dict(sorted(collections.Counter(l['area'] for l in alzaprimas for _ in l['puntales']).items())))

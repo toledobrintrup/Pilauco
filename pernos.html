@@ -502,7 +502,7 @@ function dibujarPlanta() {
   }
   // pernos: perforación y anillo libre
   const valles = [-PL.util + VALLES.centros[0], -PL.util + VALLES.centros[1], VALLES.union - PL.util, VALLES.centros[0], VALLES.centros[1]];
-  const conPerno = [valles[1], valles[2], valles[3]];   // una fila de la lámina: valles seguidos
+  const conPerno = [valles[1], valles[2], valles[3]];   // el tramo que marca la lámina: un perno en cada valle
   valles.forEach(v => {
     if (v < X0 + 20 || v > X1 - 20) return;
     if (!conPerno.includes(v)) return;
@@ -513,7 +513,7 @@ function dibujarPlanta() {
   cota(svg, conPerno[1], Y1 - 40, conPerno[2], Y1 - 40, coma((conPerno[2] - conPerno[1]) / 10, 1) + ' cm', 0, -10, false, FS);
   llamada(svg, conPerno[1] + R_PERF * 0.7, zs + R_PERF * 0.7, conPerno[1] + 60, zs + 150, `perforación Ø${coma(D_PERF, 0)} con anillo libre`, 'start', FS);
   llamada(svg, conPerno[1] + 14, zs - 20, conPerno[1] + 60, Y0 + 80, 'valle de la unión: la broca corta el gancho del traslapo', 'start', FS - 2);
-  $('#cap-planta').innerHTML = `Planta, a escala. En gris, las crestas de los nervios; en azul, el ala de la viga, que se ve por cada perforación; en naranjo, los nervios sellados. Cada perno va al centro de su valle, con la perforación de Ø${coma(D_PERF, 0)} mm y el anillo libre alrededor. En la lámina 11 los pernos de una fila van cada 45 a 55 cm; aquí cada fila va completa en valles seguidos, a 31,7 cm, con los mismos pernos (queda más corta: si el ingeniero la necesita más larga, agrega pernos).`;
+  $('#cap-planta').innerHTML = `Planta, a escala. En gris, las crestas de los nervios; en azul, el ala de la viga, que se ve por cada perforación; en naranjo, los nervios sellados. Cada perno va al centro de su valle, con la perforación de Ø${coma(D_PERF, 0)} mm y el anillo libre alrededor. La lámina 11 marca con puntos, a 45–55 cm, el tramo de viga que lleva pernos: va uno en cada valle del tramo, a 31,7 cm.`;
 }
 
 // la perforación en detalle (planta y corte, mm, escala 2:1 en pantalla)
@@ -585,7 +585,7 @@ function textosTipo() {
   const s = [
     ['Perforación', `Ø${coma(D_PERF, 0)} mm`, `Sierra copa bimetálica; deja un anillo libre de ${coma(R_PERF - PN.d / 2, 0)} mm alrededor del perno <span class="fuente med">referencia</span>`],
     ['Perno soldado', `${coma(LARGO, 0)} mm`, `El de 5 3/16" (${coma(PN.largo_compra, 1)} mm) pierde ${coma(QUEMA, 1)} mm al soldarlo sobre acero desnudo <span class="fuente man">Nelson</span>`],
-    ['Pernos', L.pernos.length, `Cantidad y posición de la lámina 11, cada uno al centro de su valle <span class="fuente man">ingeniero</span>`],
+    ['Pernos', L.pernos.length, `Uno en cada valle de los tramos que marca la lámina 11 <span class="fuente man">ingeniero</span>, al centro del valle`],
     ['Casos', '4', `Borde contra el C ${POR_TIPO.borde.length}, mismo sentido ${POR_TIPO.mismo.length}, ortogonales ${POR_TIPO.ortogonal.length}, plancha corrida ${POR_TIPO.corrida.length} <span class="fuente calc">calculado</span>`],
   ];
   $('#specs').innerHTML = s.map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
@@ -700,7 +700,7 @@ function iniciar3D() {
     // planchas
     const xs = [-PL.util, 0];   // dos planchas lado a lado (mm, origen de cada una)
     const valles = [xs[0] + VALLES.centros[0], xs[0] + VALLES.centros[1], xs[0] + VALLES.union, xs[1] + VALLES.centros[0], xs[1] + VALLES.centros[1]];
-    const conPerno = [valles[1], valles[2], valles[3]];   // una fila: valles seguidos
+    const conPerno = [valles[1], valles[2], valles[3]];   // un perno en cada valle del tramo
     const pernos = conPerno.map(v => ({ x: m(v), z: zs }));
     const crestas = []; { let a = null; PL.perfil.forEach(([x, y]) => { if (y > 5 && a == null) a = x; if (y <= 5 && a != null) { crestas.push([a, x]); a = null; } }); }
     const sellar = (z, haciaAtras) => xs.forEach(o => crestas.forEach(([a, c]) => {   // tapas en los extremos abiertos de los nervios
