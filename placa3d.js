@@ -11,6 +11,7 @@
 // una franja chica alrededor del centro (±MEDIO_VALLE a lo ancho, el diámetro más 2·MARGEN a lo largo), donde el
 // rigidizador del valle (o, en la unión de dos planchas, el gancho del traslapo) queda cortado, y en esa franja pone
 // una chapa plana con el agujero redondo (radio en mm). Es una simplificación del dibujo: la broca solo saca el círculo.
+// La chapa la pone la pieza donde cae el centro; { piso: true } la fuerza (último valle de unión, sin plancha vecina).
 (function () {
   'use strict';
   if (window.Placa3D) return;
@@ -73,7 +74,7 @@
     const base = tramo(o.perfil, ancho, d0);
     const L2 = (R + MARGEN) / 1000;
     const ag = (o.agujeros || []).filter(h => h.c > -MEDIO_VALLE && h.c < ancho + MEDIO_VALLE && h.s > -L2 && h.s < largo + L2)
-      .map(h => ({ c: h.c, s0: Math.max(0, h.s - L2), s1: Math.min(largo, h.s + L2), s: h.s }));
+      .map(h => ({ c: h.c, s0: Math.max(0, h.s - L2), s1: Math.min(largo, h.s + L2), s: h.s, piso: h.piso }));
     const cortes = [0, largo]; ag.forEach(h => cortes.push(h.s0, h.s1));
     const zs = [...new Set(cortes.map(v => Math.round(v * 1e5) / 1e5))].sort((a, b) => a - b);
     const geoDe = huecos => {
@@ -91,7 +92,7 @@
       partes.push([geo, new T.Matrix4().makeTranslation(0, 0, a).multiply(new T.Matrix4().makeScale(1, 1, b - a))]);
     }
     // chapa plana con el agujero redondo, en el fondo de cada valle perforado (la pone la pieza donde cae el centro)
-    ag.filter(h => h.c >= 0 && h.c < ancho).forEach(h => {
+    ag.filter(h => h.piso || (h.c >= 0 && h.c < ancho)).forEach(h => {
       const k = 'piso_' + R + '_' + Math.round((h.s0 - h.s) * 1e4) + '_' + Math.round((h.s1 - h.s) * 1e4);
       let geo = cache[k];
       if (!geo) {

@@ -502,17 +502,16 @@ function dibujarPlanta() {
   }
   // pernos: perforación y anillo libre
   const valles = [-PL.util + VALLES.centros[0], -PL.util + VALLES.centros[1], VALLES.union - PL.util, VALLES.centros[0], VALLES.centros[1]];
-  const conPerno = [valles[1], valles[2], valles[3]];   // la viga que marca la lámina: un perno en cada valle
+  const conPerno = valles, UNION = valles[2];   // la viga que marca la lámina: un perno en todos sus valles
   valles.forEach(v => {
     if (v < X0 + 20 || v > X1 - 20) return;
-    if (!conPerno.includes(v)) return;
     el('circle', { cx: v, cy: zs, r: R_PERF, style: 'fill:var(--fig-viga);fill-opacity:.35;stroke:var(--fig-ink);stroke-width:1' }, svg);
     el('circle', { cx: v, cy: zs, r: PN.d / 2, style: 'fill:#6B4FBB' }, svg);
   });
-  cota(svg, conPerno[0], Y1 - 40, conPerno[1], Y1 - 40, coma((conPerno[1] - conPerno[0]) / 10, 1) + ' cm', 0, -10, false, FS);
-  cota(svg, conPerno[1], Y1 - 40, conPerno[2], Y1 - 40, coma((conPerno[2] - conPerno[1]) / 10, 1) + ' cm', 0, -10, false, FS);
-  llamada(svg, conPerno[1] + R_PERF * 0.7, zs + R_PERF * 0.7, conPerno[1] + 60, zs + 150, `perforación Ø${coma(D_PERF, 0)} con anillo libre`, 'start', FS);
-  llamada(svg, conPerno[1] + 14, zs - 20, conPerno[1] + 60, Y0 + 80, 'valle de la unión: la broca corta el gancho del traslapo', 'start', FS - 2);
+  cota(svg, conPerno[1], Y1 - 40, UNION, Y1 - 40, coma(Math.round(UNION - conPerno[1]) / 10, 1) + ' cm', 0, -10, false, FS);
+  cota(svg, UNION, Y1 - 40, conPerno[3], Y1 - 40, coma(Math.round(conPerno[3] - UNION) / 10, 1) + ' cm', 0, -10, false, FS);
+  llamada(svg, UNION + R_PERF * 0.7, zs + R_PERF * 0.7, UNION + 60, zs + 150, `perforación Ø${coma(D_PERF, 0)} con anillo libre`, 'start', FS);
+  llamada(svg, UNION + 14, zs - 20, UNION + 60, Y0 + 80, 'valle de la unión: la broca corta el gancho del traslapo', 'start', FS - 2);
   $('#cap-planta').innerHTML = `Planta, a escala. En gris, las crestas de los nervios; en azul, el ala de la viga, que se ve por cada perforación; en naranjo, los nervios sellados. Cada perno va al centro de su valle, con la perforación de Ø${coma(D_PERF, 0)} mm y el anillo libre alrededor. La lámina 11 marca con puntos qué vigas llevan pernos: en cada una va un perno en todos sus valles, a 31,7 cm.`;
 }
 
@@ -699,8 +698,9 @@ function iniciar3D() {
     }
     // planchas
     const xs = [-PL.util, 0];   // dos planchas lado a lado (mm, origen de cada una)
-    const valles = [xs[0] + VALLES.centros[0], xs[0] + VALLES.centros[1], xs[0] + VALLES.union, xs[1] + VALLES.centros[0], xs[1] + VALLES.centros[1]];
-    const conPerno = [valles[1], valles[2], valles[3]];   // un perno en cada valle de la viga
+    const valles = [xs[0] + VALLES.union - PL.util, xs[0] + VALLES.centros[0], xs[0] + VALLES.centros[1], xs[0] + VALLES.union,
+      xs[1] + VALLES.centros[0], xs[1] + VALLES.centros[1], xs[1] + VALLES.union];   // con los valles de unión de los dos bordes
+    const conPerno = valles;   // un perno en todos los valles de la viga
     const pernos = conPerno.map(v => ({ x: m(v), z: zs }));
     const crestas = []; { let a = null; PL.perfil.forEach(([x, y]) => { if (y > 5 && a == null) a = x; if (y <= 5 && a != null) { crestas.push([a, x]); a = null; } }); }
     const sellar = (z, haciaAtras) => xs.forEach(o => crestas.forEach(([a, c]) => {   // tapas en los extremos abiertos de los nervios
@@ -711,10 +711,12 @@ function iniciar3D() {
     }));
     const planchasPerp = (z0, z1, conAg, mat, paso) => xs.forEach(o => {
       const largo = z1 - z0;
-      const ag = conAg ? pernos.map(p => ({ c: (p.x - m(o)) * 1000, s: p.z - z0 })) : [];
+      const ancho = o === xs[0] ? PL.util : PL.perfil[PL.perfil.length - 1][0];
+      // el valle de unión del borde derecho no tiene plancha vecina que ponga el fondo con el agujero: lo pone esta
+      const ag = conAg ? pernos.map(p => { const c = (p.x - m(o)) * 1000; return { c, s: p.z - z0, piso: o === xs[1] && c >= ancho }; }) : [];
       [false, true].forEach(perf => {
         if (perf && !ag.length) return;
-        const g = Placa3D.crear({ perfil: PL.perfil, espesor: PL.espesor, ancho: o === xs[0] ? PL.util : PL.perfil[PL.perfil.length - 1][0], d0: 0, largo, agujeros: perf ? ag : [], radio: R_PERF, material: mat, cache: cacheP });
+        const g = Placa3D.crear({ perfil: PL.perfil, espesor: PL.espesor, ancho, d0: 0, largo, agujeros: perf ? ag : [], radio: R_PERF, material: mat, cache: cacheP });
         g.position.set(m(o), 0, z0); capas.placa.add(g);
         PASO.push({ o: g, paso, perforada: ag.length ? perf : null });
       });
@@ -747,7 +749,7 @@ function iniciar3D() {
       gp.add(an); PASO.push({ o: an, paso: 3, hasta: 4.5, cae: true });
       const br = new T.Group(); br.add(new T.Mesh(gBroca, MAT.broca), new T.Mesh(gEje, MAT.broca)); br.position.set(p.x, 0, p.z); capas.perno.add(br);
       PASO.push({ o: br, paso: 2, broca: true });
-      if (i === 1) { tag(`perforación Ø${coma(D_PERF, 0)} con anillo libre`, new T.Vector3(p.x - 0.16, 0.01, p.z + 0.1), 2); tag('perno Ø19 × 5"', new T.Vector3(p.x + 0.12, m(LARGO) + 0.03, p.z), 3); }
+      if (i === 3) { tag(`perforación Ø${coma(D_PERF, 0)} con anillo libre`, new T.Vector3(p.x - 0.16, 0.01, p.z + 0.1), 2); tag('perno Ø19 × 5"', new T.Vector3(p.x + 0.12, m(LARGO) + 0.03, p.z), 3); }
     });
     // malla, con su grilla corrida para que ninguna barra pase por un perno
     const yMs = m(ESP - (L.malla ? L.malla.recubrimiento * 10 : 25)), zM0 = tipo === 'borde' ? m(-b / 2 + 30) : -LZ;
@@ -756,7 +758,8 @@ function iniciar3D() {
     for (let z = zM0 + oz; z < LZ; z += 0.15) { const b2 = new T.Mesh(gBar(LEN - 0.06), MAT.malla); b2.rotation.z = Math.PI / 2; b2.position.set(0, yMs - 0.009, z); capas.malla.add(b2); PASO.push({ o: b2, paso: 5, cae: true }); }
     for (let x = -LEN / 2 + ((ox + LEN / 2) % 0.15); x < LEN / 2; x += 0.15) { const b2 = new T.Mesh(gBar(LZ - zM0 - 0.03), MAT.malla); b2.rotation.x = Math.PI / 2; b2.position.set(x, yMs - 0.003, (zM0 + LZ) / 2); capas.malla.add(b2); PASO.push({ o: b2, paso: 5, cae: true }); }
     const zH0 = tipo === 'borde' ? m(-b / 2 + PC.t) : -LZ;
-    const hb = new T.Mesh(new T.BoxGeometry(LEN, m(ESP), LZ - zH0), MAT.horm); hb.position.set(0, m(ESP) / 2, (LZ + zH0) / 2); capas.horm.add(hb); PASO.push({ o: hb, paso: 6, vaciado: true });
+    // 2 cm más ancho por lado que las planchas, para que tape los pernos de los valles de unión de los bordes
+    const hb = new T.Mesh(new T.BoxGeometry(LEN + 0.04, m(ESP), LZ - zH0), MAT.horm); hb.position.set(0, m(ESP) / 2, (LZ + zH0) / 2); capas.horm.add(hb); PASO.push({ o: hb, paso: 6, vaciado: true });
     aplicar(); encuadrar();
   }
   // ---------- instalación paso a paso ----------
