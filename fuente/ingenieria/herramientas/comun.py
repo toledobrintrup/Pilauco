@@ -10,8 +10,8 @@ import fitz, json, os, math
 import numpy as np
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
-ING = '/Users/gabrieltoledobrintrup/Library/Mobile Documents/com~apple~CloudDocs/04_Negocios/N03_Inversión Inmobiliaria/06_Casa Pilauco/02_Ingeniería/'
-ARQ = '/Users/gabrieltoledobrintrup/Library/Mobile Documents/com~apple~CloudDocs/04_Negocios/N03_Inversión Inmobiliaria/06_Casa Pilauco/01_Arquitectura/01_Planos/'
+ING = os.path.expanduser('~/Library/Mobile Documents/com~apple~CloudDocs/04_Negocios/N03_Inversión Inmobiliaria/06_Casa Pilauco/02_Ingeniería/')
+ARQ = os.path.expanduser('~/Library/Mobile Documents/com~apple~CloudDocs/04_Negocios/N03_Inversión Inmobiliaria/06_Casa Pilauco/01_Arquitectura/01_Planos/')
 
 LAMINAS = {
     'eje2':       ING + '04_Estructura/Elevación Eje 2.pdf',        # ELEVACION EJE 1, EJE 2

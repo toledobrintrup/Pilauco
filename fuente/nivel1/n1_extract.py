@@ -2,7 +2,7 @@
 """Nivel 1: extrae capas de dibujo y texto del PDF, en cm, en el sistema del nivel 2."""
 import fitz, json, collections, os
 
-PDF = '/Users/gabrieltoledobrintrup/Library/Mobile Documents/com~apple~CloudDocs/04_Negocios/N03_Inversión Inmobiliaria/06_Casa Pilauco/01_Arquitectura/01_Planos/L2.PLARQ.29.12.2025.pdf'
+PDF = os.path.expanduser('~/Library/Mobile Documents/com~apple~CloudDocs/04_Negocios/N03_Inversión Inmobiliaria/06_Casa Pilauco/01_Arquitectura/01_Planos/L2.PLARQ.29.12.2025.pdf')
 # Origen y escala: fijados haciendo calzar los ejes 1,2,3,5 y A del nivel 1 con los del
 # nivel 2 (error < 0,5 cm). S es la escala 1:50 del proyecto, igual en ambas láminas.
 S = (1317.24 - 302.23) / 1790.0
