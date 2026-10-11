@@ -1,0 +1,339 @@
+{
+ "descripcion": "Gimnasio (bloque C de L1 / lámina L11.GIM). Coordenadas en cm del marco de la app (X oriente, Y sur). Alturas en cm sobre el NPT del gimnasio (±0,00 de L11).",
+ "fuentes": {
+  "posicion": "L1 EMPLAZAMIENTO 1:200 (caras exteriores de muro del bloque C, calibración s=0.14172 tx=322.48 ty=728.12)",
+  "forma_y_medidas": "L11.GIM 1:50 (planta, planta de cubierta, cortes y elevaciones)"
+ },
+ "calibracion_L11": {
+  "s_pt_por_cm": 0.56693,
+  "nota": "1:50 exacto; comprobado: 884 ejes = 501.3 pt, 700 exterior = 396.8 pt",
+  "caras_pt": {
+   "oeste": 299.9,
+   "este": 811.5,
+   "norte": 296.2,
+   "sur": 693.0,
+   "cara_norte_muro_B2": 466.2,
+   "cara_oeste_muro_2b": 522.4
+  },
+  "ejes_pt": {
+   "1.b": 306.3,
+   "2.b": 526.1,
+   "3.b": 807.6,
+   "C2": 300.2,
+   "B2": 470.2,
+   "A2": 689.5
+  },
+  "cubierta_pt": {
+   "oeste": 1141.7,
+   "este": 1698.0,
+   "norte": 273.8,
+   "sur": 945.2,
+   "muesca_x": 1363.6,
+   "muesca_y": 443.9
+  }
+ },
+ "contorno_planta_cm": [
+  [
+   1912.2,
+   -3555.5
+  ],
+  [
+   2422.3,
+   -3555.5
+  ],
+  [
+   2422.3,
+   -2855.5
+  ],
+  [
+   1520.7,
+   -2855.5
+  ],
+  [
+   1520.7,
+   -3255.5
+  ],
+  [
+   1912.2,
+   -3255.5
+  ]
+ ],
+ "contorno_planta_orden": "NO del bloque C2-B2 (cara oeste muro 2.b) -> NE -> SE -> SO -> esq. NO ala oeste (cara norte muro B2) -> rincón interior",
+ "caras_cm": {
+  "oeste": 1520.7,
+  "este": 2422.3,
+  "norte": -3555.5,
+  "sur": -2855.5,
+  "cara_norte_muro_B2": -3255.5,
+  "cara_oeste_muro_2b": 1912.2,
+  "espesor_muros": 18
+ },
+ "comparacion_L1_vs_L11_cm": {
+  "ancho": {
+   "L1": 901.6,
+   "L11": 902.4,
+   "rotulado_L11": "901/902",
+   "diferencia": -0.8
+  },
+  "alto": {
+   "L1": 700.1,
+   "L11": 699.9,
+   "rotulado_L11": 700,
+   "diferencia": 0.2
+  },
+  "muro2b": {
+   "L1": 391.5,
+   "L11": 392.5,
+   "rotulado_L11": 392,
+   "diferencia": -0.9
+  },
+  "muroB2": {
+   "L1": 300.0,
+   "L11": 299.9,
+   "rotulado_L11": 300,
+   "diferencia": 0.2
+  }
+ },
+ "ejes_cm": {
+  "1.b": 1532.0,
+  "2.b": 1919.7,
+  "3.b": 2416.2,
+  "C2": -3548.5,
+  "B2": -3248.6,
+  "A2": -2861.8
+ },
+ "ejes_nota": "Posición de los ejes según la cadena EJES de L11 (388 + 497 = 884 E-O; 300 + 387 = 687 N-S). Quedan dentro de los muros, a 6-11 cm de la cara exterior (1.b a 11,3 de la cara oeste, 3.b a 6,9 de la cara este, C2 a 7,1 de la cara norte, B2 a 7,1 de la cara norte del muro B2, A2 a 6,2 de la cara sur). Trasladados a la app sumando esos desfases a las caras de L1.",
+ "cubierta": {
+  "contorno_cm": [
+   [
+    1872.6,
+    -3596.5
+   ],
+   [
+    2461.8,
+    -3596.5
+   ],
+   [
+    2461.8,
+    -2411.5
+   ],
+   [
+    1481.2,
+    -2411.5
+   ],
+   [
+    1481.2,
+    -3296.5
+   ],
+   [
+    1872.6,
+    -3296.5
+   ]
+  ],
+  "contorno_orden": "mismo orden que la planta (L con muesca al NO)",
+  "aleros_cm": {
+   "oeste": 39.5,
+   "este": 39.5,
+   "norte": 41,
+   "sur": 444.0,
+   "muesca_norte_sobre_cara_B2": 41.0,
+   "muesca_oeste_de_cara_2b": 39.6
+  },
+  "aleros_origen": "981 total E-O (dato) - 902 = 79 -> 39,5 por lado (supuesto simétrico; el corte 1.b-3.b mide 40,0 y 40,0). Norte: 1185 - 444 - 700 = 41 (dato; corte C2-A2 mide 41,1). Sur: 444 desde la cara sur (dato; la cota del corte parte en la cara sur y la proyección del muro en la planta de cubierta cae a 443,3 del borde). Muesca: medida en la planta de cubierta (300,0 bajo el borde norte y 391,4 desde el borde oeste).",
+  "total_cm": {
+   "este_oeste": 980.6,
+   "norte_sur": 1185.1,
+   "rotulado": "981 x 1.185"
+  },
+  "pendiente": {
+   "grados": 2.2,
+   "tangente": 0.03842,
+   "sube_hacia": "sur",
+   "agua_hacia": "norte",
+   "canaletas": "en los dos bordes norte (CALL en la planta de cubierta)"
+  },
+  "espesor_banda_cm": 40,
+  "espesor_origen": "medido en los cortes (22,7 pt = 40 cm) y consistente con +345/+357/+391 desde NTN = cielo + 40 + 10"
+ },
+ "alturas_cm_sobre_NPT": {
+  "NPT": 0,
+  "NTN": -10,
+  "cielo_NCT1": {
+   "cara_norte_C2": 297,
+   "eje_B2": 309,
+   "cara_sur_A2": 324,
+   "punta_alero_sur": 340,
+   "punta_alero_norte": 295.4,
+   "nota": "297 y 324 rotulados como +297 NCT1 y +324 NCT1 en el corte C2-B2-A2; 309 y 340 son cotas del mismo corte; 306 (desde NTN) = punta alero norte. El corte 1.b-3.b rotula +318 NCT1 en su línea de corte."
+  },
+  "plano_cielo": "z = 297 + 0.03842 * (y - (-3555.5))   [y en cm app; z en cm sobre NPT]",
+  "cubierta_superior": {
+   "punta_alero_norte": 335.4,
+   "borde_norte_ala_oeste": 347.0,
+   "punta_alero_sur": 381.0,
+   "rotulado_desde_NTN": {
+    "norte": "+345",
+    "ala_oeste": "+357",
+    "sur": "+391"
+   },
+   "rotulado_desde_NPT_equivalente": {
+    "norte": 335,
+    "ala_oeste": 347,
+    "sur": 381
+   }
+  },
+  "elevacion_sur_rotula": "+391 (cumbre) y +333 (cielo bajo el alero en la cara sur), ambos desde NTN",
+  "L1_rotula": "NPT +0,10 dentro del bloque C (dos veces): referencia no indicada en L1 (duda)."
+ },
+ "deslindes": {
+  "norte": {
+   "rotulado_L11_cm": 710,
+   "rotulado_L1": {
+    "en_x_2b": "7,10",
+    "en_x_2390": "7,38"
+   },
+   "calculado": {
+    "vertical_desde_esq_NO_cara_2b": 710.1,
+    "vertical_desde_esq_NE": 739.7,
+    "perpendicular_esq_NO": 708.9,
+    "perpendicular_esq_NE": 738.4
+   },
+   "diferencia_cm": {
+    "vertical_desde_esq_NO_cara_2b": 0.1,
+    "vertical_desde_esq_NE": 29.7,
+    "perpendicular_esq_NO": -1.1,
+    "perpendicular_esq_NE": 28.4
+   }
+  },
+  "oeste": {
+   "rotulado_L11_cm": 2770,
+   "calculado": {
+    "horizontal_esq_NO_ala_oeste": 2775.5,
+    "horizontal_esq_SO": 2763.4,
+    "perpendicular_esq_NO": 2774.3,
+    "perpendicular_esq_SO": 2762.1
+   },
+   "diferencia_cm": {
+    "horizontal_esq_NO_ala_oeste": 5.5,
+    "horizontal_esq_SO": -6.6,
+    "perpendicular_esq_NO": 4.3,
+    "perpendicular_esq_SO": -7.9
+   }
+  },
+  "este": {
+   "rotulado_L11_cm": 2377,
+   "calculado": {
+    "horizontal_esq_NE": 2397.2,
+    "horizontal_esq_SE": 2397.4,
+    "desde_alero_este": 2357.7
+   },
+   "diferencia_cm": {
+    "horizontal_esq_NE": 20.2,
+    "horizontal_esq_SE": 20.4,
+    "desde_alero_este": -19.3
+   }
+  },
+  "sur": {
+   "rotulado_L11_cm": 7023,
+   "calculado": {
+    "vertical_esq_SO": 7524.0,
+    "vertical_esq_SE": 7505.6,
+    "desde_alero_sur_esq_SO": 7080.0,
+    "desde_alero_sur_esq_SE": 7061.6
+   },
+   "diferencia_cm": {
+    "vertical_esq_SO": 501.0,
+    "vertical_esq_SE": 482.6,
+    "desde_alero_sur_esq_SO": 57.0,
+    "desde_alero_sur_esq_SE": 38.6
+   }
+  },
+  "cotas_que_escribe_L1": {
+   "norte": "7,10 (en x~1915, cara 2.b) y 7,38 (en x~2390): calculado 7,10 y 7,40 -> coinciden",
+   "oeste": "2.771 (27,71 m) desde el deslinde oeste a la cara oeste del ala grande; 31,77 hasta la cara del bloque C2-B2: calculado 27,75 / 27,63 y 31,7 -> coinciden",
+   "este": "2.397 (23,97 m) dos veces: coincide con lo calculado (23,97). L11 rotula 23,77 (20 cm menos).",
+   "sur": "L1 no rotula distancia del gimnasio al deslinde sur; L11 dice 70,23 m y el deslinde de L1 queda a 75,1 m de la cara sur (70,6-70,8 desde la punta del alero)."
+  }
+ },
+ "lote_L1_cm": [
+  [
+   -1280.0,
+   -4080.8
+  ],
+  [
+   4819.2,
+   -4434.0
+  ],
+  [
+   4821.9,
+   4617.1
+  ],
+  [
+   3772.8,
+   4629.5
+  ],
+  [
+   2381.0,
+   4650.8
+  ],
+  [
+   1534.5,
+   4668.2
+  ],
+  [
+   949.4,
+   4681.5
+  ],
+  [
+   860.9,
+   4683.5
+  ],
+  [
+   382.7,
+   4686.1
+  ],
+  [
+   -168.3,
+   4686.1
+  ],
+  [
+   -988.3,
+   4680.7
+  ],
+  [
+   -1017.3,
+   4680.5
+  ],
+  [
+   -1032.2,
+   4180.5
+  ],
+  [
+   -1176.9,
+   -697.1
+  ]
+ ],
+ "supuestos": [
+  "Aleros E y O iguales (39,5): L11 sólo rotula el total 981.",
+  "La banda de cubierta de 40 cm se toma como espesor constante de borde a borde.",
+  "Los ejes se trasladan a la app con los desfases de L11 respecto de las caras; L1 no dibuja ejes del gimnasio."
+ ],
+ "dudas": [
+  "SUR rotulado 70,23 m no cuadra con el deslinde sur de L1 (75,1 m desde la cara sur; 70,6-70,8 desde el alero).",
+  "ESTE rotulado 23,77 m vs 23,97 m calculado (20 cm).",
+  "Referencia del NPT +0,10 que L1 escribe en el bloque C.",
+  "El corte 1.b-3.b rotula cielo +318: según la pendiente corresponde a ~547 cm de la cara norte, pero el marcador de corte en las plantas está más al norte."
+ ],
+ "niveles_L1": {
+  "gimnasio": "NPT +0,10 (dos rótulos dentro del bloque C)",
+  "terreno_junto_al_gimnasio": "±0,00 (rótulos en x~1003,y~-3130 y alrededores)",
+  "casa": "NPT +0,70 en todo el nivel 1 de la vivienda; +0,55/+0,40/+0,25/+0,10 en gradas exteriores",
+  "supuesto": "Si todos los NPT de L1 comparten el mismo datum, el piso del gimnasio queda 60 cm bajo el piso del nivel 1 de la casa (Z = -60 en la app). Coincide con L11: NTN = -10 respecto del NPT del gimnasio, y en L1 el terreno junto al gimnasio es ±0,00 con el gimnasio en +0,10."
+ },
+ "overlays": [
+  "overlays/gimnasio_L1.png (recorte pt 520-720 x 180-345, escala 4; ampliado 20 pt al oeste para que se vea la cara oeste)",
+  "overlays/gimnasio_L11_planta.png",
+  "overlays/gimnasio_L11_cubierta.png",
+  "overlays/gimnasio_L1_deslindes.png"
+ ]
+}

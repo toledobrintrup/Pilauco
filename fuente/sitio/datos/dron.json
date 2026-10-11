@@ -1,0 +1,943 @@
+{
+ "marco": "cm app: X al oriente (eje 6), Y al sur (eje A); Z=0 piso nivel 1",
+ "correccion_calibracion_L1": {
+  "dy_cm": -330.0,
+  "ty_viejo": 728.12,
+  "ty_nuevo": 774.89,
+  "dx_cm": 0.0,
+  "explicacion": "las paredes de la casa en L1 (calibración vieja ty=728.12) quedan 330 cm al sur de las de data.js; medido con los vectores del PDF cara por cara (25 caras horizontales: media 329,0, mediana 328,8, desv 4,8; centros de muro 329-334) y verificado de forma independiente por FFT (328) y caras (330,5). En x calzan (dx 0 ± 3). Toda coordenada sacada de L1 con la calibración vieja debe restarle 330 a y. El valor anterior (345) estaba 15 cm pasado",
+  "incertidumbre_cm": 3
+ },
+ "esquinas_lote_px": {
+  "SE": [
+   188,
+   102
+  ],
+  "SO": [
+   1212,
+   78
+  ],
+  "NO": [
+   1345,
+   1555
+  ],
+  "NE": [
+   178,
+   1650
+  ]
+ },
+ "esquinas_lote_cm": {
+  "NO": [
+   -1279.8,
+   -4410.7
+  ],
+  "NE": [
+   4819.5,
+   -4764.2
+  ],
+  "SE": [
+   4821.6,
+   4287.4
+  ],
+  "SO": [
+   -1017.4,
+   4350.2
+  ]
+ },
+ "homografia_px_a_cm": [
+  [
+   -5.716778246000759,
+   0.2594332601983311,
+   5894.299163076384
+  ],
+  [
+   -0.11788211568200802,
+   -6.171958054489352,
+   4960.804472511489
+  ],
+  [
+   -6.567802315381206e-06,
+   6.1733027979979e-05,
+   1.0
+  ]
+ ],
+ "ortofoto": {
+  "archivo": "overlays/dron_rectificada.png",
+  "origen_cm": [
+   -1300,
+   -4800
+  ],
+  "cm_por_px": 5.0,
+  "tam_px": [
+   1220,
+   1830
+  ],
+  "nota": "sur arriba en la foto original; la ortofoto está en cm app (norte arriba, este a la derecha)"
+ },
+ "residuo_casa_cm": "uniones de la losa vs muros data.js: x 650/1217/1733/2183 vs 646/1250/1765/2190 (±35); fachada sur y=1515 vs 1518; muro norte -50 vs 0: residuo ~±35 cm en x, ±50 cm en y (medido antes de la corrección; la corrección mueve todo +15 en y, dentro de ese residuo)",
+ "cambios_2026_10_11": [
+  "calibración L1: dy -345 -> -330 (toda y del JSON anterior +15; esquinas del lote y homografía recalculadas)",
+  "gimnasio_muros_L1: bloque norte completo desde x=1912,2 (antes 2075, que era el tabique baño/ducha)",
+  "galpon_obra.techo_blanco: remedido, continuo hasta y≈3805 (antes 3400)"
+ ],
+ "elementos": {
+  "lote_cierro": {
+   "tipo": "poligono",
+   "pts": [
+    [
+     -1279.8,
+     -4410.7
+    ],
+    [
+     4819.5,
+     -4764.2
+    ],
+    [
+     4821.6,
+     4287.4
+    ],
+    [
+     -1017.4,
+     4350.2
+    ]
+   ],
+   "fuente": "dato L1 (esquinas en pt, trazo 2.13 pt) + calibración corregida dy=330; en la foto el cierro cae sobre esta línea ±30-40 cm en las 4 esquinas",
+   "confianza": "alta"
+  },
+  "casa_losa_visible": {
+   "tipo": "poligono",
+   "pts": [
+    [
+     -50.0,
+     -595.0
+    ],
+    [
+     650.0,
+     -595.0
+    ],
+    [
+     650.0,
+     0.0
+    ],
+    [
+     1750.0,
+     0.0
+    ],
+    [
+     1750.0,
+     350.0
+    ],
+    [
+     2190.0,
+     350.0
+    ],
+    [
+     2190.0,
+     1250.0
+    ],
+    [
+     1765.0,
+     1250.0
+    ],
+    [
+     1765.0,
+     1848.0
+    ],
+    [
+     1014.0,
+     1848.0
+    ],
+    [
+     1014.0,
+     2523.0
+    ],
+    [
+     600.0,
+     2523.0
+    ],
+    [
+     600.0,
+     2015.0
+    ],
+    [
+     -50.0,
+     2015.0
+    ]
+   ],
+   "fuente": "lectura manual de la ortofoto (planchas celestes + radier gris); incluye terrazas y escalera exteriores, no solo la envolvente",
+   "confianza": "media (±50 cm); el tramo norte de la sala de máquinas (y -177..335) aún sin losa visible, solo tierra y tuberías"
+  },
+  "piscina": {
+   "tipo": "rect",
+   "interior": [
+    [
+     1480.0,
+     -1015.0
+    ],
+    [
+     2260.0,
+     -1015.0
+    ],
+    [
+     2260.0,
+     -495.0
+    ],
+    [
+     1480.0,
+     -495.0
+    ]
+   ],
+   "borde_exterior": [
+    [
+     1455.0,
+     -1045.0
+    ],
+    [
+     2300.0,
+     -1045.0
+    ],
+    [
+     2300.0,
+     -460.0
+    ],
+    [
+     1455.0,
+     -460.0
+    ]
+   ],
+   "fuente": "máscara 'no blanco' dentro de la caja; interior 7,8 x 5,2 m; borde ~35 cm en N/E/O y se funde con la terraza al sur",
+   "confianza": "alta (±25 cm)"
+  },
+  "cuadrado_chico": {
+   "tipo": "rect",
+   "interior": [
+    [
+     1050.0,
+     -565.0
+    ],
+    [
+     1360.0,
+     -565.0
+    ],
+    [
+     1360.0,
+     -245.0
+    ],
+    [
+     1050.0,
+     -245.0
+    ]
+   ],
+   "borde_exterior": [
+    [
+     990.0,
+     -640.0
+    ],
+    [
+     1400.0,
+     -640.0
+    ],
+    [
+     1400.0,
+     -200.0
+    ],
+    [
+     990.0,
+     -200.0
+    ]
+   ],
+   "fuente": "máscara celeste claro dentro de la caja; interior 3,1 x 3,2 m con borde de ~55 cm",
+   "confianza": "alta (±25 cm); qué es (¿jacuzzi, piscina de niños, pileta?) es supuesto"
+  },
+  "laguna": {
+   "tipo": "poligono",
+   "pts": [
+    [
+     3280.0,
+     -40.0
+    ],
+    [
+     3335.0,
+     -40.0
+    ],
+    [
+     3345.0,
+     -25.0
+    ],
+    [
+     3465.0,
+     -35.0
+    ],
+    [
+     3515.0,
+     -20.0
+    ],
+    [
+     3640.0,
+     -40.0
+    ],
+    [
+     3755.0,
+     -15.0
+    ],
+    [
+     4115.0,
+     -35.0
+    ],
+    [
+     4135.0,
+     -20.0
+    ],
+    [
+     4405.0,
+     -5.0
+    ],
+    [
+     4430.0,
+     20.0
+    ],
+    [
+     4455.0,
+     140.0
+    ],
+    [
+     4450.0,
+     315.0
+    ],
+    [
+     4480.0,
+     330.0
+    ],
+    [
+     4480.0,
+     510.0
+    ],
+    [
+     4460.0,
+     610.0
+    ],
+    [
+     4255.0,
+     645.0
+    ],
+    [
+     4110.0,
+     620.0
+    ],
+    [
+     4090.0,
+     640.0
+    ],
+    [
+     4080.0,
+     695.0
+    ],
+    [
+     4040.0,
+     685.0
+    ],
+    [
+     4000.0,
+     645.0
+    ],
+    [
+     3495.0,
+     645.0
+    ],
+    [
+     3330.0,
+     635.0
+    ],
+    [
+     3260.0,
+     615.0
+    ],
+    [
+     3210.0,
+     550.0
+    ],
+    [
+     3205.0,
+     325.0
+    ],
+    [
+     3215.0,
+     135.0
+    ],
+    [
+     3245.0,
+     85.0
+    ],
+    [
+     3250.0,
+     -10.0
+    ]
+   ],
+   "bbox": [
+    [
+     3205.0,
+     -40.0
+    ],
+    [
+     4485.0,
+     -40.0
+    ],
+    [
+     4485.0,
+     700.0
+    ],
+    [
+     3205.0,
+     700.0
+    ]
+   ],
+   "area_m2": 82.3,
+   "fuente": "máscara de agua verde + contorno trazado (30 vértices); 12,8 x 7,4 m",
+   "confianza": "alta (±25 cm)",
+   "nota": "SUPUESTO: coincide con la planta del edificio B 'estudio' de la L1 (x 3278-4407); parece la excavación del búnker inundada, no una laguna definitiva",
+   "nota_usuario": "DATO DE GABRIEL (2026-10-11): el estudio tiene 4,0 m de altura interior terminada y el búnker 2,8 m; la pendiente del techo del estudio debe ser la misma de la casa (3,5 %) por congruencia"
+  },
+  "laguna_canal": {
+   "tipo": "poligono",
+   "pts": [
+    [
+     4100.0,
+     675.0
+    ],
+    [
+     4225.0,
+     675.0
+    ],
+    [
+     4230.0,
+     1035.0
+    ],
+    [
+     4140.0,
+     1035.0
+    ]
+   ],
+   "fuente": "franja oscura de ~1 m que sale del borde sur de la laguna hacia el sur",
+   "confianza": "media; supuesto: zanja de desagüe"
+  },
+  "sendero_U_isla": {
+   "tipo": "poligono",
+   "pts": [
+    [
+     2500.0,
+     -2685.0
+    ],
+    [
+     1280.0,
+     -2685.0
+    ],
+    [
+     1173.9,
+     -2671.0
+    ],
+    [
+     1075.0,
+     -2630.1
+    ],
+    [
+     990.1,
+     -2564.9
+    ],
+    [
+     924.9,
+     -2480.0
+    ],
+    [
+     884.0,
+     -2381.1
+    ],
+    [
+     870.0,
+     -2275.0
+    ],
+    [
+     870.0,
+     -1975.0
+    ],
+    [
+     884.0,
+     -1868.9
+    ],
+    [
+     924.9,
+     -1770.0
+    ],
+    [
+     990.1,
+     -1685.1
+    ],
+    [
+     1075.0,
+     -1619.9
+    ],
+    [
+     1173.9,
+     -1579.0
+    ],
+    [
+     1280.0,
+     -1565.0
+    ],
+    [
+     2500.0,
+     -1565.0
+    ]
+   ],
+   "fuente": "borde interior del hormigón trazado desde la máscara (55 vértices) e idealizado: rectángulo redondeado, norte y=-2700, sur y=-1580, extremo oeste x=870, radio de esquina ~410; el extremo este queda bajo la lona azul (x>2500 no visible)",
+   "confianza": "alta en el arco oeste (±30 cm), extremo este supuesto"
+  },
+  "sendero_U_borde_exterior": {
+   "tipo": "polilinea",
+   "pts": [
+    [
+     425.0,
+     -1370.0
+    ],
+    [
+     425.0,
+     -3125.0
+    ],
+    [
+     1380.0,
+     -3125.0
+    ]
+   ],
+   "fuente": "borde del hormigón contra tierra: lado oeste x≈425, lado norte y≈-3140 hasta el alero del gimnasio; ancho de sendero ≈4,5 m al oeste y al norte, ≈2 m al sur antes de fundirse con la terraza",
+   "confianza": "alta (±30 cm)"
+  },
+  "apron_gimnasio": {
+   "tipo": "rect",
+   "pts": [
+    [
+     1380.0,
+     -2910.0
+    ],
+    [
+     2505.0,
+     -2910.0
+    ],
+    [
+     2505.0,
+     -2685.0
+    ],
+    [
+     1380.0,
+     -2685.0
+    ]
+   ],
+   "fuente": "hormigón visible al sur del techo del gimnasio (el techo tapa de y=-3140 a -2925)",
+   "confianza": "media"
+  },
+  "explanada_hormigon": {
+   "tipo": "poligono",
+   "pts": [
+    [
+     425.0,
+     -3125.0
+    ],
+    [
+     1380.0,
+     -3125.0
+    ],
+    [
+     1380.0,
+     -2910.0
+    ],
+    [
+     2505.0,
+     -2910.0
+    ],
+    [
+     2505.0,
+     -2685.0
+    ],
+    [
+     2500.0,
+     -2685.0
+    ],
+    [
+     1280.0,
+     -2685.0
+    ],
+    [
+     1173.9,
+     -2671.0
+    ],
+    [
+     1075.0,
+     -2630.1
+    ],
+    [
+     990.1,
+     -2564.9
+    ],
+    [
+     924.9,
+     -2480.0
+    ],
+    [
+     884.0,
+     -2381.1
+    ],
+    [
+     870.0,
+     -2275.0
+    ],
+    [
+     870.0,
+     -1975.0
+    ],
+    [
+     884.0,
+     -1868.9
+    ],
+    [
+     924.9,
+     -1770.0
+    ],
+    [
+     990.1,
+     -1685.1
+    ],
+    [
+     1075.0,
+     -1619.9
+    ],
+    [
+     1173.9,
+     -1579.0
+    ],
+    [
+     1280.0,
+     -1565.0
+    ],
+    [
+     2050.0,
+     -1565.0
+    ],
+    [
+     2300.0,
+     -1565.0
+    ],
+    [
+     2300.0,
+     -85.0
+    ],
+    [
+     1765.0,
+     -85.0
+    ],
+    [
+     1765.0,
+     0.0
+    ],
+    [
+     650.0,
+     0.0
+    ],
+    [
+     650.0,
+     -595.0
+    ],
+    [
+     425.0,
+     -595.0
+    ]
+   ],
+   "fuente": "polígono manual que une sendero U, apron del gimnasio y terraza de la piscina hasta el borde norte de la casa (y=-15); lado este junto a la piscina (x≈2300) y tramo bajo la lona son supuestos",
+   "confianza": "media (±50 cm)"
+  },
+  "gimnasio_techo": {
+   "tipo": "poligono",
+   "pts": [
+    [
+     1885.0,
+     -4005.0
+    ],
+    [
+     2505.0,
+     -4005.0
+    ],
+    [
+     2505.0,
+     -2910.0
+    ],
+    [
+     1380.0,
+     -2910.0
+    ],
+    [
+     1380.0,
+     -3705.0
+    ],
+    [
+     1885.0,
+     -3705.0
+    ]
+   ],
+   "fuente": "máscara de techo gris azulado (105 m2 en planta): L con bloque norte 6,2 x 3,0 m al lado este y cuerpo 11,3 x 8,0 m; en la foto original el techo se ve casi en nadir (sin paredes visibles), así que el desplazamiento por altura es chico",
+   "confianza": "media (±50 cm)",
+   "nota": "OJO: L11 dibuja muros 902 x 700 (L) + techo con alero ~50 y ~490 cm hacia el sur (total ~1000 x 1240); la foto da ~1130 x 1095. No coincide: o el gimnasio construido no es el de L11 o el alero sur es menor. Ver gym_ficha/gym_med"
+  },
+  "gimnasio_muros_L1": {
+   "tipo": "rect_L",
+   "pts": [
+    [
+     1912.2,
+     -3885.5
+    ],
+    [
+     2422.3,
+     -3885.5
+    ],
+    [
+     2422.3,
+     -3185.5
+    ],
+    [
+     1520.7,
+     -3185.5
+    ],
+    [
+     1520.7,
+     -3585.5
+    ],
+    [
+     1912.2,
+     -3585.5
+    ]
+   ],
+   "fuente": "dato L1 (caras exteriores de los muros del bloque C, vectores del PDF; mismo contorno que gimnasio.json leído de L11) con calibración corregida dy=330; L total 902 x 700, bloque norte 510 x 300 (incluye el baño con WC y lavamanos al oeste del tabique baño/ducha en x 2068..2082)",
+   "confianza": "posición ±5 cm respecto de la L1; vs. foto ±30 cm",
+   "orden": "NO del bloque norte (cara oeste muro 2.b) -> NE -> SE -> SO -> esq. NO ala oeste -> rincón interior",
+   "vs_techo_foto": "el techo de la foto sobresale 141 al oeste del ala oeste, 27 al oeste del bloque norte, 83 al este, 120 al norte y 276 al sur de estos muros (L11: aleros 40/40/41 y 444 al sur; el techo de la foto está a 3,4-3,8 m de altura y la ortofoto es del plano del suelo, así que trae paralaje)"
+  },
+  "galpon_obra": {
+   "tipo": "multirect",
+   "techo_blanco": [
+    [
+     -355.0,
+     2145.0
+    ],
+    [
+     30.0,
+     2145.0
+    ],
+    [
+     30.0,
+     3805.0
+    ],
+    [
+     -355.0,
+     3805.0
+    ]
+   ],
+   "techo_oscuro_oeste": [
+    [
+     -585.0,
+     2145.0
+    ],
+    [
+     -355.0,
+     2145.0
+    ],
+    [
+     -355.0,
+     3315.0
+    ],
+    [
+     -585.0,
+     3315.0
+    ]
+   ],
+   "techo_oscuro_este": [
+    [
+     20.0,
+     2810.0
+    ],
+    [
+     390.0,
+     2810.0
+    ],
+    [
+     390.0,
+     3665.0
+    ],
+    [
+     20.0,
+     3665.0
+    ]
+   ],
+   "fuente": "máscaras blanco / gris azulado sobre la ortofoto (filas con >50 % de blanco en la banda x -300..0: continuo de 2145 a 3805); galpón alto, techos desplazados por altura (se ven paredes en la foto original)",
+   "confianza": "media (±60 cm); es obra provisoria"
+  },
+  "porton_acceso": {
+   "tipo": "linea",
+   "poste_oeste": [
+    1718.0,
+    3960.0
+   ],
+   "poste_este": [
+    2312.0,
+    3960.0
+   ],
+   "luz_cm": 550.0,
+   "entre_ejes_cm": 594.0,
+   "ala_este": [
+    [
+     2312.0,
+     3960.0
+    ],
+    [
+     2411.6,
+     3973.1
+    ],
+    [
+     2504.5,
+     4011.6
+    ],
+    [
+     2584.2,
+     4072.8
+    ],
+    [
+     2645.4,
+     4152.5
+    ],
+    [
+     2683.9,
+     4245.4
+    ],
+    [
+     2697.0,
+     4345.0
+    ]
+   ],
+   "ala_oeste": [
+    [
+     1500.0,
+     4345.0
+    ],
+    [
+     1500.0,
+     3865.0
+    ]
+   ],
+   "paño_reja_oeste": [
+    [
+     1500.0,
+     3960.0
+    ],
+    [
+     1718.0,
+     3960.0
+    ]
+   ],
+   "fuente": "postes blancos y hojas oscuras en la ortofoto; el portón está retranqueado ~3,5-3,9 m al norte del deslinde sur (y 4272-4335), no sobre la 'LINEA CIERRO SERVIDUMBRE' que dibuja la L1 (y≈3723 corregido); ala este = cuarto de círculo r≈385 desde el poste hasta el deslinde (lectura), ala oeste = muro recto perpendicular al deslinde en x≈1500 (de y 4330 a ~3850) y un paño de reja entre ese muro y el poste oeste",
+   "confianza": "posición ±40 cm; forma de las alas media"
+  },
+  "pozo_anillo": {
+   "tipo": "circulo",
+   "centro": [
+    3730.0,
+    -2105.0
+   ],
+   "r_exterior": 200.0,
+   "r_interior": 120.0,
+   "fuente": "anillo de hormigón claro con hueco oscuro, máscara 9,6 m2; diámetro ~4 m",
+   "confianza": "alta en posición (±30 cm); uso (pozo, cámara, estanque) supuesto"
+  },
+  "radier_grande": {
+   "tipo": "rect",
+   "pts": [
+    [
+     2505.0,
+     -3905.0
+    ],
+    [
+     4235.0,
+     -3905.0
+    ],
+    [
+     4235.0,
+     -2705.0
+    ],
+    [
+     2505.0,
+     -2705.0
+    ]
+   ],
+   "fuente": "máscara de hormigón claro: 17,3 x 12,0 m, pegado al ESTE del gimnasio (no al sur), a 5,8 m del cierro este; L1 dibuja un rectángulo ahí",
+   "confianza": "alta (±30 cm); si es cancha o solo radier es supuesto"
+  },
+  "estanque_cuadrado": {
+   "tipo": "rect",
+   "interior": [
+    [
+     4180.0,
+     3220.0
+    ],
+    [
+     4360.0,
+     3220.0
+    ],
+    [
+     4360.0,
+     3405.0
+    ],
+    [
+     4180.0,
+     3405.0
+    ]
+   ],
+   "borde_exterior": [
+    [
+     4145.0,
+     3185.0
+    ],
+    [
+     4395.0,
+     3185.0
+    ],
+    [
+     4395.0,
+     3440.0
+    ],
+    [
+     4145.0,
+     3440.0
+    ]
+   ],
+   "fuente": "cuadrado oscuro con marco claro de 1,8 x 1,85 m cerca del cierro este, con huellas de piedras hacia el suroeste",
+   "confianza": "media; supuesto: estanque o cámara"
+  },
+  "caja_blanca_oeste": {
+   "tipo": "rect",
+   "pts": [
+    [
+     -755.0,
+     -1070.0
+    ],
+    [
+     -505.0,
+     -1070.0
+    ],
+    [
+     -505.0,
+     -845.0
+    ],
+    [
+     -755.0,
+     -845.0
+    ]
+   ],
+   "fuente": "rectángulo blanco 2,5 x 2,25 m en el sector oeste del lote, a ~4,5 m del cierro",
+   "confianza": "media; supuesto: tapa de cámara o estanque enterrado"
+  }
+ }
+}

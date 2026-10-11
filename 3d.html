@@ -35,6 +35,9 @@ header .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
 .panel .sw{width:10px;height:10px;border-radius:2px;flex:none;border:1px solid rgba(0,0,0,.15)}
 .panel .sep{height:1px;background:var(--line);margin:7px 0}
 .panel .lbl{color:var(--muted);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em}
+.panel .pliegue{font:inherit;font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);background:none;border:0;padding:0;cursor:pointer;display:flex;align-items:center;gap:6px}
+.panel .pliegue .flecha{font-size:11px;transition:transform .15s}
+.panel .pliegue[aria-expanded="false"] .flecha{transform:rotate(-90deg)}
 .panel input[type=range]{width:100%;accent-color:var(--accent)}
 .btn{font:inherit;font-size:12px;font-weight:500;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 11px;cursor:pointer}
 .btn:hover{border-color:var(--accent)}
@@ -61,7 +64,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   <header>
     <script src="menu.js" data-vista="3d"></script>
     <h1>Vista 3D</h1>
-    <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos</span>
+    <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio</span>
   </header>
   <div class="stage" id="stage">
     <div class="loading" id="loading">Cargando el modelo…</div>
@@ -70,7 +73,9 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
       y el techo de un agua con sus aleros. Activa <b>Ver estructura</b> para ver la estructura de
       acero de los planos del ingeniero, pieza por pieza y con la sección de su perfil; toca una
       pieza para ver su perfil, dónde está y su largo. <b>Losa colaborante</b> agrega el marco C y
-      las placas del entrepiso; su vista especial trae el despiece y el montaje.
+      las placas del entrepiso; su vista especial trae el despiece y el montaje. <b>Terreno:</b> lote,
+      gimnasio, estudio con búnker, estacionamiento futuro y piscina; toca cualquiera para ver su ficha
+      y de dónde sale el dato.
     </div>
     <div class="panel" id="panel" hidden>
       <div class="row"><label><input type="checkbox" id="chk-n1" checked> Nivel 1</label></div>
@@ -80,6 +85,18 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
       <div id="grupos-acero" hidden></div>
       <div class="row"><label><input type="checkbox" id="chk-losa"> Losa colaborante</label></div>
       <div class="row"><a class="btn losa" href="losa.html">Vista losa colaborante →</a></div>
+      <div class="sep"></div>
+      <div class="row lbl plegable" id="terreno-cab"><button type="button" class="pliegue" aria-expanded="true">Terreno <span class="flecha">▾</span></button></div>
+      <div id="terreno-filas">
+      <div class="row"><label><input type="checkbox" id="chk-terreno" checked> Lote y cierros</label></div>
+      <div class="row"><label><input type="checkbox" id="chk-gimnasio" checked> Gimnasio</label></div>
+      <div class="row"><label><input type="checkbox" id="chk-estudio" checked> Estudio y búnker</label></div>
+      <div class="row"><label><input type="checkbox" id="chk-estacionamiento" checked> Estacionamiento (futuro)</label></div>
+      <div class="row"><label><input type="checkbox" id="chk-urbanismo" checked> Senderos y piscina</label></div>
+      <div class="row"><label><input type="checkbox" id="chk-etiquetas" checked> Etiquetas</label></div>
+      <div class="row"><label><input type="checkbox" id="chk-bajo-tierra"> Ver bajo tierra</label></div>
+      <div class="row"><button class="btn" id="ver-terreno">Ver todo el terreno</button></div>
+      </div>
       <div class="sep"></div>
       <div class="row lbl">Separar pisos</div>
       <div class="row"><input type="range" id="explode" min="0" max="3" step="0.05" value="0"></div>
@@ -97,6 +114,8 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
 <script src="data.js"></script>
 <script src="estructura.js"></script>
 <script src="losa.js"></script>
+<script src="sitio.js"></script>
+<script src="sitio3d.js"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -353,14 +372,24 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   const grupoLosa = buildLosa();
   grupoLosa.visible = false;
 
+  // ---------- terreno (sitio.js + sitio3d.js): lote, cierros, gimnasio, estudio con búnker,
+  // estacionamiento futuro y urbanismo. Si falta el módulo, el modelo sigue sin terreno.
+  let sitio = null;
+  if (window.Sitio3D && typeof DATA_SITIO !== 'undefined'){
+    try { sitio = Sitio3D.crear({T: THREE, D: DATA_SITIO, dark, tipoColor: KIND_COLOR}); } catch (err){ console.error(err); sitio = null; }
+  }
   scene.add(grupoN1, grupoN2, slabN1, slabN2, grupoRoof, grupoEstructura, grupoLosa);
+  if (sitio) scene.add(sitio.grupo);
 
-  // suelo de referencia
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(60, 60), new THREE.MeshBasicMaterial({color: BG}));
-  ground.rotation.x = -Math.PI / 2; ground.position.y = -0.01;
+  // suelo de referencia: bajo el terreno si lo hay (el lote mide 61 x 91 m), y más abajo que la
+  // excavación del búnker y las piscinas, que se ven por huecos en el pasto
+  const zSuelo = sitio ? cm(DATA_SITIO.terreno.z) - 3.2 : -0.01;
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshBasicMaterial({color: BG}));
+  ground.rotation.x = -Math.PI / 2; ground.position.y = zSuelo;
+  if (sitio){ ground.position.x = cm(sitio.centro[0]); ground.position.z = cm(sitio.centro[1]); }
   scene.add(ground);
-  const grid = new THREE.GridHelper(60, 60, GRID, GRID);
-  grid.position.y = -0.005;
+  const grid = new THREE.GridHelper(200, 200, GRID, GRID);
+  grid.position.y = zSuelo + 0.005; grid.position.x = ground.position.x; grid.position.z = ground.position.z;
   scene.add(grid);
 
   // luces: dos direccionales suaves + ambiente, sin sombras (mantiene el viewer liviano)
@@ -411,6 +440,9 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   const chkN1 = document.getElementById('chk-n1'), chkN2 = document.getElementById('chk-n2'), chkRoof = document.getElementById('chk-roof');
   const chkEstructura = document.getElementById('chk-estructura');
   const chkLosa = document.getElementById('chk-losa');
+  const chkSitio = {terreno: 'chk-terreno', gimnasio: 'chk-gimnasio', estudio: 'chk-estudio', estacionamiento: 'chk-estacionamiento', urbanismo: 'chk-urbanismo'};
+  Object.keys(chkSitio).forEach(k => { chkSitio[k] = document.getElementById(chkSitio[k]); });
+  const chkEtiquetas = document.getElementById('chk-etiquetas'), chkBajoTierra = document.getElementById('chk-bajo-tierra');
   const explode = document.getElementById('explode');
   const cajaGrupos = document.getElementById('grupos-acero');
   const chkGrupo = {};
@@ -434,13 +466,21 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     grupoLosa.visible = chkLosa.checked;
     cajaGrupos.hidden = !chkEstructura.checked;
     Object.keys(chkGrupo).forEach(k => { grupoEstructura.userData.sub[k].visible = chkGrupo[k].checked; });
-    if (!chkEstructura.checked && !chkLosa.checked) ficha.hidden = true;
+    if (!chkEstructura.checked && !chkLosa.checked && !sitio) ficha.hidden = true;
+    if (sitio){
+      Object.keys(chkSitio).forEach(k => { sitio.sub[k].visible = chkSitio[k].checked; });
+      sitio.sub.cierros.visible = chkSitio.terreno.checked;
+      sitio.etiquetas.visible = chkEtiquetas.checked && Object.keys(chkSitio).some(k => chkSitio[k].checked);
+      sitio.bajoTierra(chkBajoTierra.checked);
+      ground.visible = grid.visible = !chkBajoTierra.checked;
+    }
     const off = parseFloat(explode.value);
     grupoN2.position.y = slabN2.position.y = off;
     grupoRoof.position.y = off;
     grupoEstructura.traverse(o => { if (o.userData.superior) o.position.y = o.userData.y0 + off; });
   }
-  [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, explode].forEach(el => el.addEventListener('input', aplica));
+  [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, explode, chkEtiquetas, chkBajoTierra].concat(Object.values(chkSitio)).forEach(el => el.addEventListener('input', aplica));
+  if (!sitio) Object.values(chkSitio).concat([chkEtiquetas, chkBajoTierra]).forEach(el => { el.closest('.row').hidden = true; });
 
   // ---------- ficha de una pieza: clic (sin arrastrar) sobre la estructura ----------
   const ficha = document.getElementById('ficha');
@@ -450,15 +490,15 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   renderer.domElement.addEventListener('pointerup', e => {
     if (!abajo || Math.hypot(e.clientX - abajo[0], e.clientY - abajo[1]) > 5) return;
     abajo = null;
-    if (!grupoEstructura.visible && !grupoLosa.visible) return;
+    if (!grupoEstructura.visible && !grupoLosa.visible && !sitio) return;
     const r = renderer.domElement.getBoundingClientRect();
     puntero.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     raycaster.setFromCamera(puntero, camera);
-    const objetivos = [grupoEstructura, grupoLosa].filter(gr => gr.visible);
-    const hit = raycaster.intersectObjects(objetivos, true).find(h => h.object.visible && h.object.parent.visible && (h.object.userData.miembro || h.object.userData.losa));
+    const objetivos = [grupoEstructura, grupoLosa].concat(sitio ? Object.values(sitio.sub) : []).filter(gr => gr.visible);
+    const hit = raycaster.intersectObjects(objetivos, true).find(h => h.object.visible && h.object.parent.visible && (h.object.userData.miembro || h.object.userData.losa || h.object.userData.sitio));
     if (!hit){ ficha.hidden = true; return; }
-    if (hit.object.userData.losa){
-      ficha.innerHTML = hit.object.userData.losa;
+    if (hit.object.userData.losa || hit.object.userData.sitio){
+      ficha.innerHTML = hit.object.userData.losa || hit.object.userData.sitio;
       ficha.style.left = Math.min(e.clientX - r.left + 12, r.width - 270) + 'px';
       ficha.style.top = Math.max(e.clientY - r.top - 50, 8) + 'px';
       ficha.hidden = false; return;
@@ -480,17 +520,34 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     try {
       nav = Nav3D.conectar({
         camera, controls, dom: renderer.domElement,
-        objetivos: () => [grupoN1, slabN1, grupoN2, slabN2, grupoRoof, grupoEstructura, grupoLosa].filter(g => g.visible),
+        objetivos: () => [grupoN1, slabN1, grupoN2, slabN2, grupoRoof, grupoEstructura, grupoLosa].concat(sitio ? Object.values(sitio.sub) : []).filter(g => g.visible),
         planoY: PISO,
         inicio: encuadre,
         contenedor: stage, lado: 'derecha', vertical: '(max-width: 639px)',
-        distMin: 0.3, distMax: 150,
+        distMin: 0.3, distMax: 320,
       });
     } catch (err){ console.error(err); nav = null; controls.enableZoom = true; }
   }
   // doble clic / doble toque: la cámara vuela, así que la ficha del primer clic quedaría fuera de lugar
   renderer.domElement.addEventListener('nav3d-doble', () => { ficha.hidden = true; });
   document.getElementById('fit').addEventListener('click', () => { if (nav) nav.vistaInicio(); else fit(); });
+  // vista del terreno completo: centrada en el lote, desde arriba y el sur-oriente
+  function encuadreTerreno(){
+    const cx = cm(sitio.centro[0]), cz = cm(sitio.centro[1]), cy = cm(DATA_SITIO.terreno.z);
+    const mitad = cm(sitio.radio) * 1.15, aspecto = camera.aspect || 1, vfov = camera.fov * Math.PI / 180;
+    const hfov = 2 * Math.atan(Math.tan(vfov / 2) * aspecto);
+    const dist = Math.max(mitad / Math.tan(vfov / 2), mitad / Math.tan(hfov / 2), mitad * 1.3);
+    const dir = new THREE.Vector3(0.45, 0.75, 0.5).normalize();
+    return [new THREE.Vector3(cx + dir.x * dist, cy + dir.y * dist, cz + dir.z * dist), new THREE.Vector3(cx, cy, cz)];
+  }
+  // la sección Terreno se pliega (en el celular viene plegada, porque el panel ya es largo)
+  const plieguе = document.querySelector('#terreno-cab .pliegue'), filasTerreno = document.getElementById('terreno-filas');
+  function plegar(abierto){ plieguе.setAttribute('aria-expanded', abierto ? 'true' : 'false'); filasTerreno.hidden = !abierto; }
+  plieguе.addEventListener('click', () => plegar(plieguе.getAttribute('aria-expanded') !== 'true'));
+  if (window.matchMedia('(max-width: 639px)').matches) plegar(false);
+  const btnTerreno = document.getElementById('ver-terreno');
+  if (sitio) btnTerreno.addEventListener('click', () => { const [p, t] = encuadreTerreno(); if (nav && nav.irA) nav.irA(p, t); else { camera.position.copy(p); controls.target.copy(t); controls.update(); } });
+  else btnTerreno.closest('.row').hidden = true;
   if (nav){
     const hint = document.getElementById('hint');
     hint.textContent = '';
@@ -504,6 +561,8 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   document.getElementById('panel').hidden = false;
   document.getElementById('hint').hidden = false;
   (function loop(t){ requestAnimationFrame(loop); if (nav) nav.actualizar(t); controls.update(); renderer.render(scene, camera); })();
+  // para pruebas desde la consola (igual que LOSA y PERNOS en las otras vistas)
+  window.VISTA3D = { camera, controls, nav, scene, sitio, renderer, stage, dibujar: () => { if (nav) nav.saltar(); controls.update(); renderer.render(scene, camera); } };
 })();
 </script>
 </body>

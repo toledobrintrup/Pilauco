@@ -51,6 +51,29 @@ dibujándola de vuelta sobre cada lámina original; cómo se hizo, la comparaci�
 de materiales del ingeniero y las diferencias entre láminas están en
 `fuente/ingenieria/README.md`.
 
+### Terreno
+
+La misma vista trae el lote completo (61 × 91 m) con lo que hay y lo que viene, cada cosa con su
+ficha y de dónde sale el dato:
+
+- **Lote y cierros** — el polígono del emplazamiento del arquitecto (los cuatro deslindes calzan
+  con lo rotulado a 1 cm), el cierro de servidumbre con sus pilares y el acceso con la puerta
+  peatonal y el portón corredera de 5 m; en los otros tres lados, el cierro real de pilares con reja.
+- **Gimnasio** — ya construido: la planta en L de 9,02 × 7,00 m y la cubierta de un agua con sus
+  aleros, de la lámina L11 del arquitecto, puestas donde las ubica el emplazamiento.
+- **Estudio y búnker** — los volúmenes de la planta de Gabriel (10,05 × 15,25 m: cafetería y cowork
+  con sala de grabación, estudio de producción, baño, bodega y la escalera al búnker), con el búnker
+  de 2,80 m bajo la cafetería, centrado en la excavación que ya está hecha; el cielo mide 4,00 m al
+  norte y sube con la pendiente de la casa. La estructura y las fundaciones las define el ingeniero.
+  Se dibuja también, solo como contorno, el edificio B que había puesto el arquitecto.
+- **Estacionamiento (futuro)** — el cobertizo de tres bahías entre la casa y el estudio que dibuja el emplazamiento.
+- **Senderos y piscina** — lo real, sacado de la foto de dron rectificada con las esquinas del cierro:
+  la explanada en U, la piscina y el jacuzzi, el radier junto al gimnasio, la excavación del búnker,
+  el galpón de obra y la caseta de bombas; más la grava del acceso y las soleras del plano.
+- **Ver bajo tierra** vuelve translúcido el pasto para ver el búnker; **Ver todo el terreno** encuadra el lote.
+
+Cómo se calibró el emplazamiento y qué es dato y qué supuesto está en `fuente/sitio/README.md`.
+
 ## Losa colaborante
 
 El entrepiso, pieza por pieza, sobre las vigas reales de la estructura: el **marco perimetral de
@@ -157,9 +180,12 @@ Base: plano L3 PLARQ2 (Planta Arquitectura Nivel 2, GVArq, dic. 2025, esc. 1:50)
 - `fuente/losa/` — cómo se sacó la losa del plano, de las áreas marcadas en obra y de la ficha Instadeck.
 - `data.js` — los datos de ambas plantas (`DATA_N1`, `DATA_N2`), compartidos por `index.html` y `3d.html`: una sola fuente, nada duplicado.
 - `estructura.js` — la estructura de acero pieza por pieza (perfil y extremos de cada una) para la capa "Ver estructura" de `3d.html`; se genera desde `fuente/ingenieria/datos/modelo.json`.
+- `sitio.js` — el terreno (lote, cierros, acceso, gimnasio, estudio con búnker, estacionamiento, senderos y piscina) para `3d.html`; se genera con `fuente/sitio/generar_sitio_js.py`.
+- `sitio3d.js` — el módulo que dibuja el terreno en Three.js.
+- `fuente/sitio/` — cómo se calibró el emplazamiento, la planta del estudio y el armado del terreno, con cada dato y cada supuesto marcados.
 - `fuente/nivel1/` — scripts que extraen la planta del nivel 1 desde el PDF, con las decisiones documentadas.
 - `fuente/planta-nivel2-proyecto.zip` — proyecto del nivel 2: pipeline de extracción (Python) y datos JSON.
 - `fuente/ingenieria/` — cómo se armó la estructura 3D desde los planos del ingeniero: grilla de ejes, modelo completo, herramientas para re-proyectarlo sobre las láminas y la comparación con la lista de materiales.
 
 Los **PDF originales no están en el repositorio**: su viñeta lleva RUT, teléfono y correo. Tampoco
-el manual del tablero: sus dibujos se rehicieron, no se copiaron.
+el manual del tablero (sus dibujos se rehicieron, no se copiaron), ni la foto ni el video de dron.

@@ -1,0 +1,190 @@
+{
+ "fuente": "Planta del estudio enviada por Gabriel el 2026-10-11 (imagen con cotas en mm) y sus indicaciones del mismo día; estructura y fundaciones pendientes del ingeniero",
+ "unidad": "cm, marco local del estudio: x hacia el oriente desde la cara exterior poniente, y hacia el sur desde la cara exterior norte",
+ "exterior": {
+  "ancho": 1005.0,
+  "largo": 1525.0,
+  "dato": "cotas 10050 x 15250 mm de la planta"
+ },
+ "muro": {
+  "espesor": 25.0,
+  "dato": "supuesto: las cotas de la planta dejan bandas de 25 cm entre recintos (7300 + 250 + 2500 = 10050; 6000 + 250 + 9000 = 15250); se usa 25 también en el perímetro, como en la casa"
+ },
+ "recintos": [
+  {
+   "id": "cafeteria",
+   "nombre": "Cafetería y cowork + sala de grabación",
+   "tipo": "estar",
+   "pts": [
+    [
+     25,
+     25
+    ],
+    [
+     980,
+     25
+    ],
+    [
+     980,
+     200
+    ],
+    [
+     851.7,
+     200
+    ],
+    [
+     851.7,
+     575
+    ],
+    [
+     25,
+     575
+    ]
+   ],
+   "dato": "bloque norte de 6000 mm de fondo; la caja de la escalera (1533 x 3750) se descuenta"
+  },
+  {
+   "id": "escalera",
+   "nombre": "Escalera al búnker",
+   "tipo": "hall",
+   "pts": [
+    [
+     851.7,
+     200
+    ],
+    [
+     980,
+     200
+    ],
+    [
+     980,
+     575
+    ],
+    [
+     851.7,
+     575
+    ]
+   ],
+   "dato": "cotas 1533 (ancho con muro) x 3750 (largo) y 2000 desde la cara norte; tramo útil 1300"
+  },
+  {
+   "id": "estudio",
+   "nombre": "Estudio de producción y grabación",
+   "tipo": "oficina",
+   "pts": [
+    [
+     25,
+     625
+    ],
+    [
+     730,
+     625
+    ],
+    [
+     730,
+     1500
+    ],
+    [
+     25,
+     1500
+    ]
+   ],
+   "dato": "cotas 7300 x 9000 mm"
+  },
+  {
+   "id": "bano",
+   "nombre": "Baño",
+   "tipo": "bano",
+   "pts": [
+    [
+     755,
+     625
+    ],
+    [
+     980,
+     625
+    ],
+    [
+     980,
+     1035
+    ],
+    [
+     755,
+     1035
+    ]
+   ],
+   "dato": "cotas 2500 x 4100 mm"
+  },
+  {
+   "id": "bodega",
+   "nombre": "Bodega",
+   "tipo": "serv",
+   "pts": [
+    [
+     755,
+     1060
+    ],
+    [
+     980,
+     1060
+    ],
+    [
+     980,
+     1500
+    ],
+    [
+     755,
+     1500
+    ]
+   ],
+   "dato": "cotas 2500 x 4650 mm"
+  }
+ ],
+ "alturas": {
+  "interior_cm": 400.0,
+  "dato_interior": "Gabriel: 4 m terminados interiores, medidos en el lado norte",
+  "losa_piso_cm": 15.0,
+  "dato_losa": "supuesto: espesor de la losa sobre el búnker, hasta que el ingeniero la defina",
+  "techo_espesor_cm": 25.0,
+  "dato_techo": "supuesto, solo para el volumen",
+  "alero_cm": 60.0,
+  "dato_alero": "supuesto: ancho del alero, hasta que haya proyecto"
+ },
+ "techo": {
+  "tipo": "un agua",
+  "pendiente": 0.035,
+  "sube_hacia": "sur",
+  "dato": "Gabriel (2026-10-11): misma pendiente que la casa (3,5 %); cielo interior de 4,00 m en el lado norte (cafetería, hacia el patio) y sube a 4,53 m hacia el sur (estudio, hacia el camino)"
+ },
+ "bunker": {
+  "nombre": "Búnker",
+  "pts": [
+   [
+    25,
+    25
+   ],
+   [
+    980,
+    25
+   ],
+   [
+    980,
+    575
+   ],
+   [
+    25,
+    575
+   ]
+  ],
+  "interior_cm": 280.0,
+  "dato": "Gabriel: justo debajo de la cafetería y cowork, con las mismas medidas; 2,80 m terminados interiores; se centra en la excavación ya hecha"
+ },
+ "emplazamiento": {
+  "anclaje": "el búnker centrado en la excavación actual (foto de dron de octubre 2026), con la cafetería hacia el patio (norte) y el estudio hacia el camino (sur)",
+  "dato": "Gabriel (2026-10-11); la excavación se digitaliza de la foto de dron rectificada con las esquinas del lote (precisión ±30 cm)"
+ },
+ "nivel_piso": {
+  "z_cm": 50.0,
+  "dato": "Gabriel (2026-10-11): la losa terminada del estudio va 50 cm sobre el NPT de la casa"
+ }
+}

@@ -1,0 +1,1007 @@
+{
+ "fuente": "L1. EMPLAZAMIENTO.29.12.2025.pdf, planta 1:200, vectores (no a ojo). Calibración sitio_comun.py (s=0.14172, tx=322.48, ty=728.12).",
+ "marco": "cm app: X oriente, Y sur, Z arriba; Z=0 piso nivel 1. Redondeo 0,1 cm.",
+ "lote": {
+  "poligono": [
+   [
+    -1280.0,
+    -4080.8
+   ],
+   [
+    4819.2,
+    -4434.0
+   ],
+   [
+    4821.9,
+    4617.1
+   ],
+   [
+    3772.8,
+    4629.5
+   ],
+   [
+    2381.0,
+    4650.8
+   ],
+   [
+    1534.5,
+    4668.2
+   ],
+   [
+    949.4,
+    4681.5
+   ],
+   [
+    860.9,
+    4683.5
+   ],
+   [
+    382.7,
+    4686.1
+   ],
+   [
+    -168.3,
+    4686.1
+   ],
+   [
+    -988.3,
+    4680.7
+   ],
+   [
+    -1017.3,
+    4680.5
+   ],
+   [
+    -1032.2,
+    4180.5
+   ],
+   [
+    -1176.9,
+    -697.1
+   ]
+  ],
+  "poligono_pt": [
+   [
+    141.07,
+    149.79
+   ],
+   [
+    1005.46,
+    99.73
+   ],
+   [
+    1005.84,
+    1382.45
+   ],
+   [
+    857.16,
+    1384.21
+   ],
+   [
+    659.92,
+    1387.23
+   ],
+   [
+    539.95,
+    1389.7
+   ],
+   [
+    457.03,
+    1391.59
+   ],
+   [
+    444.49,
+    1391.87
+   ],
+   [
+    376.71,
+    1392.24
+   ],
+   [
+    298.63,
+    1392.24
+   ],
+   [
+    182.42,
+    1391.47
+   ],
+   [
+    178.3,
+    1391.44
+   ],
+   [
+    176.2,
+    1320.58
+   ],
+   [
+    155.69,
+    629.32
+   ]
+  ],
+  "orden": "desde la esquina NO, horario en pantalla: N -> E -> S -> O. Trazo de 2,13 pt, 14 vértices (4 esquinas + 2 quiebres en el oeste + 8 vértices casi colineales en el sur, giros < 1°).",
+  "esquinas": {
+   "NO": [
+    -1280.0,
+    -4080.8
+   ],
+   "NE": [
+    4819.2,
+    -4434.0
+   ],
+   "SE": [
+    4821.9,
+    4617.1
+   ],
+   "SO": [
+    -1017.3,
+    4680.5
+   ]
+  },
+  "deslindes": {
+   "norte": {
+    "rotulado_cm": 6109,
+    "medido_cm": 6109.5,
+    "diferencia_cm": 0.5
+   },
+   "este": {
+    "rotulado_cm": 9050,
+    "medido_cm": 9051.1,
+    "diferencia_cm": 1.1
+   },
+   "sur": {
+    "rotulado_cm": 5850,
+    "medido_cm": 5839.8,
+    "diferencia_cm": -10.2
+   },
+   "oeste": {
+    "rotulado_cm": 8764,
+    "medido_cm": 8765.2,
+    "diferencia_cm": 1.2
+   }
+  },
+  "area_poligono_m2": 5323.9,
+  "area_rotulada_m2": 5135,
+  "nota_area": "El polígono vectorial da 5323.9 m2; la lámina rotula 5.135 m2 (y el cuadro 5.137 m2). La geometría dibujada no cierra con esa superficie: es un dato a confirmar con el arquitecto, no un error de calibración (los 4 deslindes calzan a 1 cm salvo el sur)."
+ },
+ "servidumbre": {
+  "eje": {
+   "nota": "No hay una línea de eje aparte: el rótulo EJE SERVIDUMBRE va sobre el deslinde sur y la cota vertical 500 va de la cara sur del cierro al deslinde. Dato: eje servidumbre = deslinde sur. Supuesto: servidumbre de 10 m (5 m a cada lado), apoyado en que el cierro exterior está a ~5 m al sur.",
+   "desde": [
+    4821.9,
+    4617.1
+   ],
+   "hasta": [
+    -1017.3,
+    4680.5
+   ]
+  },
+  "cierro_interior": {
+   "descripcion": "LINEA CIERRO SERVIDUMBRE dentro del lote: banda de 70.0 cm de ancho (dos líneas grises) con pilares de 50.0 x 70.0 cm cada 250 cm y tablas de ~7 x 28 cm entre ellos; cara sur a 500 cm del deslinde sur (cota 500). Eje = borde sur desplazado 35.0 cm hacia el norte.",
+   "ancho_cm": 70.0,
+   "tramo_oeste": {
+    "eje": [
+     [
+      -1032.2,
+      4145.3
+     ],
+     [
+      -282.5,
+      4150.2
+     ],
+     [
+      716.6,
+      4150.4
+     ],
+     [
+      1003.4,
+      4144.6
+     ],
+     [
+      1078.2,
+      4140.1
+     ],
+     [
+      1152.7,
+      4129.5
+     ],
+     [
+      1226.3,
+      4113.1
+     ],
+     [
+      1276.0,
+      4098.2
+     ],
+     [
+      1299.9,
+      4089.7
+     ],
+     [
+      1342.0,
+      4069.6
+     ],
+     [
+      1368.4,
+      4053.5
+     ],
+     [
+      1389.3,
+      4038.3
+     ],
+     [
+      1409.1,
+      4021.6
+     ],
+     [
+      1427.6,
+      4003.5
+     ],
+     [
+      1444.7,
+      3984.1
+     ],
+     [
+      1460.4,
+      3963.6
+     ],
+     [
+      1486.5,
+      3923.8
+     ]
+    ],
+    "desde": "deslinde oeste",
+    "hasta": "pilar oeste del acceso",
+    "curva": {
+     "inicio": [
+      875.9,
+      4147.2
+     ],
+     "fin": [
+      1486.5,
+      3923.8
+     ],
+     "radio_aprox_cm": 639.0,
+     "centro_aprox": [
+      1019.2,
+      3509.7
+     ]
+    }
+   },
+   "tramo_este": {
+    "eje": [
+     [
+      2237.1,
+      3922.4
+     ],
+     [
+      2294.8,
+      3969.7
+     ],
+     [
+      2348.2,
+      4007.6
+     ],
+     [
+      2404.9,
+      4040.4
+     ],
+     [
+      2464.3,
+      4067.8
+     ],
+     [
+      2495.8,
+      4079.8
+     ],
+     [
+      2548.4,
+      4093.9
+     ],
+     [
+      2581.4,
+      4100.5
+     ],
+     [
+      2622.8,
+      4107.0
+     ],
+     [
+      2697.5,
+      4113.7
+     ],
+     [
+      2771.9,
+      4114.1
+     ],
+     [
+      4821.6,
+      4077.1
+     ]
+    ],
+    "desde": "pilar este del acceso",
+    "hasta": "deslinde este. Dato: el borde SUR del cierro llega al deslinde en (4821.7, 4112.2) y el eje termina en (4821.6, 4077.1) = borde sur - 35 (dato, no prolongación). El borde NORTE dibujado termina en x=4770.4, cara oeste del último pilar (centro 4796.1), que queda pegado al deslinde este.",
+    "curva": {
+     "inicio": [
+      2237.1,
+      3922.4
+     ],
+     "fin": [
+      2671.6,
+      4111.9
+     ],
+     "radio_aprox_cm": 655.5,
+     "centro_aprox": [
+      2702.9,
+      3456.7
+     ]
+    }
+   },
+   "pilares": [
+    {
+     "c": [
+      -1007.2,
+      4145.5
+     ],
+     "ang": 90.0,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      -757.2,
+      4147.5
+     ],
+     "ang": 90.4,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      -507.1,
+      4149.4
+     ],
+     "ang": 90.4,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      -257.4,
+      4150.1
+     ],
+     "ang": 90.0,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      -7.4,
+      4150.0
+     ],
+     "ang": 90.0,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      242.6,
+      4149.8
+     ],
+     "ang": 90.0,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      492.7,
+      4149.5
+     ],
+     "ang": 89.9,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      751.8,
+      4149.7
+     ],
+     "ang": 88.9,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      978.0,
+      4145.1
+     ],
+     "ang": 88.8,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      1251.1,
+      4105.6
+     ],
+     "ang": 73.3,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      2522.4,
+      4086.5
+     ],
+     "ang": 104.0,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      2797.1,
+      4113.4
+     ],
+     "ang": 88.5,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      3047.1,
+      4109.5
+     ],
+     "ang": 88.5,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      3296.8,
+      4104.2
+     ],
+     "ang": 88.5,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      3546.8,
+      4100.3
+     ],
+     "ang": 88.5,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      3796.6,
+      4094.9
+     ],
+     "ang": 88.9,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      4046.4,
+      4091.1
+     ],
+     "ang": 88.6,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      4296.1,
+      4086.1
+     ],
+     "ang": 88.6,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      4546.1,
+      4082.5
+     ],
+     "ang": 88.6,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    },
+    {
+     "c": [
+      4796.1,
+      4077.6
+     ],
+     "ang": 88.9,
+     "lado_cm": [
+      50.0,
+      70.0
+     ]
+    }
+   ],
+   "pilares_nota": "Centros y ángulo del lado largo (90 = lado largo norte-sur). 20 pilares dibujados; los de x_app 2280 y 3550 están sobre las curvas."
+  },
+  "acceso": {
+   "nota": "Todo en cm app. La línea del acceso (cara norte de los pilares, y_pt 1274.2) queda 330 cm al norte de la cara sur del cierro recto; el cierro llega a los pilares con dos tramos curvos. Cotas rotuladas en la lámina: 2.273 | 214 | 132 | 98 | 20 | 500 | 100 | 25,29 (de deslinde oeste a deslinde este).",
+   "pilar_oeste": {
+    "rect": [
+     [
+      1443.2,
+      3853.4
+     ],
+     [
+      1575.1,
+      3923.9
+     ]
+    ],
+    "cota": "132",
+    "medido_cm": [
+     132.0,
+     70.4
+    ],
+    "nota": "Dato: contorno del pilar (el relleno blanco es 0.4 cm más ancho). Antes 130.5 de ancho."
+   },
+   "puerta_peatonal": {
+    "vano": [
+     [
+      1575.1,
+      3853.4
+     ],
+     [
+      1673.1,
+      3853.4
+     ]
+    ],
+    "cota": "98",
+    "ancho_cm": 98.0,
+    "hoja_cerrada": [
+     [
+      1578.6,
+      3853.2
+     ],
+     [
+      1668.9,
+      3871.6
+     ]
+    ],
+    "bisagra": "lado oeste (x_pt 546.7)",
+    "abre_hacia": "norte (dentro del lote), arco de radio 84.0 cm"
+   },
+   "poste_intermedio": {
+    "rect": [
+     [
+      1673.1,
+      3853.4
+     ],
+     [
+      1693.0,
+      3923.4
+     ]
+    ],
+    "cota": "20",
+    "medido_cm": [
+     19.9,
+     70.0
+    ],
+    "nota": "Dato: rectángulo relleno de 19.9 x 70.0 cm, igual de profundo que los pilares (antes estaba mal, 18.4 de fondo)."
+   },
+   "porton": {
+    "vano": [
+     [
+      1693.0,
+      3853.4
+     ],
+     [
+      2192.9,
+      3853.4
+     ]
+    ],
+    "cota": "500",
+    "ancho_cm": 499.9,
+    "hoja_cerrada": [
+     [
+      1693.0,
+      3853.2
+     ],
+     [
+      2192.9,
+      3871.6
+     ]
+    ],
+    "espesor_hoja_cm": 18.3,
+    "hoja_abierta": [
+     [
+      2193.2,
+      3849.0
+     ],
+     [
+      2704.8,
+      3853.2
+     ]
+    ],
+    "tipo": "corredera: la hoja abierta está dibujada corrida hacia el oriente detrás del pilar este, con una flecha -> encima"
+   },
+   "pilar_este": {
+    "rect": [
+     [
+      2192.9,
+      3853.4
+     ],
+     [
+      2292.9,
+      3922.4
+     ]
+    ],
+    "cota": "100",
+    "medido_cm": [
+     100.0,
+     69.0
+    ],
+    "nota": "Dato: rectángulo relleno. Antes 98.8 de ancho."
+   },
+   "guia_porton": {
+    "rect": [
+     [
+      2192.9,
+      3753.0
+     ],
+     [
+      2204.9,
+      3853.2
+     ]
+    ],
+    "nota": "pieza de 12 x 100 cm pegada al norte del pilar este (riel/tope de la corredera, supuesto)"
+   },
+   "cotas_pt": {
+    "214": [
+     496.8,
+     527.1
+    ],
+    "132": [
+     527.1,
+     545.9
+    ],
+    "98": [
+     545.9,
+     559.8
+    ],
+    "20": [
+     559.8,
+     562.6
+    ],
+    "500": [
+     562.6,
+     633.4
+    ],
+    "100": [
+     633.4,
+     647.6
+    ]
+   },
+   "linea_acceso_y_cm": 3853.4,
+   "cotas_medidas_cm": {
+    "214": 213.8,
+    "132": 132.7,
+    "98": 98.1,
+    "20": 19.8,
+    "500": 499.6,
+    "100": 100.2
+   }
+  },
+  "cierro_exterior": {
+   "polilinea": [
+    [
+     -1670.9,
+     5186.2
+    ],
+    [
+     -1017.3,
+     5186.2
+    ],
+    [
+     -280.3,
+     5186.2
+    ],
+    [
+     845.6,
+     5184.0
+    ],
+    [
+     2088.8,
+     5156.7
+    ],
+    [
+     4822.0,
+     5102.4
+    ],
+    [
+     5243.3,
+     5094.1
+    ]
+   ],
+   "desde": [
+    -1670.9,
+    5186.2
+   ],
+   "hasta": [
+    5243.3,
+    5094.1
+   ],
+   "distancia_al_deslinde_sur_cm": {
+    "x=-1670.9": null,
+    "x=-1017.3": 505.7,
+    "x=-280.3": 500.8,
+    "x=845.6": 500.4,
+    "x=2088.8": 499.9,
+    "x=4822.0": 485.3,
+    "x=5243.3": null
+   },
+   "nota": "Dato: polilínea gris (0.03 pt) de 5 vértices entre los deslindes oeste y este, con trazos negros (0.04 pt, trazos y huecos de ~125 cm) encima que la prolongan hacia ambos lados hasta donde termina el dibujo (x -1670.9 y 5243.3; no son extremos físicos). Rotulada LINEA CIERRO SERVIDUMBRE, al sur del deslinde sur. Tramo oeste horizontal (y=5186.2) y luego inclinada, siguiendo el deslinde sur a 500.4-500.8 cm (x -280..2089); en las esquinas del lote queda a 505.7 (SO) y 485.3 (SE). Supuesto: es el otro borde de la servidumbre de 10 m (5 m a cada lado del eje = deslinde sur).",
+   "desvio_trazos_negros_vs_polilinea_cm": 1.4
+  }
+ },
+ "rasante_60_NTN": [
+  {
+   "deslinde": "norte",
+   "vertice": [
+    2102.2,
+    -3902.9
+   ],
+   "apunta": "sur (hacia dentro del lote)",
+   "rotulo": [
+    2134.7,
+    -4079.8
+   ]
+  },
+  {
+   "deslinde": "este",
+   "vertice": [
+    4437.1,
+    1193.1
+   ],
+   "apunta": "oeste (hacia dentro del lote)",
+   "rotulo": [
+    4684.6,
+    1162.3
+   ]
+  },
+  {
+   "deslinde": "sur",
+   "vertice": [
+    596.4,
+    4251.2
+   ],
+   "apunta": "norte (hacia dentro del lote)",
+   "rotulo": [
+    627.9,
+    4495.8
+   ],
+   "nota": "está pegado a la cara sur del cierro (y_pt 1330.6), no sobre el deslinde sur (y_pt 1391.8)"
+  },
+  {
+   "deslinde": "oeste",
+   "vertice": [
+    -741.5,
+    1264.3
+   ],
+   "apunta": "este (hacia dentro del lote)",
+   "rotulo": [
+    -924.2,
+    1231.5
+   ]
+  }
+ ],
+ "rotulos": {
+  "lote_propio": {
+   "texto": "LOTE 6 \"a11\" 5.135 m2",
+   "centro": [
+    3980.1,
+    3412.6
+   ],
+   "superficie": [
+    3900.2,
+    3530.5
+   ]
+  },
+  "vecinos": [
+   {
+    "texto": "LOTE 6 b",
+    "lado": "norte",
+    "centro": [
+     1775.0,
+     -4603.8
+    ]
+   },
+   {
+    "texto": "LOTE 6 \"a12\"",
+    "lado": "este",
+    "centro": [
+     5119.5,
+     -499.4
+    ],
+    "nota": "texto vertical, fuera del deslinde este"
+   },
+   {
+    "texto": "LOTE 6 \"a5\"",
+    "lado": "sur-este (al otro lado de la servidumbre)",
+    "centro": [
+     4115.6,
+     5402.4
+    ]
+   },
+   {
+    "texto": "LOTE 6 \"a4\"",
+    "lado": "sur-oeste (al otro lado de la servidumbre)",
+    "centro": [
+     -322.5,
+     5474.9
+    ]
+   },
+   {
+    "texto": "LOTE 6 \"a10\"",
+    "lado": "oeste",
+    "centro": [
+     -1518.9,
+     -358.4
+    ],
+    "nota": "texto vertical, fuera del deslinde oeste"
+   }
+  ],
+  "deslindes": [
+   {
+    "texto": "DESLINDE NORTE",
+    "centro": [
+     558.5,
+     -4142.0
+    ]
+   },
+   {
+    "texto": "DESLINDE NORTE (2)",
+    "centro": [
+     3545.0,
+     -4303.0
+    ]
+   },
+   {
+    "texto": "61,09",
+    "centro": [
+     1762.0,
+     -4388.5
+    ]
+   },
+   {
+    "texto": "DESLINDE ESTE",
+    "centro": [
+     4759.1,
+     -2594.0
+    ]
+   },
+   {
+    "texto": "DESLINDE ESTE (2)",
+    "centro": [
+     4759.1,
+     1834.8
+    ]
+   },
+   {
+    "texto": "DESLINDE SUR",
+    "centro": [
+     1906.9,
+     4713.5
+    ]
+   },
+   {
+    "texto": "DESLINDE OESTE",
+    "centro": [
+     -1163.4,
+     -2473.6
+    ]
+   },
+   {
+    "texto": "DESLINDE OESTE (2)",
+    "centro": [
+     -1006.8,
+     2309.1
+    ]
+   },
+   {
+    "texto": "87,64",
+    "centro": [
+     -1318.6,
+     305.1
+    ]
+   },
+   {
+    "texto": "EJE SERVIDUMBRE",
+    "centro": [
+     1760.7,
+     4581.5
+    ]
+   },
+   {
+    "texto": "LINEA CIERRO SERVIDUMBRE (interior oeste)",
+    "centro": [
+     -248.0,
+     4068.1
+    ]
+   },
+   {
+    "texto": "LINEA CIERRO SERVIDUMBRE (interior este)",
+    "centro": [
+     3764.2,
+     4020.4
+    ]
+   },
+   {
+    "texto": "LINEA CIERRO SERVIDUMBRE (exterior oeste)",
+    "centro": [
+     -423.4,
+     5230.6
+    ]
+   },
+   {
+    "texto": "LINEA CIERRO SERVIDUMBRE (exterior este)",
+    "centro": [
+     4143.8,
+     5169.2
+    ]
+   },
+   {
+    "texto": "Acceso a predio",
+    "centro": [
+     1922.7,
+     3887.1
+    ]
+   }
+  ],
+  "norte": {
+   "flecha_en_planta": false,
+   "nota": "No hay flecha norte dentro de la planta de emplazamiento; la brújula está en la viñeta (derecha) y apunta hacia arriba de la lámina. Norte = arriba de la lámina = -Y de la app. El deslinde norte está arriba y el sur (servidumbre) abajo."
+  }
+ },
+ "correcciones": [
+  "cierro_exterior: recta -> polilínea real de 7 vértices (desvío de la recta llegaba a 13.8 cm).",
+  "acceso.poste_intermedio: fondo 18.4 -> 70.0 cm (rectángulo relleno 19.9 x 70.0).",
+  "cierro_interior.tramo_este.hasta: nota corregida (el borde sur sí llega al deslinde; el fin del eje es dato).",
+  "acceso.pilar_oeste 130.5 -> 132.0 y pilar_este 98.8 -> 100.0 de ancho (vectores; calzan con las cotas 132 y 100); vanos ajustados 0.1-0.3 cm."
+ ]
+}

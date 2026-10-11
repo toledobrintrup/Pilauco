@@ -1,0 +1,1563 @@
+{
+ "tarea": "estudio_arq",
+ "fuente": "L1. EMPLAZAMIENTO.29.12.2025.pdf (arquitecto), planta 1:200 + cuadro/croquis de superficies de la misma lámina",
+ "marco": "cm del marco de la app: X oriente (eje 6), Y sur (eje A); Z=0 piso N1",
+ "calibracion": {
+  "s": 0.14172,
+  "tx": 322.48,
+  "ty": 728.12,
+  "croquis": {
+   "tx": 1111.46,
+   "ty": 177.05,
+   "nota": "croquis calibrado sobre el B principal; A queda en x -0,3..2187,7 OK"
+  }
+ },
+ "cuadro_superficies": {
+  "A": "VIVIENDA N1 324,06",
+  "B": "VIVIENDA N1 167,32",
+  "C": "COMPLEMENTO 51,37",
+  "D": "ACCESO CUBIERTO 19,77 (50%)",
+  "E": "TERRAZA CUBIERTA 8,24 (50%)",
+  "F": "TERRAZA CUBIERTA 12,55 (50%)",
+  "G": "ACCESO 34,50 (50%)",
+  "H": "ESTACIONAMIENTO 49,27 (50%)",
+  "I": "TERRAZA CUBIERTA 11,16 (50%)",
+  "J": "TERRAZA CUBIERTA 25,92 (50%)",
+  "K": "ACCESO 3,28 (50%)",
+  "L": "VIVIENDA N2 345,67",
+  "M": "VIVIENDA N-1 63,32",
+  "nota": "las cifras al 50 % son la mitad del área real (verificado con H, G, D, E, F, J)"
+ },
+ "edificio_B": {
+  "nombre": "ESTUDIO - edificio \"B\" del arquitecto (cuadro: 167,32 m2)",
+  "contorno_exterior": [
+   [
+    3342.8,
+    153.5
+   ],
+   [
+    4397.9,
+    153.5
+   ],
+   [
+    4397.9,
+    1738.8
+   ],
+   [
+    3342.8,
+    1738.8
+   ]
+  ],
+  "ancho_cm": 1055.1,
+  "largo_cm": 1585.3,
+  "area_m2": 167.3,
+  "cotas_plano": {
+   "1.055": "ancho exterior E-O",
+   "1.585": "largo exterior N-S",
+   "70+964+70": "ancho entre caras exteriores de pilares de esquina (1104)",
+   "730x950": "ESTUDIO interior",
+   "840x560": "ACCESO ESTUDIO interior",
+   "250x350": "HABITACION 1",
+   "250x475": "HABITACION 2",
+   "140x360": "escalera"
+  },
+  "muro_exterior": {
+   "espesor_cm": 25,
+   "banda_oscura_exterior_cm": 7.5,
+   "nota": "dato: 7 hairlines paralelas por muro; la banda rellena gris 0,39 está en la cara exterior (supuesto: revestimiento)"
+  },
+  "pilares_esquina": [
+   {
+    "id": "NO",
+    "pts": [
+     [
+      3293.8,
+      83.5
+     ],
+     [
+      3363.8,
+      83.5
+     ],
+     [
+      3363.8,
+      153.5
+     ],
+     [
+      3293.8,
+      153.5
+     ]
+    ],
+    "tam": [
+     70,
+     70
+    ],
+    "fuente": "dato (cuadrado con X)"
+   },
+   {
+    "id": "NE",
+    "pts": [
+     [
+      4327.9,
+      83.5
+     ],
+     [
+      4397.9,
+      83.5
+     ],
+     [
+      4397.9,
+      153.5
+     ],
+     [
+      4327.9,
+      153.5
+     ]
+    ],
+    "tam": [
+     70,
+     70
+    ],
+    "fuente": "dato (cuadrado con X)"
+   },
+   {
+    "id": "SE",
+    "pts": [
+     [
+      4327.9,
+      1739.7
+     ],
+     [
+      4397.9,
+      1739.7
+     ],
+     [
+      4397.9,
+      1799.9
+     ],
+     [
+      4327.9,
+      1799.9
+     ]
+    ],
+    "tam": [
+     70,
+     60.2
+    ],
+    "fuente": "dato (cuadrado con X, dibujado de 60 de alto)"
+   },
+   {
+    "id": "SO",
+    "pts": null,
+    "fuente": "no se dibuja; en su lugar hay una franja fina x 3323,8..3342,8 (y 795..1798,4) y otra y 1738,8..1798,4 (x 3323,8..4327,9): supuesto zócalo/radier perimetral"
+   }
+  ],
+  "franjas_perimetrales": [
+   [
+    [
+     3323.8,
+     795.0
+    ],
+    [
+     3342.8,
+     795.0
+    ],
+    [
+     3342.8,
+     1798.4
+    ],
+    [
+     3323.8,
+     1798.4
+    ]
+   ],
+   [
+    [
+     3323.8,
+     1738.8
+    ],
+    [
+     4327.9,
+     1738.8
+    ],
+    [
+     4327.9,
+     1798.4
+    ],
+    [
+     3323.8,
+     1798.4
+    ]
+   ]
+  ],
+  "muros_interiores": [
+   {
+    "id": "M1",
+    "descr": "N de ESTUDIO / S de ACCESO ESTUDIO, 25 cm, y 738,6..763,6",
+    "tramos": [
+     [
+      [
+       3367.8,
+       738.6
+      ],
+      [
+       3495.3,
+       738.6
+      ],
+      [
+       3495.3,
+       763.6
+      ],
+      [
+       3367.8,
+       763.6
+      ]
+     ],
+     [
+      [
+       3825.4,
+       738.6
+      ],
+      [
+       3958.5,
+       738.6
+      ],
+      [
+       3958.5,
+       763.6
+      ],
+      [
+       3825.4,
+       763.6
+      ]
+     ],
+     [
+      [
+       4055.5,
+       738.6
+      ],
+      [
+       4232.9,
+       738.6
+      ],
+      [
+       4232.9,
+       763.6
+      ],
+      [
+       4055.5,
+       763.6
+      ]
+     ],
+     [
+      [
+       4324.9,
+       738.6
+      ],
+      [
+       4372.9,
+       738.6
+      ],
+      [
+       4372.9,
+       763.6
+      ],
+      [
+       4324.9,
+       763.6
+      ]
+     ]
+    ],
+    "vanos": [
+     {
+      "tipo": "vano 330 (doble línea fina; supuesto: vidrio fijo o abertura)",
+      "x": [
+       3495.3,
+       3825.4
+      ]
+     },
+     {
+      "tipo": "puerta 92-100 (arco)",
+      "x": [
+       3958.5,
+       4055.5
+      ]
+     },
+     {
+      "tipo": "puerta 92 hall-acceso (arco)",
+      "x": [
+       4232.9,
+       4324.9
+      ]
+     }
+    ],
+    "fuente": "dato hairlines y arcos; extremos de tramos +-5 cm (leídos del render)"
+   },
+   {
+    "id": "M2",
+    "descr": "E de ESTUDIO, 25 cm, x 4097,9..4122,9",
+    "tramos": [
+     [
+      [
+       4097.9,
+       738.6
+      ],
+      [
+       4122.9,
+       738.6
+      ],
+      [
+       4122.9,
+       1249.5
+      ],
+      [
+       4097.9,
+       1249.5
+      ]
+     ],
+     [
+      [
+       4097.9,
+       1349.5
+      ],
+      [
+       4122.9,
+       1349.5
+      ],
+      [
+       4122.9,
+       1713.8
+      ],
+      [
+       4097.9,
+       1713.8
+      ]
+     ]
+    ],
+    "vanos": [
+     {
+      "tipo": "puerta 92-100 (arco)",
+      "y": [
+       1249.5,
+       1349.5
+      ]
+     }
+    ],
+    "fuente": "dato"
+   },
+   {
+    "id": "M3",
+    "descr": "entre HABITACION 1 y 2, 25 cm",
+    "tramos": [
+     [
+      [
+       4122.9,
+       1214.4
+      ],
+      [
+       4372.9,
+       1214.4
+      ],
+      [
+       4372.9,
+       1239.4
+      ],
+      [
+       4122.9,
+       1239.4
+      ]
+     ]
+    ],
+    "fuente": "dato"
+   },
+   {
+    "id": "M4",
+    "descr": "N de HABITACION 1, 25 cm",
+    "tramos": [
+     [
+      [
+       4207.9,
+       839.6
+      ],
+      [
+       4372.9,
+       839.6
+      ],
+      [
+       4372.9,
+       864.6
+      ],
+      [
+       4207.9,
+       864.6
+      ]
+     ]
+    ],
+    "vanos": [
+     {
+      "tipo": "puerta 72-85 (arco)",
+      "x": [
+       4122.9,
+       4207.9
+      ]
+     }
+    ],
+    "fuente": "dato"
+   },
+   {
+    "id": "M5",
+    "descr": "O de escalera, 25 cm",
+    "tramos": [
+     [
+      [
+       4207.9,
+       383.6
+      ],
+      [
+       4232.9,
+       383.6
+      ],
+      [
+       4232.9,
+       738.6
+      ],
+      [
+       4207.9,
+       738.6
+      ]
+     ]
+    ],
+    "fuente": "dato"
+   },
+   {
+    "id": "M6",
+    "descr": "borde N de escalera (5 cm, supuesto: peldaño/baranda)",
+    "tramos": [
+     [
+      [
+       4212.9,
+       378.6
+      ],
+      [
+       4372.9,
+       378.6
+      ],
+      [
+       4372.9,
+       383.6
+      ],
+      [
+       4212.9,
+       383.6
+      ]
+     ]
+    ],
+    "fuente": "dato hairlines"
+   }
+  ],
+  "vanos_exteriores": [
+   {
+    "muro": "O",
+    "tipo": "puerta de acceso 112 (arco)",
+    "y": [
+     402.7,
+     514.7
+    ],
+    "fuente": "dato"
+   },
+   {
+    "muro": "O",
+    "tipo": "ventana (relleno blanco, sin achurado)",
+    "y": [
+     267.5,
+     398.7
+    ],
+    "fuente": "dato"
+   },
+   {
+    "muro": "O",
+    "tipo": "ventana (relleno blanco, sin achurado)",
+    "y": [
+     518.7,
+     649.9
+    ],
+    "fuente": "dato"
+   },
+   {
+    "muro": "N",
+    "tipo": "vano 600 sin achurado (supuesto: ventanal de ACCESO ESTUDIO)",
+    "x": [
+     3537.8,
+     4137.9
+    ],
+    "fuente": "dato/supuesto"
+   },
+   {
+    "muro": "E",
+    "tipo": "vano 100 (supuesto: ventana de HABITACION 1)",
+    "y": [
+     874.3,
+     974.3
+    ],
+    "fuente": "dato/supuesto"
+   }
+  ],
+  "recintos": [
+   {
+    "nombre": "ACCESO ESTUDIO",
+    "pts": [
+     [
+      3367.8,
+      178.5
+     ],
+     [
+      4207.9,
+      178.5
+     ],
+     [
+      4207.9,
+      738.6
+     ],
+     [
+      3367.8,
+      738.6
+     ]
+    ],
+    "rotulo": [
+     3821.1,
+     508.0
+    ],
+    "npt": "+0,25"
+   },
+   {
+    "nombre": "ESTUDIO",
+    "pts": [
+     [
+      3367.8,
+      763.6
+     ],
+     [
+      4097.9,
+      763.6
+     ],
+     [
+      4097.9,
+      1713.8
+     ],
+     [
+      3367.8,
+      1713.8
+     ]
+    ],
+    "rotulo": [
+     3703.1,
+     995.1
+    ]
+   },
+   {
+    "nombre": "HABITACION 1",
+    "pts": [
+     [
+      4122.9,
+      864.6
+     ],
+     [
+      4372.9,
+      864.6
+     ],
+     [
+      4372.9,
+      1214.4
+     ],
+     [
+      4122.9,
+      1214.4
+     ]
+    ],
+    "rotulo": [
+     4235.6,
+     1146.3
+    ],
+    "npt": "+0,25"
+   },
+   {
+    "nombre": "HABITACION 2",
+    "pts": [
+     [
+      4122.9,
+      1239.4
+     ],
+     [
+      4372.9,
+      1239.4
+     ],
+     [
+      4372.9,
+      1713.8
+     ],
+     [
+      4122.9,
+      1713.8
+     ]
+    ],
+    "rotulo": [
+     4235.6,
+     1497.6
+    ]
+   },
+   {
+    "nombre": "hall (sin rótulo)",
+    "pts": [
+     [
+      4122.9,
+      763.6
+     ],
+     [
+      4372.9,
+      763.6
+     ],
+     [
+      4372.9,
+      839.6
+     ],
+     [
+      4122.9,
+      839.6
+     ]
+    ]
+   },
+   {
+    "nombre": "escalera (140x351)",
+    "pts": [
+     [
+      4232.9,
+      383.6
+     ],
+     [
+      4372.9,
+      383.6
+     ],
+     [
+      4372.9,
+      734.6
+     ],
+     [
+      4232.9,
+      734.6
+     ]
+    ]
+   },
+   {
+    "nombre": "recinto sin rótulo N de escalera (140x200)",
+    "pts": [
+     [
+      4232.9,
+      178.5
+     ],
+     [
+      4372.9,
+      178.5
+     ],
+     [
+      4372.9,
+      378.6
+     ],
+     [
+      4232.9,
+      378.6
+     ]
+    ]
+   }
+  ],
+  "alturas": {
+   "estudio_interior_terminado_cm": 400,
+   "bunker_interior_terminado_cm": 280,
+   "pendiente_techo": "igual a la casa (3,5 %)",
+   "fuente": "dato de Gabriel en el chat, NO del plano L1"
+  }
+ },
+ "estacionamiento_H": {
+  "nombre": "ESTACIONAMIENTO \"H\" (cuadro: 49,27 m2 al 50 %)",
+  "cuadro": {
+   "pts": [
+    [
+     2190.6,
+     430.0
+    ],
+    [
+     3342.8,
+     430.0
+    ],
+    [
+     3342.8,
+     1294.0
+    ],
+    [
+     2190.6,
+     1294.0
+    ]
+   ],
+   "area_m2": 99.6,
+   "fuente": "dato del croquis de superficies de L1 (misma escala 1:200, calibrado sobre B): rectángulo entre la cara oriente del bloque bodega/sala de máquinas de L1 y la cara poniente de B, entre el muro norte y sur de ese bloque. 99,5 m2 -> 50 % = 49,8 (cuadro 49,27)"
+  },
+  "cubierta_dibujada": {
+   "pts": [
+    [
+     2541.2,
+     836.9
+    ],
+    [
+     3310.8,
+     836.9
+    ],
+    [
+     3310.8,
+     1326.7
+    ],
+    [
+     2541.2,
+     1326.7
+    ]
+   ],
+   "ancho_cm": 769.6,
+   "fondo_cm": 489.8,
+   "bahias": [
+    {
+     "x": [
+      2541.2,
+      2791.2
+     ],
+     "apice": [
+      2666.2,
+      836.9
+     ],
+     "base": [
+      [
+       2541.2,
+       1326.7
+      ],
+      [
+       2791.2,
+       1326.7
+      ]
+     ]
+    },
+    {
+     "x": [
+      2801.0,
+      3051.0
+     ],
+     "apice": [
+      2926.0,
+      836.9
+     ],
+     "base": [
+      [
+       2801.0,
+       1326.7
+      ],
+      [
+       3051.0,
+       1326.7
+      ]
+     ]
+    },
+    {
+     "x": [
+      3060.7,
+      3310.8
+     ],
+     "apice": [
+      3185.8,
+      836.9
+     ],
+     "base": [
+      [
+       3060.7,
+       1326.7
+      ],
+      [
+       3310.8,
+       1326.7
+      ]
+     ]
+    }
+   ],
+   "vigas_10cm": [
+    [
+     2791.2,
+     2801.0
+    ],
+    [
+     3051.0,
+     3060.7
+    ]
+   ],
+   "cotas": "250 | 10 | 250 | 10 | 250 | 20 (desde x=2540,6); 802 total; cadena 150 | 90 | 110 desde la cara de la casa",
+   "fuente": "dato: trazo discontinuo 0,04 en zigzag (3 \"Λ\" de 250), cotas; supuesto: la cubierta cubre exactamente el rectángulo de las cruces"
+  },
+  "pilar_en_B": {
+   "pts": [
+    [
+     3292.8,
+     753.1
+    ],
+    [
+     3342.8,
+     753.1
+    ],
+    [
+     3342.8,
+     793.3
+    ],
+    [
+     3292.8,
+     793.3
+    ]
+   ],
+   "tam": [
+    50,
+    40.2
+   ],
+   "fuente": "dato (cuadrado con X pegado al muro O de B)"
+  },
+  "pantalla_listones": {
+   "y": [
+    795.0,
+    825.0
+   ],
+   "listones": [
+    [
+     2532.7,
+     2542.7
+    ],
+    [
+     2557.7,
+     2567.7
+    ],
+    [
+     2582.7,
+     2592.7
+    ],
+    [
+     2607.7,
+     2617.7
+    ],
+    [
+     2632.7,
+     2642.7
+    ],
+    [
+     2657.7,
+     2667.7
+    ],
+    [
+     2682.7,
+     2692.7
+    ],
+    [
+     2707.7,
+     2717.7
+    ],
+    [
+     2732.7,
+     2742.7
+    ],
+    [
+     2757.7,
+     2767.7
+    ],
+    [
+     2782.7,
+     2792.7
+    ],
+    [
+     2807.7,
+     2817.7
+    ],
+    [
+     2832.7,
+     2842.7
+    ],
+    [
+     2857.7,
+     2867.7
+    ],
+    [
+     2882.7,
+     2892.7
+    ],
+    [
+     2907.7,
+     2917.7
+    ],
+    [
+     2932.7,
+     2942.7
+    ],
+    [
+     2957.7,
+     2967.7
+    ],
+    [
+     2982.7,
+     2992.7
+    ],
+    [
+     3007.7,
+     3017.7
+    ],
+    [
+     3032.7,
+     3042.7
+    ],
+    [
+     3057.7,
+     3067.7
+    ],
+    [
+     3082.7,
+     3092.7
+    ],
+    [
+     3107.7,
+     3117.7
+    ],
+    [
+     3132.7,
+     3142.7
+    ],
+    [
+     3157.7,
+     3167.7
+    ],
+    [
+     3182.7,
+     3192.7
+    ],
+    [
+     3207.7,
+     3217.7
+    ],
+    [
+     3232.7,
+     3242.7
+    ],
+    [
+     3257.7,
+     3267.7
+    ],
+    [
+     3282.7,
+     3292.7
+    ],
+    [
+     3307.7,
+     3317.7
+    ],
+    [
+     3332.7,
+     3342.7
+    ]
+   ],
+   "n": 33,
+   "seccion": [
+    10,
+    30
+   ],
+   "paso": 25,
+   "fuente": "dato: 33 rectángulos 10x30 con X, de x 2532,7 a 3342,8; supuesto: celosía/pantalla de listones"
+  }
+ },
+ "acceso_G": {
+  "nombre": "ACCESO \"G\" (cuadro: 34,50 m2 al 50 %)",
+  "pts": [
+   [
+    1790.6,
+    1294.0
+   ],
+   [
+    3342.8,
+    1294.0
+   ],
+   [
+    3342.8,
+    1738.8
+   ],
+   [
+    1790.6,
+    1738.8
+   ]
+  ],
+  "area_m2": 69.0,
+  "fuente": "dato del croquis (bbox 1790,5..3340 x 1294,4..1734, ajustado a muros de L1): entre la cara oriente del comedor (L1) y B, desde el muro sur del bloque bodega hasta la cara sur de B. 68,9 m2 -> 34,5 OK"
+ },
+ "acceso_cubierto_D": {
+  "nombre": "ACCESO CUBIERTO \"D\" (cuadro: 19,77 m2 al 50 %)",
+  "pts": [
+   [
+    1016.4,
+    1848.4
+   ],
+   [
+    1787.6,
+    1848.4
+   ],
+   [
+    1787.6,
+    2352.9
+   ],
+   [
+    1016.4,
+    2352.9
+   ]
+  ],
+  "area_m2": 38.9,
+  "fuente": "dato del croquis (+-10 cm): al sur del comedor de L1 (cuyo muro sur en L1 está en y~1845). 38,9 m2 -> 19,5 (cuadro 19,77)"
+ },
+ "acceso_K": {
+  "nombre": "ACCESO \"K\" (cuadro: 3,28 m2 al 50 %)",
+  "pts": [
+   [
+    2133.4,
+    2449.6
+   ],
+   [
+    2538.4,
+    2449.6
+   ],
+   [
+    2538.4,
+    2604.9
+   ],
+   [
+    2133.4,
+    2604.9
+   ]
+  ],
+  "area_m2": 6.3,
+  "fuente": "solo croquis; posición DUDOSA: cae en la grava al sur de la Linea Radier, junto a donde el croquis dibuja M (nivel -1), y en la planta principal no hay nada ahí"
+ },
+ "terraza_I": {
+  "nombre": "TERRAZA CUBIERTA \"I\" (cuadro: 11,16 m2 al 50 %)",
+  "pts_croquis": [
+   [
+    1790.6,
+    153.5
+   ],
+   [
+    3342.8,
+    153.5
+   ],
+   [
+    3342.8,
+    430.0
+   ],
+   [
+    1790.6,
+    430.0
+   ]
+  ],
+  "hipotesis_810": [
+   [
+    2532.7,
+    153.5
+   ],
+   [
+    3342.8,
+    153.5
+   ],
+   [
+    3342.8,
+    430.0
+   ],
+   [
+    2532.7,
+    430.0
+   ]
+  ],
+  "fuente": "croquis: franja entre casa y B al norte de H (42,9 m2, no cuadra con 11,16). Supuesto: 810x276 = 22,4 -> 11,2 cuadra; 810 es el ancho de la pantalla de listones"
+ },
+ "radier_y_sendero": {
+  "linea_radier": {
+   "pts": [
+    [
+     2405.6,
+     2146.2
+    ],
+    [
+     4064.4,
+     2146.2
+    ]
+   ],
+   "rotulo": [
+    2818.5,
+    2117.6
+   ],
+   "fuente": "dato: trazo gris discontinuo (125/125) bajo el rótulo \"Linea Radier\""
+  },
+  "contorno_radier": {
+   "pts": [
+    [
+     2169.0,
+     -356.8
+    ],
+    [
+     2169.0,
+     82.9
+    ],
+    [
+     4407.9,
+     83.5
+    ],
+    [
+     4407.9,
+     1809.9
+    ],
+    [
+     4064.4,
+     1809.9
+    ],
+    [
+     4064.4,
+     2146.2
+    ],
+    [
+     2405.6,
+     2146.2
+    ]
+   ],
+   "fuente": "dato: misma polilínea gris discontinua; el tramo (4407,9..4064,4, 1809,9) es supuesto (no se encontró el trazo); al norte sigue por x=2169 hacia el gimnasio; al sur continúa como solera poniente del sendero"
+  },
+  "otros_bordes_gris": [
+   [
+    [
+     1890.6,
+     1480.4
+    ],
+    [
+     1890.6,
+     1846.3
+    ]
+   ],
+   [
+    [
+     1890.6,
+     1846.5
+    ],
+    [
+     2405.6,
+     1846.5
+    ]
+   ],
+   [
+    [
+     2035.6,
+     2058.9
+    ],
+    [
+     2035.6,
+     2146.2
+    ]
+   ]
+  ],
+  "sendero_grava": {
+   "solera_poniente": [
+    [
+     2405.6,
+     2146.2
+    ],
+    [
+     2406.5,
+     2165.9
+    ],
+    [
+     2401.2,
+     2196.5
+    ],
+    [
+     2396.8,
+     2221.8
+    ],
+    [
+     2380.2,
+     2256.8
+    ],
+    [
+     2369.0,
+     2280.5
+    ],
+    [
+     2344.2,
+     2309.7
+    ],
+    [
+     2323.7,
+     2341.1
+    ],
+    [
+     2283.0,
+     2364.2
+    ],
+    [
+     2275.4,
+     2377.5
+    ],
+    [
+     2238.7,
+     2403.8
+    ],
+    [
+     2206.0,
+     2429.8
+    ],
+    [
+     2194.6,
+     2440.4
+    ],
+    [
+     2165.4,
+     2472.9
+    ],
+    [
+     2154.8,
+     2478.5
+    ],
+    [
+     2126.3,
+     2511.8
+    ],
+    [
+     2093.4,
+     2546.0
+    ],
+    [
+     2063.8,
+     2576.6
+    ],
+    [
+     2053.4,
+     2589.0
+    ],
+    [
+     2032.9,
+     2614.2
+    ],
+    [
+     2025.6,
+     2629.0
+    ],
+    [
+     2002.2,
+     2663.0
+    ],
+    [
+     1985.3,
+     2676.4
+    ],
+    [
+     1970.6,
+     2704.0
+    ],
+    [
+     1957.4,
+     2716.4
+    ],
+    [
+     1940.5,
+     2741.6
+    ],
+    [
+     1926.9,
+     2762.8
+    ],
+    [
+     1915.5,
+     2787.0
+    ],
+    [
+     1894.9,
+     2823.0
+    ],
+    [
+     1874.2,
+     2852.8
+    ],
+    [
+     1866.1,
+     2876.6
+    ],
+    [
+     1850.0,
+     2899.1
+    ],
+    [
+     1839.5,
+     2920.6
+    ],
+    [
+     1822.8,
+     2962.1
+    ],
+    [
+     1803.7,
+     3007.9
+    ],
+    [
+     1786.8,
+     3042.2
+    ],
+    [
+     1783.9,
+     3060.9
+    ],
+    [
+     1765.3,
+     3101.5
+    ],
+    [
+     1751.3,
+     3153.3
+    ],
+    [
+     1737.9,
+     3200.9
+    ],
+    [
+     1722.1,
+     3259.7
+    ],
+    [
+     1707.0,
+     3334.3
+    ],
+    [
+     1696.3,
+     3418.7
+    ],
+    [
+     1684.5,
+     3502.5
+    ]
+   ],
+   "solera_oriente": [
+    [
+     3437.4,
+     2146.2
+    ],
+    [
+     3412.5,
+     2159.3
+    ],
+    [
+     3312.6,
+     2213.7
+    ],
+    [
+     3255.4,
+     2255.4
+    ],
+    [
+     3212.0,
+     2289.6
+    ],
+    [
+     3178.3,
+     2327.8
+    ],
+    [
+     3146.7,
+     2368.8
+    ],
+    [
+     3115.8,
+     2409.6
+    ],
+    [
+     3088.0,
+     2447.6
+    ],
+    [
+     3053.0,
+     2486.1
+    ],
+    [
+     3031.6,
+     2515.0
+    ],
+    [
+     2998.8,
+     2543.9
+    ],
+    [
+     2970.7,
+     2568.2
+    ],
+    [
+     2934.6,
+     2593.9
+    ],
+    [
+     2889.0,
+     2630.1
+    ],
+    [
+     2848.4,
+     2660.3
+    ],
+    [
+     2804.9,
+     2686.2
+    ],
+    [
+     2760.2,
+     2706.4
+    ],
+    [
+     2720.7,
+     2731.4
+    ],
+    [
+     2687.7,
+     2750.2
+    ],
+    [
+     2659.6,
+     2770.0
+    ],
+    [
+     2629.9,
+     2792.4
+    ],
+    [
+     2567.4,
+     2838.2
+    ],
+    [
+     2546.8,
+     2863.0
+    ],
+    [
+     2515.3,
+     2890.7
+    ],
+    [
+     2489.0,
+     2917.8
+    ],
+    [
+     2465.8,
+     2939.0
+    ],
+    [
+     2434.4,
+     2975.9
+    ],
+    [
+     2423.4,
+     2999.4
+    ],
+    [
+     2403.6,
+     3021.6
+    ],
+    [
+     2383.7,
+     3048.8
+    ],
+    [
+     2362.7,
+     3080.5
+    ],
+    [
+     2336.6,
+     3117.9
+    ],
+    [
+     2316.0,
+     3163.3
+    ],
+    [
+     2299.6,
+     3195.9
+    ],
+    [
+     2282.8,
+     3231.3
+    ],
+    [
+     2268.7,
+     3263.4
+    ],
+    [
+     2243.5,
+     3331.5
+    ],
+    [
+     2229.9,
+     3376.8
+    ],
+    [
+     2217.4,
+     3434.9
+    ],
+    [
+     2201.6,
+     3500.9
+    ],
+    [
+     2192.9,
+     3551.0
+    ]
+   ],
+   "fuente": "dato: curvas grises discontinuas (SOLERAS DIVISORIAS, dobles) que parten de la Linea Radier en x=2405,6 y x=3437,4 y bajan hacia el suroeste; GRAVA entre ambas, PASTO afuera. Encadenado saltando vacíos del discontinuo: revisar en la superposición"
+  },
+  "estructura_sur_B": {
+   "pts": [
+    [
+     3505.2,
+     1869.9
+    ],
+    [
+     4005.3,
+     1869.9
+    ],
+    [
+     4005.3,
+     2119.9
+    ],
+    [
+     3505.2,
+     2119.9
+    ]
+   ],
+   "tam": [
+    500,
+    250
+   ],
+   "fuente": "dato: rectángulo con chevrón discontinuo (trazo 0,04) al sur de B; uso no rotulado (duda: acceso al búnker M?)"
+  },
+  "cotas": "465 | 1.082 | 627 en y~2193 (1890,6 -> 2355,6 -> 3437,3 -> 4064,4); 443 vertical en x=3437,3 (1738,3..2181,4); 937 y 1.055 en y~1829"
+ },
+ "casa_en_L1": {
+  "nota": "DUDA: en L1 el ala oriente de la casa (lavandería, sala de máquinas, bodega, comedor) está ~330-400 cm más al sur que en la app: muro norte de lavandería/sala de máquinas en y~430 (app: 25 / -151,9), bloque bodega hasta y=1294 (app: 940), muro sur del comedor en y~1845 (app: 1517,8). La calibración se verificó con el cuerpo poniente y los deslindes; B, H, G y D están donde L1 los pone respecto al lote.",
+  "bloque_bodega_L1": [
+   [
+    1790.6,
+    428.9
+   ],
+   [
+    2190.6,
+    428.9
+   ],
+   [
+    2190.6,
+    1294.0
+   ],
+   [
+    1790.6,
+    1294.0
+   ]
+  ],
+  "comedor_cara_E_L1": 1790.6
+ }
+}
