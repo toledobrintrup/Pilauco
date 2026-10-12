@@ -196,7 +196,11 @@ def main(estudio_json, sitio_json, salida):
     # fachada sur (E): ventana de piso a cielo centrada en el estudio (tramo 2-3), entre los parlantes
     vano('V-E-2', 'ventana', 'sur', xA[1] + hol, yA[5], xA[2] - hol, yA[5], 0, Z_CORDON[0] - 5, 'ventana de piso a cielo centrada en el estudio; los parlantes van a los lados, en el muro ciego')
     # entrada principal: fachada poniente, lado de la casa, en la cafetería (tramo A2-B)
-    vano('P-O-entrada', 'puerta', 'poniente', xA[0], yA[1] + 150, xA[0], yA[1] + 330, 0, 240, 'puerta de entrada de 2 hojas (1,80) desde el lado de la casa y el estacionamiento')
+    # entrada pegada al pilar A2 (el tramo A-A2 lleva cruz); la cabina de grabación queda al sur de la puerta, contra el tabique vidriado
+    vano('P-O-entrada', 'puerta', 'poniente', xA[0], yA[1] + 10, xA[0], yA[1] + 190, 0, 240, 'puerta de entrada de 2 hojas (1,80) desde el lado de la casa y el estacionamiento')
+    # ventanas altas del baño y la bodega en la fachada oriente (tramos B-C y C-D, sin cruces)
+    vano('V-5-bano', 'ventana alta', 'oriente', xA[4], (yB + yC) / 2 - 75, xA[4], (yB + yC) / 2 + 75, 230, 290, 'ventana alta del baño (1,50 x 0,60) en la fachada oriente')
+    vano('V-5-bodega', 'ventana alta', 'oriente', xA[4], (yC + yA[4]) / 2 - 75, xA[4], (yC + yA[4]) / 2 + 75, 230, 290, 'ventana alta de la bodega (1,50 x 0,60) en la fachada oriente, para ventilar')
     vano('P-4-bodega', 'puerta', 'tabique 4', xA[3], yC + 40, xA[3], yC + 130, 0, 240, 'puerta de la bodega desde el estudio (0,90)')
     vano('P-esc', 'escalera', 'interior', ex0, ey0, ex1, ey0, 0, 0, 'bajada al búnker')
     # ---------- esquema interior (idea, para conversar) ----------
@@ -207,9 +211,9 @@ def main(estudio_json, sitio_json, salida):
         dict(id='parlantes2', recinto='estudio', nombre='Parlantes (monitores principales)', pts=rect(ce_x + 220, est[2][1] - 60, ce_x + 300, est[2][1] - 5), nota=''),
         dict(id='consola', recinto='estudio', nombre='Consola / escritorio de producción', pts=rect(ce_x - 120, est[2][1] - 320, ce_x + 120, est[2][1] - 240), nota='mirando al sur, a unos 2,5 m de los parlantes (triángulo de escucha)'),
         dict(id='sofa', recinto='estudio', nombre='Sofá de clientes', pts=rect(ce_x - 130, est[0][1] + 120, ce_x + 130, est[0][1] + 210), nota='al norte, junto al vidrio hacia la cafetería'),
-        dict(id='sala', recinto='cafeteria', nombre='Sala de grabación (cabina)', pts=rect(caf[0][0], caf[5][1] - 300, caf[0][0] + 300, caf[5][1]), nota='3,00 x 3,00 en la esquina sur-poniente de la cafetería, pegada al vidrio: desde la consola se ve la cabina a través del tabique'),
-        dict(id='barra', recinto='cafeteria', nombre='Barra de la cafetería', pts=rect(caf[1][0] - 420, caf[0][1] + 40, caf[1][0] - 120, caf[0][1] + 120), nota='junto a la escalera, lado oriente'),
-        dict(id='mesas', recinto='cafeteria', nombre='Mesas de cowork', pts=rect(caf[0][0] + 360, caf[0][1] + 200, caf[0][0] + 760, caf[0][1] + 480), nota='al centro, frente a las ventanas del patio'),
+        dict(id='sala', recinto='cafeteria', nombre='Sala de grabación (cabina)', pts=rect(caf[0][0], caf[5][1] - 220, xA[1], caf[5][1]), nota='2,40 x 2,20 en la esquina sur-poniente de la cafetería, en el tramo 1-2: entre la puerta de entrada y el tabique vidriado, sin tapar la corredera; desde el estudio se ve la cabina a través del vidrio 1-2'),
+        dict(id='barra', recinto='cafeteria', nombre='Barra de la cafetería', pts=rect(ex0 - 25 - 100, ey0 + 20, ex0 - 25 - 20, ey0 + 290), nota='de espaldas al muro de la escalera (2,70 x 0,80), sin tapar las ventanas del patio'),
+        dict(id='mesas', recinto='cafeteria', nombre='Mesas de cowork', pts=rect(caf[0][0] + 300, caf[0][1] + 200, caf[0][0] + 700, caf[0][1] + 470), nota='al centro, frente a las ventanas del patio'),
     ]
     # ---------- techo, cielo, cubicación ----------
     cub = {}

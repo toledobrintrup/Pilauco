@@ -38,8 +38,9 @@ La cubicación del ingeniero no se usa como referencia.
 
 `vanos`: vidrio de piso a 3,00 en los cuatro tramos de la fachada norte (corredera al centro), tabique vidriado de piso
 a cielo (3,95) entre cafetería y estudio con corredera centrada en el estudio, una ventana de piso a cielo centrada en la
-fachada sur entre los parlantes, entrada de 1,80 por el poniente, puertas del baño (desde la cafetería, pegada al eje 4)
-y de la bodega (desde el estudio). `interior`: parlantes, consola, sofá, cabina de grabación 3 × 3, barra y mesas, solo
+fachada sur entre los parlantes, entrada de 1,80 por el poniente (pegada al pilar A2), puertas del baño (desde la cafetería, pegada al eje 4)
+y de la bodega (desde el estudio), ventanas altas del baño y la bodega al oriente. `interior`: parlantes, consola, sofá,
+cabina de grabación 2,40 × 2,20 en el tramo 1-2, entre la entrada y el tabique vidriado, barra y mesas, solo
 como idea para conversar. `zapatas`, `vigas_fundacion` y `radier`: las fundaciones fuera del búnker. Todo se dibuja en
 `estudio.html` (sección 04 y elevaciones) y en el 3D con la capa "Ventanas y muros del estudio" (`3d.html?estudio=2`).
 
