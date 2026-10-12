@@ -150,23 +150,32 @@ def main(estudio_json, sitio_json, salida):
     bk = E['bunker']['pts']; bx0, by0, bx1, by1 = bk[0][0] - BUNKER_MURO, bk[0][1] - BUNKER_MURO, bk[1][0] + BUNKER_MURO, bk[2][1] + BUNKER_MURO   # exterior 0..1055 x 0..650
     z_losa_inf = -BUNKER_LOSA; z_piso = z_losa_inf - BUNKER_H; z_rad_inf = z_piso - BUNKER_RADIER; z_fund_inf = z_rad_inf - BUNKER_FUND
     def rect(x0, y0, x1, y1): return [ap(x0, y0, 0)[:2], ap(x1, y0, 0)[:2], ap(x1, y1, 0)[:2], ap(x0, y1, 0)[:2]]
-    esc = rec['escalera']; ex0, ey0, ex1, ey1 = esc[0][0], esc[0][1], esc[1][0], esc[2][1]
+    # escalera (planta de Gabriel): el 1.533 incluye el muro de 23,3 por el poniente; hueco libre ex_h..ex1 x ey0..ey1 (1,30 x 2,75);
+    # se entra por el descanso del sur (ey1..cara del tabique) y se baja hacia el norte en 3,75 m: el último metro queda bajo la losa
+    MURO_ESC = 23.3
+    esc = rec['escalera']; ex_h, ey0, ex1, ey1 = esc[0][0], esc[0][1], esc[1][0], esc[2][1]
+    ex0 = ex_h - MURO_ESC                      # cara poniente del muro de la escalera
+    TRAMO_ESC = 375.0; y_pie = ey1 - TRAMO_ESC  # el tramo parte en ey1 (arriba) y termina 3,75 m al norte, en el piso del búnker
+    y_desc = rec['cafeteria'][6][1]            # cara norte del tabique B: fin del descanso de entrada
     hormigon = dict(
         muros=dict(espesor=BUNKER_MURO, armadura='V ø12@15, H ø10@20 (dato: muro DM e=25)', z_inf=r1(z0 + z_piso), z_sup=r1(z0 + z_losa_inf),
                    piezas=[dict(id='M-N', pts=rect(bx0, by0, bx1, by0 + BUNKER_MURO), lado='norte (recibe los 5 pilares del eje A)'),
                            dict(id='M-S', pts=rect(bx0, by1 - BUNKER_MURO, bx1, by1), lado='sur, bajo el tabique cafetería/estudio (recibe los 5 pilares del eje B)'),
                            dict(id='M-O', pts=rect(bx0, by0, bx0 + BUNKER_MURO, by1), lado='poniente'), dict(id='M-E', pts=rect(bx1 - BUNKER_MURO, by0, bx1, by1), lado='oriente')]),
-        losa=dict(espesor=BUNKER_LOSA, pts=rect(bx0, by0, bx1, by1), hueco=rect(ex0, ey0, ex1, ey1), z_inf=r1(z0 + z_losa_inf), z_sup=r1(z0),
+        losa=dict(espesor=BUNKER_LOSA, pts=rect(bx0, by0, bx1, by1), hueco=rect(ex_h, ey0, ex1, ey1), z_inf=r1(z0 + z_losa_inf), z_sup=r1(z0),
                   armadura='ø10@20 en la luz corta (N-S) y ø8@20 en la larga, borde del hueco 2ø12 (dato del original, luz de 5,00; ahora 6,00: recalcular)'),
         piso=dict(espesor=BUNKER_RADIER, pts=rect(bx0, by0, bx1, by1), z_inf=r1(z0 + z_rad_inf), z_sup=r1(z0 + z_piso), armadura='radier de 20 (dato: piso −292, fondo −312)'),
         fundacion=dict(espesor=BUNKER_FUND, pts=rect(bx0 - BUNKER_FUND_MARGEN, by0 - BUNKER_FUND_MARGEN, bx1 + BUNKER_FUND_MARGEN, by1 + BUNKER_FUND_MARGEN),
                        z_inf=r1(z0 + z_fund_inf), z_sup=r1(z0 + z_rad_inf), dato='losa de fundación de 30 bajo todo el búnker, 37,5 más ancha que los muros, más 5 de emplantillado (dato láminas 04 y 05: −312 a −342, −347)'),
         vigas=[dict(id='VHA-3', nombre='VHA 25/40', pts=rect(xA[2] - 12.5, by0 + BUNKER_MURO, xA[2] + 12.5, by1 - BUNKER_MURO), z_inf=r1(z0 + z_losa_inf - 20), z_sup=r1(z0 + z_losa_inf),
                     armadura='3ø12 sup, 2ø10 medios, 3ø16 inf, Est ø10@20 (dato: detalle VHA 25/40)', d=f'viga bajo la losa en el eje 3, de muro a muro ({by1 - by0 - 2 * BUNKER_MURO:.0f}): parte la losa en dos paños como la del eje 2.a original'),
-               dict(id='VHA-esc', nombre='VHA 25/40 de borde', pts=rect(ex0 - 25, ey0 - 25, ex0, ey1), z_inf=r1(z0 + z_losa_inf - 20), z_sup=r1(z0 + z_losa_inf),
+               dict(id='VHA-esc', nombre='VHA 25/40 de borde', pts=rect(ex0, ey0 - 25, ex_h, ey1), z_inf=r1(z0 + z_losa_inf - 20), z_sup=r1(z0 + z_losa_inf),
                     armadura='como VHA 25/40 (propuesta)', d='viga de borde del hueco de la escalera (el original llevaba 2ø12 de borde en un hueco de 3,05 x 1,00)')],
-        escalera=dict(pts=rect(ex0, ey0, ex1, ey1), ancho=r1(ex1 - ex0), largo=r1(ey1 - ey0), baja=r1(-z_piso), z_arriba=r1(z0), z_abajo=r1(z0 + z_piso), baja_hacia='norte',   # se entra por el sur (lado de la barra) y se baja hacia el norte (Gabriel, 2026-10-12)
-                      nota=f'baja {-z_piso/100:.2f} m en {(ey1 - ey0)/100:.2f} m: con 16 peldaños salen huellas de {(ey1 - ey0)/16:.0f} cm y contrahuellas de {-z_piso/16:.1f} cm (se ve en el siguiente paso)'),
+        escalera=dict(pts=rect(ex_h, ey0, ex1, ey1), ancho=r1(ex1 - ex_h), largo=r1(ey1 - ey0), baja=r1(-z_piso), z_arriba=r1(z0), z_abajo=r1(z0 + z_piso), baja_hacia='norte',
+                      tramo=dict(y_arriba=r1(oy + ey1), y_abajo=r1(oy + y_pie), largo=TRAMO_ESC, peldanos=16),
+                      muro=dict(pts=rect(ex0, ey0, ex_h, ey1), espesor=MURO_ESC),
+                      descanso=rect(ex_h, ey1, ex1, y_desc),
+                      nota=f'se entra por el sur (descanso de {(ex1 - ex_h)/100:.2f} x {(y_desc - ey1)/100:.2f}) y baja {-z_piso/100:.2f} m hacia el norte en {TRAMO_ESC/100:.2f} m: 16 peldaños de {TRAMO_ESC/16:.1f} x {-z_piso/16:.2f}; el hueco en la losa mide {(ex1 - ex_h)/100:.2f} x {(ey1 - ey0)/100:.2f} y el último metro va bajo la losa, dentro del búnker (altura libre en el borde norte del hueco ≈ {(-z_piso * (ey1 - ey0) / TRAMO_ESC - BUNKER_LOSA)/100:.2f} m; a revisar)'.replace('.', ',')),
         interior=dict(ancho=r1(bx1 - bx0 - 2 * BUNKER_MURO), largo=r1(by1 - by0 - 2 * BUNKER_MURO), alto=BUNKER_H),
         placas='placa de 15x15 bajo los PM1/PM2 y 15x10 bajo los PM3, sobre los muros (dato planta losa)',
     )
@@ -212,7 +221,7 @@ def main(estudio_json, sitio_json, salida):
     vano('V-5-bano', 'ventana alta', 'oriente', xA[4], (yB + yC) / 2 - 75, xA[4], (yB + yC) / 2 + 75, 230, 290, 'ventana alta del baño (1,50 x 0,60) en la fachada oriente')
     # la bodega va sin ventana (Gabriel, 2026-10-12)
     vano('P-4-bodega', 'puerta', 'tabique 4', xA[3], yC + 40, xA[3], yC + 130, 0, 240, 'puerta de la bodega desde el estudio (0,90)')
-    vano('P-esc', 'escalera', 'interior', ex0, ey1, ex1, ey1, 0, 0, 'bajada al búnker: se entra por el sur y se baja hacia el norte')
+    vano('P-esc', 'escalera', 'interior', ex0, ey1, ex0, y_desc, 0, 0, 'bajada al búnker: se entra por el descanso del sur (abierto al poniente) y se baja hacia el norte')
     # ---------- esquema interior (idea, para conversar) ----------
     est = rec['estudio']; ce_x = (est[0][0] + est[1][0]) / 2
     caf = rec['cafeteria']
@@ -234,16 +243,19 @@ def main(estudio_json, sitio_json, salida):
     mueble('alfombra', 'alfombra', 'estudio', 'Alfombra', ce_x - 200, est[2][1] - 460, ce_x + 200, est[2][1] - 100, 1, 'S', 'bajo la consola')
     # --- cafetería: cabina en el tramo 1-2, barra contra el muro de la escalera, mesas al centro ---
     # la cabina de grabación de la cafetería se sacó por ahora (Gabriel, 2026-10-12)
-    mueble('barra', 'barra', 'cafeteria', 'Barra de la cafetería', ex0 - 25 - 100, ey0 + 20, ex0 - 25 - 20, ey0 + 290, 105, 'O', 'de espaldas al muro de la escalera (2,70 x 0,80), sin tapar las ventanas del patio')
-    for k, yy in enumerate((ey0 + 60, ey0 + 150, ey0 + 240)):
-        mueble(f'taburete{k+1}', 'taburete', 'cafeteria', 'Taburete de la barra', ex0 - 25 - 165, yy, ex0 - 25 - 130, yy + 35, 75, 'E', '')
+    mueble('barra', 'barra', 'cafeteria', 'Barra de la cafetería', ex0 - 100, ey0 + 10, ex0 - 20, ey0 + 270, 105, 'O', 'de espaldas al muro de la escalera (2,60 x 0,80), sin tapar las ventanas del patio ni la puerta del baño')
+    for k, yy in enumerate((ey0 + 40, ey0 + 130, ey0 + 220)):
+        mueble(f'taburete{k+1}', 'taburete', 'cafeteria', 'Taburete de la barra', ex0 - 165, yy, ex0 - 130, yy + 35, 75, 'E', '')
     mesas = [(caf[0][0] + 300, caf[0][1] + 250), (caf[0][0] + 480, caf[0][1] + 250)]   # dos mesas de 160 x 80 en fila frente al patio, lejos de la barra
     for k, (mx, my) in enumerate(mesas):
         mueble(f'mesa{k+1}', 'mesa', 'cafeteria', 'Mesa de cowork 160 × 80', mx, my, mx + 160, my + 80, 75, 'N', 'al centro, frente a las ventanas del patio')
         for j, cx_ in enumerate((mx + 20, mx + 95)):
             mueble(f'silla{k+1}{j+1}n', 'silla', 'cafeteria', 'Silla', cx_, my - 50, cx_ + 45, my - 5, 85, 'S', '')
             mueble(f'silla{k+1}{j+1}s', 'silla', 'cafeteria', 'Silla', cx_, my + 85, cx_ + 45, my + 130, 85, 'N', '')
-    mueble('lampara_barra', 'lampara', 'cafeteria', 'Lámpara colgante', ex0 - 25 - 75, ey0 + 140, ex0 - 25 - 45, ey0 + 170, 230, 'S', 'sobre la barra; cuelga del cielo')
+    # cocina chica en la esquina nororiente (Gabriel, 2026-10-12): mueble con lavaplatos contra el muro oriente y refrigerador pequeño al lado
+    mueble('cocina', 'cocina', 'cafeteria', 'Cocina chica con lavaplatos', ex1 - 60, caf[0][1] + 75, ex1, ey0 - 15, 90, 'O', 'mueble de 0,60 de fondo contra el muro oriente, al norte de la escalera; lavaplatos pequeño para lavar lo que se use')
+    mueble('minibar', 'minibar', 'cafeteria', 'Minibar', ex1 - 55, caf[0][1] + 15, ex1 - 5, caf[0][1] + 65, 85, 'O', 'frigobar de 0,50 x 0,50 con puerta de vidrio, en la esquina nororiente junto a la cocina')
+    mueble('lampara_barra', 'lampara', 'cafeteria', 'Lámpara colgante', ex0 - 75, ey0 + 125, ex0 - 45, ey0 + 155, 230, 'S', 'sobre la barra; cuelga del cielo')
     for k, (mx, my) in enumerate(mesas):
         mueble(f'lampara_mesa{k+1}', 'lampara', 'cafeteria', 'Lámpara colgante', mx + 65, my + 25, mx + 95, my + 55, 230, 'S', 'sobre la mesa; cuelga del cielo')
     # --- baño y bodega ---

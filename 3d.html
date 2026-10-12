@@ -50,6 +50,8 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
 .cerrar{position:absolute;top:3px;right:5px;background:none;border:0;color:var(--muted);font-size:17px;line-height:1;cursor:pointer;padding:3px 7px;border-radius:6px}
 .cerrar:hover{color:var(--ink)}
 .panel .cab{display:none;position:relative;padding:0 0 4px}
+body.embed .panel .cab{display:flex;width:100%}
+body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 .panel .cab .cerrar{top:-6px;right:-6px}
 #info-btn{position:absolute;top:12px;left:12px;width:32px;height:32px;border-radius:50%;padding:0;font:600 15px/1 Georgia,'Times New Roman',serif;font-style:italic;box-shadow:0 2px 8px rgba(16,18,22,.14)}
 #capas-btn{position:absolute;left:12px;bottom:12px;box-shadow:0 2px 8px rgba(16,18,22,.14)}
@@ -86,7 +88,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=20261012k" data-vista="3d"></script>
+    <script src="menu.js?v=20261012m" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · v. 12-10-2026</span>
   </header>
@@ -147,15 +149,15 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=20261012k"></script>
-<script src="data.js?v=20261012k"></script>
-<script src="estructura.js?v=20261012k"></script>
-<script src="losa.js?v=20261012k"></script>
-<script src="sitio.js?v=20261012k"></script>
-<script src="sitio3d.js?v=20261012k"></script>
-<script src="estudio_estructura.js?v=20261012k"></script>
-<script src="mobiliario3d.js?v=20261012k"></script>
-<script src="cotas3d.js?v=20261012k"></script>
+<script src="nav3d.js?v=20261012m"></script>
+<script src="data.js?v=20261012m"></script>
+<script src="estructura.js?v=20261012m"></script>
+<script src="losa.js?v=20261012m"></script>
+<script src="sitio.js?v=20261012m"></script>
+<script src="sitio3d.js?v=20261012m"></script>
+<script src="estudio_estructura.js?v=20261012m"></script>
+<script src="mobiliario3d.js?v=20261012m"></script>
+<script src="cotas3d.js?v=20261012m"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -460,10 +462,10 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     (D.vigas_fundacion || []).forEach(v => hormigon.add(ficha(prismaH(v.pts, v.z_inf, v.z_sup, matCF), 'Viga de fundación 25 × 50', v.d)));
     if (D.radier) hormigon.add(ficha(prismaH(D.radier.pts, D.radier.z_inf, D.radier.z_sup, matH), 'Radier del estudio', `e=${D.radier.espesor} · ${D.radier.dato}`));
     // escalera esquemática: una rampa de peldaños
-    const esc = H.escalera, n = 16, dz = (esc.z_arriba - esc.z_abajo) / n, dy = esc.largo / n, haciaNorte = esc.baja_hacia === 'norte';
+    const esc = H.escalera, tr = esc.tramo || {y_arriba: esc.pts[2][1], y_abajo: esc.pts[0][1], largo: esc.largo, peldanos: 16}, n = tr.peldanos, dz = (esc.z_arriba - esc.z_abajo) / n, dy = tr.largo / n, haciaNorte = esc.baja_hacia === 'norte';
     for (let i = 0; i < n; i++){
-      // peldaño i contado desde arriba: si baja hacia el norte, el primero está en el extremo sur del hueco
-      const y0 = haciaNorte ? esc.pts[2][1] - (i + 1) * dy : esc.pts[0][1] + i * dy, zt = esc.z_arriba - (i + 1) * dz;
+      // peldaño i contado desde arriba: si baja hacia el norte, el primero está en el extremo sur (descanso de entrada)
+      const y0 = haciaNorte ? tr.y_arriba - (i + 1) * dy : tr.y_abajo + i * dy, zt = esc.z_arriba - (i + 1) * dz;
       const p = [[esc.pts[0][0], y0], [esc.pts[1][0], y0], [esc.pts[1][0], y0 + dy], [esc.pts[0][0], y0 + dy]];
       hormigon.add(ficha(prismaH(p, esc.z_abajo, zt + dz, matH), 'Escalera al búnker', esc.nota));
     }
@@ -530,7 +532,8 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     segs.push({a: [ext[0][0] + M, yB], b: [ext[1][0] - M, yB], e: M, nombre: 'tabique cafetería/estudio'});
     segs.push({a: [x4, yB + h], b: [x4, ext[2][1] - M], e: M, nombre: 'tabique estudio/baño-bodega'});
     segs.push({a: [x4 + h, yC], b: [ext[1][0] - M, yC], e: M, nombre: 'tabique baño/bodega'});
-    segs.push({a: [r.escalera[0][0] - h, r.escalera[0][1]], b: [r.escalera[0][0] - h, yB - h], e: M, nombre: 'muro de la escalera'});
+    const escD = D.hormigon.escalera, mE = escD.muro;   // muro de la escalera dentro del 1,53 de la planta (23,3), solo a lo largo del hueco
+    segs.push({a: [(mE.pts[0][0] + mE.pts[1][0]) / 2, mE.pts[0][1]], b: [(mE.pts[0][0] + mE.pts[1][0]) / 2, mE.pts[2][1]], e: mE.espesor, nombre: 'muro de la escalera'});
     // ¿qué vanos caen sobre un segmento? (distancia al eje < 20 cm) → intervalo [t0, t1] a lo largo del muro
     const sobre = (v, s) => { const dx = s.b[0] - s.a[0], dy = s.b[1] - s.a[1], L = Math.hypot(dx, dy); const t = p => ((p[0] - s.a[0]) * dx + (p[1] - s.a[1]) * dy) / (L * L); const d = p => Math.abs((p[0] - s.a[0]) * dy - (p[1] - s.a[1]) * dx) / L; return d(v.a) < 20 && d(v.b) < 20 ? [Math.min(t(v.a), t(v.b)), Math.max(t(v.a), t(v.b))] : null; };
     // caja alineada con el muro: entre t0 y t1 (fracción del largo), de zA a zB, con un grosor y un corrimiento perpendicular (+ = lado izquierdo del sentido a→b)
@@ -618,9 +621,10 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
       g.add(ficha(mesh, rc.nombre, `${rc.area_m2.toLocaleString('es-CL')} m² · ${def[1]}`));
     });
     // escalera al búnker: 16 peldaños terminados, baranda en el borde sur del hueco y pasamanos en el muro
-    const esc = D.hormigon.escalera, n = 16, dz = (esc.z_arriba - esc.z_abajo) / n, dy = esc.largo / n, haciaNorte = esc.baja_hacia === 'norte';
+    // tramo real (3,75 desde el descanso hacia el norte, sigue bajo la losa dentro del búnker); el hueco en la losa es más corto
+    const esc = D.hormigon.escalera, tr = esc.tramo || {y_arriba: esc.pts[2][1], y_abajo: esc.pts[0][1], largo: esc.largo, peldanos: 16}, n = tr.peldanos, dz = (esc.z_arriba - esc.z_abajo) / n, dy = tr.largo / n, haciaNorte = esc.baja_hacia === 'norte';
     for (let i = 0; i < n; i++){
-      const y0 = haciaNorte ? esc.pts[2][1] - (i + 1) * dy : esc.pts[0][1] + i * dy, zt = esc.z_arriba - (i + 1) * dz;
+      const y0 = haciaNorte ? tr.y_arriba - (i + 1) * dy : tr.y_abajo + i * dy, zt = esc.z_arriba - (i + 1) * dz;
       g.add(ficha(prismaP([[esc.pts[0][0], y0], [esc.pts[1][0], y0], [esc.pts[1][0], y0 + dy], [esc.pts[0][0], y0 + dy]], esc.z_abajo, zt + dz, matPeldano), 'Escalera al búnker', esc.nota));
     }
     // baranda en el borde del hueco opuesto a la entrada (si se baja hacia el norte, en el borde norte) y dos postes en la entrada
@@ -630,7 +634,9 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     [[96, 100], [48, 52]].forEach(([a, b]) => { const m = new THREE.Mesh(new THREE.BoxGeometry(cm(xb1 - xb0 + 3), cm(b - a), cm(4)), matMarco); m.position.set(cm((xb0 + xb1) / 2), cm(z0 + (a + b) / 2), cm(yS)); g.add(ficha(m, 'Baranda de la escalera', 'acero negro, 1,00 m (propuesta)')); });
     g.add(poste(xb0 - 4, yEnt, z0, z0 + 100)); g.add(poste(xb1 + 4, yEnt, z0, z0 + 100));
     // pasamanos en el muro, siguiendo la pendiente de la escalera (yA_ = extremo norte, yB_ = extremo sur)
-    const yA_ = esc.pts[0][1] + 20, yB_ = esc.pts[2][1] - 20, zA_ = haciaNorte ? esc.z_abajo + 90 + dz : esc.z_arriba + 90, zB_ = haciaNorte ? esc.z_arriba + 90 : esc.z_abajo + 90 + dz, largo = Math.hypot(yB_ - yA_, zB_ - zA_);
+    // pasamanos solo en el tramo que se ve por el hueco (de la entrada al borde norte del hueco), a 0,90 sobre los peldaños
+    const zEn = y => esc.z_arriba - (esc.z_arriba - esc.z_abajo) * (haciaNorte ? (tr.y_arriba - y) : (y - tr.y_abajo)) / tr.largo;
+    const yA_ = esc.pts[0][1] + 10, yB_ = esc.pts[2][1] - 10, zA_ = zEn(yA_) + 90, zB_ = zEn(yB_) + 90, largo = Math.hypot(yB_ - yA_, zB_ - zA_);
     const pasamanos = new THREE.Mesh(new THREE.BoxGeometry(cm(4), cm(4), cm(largo)), matMarco);
     pasamanos.position.set(cm(xb0 + 5), cm((zA_ + zB_) / 2), cm((yA_ + yB_) / 2)); pasamanos.rotation.x = Math.atan2(zA_ - zB_, yB_ - yA_);
     g.add(ficha(pasamanos, 'Pasamanos de la escalera', 'en el muro, a 0,90 m sobre los peldaños (propuesta)'));
@@ -891,17 +897,19 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   const movil = window.matchMedia('(max-width:639px), (max-height:520px)');
   const aviso = document.getElementById('aviso'), panel = document.getElementById('panel');
   const infoBtn = document.getElementById('info-btn'), capasBtn = document.getElementById('capas-btn');
-  let avisoAbierto = !movil.matches, panelAbierto = !movil.matches;
+  // incrustado (pestaña Estudio): el panel y la información vienen cerrados también en escritorio, con sus botones para abrirlos
+  let avisoAbierto = !movil.matches && !embed, panelAbierto = !movil.matches && !embed;
+  if (embed) document.body.classList.add('embed');
   function pintarUI(){
     aviso.hidden = !avisoAbierto; panel.hidden = !panelAbierto;
-    infoBtn.hidden = !movil.matches || avisoAbierto; capasBtn.hidden = !movil.matches || panelAbierto;
+    infoBtn.hidden = !(movil.matches || embed) || avisoAbierto; capasBtn.hidden = !(movil.matches || embed) || panelAbierto;
     infoBtn.setAttribute('aria-expanded', avisoAbierto ? 'true' : 'false');
   }
   infoBtn.addEventListener('click', () => { avisoAbierto = true; pintarUI(); });
   document.getElementById('aviso-cerrar').addEventListener('click', () => { avisoAbierto = false; pintarUI(); });
   capasBtn.addEventListener('click', () => { panelAbierto = true; pintarUI(); });
   document.getElementById('panel-cerrar').addEventListener('click', () => { panelAbierto = false; pintarUI(); });
-  movil.addEventListener('change', () => { if (!movil.matches){ avisoAbierto = true; panelAbierto = true; } else { avisoAbierto = false; panelAbierto = false; } pintarUI(); });
+  movil.addEventListener('change', () => { if (!movil.matches && !embed){ avisoAbierto = true; panelAbierto = true; } else { avisoAbierto = false; panelAbierto = false; } pintarUI(); });
   pintarUI();
   // 3d.html?estudio=1 (estructura del estudio), ?estudio=2 (estructura + muros y ventanas) o ?vista=estudio (muros, ventanas y mobiliario,
   // como en la pestaña Estudio): la estructura de la casa se apaga y la cámara parte sobre el estudio. ?embed=1: sin cabecera, para incrustar.
@@ -930,7 +938,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   if (embed){
     document.querySelector('header').hidden = true;
     const pc = document.getElementById('pantalla-completa'); pc.hidden = false; pc.href = location.pathname + '?' + [...qs.entries()].filter(([k]) => k !== 'embed').map(([k, v]) => k + '=' + encodeURIComponent(v)).join('&');
-    avisoAbierto = false; pintarUI();
+    pintarUI();
   }
   aplica();   // aplica lo que viene marcado al abrir (volúmenes apagados; estructura, losa y techo prendidos)
   (function loop(t){ requestAnimationFrame(loop); if (nav) nav.actualizar(t); controls.update(); renderer.render(scene, camera); })();

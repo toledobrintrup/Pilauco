@@ -120,6 +120,27 @@
       : (window.DATA_SITIO && DATA_SITIO.terreno && DATA_SITIO.terreno.z != null ? DATA_SITIO.terreno.z : -70);
     const bunker = E.bunker || {};
     const H = D.hormigon || {};
+    // bandas de muro en planta [x0, x1, y0, y1] (fachadas, tabiques entre recintos y el muro de la escalera, que
+    // 3d.html dibuja con su eje a M del hueco): sirven para no dejar una cota o un rótulo metidos en un muro
+    const bandas = [[x0, x1, y0, y0 + M], [x0, x1, y1 - M, y1], [x0, x0 + M, y0, y1], [x1 - M, x1, y0, y1]];
+    if (rec.cafeteria && rec.estudio) bandas.push([x0, x1, rec.cafeteria.y1, rec.estudio.y0]);
+    if (rec.estudio && rec.bano) bandas.push([rec.estudio.x1, rec.bano.x0, rec.estudio.y0, y1]);
+    if (rec.bano && rec.bodega) bandas.push([rec.bano.x0, x1, rec.bano.y1, rec.bodega.y0]);
+    if (rec.escalera) bandas.push([rec.escalera.x0 - 1.5 * M, rec.escalera.x0 - 0.5 * M, rec.escalera.y0, rec.escalera.y1]);
+    const enMuro = p => bandas.some(b => p[0] > b[0] + 0.5 && p[0] < b[1] - 0.5 && p[1] > b[2] + 0.5 && p[1] < b[3] - 0.5);
+    const cruzaMuro = (a, b) => {       // ¿el tramo a-b (planta) pasa por un muro? se muestrea cada 5 cm
+      const n = Math.max(2, Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / 5));
+      for (let i = 0; i <= n; i++) { const t = i / n; if (enMuro([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t])) return true; }
+      return false;
+    };
+    // caras interiores de recintos que ya tienen una cota de vano delante (las cotas de recinto se corren al otro lado)
+    const ocupa = {};
+    const marcaOcupado = p => Object.keys(rec).forEach(id => {
+      const b = rec[id]; if (!(p[0] > b.x0 && p[0] < b.x1 && p[1] > b.y0 && p[1] < b.y1)) return;
+      const dist = { N: p[1] - b.y0, S: b.y1 - p[1], O: p[0] - b.x0, E: b.x1 - p[0] };
+      const cara = Object.keys(dist).sort((u, v) => dist[u] - dist[v])[0];
+      (ocupa[id] = ocupa[id] || {})[cara] = true;
+    });
 
     // ========== 1. Edificio: los 4 lados por fuera a 0,80 m, al nivel del piso, y el espesor del muro ==========
     {
@@ -133,21 +154,8 @@
       cota(f, [x1 - M, y1 + 30, z], [x1, y1 + 30, z], S, { ea: [x1 - M, y1, z], eb: [x1, y1, z], sep: 0.3, alza: ALZA, t: 'Muro exterior', s: fmt(M) + ' m de espesor (como la casa; supuesto)' });
     }
 
-    // ========== 2. Recintos: ancho (x) y fondo (y) interiores, a 10 cm sobre el piso, a 45 cm de dos muros ==========
-    {
-      const f = 'recintos', z = zP + 10, s = 45;
-      (E.recintos || []).forEach(r => {
-        const b = bbox(r.pts), nombre = (r.nombre || r.id).split(' (')[0];
-        const esHueco = r.id === 'escalera';
-        const sA = fmt(b.x1 - b.x0) + ' × ' + fmt(b.y1 - b.y0) + ' m' + (esHueco ? ' el hueco' : ' interiores') + (r.area_m2 ? ' · ' + String(r.area_m2).replace('.', ',') + ' m²' : '');
-        // ancho: pegado al lado norte, rótulo corrido hacia el centro del recinto
-        cota(f, [b.x0, b.y0 + s, z], [b.x1, b.y0 + s, z], S, { sep: 0.35, alza: ALZA, t: nombre + ': ancho' + (esHueco ? ' del hueco' : ''), s: sA });
-        // fondo: pegado al lado poniente
-        cota(f, [b.x0 + s, b.y0, z], [b.x0 + s, b.y1, z], EST, { sep: 0.35, alza: ALZA, t: nombre + ': fondo' + (esHueco ? ' del hueco' : ''), s: sA });
-      });
-    }
-
     // ========== 3. Vanos: ancho en la cara exterior (0,30 m afuera, a la altura del alféizar) y alto vertical al costado ==========
+    // (van antes que los recintos para saber qué caras interiores quedan ocupadas)
     {
       const f = 'vanos';
       const NORMAL = { norte: N, sur: S, oriente: EST, poniente: OES, 'tabique B': N, 'tabique 4': OES };
@@ -166,16 +174,27 @@
         lista.sort((p, q) => Math.min(p.a[eje], p.b[eje]) - Math.min(q.a[eje], q.b[eje]));
         lista.forEach((v, i) => {
           const lo = Math.min(v.a[eje], v.b[eje]), hi = Math.max(v.a[eje], v.b[eje]);
-          const perp = v.a[1 - eje] + nn[1 - eje] * M / 2;   // a/b están en el eje del muro: la cara exterior queda a M/2
-          const P = (t, z) => eje === 1 ? [perp, t, z] : [t, perp, z];
-          const A = P(lo, v.z0), B = P(hi, v.z0);
+          const tabique = /^tabique/.test(muro), afuera = tabique ? 20 : 30;   // distancia de la cota a la cara
+          let nn = NORMAL[muro], sep = i % 2 ? 0.75 : 0.3;
+          // a/b están en el eje del muro: la cara queda a M/2. En un tabique, si la cota o su rótulo caerían
+          // dentro de otro muro (p. ej. el de la escalera), la cota se pasa al otro lado del tabique
+          const cara = n => v.a[1 - eje] + n[1 - eje] * M / 2;
+          const P = (n, t, z) => eje === 1 ? [cara(n), t, z] : [t, cara(n), z];
+          if (tabique) {
+            const c0 = suma(P(nn, lo, 0), nn, afuera), c1 = suma(P(nn, hi, 0), nn, afuera);
+            const r0 = suma(P(nn, (lo + hi) / 2 - 45, 0), nn, afuera + sep * 100), r1 = suma(r0, along, 90);
+            if (cruzaMuro(c0, c1) || cruzaMuro(r0, r1)) { nn = [-nn[0], -nn[1], 0]; sep = 0.3; }
+          }
+          const A = P(nn, lo, v.z0), B = P(nn, hi, v.z0);
           const tipo = v.tipo.charAt(0).toUpperCase() + v.tipo.slice(1);
           const enPiso = Math.abs(v.z0 - zP) < 1;
           const t = tipo + ' ' + v.id;
           const sV = fmt(hi - lo) + ' × ' + fmt(v.z1 - v.z0) + ' m · ' + lugar(muro) + (enPiso ? '' : ' · alféizar a ' + mas(v.z0 - zP));
-          // ancho: a 0,30 m de la cara; rótulos alternados (cerca / lejos) para que las ventanas contiguas no se pisen;
-          // si el alféizar está sobre el piso, el rótulo va bajo la línea (el del alto queda a media altura)
-          cota(f, suma(A, nn, 30), suma(B, nn, 30), nn, { ea: A, eb: B, sep: i % 2 ? 0.75 : 0.3, alza: enPiso ? ALZA : -ALZA, texto: fmt(hi - lo), t: t + ': ancho', s: sV });
+          // ancho: a 0,30 m de la cara (0,20 en tabiques); rótulos alternados (cerca / lejos) para que las ventanas
+          // contiguas no se pisen; si el alféizar está sobre el piso, el rótulo va bajo la línea (el del alto queda a media altura)
+          const a2 = suma(A, nn, afuera), b2 = suma(B, nn, afuera);
+          cota(f, a2, b2, nn, { ea: A, eb: B, sep, alza: enPiso ? ALZA : -ALZA, texto: fmt(hi - lo), t: t + ': ancho', s: sV });
+          marcaOcupado([(a2[0] + b2[0]) / 2, (a2[1] + b2[1]) / 2]);
           // alto: cota vertical a 15 cm de la jamba (del lado con más muro libre) y 10 cm por fuera de la cara;
           // rótulo a media altura, corrido hacia afuera (tapa la línea detrás, como en un plano)
           const prev = i > 0 ? Math.max(lista[i - 1].a[eje], lista[i - 1].b[eje]) : fin[0];
@@ -183,11 +202,29 @@
           const gapL = lo - prev, gapR = next - hi;
           const der = gapR >= 30 || gapR >= gapL;
           const lado = der ? along : [-along[0], -along[1], 0];
-          const base = der ? P(hi, 0) : P(lo, 0);
+          const base = der ? P(nn, hi, 0) : P(nn, lo, 0);
           const pie = suma(suma(base, lado, 15), nn, 10);
           cota(f, [pie[0], pie[1], v.z0], [pie[0], pie[1], v.z1], lado,
             { ea: suma([base[0], base[1], v.z0], nn, 3), eb: suma([base[0], base[1], v.z1], nn, 3), rot: nn, sep: 0.45, texto: fmt(v.z1 - v.z0), t: t + ': alto', s: sV });
         });
+      });
+    }
+
+    // ========== 2. Recintos: ancho (x) y fondo (y) interiores, a 10 cm sobre el piso, a 45 cm de dos muros ==========
+    // (por el lado norte y el poniente, salvo que esa cara ya tenga una cota de vano delante: entonces por el opuesto)
+    {
+      const f = 'recintos', z = zP + 10, s = 45;
+      (E.recintos || []).forEach(r => {
+        const b = bbox(r.pts), nombre = (r.nombre || r.id).split(' (')[0], oc = ocupa[r.id] || {};
+        const esHueco = r.id === 'escalera';
+        const sA = fmt(b.x1 - b.x0) + ' × ' + fmt(b.y1 - b.y0) + ' m' + (esHueco ? ' el hueco' : ' interiores') + (r.area_m2 ? ' · ' + String(r.area_m2).replace('.', ',') + ' m²' : '');
+        // ancho: pegado al lado norte (o al sur), rótulo corrido hacia el centro del recinto; en el hueco de la
+        // escalera (angosto y abierto por ese lado) el rótulo sale hacia afuera para no pisar el del fondo
+        const ya = oc.N ? b.y1 - s : b.y0 + s, na = oc.N ? N : S;
+        cota(f, [b.x0, ya, z], [b.x1, ya, z], na, { sep: esHueco ? -0.35 : 0.35, alza: ALZA, t: nombre + ': ancho' + (esHueco ? ' del hueco' : ''), s: sA });
+        // fondo: pegado al lado poniente (o al oriente)
+        const xa = oc.O ? b.x1 - s : b.x0 + s, nf = oc.O ? OES : EST;
+        cota(f, [xa, b.y0, z], [xa, b.y1, z], nf, { sep: 0.35, alza: ALZA, t: nombre + ': fondo' + (esHueco ? ' del hueco' : ''), s: sA });
       });
     }
 
@@ -272,7 +309,7 @@
         // tramo más largo sin zapatas encima
         const ocup = (D.zapatas || []).map(z => bbox(z.pts)).filter(b => enY ? (b.x0 < vb.x1 && b.x1 > vb.x0) : (b.y0 < vb.y1 && b.y1 > vb.y0))
           .map(b => enY ? [b.y0, b.y1] : [b.x0, b.x1]).sort((p, q) => p[0] - q[0]);
-        let libre = [l0, l1], t0 = l0;
+        let libre = [l0, l0], t0 = l0;
         ocup.forEach(iv => { if (iv[0] - t0 > libre[1] - libre[0]) libre = [t0, iv[0]]; t0 = Math.max(t0, iv[1]); });
         if (l1 - t0 > libre[1] - libre[0]) libre = [t0, l1];
         const tm = (libre[0] + libre[1]) / 2;

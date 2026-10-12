@@ -26,14 +26,22 @@
     ],
     [
      1030,
-     225
+     248
     ],
     [
      876.7,
-     225
+     248
     ],
     [
      876.7,
+     522
+    ],
+    [
+     1030,
+     522
+    ],
+    [
+     1030,
      625
     ],
     [
@@ -41,7 +49,7 @@
      625
     ]
    ],
-   "dato": "6,00 x 10,05 interiores; se descuenta la caja de la escalera (1,53 x 3,75 desde 2,00 de la cara norte)"
+   "dato": "6,00 x 10,05 interiores; se descuenta la caja de la escalera (1,53 x 3,75 desde 2,00 de la cara norte) · escalera: el 1.533 incluye un muro de 23,3; hueco libre de 1,30 x 2,75 y descanso de entrada de 1,30 x 1,03 (planta de Gabriel, 2026-10-12)"
   },
   {
    "id": "escalera",
@@ -49,23 +57,23 @@
    "tipo": "hall",
    "pts": [
     [
-     876.7,
-     225
+     900,
+     248
     ],
     [
      1030,
-     225
+     248
     ],
     [
      1030,
-     600
+     522
     ],
     [
-     876.7,
-     600
+     900,
+     522
     ]
    ],
-   "dato": "cotas 1533 x 3750 a 2000 de la cara norte; tramo útil 1300 contra el muro oriente"
+   "dato": "hueco libre de 1,30 x 2,75 (el 1.533 de la planta incluye el muro de 23,3); se entra por el sur y se baja al norte en 3,75 m: el último metro va bajo la losa, dentro del búnker (Gabriel, 2026-10-12)"
   },
   {
    "id": "estudio",

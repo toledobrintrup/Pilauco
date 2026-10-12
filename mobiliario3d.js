@@ -386,6 +386,52 @@
       caja(g, M.espejo, w - 4, 70, 1, 0, 105, -(d / 2 - 1.8));          // espejo
     };
 
+    // Cocina chica: mueble bajo con puertas, cubierta, lavaplatos de acero inoxidable con monomando y una repisa en el muro.
+    C.cocina = (g, p) => {
+      const w = p.w, d = p.d, h = p.alto, dm = d - 4;
+      caja(g, M.acero, w - 8, 10, dm - 8, 0, 0, 0);                     // zócalo retranqueado
+      caja(g, M.nogal, w, h - 13, dm, 0, 10, 0);                        // mueble con puertas
+      const nP = Math.max(2, Math.round(w / 45));
+      for (let k = 1; k < nP; k++) caja(g, M.canto, 0.6, h - 17, 0.6, -w / 2 + k * w / nP, 12, dm / 2 + 0.2);   // juntas de las puertas
+      for (let k = 0; k < nP; k++) caja(g, M.metal, 8, 1, 1.5, -w / 2 + (k + 0.5) * w / nP, h - 20, dm / 2 + 0.75);   // tiradores
+      caja(g, M.laminado, w, 3, d, 0, h - 3, 0);                        // cubierta
+      const cw = Math.min(42, w - 16), cd = Math.min(36, d - 14);
+      caja(g, M.metal, cw + 2, 1.2, cd + 2, 0, h - 0.6, 1);             // marco del lavaplatos (acero inoxidable)
+      caja(g, M.acero, cw, 1, cd, 0, h - 0.4, 1);                       // cuba (se ve oscura por dentro)
+      cil(g, M.metal, 2, 0.4, 0, h + 0.6, 1, 10);                       // desagüe
+      cil(g, M.cromo, 1.3, 24, 0, h, -(d / 2 - 7), 8);                  // monomando
+      const pico = new T.Mesh(geo.cil(1.1, 1.1, 16, 8), M.cromo); pico.rotation.x = Math.PI / 2;
+      pico.position.set(0, cm(h + 22), cm(-(d / 2 - 7) + 8)); add(g, pico);
+      caja(g, M.nogal, w - 6, 3, 22, 0, 150, -(d / 2 - 11.5));          // repisa en el muro, a 1,50
+      caja(g, M.acero, w - 6, 2, 1, 0, 148, -(d / 2 - 1));              // soporte de la repisa
+      [-w / 4, 0, w / 4].forEach(x => cil(g, M.ceramica, 4, 8, x, 153, -(d / 2 - 11.5), 10));   // tazas
+    };
+
+    // Refrigerador pequeño (bajo mesón): cuerpo blanco con puerta, manilla vertical y zócalo.
+    C.refrigerador = (g, p) => {
+      const w = p.w, d = p.d, h = p.alto;
+      caja(g, M.acero, w - 8, 5, d - 10, 0, 0, 0);                      // zócalo
+      caja(g, M.laminado, w - 2, h - 5, d - 4, 0, 5, 0);                // cuerpo
+      caja(g, M.plastico, w - 6, h - 9, 1.5, 0, 7, d / 2 - 1.3);        // puerta
+      caja(g, M.metal, 1.6, (h - 9) * 0.55, 2.2, w / 2 - 7, 7 + (h - 9) * 0.25, d / 2 + 0.4);   // manilla vertical
+      caja(g, M.laminado, w, 2, d, 0, h - 2, 0);                        // tapa
+    };
+
+    // Minibar (frigobar): cuerpo negro con puerta de vidrio enmarcada, dos repisas que se ven por dentro y manilla.
+    C.minibar = (g, p) => {
+      const w = p.w, d = p.d, h = p.alto;
+      caja(g, M.acero, w - 8, 4, d - 10, 0, 0, 0);                      // zócalo
+      caja(g, M.acero, w - 2, h - 4, d - 4, 0, 4, 0);                   // cuerpo
+      caja(g, M.laminado, w - 8, h - 12, d - 10, 0, 7, -1.5);           // interior iluminado (claro)
+      [0.33, 0.66].forEach(f => caja(g, M.metal, w - 10, 0.8, d - 12, 0, 7 + (h - 12) * f, -1.5));   // repisas
+      caja(g, M.vidrio, w - 8, h - 12, 0.6, 0, 7, d / 2 - 1.2);         // puerta de vidrio
+      caja(g, M.acero, w - 4, 2, 1.2, 0, 5, d / 2 - 1);                 // marco de la puerta
+      caja(g, M.acero, w - 4, 2, 1.2, 0, h - 5, d / 2 - 1);
+      caja(g, M.acero, 2, h - 8, 1.2, -(w / 2 - 2.5), 5, d / 2 - 1);
+      caja(g, M.acero, 2, h - 8, 1.2, (w / 2 - 2.5), 5, d / 2 - 1);
+      caja(g, M.metal, 1.4, (h - 12) * 0.5, 2, w / 2 - 6, 7 + (h - 12) * 0.25, d / 2 + 0.4);   // manilla
+    };
+
     // Estantería metálica: módulos de hasta 1,00 (4 parantes cada uno), 5 repisas y algunas cajas; tope en 'alto'.
     C.estante = (g, p) => {
       const w = p.w, d = p.d, h = p.alto, n = Math.max(1, Math.ceil(w / 100)), mod = w / n;
@@ -408,6 +454,9 @@
       panel_acustico: p => `${fmt(p.w)} × 1,20 m · de ${fmt(p.alto - 120)} a ${fmt(p.alto)} m sobre el piso`,
       lampara: p => `pantalla ø ${fmt(2 * Math.min(16, p.w / 2 - 0.5))} m · cuelga del cielo (${fmt(p.hCielo)} m) hasta ${fmt(p.alto)} m sobre el piso`,
       alfombra: p => `${fmt(p.w)} × ${fmt(p.d)} m`,
+      cocina: p => `${fmt(p.w)} × ${fmt(p.d)} m · cubierta a ${fmt(p.alto)} m · lavaplatos de 0,42 × 0,36 · repisa a 1,50`,
+      refrigerador: p => `${fmt(p.w)} × ${fmt(p.d)} m · alto ${fmt(p.alto)} m · bajo mesón`,
+      minibar: p => `frigobar de ${fmt(p.w)} × ${fmt(p.d)} m · alto ${fmt(p.alto)} m · puerta de vidrio`,
       rack: p => `gabinete de 19" de ${fmt(Math.min(60, p.w))} × ${fmt(Math.min(60, p.d))} m en un espacio de ${fmt(p.w)} × ${fmt(p.d)} m · alto ${fmt(p.alto)} m`,
     };
     const subGenerico = p => `${fmt(p.w)} × ${fmt(p.d)} m · alto ${fmt(p.alto)} m`;
@@ -439,6 +488,6 @@
 
   window.Mobiliario3D = {
     crear,
-    TIPOS: ['parlante', 'consola', 'silla_oficina', 'rack', 'sofa', 'panel_acustico', 'alfombra', 'cabina', 'barra', 'taburete', 'mesa', 'silla', 'lampara', 'wc', 'lavamanos', 'estante'],
+    TIPOS: ['parlante', 'consola', 'silla_oficina', 'rack', 'sofa', 'panel_acustico', 'alfombra', 'cabina', 'barra', 'taburete', 'mesa', 'silla', 'lampara', 'wc', 'lavamanos', 'estante', 'cocina', 'refrigerador', 'minibar'],
   };
 })();

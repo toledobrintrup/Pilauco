@@ -41,7 +41,8 @@ La cubicación del ingeniero no se usa como referencia.
 a cielo (hasta la viga E-O, que en B y E va pegada bajo la viga inclinada) entre cafetería y estudio con corredera centrada en el estudio, una ventana de piso a cielo centrada en la
 fachada sur entre los parlantes, entrada de 1,80 por el poniente (pegada al pilar A2), puertas del baño (desde la cafetería, pegada al eje 4)
 y de la bodega (desde el estudio), ventana alta del baño al oriente (la bodega sin ventana). La escalera se entra por el sur y baja hacia el norte. `interior`: parlantes, consola, rack, silla, sofá, paneles acústicos,
-alfombra, barra con taburetes, mesas con sillas, lámparas, baño y estanterías (sin cabina de grabación por ahora, Gabriel 2026-10-12), solo
+alfombra, barra con taburetes, mesas con sillas, lámparas, cocina chica con lavaplatos y minibar en la esquina nororiente, baño y estanterías (sin
+cabina de grabación por ahora, Gabriel 2026-10-12), solo
 como idea para conversar. `zapatas`, `vigas_fundacion` y `radier`: las fundaciones fuera del búnker. Todo se dibuja en
 `estudio.html` (sección 04 y elevaciones) y en el 3D con la capa "Ventanas y muros del estudio" (`3d.html?estudio=2`).
 
