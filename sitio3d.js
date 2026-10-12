@@ -117,6 +117,8 @@
     const fmt = v => (v / 100).toFixed(2).replace('.', ',');
 
     const grupo = new T.Group(), sub = {}, etiquetas = new T.Group();
+    // etiquetas flotantes: apagadas por defecto (Gabriel, 2026-10-12: "todos sabemos lo que es"); se crean solo si se piden
+    const etq = (...args) => { if (o.etiquetas) etiquetas.add(etiqueta(...args)); };
     ['terreno', 'cierros', 'gimnasio', 'estudio', 'estacionamiento', 'urbanismo'].forEach(k => { sub[k] = new T.Group(); grupo.add(sub[k]); });
     grupo.add(etiquetas);
     const zT = D.terreno.z;
@@ -153,7 +155,7 @@
       const dv = AC.puerta.vano, dx0 = Math.min(dv[0][0], dv[1][0]), dx1 = Math.max(dv[0][0], dv[1][0]);
       const puerta = caja(dx1 - dx0, 170, 8, matPorton, (dx0 + dx1) / 2, AC.linea_y + 9, zT + 90);
       ficha(puerta, 'Puerta peatonal', `${fmt(AC.puerta.ancho)} m de ancho`); sub.cierros.add(puerta);
-      etiquetas.add(etiqueta('Acceso', (px0 + px1) / 2, AC.linea_y, zT + 280, 5));
+      etq('Acceso', (px0 + px1) / 2, AC.linea_y, zT + 280, 5);
     }
     // norte, oriente y poniente: el cierro real (pilares de hormigón con reja), sobre el deslinde, cada 3 m
     {
@@ -184,7 +186,7 @@
       const techo = losaInclinada(cub.contorno, zInf, cub.espesor, lambert(C.gimTecho));
       ficha(techo, 'Cubierta del gimnasio', `Un agua, baja hacia el norte (2,2°) · ${fmt(cub.espesor)} m de espesor · aleros según L11`);
       sub.gimnasio.add(techo);
-      const cg = centro(G.planta); etiquetas.add(etiqueta('Gimnasio', cg[0], cg[1], G.z_piso + A.cubierta_sur + 120, 6));
+      const cg = centro(G.planta); etq('Gimnasio', cg[0], cg[1], G.z_piso + A.cubierta_sur + 120, 6);
     }
 
     // ---------- estudio con búnker (volúmenes según la planta de Gabriel; estructura pendiente) ----------
@@ -210,8 +212,8 @@
       ficha(bk, 'Búnker', `${B.area_m2.toLocaleString('es-CL')} m² · ${fmt(B.interior_cm)} m interiores · piso en ${fmt(B.z_piso)} m · ${B.dato}`);
       bk.userData.bunker = true;
       sub.estudio.add(bk, bordes(bk, C.bunkerBorde, .7));
-      const ce = centro(E.exterior); etiquetas.add(etiqueta('Estudio', ce[0], ce[1], E.cielo.z_sur + E.techo.espesor + 120, 6));
-      const cb = centro(B.pts); etiquetas.add(etiqueta('Búnker', cb[0], cb[1], B.z_piso + 60, 5));
+      const ce = centro(E.exterior); etq('Estudio', ce[0], ce[1], E.cielo.z_sur + E.techo.espesor + 120, 6);
+      const cb = centro(B.pts); etq('Búnker', cb[0], cb[1], B.z_piso + 60, 5);
     }
 
     // ---------- estacionamiento futuro: solo el contorno y una sombra ----------
@@ -220,7 +222,7 @@
       const sombra = placa(P.planta, zT + 3, lambert(C.estac, { transparent: true, opacity: .18 }));
       ficha(sombra, 'Estacionamiento (futuro)', `${(Math.abs(areaDe(P.planta)) / 1e4).toFixed(1).replace('.', ',')} m² · ${P.dato || ''}`);
       sub.estacionamiento.add(sombra, linea(P.planta, zT + 4, C.estac, true, .9));
-      const cp = centro(P.planta); etiquetas.add(etiqueta('Estacionamiento (futuro)', cp[0], cp[1], zT + 250, 8));
+      const cp = centro(P.planta); etq('Estacionamiento (futuro)', cp[0], cp[1], zT + 250, 8);
     }
     function areaDe(pts) { return pts.reduce((s, p, i) => { const q = pts[(i + 1) % pts.length]; return s + p[0] * q[1] - q[0] * p[1]; }, 0) / 2; }
 
@@ -247,7 +249,7 @@
       const esp = placa(p.pts, zT - 12, lambert(color, { transparent: true, opacity: .85 }));
       ficha(esp, nombre, `${(Math.abs(areaDe(p.pts)) / 1e4).toFixed(1).replace('.', ',')} m² · ${p.dato || 'foto de dron'}`);
       sub.urbanismo.add(vaso, esp);
-      const c = centro(p.pts); etiquetas.add(etiqueta(nombre, c[0], c[1], zT + 150, 5));
+      const c = centro(p.pts); etq(nombre, c[0], c[1], zT + 150, 5);
     };
     agua(R.piscina, 'Piscina', C.agua, 150); agua(R.piscina_chica, 'Jacuzzi', C.agua, 100);
     const EX = R.excavacion || R.excavacion_bunker || R.laguna;
@@ -264,7 +266,7 @@
       const gp = prisma(R.galpon.pts, zT, zT + (R.galpon.alto || 300), lambert(C.galpon, { transparent: true, opacity: .85 }));
       const tp = placa(R.galpon.pts, zT + (R.galpon.alto || 300) + 1, lambert(C.galponTecho));
       ficha(gp, R.galpon.nombre || 'Galpón de obra', R.galpon.dato || 'foto de dron'); sub.urbanismo.add(gp, tp);
-      const c = centro(R.galpon.pts); etiquetas.add(etiqueta(R.galpon.nombre || 'Galpón de obra', c[0], c[1], zT + 450, 6));
+      const c = centro(R.galpon.pts); etq(R.galpon.nombre || 'Galpón de obra', c[0], c[1], zT + 450, 6);
     }
     (R.otros || []).forEach(x => { if (!x.pts) return; const mh = x.alto ? prisma(x.pts, zT, zT + x.alto, lambert(C.galpon)) : placa(x.pts, zT + 2, lambert(C.radier)); ficha(mh, x.nombre || 'Elemento', x.dato || 'foto de dron'); sub.urbanismo.add(mh); });
 

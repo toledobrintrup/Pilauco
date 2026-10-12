@@ -86,7 +86,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=20261012b" data-vista="3d"></script>
+    <script src="menu.js?v=20261012c" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · v. 12-10-2026</span>
   </header>
@@ -121,7 +121,6 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
       <div class="row"><label><input type="checkbox" id="chk-estudio" checked> Estudio y búnker</label></div>
       <div class="row"><label><input type="checkbox" id="chk-estacionamiento" checked> Estacionamiento (futuro)</label></div>
       <div class="row"><label><input type="checkbox" id="chk-urbanismo" checked> Senderos y piscina</label></div>
-      <div class="row"><label><input type="checkbox" id="chk-etiquetas" checked> Etiquetas</label></div>
       <div class="row"><label><input type="checkbox" id="chk-bajo-tierra"> Ver bajo tierra</label></div>
       <div class="row"><button class="btn" id="ver-terreno">Ver todo el terreno</button></div>
       </div>
@@ -138,12 +137,12 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=20261012b"></script>
-<script src="data.js?v=20261012b"></script>
-<script src="estructura.js?v=20261012b"></script>
-<script src="losa.js?v=20261012b"></script>
-<script src="sitio.js?v=20261012b"></script>
-<script src="sitio3d.js?v=20261012b"></script>
+<script src="nav3d.js?v=20261012c"></script>
+<script src="data.js?v=20261012c"></script>
+<script src="estructura.js?v=20261012c"></script>
+<script src="losa.js?v=20261012c"></script>
+<script src="sitio.js?v=20261012c"></script>
+<script src="sitio3d.js?v=20261012c"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -486,7 +485,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   const chkLosa = document.getElementById('chk-losa');
   const chkSitio = {terreno: 'chk-terreno', gimnasio: 'chk-gimnasio', estudio: 'chk-estudio', estacionamiento: 'chk-estacionamiento', urbanismo: 'chk-urbanismo'};
   Object.keys(chkSitio).forEach(k => { chkSitio[k] = document.getElementById(chkSitio[k]); });
-  const chkEtiquetas = document.getElementById('chk-etiquetas'), chkBajoTierra = document.getElementById('chk-bajo-tierra');
+  const chkBajoTierra = document.getElementById('chk-bajo-tierra');
   const explode = document.getElementById('explode');
   const cajaGrupos = document.getElementById('grupos-acero');
   const chkGrupo = {};
@@ -514,7 +513,6 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     if (sitio){
       Object.keys(chkSitio).forEach(k => { sitio.sub[k].visible = chkSitio[k].checked; });
       sitio.sub.cierros.visible = chkSitio.terreno.checked;
-      sitio.etiquetas.visible = chkEtiquetas.checked && Object.keys(chkSitio).some(k => chkSitio[k].checked);
       sitio.bajoTierra(chkBajoTierra.checked);
       ground.visible = grid.visible = !chkBajoTierra.checked;
     }
@@ -523,8 +521,8 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     grupoRoof.position.y = off;
     grupoEstructura.traverse(o => { if (o.userData.superior) o.position.y = o.userData.y0 + off; });
   }
-  [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, explode, chkEtiquetas, chkBajoTierra].concat(Object.values(chkSitio)).forEach(el => el.addEventListener('input', aplica));
-  if (!sitio) Object.values(chkSitio).concat([chkEtiquetas, chkBajoTierra]).forEach(el => { el.closest('.row').hidden = true; });
+  [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, explode, chkBajoTierra].concat(Object.values(chkSitio)).forEach(el => el.addEventListener('input', aplica));
+  if (!sitio) Object.values(chkSitio).concat([chkBajoTierra]).forEach(el => { el.closest('.row').hidden = true; });
 
   // ---------- ficha de una pieza: clic (sin arrastrar) sobre la estructura ----------
   const ficha = document.getElementById('ficha');
