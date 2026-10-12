@@ -54,7 +54,7 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
 # Qué NO va al 3D por ahora (Gabriel, 2026-10-12): el galpón de obra y el baño provisorio (caseta del lado
 # poniente), el camino de grava y las líneas del plano en el piso (soleras, contornos, radier y el edificio B del
 # arquitecto). Los datos siguen en sitio.json por si se vuelven a usar.
-OCULTAR_REAL = {'galpon'}
+OCULTAR_REAL = {'galpon', 'excavacion'}   # la excavación del búnker tampoco se dibuja (Gabriel, 2026-10-12); sigue anclando el estudio
 OCULTAR_OTROS = {'Galpón de obra (ala oeste)', 'Galpón de obra (ala este)', 'Caseta de bombas'}
 OCULTAR_URBANISMO = {'grava', 'soleras', 'contornos', 'senderos', 'radier'}
 OCULTAR_CLAVES = {'estudio_arq', 'radier_arq', 'accesos_arq', 'estacionamiento'}   # el estacionamiento futuro también fuera (2026-10-12)
