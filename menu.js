@@ -12,6 +12,8 @@
       ico: '<path d="M2.5 12.5h15M2.5 15.5h15"/><path d="M3 12.5l2-3h2l2 3 2-3h2l2 3"/><path d="M5 9.5V7M15 9.5V7"/>' },
     { id: 'pernos', href: 'pernos.html', t: 'Pernos', d: 'Pernos Nelson: perforación, soldadura y cada caso de instalación en 2D y 3D, paso a paso',
       ico: '<path d="M8.5 5.5h3M10 5.5v9"/><path d="M6.5 3.5h7"/><path d="M3 16.5h14"/><circle cx="10" cy="15.5" r="2.5"/>' },
+    { id: 'estudio', href: 'estudio.html', t: 'Estudio', d: 'Estudio con búnker: la estructura del ingeniero adaptada a la planta nueva, para su revisión',
+      ico: '<path d="M3.5 16.5v-9l6.5-4 6.5 4v9"/><path d="M3.5 7.5l13 9M16.5 7.5l-13 9"/><path d="M3 16.5h14"/>' },
     { id: 'tablero', href: 'tablero.html', t: 'Tablero', d: 'Aro de básquetbol: piezas, fundación, armado paso a paso y 3D',
       ico: '<rect x="3" y="2.5" width="14" height="9" rx="1"/><rect x="7.5" y="5.5" width="5" height="4"/><path d="M6.5 13.5h7l-1.2 4h-4.6z"/>' },
   ];

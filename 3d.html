@@ -119,6 +119,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
       <div class="row"><label><input type="checkbox" id="chk-terreno" checked> Lote y cierros</label></div>
       <div class="row"><label><input type="checkbox" id="chk-gimnasio" checked> Gimnasio</label></div>
       <div class="row"><label><input type="checkbox" id="chk-estudio" checked> Estudio y búnker</label></div>
+      <div class="row"><label><input type="checkbox" id="chk-estudio-est"> Estructura del estudio (propuesta)</label></div>
       <div class="row"><label><input type="checkbox" id="chk-urbanismo" checked> Senderos y piscina</label></div>
       <div class="row"><label><input type="checkbox" id="chk-bajo-tierra"> Ver bajo tierra</label></div>
       <div class="row"><button class="btn" id="ver-terreno">Ver todo el terreno</button></div>
@@ -142,6 +143,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
 <script src="losa.js?v=20261012e"></script>
 <script src="sitio.js?v=20261012e"></script>
 <script src="sitio3d.js?v=20261012e"></script>
+<script src="estudio_estructura.js?v=20261012e"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -399,13 +401,68 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   const grupoLosa = buildLosa();
   grupoLosa.visible = false;
 
+  // ---------- estructura del estudio con búnker (estudio_estructura.js): propuesta adaptada del proyecto del
+  // ingeniero; acero con la sección real de cada perfil (mismo dibujo que la casa) y el búnker en hormigón ----------
+  function buildEstudioEst(){
+    const g = new THREE.Group(), sub = {};
+    if (typeof DATA_ESTUDIO_EST === 'undefined') return g;
+    const D = DATA_ESTUDIO_EST;
+    Object.assign(DATA_ESTRUCTURA.perfiles, D.perfiles);   // los perfiles nuevos (CUAD 100x100x3, CA 100x50, FE 16...) entran a la tabla común
+    GRUPOS_ACERO.forEach(gr => { sub[gr.key] = new THREE.Group(); sub[gr.key].userData.material = new THREE.MeshLambertMaterial({color: gr.color}); g.add(sub[gr.key]); });
+    D.miembros.forEach(mb => {
+      const a = aMundo(mb.a), b = aMundo(mb.b);
+      const dir = new THREE.Vector3().subVectors(b, a), largo = dir.length();
+      if (largo < 1e-3) return;
+      const z = dir.clone().normalize();
+      let y;
+      if (Math.abs(z.y) > 0.95) y = mb.alma === 'Y' ? new THREE.Vector3(0, 0, 1) : new THREE.Vector3(1, 0, 0);
+      else y = ARRIBA.clone();
+      y.addScaledVector(z, -y.dot(z)).normalize();
+      const x = new THREE.Vector3().crossVectors(y, z).normalize();
+      const clave = grupoDeClase[mb.c] || 'arriostre';
+      const mesh = new THREE.Mesh(geometriaDe(mb.p), sub[clave].userData.material);
+      mesh.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(x, y, z));
+      mesh.position.copy(a); mesh.scale.set(1, 1, largo);
+      mesh.userData.miembro = mb; mesh.userData.largo = largo; mesh.userData.estudio = true;
+      sub[clave].add(mesh);
+    });
+    // hormigón: muros, losa (con el hueco de la escalera), radier, vigas VHA y cimientos corridos
+    const H = D.hormigon, matH = new THREE.MeshLambertMaterial({color: dark ? 0x8A8D93 : 0xB4B3AA, transparent: true, opacity: 0.92, side: THREE.DoubleSide});
+    const matCF = new THREE.MeshLambertMaterial({color: dark ? 0x6E7177 : 0xA7A9AD, transparent: true, opacity: 0.9, side: THREE.DoubleSide});
+    const hormigon = new THREE.Group(); hormigon.userData.material = matH;
+    const prismaH = (pts, z0, z1, mat, huecos) => {
+      const shape = shapeFromPts(pts);
+      (huecos || []).forEach(h => { const hp = new THREE.Path(); h.forEach((p, i) => { if (i === 0) hp.moveTo(cm(p[0]), -cm(p[1])); else hp.lineTo(cm(p[0]), -cm(p[1])); }); hp.closePath(); shape.holes.push(hp); });
+      const mesh = extrudeShape(shape, cm(z1 - z0), mat.color.getHex(), mat.opacity); mesh.position.y = cm(z0); return mesh;
+    };
+    const ficha = (mesh, t, sub2) => { mesh.userData.sitio = `<b>${t}</b><br><span class="sub">${sub2}</span>`; return mesh; };
+    H.muros.piezas.forEach(mu => hormigon.add(ficha(prismaH(mu.pts, H.muros.z_inf, H.muros.z_sup, matH), `Búnker: muro ${mu.lado}`, `hormigón e=${H.muros.espesor} · ${H.muros.armadura}`)));
+    hormigon.add(ficha(prismaH(H.losa.pts, H.losa.z_inf, H.losa.z_sup, matH, [H.losa.hueco]), 'Búnker: losa de techo', `e=${H.losa.espesor} · ${H.losa.armadura}`));
+    hormigon.add(ficha(prismaH(H.piso.pts, H.piso.z_inf, H.piso.z_sup, matH), 'Búnker: radier', `e=${H.piso.espesor} · ${H.piso.armadura}`));
+    H.vigas.forEach(v => hormigon.add(ficha(prismaH(v.pts, v.z_inf, v.z_sup, matH), v.nombre, `${v.d} · ${v.armadura}`)));
+    (D.cimientos || []).forEach(c => { hormigon.add(ficha(prismaH(c.pts, D.z_piso - 75, D.z_piso - 50, matCF), 'Cimiento corrido', `${c.d} · ${D.cimiento_dato || ''}`)); });
+    if (H.zapatas) H.zapatas.piezas.forEach(z => hormigon.add(ficha(prismaH(z.pts, H.zapatas.z_inf, H.zapatas.z_sup, matCF), 'Búnker: zapata corrida', H.zapatas.dato)));
+    // escalera esquemática: una rampa de peldaños
+    const esc = H.escalera, n = 16, dz = (esc.z_arriba - esc.z_abajo) / n, dy = esc.largo / n;
+    for (let i = 0; i < n; i++){
+      const y0 = esc.pts[0][1] + i * dy, zt = esc.z_arriba - (i + 1) * dz;
+      const p = [[esc.pts[0][0], y0], [esc.pts[1][0], y0], [esc.pts[1][0], y0 + dy], [esc.pts[0][0], y0 + dy]];
+      hormigon.add(ficha(prismaH(p, esc.z_abajo, zt + dz, matH), 'Escalera al búnker', esc.nota));
+    }
+    g.add(hormigon); sub.hormigon = hormigon;
+    g.userData.sub = sub;
+    return g;
+  }
+  const grupoEstudioEst = buildEstudioEst();
+  grupoEstudioEst.visible = false;
+
   // ---------- terreno (sitio.js + sitio3d.js): lote, cierros, gimnasio, estudio con búnker,
   // y urbanismo. Si falta el módulo, el modelo sigue sin terreno.
   let sitio = null;
   if (window.Sitio3D && typeof DATA_SITIO !== 'undefined'){
     try { sitio = Sitio3D.crear({T: THREE, D: DATA_SITIO, dark, tipoColor: KIND_COLOR}); } catch (err){ console.error(err); sitio = null; }
   }
-  scene.add(grupoN1, grupoN2, slabN1, slabN2, grupoRoof, grupoEstructura, grupoLosa);
+  scene.add(grupoN1, grupoN2, slabN1, slabN2, grupoRoof, grupoEstructura, grupoLosa, grupoEstudioEst);
   // zócalo de la casa: del terreno (NPT +0,70 sobre el ±0,00) hasta la losa del nivel 1, para que no quede en el aire
   let zocaloN1 = null;
   if (sitio){
@@ -484,7 +541,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   const chkLosa = document.getElementById('chk-losa');
   const chkSitio = {terreno: 'chk-terreno', gimnasio: 'chk-gimnasio', estudio: 'chk-estudio', urbanismo: 'chk-urbanismo'};
   Object.keys(chkSitio).forEach(k => { chkSitio[k] = document.getElementById(chkSitio[k]); });
-  const chkBajoTierra = document.getElementById('chk-bajo-tierra');
+  const chkBajoTierra = document.getElementById('chk-bajo-tierra'), chkEstudioEst = document.getElementById('chk-estudio-est');
   const explode = document.getElementById('explode');
   const cajaGrupos = document.getElementById('grupos-acero');
   const chkGrupo = {};
@@ -512,6 +569,9 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     if (sitio){
       Object.keys(chkSitio).forEach(k => { sitio.sub[k].visible = chkSitio[k].checked; });
       sitio.sub.cierros.visible = chkSitio.terreno.checked;
+      grupoEstudioEst.visible = chkEstudioEst.checked;
+      // con la estructura prendida, los volúmenes del estudio se vuelven más transparentes para ver las piezas
+      sitio.sub.estudio.traverse(o => { if (o.material && o.userData.sitio && !o.userData.bunker) o.material.opacity = chkEstudioEst.checked ? 0.25 : (o.userData.opBase != null ? o.userData.opBase : (o.userData.opBase = o.material.opacity)); });
       sitio.bajoTierra(chkBajoTierra.checked);
       ground.visible = grid.visible = !chkBajoTierra.checked;
     }
@@ -520,8 +580,9 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     grupoRoof.position.y = off;
     grupoEstructura.traverse(o => { if (o.userData.superior) o.position.y = o.userData.y0 + off; });
   }
-  [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, explode, chkBajoTierra].concat(Object.values(chkSitio)).forEach(el => el.addEventListener('input', aplica));
-  if (!sitio) Object.values(chkSitio).concat([chkBajoTierra]).forEach(el => { el.closest('.row').hidden = true; });
+  [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, explode, chkBajoTierra, chkEstudioEst].concat(Object.values(chkSitio)).forEach(el => el.addEventListener('input', aplica));
+  if (!sitio) Object.values(chkSitio).concat([chkBajoTierra, chkEstudioEst]).forEach(el => { el.closest('.row').hidden = true; });
+  if (!grupoEstudioEst.children.length) chkEstudioEst.closest('.row').hidden = true;
 
   // ---------- ficha de una pieza: clic (sin arrastrar) sobre la estructura ----------
   const ficha = document.getElementById('ficha');
@@ -535,7 +596,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     const r = renderer.domElement.getBoundingClientRect();
     puntero.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     raycaster.setFromCamera(puntero, camera);
-    const objetivos = [grupoEstructura, grupoLosa].concat(sitio ? Object.values(sitio.sub) : []).filter(gr => gr.visible);
+    const objetivos = [grupoEstructura, grupoLosa, grupoEstudioEst].concat(sitio ? Object.values(sitio.sub) : []).filter(gr => gr.visible);
     const hit = raycaster.intersectObjects(objetivos, true).find(h => h.object.visible && h.object.parent.visible && (h.object.userData.miembro || h.object.userData.losa || h.object.userData.sitio));
     if (!hit){ ficha.hidden = true; return; }
     if (hit.object.userData.losa || hit.object.userData.sitio){
@@ -548,7 +609,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     const largo = (hit.object.userData.largo).toFixed(2).replace('.', ',');
     const clase = {pilar: 'pilar', viga: 'viga', diagonal: 'diagonal', otro: 'celosía', cabio: 'cabio', puntal: 'puntal',
                    costanera: 'costanera', tensor: 'tensor', colgador: 'colgador'}[mb.c] || mb.c;
-    ficha.innerHTML = `<b>${mb.p}</b> · ${clase}<br><span class="sub">${mb.d || ''}${mb.d ? ' · ' : ''}${largo} m</span>`;
+    ficha.innerHTML = `<b>${mb.p}</b> · ${clase}${hit.object.userData.estudio ? ' · <span class="sub">estudio, propuesta</span>' : ''}<br><span class="sub">${mb.d || ''}${mb.d ? ' · ' : ''}${largo} m</span>`;
     ficha.style.left = Math.min(e.clientX - r.left + 12, r.width - 270) + 'px';
     ficha.style.top = Math.max(e.clientY - r.top - 50, 8) + 'px';
     ficha.hidden = false;
@@ -561,7 +622,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     try {
       nav = Nav3D.conectar({
         camera, controls, dom: renderer.domElement,
-        objetivos: () => [grupoN1, slabN1, grupoN2, slabN2, grupoRoof, grupoEstructura, grupoLosa].concat(sitio ? Object.values(sitio.sub) : []).filter(g => g.visible),
+        objetivos: () => [grupoN1, slabN1, grupoN2, slabN2, grupoRoof, grupoEstructura, grupoLosa, grupoEstudioEst].concat(sitio ? Object.values(sitio.sub) : []).filter(g => g.visible),
         planoY: PISO,
         inicio: encuadre,
         contenedor: stage, lado: 'derecha', vertical: '(max-width: 639px)',
@@ -615,6 +676,13 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   document.getElementById('panel-cerrar').addEventListener('click', () => { panelAbierto = false; pintarUI(); });
   movil.addEventListener('change', () => { if (!movil.matches){ avisoAbierto = true; panelAbierto = true; } else { avisoAbierto = false; panelAbierto = false; } pintarUI(); });
   pintarUI();
+  // 3d.html?estudio=1 (desde estudio.html): abre con la estructura del estudio prendida, la de la casa apagada y la cámara sobre el estudio
+  if (sitio && grupoEstudioEst.children.length && new URLSearchParams(location.search).get('estudio')){
+    chkEstudioEst.checked = true; chkEstructura.checked = false; chkLosa.checked = false; chkRoof.checked = false;
+    const E = DATA_SITIO.estudio, cx = cm((E.exterior[0][0] + E.exterior[1][0]) / 2), cz = cm((E.exterior[0][1] + E.exterior[2][1]) / 2), cy = cm(E.z_piso) + 2;
+    const dir = new THREE.Vector3(0.6, 0.45, 0.65).normalize(), dist = 30;
+    camera.position.set(cx + dir.x * dist, cy + dir.y * dist, cz + dir.z * dist); controls.target.set(cx, cy, cz); controls.update();
+  }
   aplica();   // aplica lo que viene marcado al abrir (volúmenes apagados; estructura, losa y techo prendidos)
   (function loop(t){ requestAnimationFrame(loop); if (nav) nav.actualizar(t); controls.update(); renderer.render(scene, camera); })();
   // para pruebas desde la consola (igual que LOSA y PERNOS en las otras vistas)

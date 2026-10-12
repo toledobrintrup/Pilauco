@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#1B1E24">
+<meta name="description" content="Estudio de grabación con búnker de Casa Pilauco: la estructura del proyecto del ingeniero adaptada a la planta nueva (orientación, medidas y recintos), con planta, elevaciones, tabla de cambios, luces y preguntas para su revisión.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%233D5A73'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='2.2'%3E%3Cpath d='M7 24V10h18v14'/%3E%3Cpath d='M7 10l18 14M25 10L7 24'/%3E%3C/g%3E%3C/svg%3E">
+<title>Estudio: estructura</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --paper:#FFFFFF; --panel:#F7F8FA; --ink:#16181D; --muted:#6B7280; --line:#E3E6EB; --line2:#EFF1F4;
+  --accent:#3D5A73; --hi:#D9731A; --hi-soft:rgba(217,115,26,.10); --hi-borde:rgba(217,115,26,.38);
+  --ok:#2F7D4A; --ok-soft:rgba(47,125,74,.10); --med:#9A6A12; --med-soft:rgba(154,106,18,.11); --calc:#3D5A73; --calc-soft:rgba(61,90,115,.10);
+  --mal:#B42318; --mal-soft:rgba(180,35,24,.08);
+  --shadow:0 1px 2px rgba(16,18,22,.06),0 10px 28px rgba(16,18,22,.10);
+  --chrome:#1B1E24; --chrome-ink:#F0F2F5; --chrome-muted:#9AA0AC; --chrome-line:#343943; --chrome-hi:rgba(255,255,255,.10);
+  --fig-ink:#2B2F36; --fig-soft:#8B929C; --fig-fill:#F1F2F4; --fig-horm:#DCDDDF; --fig-pilar:#C2410C; --fig-viga:#1D63B8; --fig-diag:#2B8A3E; --fig-techo:#8E44AD; --fig-horm2:#B4B3AA;
+  --ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+  --paper:#14161A; --panel:#1A1D23; --ink:#E7E9EE; --muted:#8A909C; --line:#2A2E37; --line2:#212530;
+  --accent:#8FB4D4; --hi:#F09A4E; --hi-soft:rgba(240,154,78,.12); --hi-borde:rgba(240,154,78,.40);
+  --ok:#74C08E; --ok-soft:rgba(116,192,142,.12); --med:#E0B25A; --med-soft:rgba(224,178,90,.12); --calc:#8FB4D4; --calc-soft:rgba(143,180,212,.13);
+  --mal:#F08A80; --mal-soft:rgba(240,138,128,.10);
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
+  --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
+  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-horm:#30333A; --fig-pilar:#F08C4A; --fig-viga:#5AA9F0; --fig-diag:#63C27A; --fig-techo:#C58AE6; --fig-horm2:#8A8D93;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#14161A; --panel:#1A1D23; --ink:#E7E9EE; --muted:#8A909C; --line:#2A2E37; --line2:#212530;
+  --accent:#8FB4D4; --hi:#F09A4E; --hi-soft:rgba(240,154,78,.12); --hi-borde:rgba(240,154,78,.40);
+  --ok:#74C08E; --ok-soft:rgba(116,192,142,.12); --med:#E0B25A; --med-soft:rgba(224,178,90,.12); --calc:#8FB4D4; --calc-soft:rgba(143,180,212,.13);
+  --mal:#F08A80; --mal-soft:rgba(240,138,128,.10);
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
+  --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
+  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-horm:#30333A; --fig-pilar:#F08C4A; --fig-viga:#5AA9F0; --fig-diag:#63C27A; --fig-techo:#C58AE6; --fig-horm2:#8A8D93;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;font-feature-settings:"cv05","ss01"}
+header.top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:12px 18px 11px;background:var(--chrome);color:var(--chrome-ink)}
+header.top h1{font-size:16.5px;font-weight:600;margin:0;letter-spacing:-.012em}
+header.top h1 small{font-weight:400;color:var(--chrome-muted);font-size:12.5px;margin-left:9px;letter-spacing:0}
+header.top .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
+@media (max-width:760px){header.top .meta{display:none}header.top h1 small{display:block;margin:2px 0 0}}
+.toc{position:sticky;top:0;z-index:5;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding:9px 22px;background:var(--paper);border-bottom:1px solid var(--line)}
+.toc::-webkit-scrollbar{display:none}
+.toc a{flex:none;font-size:12px;font-weight:500;color:var(--muted);text-decoration:none;padding:4px 10px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.toc a:hover{color:var(--ink);border-color:var(--line)}
+.toc a.on{color:var(--ink);background:var(--line2);border-color:var(--line)}
+.doc-in{max-width:980px;margin:0 auto;padding:6px 26px 90px}
+section{padding-top:30px;scroll-margin-top:44px}
+h2{font-size:19px;font-weight:650;letter-spacing:-.015em;margin:0 0 10px;display:flex;align-items:baseline;gap:10px}
+h2 .n{font-size:11.5px;font-weight:600;color:var(--hi);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+h3{font-size:14.5px;font-weight:600;margin:22px 0 6px}
+p{margin:0 0 10px}
+.lead{font-size:15px;margin:16px 0 14px}
+.sub{color:var(--muted)}
+.small{font-size:12.5px}
+a{color:var(--accent)}
+.specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0 6px}
+.spec{border:1px solid var(--line);border-radius:10px;padding:10px 12px 9px;background:var(--panel);min-width:0}
+.spec .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:500}
+.spec .v{font-size:17.5px;font-weight:620;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin:2px 0 3px;line-height:1.25}
+.spec .d{font-size:12px;color:var(--muted);line-height:1.4}
+@media (max-width:760px){.specs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:420px){.specs{grid-template-columns:1fr}}
+.fuente{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:1px 6px;border-radius:999px;vertical-align:1px;margin-left:4px;white-space:nowrap}
+.fuente.man{color:var(--ok);background:var(--ok-soft)}
+.fuente.med{color:var(--med);background:var(--med-soft)}
+.fuente.calc{color:var(--calc);background:var(--calc-soft)}
+.tw{overflow-x:auto;margin:10px 0 6px;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:12.5px;font-variant-numeric:tabular-nums}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:500;text-align:left;padding:8px 9px;border-bottom:1px solid var(--line);background:var(--panel);white-space:nowrap}
+td{padding:7px 9px;border-bottom:1px solid var(--line2);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.c,th.c{text-align:center}
+td.r,th.r{text-align:right}
+td.dif{color:var(--mal);font-weight:600}
+td.okv{color:var(--ok)}
+td.med{color:var(--med);font-weight:600}
+.sw{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:6px;border:1px solid rgba(0,0,0,.15)}
+figure{margin:14px 0 10px}
+figure svg{display:block;width:100%;height:auto}
+figcaption{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45}
+svg .tx{font-family:var(--ui);fill:var(--fig-ink)}
+svg .txs{font-family:var(--ui);fill:var(--fig-soft)}
+.aviso{border:1px solid var(--hi-borde);background:var(--hi-soft);border-radius:10px;padding:9px 12px;margin:10px 0;font-size:13px}
+.aviso b{color:var(--hi)}
+.pendiente{border:1px dashed var(--line);border-radius:10px;padding:10px 12px;margin:8px 0;font-size:13px;color:var(--muted)}
+.pendiente b{color:var(--ink)}
+footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.btn{font:inherit;font-size:12.5px;font-weight:500;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
+.btn:hover{border-color:var(--hi-borde);color:var(--hi)}
+.btn.p{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn.p:hover{opacity:.9;color:var(--paper)}
+.leyenda{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted);margin:4px 0 0}
+ol.preg{padding-left:20px;margin:6px 0}
+ol.preg li{margin:0 0 8px}
+.elevs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px}
+@media (max-width:760px){.elevs{grid-template-columns:1fr}}
+@media (max-width:640px){.doc-in{padding:4px 16px 70px}.toc{padding:8px 16px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <script src="menu.js?v=20261012e" data-vista="estudio"></script>
+  <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
+  <span class="meta" id="meta">Propuesta · no es un cálculo</span>
+</header>
+<nav class="toc" id="toc">
+  <a href="#resumen">Resumen</a><a href="#planta">Planta</a><a href="#bunker">Búnker</a><a href="#elevaciones">Elevaciones</a><a href="#cambios">Cambios</a><a href="#luces">Luces</a><a href="#acero">Acero</a><a href="#preguntas">Preguntas</a>
+</nav>
+<div class="doc-in">
+
+<section id="resumen" style="padding-top:14px">
+  <p class="lead">En abril de 2026 el ingeniero proyectó un estudio con búnker de 11,05 × 10,25 m (entre ejes), con el búnker de
+  5,00 m de ancho bajo un extremo y el techo subiendo hacia ese lado. La planta nueva mide <b>10,05 × 15,25 m</b>, tiene el búnker bajo
+  la cafetería (al norte, hacia el patio), el techo subiendo hacia el sur como la casa, y recintos divididos. Esta página toma
+  <b>el mismo sistema estructural que él usó</b> (pilares de tubo cuadrado 150×150, vigas de techo 200×150 con 3,5 %, costaneras
+  CA 100×50 cada 61 cm, cruces C 150×50, tensores Fe 16, búnker en hormigón con muros de 25 y losa de 20) y lo acomoda a la planta
+  nueva. Cada pieza dice si es <span class="fuente man">dato</span> de sus láminas o <span class="fuente med">propuesta</span>.</p>
+  <div class="aviso"><b>Ojo:</b> no es un cálculo. Es el diseño armado con los perfiles y la lógica del ingeniero para que él
+  verifique, corrija o cambie lo que corresponda, en vez de partir de cero. Las luces que crecieron respecto del original están marcadas.</div>
+  <div class="specs" id="specs"></div>
+  <p style="margin-top:12px"><a class="btn p" href="3d.html?estudio=1">Ver en 3D →</a> <span class="small sub">con la sección real de cada perfil; toca una pieza para ver qué es</span></p>
+</section>
+
+<section id="planta">
+  <h2><span class="n">01</span>Planta de estructura</h2>
+  <p>Ejes 1 a 5 de poniente a oriente y A a E de norte a sur. Los pilares van solo en muros: fachadas norte (A) y sur (E), el tabique
+  cafetería/estudio (B), que apoya sobre el muro sur del búnker, y las fachadas laterales. Ningún pilar queda dentro del estudio ni de la cafetería.</p>
+  <figure><svg id="svg-planta" role="img" aria-label="Planta de la estructura de techo"></svg>
+    <figcaption id="cap-planta"></figcaption></figure>
+  <div class="leyenda" id="ley-planta"></div>
+</section>
+
+<section id="bunker">
+  <h2><span class="n">02</span>Búnker</h2>
+  <p id="txt-bunker"></p>
+  <figure><svg id="svg-bunker" role="img" aria-label="Planta del búnker"></svg>
+    <figcaption id="cap-bunker"></figcaption></figure>
+</section>
+
+<section id="elevaciones">
+  <h2><span class="n">03</span>Elevaciones</h2>
+  <p>Mismo dibujo que las láminas del ingeniero: pilares de 4,01 m, viga inclinada al 3,5 % sobre un cordón horizontal con puntales
+  cortos donde se separan, y cruces de San Andrés en los tramos extremos. El búnker aparece bajo la cafetería en los ejes norte-sur.</p>
+  <div class="elevs" id="elevs"></div>
+</section>
+
+<section id="cambios">
+  <h2><span class="n">04</span>Qué cambia respecto del proyecto original</h2>
+  <div class="tw"><table id="tabla-cambios"></table></div>
+</section>
+
+<section id="luces">
+  <h2><span class="n">05</span>Luces y perfiles: qué se mantiene y qué hay que recalcular</h2>
+  <p>El criterio es simple: donde la luz nueva es igual o menor que la del original con el mismo perfil, el diseño del ingeniero
+  cubre el caso; donde creció, él decide si el perfil aguanta o se cambia.</p>
+  <div class="tw"><table id="tabla-luces"></table></div>
+</section>
+
+<section id="acero">
+  <h2><span class="n">06</span>Acero del modelo</h2>
+  <div class="tw"><table id="tabla-acero"></table></div>
+  <p class="small sub">Largos de las piezas del modelo, sin pérdidas, placas ni anclajes.</p>
+</section>
+
+<section id="preguntas">
+  <h2><span class="n">07</span>Preguntas para el ingeniero</h2>
+  <ol class="preg" id="preguntas-lista"></ol>
+  <div class="pendiente" id="pendiente"></div>
+</section>
+
+<footer>Fuentes: láminas 03, 04 y 05 del proyecto del estudio (abril 2026), planta del estudio (octubre 2026) y las indicaciones de Gabriel. Las láminas no están en este sitio.</footer>
+</div>
+</div>
+
+<script src="sitio.js?v=20261012e"></script>
+<script src="estudio_estructura.js?v=20261012e"></script>
+<script>
+(function () {
+  const D = DATA_ESTUDIO_EST, E = DATA_SITIO.estudio, ox = E.origen[0], oy = E.origen[1], z0 = D.z_piso;
+  const $ = s => document.querySelector(s);
+  const coma = (v, d) => Number(v).toLocaleString('es-CL', { minimumFractionDigits: d, maximumFractionDigits: d });
+  const m = v => coma(v / 100, 2) + ' m';
+  const loc = p => [p[0] - ox, p[1] - oy, (p[2] == null ? 0 : p[2]) - z0];   // app -> marco local del estudio (cm)
+  const W = E.ancho, L = E.largo, P = D.parametros;
+  const COL = { pilar: 'var(--fig-pilar)', viga: 'var(--fig-viga)', cabio: 'var(--fig-viga)', costanera: 'var(--fig-techo)', diagonal: 'var(--fig-diag)', tensor: 'var(--fig-diag)', puntal: 'var(--fig-pilar)', otro: 'var(--fig-techo)' };
+
+  // ---------- resumen ----------
+  const pil = D.miembros.filter(x => x.c === 'pilar').length, H = D.hormigon;
+  $('#specs').innerHTML = [
+    ['Planta', `${coma(W / 100, 2)} × ${coma(L / 100, 2)} m`, 'exteriores, muros de 25 <span class="fuente man">planta</span>'],
+    ['Pilares', pil, `${D.miembros.filter(x => x.p === 'CUAD 150x150x5').length} PM1 150×150×5, ${D.miembros.filter(x => x.p === 'CUAD 150x150x4').length} PM2 150×150×4, ${D.miembros.filter(x => x.c === 'pilar' && x.p === 'RECT 150x100x3').length} PM3 150×100×3 <span class="fuente med">propuesta</span>`],
+    ['Búnker', `${coma(H.interior.ancho / 100, 2)} × ${coma(H.interior.largo / 100, 2)} m`, `${coma(H.interior.alto / 100, 2)} m interiores; muros ${H.muros.espesor}, losa ${H.losa.espesor}, radier ${H.piso.espesor} <span class="fuente man">dato</span>`],
+    ['Acero', `${coma(D.total_kg, 0)} kg`, 'perfiles del modelo, sin placas ni pérdidas <span class="fuente calc">calculado</span>'],
+  ].map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
+  $('#meta').textContent = `Propuesta sobre las láminas 03, 04 y 05 (abril 2026) · ${D.miembros.length} piezas de acero · no es un cálculo`;
+
+  // ---------- helpers svg ----------
+  const NS = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs, parent) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); (parent || null) && parent.appendChild(e); return e; }
+  function txt(svg, x, y, t, attrs) { const e = el('text', Object.assign({ x, y, class: 'tx', 'font-size': 20 }, attrs || {}), svg); e.textContent = t; return e; }
+  function burbuja(svg, x, y, t) { el('circle', { cx: x, cy: y, r: 22, style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.5' }, svg); txt(svg, x, y + 7, t, { 'text-anchor': 'middle', 'font-size': 19, 'font-weight': 600 }); }
+  function cota(svg, x1, y1, x2, y2, t, off, fs) {
+    const dx = x2 - x1, dy = y2 - y1, l = Math.hypot(dx, dy) || 1, nx = -dy / l * off, ny = dx / l * off;
+    el('line', { x1: x1 + nx, y1: y1 + ny, x2: x2 + nx, y2: y2 + ny, style: 'stroke:var(--fig-soft);stroke-width:1' }, svg);
+    [[x1, y1], [x2, y2]].forEach(([x, y]) => el('line', { x1: x, y1: y, x2: x + nx, y2: y + ny, style: 'stroke:var(--fig-soft);stroke-width:.8' }, svg));
+    txt(svg, (x1 + x2) / 2 + nx * 1.5, (y1 + y2) / 2 + ny * 1.5 + 6, t, { 'text-anchor': 'middle', 'font-size': fs || 18, class: 'txs' });
+  }
+
+  // ---------- planta de estructura ----------
+  (function planta() {
+    const svg = $('#svg-planta'); const ax = P.alero_eo + 150, ay = P.alero_ns + 110;
+    svg.setAttribute('viewBox', `${-ax} ${-ay} ${W + 2 * ax} ${L + 2 * ay}`);
+    // recintos (tenue) y contorno exterior
+    E.recintos.forEach(r => { const pts = r.pts.map(loc); el('polygon', { points: pts.map(p => p.slice(0, 2).join(',')).join(' '), style: 'fill:var(--fig-fill);stroke:var(--fig-soft);stroke-width:1;stroke-dasharray:6 4' }, svg); const c = pts.reduce((s, p) => [s[0] + p[0] / pts.length, s[1] + p[1] / pts.length], [0, 0]); txt(svg, c[0], c[1] + 6, r.nombre.replace(' + sala de grabación', ''), { 'text-anchor': 'middle', 'font-size': 17, class: 'txs' }); });
+    el('rect', { x: 0, y: 0, width: W, height: L, style: 'fill:none;stroke:var(--fig-ink);stroke-width:2' }, svg);
+    // búnker (contorno punteado)
+    const bl = H.losa.pts.map(loc); el('polygon', { points: bl.map(p => p.slice(0, 2).join(',')).join(' '), style: 'fill:none;stroke:var(--fig-horm2);stroke-width:3;stroke-dasharray:12 6' }, svg);
+    txt(svg, W / 2, 100, 'búnker debajo', { 'text-anchor': 'middle', 'font-size': 16, class: 'txs' });
+    // contorno de cubierta
+    const tc = D.techo.contorno.map(loc); el('polygon', { points: tc.map(p => p.slice(0, 2).join(',')).join(' '), style: 'fill:none;stroke:var(--fig-techo);stroke-width:1.2;stroke-dasharray:4 4' }, svg);
+    // ejes
+    Object.entries(D.ejes.x).forEach(([n, x]) => { el('line', { x1: x, y1: -P.alero_ns - 40, x2: x, y2: L + P.alero_ns + 40, style: 'stroke:var(--fig-soft);stroke-width:.8;stroke-dasharray:14 5 3 5' }, svg); burbuja(svg, x, -P.alero_ns - 70, n); });
+    Object.entries(D.ejes.y).forEach(([n, y]) => { el('line', { x1: -P.alero_eo - 40, y1: y, x2: W + P.alero_eo + 40, y2: y, style: 'stroke:var(--fig-soft);stroke-width:.8;stroke-dasharray:14 5 3 5' }, svg); burbuja(svg, -P.alero_eo - 80, y, n); });
+    // costaneras, tensores, vigas, cabios, pilares
+    const orden = ['costanera', 'tensor', 'otro', 'viga', 'cabio', 'pilar'];
+    orden.forEach(c => D.miembros.filter(x => x.c === c).forEach(mb => {
+      const a = loc(mb.a), b = loc(mb.b);
+      if (c === 'pilar') { el('rect', { x: a[0] - 8, y: a[1] - 8, width: 16, height: 16, style: `fill:${COL.pilar};stroke:var(--fig-ink);stroke-width:1` }, svg); return; }
+      const w = { costanera: 1.2, tensor: 1.2, otro: 2, viga: 4, cabio: 5 }[c];
+      el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], style: `stroke:${COL[c]};stroke-width:${w};stroke-dasharray:${c === 'tensor' ? '8 5' : 'none'};opacity:${c === 'costanera' ? .55 : 1}` }, svg);
+    }));
+    // cotas de ejes
+    const xs = Object.values(D.ejes.x), ys = Object.values(D.ejes.y);
+    for (let i = 0; i < xs.length - 1; i++) cota(svg, xs[i], L + P.alero_ns + 20, xs[i + 1], L + P.alero_ns + 20, coma(xs[i + 1] - xs[i], 0), 40, 17);
+    cota(svg, xs[0], L + P.alero_ns + 20, xs[4], L + P.alero_ns + 20, coma(xs[4] - xs[0], 0), 85, 17);
+    for (let i = 0; i < ys.length - 1; i++) cota(svg, W + P.alero_eo + 20, ys[i], W + P.alero_eo + 20, ys[i + 1], coma(ys[i + 1] - ys[i], 0), -40, 17);
+    cota(svg, W + P.alero_eo + 20, ys[0], W + P.alero_eo + 20, ys[5], coma(ys[5] - ys[0], 0), -85, 17);
+    txt(svg, W / 2, -P.alero_ns - 125, 'N ↑', { 'text-anchor': 'middle', 'font-size': 18, class: 'txs' });
+    const nC = D.miembros.filter(x => x.c === 'costanera').length;
+    $('#cap-planta').innerHTML = `Planta de la estructura de techo, a escala (cm). Pilares en naranjo (${pil}); vigas inclinadas norte-sur RECT 200×150 en los 5 ejes y vigas E-O CUAD 100×100×3 a +4,01 en A, B y E (azul); ${nC} costaneras CA 100×50×15×3 cada ${P.paso_costanera} cm de alero a alero (morado); tensores Fe 16 en X en los paños 1-2 y 4-5 (verde punteado). El contorno punteado gris es el búnker; el morado punteado, la cubierta con aleros de ${P.alero_ns} (N-S) y ${P.alero_eo} (E-O).`;
+    $('#ley-planta').innerHTML = [['var(--fig-pilar)', 'pilares'], ['var(--fig-viga)', 'vigas'], ['var(--fig-techo)', 'costaneras y cubierta'], ['var(--fig-diag)', 'tensores y cruces'], ['var(--fig-horm2)', 'búnker']].map(([c, t]) => `<span><span class="sw" style="background:${c}"></span>${t}</span>`).join('');
+  })();
+
+  // ---------- planta del búnker ----------
+  (function bunker() {
+    const svg = $('#svg-bunker'); const bl = H.losa.pts.map(loc); const bx0 = bl[0][0], by0 = bl[0][1], bx1 = bl[2][0], by1 = bl[2][1];
+    const mg = 150; svg.setAttribute('viewBox', `${bx0 - mg} ${by0 - mg} ${bx1 - bx0 + 2 * mg} ${by1 - by0 + 2 * mg + 40}`);
+    el('rect', { x: bx0, y: by0, width: bx1 - bx0, height: by1 - by0, style: 'fill:var(--fig-fill);stroke:none' }, svg);
+    H.muros.piezas.forEach(mu => { const p = mu.pts.map(loc); el('polygon', { points: p.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:1.2' }, svg); });
+    H.vigas.forEach(v => { const p = v.pts.map(loc); el('polygon', { points: p.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:none;stroke:var(--fig-ink);stroke-width:1.5;stroke-dasharray:10 5' }, svg); const c = p.reduce((s, q) => [s[0] + q[0] / 4, s[1] + q[1] / 4], [0, 0]); txt(svg, c[0] + (v.id === 'VHA-esc' ? -40 : 0), c[1] + 6, v.nombre, { 'text-anchor': 'middle', 'font-size': 15, transform: v.id === 'VHA-3' ? `rotate(-90 ${c[0]} ${c[1]})` : '' }); });
+    const hu = H.losa.hueco.map(loc); el('polygon', { points: hu.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.2' }, svg);
+    for (let i = 1; i < 16; i++) { const y = hu[0][1] + (hu[2][1] - hu[0][1]) * i / 16; el('line', { x1: hu[0][0], y1: y, x2: hu[1][0], y2: y, style: 'stroke:var(--fig-soft);stroke-width:.8' }, svg); }
+    txt(svg, (hu[0][0] + hu[1][0]) / 2, hu[0][1] - 10, 'escalera', { 'text-anchor': 'middle', 'font-size': 15, class: 'txs' });
+    // pilares que apoyan en los muros N y S
+    D.miembros.filter(x => x.c === 'pilar').map(x => loc(x.a)).filter(p => p[1] < by1 + 20).forEach(p => el('rect', { x: p[0] - 8, y: p[1] - 8, width: 16, height: 16, style: 'fill:var(--fig-pilar);stroke:var(--fig-ink);stroke-width:1' }, svg));
+    // ejes
+    Object.entries(D.ejes.x).forEach(([n, x]) => { el('line', { x1: x, y1: by0 - 60, x2: x, y2: by1 + 40, style: 'stroke:var(--fig-soft);stroke-width:.8;stroke-dasharray:14 5 3 5' }, svg); burbuja(svg, x, by0 - 95, n); });
+    [['A', D.ejes.y.A], ['B', D.ejes.y.B]].forEach(([n, y]) => { el('line', { x1: bx0 - 60, y1: y, x2: bx1 + 40, y2: y, style: 'stroke:var(--fig-soft);stroke-width:.8;stroke-dasharray:14 5 3 5' }, svg); burbuja(svg, bx0 - 95, y, n); });
+    cota(svg, bx0 + 25, by1 + 20, bx1 - 25, by1 + 20, coma(H.interior.ancho, 0) + ' interior', 40, 16);
+    cota(svg, bx1 + 20, by0 + 25, bx1 + 20, by1 - 25, coma(H.interior.largo, 0), -45, 16);
+    cota(svg, bx0, by1 + 20, bx1, by1 + 20, coma(bx1 - bx0, 0) + ' exterior', 85, 16);
+    txt(svg, (bx0 + bx1) / 2, (by0 + by1) / 2 - 30, 'losa e=' + H.losa.espesor, { 'text-anchor': 'middle', 'font-size': 17 });
+    txt(svg, (bx0 + bx1) / 2, (by0 + by1) / 2 - 6, H.losa.armadura.split(' (')[0], { 'text-anchor': 'middle', 'font-size': 13, class: 'txs' });
+    $('#txt-bunker').innerHTML = `Mismas reglas que el búnker original: muros de ${H.muros.espesor} cm con ${H.muros.armadura.replace(' (dato: DM muro e=25)', '')} <span class="fuente man">dato</span>, losa de techo de ${H.losa.espesor} cm, radier de ${H.piso.espesor} cm, viga VHA 25/40 bajo la losa. Lo que cambia: mide <b>${coma(H.interior.ancho / 100, 2)} × ${coma(H.interior.largo / 100, 2)} m interiores y ${coma(H.interior.alto / 100, 2)} m de alto</b> (el original 10,55 × 5,00 × 2,72), su muro sur queda bajo el tabique cafetería/estudio y recibe los 5 pilares del eje B, y tiene la escalera junto al muro oriente, con una viga de borde <span class="fuente med">propuesta</span>. Niveles: losa terminada en NPOG 0,00 (50 cm sobre el terreno natural, 20 cm bajo el piso de la casa), piso del búnker en −${coma(H.losa.espesor + H.interior.alto, 0)}, fondo del radier en −${coma(H.losa.espesor + H.interior.alto + H.piso.espesor, 0)}.`;
+    $('#cap-bunker').innerHTML = `Planta del búnker con la losa de techo. ${H.vigas[0].d}. ${H.escalera.nota}.`;
+  })();
+
+  // ---------- elevaciones ----------
+  function elevacion(cont, titulo, eje, valor, horiz) {
+    // horiz = 'x' → elevación N-S (se mira desde el poniente: y hacia la derecha); 'y' → elevación E-O (x hacia la derecha)
+    const fig = document.createElement('figure'); const svg = el('svg', { role: 'img', 'aria-label': titulo }); fig.appendChild(svg);
+    const cap = document.createElement('figcaption'); fig.appendChild(cap); cont.appendChild(fig);
+    const sel = D.miembros.filter(mb => { const a = loc(mb.a), b = loc(mb.b); const k = horiz === 'x' ? 0 : 1; return Math.abs(a[k] - valor) < 6 && Math.abs(b[k] - valor) < 6; });
+    const u = p => horiz === 'x' ? p[1] : p[0];
+    const largoT = horiz === 'x' ? L : W, al = horiz === 'x' ? P.alero_ns : P.alero_eo;
+    const zMin = -(H.losa.espesor + H.interior.alto + H.piso.espesor) - 40, zMax = P.h_pilar + 120;
+    svg.setAttribute('viewBox', `${-al - 90} ${-zMax - 30} ${largoT + 2 * al + 180} ${zMax - zMin + 60}`);
+    const Y = z => -z;
+    // terreno y niveles
+    el('line', { x1: -al - 60, y1: Y(-50), x2: largoT + al + 60, y2: Y(-50), style: 'stroke:var(--fig-soft);stroke-width:1' }, svg);
+    txt(svg, largoT + al + 30, Y(-50) - 6, 'NTN −50', { 'font-size': 15, class: 'txs' }); txt(svg, largoT + al + 30, Y(0) - 6, 'NPOG 0,00', { 'font-size': 15, class: 'txs' });
+    // búnker en corte (solo elevaciones N-S)
+    if (horiz === 'x') {
+      const bl = H.losa.pts.map(loc), by0 = bl[0][1], by1 = bl[2][1], zl = -H.losa.espesor, zp = -(H.losa.espesor + H.interior.alto), zf = zp - H.piso.espesor;
+      el('rect', { x: by0, y: Y(0), width: by1 - by0, height: -zf, style: 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1.2' }, svg);
+      el('rect', { x: by0 + H.muros.espesor, y: Y(zl), width: by1 - by0 - 2 * H.muros.espesor, height: -(zp - zl), style: 'fill:var(--paper);stroke:none' }, svg);
+      cota(svg, by0 + H.muros.espesor, Y(zp), by0 + H.muros.espesor, Y(zl), coma(H.interior.alto, 0), 60, 15);
+      txt(svg, (by0 + by1) / 2, Y(zp / 2) + 6, 'búnker', { 'text-anchor': 'middle', 'font-size': 17, class: 'txs' });
+      txt(svg, by0 + 10, Y(zf) + 18, 'NPOG −' + coma(-zf, 0), { 'font-size': 14, class: 'txs' });
+    } else {
+      // en E-O: cimiento corrido o muro del búnker bajo la fachada
+      el('rect', { x: -12.5, y: Y(-50), width: largoT + 25, height: 40, style: 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1' }, svg);
+    }
+    // pilares del plano de fondo (tenues) no se dibujan: solo las piezas del eje
+    const orden = ['costanera', 'otro', 'tensor', 'viga', 'cabio', 'puntal', 'pilar', 'diagonal'];
+    orden.forEach(c => sel.filter(x => x.c === c).forEach(mb => {
+      const a = loc(mb.a), b = loc(mb.b);
+      const w = { pilar: 9, viga: 5, cabio: 7, puntal: 5, diagonal: 3.5, costanera: 2, otro: 3, tensor: 1.5 }[c];
+      el('line', { x1: u(a), y1: Y(a[2]), x2: u(b), y2: Y(b[2]), style: `stroke:${COL[c]};stroke-width:${w};stroke-linecap:square` }, svg);
+    }));
+    // costaneras se ven como puntos en las elevaciones N-S: se dibuja la línea de techo
+    if (horiz === 'x') { const cab = sel.find(x => x.c === 'cabio'); if (cab) { const a = loc(cab.a), b = loc(cab.b); el('line', { x1: u(a), y1: Y(a[2] + 30), x2: u(b), y2: Y(b[2] + 30), style: 'stroke:var(--fig-techo);stroke-width:2' }, svg); } }
+    // rótulos de perfiles (uno por tipo) y ejes
+    const tipos = {}; sel.forEach(x => { tipos[x.p] = (tipos[x.p] || 0) + 1; });
+    const ejesOtro = horiz === 'x' ? D.ejes.y : D.ejes.x;
+    Object.entries(ejesOtro).forEach(([n, v]) => { el('line', { x1: v, y1: Y(zMax - 40), x2: v, y2: Y(zMin + 20), style: 'stroke:var(--fig-soft);stroke-width:.7;stroke-dasharray:14 5 3 5' }, svg); burbuja(svg, v, Y(zMin + 20) + 30, n); });
+    cota(svg, 0, Y(0), 0, Y(P.h_pilar), coma(P.h_pilar, 0), -55, 15);
+    const cab = sel.find(x => x.c === 'cabio'); if (cab) { const b = loc(cab.b); txt(svg, u(b) - 10, Y(b[2]) - 14, '+' + coma(b[2], 0), { 'text-anchor': 'end', 'font-size': 14, class: 'txs' }); const a = loc(cab.a); txt(svg, u(a) + 10, Y(a[2]) - 14, '+' + coma(a[2], 0), { 'font-size': 14, class: 'txs' }); }
+    cap.innerHTML = `<b>${titulo}</b> · ${Object.entries(tipos).map(([p, n]) => `${p} (${n})`).join(', ')}.`;
+    return fig;
+  }
+  const cont = $('#elevs');
+  elevacion(cont, 'Elevación eje 1 (fachada poniente)', 'x', D.ejes.x['1'], 'x');
+  elevacion(cont, 'Elevación eje 3 (marco interior)', 'x', D.ejes.x['3'], 'x');
+  elevacion(cont, 'Elevación eje B (tabique cafetería/estudio)', 'y', D.ejes.y.B, 'y');
+  elevacion(cont, 'Elevación eje E (fachada sur)', 'y', D.ejes.y.E, 'y');
+
+  // ---------- cambios ----------
+  $('#tabla-cambios').innerHTML = `<thead><tr><th>Qué</th><th>Proyecto original (abril 2026)</th><th>Adaptación</th><th>Lo define</th></tr></thead><tbody>${D.cambios.map(c => `<tr><td><b>${c.que}</b></td><td>${c.original}</td><td>${c.nuevo}</td><td class="small">${c.por}</td></tr>`).join('')}</tbody>`;
+
+  // ---------- luces ----------
+  const xs = Object.values(D.ejes.x), ys = Object.values(D.ejes.y);
+  const bahiaMax = Math.max(...xs.slice(1).map((v, i) => v - xs[i]));
+  const luces = [
+    ['Costaneras CA 100×50×15×3 @61', 'paño de 3,65 m con colgadores ø10', `paño mayor de ${coma(bahiaMax / 100, 2)} m, sin colgadores`, 'menor'],
+    ['Viga inclinada RECT 200×150×5 (marcos interiores) + cordón + puntales', '10,25 m sin pilares (1.b, 1.c)', `${coma((ys[5] - ys[2]) / 100, 2)} m en el estudio (B–E) y ${coma((ys[2] - ys[0]) / 100, 2)} m en la cafetería (A–B)`, 'menor'],
+    ['Viga inclinada RECT 200×150×3 (fachadas laterales)', 'tramos de 1,25 a 3,43 m entre pilares', `tramos de 3,00 m entre pilares`, 'menor'],
+    ['Vigas E-O CUAD 100×100×3 a +4,01', 'tramos de 2,05 a 3,65 m', `tramos de ${coma(Math.min(...xs.slice(1).map((v, i) => v - xs[i])) / 100, 2)} a ${coma(bahiaMax / 100, 2)} m`, 'menor'],
+    ['Pilares CUAD 150×150', '4,01 m', '4,01 m', 'igual'],
+    ['Cruces C 150×50×3', 'tramos de 2,05 y 1,82 m × 4,01 m', 'tramos de 3,00 m × 4,01 m (y 2,45–2,50 m en el tabique B)', 'mayor'],
+    ['Losa del búnker e=20', '5,00 m (ø10@20)', `${coma(H.interior.largo / 100, 2)} m`, 'mayor'],
+    ['Muros del búnker e=25', '2,72 m de altura libre', `${coma(H.interior.alto / 100, 2)} m`, 'mayor'],
+    ['Viga VHA 25/40 bajo la losa', '5,00 m entre muros (eje 2.a)', `${coma(H.interior.largo / 100, 2)} m entre muros (eje 3) y viga de borde de ${coma(H.escalera.largo / 100, 2)} m en la escalera`, 'mayor'],
+    ['Tensores Fe 16 del techo', 'paños de 2,05 × 3,65 m', `paños de hasta ${coma(bahiaMax / 100, 2)} × 3,00 m (y 6,00 m en A–B)`, 'mayor'],
+  ];
+  const est = { menor: ['okv', 'se mantiene'], igual: ['okv', 'igual'], mayor: ['med', 'recalcular'] };
+  $('#tabla-luces').innerHTML = `<thead><tr><th>Elemento</th><th>Luz original</th><th>Luz nueva</th><th>Estado</th></tr></thead><tbody>${luces.map(l => `<tr><td><b>${l[0]}</b></td><td>${l[1]}</td><td>${l[2]}</td><td class="${est[l[3]][0]}">${est[l[3]][1]}</td></tr>`).join('')}</tbody>`;
+
+  // ---------- acero ----------
+  $('#tabla-acero').innerHTML = `<thead><tr><th>Perfil</th><th class="r">Metros</th><th class="r">kg</th><th>Dónde</th></tr></thead><tbody>${D.cubicacion.map(c => {
+    const donde = [...new Set(D.miembros.filter(x => x.p === c.perfil).map(x => ({ pilar: 'pilares', viga: 'vigas', cabio: 'vigas inclinadas', puntal: 'puntales', costanera: 'costaneras', diagonal: 'cruces', tensor: 'tensores', otro: 'soportes de alero' })[x.c]))].join(', ');
+    return `<tr><td><b>${c.perfil}</b></td><td class="r">${coma(c.metros, 1)}</td><td class="r">${coma(c.kg, 0)}</td><td class="small">${donde}</td></tr>`; }).join('')}<tr><td><b>Total</b></td><td></td><td class="r"><b>${coma(D.total_kg, 0)}</b></td><td></td></tr></tbody>`;
+
+  // ---------- preguntas ----------
+  $('#preguntas-lista').innerHTML = D.preguntas.map(p => `<li>${p}</li>`).join('');
+  $('#pendiente').innerHTML = `<b>Pendiente del ingeniero:</b> fundaciones del estudio (el plano 01 original no está en la carpeta), placas y anclajes, y la verificación de todo lo marcado como "recalcular". Cuando entregue su versión, el modelo se actualiza con sus piezas.`;
+
+  // ---------- índice activo ----------
+  const links = [...document.querySelectorAll('.toc a')], secs = links.map(a => document.querySelector(a.getAttribute('href')));
+  const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)); }); }, { rootMargin: '-40% 0px -55% 0px' });
+  secs.forEach(s => s && io.observe(s));
+})();
+</script>
+</body>
+</html>

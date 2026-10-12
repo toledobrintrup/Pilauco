@@ -73,6 +73,18 @@ ficha y de dónde sale el dato:
 
 Cómo se calibró el emplazamiento y qué es dato y qué supuesto está en `fuente/sitio/README.md`.
 
+## Estudio y búnker: estructura
+
+`estudio.html` muestra el proyecto estructural que el ingeniero hizo en abril de 2026 para el estudio con
+búnker (11,05 × 10,25 m, búnker de 5,00 m bajo un extremo) **adaptado a la planta nueva** (10,05 × 15,25 m,
+búnker de 5,75 × 9,55 m bajo la cafetería, techo subiendo al sur, recintos divididos), con el mismo sistema
+que él usó: pilares de tubo cuadrado 150×150, vigas de techo 200×150 al 3,5 %, costaneras CA 100×50 cada
+61 cm, cruces C 150×50, tensores Fe 16 y el búnker en hormigón con muros de 25 y losa de 20. Trae la planta
+de estructura, la planta del búnker, cuatro elevaciones, la tabla de cambios, la de luces (qué se mantiene y
+qué hay que recalcular), el acero del modelo y las preguntas para el ingeniero. No es un cálculo: es el diseño
+armado para que él lo revise sin partir de cero. En la Vista 3D, **Estructura del estudio (propuesta)** dibuja
+cada pieza con su sección real (`3d.html?estudio=1` abre ahí).
+
 ## Losa colaborante
 
 El entrepiso, pieza por pieza, sobre las vigas reales de la estructura: el **marco perimetral de
@@ -181,6 +193,9 @@ Base: plano L3 PLARQ2 (Planta Arquitectura Nivel 2, GVArq, dic. 2025, esc. 1:50)
 - `estructura.js` — la estructura de acero pieza por pieza (perfil y extremos de cada una) para la capa "Ver estructura" de `3d.html`; se genera desde `fuente/ingenieria/datos/modelo.json`.
 - `sitio.js` — el terreno (lote, cierros, acceso, gimnasio, estudio con búnker, senderos y piscina) para `3d.html`; se genera con `fuente/sitio/generar_sitio_js.py`.
 - `sitio3d.js` — el módulo que dibuja el terreno en Three.js.
+- `estudio.html` — la estructura del estudio con búnker adaptada del proyecto del ingeniero: planta, búnker, elevaciones, cambios, luces y preguntas.
+- `estudio_estructura.js` — las piezas de esa propuesta (acero y hormigón) para `estudio.html` y `3d.html`; se genera con `fuente/estudio/generar_estudio_estructura.py`.
+- `fuente/estudio/` — el generador de la propuesta y, en `datos/`, la lectura de las tres láminas del ingeniero.
 - `fuente/sitio/` — cómo se calibró el emplazamiento, la planta del estudio y el armado del terreno, con cada dato y cada supuesto marcados.
 - `fuente/nivel1/` — scripts que extraen la planta del nivel 1 desde el PDF, con las decisiones documentadas.
 - `fuente/planta-nivel2-proyecto.zip` — proyecto del nivel 2: pipeline de extracción (Python) y datos JSON.
