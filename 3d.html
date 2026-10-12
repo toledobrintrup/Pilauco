@@ -45,6 +45,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
 .hint{position:absolute;right:12px;bottom:60px;font-size:11px;color:var(--muted);background:var(--panel);border:1px solid var(--line);padding:6px 10px;border-radius:8px;pointer-events:none;max-width:220px;text-align:right;line-height:1.4}
 .aviso{position:absolute;top:12px;left:12px;right:12px;max-width:520px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:9px 12px;font-size:12px;line-height:1.5;color:var(--muted)}
 .aviso b{color:var(--ink);font-weight:500}
+.aviso .version{color:var(--muted);opacity:.8;white-space:nowrap}
 .aviso{padding-right:30px}
 .cerrar{position:absolute;top:3px;right:5px;background:none;border:0;color:var(--muted);font-size:17px;line-height:1;cursor:pointer;padding:3px 7px;border-radius:6px}
 .cerrar:hover{color:var(--ink)}
@@ -85,9 +86,9 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
 <body>
 <div class="app">
   <header>
-    <script src="menu.js" data-vista="3d"></script>
+    <script src="menu.js?v=20261012" data-vista="3d"></script>
     <h1>Vista 3D</h1>
-    <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio</span>
+    <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · v. 12-10-2026</span>
   </header>
   <div class="stage" id="stage">
     <div class="loading" id="loading">Cargando el modelo…</div>
@@ -101,7 +102,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
       pieza para ver su perfil, dónde está y su largo. <b>Losa colaborante</b> agrega el marco C y
       las placas del entrepiso; su vista especial trae el despiece y el montaje. <b>Terreno:</b> lote,
       gimnasio, estudio con búnker, estacionamiento futuro y piscina; toca cualquiera para ver su ficha
-      y de dónde sale el dato.
+      y de dónde sale el dato. <span class="version">Versión del 12-10-2026.</span>
     </div>
     <div class="panel" id="panel" hidden>
       <div class="row cab"><span class="lbl">Capas</span><button type="button" class="cerrar" id="panel-cerrar" aria-label="Cerrar">×</button></div>
@@ -137,12 +138,12 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js"></script>
-<script src="data.js"></script>
-<script src="estructura.js"></script>
-<script src="losa.js"></script>
-<script src="sitio.js"></script>
-<script src="sitio3d.js"></script>
+<script src="nav3d.js?v=20261012"></script>
+<script src="data.js?v=20261012"></script>
+<script src="estructura.js?v=20261012"></script>
+<script src="losa.js?v=20261012"></script>
+<script src="sitio.js?v=20261012"></script>
+<script src="sitio3d.js?v=20261012"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
