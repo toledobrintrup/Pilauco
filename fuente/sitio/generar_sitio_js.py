@@ -57,7 +57,7 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
 OCULTAR_REAL = {'galpon'}
 OCULTAR_OTROS = {'Galpón de obra (ala oeste)', 'Galpón de obra (ala este)', 'Caseta de bombas'}
 OCULTAR_URBANISMO = {'grava', 'soleras', 'contornos', 'senderos', 'radier'}
-OCULTAR_CLAVES = {'estudio_arq', 'radier_arq', 'accesos_arq'}
+OCULTAR_CLAVES = {'estudio_arq', 'radier_arq', 'accesos_arq', 'estacionamiento'}   # el estacionamiento futuro también fuera (2026-10-12)
 
 def filtrar(S):
     real = {k: v for k, v in S.get('real', {}).items() if k not in OCULTAR_REAL}
@@ -82,7 +82,7 @@ def main(sitio_json, estudio_json, salida):
         gimnasio=S.get('gimnasio'),
         estudio=armar_estudio(E, S['estudio_origen'], S['estudio_pendiente'], E['techo']['sube_hacia']),
         estudio_anclaje=S.get('estudio_anclaje'),
-        estacionamiento=S.get('estacionamiento'),
+        estacionamiento=None if 'estacionamiento' in OCULTAR_CLAVES else S.get('estacionamiento'),
         urbanismo=urb_vis,
         real=real_vis,
         notas=S.get('notas', []),

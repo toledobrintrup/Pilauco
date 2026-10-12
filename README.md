@@ -66,7 +66,6 @@ ficha y de dónde sale el dato:
   de 2,80 m bajo la cafetería, centrado en la excavación que ya está hecha; el cielo mide 4,00 m al
   norte y sube con la pendiente de la casa. La estructura y las fundaciones las define el ingeniero.
   Se dibuja también, solo como contorno, el edificio B que había puesto el arquitecto.
-- **Estacionamiento (futuro)** — el cobertizo de tres bahías entre la casa y el estudio que dibuja el emplazamiento.
 - **Senderos y piscina** — lo real, sacado de la foto de dron rectificada con las esquinas del cierro:
   la explanada en U, la piscina y el jacuzzi, el radier junto al gimnasio, la excavación del búnker,
   el galpón de obra y la caseta de bombas; más la grava del acceso y las soleras del plano.
@@ -180,7 +179,7 @@ Base: plano L3 PLARQ2 (Planta Arquitectura Nivel 2, GVArq, dic. 2025, esc. 1:50)
 - `fuente/losa/` — cómo se sacó la losa del plano, de las áreas marcadas en obra y de la ficha Instadeck.
 - `data.js` — los datos de ambas plantas (`DATA_N1`, `DATA_N2`), compartidos por `index.html` y `3d.html`: una sola fuente, nada duplicado.
 - `estructura.js` — la estructura de acero pieza por pieza (perfil y extremos de cada una) para la capa "Ver estructura" de `3d.html`; se genera desde `fuente/ingenieria/datos/modelo.json`.
-- `sitio.js` — el terreno (lote, cierros, acceso, gimnasio, estudio con búnker, estacionamiento, senderos y piscina) para `3d.html`; se genera con `fuente/sitio/generar_sitio_js.py`.
+- `sitio.js` — el terreno (lote, cierros, acceso, gimnasio, estudio con búnker, senderos y piscina) para `3d.html`; se genera con `fuente/sitio/generar_sitio_js.py`.
 - `sitio3d.js` — el módulo que dibuja el terreno en Three.js.
 - `fuente/sitio/` — cómo se calibró el emplazamiento, la planta del estudio y el armado del terreno, con cada dato y cada supuesto marcados.
 - `fuente/nivel1/` — scripts que extraen la planta del nivel 1 desde el PDF, con las decisiones documentadas.

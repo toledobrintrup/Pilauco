@@ -86,7 +86,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=20261012c" data-vista="3d"></script>
+    <script src="menu.js?v=20261012d" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · v. 12-10-2026</span>
   </header>
@@ -101,7 +101,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
       acero de los planos del ingeniero, pieza por pieza y con la sección de su perfil; toca una
       pieza para ver su perfil, dónde está y su largo. <b>Losa colaborante</b> agrega el marco C y
       las placas del entrepiso; su vista especial trae el despiece y el montaje. <b>Terreno:</b> lote,
-      gimnasio, estudio con búnker, estacionamiento futuro y piscina; toca cualquiera para ver su ficha
+      gimnasio, estudio con búnker y piscina; toca cualquiera para ver su ficha
       y de dónde sale el dato. <span class="version">Versión del 12-10-2026.</span>
     </div>
     <div class="panel" id="panel" hidden>
@@ -119,7 +119,6 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
       <div class="row"><label><input type="checkbox" id="chk-terreno" checked> Lote y cierros</label></div>
       <div class="row"><label><input type="checkbox" id="chk-gimnasio" checked> Gimnasio</label></div>
       <div class="row"><label><input type="checkbox" id="chk-estudio" checked> Estudio y búnker</label></div>
-      <div class="row"><label><input type="checkbox" id="chk-estacionamiento" checked> Estacionamiento (futuro)</label></div>
       <div class="row"><label><input type="checkbox" id="chk-urbanismo" checked> Senderos y piscina</label></div>
       <div class="row"><label><input type="checkbox" id="chk-bajo-tierra"> Ver bajo tierra</label></div>
       <div class="row"><button class="btn" id="ver-terreno">Ver todo el terreno</button></div>
@@ -137,12 +136,12 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=20261012c"></script>
-<script src="data.js?v=20261012c"></script>
-<script src="estructura.js?v=20261012c"></script>
-<script src="losa.js?v=20261012c"></script>
-<script src="sitio.js?v=20261012c"></script>
-<script src="sitio3d.js?v=20261012c"></script>
+<script src="nav3d.js?v=20261012d"></script>
+<script src="data.js?v=20261012d"></script>
+<script src="estructura.js?v=20261012d"></script>
+<script src="losa.js?v=20261012d"></script>
+<script src="sitio.js?v=20261012d"></script>
+<script src="sitio3d.js?v=20261012d"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -401,7 +400,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   grupoLosa.visible = false;
 
   // ---------- terreno (sitio.js + sitio3d.js): lote, cierros, gimnasio, estudio con búnker,
-  // estacionamiento futuro y urbanismo. Si falta el módulo, el modelo sigue sin terreno.
+  // y urbanismo. Si falta el módulo, el modelo sigue sin terreno.
   let sitio = null;
   if (window.Sitio3D && typeof DATA_SITIO !== 'undefined'){
     try { sitio = Sitio3D.crear({T: THREE, D: DATA_SITIO, dark, tipoColor: KIND_COLOR}); } catch (err){ console.error(err); sitio = null; }
@@ -483,7 +482,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   const chkN1 = document.getElementById('chk-n1'), chkN2 = document.getElementById('chk-n2'), chkRoof = document.getElementById('chk-roof');
   const chkEstructura = document.getElementById('chk-estructura');
   const chkLosa = document.getElementById('chk-losa');
-  const chkSitio = {terreno: 'chk-terreno', gimnasio: 'chk-gimnasio', estudio: 'chk-estudio', estacionamiento: 'chk-estacionamiento', urbanismo: 'chk-urbanismo'};
+  const chkSitio = {terreno: 'chk-terreno', gimnasio: 'chk-gimnasio', estudio: 'chk-estudio', urbanismo: 'chk-urbanismo'};
   Object.keys(chkSitio).forEach(k => { chkSitio[k] = document.getElementById(chkSitio[k]); });
   const chkBajoTierra = document.getElementById('chk-bajo-tierra');
   const explode = document.getElementById('explode');
