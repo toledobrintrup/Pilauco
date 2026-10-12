@@ -107,17 +107,20 @@ ol.preg li{margin:0 0 8px}
 .elevs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px}
 @media (max-width:760px){.elevs{grid-template-columns:1fr}}
 @media (max-width:640px){.doc-in{padding:4px 16px 70px}.toc{padding:8px 16px}}
+.marco3d{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper);height:72vh;min-height:420px;max-height:820px}
+.marco3d iframe{width:100%;height:100%;border:0;display:block}
+@media (max-width:640px){.marco3d{height:62vh;min-height:360px}}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=20261012g" data-vista="estudio"></script>
+  <script src="menu.js?v=20261012h" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
   <span class="meta" id="meta">Propuesta · no es un cálculo</span>
 </header>
 <nav class="toc" id="toc">
-  <a href="#resumen">Resumen</a><a href="#planta">Planta</a><a href="#bunker">Búnker</a><a href="#elevaciones">Elevaciones</a><a href="#vanos">Ventanas</a><a href="#cambios">Cambios</a><a href="#luces">Luces</a><a href="#acero">Acero</a><a href="#preguntas">Preguntas</a>
+  <a href="#resumen">Resumen</a><a href="#vista3d">3D</a><a href="#planta">Planta</a><a href="#bunker">Búnker</a><a href="#elevaciones">Elevaciones</a><a href="#vanos">Ventanas</a><a href="#cambios">Cambios</a><a href="#luces">Luces</a><a href="#acero">Acero</a><a href="#preguntas">Preguntas</a>
 </nav>
 <div class="doc-in">
 
@@ -134,8 +137,17 @@ ol.preg li{margin:0 0 8px}
   <p style="margin-top:12px"><a class="btn p" href="3d.html?estudio=1">Ver en 3D →</a> <span class="small sub">con la sección real de cada perfil; toca una pieza para ver qué es</span></p>
 </section>
 
+<section id="vista3d">
+  <h2><span class="n">01</span>Vista 3D del estudio</h2>
+  <p>La misma vista 3D de la casa, centrada en el estudio: muros, ventanas y puertas propuestos y el mobiliario de referencia. En <b>Capas</b> se
+  prenden la estructura de acero y hormigón, el búnker bajo tierra y las <b>medidas</b> de puertas, ventanas, muros y recintos (vienen apagadas).
+  Arrastra para girar, rueda o pellizco para acercar, doble toque para centrar; toca una pieza para ver su ficha.</p>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=20261012h" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
+</section>
+
 <section id="planta">
-  <h2><span class="n">01</span>Planta de estructura</h2>
+  <h2><span class="n">02</span>Planta de estructura</h2>
   <p>Ejes 1 a 5 de poniente a oriente y A a E de norte a sur. Los pilares van solo en muros: fachadas norte (A) y sur (E), el tabique
   cafetería/estudio (B), que apoya sobre el muro sur del búnker, y las fachadas laterales. Ningún pilar queda dentro del estudio ni de la cafetería.</p>
   <figure><svg id="svg-planta" role="img" aria-label="Planta de la estructura de techo"></svg>
@@ -144,26 +156,27 @@ ol.preg li{margin:0 0 8px}
 </section>
 
 <section id="bunker">
-  <h2><span class="n">02</span>Búnker</h2>
+  <h2><span class="n">03</span>Búnker</h2>
   <p id="txt-bunker"></p>
   <figure><svg id="svg-bunker" role="img" aria-label="Planta del búnker"></svg>
     <figcaption id="cap-bunker"></figcaption></figure>
 </section>
 
 <section id="elevaciones">
-  <h2><span class="n">03</span>Elevaciones</h2>
-  <p>Mismo dibujo que las láminas del ingeniero: pilares de 4,01 m, viga inclinada al 3,5 % sobre un cordón horizontal con puntales
+  <h2><span class="n">04</span>Elevaciones</h2>
+  <p>Mismo dibujo que las láminas del ingeniero: pilares de 4,00 m en el lado bajo (norte) que crecen con el techo hasta 4,54 m al sur, viga inclinada al 3,5 % sobre un cordón horizontal con puntales
   cortos donde se separan, y cruces de San Andrés en los tramos extremos. El búnker aparece bajo la cafetería en los ejes norte-sur; abajo van las
   zapatas y vigas de fundación propuestas, y en azul y naranjo las ventanas y puertas de la sección 04.</p>
   <div class="elevs" id="elevs"></div>
 </section>
 
 <section id="vanos">
-  <h2><span class="n">04</span>Ventanas, puertas y esquema interior (propuesta)</h2>
+  <h2><span class="n">05</span>Ventanas, puertas y esquema interior (propuesta)</h2>
   <p>Las ventanas van <b>entre pilares</b>: la grilla de 2,45 m es el módulo de cada paño, con marcos de acero negro. La cafetería mira al patio
-  por el norte con vidrio de piso a 3,00 m en los cuatro tramos y una corredera al centro; entre cafetería y estudio va un tabique vidriado de
+  por el norte con vidrio de piso a 3,00 m en los cuatro tramos y una corredera en el tramo 2-3 (alineada con la corredera interior y la ventana sur); entre cafetería y estudio va un tabique vidriado de
   piso a cielo (doble vidrio, por la acústica) con corredera centrada en el estudio; el estudio tiene una sola ventana, de piso a cielo, centrada
-  en la fachada sur entre los parlantes. La entrada principal da al poniente, hacia la casa y el estacionamiento, pegada al pilar A2; el baño y la
+  en la fachada sur entre los parlantes. Para que ese vidrio llegue de verdad al cielo, las vigas E-O de los ejes B y E van pegadas bajo la viga
+  inclinada (en A y C siguen a +4,00). La entrada principal da al poniente, hacia la casa y el estacionamiento, pegada al pilar A2; el baño y la
   bodega ventilan por ventanas altas al oriente. Las cruces quedaron solo en
   muros ciegos, así ningún vidrio choca con la estructura; en el tabique del baño cabe una sola diagonal, porque la puerta ocupa el lado del eje 4.</p>
   <figure><svg id="svg-vanos" role="img" aria-label="Planta de ventanas, puertas y esquema interior"></svg>
@@ -174,25 +187,25 @@ ol.preg li{margin:0 0 8px}
 </section>
 
 <section id="cambios">
-  <h2><span class="n">05</span>Qué cambia respecto del proyecto original</h2>
+  <h2><span class="n">06</span>Qué cambia respecto del proyecto original</h2>
   <div class="tw"><table id="tabla-cambios"></table></div>
 </section>
 
 <section id="luces">
-  <h2><span class="n">06</span>Luces y perfiles: qué se mantiene y qué hay que recalcular</h2>
+  <h2><span class="n">07</span>Luces y perfiles: qué se mantiene y qué hay que recalcular</h2>
   <p>El criterio es simple: donde la luz nueva es igual o menor que la del original con el mismo perfil, el diseño del ingeniero
   cubre el caso; donde creció, él decide si el perfil aguanta o se cambia.</p>
   <div class="tw"><table id="tabla-luces"></table></div>
 </section>
 
 <section id="acero">
-  <h2><span class="n">07</span>Acero del modelo</h2>
+  <h2><span class="n">08</span>Acero del modelo</h2>
   <div class="tw"><table id="tabla-acero"></table></div>
   <p class="small sub">Largos de las piezas del modelo, sin pérdidas, placas ni anclajes.</p>
 </section>
 
 <section id="preguntas">
-  <h2><span class="n">08</span>Preguntas para el ingeniero</h2>
+  <h2><span class="n">09</span>Preguntas para el ingeniero</h2>
   <ol class="preg" id="preguntas-lista"></ol>
   <div class="pendiente" id="pendiente"></div>
 </section>
@@ -201,8 +214,8 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=20261012g"></script>
-<script src="estudio_estructura.js?v=20261012g"></script>
+<script src="sitio.js?v=20261012h"></script>
+<script src="estudio_estructura.js?v=20261012h"></script>
 <script>
 (function () {
   const D = DATA_ESTUDIO_EST, E = DATA_SITIO.estudio, ox = E.origen[0], oy = E.origen[1], z0 = D.z_piso;
@@ -237,7 +250,7 @@ ol.preg li{margin:0 0 8px}
 
   // ---------- planta de estructura ----------
   (function planta() {
-    const svg = $('#svg-planta'); const ax = P.alero_eo + 150, ay = P.alero_ns + 110;
+    const svg = $('#svg-planta'); const ax = P.alero_eo + 200, ay = P.alero_ns + 170;
     svg.setAttribute('viewBox', `${-ax} ${-ay} ${W + 2 * ax} ${L + 2 * ay}`);
     // recintos (tenue) y contorno exterior
     E.recintos.forEach(r => { const pts = r.pts.map(loc); el('polygon', { points: pts.map(p => p.slice(0, 2).join(',')).join(' '), style: 'fill:var(--fig-fill);stroke:var(--fig-soft);stroke-width:1;stroke-dasharray:6 4' }, svg); const c = pts.reduce((s, p) => [s[0] + p[0] / pts.length, s[1] + p[1] / pts.length], [0, 0]); txt(svg, c[0], c[1] + 6, r.nombre.replace(' + sala de grabación', ''), { 'text-anchor': 'middle', 'font-size': 17, class: 'txs' }); });
@@ -266,7 +279,7 @@ ol.preg li{margin:0 0 8px}
     cota(svg, W + P.alero_eo + 20, ys[0], W + P.alero_eo + 20, ys[5], coma(ys[5] - ys[0], 0), -85, 17);
     txt(svg, W / 2, -P.alero_ns - 125, 'N ↑', { 'text-anchor': 'middle', 'font-size': 18, class: 'txs' });
     const nC = D.miembros.filter(x => x.c === 'costanera').length;
-    $('#cap-planta').innerHTML = `Planta de la estructura de techo, a escala (cm). Pilares en naranjo (${pil}); vigas inclinadas norte-sur RECT 200×150 en los 5 ejes y vigas E-O CUAD 100×100×3 a +4,01 en A, B y E (azul); ${nC} costaneras CA 100×50×15×3 cada ${P.paso_costanera} cm de alero a alero (morado); tensores Fe 16 en X en los paños 1-2 y 4-5 (verde punteado). El contorno punteado gris es el búnker; el morado punteado, la cubierta con aleros de ${P.alero_ns} (N-S) y ${P.alero_eo} (E-O).`;
+    $('#cap-planta').innerHTML = `Planta de la estructura de techo, a escala (cm). Pilares en naranjo (${pil}); vigas inclinadas norte-sur RECT 200×150 en los 5 ejes y vigas E-O CUAD 100×100×3 en A, B y E (azul; a +4,00 en A y C, bajo la viga inclinada en B y E); ${nC} costaneras CA 100×50×15×3 cada ${P.paso_costanera} cm de alero a alero (morado); tensores Fe 16 en X en los paños 1-2 y 4-5 (verde punteado). El contorno punteado gris es el búnker; el morado punteado, la cubierta con aleros de ${P.alero_ns} (N-S) y ${P.alero_eo} (E-O).`;
     $('#ley-planta').innerHTML = [['var(--fig-pilar)', 'pilares'], ['var(--fig-viga)', 'vigas'], ['var(--fig-techo)', 'costaneras y cubierta'], ['var(--fig-diag)', 'tensores y cruces'], ['var(--fig-horm2)', 'búnker']].map(([c, t]) => `<span><span class="sw" style="background:${c}"></span>${t}</span>`).join('');
   })();
 
@@ -303,7 +316,7 @@ ol.preg li{margin:0 0 8px}
     const u = p => horiz === 'x' ? p[1] : p[0];
     const largoT = horiz === 'x' ? L : W, al = horiz === 'x' ? P.alero_ns : P.alero_eo;
     const zMin = -(H.losa.espesor + H.interior.alto + H.piso.espesor) - 40, zMax = P.h_pilar + 120;
-    svg.setAttribute('viewBox', `${-al - 90} ${-zMax - 30} ${largoT + 2 * al + 180} ${zMax - zMin + 60}`);
+    svg.setAttribute('viewBox', `${-al - 90} ${-zMax - 30} ${largoT + 2 * al + 220} ${zMax - zMin + 60}`);
     const Y = z => -z;
     // terreno y niveles
     el('line', { x1: -al - 60, y1: Y(-50), x2: largoT + al + 60, y2: Y(-50), style: 'stroke:var(--fig-soft);stroke-width:1' }, svg);
@@ -342,12 +355,13 @@ ol.preg li{margin:0 0 8px}
       el('line', { x1: u(a), y1: Y(a[2]), x2: u(b), y2: Y(b[2]), style: `stroke:${COL[c]};stroke-width:${w};stroke-linecap:square` }, svg);
     }));
     // costaneras se ven como puntos en las elevaciones N-S: se dibuja la línea de techo
-    if (horiz === 'x') { const cab = sel.find(x => x.c === 'cabio'); if (cab) { const a = loc(cab.a), b = loc(cab.b); el('line', { x1: u(a), y1: Y(a[2] + 30), x2: u(b), y2: Y(b[2] + 30), style: 'stroke:var(--fig-techo);stroke-width:2' }, svg); } }
+    if (horiz === 'x') { const cab = sel.find(x => x.c === 'cabio'); if (cab) { const a = loc(cab.a), b = loc(cab.b); el('line', { x1: u(a), y1: Y(a[2] + 20), x2: u(b), y2: Y(b[2] + 20), style: 'stroke:var(--fig-techo);stroke-width:2' }, svg); } }
     // rótulos de perfiles (uno por tipo) y ejes
     const tipos = {}; sel.forEach(x => { tipos[x.p] = (tipos[x.p] || 0) + 1; });
     const ejesOtro = horiz === 'x' ? D.ejes.y : D.ejes.x;
     Object.entries(ejesOtro).forEach(([n, v]) => { el('line', { x1: v, y1: Y(zMax - 40), x2: v, y2: Y(zMin + 20), style: 'stroke:var(--fig-soft);stroke-width:.7;stroke-dasharray:14 5 3 5' }, svg); burbuja(svg, v, Y(zMin + 20) + 30, n); });
-    cota(svg, 0, Y(0), 0, Y(P.h_pilar), coma(P.h_pilar, 0), -55, 15);
+    const p0 = sel.filter(x => x.c === 'pilar').sort((a, b) => u(loc(a.a)) - u(loc(b.a)))[0]; const hp = p0 ? loc(p0.b)[2] - loc(p0.a)[2] : P.h_pilar;
+    cota(svg, 0, Y(0), 0, Y(hp), coma(hp, 0), -55, 15);
     const cab = sel.find(x => x.c === 'cabio'); if (cab) { const b = loc(cab.b); txt(svg, u(b) - 10, Y(b[2]) - 14, '+' + coma(b[2], 0), { 'text-anchor': 'end', 'font-size': 14, class: 'txs' }); const a = loc(cab.a); txt(svg, u(a) + 10, Y(a[2]) - 14, '+' + coma(a[2], 0), { 'font-size': 14, class: 'txs' }); }
     cap.innerHTML = `<b>${titulo}</b> · ${Object.entries(tipos).map(([p, n]) => `${p} (${n})`).join(', ')}.`;
     return fig;
@@ -396,13 +410,14 @@ ol.preg li{margin:0 0 8px}
   const xs = Object.values(D.ejes.x), ys = Object.values(D.ejes.y);
   const bahiaMax = Math.max(...xs.slice(1).map((v, i) => v - xs[i]));
   const tramosY = ys.slice(1).map((v, i) => v - ys[i]), tramoYmin = Math.min(...tramosY), tramoYmax = Math.max(...tramosY);
+  const hP = D.miembros.filter(x => x.c === 'pilar' && x.p.startsWith('CUAD')).map(x => x.b[2] - x.a[2]);
   const luces = [
     ['Costaneras CA 100×50×15×3 @61', 'paño de 3,65 m con colgadores ø10', `paño mayor de ${coma(bahiaMax / 100, 2)} m, sin colgadores`, 'menor'],
     ['Viga inclinada RECT 200×150×5 (marcos interiores) + cordón + puntales', '10,25 m sin pilares (1.b, 1.c)', `${coma((ys[5] - ys[2]) / 100, 2)} m en el estudio (B–E) y ${coma((ys[2] - ys[0]) / 100, 2)} m en la cafetería (A–B)`, 'menor'],
     ['Viga inclinada RECT 200×150×3 (fachadas laterales)', 'tramos de 1,25 a 3,43 m entre pilares', `tramos de ${coma(tramoYmin / 100, 2)} a ${coma(tramoYmax / 100, 2)} m entre pilares (A2–B y B–C)`, tramoYmax > 343 ? 'mayor' : 'menor'],
-    ['Vigas E-O CUAD 100×100×3 a +4,01', 'tramos de 2,05 a 3,65 m', `tramos de ${coma(Math.min(...xs.slice(1).map((v, i) => v - xs[i])) / 100, 2)} a ${coma(bahiaMax / 100, 2)} m`, 'menor'],
-    ['Pilares CUAD 150×150', '4,01 m', '4,01 m', 'igual'],
-    ['Cruces C 150×50×3', 'tramos de 2,05 y 1,82 m × 4,01 m', 'tramos de 2,00 m × 4,01 m en las fachadas laterales; 2,52 y 2,75 m en los muros ciegos E-O (una sola diagonal en B 4-5)', 'menor'],
+    ['Vigas E-O CUAD 100×100×3 (+4,00 en A y C; bajo la viga inclinada en B y E)', 'tramos de 2,05 a 3,65 m', `tramos de ${coma(Math.min(...xs.slice(1).map((v, i) => v - xs[i])) / 100, 2)} a ${coma(bahiaMax / 100, 2)} m`, 'menor'],
+    ['Pilares CUAD 150×150', '4,01 a 4,47 m (F1 a A1, con el 4,5 % dibujado)', `${coma(Math.min(...hP) / 100, 2)} a ${coma(Math.max(...hP) / 100, 2)} m (A a E)`, Math.max(...hP) > 447 ? 'mayor' : 'menor'],
+    ['Cruces C 150×50×3', 'tramos de 2,05 y 1,82 m × 4,01 m', 'tramos de 2,00 m × 4,00 m en las fachadas laterales; 2,52 y 2,75 m en los muros ciegos E-O (una sola diagonal en B 4-5)', 'menor'],
     ['Losa del búnker e=20', '5,00 m (ø10@20)', `${coma(H.interior.largo / 100, 2)} m`, 'mayor'],
     ['Muros del búnker e=25', '2,72 m de altura libre', `${coma(H.interior.alto / 100, 2)} m`, 'mayor'],
     ['Viga VHA 25/40 bajo la losa', '5,00 m entre muros (eje 2.a)', `${coma(H.interior.largo / 100, 2)} m entre muros (eje 3) y viga de borde de ${coma(H.escalera.largo / 100, 2)} m en la escalera`, 'mayor'],

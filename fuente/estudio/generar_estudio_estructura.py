@@ -29,6 +29,8 @@ PERFILES = {
 PESO = {'C 150x50x3': 5.65, 'CUAD 100x100x3': 8.94, 'CUAD 150x150x4': 18.0, 'CUAD 150x150x5': 22.2, 'FE 16': 1.58,
         'RECT 150x100x3': 11.3, 'RECT 200x150x3': 16.0, 'RECT 200x150x5': 26.1, 'CA 100x50x15x3': 4.95, 'FE 10': 0.62}
 
+h2 = lambda p: PERFILES[p]['h'] / 2   # medio alto del perfil: las líneas de los miembros van por el EJE del perfil (como en estructura.js)
+
 # ---------- lo que dicen las láminas (dato) ----------
 H_PILAR = 400.0        # cara inferior de la viga inclinada en el lado bajo (lámina 04: +400 en F1, +447 en A1)
 PEND = 0.035           # pendiente: rotulada 3,5 % (dibujada 4,5 %); Gabriel pide la de la casa, 3,5 %
@@ -71,7 +73,10 @@ def main(estudio_json, sitio_json, salida):
                      'cafetería/estudio (= muro sur del búnker), C sobre el tabique baño/bodega; A2 y D a 2,00 m de las fachadas norte y sur, '
                      'para que las cruces queden en tramos de 2 m como las del original (2,05 y 1,82).')
     def ap(x, y, z): return [r1(ox + x), r1(oy + y), r1(z0 + z)]
-    def z_viga(y): return H_PILAR + PEND * (y - yA[0])               # cara inferior de la viga inclinada
+    def z_viga(y): return H_PILAR + PEND * (y - yA[0])               # cara inferior de la viga inclinada (cota del ingeniero)
+    # Convención: cada miembro se dibuja centrado en su línea, así que las cotas del ingeniero (caras inferiores) llevan sumado medio perfil.
+    Z_CORDON_EJE = (Z_CORDON[0] + Z_CORDON[1]) / 2                     # 405: eje del cordón y de las vigas E-O (de +400 a +410)
+    def z_tope(y): return z_viga(y) - 5                                # eje de una viga E-O CUAD 100 pegada bajo la viga inclinada
     M = []
     def m(id_, c, p, a, b, d, **k): M.append(dict(id=id_, c=c, p=p, a=ap(*a), b=ap(*b), d=d, **k))
     lateral = lambda xn: xn in ('1', '5')
@@ -89,18 +94,19 @@ def main(estudio_json, sitio_json, salida):
             apoyo = 'sobre el muro del búnker' if y < yB else 'sobre zapata aislada'
             m(f'P-{xn}{yn}', 'pilar', 'RECT 150x100x3', (x, y, 0), (x, y, z_viga(y)), f'PM3 eje {xn} x {yn}, pilar intermedio de la fachada lateral, {apoyo}', alma='Y')
     m('P-4C', 'pilar', 'RECT 150x100x3', (xA[3], yC, 0), (xA[3], yC, z_viga(yC)), 'PM3 eje 4 x C, en el encuentro de los tabiques estudio/baño/bodega (recibe la cruz E-O del eje C)', alma='Y')
-    # ---------- vigas E-O CUAD 100x100x3 de +400 a +410 en A, B, C (4-5) y E ----------
-    for yn, y, tramos in (('A', yA[0], range(4)), ('B', yB, range(4)), ('E', yA[5], range(4)), ('C', yC, [3])):
+    # ---------- vigas E-O CUAD 100x100x3: de +400 a +410 en A y C (4-5); en B y E pegadas bajo la viga inclinada, para que el vidrio llegue al cielo ----------
+    for yn, y, tramos, alta in (('A', yA[0], range(4), False), ('B', yB, range(4), True), ('E', yA[5], range(4), True), ('C', yC, [3], False)):
         for i in tramos:
-            m(f'VT-{yn}-{xN[i]}{xN[i+1]}', 'viga', 'CUAD 100x100x3', (xA[i], y, Z_CORDON[0]), (xA[i + 1], y, Z_CORDON[0]), f'viga E-O a +4,00/+4,10 entre pilares {xN[i]} y {xN[i+1]} del eje {yn}')
+            zv = z_tope(y) if alta else Z_CORDON_EJE
+            m(f'VT-{yn}-{xN[i]}{xN[i+1]}', 'viga', 'CUAD 100x100x3', (xA[i], y, zv), (xA[i + 1], y, zv), (f'viga E-O bajo la viga inclinada (+{zv-5:.0f}/+{zv+5:.0f}) entre pilares {xN[i]} y {xN[i+1]} del eje {yn}: va arriba para que el vidrio llegue al cielo (propuesta)' if alta else f'viga E-O a +4,00/+4,10 entre pilares {xN[i]} y {xN[i+1]} del eje {yn}'))
     # ---------- marcos N-S: cordón RECT 150x100x3 + viga inclinada + puntales (como 1.b y 1.c) ----------
     y_ini, y_fin = yA[0] - ALERO_NS, yA[5] + ALERO_NS
     for xn, x in zip(xN, xA):
         if not lateral(xn):
             for (ya, yb) in ((yA[0], yB), (yB, yA[5])):
-                m(f'VC-{xn}-{int(ya)}', 'viga', 'RECT 150x100x3', (x, ya, Z_CORDON[0]), (x, yb, Z_CORDON[0]), f'cordón horizontal RECT 150x100x3 a +4,00, eje {xn}, {ya:.0f}..{yb:.0f} (como 1.b y 1.c del original)')
+                m(f'VC-{xn}-{int(ya)}', 'viga', 'RECT 150x100x3', (x, ya, Z_CORDON_EJE), (x, yb, Z_CORDON_EJE), f'cordón horizontal RECT 150x100x3 de +4,00 a +4,10 (acostado), eje {xn}, {ya:.0f}..{yb:.0f} (como 1.b y 1.c del original)')
         perfil = 'RECT 200x150x3' if lateral(xn) else 'RECT 200x150x5'
-        m(f'VI-{xn}', 'cabio', perfil, (x, y_ini, z_viga(y_ini)), (x, y_fin, z_viga(y_fin)), f'viga inclinada de techo, eje {xn}, 3,5 % subiendo al sur, aleros de 80')
+        m(f'VI-{xn}', 'cabio', perfil, (x, y_ini, z_viga(y_ini) + h2(perfil)), (x, y_fin, z_viga(y_fin) + h2(perfil)), f'viga inclinada de techo, eje {xn}, 3,5 % subiendo al sur, aleros de 80; cara inferior a +{z_viga(yA[0]):.0f} en A')
         if not lateral(xn):
             for (ya, yb) in ((yA[0], yB), (yB, yA[5])):
                 y = ya + PASO_PUNTAL
@@ -114,10 +120,10 @@ def main(estudio_json, sitio_json, salida):
     n = int(math.floor((y_fin - y_ini - 6) / PASO_COST)) + 1
     for i in range(n):
         y = y_ini + 3 + i * PASO_COST
-        z = z_viga(y) + PERFILES['RECT 200x150x5']['h']
+        z = z_viga(y) + PERFILES['RECT 200x150x5']['h'] + h2('CA 100x50x15x3')   # apoyada sobre la viga inclinada
         m(f'CO-{i+1:02d}', 'costanera', 'CA 100x50x15x3', (x_ini, y, z), (x_fin, y, z), f'costanera {i+1} de {n}, y = {y:.0f}')
     for yn, y in (('norte', y_ini), ('sur', y_fin)):
-        m(f'SA-{yn}', 'otro', 'C 150x50x3', (x_ini, y, z_viga(y) + 10), (x_fin, y, z_viga(y) + 10), f'soporte C 150x50x3 del alero {yn} (el original lo lleva en la punta del alero bajo)')
+        m(f'SA-{yn}', 'otro', 'C 150x50x3', (x_ini, y, z_viga(y) + h2('RECT 200x150x5')), (x_fin, y, z_viga(y) + h2('RECT 200x150x5')), f'soporte C 150x50x3 del alero {yn} (el original lo lleva en la punta del alero bajo)')
     # ---------- cruces C 150x50x3 (tramos de 2 m, como F1-E3 y A2-A1) ----------
     def cruz(id_, a, b, d):
         (xa, ya), (xb, yb) = a, b
@@ -185,16 +191,17 @@ def main(estudio_json, sitio_json, salida):
     # fachada norte (A): vidrio de piso a 3,00 en los 4 tramos; corredera al patio en el tramo 2-3
     for i in range(4):
         x0, x1 = xA[i] + hol, xA[i + 1] - hol
-        if i == 1: vano(f'V-A-{i+1}', 'puerta corredera', 'norte', x0, yA[0], x1, yA[0], 0, H_VENTANA, 'corredera vidriada de 2 hojas al patio, centrada en la cafetería')
+        if i == 1: vano(f'V-A-{i+1}', 'puerta corredera', 'norte', x0, yA[0], x1, yA[0], 0, H_VENTANA, 'corredera vidriada de 2 hojas al patio, en el tramo 2-3: alineada con la corredera interior y la ventana sur (eje del estudio)')
         else: vano(f'V-A-{i+1}', 'ventana', 'norte', x0, yA[0], x1, yA[0], 0, H_VENTANA, 'ventana fija de piso a 3,00 entre pilares; la cafetería mira al patio')
-    # tabique cafetería/estudio (B): vidrio de piso a cielo en los tramos 1-2 y 3-4, corredera en el 2-3 (centrada en el estudio)
+    # tabique cafetería/estudio (B): vidrio de piso a la viga E-O (que va pegada bajo la viga inclinada) en los tramos 1-2 y 3-4, corredera en el 2-3 (centrada en el estudio)
+    z_vB, z_vE = z_tope(yB) - 5 - 5, z_tope(yA[5]) - 5 - 5   # 5 cm bajo la cara inferior de la viga E-O
     for i in range(3):
         x0, x1 = xA[i] + hol, xA[i + 1] - hol
-        if i == 1: vano(f'V-B-{i+1}', 'puerta corredera interior', 'tabique B', x0, yB, x1, yB, 0, Z_CORDON[0] - 5, 'corredera vidriada de 2 hojas entre cafetería y estudio, centrada en el estudio')
-        else: vano(f'V-B-{i+1}', 'vidrio interior', 'tabique B', x0, yB, x1, yB, 0, Z_CORDON[0] - 5, 'vidrio fijo de piso a cielo entre cafetería y estudio (acústico: doble vidrio)')
+        if i == 1: vano(f'V-B-{i+1}', 'puerta corredera interior', 'tabique B', x0, yB, x1, yB, 0, z_vB, 'corredera vidriada de 2 hojas entre cafetería y estudio, centrada en el estudio')
+        else: vano(f'V-B-{i+1}', 'vidrio interior', 'tabique B', x0, yB, x1, yB, 0, z_vB, f'vidrio fijo de piso a cielo ({z_vB/100:.2f} m, hasta la viga E-O bajo el techo) entre cafetería y estudio (acústico: doble vidrio)'.replace('.', ','))
     vano('P-B-bano', 'puerta', 'tabique B', xA[3] + 25, yB, xA[3] + 115, yB, 0, 210, 'puerta del baño desde la cafetería (0,90 x 2,10), pegada al eje 4 para que la diagonal pase por encima')
-    # fachada sur (E): ventana de piso a cielo centrada en el estudio (tramo 2-3), entre los parlantes
-    vano('V-E-2', 'ventana', 'sur', xA[1] + hol, yA[5], xA[2] - hol, yA[5], 0, Z_CORDON[0] - 5, 'ventana de piso a cielo centrada en el estudio; los parlantes van a los lados, en el muro ciego')
+    # fachada sur (E): ventana de piso a cielo centrada en el estudio (tramo 2-3), entre los parlantes; la viga E-O del eje E va arriba para no cortarla
+    vano('V-E-2', 'ventana', 'sur', xA[1] + hol, yA[5], xA[2] - hol, yA[5], 0, z_vE, f'ventana de piso a cielo ({z_vE/100:.2f} m, hasta la viga E-O bajo el techo) centrada en el estudio; los parlantes van a los lados, en el muro ciego'.replace('.', ','))
     # entrada principal: fachada poniente, lado de la casa, en la cafetería (tramo A2-B)
     # entrada pegada al pilar A2 (el tramo A-A2 lleva cruz); la cabina de grabación queda al sur de la puerta, contra el tabique vidriado
     vano('P-O-entrada', 'puerta', 'poniente', xA[0], yA[1] + 10, xA[0], yA[1] + 190, 0, 240, 'puerta de entrada de 2 hojas (1,80) desde el lado de la casa y el estacionamiento')
@@ -206,15 +213,42 @@ def main(estudio_json, sitio_json, salida):
     # ---------- esquema interior (idea, para conversar) ----------
     est = rec['estudio']; ce_x = (est[0][0] + est[1][0]) / 2
     caf = rec['cafeteria']
-    interior = [
-        dict(id='parlantes', recinto='estudio', nombre='Parlantes (monitores principales)', pts=rect(ce_x - 300, est[2][1] - 60, ce_x - 220, est[2][1] - 5), nota='en el muro sur, a los lados de la ventana central'),
-        dict(id='parlantes2', recinto='estudio', nombre='Parlantes (monitores principales)', pts=rect(ce_x + 220, est[2][1] - 60, ce_x + 300, est[2][1] - 5), nota=''),
-        dict(id='consola', recinto='estudio', nombre='Consola / escritorio de producción', pts=rect(ce_x - 120, est[2][1] - 320, ce_x + 120, est[2][1] - 240), nota='mirando al sur, a unos 2,5 m de los parlantes (triángulo de escucha)'),
-        dict(id='sofa', recinto='estudio', nombre='Sofá de clientes', pts=rect(ce_x - 130, est[0][1] + 120, ce_x + 130, est[0][1] + 210), nota='al norte, junto al vidrio hacia la cafetería'),
-        dict(id='sala', recinto='cafeteria', nombre='Sala de grabación (cabina)', pts=rect(caf[0][0], caf[5][1] - 220, xA[1], caf[5][1]), nota='2,40 x 2,20 en la esquina sur-poniente de la cafetería, en el tramo 1-2: entre la puerta de entrada y el tabique vidriado, sin tapar la corredera; desde el estudio se ve la cabina a través del vidrio 1-2'),
-        dict(id='barra', recinto='cafeteria', nombre='Barra de la cafetería', pts=rect(ex0 - 25 - 100, ey0 + 20, ex0 - 25 - 20, ey0 + 290), nota='de espaldas al muro de la escalera (2,70 x 0,80), sin tapar las ventanas del patio'),
-        dict(id='mesas', recinto='cafeteria', nombre='Mesas de cowork', pts=rect(caf[0][0] + 300, caf[0][1] + 200, caf[0][0] + 700, caf[0][1] + 470), nota='al centro, frente a las ventanas del patio'),
-    ]
+    # Cada mueble: tipo (lo dibuja mobiliario3d.js), recinto, pts = rectángulo en planta (app, cm), alto (cm, desde el piso) y
+    # mira = hacia dónde da el frente ('N', 'S', 'E', 'O'). Solo es una idea para conversar; Gabriel decide el amoblado.
+    interior = []
+    def mueble(id_, tipo, recinto, nombre, x0, y0, x1, y1, alto, mira, nota=''):
+        interior.append(dict(id=id_, tipo=tipo, recinto=recinto, nombre=nombre, pts=rect(x0, y0, x1, y1), alto=alto, mira=mira, nota=nota))
+    # --- estudio de producción: triángulo de escucha mirando al sur ---
+    mueble('parlantes', 'parlante', 'estudio', 'Parlante principal (monitor de campo medio)', ce_x - 300, est[2][1] - 60, ce_x - 220, est[2][1] - 5, 150, 'N', 'en el muro sur, a los lados de la ventana central')
+    mueble('parlantes2', 'parlante', 'estudio', 'Parlante principal (monitor de campo medio)', ce_x + 220, est[2][1] - 60, ce_x + 300, est[2][1] - 5, 150, 'N', '')
+    mueble('consola', 'consola', 'estudio', 'Consola / escritorio de producción', ce_x - 120, est[2][1] - 320, ce_x + 120, est[2][1] - 240, 75, 'S', 'mirando al sur, a unos 2,5 m de los parlantes (triángulo de escucha); con dos monitores y controlador')
+    mueble('silla_consola', 'silla_oficina', 'estudio', 'Silla del productor', ce_x - 30, est[2][1] - 400, ce_x + 30, est[2][1] - 340, 110, 'S', '')
+    mueble('rack', 'rack', 'estudio', 'Rack de equipos (12U)', ce_x + 170, est[2][1] - 330, ce_x + 230, est[2][1] - 230, 90, 'O', 'al lado del escritorio')
+    mueble('sofa', 'sofa', 'estudio', 'Sofá de clientes', ce_x - 130, est[0][1] + 120, ce_x + 130, est[0][1] + 210, 85, 'S', 'al norte, junto al vidrio hacia la cafetería')
+    for k, yy in enumerate((est[0][1] + 280, est[0][1] + 430, est[0][1] + 580)):
+        mueble(f'panel_o{k+1}', 'panel_acustico', 'estudio', 'Panel acústico 100 × 120', est[0][0], yy, est[0][0] + 6, yy + 100, 220, 'E', 'en el muro poniente, a 1,00 del piso')
+        mueble(f'panel_e{k+1}', 'panel_acustico', 'estudio', 'Panel acústico 100 × 120', est[1][0] - 6, yy, est[1][0], yy + 100, 220, 'O', 'en el muro oriente, a 1,00 del piso')
+    mueble('alfombra', 'alfombra', 'estudio', 'Alfombra', ce_x - 200, est[2][1] - 460, ce_x + 200, est[2][1] - 100, 1, 'S', 'bajo la consola')
+    # --- cafetería: cabina en el tramo 1-2, barra contra el muro de la escalera, mesas al centro ---
+    mueble('sala', 'cabina', 'cafeteria', 'Sala de grabación (cabina)', caf[0][0], caf[5][1] - 220, xA[1], caf[5][1], 260, 'N', '2,40 x 2,20 en la esquina sur-poniente de la cafetería, en el tramo 1-2: entre la puerta de entrada y el tabique vidriado, sin tapar la corredera; desde el estudio se ve la cabina a través del vidrio 1-2')
+    mueble('barra', 'barra', 'cafeteria', 'Barra de la cafetería', ex0 - 25 - 100, ey0 + 20, ex0 - 25 - 20, ey0 + 290, 105, 'O', 'de espaldas al muro de la escalera (2,70 x 0,80), sin tapar las ventanas del patio')
+    for k, yy in enumerate((ey0 + 60, ey0 + 150, ey0 + 240)):
+        mueble(f'taburete{k+1}', 'taburete', 'cafeteria', 'Taburete de la barra', ex0 - 25 - 165, yy, ex0 - 25 - 130, yy + 35, 75, 'E', '')
+    mesas = [(caf[0][0] + 300, caf[0][1] + 250), (caf[0][0] + 480, caf[0][1] + 250)]   # dos mesas de 160 x 80 en fila frente al patio, lejos de la barra
+    for k, (mx, my) in enumerate(mesas):
+        mueble(f'mesa{k+1}', 'mesa', 'cafeteria', 'Mesa de cowork 160 × 80', mx, my, mx + 160, my + 80, 75, 'N', 'al centro, frente a las ventanas del patio')
+        for j, cx_ in enumerate((mx + 20, mx + 95)):
+            mueble(f'silla{k+1}{j+1}n', 'silla', 'cafeteria', 'Silla', cx_, my - 50, cx_ + 45, my - 5, 85, 'S', '')
+            mueble(f'silla{k+1}{j+1}s', 'silla', 'cafeteria', 'Silla', cx_, my + 85, cx_ + 45, my + 130, 85, 'N', '')
+    mueble('lampara_barra', 'lampara', 'cafeteria', 'Lámpara colgante', ex0 - 25 - 75, ey0 + 140, ex0 - 25 - 45, ey0 + 170, 230, 'S', 'sobre la barra; cuelga del cielo')
+    for k, (mx, my) in enumerate(mesas):
+        mueble(f'lampara_mesa{k+1}', 'lampara', 'cafeteria', 'Lámpara colgante', mx + 65, my + 25, mx + 95, my + 55, 230, 'S', 'sobre la mesa; cuelga del cielo')
+    # --- baño y bodega ---
+    ban = rec['bano']; bod = rec['bodega']
+    mueble('wc', 'wc', 'bano', 'Inodoro', ban[1][0] - 80, ban[2][1] - 75, ban[1][0] - 40, ban[2][1] - 5, 80, 'N', 'contra el tabique baño/bodega')
+    mueble('lavamanos', 'lavamanos', 'bano', 'Lavamanos con mueble', ban[1][0] - 50, ban[0][1] + 150, ban[1][0], ban[0][1] + 210, 85, 'O', 'en el muro oriente, bajo la ventana alta')
+    mueble('estante_e', 'estante', 'bodega', 'Estantería metálica 40 de fondo', bod[1][0] - 40, bod[0][1] + 35, bod[1][0], bod[2][1] - 45, 200, 'O', 'en el muro oriente de la bodega')
+    mueble('estante_s', 'estante', 'bodega', 'Estantería metálica 40 de fondo', bod[0][0] + 10, bod[2][1] - 40, bod[1][0] - 45, bod[2][1], 200, 'N', 'en el muro sur de la bodega')
     # ---------- techo, cielo, cubicación ----------
     cub = {}
     for mb in M: cub[mb['p']] = cub.get(mb['p'], 0) + math.dist(mb['a'], mb['b']) / 100
@@ -230,9 +264,10 @@ def main(estudio_json, sitio_json, salida):
         dict(que='Búnker', original='5,00 x 10,80 interiores (muros 1.a, 3.a, E1, A1), 2,72 de alto, hueco de 3,05 x 1,00 junto al muro A1', nuevo=f'{hormigon["interior"]["largo"]/100:.2f} x {hormigon["interior"]["ancho"]/100:.2f} interiores, 2,80 de alto, hueco de escalera de {hormigon["escalera"]["ancho"]/100:.2f} x {hormigon["escalera"]["largo"]/100:.2f} junto al muro oriente', por='Gabriel'),
         dict(que='Muro sur del búnker', original='—', nuevo='coincide con el tabique cafetería/estudio (eje B) y recibe sus 5 pilares', por='planta de Gabriel'),
         dict(que='Losa del búnker', original='e=20, luz 5,00 (ø10@20 N-S, ø8@20 E-O), VHA 25/40 en 2.a', nuevo='e=20, luz 6,00 (+20 %, +44 % de momento), VHA 25/40 en el eje 3 y viga de borde en la escalera', por='para el ingeniero'),
-        dict(que='Marcos interiores', original='1.b y 1.c: pilares solo en F1 y A1 (10,25 m), cordón RECT 150x100x3 a +400, viga 200x150x5, puntales 150x100x3 cada 171', nuevo=f'ejes 2, 3 y 4: pilares en A, B y E; luces de {(yB-yA[0])/100:.2f} y {(yA[5]-yB)/100:.2f} m con el mismo esquema', por='propuesta'),
+        dict(que='Marcos interiores', original='1.b y 1.c: pilares solo en F1 y A1 (10,25 m), cordón RECT 150x100x3 a +400, viga 200x150x5, puntales 150x100x3 cada 171', nuevo=f'ejes 2, 3 y 4: pilares en A, B y E; luces de {(yB-yA[0])/100:.2f} y {(yA[5]-yB)/100:.2f} m con el mismo esquema'.replace('.', ','), por='propuesta'),
+        dict(que='Vigas E-O de B y E', original='todas a +400/+410', nuevo=f'en B y E van pegadas bajo la viga inclinada (+{z_tope(yB)-5:.0f} en B, +{z_tope(yA[5])-5:.0f} en E) para que el vidrio del tabique y la ventana sur lleguen al cielo; A y C siguen a +400', por='propuesta: Gabriel quiere la ventana sur de piso a cielo'),
         dict(que='Fachadas laterales', original='1.a, 2.a, 3.a: pilares cada 1,25–3,43 m, viga 200x150x3, cruces en los tramos de 2,05 y 1,82', nuevo='ejes 1 y 5: pilares en A, A2, B, C, D, E; cruces en A-A2 y D-E (2,00 m)', por='propuesta'),
-        dict(que='Pilares', original='18', nuevo=f'{sum(1 for mb in M if mb["c"] == "pilar")}; ninguno dentro de los recintos', por='propuesta'),
+        dict(que='Pilares', original='21 (13 de 15×15 y 8 de 15×10 en la planta de cubierta)', nuevo=f'{sum(1 for mb in M if mb["c"] == "pilar")}; ninguno dentro de los recintos', por='propuesta'),
         dict(que='Rigidez E-O', original='sin cruces E-O en las láminas', nuevo='cruces en los muros ciegos: tabique baño/bodega (C, 4-5) y fachada sur (1-2 y 4-5), y una sola diagonal en el tabique cafetería/baño (B, 4-5) por la puerta del baño; el vidrio entre cafetería y estudio queda libre', por='propuesta: revisar'),
         dict(que='Costaneras', original='CA 100x50x15x3 @61, 20 por línea; colgadores ø10 en los paños de 3,65 y 3,30', nuevo=f'mismo perfil y paso, {n} por línea; paños de ≤ {max(xA[i+1]-xA[i] for i in range(4))/100:.2f} m: sin colgadores', por='propuesta'),
         dict(que='Fundaciones fuera del búnker', original='pedestal 25x50 y zapata corrida 75x25 (CF 25/40), radier de 10', nuevo='zapatas aisladas 1x1x1 con vigas de fundación 25x50, radier de 10', por='Gabriel: como las del gimnasio; pendiente'),
@@ -241,10 +276,10 @@ def main(estudio_json, sitio_json, salida):
     ]
     preguntas = [
         'Pendiente del techo: sus láminas la rotulan 3,5 % pero la dibujan 4,5 %. Gabriel quiere la de la casa (3,5 %). ¿Cuál manda?',
-        'Marcos interiores de 9,00 m (ejes 2, 3 y 4, tramo B-E): ¿sirve el mismo esquema de 1.b/1.c (cordón 150x100x3 + viga 200x150x5 + puntales), que salvaba 10,25?',
+        f'Marcos interiores de {(yA[5] - yB) / 100:.2f} m (ejes 2, 3 y 4, tramo B-E):'.replace('.', ',') + ' ¿sirve el mismo esquema de 1.b/1.c (cordón 150x100x3 + viga 200x150x5 + puntales), que salvaba 10,25?',
         'Losa del búnker: con 6,00 m de luz (antes 5,00), ¿se mantiene e=20 con más armadura o conviene e=25? ¿Basta una VHA 25/40 al centro?',
         'Rigidez E-O: las láminas no muestran cruces E-O. Con vidrio entre cafetería y estudio y ventanas al patio, se proponen cruces en los muros ciegos del lado oriente y de la fachada sur. ¿Van bien, o prefiere marcos rígidos? En el tabique cafetería/baño (B, 4-5) cabe una sola diagonal por la puerta del baño: ¿sirve, o conviene que el baño se abra desde el estudio (eje 4) y poner la cruz completa?',
-        'Ventanas: vidrio de piso a 3,00 en los cuatro tramos de la fachada norte y de piso a cielo (3,95) en el tabique B y en el tramo 2-3 de la fachada sur, todas entre pilares. ¿Los pilares reciben el marco directamente o hacen falta montantes y un travesaño a +3,00?',
+        f'Ventanas: vidrio de piso a 3,00 en los cuatro tramos de la fachada norte y de piso a cielo en el tabique B ({z_vB/100:.2f}) y en el tramo 2-3 de la fachada sur ({z_vE/100:.2f}), todas entre pilares; para eso las vigas E-O de B y E se subieron hasta quedar bajo la viga inclinada. ¿Sirve así, o la viga E-O tiene que quedar a +4,00 y el vidrio para ahí? ¿Los pilares reciben el marco directamente o hacen falta montantes y un travesaño a +3,00?'.replace('.', ','),
         'Fundaciones fuera del búnker: Gabriel piensa en zapatas aisladas 1x1x1 con vigas de fundación, como las del gimnasio. ¿O se repite el cimiento corrido del original?',
         'Búnker de 2,80 de alto (antes 2,72): ¿cambia algo en los muros o en la losa de fundación?',
     ]

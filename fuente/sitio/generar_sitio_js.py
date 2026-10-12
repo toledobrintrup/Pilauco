@@ -28,10 +28,11 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
     z0 = E['nivel_piso']['z_cm']
     # cielo interior: 4,00 m en el lado bajo (norte) y sube con la pendiente de la casa hacia el sur
     y_bajo = 0 if sube_hacia == 'sur' else largo_
-    def z_cielo(y_local): return z0 + A['interior_cm'] + pendiente * abs(y_local - y_bajo)
-    alero = A['alero_cm']
+    def z_cielo(y_local): return z0 + A['interior_cm'] + pendiente * ((y_local - y_bajo) if sube_hacia == 'sur' else (y_bajo - y_local))
+    # aleros del ingeniero medidos desde el eje del pilar; el contorno del volumen parte de la cara exterior (medio muro más afuera)
+    an, ae = A['alero_ns_cm'] - muro / 2, A['alero_eo_cm'] - muro / 2
     est = A.get('estructura_techo_cm', 0)   # vigas y costaneras entre el cielo y la plancha del techo
-    techo = [[-alero, -alero], [ancho + alero, -alero], [ancho + alero, largo_ + alero], [-alero, largo_ + alero]]
+    techo = [[-ae, -an], [ancho + ae, -an], [ancho + ae, largo_ + an], [-ae, largo_ + an]]
     recintos = []
     for rc in E['recintos']:
         recintos.append(dict(id=rc['id'], nombre=rc['nombre'], tipo=rc['tipo'], pts=desplazar(rc['pts'], ox, oy),
@@ -45,9 +46,9 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
         z_piso=r1(z0), recintos=recintos, bunker=bunker,
         cielo=dict(z_norte=r1(z_cielo(0)), z_sur=r1(z_cielo(largo_)), y_norte=r1(oy), y_sur=r1(oy + largo_),
                    dato='4,00 m interiores en el lado bajo; sube con la pendiente de la casa (supuesto el lado)'),
-        techo=dict(contorno=desplazar(techo, ox, oy), espesor=A['techo_espesor_cm'], alero=alero, pendiente=pendiente, sube_hacia=sube_hacia,
-                   y0=r1(oy - alero), y1=r1(oy + largo_ + alero),
-                   z0=r1(z_cielo(-alero) + est), z1=r1(z_cielo(largo_ + alero) + est), estructura=est),
+        techo=dict(contorno=desplazar(techo, ox, oy), espesor=A['techo_espesor_cm'], alero=A['alero_ns_cm'], alero_ns=A['alero_ns_cm'], alero_eo=A['alero_eo_cm'], pendiente=pendiente, sube_hacia=sube_hacia,
+                   y0=r1(oy - an), y1=r1(oy + largo_ + an),
+                   z0=r1(z_cielo(-an) + est), z1=r1(z_cielo(largo_ + an) + est), estructura=est),
         datos=dict(exterior=E['exterior']['dato'], muro=E['muro']['dato'], interior=A['dato_interior'], losa=A['dato_losa'],
                    techo=E['techo']['dato'], estructura=A.get('dato_estructura_techo', ''), alero=A['dato_alero'], emplazamiento=E['emplazamiento']['dato'], nivel=E['nivel_piso']['dato']),
     )

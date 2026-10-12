@@ -2693,11 +2693,11 @@
   "nota_homografia": "Foto rectificada con las 4 esquinas del cierro real (norte y laterales sobre el deslinde; sur sobre el cierro de servidumbre, 5 m adentro). Precisión ±30-50 cm."
  },
  "estudio_origen": [
-  3306.2,
+  3416.2,
   10.5
  ],
  "estudio_anclaje": {
-  "metodo": "búnker centrado en la excavación actual (foto de dron de octubre 2026)",
+  "metodo": "a 3,50 m del deslinde oriente (Gabriel, 2026-10-12); el búnker queda 1,10 m al oriente del centro de la excavación actual",
   "excavacion_centro": [
    3833.7,
    335.5

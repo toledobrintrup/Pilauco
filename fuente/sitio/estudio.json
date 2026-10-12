@@ -149,8 +149,9 @@
   "dato_techo": "supuesto: plancha y aislación, solo para el volumen",
   "estructura_techo_cm": 30.0,
   "dato_estructura_techo": "viga inclinada 200x150 + costanera CA 100 sobre los pilares (láminas del ingeniero): el techo va 30 cm sobre el cielo de 4,00",
-  "alero_cm": 60.0,
-  "dato_alero": "supuesto: ancho del alero, hasta que haya proyecto"
+  "alero_ns_cm": 80.0,
+  "alero_eo_cm": 52.0,
+  "dato_alero": "láminas del ingeniero: aleros de 80 al norte y al sur y de 52 al oriente y al poniente, medidos desde el eje del pilar (12,5 de la cara exterior)"
  },
  "techo": {
   "tipo": "un agua",

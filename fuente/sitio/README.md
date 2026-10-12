@@ -43,6 +43,6 @@ donde el arquitecto los puso respecto del lote. Pendiente preguntarle al arquite
 - Terreno plano en Z = −70 cm (NPT +0,70 de la casa sobre el ±0,00 del acceso).
 - Estudio: el búnker centrado en la excavación que se ve en la foto de dron (Gabriel, 2026-10-11), la cafetería
   hacia el patio (norte) y el estudio hacia el camino (sur); losa terminada 50 cm sobre el NPT de la casa; cielo de
-  4,00 m al norte que sube a 4,53 m al sur (datos de Gabriel). Supuestos: muros de 25 cm, alero de 60 cm, losa de
+  4,00 m al norte que sube a 4,53 m al sur (datos de Gabriel). Aleros de 80 (N-S) y 52 (E-O) del ingeniero. Supuestos: muros de 25 cm, losa de
   15 cm sobre el búnker, excavación digitalizada a ±30 cm. Estructura y fundaciones las define el ingeniero.
 - Gimnasio con su piso 10 cm sobre el terreno (NTN −10 de su lámina).

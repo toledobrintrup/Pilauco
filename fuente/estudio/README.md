@@ -12,7 +12,8 @@ sistema del ingeniero y escribe `estudio_estructura.js` (DATA_ESTUDIO_EST):
 
 - Pilares PM1 CUAD 150×150×5 (ejes interiores de las fachadas largas) y PM2 CUAD 150×150×4; intermedios PM3
   RECT 150×100×3; 15×15 centrados en el eje; llegan a la cara inferior de la viga inclinada.
-- Vigas E-O CUAD 100×100×3 a +4,01/+4,10 entre pilares; cordón horizontal en los marcos interiores.
+- Vigas E-O CUAD 100×100×3 entre pilares, dibujadas de +401 a +411 y rotuladas +410 (lámina 05); el modelo las pone de +400 a +410 como el cordón
+  horizontal de los marcos interiores (lámina 04). Las líneas de todos los miembros van por el eje del perfil, como en `estructura.js`.
 - Vigas inclinadas de techo RECT 200×150×5 (marcos interiores, luz de 10,25 m) y 200×150×3 (marcos con pilares
   intermedios), pendiente 3,5 %, aleros de 80 (N-S) y 52 (E-O); puntales cortos RECT 150×100×3 cada 171.
 - Costaneras CA 100×50×15×3 cada 61 de alero a alero; soporte C 150×50×3 en los aleros; colgadores ø10 en el
@@ -36,8 +37,8 @@ La cubicación del ingeniero no se usa como referencia.
 
 ## Ventanas, puertas y esquema interior (propuesta, 2026-10-12)
 
-`vanos`: vidrio de piso a 3,00 en los cuatro tramos de la fachada norte (corredera al centro), tabique vidriado de piso
-a cielo (3,95) entre cafetería y estudio con corredera centrada en el estudio, una ventana de piso a cielo centrada en la
+`vanos`: vidrio de piso a 3,00 en los cuatro tramos de la fachada norte (corredera en el tramo 2-3, en el eje del estudio), tabique vidriado de piso
+a cielo (hasta la viga E-O, que en B y E va pegada bajo la viga inclinada) entre cafetería y estudio con corredera centrada en el estudio, una ventana de piso a cielo centrada en la
 fachada sur entre los parlantes, entrada de 1,80 por el poniente (pegada al pilar A2), puertas del baño (desde la cafetería, pegada al eje 4)
 y de la bodega (desde el estudio), ventanas altas del baño y la bodega al oriente. `interior`: parlantes, consola, sofá,
 cabina de grabación 2,40 × 2,20 en el tramo 1-2, entre la entrada y el tabique vidriado, barra y mesas, solo
