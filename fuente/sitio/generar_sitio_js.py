@@ -30,6 +30,7 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
     y_bajo = 0 if sube_hacia == 'sur' else largo_
     def z_cielo(y_local): return z0 + A['interior_cm'] + pendiente * abs(y_local - y_bajo)
     alero = A['alero_cm']
+    est = A.get('estructura_techo_cm', 0)   # vigas y costaneras entre el cielo y la plancha del techo
     techo = [[-alero, -alero], [ancho + alero, -alero], [ancho + alero, largo_ + alero], [-alero, largo_ + alero]]
     recintos = []
     for rc in E['recintos']:
@@ -46,9 +47,9 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
                    dato='4,00 m interiores en el lado bajo; sube con la pendiente de la casa (supuesto el lado)'),
         techo=dict(contorno=desplazar(techo, ox, oy), espesor=A['techo_espesor_cm'], alero=alero, pendiente=pendiente, sube_hacia=sube_hacia,
                    y0=r1(oy - alero), y1=r1(oy + largo_ + alero),
-                   z0=r1(z_cielo(-alero)), z1=r1(z_cielo(largo_ + alero))),
+                   z0=r1(z_cielo(-alero) + est), z1=r1(z_cielo(largo_ + alero) + est), estructura=est),
         datos=dict(exterior=E['exterior']['dato'], muro=E['muro']['dato'], interior=A['dato_interior'], losa=A['dato_losa'],
-                   techo=E['techo']['dato'], alero=A['dato_alero'], emplazamiento=E['emplazamiento']['dato'], nivel=E['nivel_piso']['dato']),
+                   techo=E['techo']['dato'], estructura=A.get('dato_estructura_techo', ''), alero=A['dato_alero'], emplazamiento=E['emplazamiento']['dato'], nivel=E['nivel_piso']['dato']),
     )
 
 # Qué NO va al 3D por ahora (Gabriel, 2026-10-12): el galpón de obra y el baño provisorio (caseta del lado

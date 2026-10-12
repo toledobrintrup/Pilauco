@@ -1,19 +1,19 @@
 {
- "fuente": "Planta del estudio enviada por Gabriel el 2026-10-11 (imagen con cotas en mm) y sus indicaciones del mismo día; estructura y fundaciones pendientes del ingeniero",
+ "fuente": "Planta del estudio enviada por Gabriel el 2026-10-11 (cotas en mm) y sus indicaciones del 11 y 12 de octubre; estructura y fundaciones pendientes del ingeniero",
  "unidad": "cm, marco local del estudio: x hacia el oriente desde la cara exterior poniente, y hacia el sur desde la cara exterior norte",
  "exterior": {
-  "ancho": 1005.0,
-  "largo": 1525.0,
-  "dato": "cotas 10050 x 15250 mm de la planta"
+  "ancho": 1055.0,
+  "largo": 1575.0,
+  "dato": "Gabriel (2026-10-12): las cotas de la planta son medidas interiores (cafetería 6,00 de luz, estudio 9,00, 7,30 + 2,50 de ancho) y los 250 son los tabiques; con muros exteriores de 25 el edificio mide 10,55 x 15,75 por fuera"
  },
  "muro": {
   "espesor": 25.0,
-  "dato": "supuesto: las cotas de la planta dejan bandas de 25 cm entre recintos (7300 + 250 + 2500 = 10050; 6000 + 250 + 9000 = 15250); se usa 25 también en el perímetro, como en la casa"
+  "dato": "tabiques de 25 según las cotas (7300 + 250 + 2500; 6000 + 250 + 9000); muros exteriores de 25, como en la casa (supuesto)"
  },
  "recintos": [
   {
    "id": "cafeteria",
-   "nombre": "Cafetería y cowork + sala de grabación",
+   "nombre": "Cafetería (cowork y sala de grabación)",
    "tipo": "estar",
    "pts": [
     [
@@ -21,27 +21,27 @@
      25
     ],
     [
-     980,
+     1030,
      25
     ],
     [
-     980,
-     200
+     1030,
+     225
     ],
     [
-     851.7,
-     200
+     876.7,
+     225
     ],
     [
-     851.7,
-     575
+     876.7,
+     625
     ],
     [
      25,
-     575
+     625
     ]
    ],
-   "dato": "bloque norte de 6000 mm de fondo; la caja de la escalera (1533 x 3750) se descuenta"
+   "dato": "6,00 x 10,05 interiores; se descuenta la caja de la escalera (1,53 x 3,75 desde 2,00 de la cara norte)"
   },
   {
    "id": "escalera",
@@ -49,23 +49,23 @@
    "tipo": "hall",
    "pts": [
     [
-     851.7,
-     200
+     876.7,
+     225
     ],
     [
-     980,
-     200
+     1030,
+     225
     ],
     [
-     980,
-     575
+     1030,
+     600
     ],
     [
-     851.7,
-     575
+     876.7,
+     600
     ]
    ],
-   "dato": "cotas 1533 (ancho con muro) x 3750 (largo) y 2000 desde la cara norte; tramo útil 1300"
+   "dato": "cotas 1533 x 3750 a 2000 de la cara norte; tramo útil 1300 contra el muro oriente"
   },
   {
    "id": "estudio",
@@ -74,22 +74,22 @@
    "pts": [
     [
      25,
-     625
+     650
     ],
     [
-     730,
-     625
+     755,
+     650
     ],
     [
-     730,
-     1500
+     755,
+     1550
     ],
     [
      25,
-     1500
+     1550
     ]
    ],
-   "dato": "cotas 7300 x 9000 mm"
+   "dato": "7,30 x 9,00 interiores"
   },
   {
    "id": "bano",
@@ -97,23 +97,23 @@
    "tipo": "bano",
    "pts": [
     [
-     755,
-     625
+     780,
+     650
     ],
     [
-     980,
-     625
+     1030,
+     650
     ],
     [
-     980,
-     1035
+     1030,
+     1060
     ],
     [
-     755,
-     1035
+     780,
+     1060
     ]
    ],
-   "dato": "cotas 2500 x 4100 mm"
+   "dato": "2,50 x 4,10 interiores"
   },
   {
    "id": "bodega",
@@ -121,23 +121,23 @@
    "tipo": "serv",
    "pts": [
     [
-     755,
-     1060
+     780,
+     1085
     ],
     [
-     980,
-     1060
+     1030,
+     1085
     ],
     [
-     980,
-     1500
+     1030,
+     1550
     ],
     [
-     755,
-     1500
+     780,
+     1550
     ]
    ],
-   "dato": "cotas 2500 x 4650 mm"
+   "dato": "2,50 x 4,65 interiores"
   }
  ],
  "alturas": {
@@ -145,8 +145,10 @@
   "dato_interior": "Gabriel: 4 m terminados interiores, medidos en el lado norte",
   "losa_piso_cm": 15.0,
   "dato_losa": "supuesto: espesor de la losa sobre el búnker, hasta que el ingeniero la defina",
-  "techo_espesor_cm": 25.0,
-  "dato_techo": "supuesto, solo para el volumen",
+  "techo_espesor_cm": 10.0,
+  "dato_techo": "supuesto: plancha y aislación, solo para el volumen",
+  "estructura_techo_cm": 30.0,
+  "dato_estructura_techo": "viga inclinada 200x150 + costanera CA 100 sobre los pilares (láminas del ingeniero): el techo va 30 cm sobre el cielo de 4,00",
   "alero_cm": 60.0,
   "dato_alero": "supuesto: ancho del alero, hasta que haya proyecto"
  },
@@ -164,20 +166,20 @@
     25
    ],
    [
-    980,
+    1030,
     25
    ],
    [
-    980,
-    575
+    1030,
+    625
    ],
    [
     25,
-    575
+    625
    ]
   ],
   "interior_cm": 280.0,
-  "dato": "Gabriel: justo debajo de la cafetería y cowork, con las mismas medidas; 2,80 m terminados interiores; se centra en la excavación ya hecha"
+  "dato": "Gabriel: justo debajo de la cafetería y con sus mismas medidas interiores (6,00 x 10,05); 2,80 m terminados interiores; centrado en la excavación ya hecha. Su muro sur (625..650) queda bajo el tabique cafetería/estudio"
  },
  "emplazamiento": {
   "anclaje": "el búnker centrado en la excavación actual (foto de dron de octubre 2026), con la cafetería hacia el patio (norte) y el estudio hacia el camino (sur)",

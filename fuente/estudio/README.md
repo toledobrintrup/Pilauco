@@ -2,7 +2,7 @@
 
 El ingeniero proyectó en abril de 2026 (láminas 03, 04 y 05, en iCloud `02_Ingeniería/03_Estudio Pilauco/`; no
 entran al repositorio) un estudio de 11,05 × 10,25 m entre ejes con un búnker de 5,00 × 10,55 m interiores bajo
-un extremo. La planta nueva de Gabriel (`fuente/sitio/estudio.json`) mide 10,05 × 15,25 m, lleva el búnker bajo la
+un extremo. La planta nueva de Gabriel (`fuente/sitio/estudio.json`) mide 10,05 × 15,25 m interiores, lleva el búnker bajo la
 cafetería (al norte) y el techo subiendo al sur. `generar_estudio_estructura.py` arma la propuesta con el mismo
 sistema del ingeniero y escribe `estudio_estructura.js` (DATA_ESTUDIO_EST):
 
@@ -23,10 +23,24 @@ sistema del ingeniero y escribe `estudio_estructura.js` (DATA_ESTUDIO_EST):
 
 ## Lo que cambia (propuesta)
 
-Ejes 1–5 (245 | 245 | 240 | 250; el 4 sobre el tabique estudio/baño) y A–E (600 | 300 | 300 | 300; B sobre el
-tabique cafetería/estudio, que coincide con el muro sur del búnker); 21 pilares, ninguno dentro de los recintos;
-cruces en A–A2 y D–E de las fachadas laterales y dos cruces E-O en el tabique B; búnker de 5,75 × 9,55 × 2,80
-con VHA 25/40 al centro y viga de borde en la escalera. La tabla completa y las luces que crecieron (losa del
-búnker, cruces, tensores) están en `estudio.html`. La cubicación del ingeniero no se usa como referencia.
+La planta de Gabriel se toma con medidas interiores (2026-10-12: "la cafetería tiene que medir 6 m interiores, estas son
+las medidas, no otras"), así que el edificio mide 10,55 × 15,75 por fuera con muros de 25. Ejes 1–5 a 252 | 252 | 252 | 275
+(el 4 sobre el tabique estudio/baño) y A–E a 200 | 425 | 435 | 290 | 200 (B sobre el tabique cafetería/estudio, que
+coincide con el muro sur del búnker; C sobre el tabique baño/bodega; A2 y D a 2 m de las fachadas para que las cruces
+queden en tramos de 2 m como las del original); 22 pilares, ninguno dentro de los recintos; cruces N-S en A–A2 y D–E de
+las fachadas laterales y E-O solo en muros ciegos (C 4-5, fachada sur 1-2 y 4-5, y una sola diagonal en B 4-5 por la
+puerta del baño); búnker de 10,05 × 6,00 × 2,80 con VHA 25/40 en el eje 3 y viga de borde en la escalera. Fuera del
+búnker, zapatas aisladas 1 × 1 × 1 con vigas de fundación 25 × 50 y radier de 10 (lo que Gabriel espera, como en el
+gimnasio; a confirmar con el plano 01 del ingeniero). La tabla completa y las luces que crecieron están en `estudio.html`.
+La cubicación del ingeniero no se usa como referencia.
+
+## Ventanas, puertas y esquema interior (propuesta, 2026-10-12)
+
+`vanos`: vidrio de piso a 3,00 en los cuatro tramos de la fachada norte (corredera al centro), tabique vidriado de piso
+a cielo (3,95) entre cafetería y estudio con corredera centrada en el estudio, una ventana de piso a cielo centrada en la
+fachada sur entre los parlantes, entrada de 1,80 por el poniente, puertas del baño (desde la cafetería, pegada al eje 4)
+y de la bodega (desde el estudio). `interior`: parlantes, consola, sofá, cabina de grabación 3 × 3, barra y mesas, solo
+como idea para conversar. `zapatas`, `vigas_fundacion` y `radier`: las fundaciones fuera del búnker. Todo se dibuja en
+`estudio.html` (sección 04 y elevaciones) y en el 3D con la capa "Ventanas y muros del estudio" (`3d.html?estudio=2`).
 
 `datos/`: la lectura de las láminas por los agentes (JSON) para comparar.

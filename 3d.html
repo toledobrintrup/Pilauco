@@ -86,7 +86,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=20261012e" data-vista="3d"></script>
+    <script src="menu.js?v=20261012f" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · v. 12-10-2026</span>
   </header>
@@ -120,6 +120,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
       <div class="row"><label><input type="checkbox" id="chk-gimnasio" checked> Gimnasio</label></div>
       <div class="row"><label><input type="checkbox" id="chk-estudio" checked> Estudio y búnker</label></div>
       <div class="row"><label><input type="checkbox" id="chk-estudio-est"> Estructura del estudio (propuesta)</label></div>
+      <div class="row"><label><input type="checkbox" id="chk-cerramiento"> Ventanas y muros del estudio (propuesta)</label></div>
       <div class="row"><label><input type="checkbox" id="chk-urbanismo" checked> Senderos y piscina</label></div>
       <div class="row"><label><input type="checkbox" id="chk-bajo-tierra"> Ver bajo tierra</label></div>
       <div class="row"><button class="btn" id="ver-terreno">Ver todo el terreno</button></div>
@@ -137,13 +138,13 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=20261012e"></script>
-<script src="data.js?v=20261012e"></script>
-<script src="estructura.js?v=20261012e"></script>
-<script src="losa.js?v=20261012e"></script>
-<script src="sitio.js?v=20261012e"></script>
-<script src="sitio3d.js?v=20261012e"></script>
-<script src="estudio_estructura.js?v=20261012e"></script>
+<script src="nav3d.js?v=20261012f"></script>
+<script src="data.js?v=20261012f"></script>
+<script src="estructura.js?v=20261012f"></script>
+<script src="losa.js?v=20261012f"></script>
+<script src="sitio.js?v=20261012f"></script>
+<script src="sitio3d.js?v=20261012f"></script>
+<script src="estudio_estructura.js?v=20261012f"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -440,8 +441,10 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     hormigon.add(ficha(prismaH(H.losa.pts, H.losa.z_inf, H.losa.z_sup, matH, [H.losa.hueco]), 'Búnker: losa de techo', `e=${H.losa.espesor} · ${H.losa.armadura}`));
     hormigon.add(ficha(prismaH(H.piso.pts, H.piso.z_inf, H.piso.z_sup, matH), 'Búnker: radier', `e=${H.piso.espesor} · ${H.piso.armadura}`));
     H.vigas.forEach(v => hormigon.add(ficha(prismaH(v.pts, v.z_inf, v.z_sup, matH), v.nombre, `${v.d} · ${v.armadura}`)));
-    (D.cimientos || []).forEach(c => { hormigon.add(ficha(prismaH(c.pts, D.z_piso - 75, D.z_piso - 50, matCF), 'Cimiento corrido', `${c.d} · ${D.cimiento_dato || ''}`)); });
-    if (H.zapatas) H.zapatas.piezas.forEach(z => hormigon.add(ficha(prismaH(z.pts, H.zapatas.z_inf, H.zapatas.z_sup, matCF), 'Búnker: zapata corrida', H.zapatas.dato)));
+    if (H.fundacion) hormigon.add(ficha(prismaH(H.fundacion.pts, H.fundacion.z_inf, H.fundacion.z_sup, matCF), 'Búnker: losa de fundación', `e=${H.fundacion.espesor} · ${H.fundacion.dato}`));
+    (D.zapatas || []).forEach(z => hormigon.add(ficha(prismaH(z.pts, z.z_inf, z.z_sup, matCF), 'Zapata aislada 1 × 1 × 1', z.d)));
+    (D.vigas_fundacion || []).forEach(v => hormigon.add(ficha(prismaH(v.pts, v.z_inf, v.z_sup, matCF), 'Viga de fundación 25 × 50', v.d)));
+    if (D.radier) hormigon.add(ficha(prismaH(D.radier.pts, D.radier.z_inf, D.radier.z_sup, matH), 'Radier del estudio', `e=${D.radier.espesor} · ${D.radier.dato}`));
     // escalera esquemática: una rampa de peldaños
     const esc = H.escalera, n = 16, dz = (esc.z_arriba - esc.z_abajo) / n, dy = esc.largo / n;
     for (let i = 0; i < n; i++){
@@ -456,13 +459,83 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   const grupoEstudioEst = buildEstudioEst();
   grupoEstudioEst.visible = false;
 
+  // ---------- cerramiento del estudio: muros y tabiques con las ventanas y puertas propuestas ----------
+  function buildCerramiento(){
+    const g = new THREE.Group();
+    if (typeof DATA_ESTUDIO_EST === 'undefined' || !DATA_ESTUDIO_EST.vanos) return g;
+    const D = DATA_ESTUDIO_EST, E = DATA_SITIO.estudio, z0 = D.z_piso, M = 25, T = E.techo;
+    // los muros suben hasta la cara inferior del techo (sigue la pendiente): tapan la banda de vigas y costaneras
+    const zTop = y => T.z0 + (T.z1 - T.z0) * (y - T.y0) / (T.y1 - T.y0) - 0.5;
+    const matMuro = new THREE.MeshLambertMaterial({color: dark ? 0x5C6068 : 0xD9D6CF, side: THREE.DoubleSide});   // opaco: por fuera no se ve el interior
+    const matVidrio = new THREE.MeshLambertMaterial({color: dark ? 0x7FB4D8 : 0x6FA8CF, transparent: true, opacity: 0.32, side: THREE.DoubleSide});
+    const matMarco = new THREE.MeshLambertMaterial({color: 0x1B1E24, side: THREE.DoubleSide});
+    const matPuerta = new THREE.MeshLambertMaterial({color: dark ? 0x6B5440 : 0x8B6A45, side: THREE.DoubleSide});
+    const ficha = (mesh, t, s2) => { mesh.userData.sitio = `<b>${t}</b><br><span class="sub">${s2}</span>`; return mesh; };
+    // segmentos de muro (en cm app): fachadas por el contorno exterior y tabiques por los recintos
+    const ext = E.exterior, segs = [];
+    for (let i = 0; i < 4; i++) segs.push({a: ext[i], b: ext[(i + 1) % 4], e: M, nombre: ['fachada norte', 'fachada oriente', 'fachada sur', 'fachada poniente'][i]});
+    const r = {}; E.recintos.forEach(rc => { r[rc.id] = rc.pts; });
+    const yB = (r.cafeteria[5][1] + r.estudio[0][1]) / 2, x4 = (r.estudio[1][0] + r.bano[0][0]) / 2, yC = (r.bano[2][1] + r.bodega[0][1]) / 2;
+    segs.push({a: [ext[0][0] + M, yB], b: [ext[1][0] - M, yB], e: M, nombre: 'tabique cafetería/estudio'});
+    segs.push({a: [x4, yB], b: [x4, ext[2][1] - M], e: M, nombre: 'tabique estudio/baño-bodega'});
+    segs.push({a: [x4, yC], b: [ext[1][0] - M, yC], e: M, nombre: 'tabique baño/bodega'});
+    segs.push({a: [r.escalera[0][0] - M, r.escalera[0][1]], b: [r.escalera[0][0] - M, r.escalera[3][1]], e: M, nombre: 'muro de la escalera'});
+    // cada muro se corta en tramos: donde hay un vano va vidrio (o puerta) y arriba un dintel de muro
+    const sobre = (v, s) => { const dx = s.b[0] - s.a[0], dy = s.b[1] - s.a[1], L = Math.hypot(dx, dy); const t = p => ((p[0] - s.a[0]) * dx + (p[1] - s.a[1]) * dy) / (L * L); const d = p => Math.abs((p[0] - s.a[0]) * dy - (p[1] - s.a[1]) * dx) / L; return d(v.a) < 20 && d(v.b) < 20 ? [Math.min(t(v.a), t(v.b)), Math.max(t(v.a), t(v.b))] : null; };
+    const caja = (s, t0, t1, zA, zB, mat, nombre, sub) => {
+      const dx = s.b[0] - s.a[0], dy = s.b[1] - s.a[1], L = Math.hypot(dx, dy), l = (t1 - t0) * L; if (l < 1) return;
+      const cx = s.a[0] + dx * (t0 + t1) / 2, cy = s.a[1] + dy * (t0 + t1) / 2;
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(cm(l), cm(zB - zA), cm(mat === matVidrio ? 3 : s.e)), mat);
+      mesh.position.set(cm(cx), cm((zA + zB) / 2), cm(cy)); mesh.rotation.y = -Math.atan2(dy, dx);
+      ficha(mesh, nombre, sub); g.add(mesh);
+    };
+    // tramo de muro con el borde superior inclinado (sigue el techo): perfil en el plano del muro, extruido con su espesor
+    const panel = (s, t0, t1, zA, mat, nombre, sub) => {
+      const dx = s.b[0] - s.a[0], dy = s.b[1] - s.a[1], L = Math.hypot(dx, dy), l = (t1 - t0) * L; if (l < 1) return;
+      const zB0 = zTop(s.a[1] + dy * t0), zB1 = zTop(s.a[1] + dy * t1); if (Math.min(zB0, zB1) <= zA) return;
+      const sh = new THREE.Shape(); sh.moveTo(0, cm(zA)); sh.lineTo(cm(l), cm(zA)); sh.lineTo(cm(l), cm(zB1)); sh.lineTo(0, cm(zB0)); sh.closePath();
+      const geo = new THREE.ExtrudeGeometry(sh, {depth: cm(s.e), bevelEnabled: false}); geo.translate(0, 0, -cm(s.e) / 2);
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(cm(s.a[0] + dx * t0), 0, cm(s.a[1] + dy * t0)); mesh.rotation.y = -Math.atan2(dy, dx);
+      ficha(mesh, nombre, sub); g.add(mesh);
+    };
+    segs.forEach(s => {
+      const vs = D.vanos.map(v => ({v, t: sobre(v, s)})).filter(x => x.t && x.v.tipo !== 'escalera').sort((p, q) => p.t[0] - q.t[0]);
+      let t = 0;
+      vs.forEach(({v, t: [t0, t1]}) => {
+        panel(s, t, t0, z0, matMuro, s.nombre, 'muro de ' + s.e + ' cm hasta el techo (propuesta)');
+        const esPuerta = v.tipo.startsWith('puerta') && !v.tipo.includes('vidriada') && !v.tipo.includes('corredera');
+        caja(s, t0, t1, v.z0, v.z1, esPuerta ? matPuerta : matVidrio, `${v.tipo} ${v.ancho / 100 > 0 ? (v.ancho / 100).toFixed(2).replace('.', ',') + ' × ' + (v.alto / 100).toFixed(2).replace('.', ',') + ' m' : ''}`, v.d + ' (propuesta)');
+        // marco negro: dos montantes y un travesaño
+        [t0, t1].forEach(tt => caja(s, tt - 2.5 / (Math.hypot(s.b[0] - s.a[0], s.b[1] - s.a[1])), tt + 2.5 / (Math.hypot(s.b[0] - s.a[0], s.b[1] - s.a[1])), v.z0, v.z1, matMarco, 'marco', 'perfil de acero negro'));
+        panel(s, t0, t1, v.z1, matMuro, s.nombre, 'dintel sobre el vano');
+        t = t1;
+      });
+      panel(s, t, 1, z0, matMuro, s.nombre, 'muro de ' + s.e + ' cm hasta el techo (propuesta)');
+    });
+    // esquema interior (idea para conversar): cajas simples con su altura
+    const altos = {parlantes: 120, parlantes2: 120, consola: 75, sofa: 80, sala: 250, barra: 105, mesas: 75};
+    const matMueble = new THREE.MeshLambertMaterial({color: dark ? 0x8A7156 : 0xA5876A, transparent: true, opacity: 0.9, side: THREE.DoubleSide});
+    const matCabina = new THREE.MeshLambertMaterial({color: dark ? 0x9CB8C9 : 0x7FA3B8, transparent: true, opacity: 0.28, side: THREE.DoubleSide});
+    (D.interior || []).forEach(it => {
+      const h = altos[it.id] || 75, xs = it.pts.map(p => p[0]), ys = it.pts.map(p => p[1]);
+      const w = Math.max(...xs) - Math.min(...xs), d = Math.max(...ys) - Math.min(...ys);
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(cm(w), cm(h), cm(d)), it.id === 'sala' ? matCabina : matMueble);
+      mesh.position.set(cm((Math.max(...xs) + Math.min(...xs)) / 2), cm(z0 + h / 2), cm((Math.max(...ys) + Math.min(...ys)) / 2));
+      ficha(mesh, it.nombre, `${(w / 100).toFixed(2).replace('.', ',')} × ${(d / 100).toFixed(2).replace('.', ',')} m · esquema interior, idea para conversar`); g.add(mesh);
+    });
+    return g;
+  }
+  const grupoCerramiento = buildCerramiento();
+  grupoCerramiento.visible = false;
+
   // ---------- terreno (sitio.js + sitio3d.js): lote, cierros, gimnasio, estudio con búnker,
   // y urbanismo. Si falta el módulo, el modelo sigue sin terreno.
   let sitio = null;
   if (window.Sitio3D && typeof DATA_SITIO !== 'undefined'){
     try { sitio = Sitio3D.crear({T: THREE, D: DATA_SITIO, dark, tipoColor: KIND_COLOR}); } catch (err){ console.error(err); sitio = null; }
   }
-  scene.add(grupoN1, grupoN2, slabN1, slabN2, grupoRoof, grupoEstructura, grupoLosa, grupoEstudioEst);
+  scene.add(grupoN1, grupoN2, slabN1, slabN2, grupoRoof, grupoEstructura, grupoLosa, grupoEstudioEst, grupoCerramiento);
   // zócalo de la casa: del terreno (NPT +0,70 sobre el ±0,00) hasta la losa del nivel 1, para que no quede en el aire
   let zocaloN1 = null;
   if (sitio){
@@ -541,7 +614,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   const chkLosa = document.getElementById('chk-losa');
   const chkSitio = {terreno: 'chk-terreno', gimnasio: 'chk-gimnasio', estudio: 'chk-estudio', urbanismo: 'chk-urbanismo'};
   Object.keys(chkSitio).forEach(k => { chkSitio[k] = document.getElementById(chkSitio[k]); });
-  const chkBajoTierra = document.getElementById('chk-bajo-tierra'), chkEstudioEst = document.getElementById('chk-estudio-est');
+  const chkBajoTierra = document.getElementById('chk-bajo-tierra'), chkEstudioEst = document.getElementById('chk-estudio-est'), chkCerramiento = document.getElementById('chk-cerramiento');
   const explode = document.getElementById('explode');
   const cajaGrupos = document.getElementById('grupos-acero');
   const chkGrupo = {};
@@ -571,7 +644,12 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
       sitio.sub.cierros.visible = chkSitio.terreno.checked;
       grupoEstudioEst.visible = chkEstudioEst.checked;
       // con la estructura prendida, los volúmenes del estudio se vuelven más transparentes para ver las piezas
-      sitio.sub.estudio.traverse(o => { if (o.material && o.userData.sitio && !o.userData.bunker) o.material.opacity = chkEstudioEst.checked ? 0.25 : (o.userData.opBase != null ? o.userData.opBase : (o.userData.opBase = o.material.opacity)); });
+      // con los muros y ventanas propuestos, los volúmenes de los recintos se esconden (ocupan el mismo lugar); la losa y el techo se quedan
+      sitio.sub.estudio.traverse(o => {
+        if (o.userData.recintoEstudio) o.visible = !chkCerramiento.checked;
+        if (o.material && o.userData.sitio && !o.userData.bunker && !o.userData.losaEstudio) { if (o.userData.opBase == null) o.userData.opBase = o.material.opacity; o.material.opacity = chkEstudioEst.checked ? 0.2 : o.userData.opBase; }
+      });
+      grupoCerramiento.visible = chkCerramiento.checked;
       sitio.bajoTierra(chkBajoTierra.checked);
       ground.visible = grid.visible = !chkBajoTierra.checked;
     }
@@ -580,9 +658,10 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     grupoRoof.position.y = off;
     grupoEstructura.traverse(o => { if (o.userData.superior) o.position.y = o.userData.y0 + off; });
   }
-  [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, explode, chkBajoTierra, chkEstudioEst].concat(Object.values(chkSitio)).forEach(el => el.addEventListener('input', aplica));
-  if (!sitio) Object.values(chkSitio).concat([chkBajoTierra, chkEstudioEst]).forEach(el => { el.closest('.row').hidden = true; });
+  [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, explode, chkBajoTierra, chkEstudioEst, chkCerramiento].concat(Object.values(chkSitio)).forEach(el => el.addEventListener('input', aplica));
+  if (!sitio) Object.values(chkSitio).concat([chkBajoTierra, chkEstudioEst, chkCerramiento]).forEach(el => { el.closest('.row').hidden = true; });
   if (!grupoEstudioEst.children.length) chkEstudioEst.closest('.row').hidden = true;
+  if (!grupoCerramiento.children.length) chkCerramiento.closest('.row').hidden = true;
 
   // ---------- ficha de una pieza: clic (sin arrastrar) sobre la estructura ----------
   const ficha = document.getElementById('ficha');
@@ -596,7 +675,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     const r = renderer.domElement.getBoundingClientRect();
     puntero.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     raycaster.setFromCamera(puntero, camera);
-    const objetivos = [grupoEstructura, grupoLosa, grupoEstudioEst].concat(sitio ? Object.values(sitio.sub) : []).filter(gr => gr.visible);
+    const objetivos = [grupoEstructura, grupoLosa, grupoEstudioEst, grupoCerramiento].concat(sitio ? Object.values(sitio.sub) : []).filter(gr => gr.visible);
     const hit = raycaster.intersectObjects(objetivos, true).find(h => h.object.visible && h.object.parent.visible && (h.object.userData.miembro || h.object.userData.losa || h.object.userData.sitio));
     if (!hit){ ficha.hidden = true; return; }
     if (hit.object.userData.losa || hit.object.userData.sitio){
@@ -622,7 +701,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
     try {
       nav = Nav3D.conectar({
         camera, controls, dom: renderer.domElement,
-        objetivos: () => [grupoN1, slabN1, grupoN2, slabN2, grupoRoof, grupoEstructura, grupoLosa, grupoEstudioEst].concat(sitio ? Object.values(sitio.sub) : []).filter(g => g.visible),
+        objetivos: () => [grupoN1, slabN1, grupoN2, slabN2, grupoRoof, grupoEstructura, grupoLosa, grupoEstudioEst, grupoCerramiento].concat(sitio ? Object.values(sitio.sub) : []).filter(g => g.visible),
         planoY: PISO,
         inicio: encuadre,
         contenedor: stage, lado: 'derecha', vertical: '(max-width: 639px)',
@@ -678,7 +757,7 @@ a.btn.losa{display:inline-block;text-decoration:none;margin:2px 0 0 22px;font-si
   pintarUI();
   // 3d.html?estudio=1 (desde estudio.html): abre con la estructura del estudio prendida, la de la casa apagada y la cámara sobre el estudio
   if (sitio && grupoEstudioEst.children.length && new URLSearchParams(location.search).get('estudio')){
-    chkEstudioEst.checked = true; chkEstructura.checked = false; chkLosa.checked = false; chkRoof.checked = false;
+    chkEstudioEst.checked = true; chkCerramiento.checked = new URLSearchParams(location.search).get('estudio') === '2'; chkEstructura.checked = false; chkLosa.checked = false; chkRoof.checked = false;
     const E = DATA_SITIO.estudio, cx = cm((E.exterior[0][0] + E.exterior[1][0]) / 2), cz = cm((E.exterior[0][1] + E.exterior[2][1]) / 2), cy = cm(E.z_piso) + 2;
     const dir = new THREE.Vector3(0.6, 0.45, 0.65).normalize(), dist = 30;
     camera.position.set(cx + dir.x * dist, cy + dir.y * dist, cz + dir.z * dist); controls.target.set(cx, cy, cz); controls.update();

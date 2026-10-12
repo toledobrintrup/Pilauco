@@ -1,0 +1,1158 @@
+{
+ "lamina": {
+  "archivo": "03_Proyecto Estudio 07-04-2026 PLANO 03.pdf",
+  "numero": "03",
+  "contenido": "PLANTA CUBIERTA / PLANTA LOSA",
+  "fecha": "11-04-2026",
+  "rev": "I",
+  "pagina_pt": [
+   2384,
+   1684
+  ]
+ },
+ "calibracion": {
+  "escala_1_50_pt_por_cm": 0.5669,
+  "cubierta_origen_pt": [
+   286.9,
+   157.9
+  ],
+  "losa_origen_pt_E1": [
+   1289.7,
+   151.3
+  ],
+  "elevacion_origen_pt_F1_000": [
+   1301.3,
+   1041.1
+  ],
+  "vha_1_20_pt_por_cm": 1.417,
+  "comprobaciones": "1.a-3.a = 626,4 pt = 1105 cm; F1-A1 = 581,1 pt = 1025 cm; E1-A1 losa = 297,6 pt = 525 cm; pilar F1 = 226,8 pt = 400 cm"
+ },
+ "planta_estructura_cubierta": {
+  "marco": "x en cm desde eje 1.a (hacia 3.a), y en cm desde eje F1 (hacia A1). Escala 1:50, 0,5669 pt/cm.",
+  "grilla": {
+   "ejes_ns_x": {
+    "1.a": 0,
+    "1.b": 205,
+    "1.c": 570,
+    "2.a": 775,
+    "3.a": 1105
+   },
+   "ejes_eo_y": {
+    "F1": 0,
+    "E3": 205,
+    "E2": 375,
+    "E1": 500,
+    "A2": 843,
+    "A1": 1025
+   },
+   "burbujas_dibujadas_eo": "F1 (0), A1 (205), E2 (375), E1 (500), A1 (842), A1 (1024): las burbujas de 205 y 842 dicen A1 pero por cotas y por la elevacion son E3 y A2",
+   "lineas_sin_burbuja_y": [
+    700
+   ],
+   "cotas_derecha": {
+    "cadena": [
+     205,
+     90,
+     80,
+     307,
+     160,
+     182
+    ],
+    "ticks_y": [
+     0,
+     205,
+     295,
+     375,
+     682,
+     842,
+     1024
+    ],
+    "nota": "295 y 682 son los pilares extra del eje 3.a, no son ejes"
+   },
+   "cotas_inferior": {
+    "cadena": [
+     52,
+     205,
+     365,
+     205,
+     330
+    ],
+    "total": 1105,
+    "nota": "52 = alero lateral al oeste del eje 1.a"
+   }
+  },
+  "vigas_ns": [
+   {
+    "eje": "1.a",
+    "x": 0,
+    "ancho_dibujado": 15,
+    "y_ini": -80,
+    "y_fin": 1105,
+    "largo": 1185,
+    "perfil": "RECT 200x150x3 (rotulado en ELEVACION EJE 1.a para el eje 1.a; los demas ejes no tienen rotulo en esta lamina; cubicacion: 200x150x3 30 m + 200x150x5 20 m)",
+    "linea": "continua"
+   },
+   {
+    "eje": "1.b",
+    "x": 205,
+    "ancho_dibujado": 15,
+    "y_ini": -80,
+    "y_fin": 1105,
+    "largo": 1185,
+    "perfil": "RECT 200x150x3 (rotulado en ELEVACION EJE 1.a para el eje 1.a; los demas ejes no tienen rotulo en esta lamina; cubicacion: 200x150x3 30 m + 200x150x5 20 m)",
+    "linea": "continua"
+   },
+   {
+    "eje": "1.c",
+    "x": 570,
+    "ancho_dibujado": 15,
+    "y_ini": -80,
+    "y_fin": 1105,
+    "largo": 1185,
+    "perfil": "RECT 200x150x3 (rotulado en ELEVACION EJE 1.a para el eje 1.a; los demas ejes no tienen rotulo en esta lamina; cubicacion: 200x150x3 30 m + 200x150x5 20 m)",
+    "linea": "continua"
+   },
+   {
+    "eje": "2.a",
+    "x": 775,
+    "ancho_dibujado": 15,
+    "y_ini": -80,
+    "y_fin": 1105,
+    "largo": 1185,
+    "perfil": "RECT 200x150x3 (rotulado en ELEVACION EJE 1.a para el eje 1.a; los demas ejes no tienen rotulo en esta lamina; cubicacion: 200x150x3 30 m + 200x150x5 20 m)",
+    "linea": "continua"
+   },
+   {
+    "eje": "3.a",
+    "x": 1105,
+    "ancho_dibujado": 15,
+    "y_ini": -80,
+    "y_fin": 1105,
+    "largo": 1185,
+    "perfil": "RECT 200x150x3 (rotulado en ELEVACION EJE 1.a para el eje 1.a; los demas ejes no tienen rotulo en esta lamina; cubicacion: 200x150x3 30 m + 200x150x5 20 m)",
+    "linea": "continua"
+   }
+  ],
+  "vigas_eo": [
+   {
+    "y": 0,
+    "ancho_dibujado": 10,
+    "x_ini": 7.5,
+    "x_fin": 1097.5,
+    "largo": 1090,
+    "linea": "discontinua (oculta bajo costaneras)",
+    "perfil": "sin rotulo en la lamina; por ancho 10 cm y cubicacion (4 x 11,05 = 44,2 m) corresponde a CUAD 100x100x3",
+    "ubicacion": "eje F1"
+   },
+   {
+    "y": 375,
+    "ancho_dibujado": 10,
+    "x_ini": 7.5,
+    "x_fin": 1097.5,
+    "largo": 1090,
+    "linea": "discontinua (oculta bajo costaneras)",
+    "perfil": "sin rotulo en la lamina; por ancho 10 cm y cubicacion (4 x 11,05 = 44,2 m) corresponde a CUAD 100x100x3",
+    "ubicacion": "eje E2"
+   },
+   {
+    "y": 700,
+    "ancho_dibujado": 10,
+    "x_ini": 7.5,
+    "x_fin": 1097.5,
+    "largo": 1090,
+    "linea": "discontinua (oculta bajo costaneras)",
+    "perfil": "sin rotulo en la lamina; por ancho 10 cm y cubicacion (4 x 11,05 = 44,2 m) corresponde a CUAD 100x100x3",
+    "ubicacion": "linea sin burbuja, mitad entre E2 y A1"
+   },
+   {
+    "y": 1025,
+    "ancho_dibujado": 10,
+    "x_ini": 7.5,
+    "x_fin": 1097.5,
+    "largo": 1090,
+    "linea": "discontinua (oculta bajo costaneras)",
+    "perfil": "sin rotulo en la lamina; por ancho 10 cm y cubicacion (4 x 11,05 = 44,2 m) corresponde a CUAD 100x100x3",
+    "ubicacion": "eje A1"
+   }
+  ],
+  "costaneras": {
+   "rotulo_planta": "CA 100x50x15x2@610 (21 rotulos, uno por linea)",
+   "rotulo_elevacion": "CA 100x50x15x3 (cubicacion: CA 100x50x15x3, 233,0 m)",
+   "direccion": "E-O (paralelas a F1), apoyadas sobre las vigas N-S",
+   "x_ini": -52,
+   "x_fin": 1112.5,
+   "largo": 1164.5,
+   "ancho_dibujado": 5,
+   "y_centros": [
+    -56.4,
+    4.6,
+    65.6,
+    126.6,
+    187.6,
+    248.6,
+    309.6,
+    370.6,
+    431.6,
+    492.6,
+    553.6,
+    614.6,
+    675.6,
+    736.6,
+    797.6,
+    858.6,
+    919.6,
+    980.6,
+    1041.6,
+    1102.5
+   ],
+   "paso": 61,
+   "nota": "19 a paso 61 desde -56,4 hasta 1041,6, mas una pegada al borde A1 (1100-1105, centro 1102,5). 20 CA x 11,65 m = 233 m = cubicacion.",
+   "borde_F1": {
+    "y_centro": -77.5,
+    "alas": [
+     -80,
+     -75
+    ],
+    "perfil": "C150x50x3 soporte (rotulo en ELEVACION EJE 1.a); en la planta esta rotulado igual que las CA"
+   },
+   "borde_A1": {
+    "y_centro": 1102.5,
+    "alas": [
+     1100,
+     1105
+    ],
+    "perfil": "dibujado y rotulado como CA; sin rotulo 'soporte' en la elevacion"
+   }
+  },
+  "colgadores": [
+   {
+    "rotulo": "colgador ø10 central",
+    "x_dibujado": 384.9,
+    "x_nominal_centro_vano": 387.5,
+    "vano": "1.b-1.c (365)",
+    "y_ini": -80,
+    "y_fin": 1105,
+    "ancho_dibujado": 5
+   },
+   {
+    "rotulo": "colgador ø10 central",
+    "x_dibujado": 937.4,
+    "x_nominal_centro_vano": 940,
+    "vano": "2.a-3.a (330)",
+    "y_ini": -80,
+    "y_fin": 1105,
+    "ancho_dibujado": 5
+   }
+  ],
+  "colgadores_nota": "Linea continua N-S a mitad de los dos vanos largos, con una flecha por costanera. Cubicacion Fe red 10: 24,0 m = 2 x 11,85 m.",
+  "tensores_x": {
+   "linea": "discontinua, sin rotulo en la lamina; cubicacion FE RED 16 87,4 m (calculado 88,9 m eje a eje)",
+   "cruces": [
+    {
+     "vano_x": "1.a-1.b",
+     "franja_y": "F1-E2",
+     "esquinas": [
+      [
+       0,
+       0
+      ],
+      [
+       205,
+       375
+      ]
+     ]
+    },
+    {
+     "vano_x": "1.b-1.c",
+     "franja_y": "F1-E2",
+     "esquinas": [
+      [
+       205,
+       0
+      ],
+      [
+       570,
+       375
+      ]
+     ]
+    },
+    {
+     "vano_x": "1.c-2.a",
+     "franja_y": "F1-E2",
+     "esquinas": [
+      [
+       570,
+       0
+      ],
+      [
+       775,
+       375
+      ]
+     ]
+    },
+    {
+     "vano_x": "2.a-3.a",
+     "franja_y": "F1-E2",
+     "esquinas": [
+      [
+       775,
+       0
+      ],
+      [
+       1105,
+       375
+      ]
+     ]
+    },
+    {
+     "vano_x": "1.a-1.b",
+     "franja_y": "E2-700",
+     "esquinas": [
+      [
+       0,
+       375
+      ],
+      [
+       205,
+       700
+      ]
+     ]
+    },
+    {
+     "vano_x": "2.a-3.a",
+     "franja_y": "E2-700",
+     "esquinas": [
+      [
+       775,
+       375
+      ],
+      [
+       1105,
+       700
+      ]
+     ]
+    },
+    {
+     "vano_x": "1.a-1.b",
+     "franja_y": "700-A1",
+     "esquinas": [
+      [
+       0,
+       700
+      ],
+      [
+       205,
+       1025
+      ]
+     ]
+    },
+    {
+     "vano_x": "1.b-1.c",
+     "franja_y": "700-A1",
+     "esquinas": [
+      [
+       205,
+       700
+      ],
+      [
+       570,
+       1025
+      ]
+     ]
+    },
+    {
+     "vano_x": "1.c-2.a",
+     "franja_y": "700-A1",
+     "esquinas": [
+      [
+       570,
+       700
+      ],
+      [
+       775,
+       1025
+      ]
+     ]
+    },
+    {
+     "vano_x": "2.a-3.a",
+     "franja_y": "700-A1",
+     "esquinas": [
+      [
+       775,
+       700
+      ],
+      [
+       1105,
+       1025
+      ]
+     ]
+    }
+   ],
+   "sin_cruz": [
+    "1.b-1.c x E2-700",
+    "1.c-2.a x E2-700"
+   ]
+  },
+  "pilares_planta": {
+   "nota": "cuadrados grises en la planta; perfil segun ELEVACION EJE 1.a (PM2 CUAD 150x150x4 en F1/E2/A1, PM3 RECT 150x100x3 en E3/A2) y PLANO 02/04 para los demas. 15x15 = cuadrado; 15x10 = 15 E-O x 10 N-S.",
+   "lista": [
+    {
+     "eje_x": "1.a",
+     "x": 0,
+     "y": 0,
+     "fila": "F1",
+     "seccion_dibujada": "15x15"
+    },
+    {
+     "eje_x": "1.b",
+     "x": 205,
+     "y": 0,
+     "fila": "F1",
+     "seccion_dibujada": "15x15"
+    },
+    {
+     "eje_x": "1.c",
+     "x": 570,
+     "y": 0,
+     "fila": "F1",
+     "seccion_dibujada": "15x15"
+    },
+    {
+     "eje_x": "2.a",
+     "x": 775,
+     "y": 0,
+     "fila": "F1",
+     "seccion_dibujada": "15x15"
+    },
+    {
+     "eje_x": "3.a",
+     "x": 1105,
+     "y": 0,
+     "fila": "F1",
+     "seccion_dibujada": "15x15"
+    },
+    {
+     "eje_x": "1.a",
+     "x": 0,
+     "y": 205,
+     "fila": "E3",
+     "seccion_dibujada": "15x10"
+    },
+    {
+     "eje_x": "2.a",
+     "x": 775,
+     "y": 205,
+     "fila": "E3",
+     "seccion_dibujada": "15x10"
+    },
+    {
+     "eje_x": "3.a",
+     "x": 1105,
+     "y": 205,
+     "fila": "E3",
+     "seccion_dibujada": "15x10"
+    },
+    {
+     "eje_x": "3.a",
+     "x": 1105,
+     "y": 295,
+     "fila": "sin eje (E3+90)",
+     "seccion_dibujada": "15x10"
+    },
+    {
+     "eje_x": "1.a",
+     "x": 0,
+     "y": 375,
+     "fila": "E2",
+     "seccion_dibujada": "15x15"
+    },
+    {
+     "eje_x": "2.a",
+     "x": 775,
+     "y": 375,
+     "fila": "E2",
+     "seccion_dibujada": "15x15"
+    },
+    {
+     "eje_x": "3.a",
+     "x": 1105,
+     "y": 375,
+     "fila": "E2",
+     "seccion_dibujada": "15x15"
+    },
+    {
+     "eje_x": "3.a",
+     "x": 1105,
+     "y": 682,
+     "fila": "sin eje (A2-160)",
+     "seccion_dibujada": "15x10"
+    },
+    {
+     "eje_x": "1.a",
+     "x": 0,
+     "y": 843,
+     "fila": "A2",
+     "seccion_dibujada": "15x10"
+    },
+    {
+     "eje_x": "2.a",
+     "x": 775,
+     "y": 843,
+     "fila": "A2",
+     "seccion_dibujada": "15x10"
+    },
+    {
+     "eje_x": "3.a",
+     "x": 1105,
+     "y": 843,
+     "fila": "A2",
+     "seccion_dibujada": "15x10"
+    },
+    {
+     "eje_x": "1.a",
+     "x": 0,
+     "y": 1025,
+     "fila": "A1",
+     "seccion_dibujada": "15x15"
+    },
+    {
+     "eje_x": "1.b",
+     "x": 205,
+     "y": 1025,
+     "fila": "A1",
+     "seccion_dibujada": "15x15"
+    },
+    {
+     "eje_x": "1.c",
+     "x": 570,
+     "y": 1025,
+     "fila": "A1",
+     "seccion_dibujada": "15x15"
+    },
+    {
+     "eje_x": "2.a",
+     "x": 775,
+     "y": 1025,
+     "fila": "A1",
+     "seccion_dibujada": "15x15"
+    },
+    {
+     "eje_x": "3.a",
+     "x": 1105,
+     "y": 1025,
+     "fila": "A1",
+     "seccion_dibujada": "15x15"
+    }
+   ]
+  },
+  "contorno_cubierta": {
+   "x_min": -52,
+   "x_max": 1112.5,
+   "y_min": -80,
+   "y_max": 1105,
+   "nota": "vigas N-S de -80 a 1105 (aleros 80 en F1 y A1); costaneras de -52 (alero lateral oeste) a 1112,5 (cara exterior de la viga 3.a, sin alero al este)"
+  }
+ },
+ "planta_losa": {
+  "marco": "x en cm desde eje 1.a, y en cm desde eje F1 (E1 = 500, A1 = 1025). Dibujo con E1 arriba y A1 abajo, igual que la planta de cubierta.",
+  "espesor_losa": 20,
+  "contorno_exterior": {
+   "x": [
+    -12.5,
+    1117.5
+   ],
+   "y": [
+    487.5,
+    1037.5
+   ],
+   "dimensiones": "1130 x 550 (caras exteriores de muros)"
+  },
+  "muros": [
+   {
+    "eje": "1.a",
+    "tipo": "MHA e=25",
+    "x_caras": [
+     -12.5,
+     12.5
+    ],
+    "y_ini": 487.5,
+    "y_fin": 1037.5,
+    "lineas": "exterior continua; interior discontinua entre E1 y A1"
+   },
+   {
+    "eje": "3.a",
+    "tipo": "MHA e=25",
+    "x_caras": [
+     1092.5,
+     1117.5
+    ],
+    "y_ini": 487.5,
+    "y_fin": 1037.5,
+    "lineas": "exterior continua; interior discontinua"
+   },
+   {
+    "eje": "E1",
+    "tipo": "MHA e=25",
+    "y_caras": [
+     487.5,
+     512.5
+    ],
+    "x_ini": 12.5,
+    "x_fin": 1092.5,
+    "lineas": "exterior continua; interior discontinua"
+   },
+   {
+    "eje": "A1",
+    "tipo": "MHA =25",
+    "y_caras": [
+     1012.5,
+     1037.5
+    ],
+    "x_ini": -12.5,
+    "x_fin": 1117.5,
+    "lineas": "ambas continuas"
+   }
+  ],
+  "viga_vha": {
+   "eje": "2.a",
+   "tipo": "VHA 25/40",
+   "x_caras": [
+    762.5,
+    787.5
+   ],
+   "y_ini": 512.5,
+   "y_fin": 1012.5,
+   "linea": "discontinua (colgada bajo la losa)"
+  },
+  "prolongacion_norte_de_E1": {
+   "descripcion": "Los muros 1.a y 3.a y la viga 2.a siguen hacia el norte de E1 con lineas continuas y se cortan con una linea de quiebre en zigzag; en esta lamina no se ve hasta donde llegan.",
+   "y_corte_aprox": {
+    "1.a": 413,
+    "2.a": 418,
+    "3.a": 434
+   },
+   "placa_en_2a": {
+    "x": 775,
+    "y": 450,
+    "seccion": "15x10",
+    "nota": "placa de pilar con X a 50 cm al norte de E1; no hay pilar ahi en la planta de cubierta"
+   }
+  },
+  "hueco": {
+   "x": [
+    787.5,
+    1092.5
+   ],
+   "y": [
+    912.5,
+    1012.5
+   ],
+   "ancho": 305,
+   "alto": 100,
+   "marca": "rectangulo con X",
+   "rotulo": "ninguno (cotas 305 y 100)",
+   "nota": "ocupa casi todo el ancho libre entre la VHA 2.a y el muro 3.a, pegado al muro A1; probable acceso/escalera"
+  },
+  "placas_pilares": [
+   {
+    "eje_x": "1.a",
+    "x": 0,
+    "y": 1025,
+    "seccion": "15x15",
+    "sobre": "muro A1"
+   },
+   {
+    "eje_x": "1.b",
+    "x": 205,
+    "y": 1025,
+    "seccion": "15x15",
+    "sobre": "muro A1"
+   },
+   {
+    "eje_x": "1.c",
+    "x": 570,
+    "y": 1025,
+    "seccion": "15x15",
+    "sobre": "muro A1"
+   },
+   {
+    "eje_x": "2.a",
+    "x": 775,
+    "y": 1025,
+    "seccion": "15x15",
+    "sobre": "muro A1"
+   },
+   {
+    "eje_x": "3.a",
+    "x": 1105,
+    "y": 1025,
+    "seccion": "15x15",
+    "sobre": "muro A1"
+   },
+   {
+    "eje_x": "1.a",
+    "x": 0,
+    "y": 842.5,
+    "seccion": "15x10",
+    "sobre": "muro 1.a (fila A2)"
+   },
+   {
+    "eje_x": "3.a",
+    "x": 1105,
+    "y": 842.5,
+    "seccion": "15x10",
+    "sobre": "muro 3.a (fila A2)"
+   },
+   {
+    "eje_x": "3.a",
+    "x": 1105,
+    "y": 682.5,
+    "seccion": "15x10",
+    "sobre": "muro 3.a"
+   },
+   {
+    "eje_x": "2.a",
+    "x": 775,
+    "y": 450,
+    "seccion": "15x10",
+    "sobre": "prolongacion de la viga 2.a al norte de E1"
+   }
+  ],
+  "placas_nota": "No hay placa dibujada en 2.a/A2 (la cubierta si tiene pilar ahi) ni en la fila E1.",
+  "paneles": [
+   {
+    "nombre": "L001",
+    "espesor": 20,
+    "x": [
+     0,
+     775
+    ],
+    "y": [
+     500,
+     1025
+    ],
+    "luces": "775 x 525",
+    "simbolo_en": [
+     455,
+     912.5
+    ]
+   },
+   {
+    "nombre": "L002",
+    "espesor": 20,
+    "x": [
+     775,
+     1105
+    ],
+    "y": [
+     500,
+     1025
+    ],
+    "luces": "330 x 525",
+    "simbolo_en": [
+     1035,
+     597
+    ]
+   }
+  ],
+  "armaduras": [
+   {
+    "panel": "L001",
+    "direccion": "E-O",
+    "barra": "ø8@20",
+    "largo_total": 381,
+    "forma": "baston desplegado: pata 80 + vertical 15 + pata 286",
+    "x_ini": -9.5,
+    "x_fin_pata_80": 70.5,
+    "x_fin_pata_286": 277.5,
+    "y_dibujo": 659,
+    "interpretacion": "pata 80 en la capa superior sobre el muro 1.a, baja 15 y sigue 286 en la capa inferior (bastón de apoyo)",
+    "fuente": "cotas 15, 80, 286 y rotulo L=381"
+   },
+   {
+    "panel": "L001",
+    "direccion": "E-O",
+    "barra": "ø8@20",
+    "largo_total": 600,
+    "forma": "recta",
+    "x_ini": 217.5,
+    "x_fin": 817.4,
+    "y_dibujo": 673.5,
+    "cotas": {
+     "558": "desde el inicio hasta eje 2.a",
+     "42": "desde eje 2.a hasta el extremo (entra en L002)",
+     "60": "traslapo con la pata 286 de la barra L=381"
+    }
+   },
+   {
+    "panel": "L001",
+    "direccion": "N-S",
+    "barra": "ø10@20",
+    "largo_total": 600,
+    "forma": "recta 543 + en cada extremo vertical 13,5 + pata 15",
+    "x_dibujo": 455,
+    "y_ini": 491,
+    "y_fin": 1032.6,
+    "largo_recto_dibujado": 541.6,
+    "cotas": {
+     "543": "tramo recto",
+     "13.5": "pata vertical",
+     "15": "pata horizontal (hacia el oeste en el dibujo)"
+    },
+    "nota": "direccion principal de L001 (luz corta 525)"
+   },
+   {
+    "panel": "L002",
+    "direccion": "E-O",
+    "barra": "ø8@15",
+    "largo_total": 456,
+    "forma": "baston desplegado: pata 381 + vertical 15 + pata 60",
+    "x_ini": 732.6,
+    "x_fin": 1114.5,
+    "y_dibujo": 762.5,
+    "cotas": {
+     "42": "desde el inicio hasta eje 2.a",
+     "381": "pata larga",
+     "15": "vertical en muro 3.a",
+     "60": "pata corta en muro 3.a (dibujada 50)"
+    },
+    "nota": "direccion principal de L002 (luz corta 330)"
+   },
+   {
+    "panel": "L002",
+    "direccion": "N-S",
+    "barra": "ø8@20",
+    "largo_total": 600,
+    "forma": "recta + en cada extremo vertical 13,5 + pata 15",
+    "x_dibujo": 872,
+    "y_ini": 491,
+    "y_fin": 909.4,
+    "largo_recto_dibujado": 418.4,
+    "nota": "rotulada 543 / L=600 igual que la de L001, pero dibujada solo desde E1 hasta el borde del hueco (418)"
+   },
+   {
+    "panel": "L002",
+    "direccion": "E-O",
+    "barra": "2ø12",
+    "largo_total": 456,
+    "forma": "igual que la ø8@15: 381 + 15 + 60",
+    "rotulo": "armadura de borde",
+    "x_ini": 732.6,
+    "x_fin": 1114.5,
+    "y_dibujo": 906.4,
+    "nota": "borde norte del hueco 305x100 (6 cm al norte del borde dibujado)"
+   }
+  ],
+  "cotas": {
+   "horizontal": [
+    775,
+    330,
+    1105
+   ],
+   "hueco": [
+    305,
+    100
+   ],
+   "vertical": [
+    525
+   ]
+  }
+ },
+ "detalle_vha_25_40": {
+  "escala": "1:20 (1,417 pt/cm)",
+  "seccion": {
+   "ancho": 25,
+   "alto_total": 40,
+   "losa": 20,
+   "descuelgue_bajo_losa": 20,
+   "losa_a_ambos_lados": true
+  },
+  "armadura": {
+   "superior": "3ø12",
+   "media": "2ø10 (una por cara, a media altura)",
+   "inferior": "3ø16",
+   "estribos": "Est ø10@20"
+  },
+  "conteo_circulos_dibujados": {
+   "superior": 3,
+   "media": 2,
+   "inferior": 3
+  }
+ },
+ "elevacion_eje_1a": {
+  "marco": "x en cm desde eje F1 (hacia A1, 1025), z en cm con NPOG 0,00 = cara superior de la losa del bunker. Escala 1:50.",
+  "ejes_x": {
+   "F1": 0,
+   "E3": 205,
+   "E2": 375,
+   "E1": 500,
+   "A2": 843,
+   "A1": 1025
+  },
+  "cotas_ejes": [
+   205,
+   170,
+   125,
+   343,
+   182
+  ],
+  "cota_bunker": 525,
+  "pilares": [
+   {
+    "eje": "F1",
+    "x": 0,
+    "rotulo": "PM2 CUAD 150x150x4",
+    "ancho_dibujado": 15,
+    "z_base": 0,
+    "z_tope": 400.1,
+    "cota": 401
+   },
+   {
+    "eje": "E3",
+    "x": 205,
+    "rotulo": "PM3 RECT 150x100x3",
+    "ancho_dibujado": 10,
+    "z_base": 0,
+    "z_tope": 409.7
+   },
+   {
+    "eje": "E2",
+    "x": 375,
+    "rotulo": "PM2 CUAD 150x150x4",
+    "ancho_dibujado": 15,
+    "z_base": 0,
+    "z_tope": 417.4
+   },
+   {
+    "eje": "A2",
+    "x": 843,
+    "rotulo": "PM3 RECT 150x100x3",
+    "ancho_dibujado": 10,
+    "z_base": 0,
+    "z_tope": 438.6
+   },
+   {
+    "eje": "A1",
+    "x": 1025,
+    "rotulo": "PM2 CUAD 150x150x4",
+    "ancho_dibujado": 15,
+    "z_base": 0,
+    "z_tope": 446.9
+   }
+  ],
+  "pilares_nota": "no hay pilar en E1 en este eje; los topes siguen la cara inferior de la viga inclinada",
+  "viga_techo": {
+   "rotulo": "RECT 200x150x3 en todos los tramos (6 rotulos)",
+   "alto": 20,
+   "x_ini": -80,
+   "x_fin": 1105,
+   "largo_horizontal": 1185,
+   "cota_largo": 1186,
+   "z_fondo_en": {
+    "-80": 396.7,
+    "0": 400.3,
+    "1025": 446.8,
+    "1105": 450.4
+   },
+   "pendiente_rotulada": "3,5 %",
+   "pendiente_medida": "4,5 % (sube 46,7 cm entre F1 y A1)",
+   "sube_hacia": "A1",
+   "aleros": {
+    "F1": 80,
+    "A1": 80
+   }
+  },
+  "costaneras": {
+   "rotulo": "CA 100x50x15x3",
+   "cotas": "19 x 61 + 3",
+   "x_centros_medidos": [
+    -56.4,
+    4.1,
+    65.1,
+    124.0,
+    184.9,
+    245.9,
+    306.8,
+    367.8,
+    428.8,
+    489.7,
+    550.7,
+    611.6,
+    672.4,
+    733.5,
+    794.3,
+    855.4,
+    914.1,
+    977.2,
+    1038.8,
+    1100.0
+   ],
+   "soporte_F1": {
+    "rotulo": "C150x50x3 soporte",
+    "x": -80
+   }
+  },
+  "cruces": [
+   {
+    "vano": "F1-E3",
+    "perfil": "C150x50x3 (x2, en X)",
+    "esquinas": [
+     [
+      0,
+      0
+     ],
+     [
+      205,
+      409.7
+     ]
+    ],
+    "largo_diag_aprox": 455
+   },
+   {
+    "vano": "A2-A1",
+    "perfil": "C150x50x3 (x2, en X)",
+    "esquinas": [
+     [
+      843,
+      0
+     ],
+     [
+      1025,
+      446.9
+     ]
+    ],
+    "largo_diag_aprox": 480
+   }
+  ],
+  "niveles": {
+   "NPOG": 0.0,
+   "losa_cara_inferior": -20,
+   "NTN": -50,
+   "piso_bunker_linea": -292,
+   "piso_bunker_rotulo": "NPOG=-272 (la flecha apunta a la linea de -292)",
+   "linea_extra_piso": -302,
+   "fundacion_tope": -312,
+   "fundacion_fondo": -342,
+   "linea_extra_fondo": -347,
+   "marca_-75": -75,
+   "viga_fondo_F1": 400.1
+  },
+  "bunker": {
+   "muros": {
+    "E1": {
+     "x_caras": [
+      487.5,
+      512.5
+     ],
+     "espesor": 25
+    },
+    "A1": {
+     "x_caras": [
+      1012.5,
+      1037.5
+     ],
+     "espesor": 25
+    }
+   },
+   "luz_libre": 500,
+   "entre_ejes": 525,
+   "losa": 20,
+   "altura_libre_cota": 272,
+   "cota_292": "de -20 a -312",
+   "cota_312": "de 0,00 a -312",
+   "fundacion": {
+    "x_ini": 460,
+    "x_fin": 1065,
+    "z": [
+     -342,
+     -312
+    ],
+    "espesor": 30,
+    "ancho_total": 605,
+    "vuelo_fuera_del_muro": 27.5,
+    "nota": "corrida bajo todo el bunker (continua bajo los muros); linea adicional en -347"
+   },
+   "muro_armadura": {
+    "rotulo": "DM, muro e=25",
+    "vertical": "ø12@15",
+    "horizontal": "ø10@20"
+   }
+  },
+  "tramo_F1_E1_bajo_cero": {
+   "linea_0": {
+    "x_ini": -31.6,
+    "x_fin": 1037.5,
+    "nota": "linea continua doble en 0,00 (radier/cara superior)"
+   },
+   "elemento_F1": {
+    "x_caras": [
+     -12.5,
+     12.5
+    ],
+    "z": [
+     -50,
+     0
+    ],
+    "nota": "cara exterior continua, interior discontinua"
+   },
+   "banda_oculta": {
+    "x_ini": 12.5,
+    "x_fin": 487.5,
+    "z": [
+     -50,
+     -10
+    ],
+    "nota": "discontinua; cimiento corrido a lo largo del eje 1.a (CF 25/40 segun planos de fundacion), tope 10 cm bajo 0,00"
+   },
+   "doble_linea": {
+    "x_ini": -40,
+    "x_fin": 487.5,
+    "z": [
+     -80,
+     -75
+    ],
+    "nota": "continua, junto a la marca -75; vertical oculta en x=35 de -50 a -80"
+   },
+   "NTN_izquierda": {
+    "z": -50,
+    "x": [
+     -64,
+     -12.5
+    ]
+   },
+   "NTN_derecha": {
+    "z": -50,
+    "x": [
+     1037.5,
+     1112
+    ]
+   }
+  }
+ },
+ "chequeos_contra_cubicacion": {
+  "costaneras_CA": "20 x 11,645 m = 232,9 m vs cubicacion 233,0 m",
+  "colgadores_Fe10": "2 x 11,85 m = 23,7 m vs 24,0 m",
+  "tensores_Fe16": "10 cruces eje a eje = 88,9 m vs 87,4 m",
+  "vigas_EO_CUAD100": "4 x 11,05 m = 44,2 m vs 44,2 m",
+  "vigas_NS_RECT200x150": "5 x 11,85 m = 59,3 m vs 30 + 20 = 50 m (no cuadra)",
+  "pilares": "CUAD 150x150x4 37,8 m + 150x150x5 16,9 m + RECT 150x100x3 16,9 m; con 13 pilares 15x15 y 8 de 15x10 dibujados en la planta no cuadra de forma simple (4,2 m x 9 = 37,8; x 4 = 16,8)"
+ },
+ "discrepancias_y_dudas": [
+  "Pendiente de la viga de techo: rotulada 3,5 % pero dibujada 4,5 % (fondo de viga +400 en F1 y +447 en A1). Las alturas de pilar en la elevacion siguen el 4,5 %.",
+  "Piso del bunker: el rotulo dice NPOG=-272 pero la flecha apunta a la linea en -292; las cotas 292 (0,00 a -312) y 272 (-20 a -292) calzan con -292. Hay otra linea en -302.",
+  "Costaneras: en la planta dicen CA 100x50x15x2, en la elevacion y la cubicacion CA 100x50x15x3.",
+  "Burbujas de la planta de cubierta: las filas 205 y 842 estan rotuladas A1 (deberian ser E3 y A2 segun la elevacion y las cotas).",
+  "Pilares extra 15x10 en el eje 3.a a y=295 y y=682 (cotas 90/80 y 307/160): no tienen eje; probablemente montantes de un vano en la fachada 3.a (ver PLANO 02).",
+  "Placa 15x10 en 2.a a y=450 (50 cm al norte de E1) sobre la prolongacion de la VHA: no hay pilar ahi en la cubierta.",
+  "Pilar 2.a/A2 en la cubierta sin placa en la planta de losa.",
+  "Los muros 1.a, 3.a y la viga 2.a continuan al norte de E1 en la planta de losa (cortados con linea de quiebre): no se ve hasta donde ni que son (¿cimientos corridos?).",
+  "Alero lateral: 52 cm solo al oeste del eje 1.a; al este las costaneras terminan en la cara exterior de la viga 3.a.",
+  "Pata corta del baston ø8@15 y de la armadura de borde 2ø12: rotulada 60, dibujada 50.",
+  "Barras N-S de L002: rotuladas 543 / L=600 pero dibujadas de E1 al borde del hueco (418); el hueco 305x100 corta casi todo el ancho del panel.",
+  "Hueco 305x100 sin rotulo: confirmar si es escalera/escotilla de acceso.",
+  "Fundacion bajo F1-E1: banda oculta -10/-50 y doble linea continua -75/-80 hasta E1 (con vertical oculta en F1+35): interpretar con la planta de fundaciones.",
+  "Vigas N-S: dibujadas 5 x 11,85 m = 59,3 m; cubicacion 200x150x3 30 m + 200x150x5 20 m = 50 m.",
+  "Linea adicional en -347 bajo la fundacion del bunker (¿emplantillado 5 cm?)."
+ ]
+}

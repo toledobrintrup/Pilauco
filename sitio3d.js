@@ -197,15 +197,17 @@
         const color = tipoColor[rc.tipo] !== undefined ? tipoColor[rc.tipo] : C.muro;
         const mesh = prisma(rc.pts, E.z_piso, zc, lambert(color, { transparent: true, opacity: .88 }));
         ficha(mesh, rc.nombre, `${rc.area_m2.toLocaleString('es-CL')} m² · ${rc.dato} · ${D.estudio_anclaje ? D.estudio_anclaje.metodo : ''}`);
-        sub.estudio.add(mesh, bordes(mesh, C.muro));
+        const bd = bordes(mesh, C.muro); mesh.userData.recintoEstudio = bd.userData.recintoEstudio = true;   // se esconden cuando se dibujan los muros y ventanas propuestos
+        sub.estudio.add(mesh, bd);
       });
       // losa de piso y zócalo hasta el terreno (la losa va 50 cm sobre el NPT de la casa; fundación pendiente del ingeniero)
       const losa = prisma(E.exterior, zT, E.z_piso, lambert(C.muro, { transparent: true, opacity: .95 }), true);
+      losa.userData.losaEstudio = true;
       ficha(losa, 'Estudio: losa de piso y zócalo', `${fmt(E.ancho)} × ${fmt(E.largo)} m exteriores · losa terminada ${fmt(E.z_piso - zT)} m sobre el terreno natural, ${fmt(-E.z_piso)} m bajo el piso de la casa (Gabriel) · fundación según el ingeniero`);
       sub.estudio.add(losa);
       const zInf = y => E.techo.z0 + (E.techo.z1 - E.techo.z0) * (y - E.techo.y0) / (E.techo.y1 - E.techo.y0);
       const techo = losaInclinada(E.techo.contorno, zInf, E.techo.espesor, lambert(C.estudioTecho, { transparent: true, opacity: .9 }));
-      ficha(techo, 'Techo del estudio', `Un agua al ${E.techo.pendiente * 100}% como la casa, sube hacia el ${E.techo.sube_hacia} · alero ${fmt(E.techo.alero)} m · ${E.datos.techo}`);
+      ficha(techo, 'Techo del estudio', `Un agua al ${(E.techo.pendiente * 100).toLocaleString('es-CL')} % como la casa, sube hacia el ${E.techo.sube_hacia} · alero ${fmt(E.techo.alero)} m · ${E.datos.techo}`);
       sub.estudio.add(techo);
       const B = E.bunker;
       const bk = prisma(B.pts, B.z_piso, B.z_cielo, lambert(C.bunker, { transparent: true, opacity: .6 }), true);

@@ -1,0 +1,498 @@
+{
+ "lamina": {
+  "archivo": "02_Proyecto Estudio 07-04-2026 PLANO 02.pdf",
+  "lamina_n": "05",
+  "fecha_vineta": "11-03-2026",
+  "rev": "H",
+  "revisiones": [
+   {
+    "n": "A",
+    "observacion": "EMITIDO PARA APROBACION",
+    "fecha": ""
+   }
+  ],
+  "contenido_vineta": "PLANTA CUBIERTA / PLANTA LOSA (así dice la viñeta, aunque la lámina muestra las elevaciones A1 y F)",
+  "n_plano": "",
+  "escala": "1:50",
+  "unidades": "cm",
+  "pagina_pt": [
+   2384,
+   1684
+  ],
+  "render_px": [
+   2861,
+   2021
+  ],
+  "px_por_pt": 1.2
+ },
+ "calibracion": {
+  "pt_por_cm": 0.567,
+  "npog0_y_pt": 365.3,
+  "A1_eje1a_x_pt": 251.35,
+  "F_eje1a_x_pt": 1278.2,
+  "comprobacion": "1.a→2.a 439.4 pt = 775 cm; 2.a→3.a 187.1 pt = 330 cm; 1.a→3.a 626.5 pt = 1105 cm; NTN −50 en y=393.6 (−49.9); −312 en y=542.1 (−311.8)"
+ },
+ "marco": "x en cm desde el eje 1.a (positivo hacia 3.a); z en cm con NPOG 0,00 = 0 (cara superior de la losa del búnker), positivo hacia arriba",
+ "elevaciones": {
+  "A1": {
+   "ejes": {
+    "1.a": 0.0,
+    "1.b": 204.9,
+    "1.c": 569.9,
+    "2.a": 775.0,
+    "3.a": 1104.9
+   },
+   "separaciones": {
+    "1.a-1.b": 205,
+    "1.b-1.c": 365,
+    "1.c-2.a": 205,
+    "2.a-3.a": 330
+   },
+   "cotas_dibujadas": {
+    "1.a-2.a": 775,
+    "2.a-3.a": 330,
+    "1.a-3.a": 1105
+   },
+   "pilares": [
+    {
+     "eje": "1.a",
+     "tipo": "PM2",
+     "perfil": "CUAD 150x150x4",
+     "x": 0.0,
+     "ancho": 15,
+     "z_base": 0,
+     "z_tope": 447.1,
+     "altura": 447.1,
+     "x_pt": 251.35,
+     "y_tope_pt": 111.8
+    },
+    {
+     "eje": "1.b",
+     "tipo": "PM1",
+     "perfil": "CUAD 150x150x5",
+     "x": 204.9,
+     "ancho": 15,
+     "z_base": 0,
+     "z_tope": 447.1,
+     "altura": 447.1,
+     "x_pt": 367.55,
+     "y_tope_pt": 111.8
+    },
+    {
+     "eje": "1.c",
+     "tipo": "PM1",
+     "perfil": "CUAD 150x150x5",
+     "x": 569.9,
+     "ancho": 15,
+     "z_base": 0,
+     "z_tope": 447.1,
+     "altura": 447.1,
+     "x_pt": 574.5,
+     "y_tope_pt": 111.8
+    },
+    {
+     "eje": "2.a",
+     "tipo": "PM2",
+     "perfil": "CUAD 150x150x4",
+     "x": 775.0,
+     "ancho": 15,
+     "z_base": 0,
+     "z_tope": 447.1,
+     "altura": 447.1,
+     "x_pt": 690.75,
+     "y_tope_pt": 111.8
+    },
+    {
+     "eje": "3.a",
+     "tipo": "PM2",
+     "perfil": "CUAD 150x150x4",
+     "x": 1104.9,
+     "ancho": 15,
+     "z_base": 0,
+     "z_tope": 447.1,
+     "altura": 447.1,
+     "x_pt": 877.85,
+     "y_tope_pt": 111.8
+    }
+   ],
+   "vigas_amarre": [
+    {
+     "tramo": "1.a-1.b",
+     "perfil": "CUAD 100x100x3",
+     "x0": 7.5,
+     "x1": 197.4,
+     "z_inf": 401.1,
+     "z_sup": 411.1,
+     "rotulo_nivel": "+410",
+     "nota": "va entre pilares (la línea se corta en cada pilar); dibujada de +401 a +411, rótulo +410 con flecha a su cara inferior"
+    },
+    {
+     "tramo": "1.b-1.c",
+     "perfil": "CUAD 100x100x3",
+     "x0": 212.4,
+     "x1": 562.4,
+     "z_inf": 401.1,
+     "z_sup": 411.1,
+     "rotulo_nivel": "+410",
+     "nota": "va entre pilares (la línea se corta en cada pilar); dibujada de +401 a +411, rótulo +410 con flecha a su cara inferior"
+    },
+    {
+     "tramo": "1.c-2.a",
+     "perfil": "CUAD 100x100x3",
+     "x0": 577.4,
+     "x1": 767.5,
+     "z_inf": 401.1,
+     "z_sup": 411.1,
+     "rotulo_nivel": "+410",
+     "nota": "va entre pilares (la línea se corta en cada pilar); dibujada de +401 a +411, rótulo +410 con flecha a su cara inferior"
+    },
+    {
+     "tramo": "2.a-3.a",
+     "perfil": "CUAD 100x100x3",
+     "x0": 782.5,
+     "x1": 1097.4,
+     "z_inf": 401.1,
+     "z_sup": 411.1,
+     "rotulo_nivel": "+410",
+     "nota": "va entre pilares (la línea se corta en cada pilar); dibujada de +401 a +411, rótulo +410 con flecha a su cara inferior"
+    }
+   ],
+   "niveles": {
+    "NPOG_0.00": 0,
+    "NTN": -49.9,
+    "viga_amarre_sup_dibujada": 411.1,
+    "viga_amarre_inf_dibujada": 401.1,
+    "rotulo_viga_amarre": "+410",
+    "tope_pilar": 447.1,
+    "tope_viga_techo": 466.7
+   },
+   "viga_techo_seccion": {
+    "nota": "rectángulo 15x20 dibujado sobre cada pilar: sección de la viga de techo RECT 200x150 (apoya en el tope del pilar)",
+    "z_inf": 447.1,
+    "z_sup": 466.7,
+    "ancho": 15,
+    "alto": 19.6
+   },
+   "bunker_debajo": true,
+   "bunker": {
+    "descripcion": "Muro DM e=25 (V: ø12@15, H: ø10@20) visto de frente bajo el eje A1, desde el eje 1.a al 3.a; líneas interiores discontinuas (ocultas)",
+    "muro_frontal": {
+     "x0": -12.4,
+     "x1": 1117.4,
+     "largo": 1129.8,
+     "z_sup": 0,
+     "z_inf": -311.8,
+     "espesor": 25,
+     "armadura": {
+      "V": "ø12@15",
+      "H": "ø10@20"
+     },
+     "simbolo_x": 474.2,
+     "simbolo_z": -138.1
+    },
+    "muros_extremos": [
+     {
+      "eje": "1.a",
+      "cara_ext": -12.4,
+      "cara_int": 12.4,
+      "espesor": 24.9
+     },
+     {
+      "eje": "3.a",
+      "cara_int": 1092.3,
+      "cara_ext": 1117.4,
+      "espesor": 25.0
+     }
+    ],
+    "losa": {
+     "z_sup": 0,
+     "z_inf": -19.9,
+     "espesor": 19.9,
+     "linea_inferior_dibujada_desde_x": 12.4,
+     "linea_inferior_dibujada_hasta_x": 787.4,
+     "nota": "la línea oculta del fondo de losa (−20) solo está dibujada del muro 1.a hasta x=787 (cara lejana de una viga de 25 centrada en el eje 2.a: la VHA 25/40); entre 2.a y 3.a no hay línea oculta de losa"
+    },
+    "viga_2a": {
+     "x0": 762.5,
+     "x1": 787.4,
+     "ancho": 25,
+     "nota": "solo se ve su cara lejana oculta entre 0 y −20; no hay línea a −40"
+    },
+    "piso": {
+     "rotulo": "NPOG=-272",
+     "lineas_ocultas_z": [
+      -291.9,
+      -301.9,
+      -311.8
+     ],
+     "x0": 12.4,
+     "x1": 1092.3,
+     "nota": "la flecha del rótulo NPOG=−272 apunta a la línea dibujada en −292; las tres líneas ocultas están en −292, −302 y −312 (10 cm entre sí)"
+    },
+    "fundacion": {
+     "rotulo": "-312",
+     "z_sup": -311.8,
+     "z_inf": -342.0,
+     "z_emplantillado": -346.9,
+     "x0": -50.0,
+     "x1": 1154.8,
+     "largo": 1204.8,
+     "zapata_muros_extremos": {
+      "x0": -50.0,
+      "x1": 50.0,
+      "ancho": 100.0,
+      "nota": "líneas ocultas a x 50 y x 1055 (de −312 a −347): borde interior de la zapata de los muros 1.a y 3.a, 100 de ancho centrada en el eje"
+     },
+     "nota": "cuerpo macizo de −312 a −342 (30 cm) más 5 cm (−347); va de x −50 a x 1155 (sobresale 37.5 fuera de cada muro extremo); lo macizo entre x 50 y 1055 es la zapata del propio muro A1 vista de frente"
+    },
+    "NTN_exterior": {
+     "z": -49.9,
+     "x_izq": [
+      -157.4,
+      -12.4
+     ],
+     "x_der": [
+      1117.4,
+      1241.7
+     ]
+    }
+   },
+   "bajo_rasante_pt": {
+    "muro": [
+     244.3,
+     365.3,
+     884.9,
+     542.1
+    ],
+    "losa_inf_y": 376.6,
+    "piso_y": [
+     530.8,
+     536.5,
+     542.1
+    ],
+    "fund": [
+     223.0,
+     542.1,
+     906.1,
+     562.0
+    ],
+    "int": [
+     258.4,
+     870.7
+    ]
+   }
+  },
+  "F": {
+   "ejes": {
+    "1.a": 0.0,
+    "1.b": 204.9,
+    "1.c": 569.8,
+    "2.a": 775.0,
+    "3.a": 1104.8
+   },
+   "separaciones": {
+    "1.a-1.b": 205,
+    "1.b-1.c": 365,
+    "1.c-2.a": 205,
+    "2.a-3.a": 330
+   },
+   "cotas_dibujadas": {
+    "1.a-2.a": 775,
+    "2.a-3.a": 330,
+    "1.a-3.a": 1105
+   },
+   "pilares": [
+    {
+     "eje": "1.a",
+     "tipo": "PM2",
+     "perfil": "CUAD 150x150x4",
+     "x": 0.0,
+     "ancho": 15,
+     "z_base": 0,
+     "z_tope": 411.1,
+     "altura": 411.1,
+     "x_pt": 1278.2,
+     "y_tope_pt": 132.2
+    },
+    {
+     "eje": "1.b",
+     "tipo": "PM1",
+     "perfil": "CUAD 150x150x5",
+     "x": 204.9,
+     "ancho": 15,
+     "z_base": 0,
+     "z_tope": 411.1,
+     "altura": 411.1,
+     "x_pt": 1394.4,
+     "y_tope_pt": 132.2
+    },
+    {
+     "eje": "1.c",
+     "tipo": "PM1",
+     "perfil": "CUAD 150x150x5",
+     "x": 569.8,
+     "ancho": 15,
+     "z_base": 0,
+     "z_tope": 411.1,
+     "altura": 411.1,
+     "x_pt": 1601.3,
+     "y_tope_pt": 132.2
+    },
+    {
+     "eje": "2.a",
+     "tipo": "PM2",
+     "perfil": "CUAD 150x150x4",
+     "x": 775.0,
+     "ancho": 15,
+     "z_base": 0,
+     "z_tope": 411.1,
+     "altura": 411.1,
+     "x_pt": 1717.6,
+     "y_tope_pt": 132.2
+    },
+    {
+     "eje": "3.a",
+     "tipo": "PM2",
+     "perfil": "CUAD 150x150x4",
+     "x": 1104.8,
+     "ancho": 15,
+     "z_base": 0,
+     "z_tope": 411.1,
+     "altura": 411.1,
+     "x_pt": 1904.6,
+     "y_tope_pt": 132.2
+    }
+   ],
+   "vigas_amarre": [
+    {
+     "tramo": "1.a-1.b",
+     "perfil": "CUAD 100x100x3",
+     "x0": 7.5,
+     "x1": 197.4,
+     "z_inf": 401.1,
+     "z_sup": 411.1,
+     "rotulo_nivel": "+410",
+     "nota": "va entre pilares (la línea se corta en cada pilar); dibujada de +401 a +411, rótulo +410 con flecha a su cara inferior"
+    },
+    {
+     "tramo": "1.b-1.c",
+     "perfil": "CUAD 100x100x3",
+     "x0": 212.4,
+     "x1": 562.3,
+     "z_inf": 401.1,
+     "z_sup": 411.1,
+     "rotulo_nivel": "+410",
+     "nota": "va entre pilares (la línea se corta en cada pilar); dibujada de +401 a +411, rótulo +410 con flecha a su cara inferior"
+    },
+    {
+     "tramo": "1.c-2.a",
+     "perfil": "CUAD 100x100x3",
+     "x0": 577.3,
+     "x1": 767.5,
+     "z_inf": 401.1,
+     "z_sup": 411.1,
+     "rotulo_nivel": "+410",
+     "nota": "va entre pilares (la línea se corta en cada pilar); dibujada de +401 a +411, rótulo +410 con flecha a su cara inferior"
+    },
+    {
+     "tramo": "2.a-3.a",
+     "perfil": "CUAD 100x100x3",
+     "x0": 782.5,
+     "x1": 1097.3,
+     "z_inf": 401.1,
+     "z_sup": 411.1,
+     "rotulo_nivel": "+410",
+     "nota": "va entre pilares (la línea se corta en cada pilar); dibujada de +401 a +411, rótulo +410 con flecha a su cara inferior"
+    }
+   ],
+   "niveles": {
+    "NPOG_0.00": 0,
+    "NTN": -49.9,
+    "viga_amarre_sup_dibujada": 411.1,
+    "viga_amarre_inf_dibujada": 401.1,
+    "rotulo_viga_amarre": "+410",
+    "tope_pilar": 411.1,
+    "tope_viga_techo": 430.7
+   },
+   "viga_techo_seccion": {
+    "nota": "rectángulo 15x20 dibujado sobre cada pilar: sección de la viga de techo RECT 200x150 (apoya en el tope del pilar)",
+    "z_inf": 411.1,
+    "z_sup": 430.7,
+    "ancho": 15,
+    "alto": 19.6
+   },
+   "pilares_nota": "en el eje F el pilar llega al tope de la viga de amarre (+411) y la sección de viga de techo 15x20 va de +411 a +431",
+   "bunker_debajo": false,
+   "fundacion": {
+    "tipo": "cimiento corrido (CF) bajo todo el eje F, de 1.a a 3.a",
+    "sobrecimiento": {
+     "x0": -12.5,
+     "x1": 1117.3,
+     "largo": 1129.8,
+     "z_sup": 0,
+     "z_inf": -49.9,
+     "ancho_supuesto": 25,
+     "nota": "el ancho 25 no se lee en esta lámina (es una elevación); el largo 1130 = 1105 + 12.5 por lado, igual que el muro del búnker"
+    },
+    "cimiento": {
+     "x0": -40.0,
+     "x1": 1144.8,
+     "largo": 1184.8,
+     "z_sup": -49.9,
+     "z_inf": -75.0,
+     "alto": 25.0,
+     "sobresale_por_lado": 27.5,
+     "nota": "si el sobrecimiento es de 25, el cimiento dibujado sería de 80 de ancho (25+27.5+27.5) y 25 de alto, de −50 a −75"
+    },
+    "lineas_ocultas": {
+     "x_int": [
+      7.4,
+      1092.4
+     ],
+     "z": [
+      0,
+      -49.9
+     ],
+     "nota": "U discontinua interior: líneas a x 7.4 (= cara del pilar 1.a) y x 1092.3 (= 3.a − 12.4) de 0 a −50; no son simétricas y línea en −50 entre ellas; se leen como los cimientos de los ejes 1.a y 3.a vistos detrás"
+    },
+    "NTN_exterior": {
+     "z": -49.9,
+     "x_izq": [
+      -139.5,
+      -40.0
+     ],
+     "x_der": [
+      1175.3,
+      1300.0
+     ]
+    }
+   },
+   "bajo_rasante_pt": {
+    "sobre": [
+     1271.1,
+     365.3,
+     1911.7,
+     393.6
+    ],
+    "cim": [
+     1255.5,
+     393.6,
+     1927.3,
+     407.8
+    ],
+    "int": [
+     1282.4,
+     1897.6
+    ]
+   }
+  }
+ },
+ "resumen_fachadas": {
+  "con_bunker_debajo": "EJE A1",
+  "sin_bunker_debajo": "EJE F (cimiento corrido)",
+  "lado_alto_cubierta": "EJE A1 (viga de techo +447/+467)",
+  "lado_bajo_cubierta": "EJE F (viga de techo +411/+431)",
+  "desnivel_cubierta": 36.0,
+  "pendiente_implicita": "3.51 % sobre 1025 cm (A1→F)"
+ }
+}

@@ -112,18 +112,18 @@ ol.preg li{margin:0 0 8px}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=20261012e" data-vista="estudio"></script>
+  <script src="menu.js?v=20261012f" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
   <span class="meta" id="meta">Propuesta · no es un cálculo</span>
 </header>
 <nav class="toc" id="toc">
-  <a href="#resumen">Resumen</a><a href="#planta">Planta</a><a href="#bunker">Búnker</a><a href="#elevaciones">Elevaciones</a><a href="#cambios">Cambios</a><a href="#luces">Luces</a><a href="#acero">Acero</a><a href="#preguntas">Preguntas</a>
+  <a href="#resumen">Resumen</a><a href="#planta">Planta</a><a href="#bunker">Búnker</a><a href="#elevaciones">Elevaciones</a><a href="#vanos">Ventanas</a><a href="#cambios">Cambios</a><a href="#luces">Luces</a><a href="#acero">Acero</a><a href="#preguntas">Preguntas</a>
 </nav>
 <div class="doc-in">
 
 <section id="resumen" style="padding-top:14px">
   <p class="lead">En abril de 2026 el ingeniero proyectó un estudio con búnker de 11,05 × 10,25 m (entre ejes), con el búnker de
-  5,00 m de ancho bajo un extremo y el techo subiendo hacia ese lado. La planta nueva mide <b>10,05 × 15,25 m</b>, tiene el búnker bajo
+  5,00 m de ancho bajo un extremo y el techo subiendo hacia ese lado. La planta nueva mide <b>10,55 × 15,75 m por fuera</b> (10,05 × 15,25 interiores, con la cafetería de 6,00 m), tiene el búnker bajo
   la cafetería (al norte, hacia el patio), el techo subiendo hacia el sur como la casa, y recintos divididos. Esta página toma
   <b>el mismo sistema estructural que él usó</b> (pilares de tubo cuadrado 150×150, vigas de techo 200×150 con 3,5 %, costaneras
   CA 100×50 cada 61 cm, cruces C 150×50, tensores Fe 16, búnker en hormigón con muros de 25 y losa de 20) y lo acomoda a la planta
@@ -153,30 +153,45 @@ ol.preg li{margin:0 0 8px}
 <section id="elevaciones">
   <h2><span class="n">03</span>Elevaciones</h2>
   <p>Mismo dibujo que las láminas del ingeniero: pilares de 4,01 m, viga inclinada al 3,5 % sobre un cordón horizontal con puntales
-  cortos donde se separan, y cruces de San Andrés en los tramos extremos. El búnker aparece bajo la cafetería en los ejes norte-sur.</p>
+  cortos donde se separan, y cruces de San Andrés en los tramos extremos. El búnker aparece bajo la cafetería en los ejes norte-sur; abajo van las
+  zapatas y vigas de fundación propuestas, y en azul y naranjo las ventanas y puertas de la sección 04.</p>
   <div class="elevs" id="elevs"></div>
 </section>
 
+<section id="vanos">
+  <h2><span class="n">04</span>Ventanas, puertas y esquema interior (propuesta)</h2>
+  <p>Las ventanas van <b>entre pilares</b>: la grilla de 2,45 m es el módulo de cada paño, con marcos de acero negro. La cafetería mira al patio
+  por el norte con vidrio de piso a 3,00 m en los cuatro tramos y una corredera al centro; entre cafetería y estudio va un tabique vidriado de
+  piso a cielo (doble vidrio, por la acústica) con corredera centrada en el estudio; el estudio tiene una sola ventana, de piso a cielo, centrada
+  en la fachada sur entre los parlantes. La entrada principal da al poniente, hacia la casa y el estacionamiento. Las cruces quedaron solo en
+  muros ciegos, así ningún vidrio choca con la estructura; en el tabique del baño cabe una sola diagonal, porque la puerta ocupa el lado del eje 4.</p>
+  <figure><svg id="svg-vanos" role="img" aria-label="Planta de ventanas, puertas y esquema interior"></svg>
+    <figcaption id="cap-vanos"></figcaption></figure>
+  <div class="tw"><table id="tabla-vanos"></table></div>
+  <p class="small sub" id="txt-vanos"></p>
+  <p style="margin-top:12px"><a class="btn p" href="3d.html?estudio=2">Ver muros y ventanas en 3D →</a></p>
+</section>
+
 <section id="cambios">
-  <h2><span class="n">04</span>Qué cambia respecto del proyecto original</h2>
+  <h2><span class="n">05</span>Qué cambia respecto del proyecto original</h2>
   <div class="tw"><table id="tabla-cambios"></table></div>
 </section>
 
 <section id="luces">
-  <h2><span class="n">05</span>Luces y perfiles: qué se mantiene y qué hay que recalcular</h2>
+  <h2><span class="n">06</span>Luces y perfiles: qué se mantiene y qué hay que recalcular</h2>
   <p>El criterio es simple: donde la luz nueva es igual o menor que la del original con el mismo perfil, el diseño del ingeniero
   cubre el caso; donde creció, él decide si el perfil aguanta o se cambia.</p>
   <div class="tw"><table id="tabla-luces"></table></div>
 </section>
 
 <section id="acero">
-  <h2><span class="n">06</span>Acero del modelo</h2>
+  <h2><span class="n">07</span>Acero del modelo</h2>
   <div class="tw"><table id="tabla-acero"></table></div>
   <p class="small sub">Largos de las piezas del modelo, sin pérdidas, placas ni anclajes.</p>
 </section>
 
 <section id="preguntas">
-  <h2><span class="n">07</span>Preguntas para el ingeniero</h2>
+  <h2><span class="n">08</span>Preguntas para el ingeniero</h2>
   <ol class="preg" id="preguntas-lista"></ol>
   <div class="pendiente" id="pendiente"></div>
 </section>
@@ -185,8 +200,8 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=20261012e"></script>
-<script src="estudio_estructura.js?v=20261012e"></script>
+<script src="sitio.js?v=20261012f"></script>
+<script src="estudio_estructura.js?v=20261012f"></script>
 <script>
 (function () {
   const D = DATA_ESTUDIO_EST, E = DATA_SITIO.estudio, ox = E.origen[0], oy = E.origen[1], z0 = D.z_piso;
@@ -300,10 +315,24 @@ ol.preg li{margin:0 0 8px}
       cota(svg, by0 + H.muros.espesor, Y(zp), by0 + H.muros.espesor, Y(zl), coma(H.interior.alto, 0), 60, 15);
       txt(svg, (by0 + by1) / 2, Y(zp / 2) + 6, 'búnker', { 'text-anchor': 'middle', 'font-size': 17, class: 'txs' });
       txt(svg, by0 + 10, Y(zf) + 18, 'NPOG −' + coma(-zf, 0), { 'font-size': 14, class: 'txs' });
-    } else {
-      // en E-O: cimiento corrido o muro del búnker bajo la fachada
-      el('rect', { x: -12.5, y: Y(-50), width: largoT + 25, height: 40, style: 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1' }, svg);
+    } else if (Math.abs(valor - D.ejes.y.B) < 6) {
+      // eje B: el muro sur del búnker en corte, hasta la losa de fundación
+      const zf = -(H.losa.espesor + H.interior.alto + H.piso.espesor);
+      el('rect', { x: -12.5, y: Y(0), width: largoT + 25, height: -zf, style: 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1.2' }, svg);
+      txt(svg, largoT / 2, Y(zf / 2) + 6, 'muro sur del búnker (e=' + coma(H.muros.espesor, 0) + ')', { 'text-anchor': 'middle', 'font-size': 15, class: 'txs' });
     }
+    // fundaciones propuestas en este eje: vigas de fundación 25x50 y zapatas aisladas 1x1x1 (Gabriel; a confirmar)
+    const enEje = pts => pts.map(loc).every(p => Math.abs(p[horiz === 'x' ? 0 : 1] - valor) < 60);
+    const cajaF = (pts, zs, zi, estilo) => { const us = pts.map(loc).map(u); el('rect', { x: Math.min(...us), y: Y(zs), width: Math.max(...us) - Math.min(...us), height: zs - zi, style: estilo }, svg); };
+    D.vigas_fundacion.filter(v => enEje(v.pts)).forEach(v => cajaF(v.pts, loc([0, 0, v.z_sup])[2], loc([0, 0, v.z_inf])[2], 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:.8;opacity:.8'));
+    D.zapatas.filter(z => enEje(z.pts)).forEach(z => cajaF(z.pts, loc([0, 0, z.z_sup])[2], loc([0, 0, z.z_inf])[2], 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1'));
+    // ventanas y puertas propuestas en este eje (sección 04)
+    const muroEje = horiz === 'x' ? { 1: 'poniente', 5: 'oriente' }[Object.keys(D.ejes.x).find(k => Math.abs(D.ejes.x[k] - valor) < 6)] : { A: 'norte', B: 'tabique B', E: 'sur' }[Object.keys(D.ejes.y).find(k => Math.abs(D.ejes.y[k] - valor) < 6)];
+    D.vanos.filter(v => v.muro === muroEje && v.tipo !== 'escalera').forEach(v => {
+      const a = loc([v.a[0], v.a[1], v.z0]), b = loc([v.b[0], v.b[1], v.z1]), esPuerta = v.tipo === 'puerta';
+      el('rect', { x: Math.min(u(a), u(b)), y: Y(b[2]), width: Math.abs(u(b) - u(a)), height: b[2] - a[2], style: `fill:${esPuerta ? 'var(--fig-pilar)' : 'var(--fig-viga)'};opacity:.35;stroke:var(--fig-ink);stroke-width:1` }, svg);
+      txt(svg, (u(a) + u(b)) / 2, Y(a[2]) - 10, v.id, { 'text-anchor': 'middle', 'font-size': 13, class: 'txs' });
+    });
     // pilares del plano de fondo (tenues) no se dibujan: solo las piezas del eje
     const orden = ['costanera', 'otro', 'tensor', 'viga', 'cabio', 'puntal', 'pilar', 'diagonal'];
     orden.forEach(c => sel.filter(x => x.c === c).forEach(mb => {
@@ -328,23 +357,55 @@ ol.preg li{margin:0 0 8px}
   elevacion(cont, 'Elevación eje B (tabique cafetería/estudio)', 'y', D.ejes.y.B, 'y');
   elevacion(cont, 'Elevación eje E (fachada sur)', 'y', D.ejes.y.E, 'y');
 
+  // ---------- ventanas, puertas y esquema interior ----------
+  (function vanos() {
+    const svg = $('#svg-vanos'); const mg = 120; svg.setAttribute('viewBox', `${-mg} ${-mg} ${W + 2 * mg} ${L + 2 * mg}`);
+    const M = 25;
+    // muros: exterior y tabiques, en gris; recintos rotulados
+    el('rect', { x: 0, y: 0, width: W, height: L, style: 'fill:var(--fig-horm2);stroke:none' }, svg);
+    E.recintos.forEach(r => { const pts = r.pts.map(loc); el('polygon', { points: pts.map(p => p.slice(0, 2).join(',')).join(' '), style: 'fill:var(--paper);stroke:none' }, svg); const c = pts.reduce((s, p) => [s[0] + p[0] / pts.length, s[1] + p[1] / pts.length], [0, 0]); txt(svg, c[0], c[1] + (r.id === 'estudio' ? -100 : (r.id === 'cafeteria' ? -120 : 0)), r.nombre.replace(' (cowork y sala de grabación)', ''), { 'text-anchor': 'middle', 'font-size': 17, class: 'txs' }); });
+    // esquema interior (idea)
+    D.interior.forEach(it => { const p = it.pts.map(loc); el('polygon', { points: p.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:var(--fig-fill);stroke:var(--fig-soft);stroke-width:1.2;stroke-dasharray:5 3' }, svg); if (it.nombre && !it.id.endsWith('2')) { const c = p.reduce((s, q) => [s[0] + q[0] / 4, s[1] + q[1] / 4], [0, 0]); txt(svg, c[0], c[1] + 5, it.nombre.split(' (')[0], { 'text-anchor': 'middle', 'font-size': 13, class: 'txs' }); } });
+    // pilares y ejes
+    D.miembros.filter(x => x.c === 'pilar').forEach(mb => { const a = loc(mb.a); el('rect', { x: a[0] - 8, y: a[1] - 8, width: 16, height: 16, style: `fill:${COL.pilar};stroke:var(--fig-ink);stroke-width:1` }, svg); });
+    Object.entries(D.ejes.x).forEach(([n, x]) => burbuja(svg, x, -70, n)); Object.entries(D.ejes.y).forEach(([n, y]) => burbuja(svg, -70, y, n));
+    // cruces (en planta: una línea gruesa verde sobre el muro)
+    D.miembros.filter(x => x.c === 'diagonal' && x.id.endsWith('a')).forEach(mb => { const a = loc(mb.a), b = loc(mb.b); el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], style: `stroke:${COL.diagonal};stroke-width:9;opacity:.6` }, svg); });
+    // vanos: vidrio en azul, puertas en café, escalera
+    D.vanos.forEach(v => {
+      const a = loc(v.a), b = loc(v.b);
+      if (v.tipo === 'escalera') { const p = H.escalera.pts.map(loc); for (let i = 1; i < 16; i++) { const y = p[0][1] + (p[2][1] - p[0][1]) * i / 16; el('line', { x1: p[0][0], y1: y, x2: p[1][0], y2: y, style: 'stroke:var(--fig-soft);stroke-width:.8' }, svg); } return; }
+      const esVidrio = v.tipo.includes('ventana') || v.tipo.includes('vidri') || v.tipo.includes('corredera');
+      el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], style: `stroke:${esVidrio ? 'var(--fig-viga)' : 'var(--fig-pilar)'};stroke-width:${esVidrio ? 10 : 12};stroke-linecap:butt` }, svg);
+      if (v.tipo.includes('corredera')) el('line', { x1: a[0], y1: a[1], x2: (a[0] + b[0]) / 2, y2: (a[1] + b[1]) / 2, style: 'stroke:var(--paper);stroke-width:3' }, svg);
+    });
+    txt(svg, W / 2, -95, 'N ↑ · patio', { 'text-anchor': 'middle', 'font-size': 16, class: 'txs' });
+    txt(svg, -100, L / 2, 'casa →', { 'text-anchor': 'middle', 'font-size': 15, class: 'txs', transform: `rotate(-90 -100 ${L / 2})` });
+    $('#cap-vanos').innerHTML = 'Planta de ventanas (azul), puertas (naranjo) y cruces (verde) sobre los muros, con un esquema interior de referencia (punteado): parlantes a los lados de la ventana sur, consola a 2,5 m mirando al sur, sofá junto al vidrio, cabina de grabación de 3 × 3 pegada al tabique vidriado para que se vea desde la consola, barra junto a la escalera y mesas de cowork frente al patio. Todo es propuesta para conversar.';
+    const fmtm = v => (v / 100).toFixed(2).replace('.', ',');
+    $('#tabla-vanos').innerHTML = `<thead><tr><th>Vano</th><th>Dónde</th><th>Tipo</th><th class="r">Ancho × alto</th><th>Nota</th></tr></thead><tbody>${D.vanos.filter(v => v.tipo !== 'escalera').map(v => `<tr><td><b>${v.id}</b></td><td>${v.muro}</td><td>${v.tipo}</td><td class="r">${fmtm(v.ancho)} × ${fmtm(v.alto)} m</td><td class="small">${v.d}</td></tr>`).join('')}</tbody>`;
+    const vid = D.vanos.filter(v => v.tipo.includes('ventana') || v.tipo.includes('vidri') || v.tipo.includes('corredera')).reduce((s, v) => s + v.ancho * v.alto / 1e4, 0);
+    $('#txt-vanos').textContent = `${vid.toFixed(1).replace('.', ',')} m² de vidrio en total. Las ventanas al patio llegan a 3,00 m (hasta 4,00 es posible: queda a la vista). Pendiente: ventanas del baño, la bodega y la fachada poniente de la cafetería, y el detalle acústico del tabique vidriado.`;
+  })();
+
   // ---------- cambios ----------
   $('#tabla-cambios').innerHTML = `<thead><tr><th>Qué</th><th>Proyecto original (abril 2026)</th><th>Adaptación</th><th>Lo define</th></tr></thead><tbody>${D.cambios.map(c => `<tr><td><b>${c.que}</b></td><td>${c.original}</td><td>${c.nuevo}</td><td class="small">${c.por}</td></tr>`).join('')}</tbody>`;
 
   // ---------- luces ----------
   const xs = Object.values(D.ejes.x), ys = Object.values(D.ejes.y);
   const bahiaMax = Math.max(...xs.slice(1).map((v, i) => v - xs[i]));
+  const tramosY = ys.slice(1).map((v, i) => v - ys[i]), tramoYmin = Math.min(...tramosY), tramoYmax = Math.max(...tramosY);
   const luces = [
     ['Costaneras CA 100×50×15×3 @61', 'paño de 3,65 m con colgadores ø10', `paño mayor de ${coma(bahiaMax / 100, 2)} m, sin colgadores`, 'menor'],
     ['Viga inclinada RECT 200×150×5 (marcos interiores) + cordón + puntales', '10,25 m sin pilares (1.b, 1.c)', `${coma((ys[5] - ys[2]) / 100, 2)} m en el estudio (B–E) y ${coma((ys[2] - ys[0]) / 100, 2)} m en la cafetería (A–B)`, 'menor'],
-    ['Viga inclinada RECT 200×150×3 (fachadas laterales)', 'tramos de 1,25 a 3,43 m entre pilares', `tramos de 3,00 m entre pilares`, 'menor'],
+    ['Viga inclinada RECT 200×150×3 (fachadas laterales)', 'tramos de 1,25 a 3,43 m entre pilares', `tramos de ${coma(tramoYmin / 100, 2)} a ${coma(tramoYmax / 100, 2)} m entre pilares (A2–B y B–C)`, tramoYmax > 343 ? 'mayor' : 'menor'],
     ['Vigas E-O CUAD 100×100×3 a +4,01', 'tramos de 2,05 a 3,65 m', `tramos de ${coma(Math.min(...xs.slice(1).map((v, i) => v - xs[i])) / 100, 2)} a ${coma(bahiaMax / 100, 2)} m`, 'menor'],
     ['Pilares CUAD 150×150', '4,01 m', '4,01 m', 'igual'],
-    ['Cruces C 150×50×3', 'tramos de 2,05 y 1,82 m × 4,01 m', 'tramos de 3,00 m × 4,01 m (y 2,45–2,50 m en el tabique B)', 'mayor'],
+    ['Cruces C 150×50×3', 'tramos de 2,05 y 1,82 m × 4,01 m', 'tramos de 2,00 m × 4,01 m en las fachadas laterales; 2,52 y 2,75 m en los muros ciegos E-O (una sola diagonal en B 4-5)', 'menor'],
     ['Losa del búnker e=20', '5,00 m (ø10@20)', `${coma(H.interior.largo / 100, 2)} m`, 'mayor'],
     ['Muros del búnker e=25', '2,72 m de altura libre', `${coma(H.interior.alto / 100, 2)} m`, 'mayor'],
     ['Viga VHA 25/40 bajo la losa', '5,00 m entre muros (eje 2.a)', `${coma(H.interior.largo / 100, 2)} m entre muros (eje 3) y viga de borde de ${coma(H.escalera.largo / 100, 2)} m en la escalera`, 'mayor'],
-    ['Tensores Fe 16 del techo', 'paños de 2,05 × 3,65 m', `paños de hasta ${coma(bahiaMax / 100, 2)} × 3,00 m (y 6,00 m en A–B)`, 'mayor'],
+    ['Tensores Fe 16 del techo', 'paños de 2,05 × 3,65 m', `paños de hasta ${coma(bahiaMax / 100, 2)} × ${coma(tramoYmax / 100, 2)} m`, 'mayor'],
   ];
   const est = { menor: ['okv', 'se mantiene'], igual: ['okv', 'igual'], mayor: ['med', 'recalcular'] };
   $('#tabla-luces').innerHTML = `<thead><tr><th>Elemento</th><th>Luz original</th><th>Luz nueva</th><th>Estado</th></tr></thead><tbody>${luces.map(l => `<tr><td><b>${l[0]}</b></td><td>${l[1]}</td><td>${l[2]}</td><td class="${est[l[3]][0]}">${est[l[3]][1]}</td></tr>`).join('')}</tbody>`;

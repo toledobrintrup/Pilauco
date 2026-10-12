@@ -1,0 +1,2589 @@
+{
+ "lamina": "04 (PLANO 04) — ELEVACIONES EJES 1.b, 1.c, 2.a, 3.a",
+ "archivo": "04_Proyecto Estudio 07-04-2026 PLANO 04.pdf (fecha viñeta 11-04-2026, esc. 1:50, medidas en cm)",
+ "marco": "Por elevación: x en cm desde el eje F1 (crece hacia A1); z en cm desde NPOG 0,00 (cara superior de la losa del búnker = radier del estudio). Escala calibrada con los ejes F1–A1 = 1025 cm (0,567 pt/cm); cotas verificadas con la regla: línea de cota + 2 flechas de 5,7 pt (10 cm).",
+ "ejes_NS_nominales_cm": {
+  "F1": 0,
+  "E3": 205,
+  "E2": 375,
+  "E1": 500,
+  "A2": 843,
+  "A1": 1025,
+  "separaciones": "205 | 170 | 125 | 343 | 182"
+ },
+ "comun_a_las_4_elevaciones": {
+  "viga_inclinada_techo": {
+   "tramo": "de x=−80 (punta alero F1) a x=+1105 (punta alero A1)",
+   "largo_inclinado_cm": 1186,
+   "largo_horizontal_cm": 1185,
+   "alero_cm": 80,
+   "alto_perfil_cm": 20,
+   "pendiente_rotulada_pct": 3.5,
+   "pendiente_dibujada_pct": 4.52,
+   "sube_hacia": "A1",
+   "z_cara_inferior_cm": {
+    "punta_F1": 396.5,
+    "eje_F1": 400.5,
+    "eje_A1": 446.5,
+    "punta_A1": 450
+   },
+   "perfil": {
+    "1.b": "RECT 200x150x5 (un solo rótulo al centro)",
+    "1.c": "RECT 200x150x5",
+    "2.a": "RECT 200x150x3 (rotulado en los 7 tramos incl. aleros)",
+    "3.a": "RECT 200x150x3 (rotulado en los 6 tramos incl. aleros)"
+   }
+  },
+  "costaneras": {
+   "perfil": "CA 100x50x15x3",
+   "cantidad": 20,
+   "paso_cm": 61,
+   "primera_x_cm": -57.5,
+   "ultima_x_cm": 1100,
+   "nota": "cadena de cotas 19×61 + 3 = 1162; quedan ~24 desde la punta F1 a la 1.ª costanera; la 2.ª cae sobre el eje F1 (x≈3) y la última a ~3 cm de la punta A1. Posiciones medidas: -57.3, 3.5, 64.3, 125.2, 186.0, 246.8, 307.6, 369.3, 430.1, 490.9, 551.7, 612.5, 673.3, 734.2, 795.0, 855.8, 916.6, 977.4, 1039.1, 1099.9"
+  },
+  "soporte_alero": {
+   "rotulo": "C150x50x3 soporte",
+   "donde": "sólo en la punta del alero lado F1 (x≈−70), pieza corta entre la viga y la 1.ª costanera; en el alero A1 no hay"
+  },
+  "pilar_F1": {
+   "altura_cm": 401,
+   "z_tope_cm": 401,
+   "base": "sobre pedestal 25×50 (0,00 a −50) y zapata 75×25 (−50 a −75) + 5 cm (−80); radier 10 cm (0 a −10) desde el pedestal al búnker"
+  },
+  "niveles": {
+   "NPOG=0.00": "cara superior losa búnker / radier (z=0)",
+   "NTN=-50": "terreno natural a −50 (línea a ambos lados)",
+   "NPOG=-272": "rotulado −272 pero la flecha apunta a la línea medida en z=−292 (piso interior del búnker); −272 coincide con la cota de altura libre (de −20 a −292)",
+   "-312": "fondo del piso del búnker / cara superior de la base (z=−312)",
+   "-342": "fondo de la base (z=−342); hay otra línea a −347 (5 cm, emplantillado?)",
+   "+410": "sólo en 3.a (2 veces): marca bajo la viga inclinada; medido +401 en x≈72 (lado F1) y +446 en x≈880 (lado A1)"
+  },
+  "bunker_seccion": {
+   "muros": "DM e=25 centrados en E1 (caras 487,5/512,5) y A1 (caras 1012,5/1037,5); interior 500",
+   "losa_techo": "20 cm, de 0 a −20",
+   "piso": "líneas a −292 (piso terminado, flecha NPOG=−272), −302 y −312 (radier interior 20 cm)",
+   "altura_libre_cm": 272,
+   "base": "línea continua de x=460 a x=1065 (605 de ancho, sobresale 27,5 a cada lado) entre −312 y −342 (30 cm) + línea a −347; se dibuja como una base corrida continua bajo todo el búnker",
+   "cotas": "20 | 292 | 272 | 500 | 525 | 343 | 182; en 1.c además 312 y 30",
+   "armadura_muro_(solo 3.a)": "DM, muro e=25, V: ø12@15, H: ø10@20",
+   "dibujo": "en 1.b, 1.c y 2.a en línea continua (corte); en 3.a muros interiores, losa inferior, piso y −312 punteados (oculto) y −342/−347 continuas"
+  }
+ },
+ "elevaciones": {
+  "1.b": {
+   "calibracion": {
+    "escala_pt_por_cm": 0.56732,
+    "x_F1_pt": 254.5,
+    "x_A1_pt": 836.0,
+    "y_NPOG0_pt": 390.0,
+    "nota": "escala = (A1-F1)/1025; 1:50 teórico = 0,567 pt/cm"
+   },
+   "ejes": [
+    {
+     "eje": "F1",
+     "x_cm": 0.0,
+     "x_nominal_cm": 0,
+     "x_pt": 254.5
+    },
+    {
+     "eje": "E3",
+     "x_cm": 205.4,
+     "x_nominal_cm": 205,
+     "x_pt": 371.0
+    },
+    {
+     "eje": "E2",
+     "x_cm": 375.5,
+     "x_nominal_cm": 375,
+     "x_pt": 467.5
+    },
+    {
+     "eje": "E1",
+     "x_cm": 499.7,
+     "x_nominal_cm": 500,
+     "x_pt": 538.0
+    },
+    {
+     "eje": "A2",
+     "x_cm": 842.6,
+     "x_nominal_cm": 843,
+     "x_pt": 732.5
+    },
+    {
+     "eje": "A1",
+     "x_cm": 1025.0,
+     "x_nominal_cm": 1025,
+     "x_pt": 836.0
+    }
+   ],
+   "pilares": [
+    {
+     "eje": "F1",
+     "x_cm": 0.4,
+     "rotulo": "PM1",
+     "perfil": "150x150x5",
+     "ancho_visto_cm": 15,
+     "altura_cm": 400,
+     "z_base_cm": 0,
+     "z_tope_cm": 400,
+     "apoya_arriba_en": "viga horizontal",
+     "pt": {
+      "x0": 250.5,
+      "x1": 259.0,
+      "y_top": 163.1,
+      "y_base": 390.0
+     }
+    },
+    {
+     "eje": "A1",
+     "x_cm": 1024.6,
+     "rotulo": "PM1",
+     "perfil": "150x150x5",
+     "ancho_visto_cm": 15,
+     "altura_cm": 446,
+     "z_base_cm": 0,
+     "z_tope_cm": 446,
+     "apoya_arriba_en": "viga inclinada",
+     "pt": {
+      "x0": 831.5,
+      "x1": 840.0,
+      "y_top": 136.8,
+      "y_base": 390.0
+     }
+    }
+   ],
+   "viga_inclinada": {
+    "x_ini_cm": -79.5,
+    "x_fin_cm": 1104.6,
+    "z_bot_ini_cm": 396.0,
+    "z_bot_fin_cm": 449.5,
+    "z_top_ini_cm": 416.0,
+    "z_top_fin_cm": 469.5,
+    "alto_cm": 20.0,
+    "largo_horizontal_cm": 1184.2,
+    "largo_inclinado_cm": 1185.4,
+    "pendiente_dibujada_pct": 4.52,
+    "pendiente_rotulada_pct": 3.5,
+    "alero_F1_cm": 79.5,
+    "alero_A1_cm": 79.6,
+    "rotulos_por_tramo": [
+     {
+      "perfil": "200x150x5",
+      "x_cm": 598.5,
+      "z_cm": 426.8
+     }
+    ],
+    "pt": {
+     "top": [
+      209.4,
+      154.0,
+      881.2,
+      123.6
+     ],
+     "bot": [
+      209.4,
+      165.3,
+      881.2,
+      135.0
+     ]
+    }
+   },
+   "viga_horizontal": {
+    "rotulo": "150x100x3",
+    "z_top_cm": 409.8,
+    "z_bot_cm": 400.1,
+    "alto_cm": 9.7,
+    "x_ini_cm": 7.9,
+    "x_fin_cm": 1017.2,
+    "x_donde_la_viga_inclinada_despega_cm": 229.0,
+    "nota": "10 cm de alto en la vista (cotas \"10\"): perfil 150x100x3 puesto de plano; corre entre las caras de los pilares F1 y A1",
+    "pt": {
+     "y_top": 157.5,
+     "y_bot": 163.0
+    }
+   },
+   "puntales": [
+    {
+     "perfil": "150x100x3",
+     "eje": "E2",
+     "x_cm": 375.0,
+     "ancho_visto_cm": 9.7,
+     "z_base_cm": 410.0,
+     "z_tope_cm": 416.6,
+     "alto_cm": 6.6,
+     "pt": {
+      "x0": 464.5,
+      "x1": 470.0,
+      "y_top": 153.7,
+      "y_bot": 157.4
+     }
+    },
+    {
+     "perfil": "150x100x3",
+     "eje": "E1",
+     "x_cm": 500.2,
+     "ancho_visto_cm": 9.7,
+     "z_base_cm": 410.0,
+     "z_tope_cm": 422.2,
+     "alto_cm": 12.2,
+     "pt": {
+      "x0": 535.5,
+      "x1": 541.0,
+      "y_top": 150.5,
+      "y_bot": 157.4
+     }
+    },
+    {
+     "perfil": "150x100x3",
+     "eje": null,
+     "x_cm": 671.1,
+     "ancho_visto_cm": 9.7,
+     "z_base_cm": 410.0,
+     "z_tope_cm": 430.0,
+     "alto_cm": 20.0,
+     "pt": {
+      "x0": 632.5,
+      "x1": 638.0,
+      "y_top": 146.1,
+      "y_bot": 157.4
+     }
+    },
+    {
+     "perfil": "150x100x3",
+     "eje": "A2",
+     "x_cm": 842.1,
+     "ancho_visto_cm": 9.7,
+     "z_base_cm": 410.0,
+     "z_tope_cm": 437.7,
+     "alto_cm": 27.7,
+     "pt": {
+      "x0": 729.5,
+      "x1": 735.0,
+      "y_top": 141.7,
+      "y_bot": 157.4
+     }
+    }
+   ],
+   "cruces": [],
+   "costaneras": {
+    "perfil": "CA 100x50x15x3",
+    "cantidad": 20,
+    "x_cm": [
+     -57.3,
+     3.5,
+     64.3,
+     125.2,
+     186.0,
+     246.8,
+     307.6,
+     369.3,
+     430.1,
+     490.9,
+     551.7,
+     612.5,
+     673.3,
+     734.2,
+     795.0,
+     855.8,
+     916.6,
+     977.4,
+     1039.1,
+     1099.9
+    ],
+    "paso_horizontal_cm": [
+     60.8,
+     60.9,
+     61.7
+    ],
+    "paso_inclinado_prom_cm": 61.0,
+    "desde_punta_F1_cm": 22.2,
+    "hasta_punta_A1_cm": 4.7,
+    "cotas_61_en_texto": 19,
+    "cota_3_en_texto": 1
+   },
+   "soporte_alero": {
+    "rotulo": "C150x50x3 soporte",
+    "ubicacion": "solo en la punta del alero lado F1, pieza corta diagonal entre la viga y la 1.ª costanera",
+    "x_cm": -68.4,
+    "rotulo_presente": true
+   },
+   "niveles": [
+    {
+     "texto": "NTN=-50",
+     "x_texto_cm": -136.8,
+     "z_punta_flecha_cm": -50.4
+    },
+    {
+     "texto": "NTN=-50",
+     "x_texto_cm": 1123.3,
+     "z_punta_flecha_cm": null
+    },
+    {
+     "texto": "NPOG=0.00",
+     "x_texto_cm": 601.5,
+     "z_punta_flecha_cm": -0.4
+    },
+    {
+     "texto": "NPOG=-272",
+     "x_texto_cm": 707.1,
+     "z_punta_flecha_cm": -292.2
+    },
+    {
+     "texto": "-312",
+     "x_texto_cm": 1070.6,
+     "z_punta_flecha_cm": -312.2
+    },
+    {
+     "texto": "-342",
+     "x_texto_cm": 1101.5,
+     "z_punta_flecha_cm": -342.2
+    }
+   ],
+   "cotas": [
+    {
+     "valor": 80,
+     "orient": "H",
+     "x_cm": -37.4,
+     "z_cm": 349.8
+    },
+    {
+     "valor": 205,
+     "orient": "H",
+     "x_cm": 102.8,
+     "z_cm": -372.1
+    },
+    {
+     "valor": 170,
+     "orient": "H",
+     "x_cm": 289.3,
+     "z_cm": -372.1
+    },
+    {
+     "valor": 125,
+     "orient": "H",
+     "x_cm": 436.7,
+     "z_cm": -372.1
+    },
+    {
+     "valor": 1186,
+     "orient": "H",
+     "x_cm": 510.6,
+     "z_cm": 529.8
+    },
+    {
+     "valor": 171,
+     "orient": "H",
+     "x_cm": 586.5,
+     "z_cm": 300.7
+    },
+    {
+     "valor": 343,
+     "orient": "H",
+     "x_cm": 671.2,
+     "z_cm": -372.4
+    },
+    {
+     "valor": 171,
+     "orient": "H",
+     "x_cm": 757.6,
+     "z_cm": 300.7
+    },
+    {
+     "valor": 525,
+     "orient": "H",
+     "x_cm": 762.3,
+     "z_cm": -410.7
+    },
+    {
+     "valor": 500,
+     "orient": "H",
+     "x_cm": 762.3,
+     "z_cm": -199.6
+    },
+    {
+     "valor": 10,
+     "orient": "H",
+     "x_cm": 841.4,
+     "z_cm": 398.5
+    },
+    {
+     "valor": 182,
+     "orient": "H",
+     "x_cm": 932.6,
+     "z_cm": -372.4
+    },
+    {
+     "valor": 80,
+     "orient": "H",
+     "x_cm": 1067.0,
+     "z_cm": 395.4
+    },
+    {
+     "valor": -312,
+     "orient": "H",
+     "x_cm": 1070.6,
+     "z_cm": -281.8
+    },
+    {
+     "valor": -342,
+     "orient": "H",
+     "x_cm": 1101.5,
+     "z_cm": -311.8
+    },
+    {
+     "valor": 401,
+     "orient": "V",
+     "x_cm": 45.1,
+     "z_cm": 201.5
+    },
+    {
+     "valor": 20,
+     "orient": "V",
+     "x_cm": 624.7,
+     "z_cm": -10.4
+    },
+    {
+     "valor": 292,
+     "orient": "V",
+     "x_cm": 624.7,
+     "z_cm": -166.3
+    },
+    {
+     "valor": 10,
+     "orient": "V",
+     "x_cm": 745.6,
+     "z_cm": 404.0
+    },
+    {
+     "valor": 272,
+     "orient": "V",
+     "x_cm": 919.0,
+     "z_cm": -156.3
+    },
+    {
+     "valor": 401,
+     "orient": "V",
+     "x_cm": 949.5,
+     "z_cm": 201.5
+    }
+   ],
+   "bunker": {
+    "muro_E1": {
+     "cara_ext": {
+      "x_cm": 487.4,
+      "z_sup_cm": -0.4,
+      "z_inf_cm": -312.2,
+      "n_trazos": 1,
+      "punteada": false
+     },
+     "cara_int": {
+      "x_cm": 512.1,
+      "z_sup_cm": -20.4,
+      "z_inf_cm": -312.2,
+      "n_trazos": 2,
+      "punteada": false
+     }
+    },
+    "muro_A1": {
+     "cara_int": {
+      "x_cm": 1011.8,
+      "z_sup_cm": -20.4,
+      "z_inf_cm": -312.2,
+      "n_trazos": 2,
+      "punteada": false
+     },
+     "cara_ext": {
+      "x_cm": 1037.3,
+      "z_sup_cm": -0.4,
+      "z_inf_cm": -312.2,
+      "n_trazos": 1,
+      "punteada": false
+     }
+    },
+    "losa_techo": {
+     "cara_sup_0": [
+      {
+       "z_cm": 0.0,
+       "x_ini_cm": -12.1,
+       "x_fin_cm": 1037.2,
+       "n_trazos": 5,
+       "punteada": false
+      }
+     ],
+     "cara_inf_-20": [
+      {
+       "z_cm": -20.3,
+       "x_ini_cm": 512.5,
+       "x_fin_cm": 1012.2,
+       "n_trazos": 5,
+       "punteada": false
+      }
+     ]
+    },
+    "piso": {
+     "linea_-292": [
+      {
+       "z_cm": -292.6,
+       "x_ini_cm": 512.5,
+       "x_fin_cm": 1012.2,
+       "n_trazos": 2,
+       "punteada": false
+      }
+     ],
+     "linea_-302": [
+      {
+       "z_cm": -302.3,
+       "x_ini_cm": 512.5,
+       "x_fin_cm": 1012.2,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ],
+     "linea_-312": [
+      {
+       "z_cm": -312.0,
+       "x_ini_cm": 460.0,
+       "x_fin_cm": 1064.6,
+       "n_trazos": 6,
+       "punteada": false
+      }
+     ]
+    },
+    "base": {
+     "linea_-342": [
+      {
+       "z_cm": -342.0,
+       "x_ini_cm": 460.0,
+       "x_fin_cm": 1094.6,
+       "n_trazos": 2,
+       "punteada": false
+      }
+     ],
+     "linea_-347": [
+      {
+       "z_cm": -347.2,
+       "x_ini_cm": 460.0,
+       "x_fin_cm": 1064.6,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ]
+    },
+    "rotulo_DM": null
+   },
+   "fundacion_F1_y_CF": {
+    "pedestal_F1_25x50": {
+     "cara_izq": {
+      "x_cm": -12.3,
+      "z_sup_cm": -0.4,
+      "z_inf_cm": -50.4,
+      "n_trazos": 1,
+      "punteada": false
+     },
+     "cara_der": {
+      "x_cm": 13.2,
+      "z_sup_cm": -0.4,
+      "z_inf_cm": -50.4,
+      "n_trazos": 1,
+      "punteada": false
+     }
+    },
+    "zapata_F1_75x25": {
+     "linea_-75": [
+      {
+       "z_cm": -75.8,
+       "x_ini_cm": -39.6,
+       "x_fin_cm": 35.4,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ],
+     "linea_-80": [
+      {
+       "z_cm": -80.2,
+       "x_ini_cm": -39.6,
+       "x_fin_cm": 35.4,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ],
+     "borde_izq": {
+      "x_cm": -39.7,
+      "z_sup_cm": -50.4,
+      "z_inf_cm": -80.4,
+      "n_trazos": 2,
+      "punteada": false
+     },
+     "borde_der": {
+      "x_cm": 35.3,
+      "z_sup_cm": -50.4,
+      "z_inf_cm": -80.4,
+      "n_trazos": 2,
+      "punteada": false
+     }
+    },
+    "entre_F1_y_bunker": {
+     "linea_-10": [
+      {
+       "z_cm": -10.6,
+       "x_ini_cm": 12.9,
+       "x_fin_cm": 487.5,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ],
+     "linea_-50": [],
+     "linea_-55": [],
+     "linea_-75": [],
+     "linea_-80": []
+    },
+    "rotulo_CF_25/40_presente": false,
+    "NTN_-50": [
+     {
+      "z_cm": -50.2,
+      "x_ini_cm": -97.6,
+      "x_fin_cm": 1111.5,
+      "n_trazos": 4,
+      "punteada": false
+     }
+    ]
+   }
+  },
+  "1.c": {
+   "calibracion": {
+    "escala_pt_por_cm": 0.56683,
+    "x_F1_pt": 1419.0,
+    "x_A1_pt": 2000.0,
+    "y_NPOG0_pt": 393.0,
+    "nota": "escala = (A1-F1)/1025; 1:50 teórico = 0,567 pt/cm"
+   },
+   "ejes": [
+    {
+     "eje": "F1",
+     "x_cm": 0.0,
+     "x_nominal_cm": 0,
+     "x_pt": 1419.0
+    },
+    {
+     "eje": "E3",
+     "x_cm": 204.6,
+     "x_nominal_cm": 205,
+     "x_pt": 1535.0
+    },
+    {
+     "eje": "E2",
+     "x_cm": 374.9,
+     "x_nominal_cm": 375,
+     "x_pt": 1631.5
+    },
+    {
+     "eje": "E1",
+     "x_cm": 500.2,
+     "x_nominal_cm": 500,
+     "x_pt": 1702.5
+    },
+    {
+     "eje": "A2",
+     "x_cm": 842.4,
+     "x_nominal_cm": 843,
+     "x_pt": 1896.5
+    },
+    {
+     "eje": "A1",
+     "x_cm": 1025.0,
+     "x_nominal_cm": 1025,
+     "x_pt": 2000.0
+    }
+   ],
+   "pilares": [
+    {
+     "eje": "F1",
+     "x_cm": 0.4,
+     "rotulo": "PM1",
+     "perfil": "150x150x5",
+     "ancho_visto_cm": 15,
+     "altura_cm": 401,
+     "z_base_cm": 0,
+     "z_tope_cm": 401,
+     "apoya_arriba_en": "viga horizontal",
+     "pt": {
+      "x0": 1415.0,
+      "x1": 1423.5,
+      "y_top": 165.8,
+      "y_base": 393.0
+     }
+    },
+    {
+     "eje": "A1",
+     "x_cm": 1025.4,
+     "rotulo": "PM1",
+     "perfil": "150x150x5",
+     "ancho_visto_cm": 15,
+     "altura_cm": 447,
+     "z_base_cm": 0,
+     "z_tope_cm": 447,
+     "apoya_arriba_en": "viga inclinada",
+     "pt": {
+      "x0": 1996.0,
+      "x1": 2004.5,
+      "y_top": 139.6,
+      "y_base": 393.0
+     }
+    }
+   ],
+   "viga_inclinada": {
+    "x_ini_cm": -80.0,
+    "x_fin_cm": 1105.3,
+    "z_bot_ini_cm": 396.8,
+    "z_bot_fin_cm": 450.4,
+    "z_top_ini_cm": 416.8,
+    "z_top_fin_cm": 470.4,
+    "alto_cm": 20.0,
+    "largo_horizontal_cm": 1185.2,
+    "largo_inclinado_cm": 1186.4,
+    "pendiente_dibujada_pct": 4.52,
+    "pendiente_rotulada_pct": 3.5,
+    "alero_F1_cm": 80.0,
+    "alero_A1_cm": 80.3,
+    "rotulos_por_tramo": [
+     {
+      "perfil": "200x150x5",
+      "x_cm": 599.7,
+      "z_cm": 427.6
+     }
+    ],
+    "pt": {
+     "top": [
+      1373.7,
+      156.7,
+      2045.5,
+      126.4
+     ],
+     "bot": [
+      1373.7,
+      168.1,
+      2045.5,
+      137.7
+     ]
+    }
+   },
+   "viga_horizontal": {
+    "rotulo": "150x100x3",
+    "z_top_cm": 411.1,
+    "z_bot_cm": 400.5,
+    "alto_cm": 10.6,
+    "x_ini_cm": 7.6,
+    "x_fin_cm": 1017.7,
+    "x_donde_la_viga_inclinada_despega_cm": 228.9,
+    "nota": "10 cm de alto en la vista (cotas \"10\"): perfil 150x100x3 puesto de plano; corre entre las caras de los pilares F1 y A1",
+    "pt": {
+     "y_top": 160.0,
+     "y_bot": 166.0
+    }
+   },
+   "puntales": [
+    {
+     "perfil": "150x100x3",
+     "eje": "E2",
+     "x_cm": 375.3,
+     "ancho_visto_cm": 9.7,
+     "z_base_cm": 410.7,
+     "z_tope_cm": 417.4,
+     "alto_cm": 6.6,
+     "pt": {
+      "x0": 1629.0,
+      "x1": 1634.5,
+      "y_top": 156.4,
+      "y_bot": 160.2
+     }
+    },
+    {
+     "perfil": "150x100x3",
+     "eje": "E1",
+     "x_cm": 500.2,
+     "ancho_visto_cm": 10.6,
+     "z_base_cm": 410.7,
+     "z_tope_cm": 423.0,
+     "alto_cm": 12.3,
+     "pt": {
+      "x0": 1699.5,
+      "x1": 1705.5,
+      "y_top": 153.2,
+      "y_bot": 160.2
+     }
+    },
+    {
+     "perfil": "150x100x3",
+     "eje": null,
+     "x_cm": 671.7,
+     "ancho_visto_cm": 9.7,
+     "z_base_cm": 410.7,
+     "z_tope_cm": 430.7,
+     "alto_cm": 20.0,
+     "pt": {
+      "x0": 1797.0,
+      "x1": 1802.5,
+      "y_top": 148.8,
+      "y_bot": 160.2
+     }
+    },
+    {
+     "perfil": "150x100x3",
+     "eje": "A2",
+     "x_cm": 842.8,
+     "ancho_visto_cm": 9.7,
+     "z_base_cm": 410.7,
+     "z_tope_cm": 438.5,
+     "alto_cm": 27.8,
+     "pt": {
+      "x0": 1894.0,
+      "x1": 1899.5,
+      "y_top": 144.4,
+      "y_bot": 160.2
+     }
+    }
+   ],
+   "cruces": [],
+   "costaneras": {
+    "perfil": "CA 100x50x15x3",
+    "cantidad": 20,
+    "x_cm": [
+     -57.3,
+     3.5,
+     64.4,
+     125.3,
+     186.1,
+     247.0,
+     307.9,
+     368.7,
+     429.6,
+     490.4,
+     551.3,
+     613.1,
+     673.9,
+     734.8,
+     795.7,
+     856.5,
+     917.4,
+     978.2,
+     1039.1,
+     1100.0
+    ],
+    "paso_horizontal_cm": [
+     60.8,
+     60.9,
+     61.8
+    ],
+    "paso_inclinado_prom_cm": 61.0,
+    "desde_punta_F1_cm": 22.7,
+    "hasta_punta_A1_cm": 5.3,
+    "cotas_61_en_texto": 19,
+    "cota_3_en_texto": 1
+   },
+   "soporte_alero": {
+    "rotulo": "C150x50x3 soporte",
+    "ubicacion": "solo en la punta del alero lado F1, pieza corta diagonal entre la viga y la 1.ª costanera",
+    "x_cm": -68.7,
+    "rotulo_presente": true
+   },
+   "niveles": [
+    {
+     "texto": "NTN=-50",
+     "x_texto_cm": -137.3,
+     "z_punta_flecha_cm": -50.0
+    },
+    {
+     "texto": "NTN=-50",
+     "x_texto_cm": 1124.0,
+     "z_punta_flecha_cm": null
+    },
+    {
+     "texto": "NPOG=0.00",
+     "x_texto_cm": 601.7,
+     "z_punta_flecha_cm": 0.0
+    },
+    {
+     "texto": "NPOG=-272",
+     "x_texto_cm": 707.4,
+     "z_punta_flecha_cm": -292.0
+    },
+    {
+     "texto": "-312",
+     "x_texto_cm": 1071.2,
+     "z_punta_flecha_cm": -312.0
+    },
+    {
+     "texto": "-342",
+     "x_texto_cm": 1102.1,
+     "z_punta_flecha_cm": -342.0
+    }
+   ],
+   "cotas": [
+    {
+     "valor": 80,
+     "orient": "H",
+     "x_cm": -37.8,
+     "z_cm": 350.5
+    },
+    {
+     "valor": 205,
+     "orient": "H",
+     "x_cm": 102.6,
+     "z_cm": -372.0
+    },
+    {
+     "valor": 170,
+     "orient": "H",
+     "x_cm": 289.2,
+     "z_cm": -372.0
+    },
+    {
+     "valor": 125,
+     "orient": "H",
+     "x_cm": 436.8,
+     "z_cm": -372.0
+    },
+    {
+     "valor": 1186,
+     "orient": "H",
+     "x_cm": 510.7,
+     "z_cm": 530.8
+    },
+    {
+     "valor": 171,
+     "orient": "H",
+     "x_cm": 586.7,
+     "z_cm": 301.5
+    },
+    {
+     "valor": 343,
+     "orient": "H",
+     "x_cm": 671.4,
+     "z_cm": -372.3
+    },
+    {
+     "valor": 171,
+     "orient": "H",
+     "x_cm": 758.0,
+     "z_cm": 301.5
+    },
+    {
+     "valor": 500,
+     "orient": "H",
+     "x_cm": 761.4,
+     "z_cm": -199.3
+    },
+    {
+     "valor": 525,
+     "orient": "H",
+     "x_cm": 762.7,
+     "z_cm": -410.6
+    },
+    {
+     "valor": 10,
+     "orient": "H",
+     "x_cm": 841.8,
+     "z_cm": 399.3
+    },
+    {
+     "valor": 182,
+     "orient": "H",
+     "x_cm": 933.1,
+     "z_cm": -372.3
+    },
+    {
+     "valor": 80,
+     "orient": "H",
+     "x_cm": 1067.6,
+     "z_cm": 396.2
+    },
+    {
+     "valor": -312,
+     "orient": "H",
+     "x_cm": 1071.2,
+     "z_cm": -281.6
+    },
+    {
+     "valor": -342,
+     "orient": "H",
+     "x_cm": 1102.1,
+     "z_cm": -311.6
+    },
+    {
+     "valor": 401,
+     "orient": "V",
+     "x_cm": 44.9,
+     "z_cm": 202.2
+    },
+    {
+     "valor": 312,
+     "orient": "V",
+     "x_cm": 417.4,
+     "z_cm": -156.0
+    },
+    {
+     "valor": 30,
+     "orient": "V",
+     "x_cm": 417.4,
+     "z_cm": -327.0
+    },
+    {
+     "valor": 292,
+     "orient": "V",
+     "x_cm": 624.9,
+     "z_cm": -166.0
+    },
+    {
+     "valor": 10,
+     "orient": "V",
+     "x_cm": 746.0,
+     "z_cm": 404.9
+    },
+    {
+     "valor": 20,
+     "orient": "V",
+     "x_cm": 919.5,
+     "z_cm": -10.0
+    },
+    {
+     "valor": 272,
+     "orient": "V",
+     "x_cm": 919.5,
+     "z_cm": -156.0
+    },
+    {
+     "valor": 401,
+     "orient": "V",
+     "x_cm": 950.0,
+     "z_cm": 202.2
+    }
+   ],
+   "bunker": {
+    "muro_E1": {
+     "cara_ext": {
+      "x_cm": 487.8,
+      "z_sup_cm": 0.0,
+      "z_inf_cm": -312.0,
+      "n_trazos": 1,
+      "punteada": false
+     },
+     "cara_int": {
+      "x_cm": 512.5,
+      "z_sup_cm": -20.0,
+      "z_inf_cm": -312.0,
+      "n_trazos": 2,
+      "punteada": false
+     }
+    },
+    "muro_A1": {
+     "cara_int": {
+      "x_cm": 1010.0,
+      "z_sup_cm": -20.0,
+      "z_inf_cm": -312.0,
+      "n_trazos": 2,
+      "punteada": false
+     },
+     "cara_ext": {
+      "x_cm": 1037.3,
+      "z_sup_cm": 0.0,
+      "z_inf_cm": -312.0,
+      "n_trazos": 1,
+      "punteada": false
+     }
+    },
+    "losa_techo": {
+     "cara_sup_0": [
+      {
+       "z_cm": 0.0,
+       "x_ini_cm": -12.4,
+       "x_fin_cm": 1037.7,
+       "n_trazos": 5,
+       "punteada": false
+      }
+     ],
+     "cara_inf_-20": []
+    },
+    "piso": {
+     "linea_-292": [
+      {
+       "z_cm": -292.0,
+       "x_ini_cm": 512.6,
+       "x_fin_cm": 1010.3,
+       "n_trazos": 2,
+       "punteada": false
+      }
+     ],
+     "linea_-302": [
+      {
+       "z_cm": -301.7,
+       "x_ini_cm": 512.6,
+       "x_fin_cm": 1010.3,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ],
+     "linea_-312": [
+      {
+       "z_cm": -312.3,
+       "x_ini_cm": 460.1,
+       "x_fin_cm": 1065.2,
+       "n_trazos": 6,
+       "punteada": false
+      }
+     ]
+    },
+    "base": {
+     "linea_-342": [
+      {
+       "z_cm": -342.3,
+       "x_ini_cm": 460.1,
+       "x_fin_cm": 1095.3,
+       "n_trazos": 2,
+       "punteada": false
+      }
+     ],
+     "linea_-347": [
+      {
+       "z_cm": -346.7,
+       "x_ini_cm": 460.1,
+       "x_fin_cm": 1065.2,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ]
+    },
+    "rotulo_DM": null
+   },
+   "fundacion_F1_y_CF": {
+    "pedestal_F1_25x50": {
+     "cara_izq": {
+      "x_cm": -12.3,
+      "z_sup_cm": 0.0,
+      "z_inf_cm": -50.0,
+      "n_trazos": 1,
+      "punteada": false
+     },
+     "cara_der": {
+      "x_cm": 12.3,
+      "z_sup_cm": 0.0,
+      "z_inf_cm": -50.0,
+      "n_trazos": 1,
+      "punteada": false
+     }
+    },
+    "zapata_F1_75x25": {
+     "linea_-75": [
+      {
+       "z_cm": -75.0,
+       "x_ini_cm": -40.0,
+       "x_fin_cm": 35.1,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ],
+     "linea_-80": [
+      {
+       "z_cm": -80.3,
+       "x_ini_cm": -40.0,
+       "x_fin_cm": 35.1,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ],
+     "borde_izq": {
+      "x_cm": -39.7,
+      "z_sup_cm": -50.0,
+      "z_inf_cm": -80.0,
+      "n_trazos": 2,
+      "punteada": false
+     },
+     "borde_der": {
+      "x_cm": 35.3,
+      "z_sup_cm": -50.0,
+      "z_inf_cm": -80.0,
+      "n_trazos": 2,
+      "punteada": false
+     }
+    },
+    "entre_F1_y_bunker": {
+     "linea_-10": [
+      {
+       "z_cm": -9.7,
+       "x_ini_cm": 12.5,
+       "x_fin_cm": 487.7,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ],
+     "linea_-50": [],
+     "linea_-55": [],
+     "linea_-75": [],
+     "linea_-80": []
+    },
+    "rotulo_CF_25/40_presente": true,
+    "NTN_-50": [
+     {
+      "z_cm": -50.3,
+      "x_ini_cm": -98.1,
+      "x_fin_cm": 1112.2,
+      "n_trazos": 4,
+      "punteada": false
+     }
+    ]
+   }
+  },
+  "2.a": {
+   "calibracion": {
+    "escala_pt_por_cm": 0.56683,
+    "x_F1_pt": 261.5,
+    "x_A1_pt": 842.5,
+    "y_NPOG0_pt": 1098.0,
+    "nota": "escala = (A1-F1)/1025; 1:50 teórico = 0,567 pt/cm"
+   },
+   "ejes": [
+    {
+     "eje": "F1",
+     "x_cm": 0.0,
+     "x_nominal_cm": 0,
+     "x_pt": 261.5
+    },
+    {
+     "eje": "E3",
+     "x_cm": 204.6,
+     "x_nominal_cm": 205,
+     "x_pt": 377.5
+    },
+    {
+     "eje": "E2",
+     "x_cm": 374.9,
+     "x_nominal_cm": 375,
+     "x_pt": 474.0
+    },
+    {
+     "eje": "E1",
+     "x_cm": 500.2,
+     "x_nominal_cm": 500,
+     "x_pt": 545.0
+    },
+    {
+     "eje": "A2",
+     "x_cm": 842.4,
+     "x_nominal_cm": 843,
+     "x_pt": 739.0
+    },
+    {
+     "eje": "A1",
+     "x_cm": 1025.0,
+     "x_nominal_cm": 1025,
+     "x_pt": 842.5
+    },
+    {
+     "eje": null,
+     "x_cm": 449.9,
+     "x_pt": 516.5,
+     "nota": "línea de eje punteada sin rótulo (pilar intermedio)"
+    },
+    {
+     "eje": null,
+     "x_cm": 560.1,
+     "x_pt": 579.0,
+     "nota": "línea de eje punteada sin rótulo (pilar intermedio)"
+    }
+   ],
+   "pilares": [
+    {
+     "eje": "F1",
+     "x_cm": -0.4,
+     "rotulo": "PM2",
+     "perfil": "150x150x4",
+     "ancho_visto_cm": 15,
+     "altura_cm": 401,
+     "z_base_cm": 0,
+     "z_tope_cm": 401,
+     "apoya_arriba_en": "viga inclinada",
+     "pt": {
+      "x0": 257.0,
+      "x1": 265.5,
+      "y_top": 870.8,
+      "y_base": 1098.0
+     }
+    },
+    {
+     "eje": "E3",
+     "x_cm": 204.6,
+     "rotulo": "PM3",
+     "perfil": "150x100x3",
+     "ancho_visto_cm": 10,
+     "altura_cm": 410,
+     "z_base_cm": 0,
+     "z_tope_cm": 410,
+     "apoya_arriba_en": "viga inclinada",
+     "pt": {
+      "x0": 374.5,
+      "x1": 380.5,
+      "y_top": 865.6,
+      "y_base": 1098.0
+     }
+    },
+    {
+     "eje": "E2",
+     "x_cm": 374.5,
+     "rotulo": "PM2",
+     "perfil": "150x150x4",
+     "ancho_visto_cm": 15,
+     "altura_cm": 418,
+     "z_base_cm": 0,
+     "z_tope_cm": 418,
+     "apoya_arriba_en": "viga inclinada",
+     "pt": {
+      "x0": 469.5,
+      "x1": 478.0,
+      "y_top": 861.2,
+      "y_base": 1098.0
+     }
+    },
+    {
+     "eje": "x=450.3 (sin burbuja)",
+     "x_cm": 450.3,
+     "rotulo": "PM3",
+     "perfil": "150x100x3",
+     "ancho_visto_cm": 10,
+     "altura_cm": 421,
+     "z_base_cm": 0,
+     "z_tope_cm": 421,
+     "apoya_arriba_en": "viga inclinada",
+     "pt": {
+      "x0": 514.0,
+      "x1": 519.5,
+      "y_top": 859.3,
+      "y_base": 1098.0
+     }
+    },
+    {
+     "eje": "x=560.1 (sin burbuja)",
+     "x_cm": 560.1,
+     "rotulo": "PM3",
+     "perfil": "150x100x3",
+     "ancho_visto_cm": 10,
+     "altura_cm": 426,
+     "z_base_cm": 0,
+     "z_tope_cm": 426,
+     "apoya_arriba_en": "viga inclinada",
+     "pt": {
+      "x0": 576.0,
+      "x1": 582.0,
+      "y_top": 856.5,
+      "y_base": 1098.0
+     }
+    },
+    {
+     "eje": "A2",
+     "x_cm": 842.4,
+     "rotulo": "PM3",
+     "perfil": "150x100x3",
+     "ancho_visto_cm": 10,
+     "altura_cm": 439,
+     "z_base_cm": 0,
+     "z_tope_cm": 439,
+     "apoya_arriba_en": "viga inclinada",
+     "pt": {
+      "x0": 736.0,
+      "x1": 742.0,
+      "y_top": 849.3,
+      "y_base": 1098.0
+     }
+    },
+    {
+     "eje": "A1",
+     "x_cm": 1024.6,
+     "rotulo": "PM2",
+     "perfil": "150x150x4",
+     "ancho_visto_cm": 15,
+     "altura_cm": 447,
+     "z_base_cm": 0,
+     "z_tope_cm": 447,
+     "apoya_arriba_en": "viga inclinada",
+     "pt": {
+      "x0": 838.0,
+      "x1": 846.5,
+      "y_top": 844.5,
+      "y_base": 1098.0
+     }
+    }
+   ],
+   "viga_inclinada": {
+    "x_ini_cm": -80.3,
+    "x_fin_cm": 1104.8,
+    "z_bot_ini_cm": 396.9,
+    "z_bot_fin_cm": 450.4,
+    "z_top_ini_cm": 416.9,
+    "z_top_fin_cm": 470.4,
+    "alto_cm": 20.0,
+    "largo_horizontal_cm": 1185.2,
+    "largo_inclinado_cm": 1186.4,
+    "pendiente_dibujada_pct": 4.52,
+    "pendiente_rotulada_pct": 3.5,
+    "alero_F1_cm": 80.3,
+    "alero_A1_cm": 79.8,
+    "rotulos_por_tramo": [
+     {
+      "perfil": "200x150x3",
+      "x_cm": -47.9,
+      "z_cm": 375.9
+     },
+     {
+      "perfil": "200x150x3",
+      "x_cm": 131.3,
+      "z_cm": 386.7
+     },
+     {
+      "perfil": "200x150x3",
+      "x_cm": 308.1,
+      "z_cm": 395.0
+     },
+     {
+      "perfil": "200x150x3",
+      "x_cm": 518.3,
+      "z_cm": 408.6
+     },
+     {
+      "perfil": "200x150x3",
+      "x_cm": 724.7,
+      "z_cm": 415.9
+     },
+     {
+      "perfil": "200x150x3",
+      "x_cm": 942.1,
+      "z_cm": 424.3
+     },
+     {
+      "perfil": "200x150x3",
+      "x_cm": 1096.2,
+      "z_cm": 427.0
+     }
+    ],
+    "pt": {
+     "top": [
+      216.0,
+      861.7,
+      887.8,
+      831.3
+     ],
+     "bot": [
+      216.0,
+      873.0,
+      887.8,
+      842.7
+     ]
+    }
+   },
+   "viga_horizontal": null,
+   "puntales": [],
+   "cruces": [
+    {
+     "tramo": "F1-E3",
+     "perfil": "C150x50x3",
+     "forma": "X (dos diagonales, cada una dibujada doble = 5 cm de ancho visto)",
+     "x_ini_cm": 7.2,
+     "x_fin_cm": 199.7,
+     "z_min_cm": 4.4,
+     "z_max_cm": 405.3,
+     "lineas_pt": [
+      [
+       374.7,
+       1089.3,
+       320.4,
+       983.1
+      ],
+      [
+       265.6,
+       1086.3,
+       374.7,
+       868.3
+      ],
+      [
+       374.7,
+       1095.5,
+       318.8,
+       986.3
+      ],
+      [
+       265.6,
+       1092.6,
+       374.7,
+       874.6
+      ],
+      [
+       317.2,
+       983.1,
+       265.6,
+       882.2
+      ],
+      [
+       318.8,
+       980.0,
+       265.6,
+       876.0
+      ]
+     ]
+    }
+   ],
+   "costaneras": {
+    "perfil": "CA 100x50x15x3",
+    "cantidad": 20,
+    "x_cm": [
+     -58.2,
+     2.6,
+     63.5,
+     124.4,
+     185.2,
+     247.0,
+     307.9,
+     368.7,
+     429.6,
+     490.4,
+     551.3,
+     612.2,
+     673.0,
+     733.9,
+     794.8,
+     856.5,
+     917.4,
+     978.2,
+     1039.1,
+     1100.0
+    ],
+    "paso_horizontal_cm": [
+     60.8,
+     60.9,
+     61.7,
+     61.8
+    ],
+    "paso_inclinado_prom_cm": 61.0,
+    "desde_punta_F1_cm": 22.1,
+    "hasta_punta_A1_cm": 4.8,
+    "cotas_61_en_texto": 19,
+    "cota_3_en_texto": 1
+   },
+   "soporte_alero": {
+    "rotulo": "C150x50x3 soporte",
+    "ubicacion": "solo en la punta del alero lado F1, pieza corta diagonal entre la viga y la 1.ª costanera",
+    "x_cm": -69.2,
+    "rotulo_presente": true
+   },
+   "niveles": [
+    {
+     "texto": "NTN=-50",
+     "x_texto_cm": -137.7,
+     "z_punta_flecha_cm": -49.9
+    },
+    {
+     "texto": "NTN=-50",
+     "x_texto_cm": 1123.6,
+     "z_punta_flecha_cm": null
+    },
+    {
+     "texto": "NPOG=0.00",
+     "x_texto_cm": 713.8,
+     "z_punta_flecha_cm": -0.2
+    },
+    {
+     "texto": "NPOG=-272",
+     "x_texto_cm": 707.1,
+     "z_punta_flecha_cm": -292.0
+    },
+    {
+     "texto": "-312",
+     "x_texto_cm": 1070.8,
+     "z_punta_flecha_cm": -312.0
+    },
+    {
+     "texto": "-342",
+     "x_texto_cm": 1101.7,
+     "z_punta_flecha_cm": -342.0
+    }
+   ],
+   "cotas": [
+    {
+     "valor": 80,
+     "orient": "H",
+     "x_cm": -38.2,
+     "z_cm": 350.5
+    },
+    {
+     "valor": 205,
+     "orient": "H",
+     "x_cm": 102.2,
+     "z_cm": -371.9
+    },
+    {
+     "valor": 170,
+     "orient": "H",
+     "x_cm": 288.9,
+     "z_cm": -371.9
+    },
+    {
+     "valor": 125,
+     "orient": "H",
+     "x_cm": 436.4,
+     "z_cm": -371.9
+    },
+    {
+     "valor": 110,
+     "orient": "H",
+     "x_cm": 504.4,
+     "z_cm": -431.2
+    },
+    {
+     "valor": 1186,
+     "orient": "H",
+     "x_cm": 510.3,
+     "z_cm": 530.8
+    },
+    {
+     "valor": 343,
+     "orient": "H",
+     "x_cm": 671.0,
+     "z_cm": -372.3
+    },
+    {
+     "valor": 282,
+     "orient": "H",
+     "x_cm": 701.3,
+     "z_cm": -431.2
+    },
+    {
+     "valor": 500,
+     "orient": "H",
+     "x_cm": 761.1,
+     "z_cm": -199.3
+    },
+    {
+     "valor": 525,
+     "orient": "H",
+     "x_cm": 762.3,
+     "z_cm": -401.4
+    },
+    {
+     "valor": 182,
+     "orient": "H",
+     "x_cm": 932.7,
+     "z_cm": -372.3
+    },
+    {
+     "valor": 80,
+     "orient": "H",
+     "x_cm": 1067.2,
+     "z_cm": 396.3
+    },
+    {
+     "valor": -312,
+     "orient": "H",
+     "x_cm": 1070.8,
+     "z_cm": -281.5
+    },
+    {
+     "valor": -342,
+     "orient": "H",
+     "x_cm": 1101.7,
+     "z_cm": -311.6
+    },
+    {
+     "valor": 401,
+     "orient": "V",
+     "x_cm": 44.4,
+     "z_cm": 202.2
+    },
+    {
+     "valor": 10,
+     "orient": "V",
+     "x_cm": 44.4,
+     "z_cm": -5.8
+    },
+    {
+     "valor": 40,
+     "orient": "V",
+     "x_cm": 44.4,
+     "z_cm": -29.9
+    },
+    {
+     "valor": 20,
+     "orient": "V",
+     "x_cm": 624.6,
+     "z_cm": -9.9
+    },
+    {
+     "valor": 292,
+     "orient": "V",
+     "x_cm": 624.6,
+     "z_cm": -166.0
+    },
+    {
+     "valor": 272,
+     "orient": "V",
+     "x_cm": 919.1,
+     "z_cm": -156.0
+    }
+   ],
+   "bunker": {
+    "muro_E1": {
+     "cara_ext": {
+      "x_cm": 486.9,
+      "z_sup_cm": 0.1,
+      "z_inf_cm": -312.0,
+      "n_trazos": 1,
+      "punteada": false
+     },
+     "cara_int": {
+      "x_cm": 512.5,
+      "z_sup_cm": -19.9,
+      "z_inf_cm": -312.0,
+      "n_trazos": 2,
+      "punteada": false
+     }
+    },
+    "muro_A1": {
+     "cara_int": {
+      "x_cm": 1010.0,
+      "z_sup_cm": -19.9,
+      "z_inf_cm": -312.0,
+      "n_trazos": 2,
+      "punteada": false
+     },
+     "cara_ext": {
+      "x_cm": 1037.3,
+      "z_sup_cm": 0.1,
+      "z_inf_cm": -312.0,
+      "n_trazos": 1,
+      "punteada": false
+     }
+    },
+    "losa_techo": {
+     "cara_sup_0": [
+      {
+       "z_cm": 0.0,
+       "x_ini_cm": -12.8,
+       "x_fin_cm": 1037.4,
+       "n_trazos": 4,
+       "punteada": false
+      }
+     ],
+     "cara_inf_-20": []
+    },
+    "piso": {
+     "linea_-292": [
+      {
+       "z_cm": -292.0,
+       "x_ini_cm": 512.3,
+       "x_fin_cm": 1009.8,
+       "n_trazos": 2,
+       "punteada": false
+      }
+     ],
+     "linea_-302": [
+      {
+       "z_cm": -301.7,
+       "x_ini_cm": 512.3,
+       "x_fin_cm": 1009.8,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ],
+     "linea_-312": [
+      {
+       "z_cm": -312.3,
+       "x_ini_cm": 459.7,
+       "x_fin_cm": 1064.9,
+       "n_trazos": 6,
+       "punteada": false
+      }
+     ]
+    },
+    "base": {
+     "linea_-342": [
+      {
+       "z_cm": -342.3,
+       "x_ini_cm": 459.7,
+       "x_fin_cm": 1094.8,
+       "n_trazos": 2,
+       "punteada": false
+      }
+     ],
+     "linea_-347": [
+      {
+       "z_cm": -346.7,
+       "x_ini_cm": 459.7,
+       "x_fin_cm": 1064.9,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ]
+    },
+    "rotulo_DM": null
+   },
+   "fundacion_F1_y_CF": {
+    "pedestal_F1_25x50": {
+     "cara_izq": {
+      "x_cm": -13.2,
+      "z_sup_cm": 0.1,
+      "z_inf_cm": -49.9,
+      "n_trazos": 1,
+      "punteada": false
+     },
+     "cara_der": null
+    },
+    "zapata_F1_75x25": {
+     "linea_-75": [
+      {
+       "z_cm": -75.0,
+       "x_ini_cm": -40.3,
+       "x_fin_cm": 34.7,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ],
+     "linea_-80": [
+      {
+       "z_cm": -80.3,
+       "x_ini_cm": -40.3,
+       "x_fin_cm": 34.7,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ],
+     "borde_izq": {
+      "x_cm": -40.6,
+      "z_sup_cm": -49.9,
+      "z_inf_cm": -79.9,
+      "n_trazos": 2,
+      "punteada": false
+     },
+     "borde_der": {
+      "x_cm": 34.4,
+      "z_sup_cm": -49.9,
+      "z_inf_cm": -79.9,
+      "n_trazos": 2,
+      "punteada": false
+     }
+    },
+    "entre_F1_y_bunker": {
+     "linea_-10": [
+      {
+       "z_cm": -9.7,
+       "x_ini_cm": 7.2,
+       "x_fin_cm": 487.3,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ],
+     "linea_-50": [],
+     "linea_-55": [
+      {
+       "z_cm": -54.7,
+       "x_ini_cm": 34.7,
+       "x_fin_cm": 487.3,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ],
+     "linea_-75": [],
+     "linea_-80": []
+    },
+    "rotulo_CF_25/40_presente": true,
+    "NTN_-50": [
+     {
+      "z_cm": -50.3,
+      "x_ini_cm": -98.4,
+      "x_fin_cm": 1111.8,
+      "n_trazos": 6,
+      "punteada": false
+     }
+    ]
+   }
+  },
+  "3.a": {
+   "calibracion": {
+    "escala_pt_por_cm": 0.56683,
+    "x_F1_pt": 1405.0,
+    "x_A1_pt": 1986.0,
+    "y_NPOG0_pt": 1058.5,
+    "nota": "escala = (A1-F1)/1025; 1:50 teórico = 0,567 pt/cm"
+   },
+   "ejes": [
+    {
+     "eje": "F1",
+     "x_cm": 0.0,
+     "x_nominal_cm": 0,
+     "x_pt": 1405.0
+    },
+    {
+     "eje": "E3",
+     "x_cm": 204.6,
+     "x_nominal_cm": 205,
+     "x_pt": 1521.0
+    },
+    {
+     "eje": "E2",
+     "x_cm": 374.9,
+     "x_nominal_cm": 375,
+     "x_pt": 1617.5
+    },
+    {
+     "eje": "E1",
+     "x_cm": 500.2,
+     "x_nominal_cm": 500,
+     "x_pt": 1688.5
+    },
+    {
+     "eje": "A2",
+     "x_cm": 842.4,
+     "x_nominal_cm": 843,
+     "x_pt": 1882.5
+    },
+    {
+     "eje": "A1",
+     "x_cm": 1025.0,
+     "x_nominal_cm": 1025,
+     "x_pt": 1986.0
+    }
+   ],
+   "pilares": [
+    {
+     "eje": "F1",
+     "x_cm": -0.4,
+     "rotulo": "PM2",
+     "perfil": "150x150x4",
+     "ancho_visto_cm": 15,
+     "altura_cm": 401,
+     "z_base_cm": 0,
+     "z_tope_cm": 401,
+     "apoya_arriba_en": "viga inclinada",
+     "pt": {
+      "x0": 1400.5,
+      "x1": 1409.0,
+      "y_top": 831.4,
+      "y_base": 1058.5
+     }
+    },
+    {
+     "eje": "E3",
+     "x_cm": 204.6,
+     "rotulo": "PM3",
+     "perfil": "150x100x3",
+     "ancho_visto_cm": 10,
+     "altura_cm": 410,
+     "z_base_cm": 0,
+     "z_tope_cm": 410,
+     "apoya_arriba_en": "viga inclinada",
+     "pt": {
+      "x0": 1518.0,
+      "x1": 1524.0,
+      "y_top": 826.2,
+      "y_base": 1058.5
+     }
+    },
+    {
+     "eje": "E2",
+     "x_cm": 374.5,
+     "rotulo": "PM2",
+     "perfil": "150x150x4",
+     "ancho_visto_cm": 15,
+     "altura_cm": 418,
+     "z_base_cm": 0,
+     "z_tope_cm": 418,
+     "apoya_arriba_en": "viga inclinada",
+     "pt": {
+      "x0": 1613.0,
+      "x1": 1621.5,
+      "y_top": 821.8,
+      "y_base": 1058.5
+     }
+    },
+    {
+     "eje": "A2",
+     "x_cm": 842.4,
+     "rotulo": "PM3",
+     "perfil": "150x100x3",
+     "ancho_visto_cm": 10,
+     "altura_cm": 438,
+     "z_base_cm": 0,
+     "z_tope_cm": 438,
+     "apoya_arriba_en": "viga inclinada",
+     "pt": {
+      "x0": 1879.5,
+      "x1": 1885.5,
+      "y_top": 809.9,
+      "y_base": 1058.5
+     }
+    },
+    {
+     "eje": "A1",
+     "x_cm": 1024.6,
+     "rotulo": "PM2",
+     "perfil": "150x150x4",
+     "ancho_visto_cm": 15,
+     "altura_cm": 447,
+     "z_base_cm": 0,
+     "z_tope_cm": 447,
+     "apoya_arriba_en": "viga inclinada",
+     "pt": {
+      "x0": 1981.5,
+      "x1": 1990.0,
+      "y_top": 805.2,
+      "y_base": 1058.5
+     }
+    }
+   ],
+   "viga_inclinada": {
+    "x_ini_cm": -80.2,
+    "x_fin_cm": 1105.0,
+    "z_bot_ini_cm": 396.6,
+    "z_bot_fin_cm": 450.2,
+    "z_top_ini_cm": 416.6,
+    "z_top_fin_cm": 470.2,
+    "alto_cm": 20.0,
+    "largo_horizontal_cm": 1185.2,
+    "largo_inclinado_cm": 1186.4,
+    "pendiente_dibujada_pct": 4.52,
+    "pendiente_rotulada_pct": 3.5,
+    "alero_F1_cm": 80.2,
+    "alero_A1_cm": 80.0,
+    "rotulos_por_tramo": [
+     {
+      "perfil": "200x150x3",
+      "x_cm": -47.7,
+      "z_cm": 375.7
+     },
+     {
+      "perfil": "200x150x3",
+      "x_cm": 143.4,
+      "z_cm": 386.5
+     },
+     {
+      "perfil": "200x150x3",
+      "x_cm": 308.9,
+      "z_cm": 392.4
+     },
+     {
+      "perfil": "200x150x3",
+      "x_cm": 598.4,
+      "z_cm": 409.4
+     },
+     {
+      "perfil": "200x150x3",
+      "x_cm": 951.4,
+      "z_cm": 429.6
+     },
+     {
+      "perfil": "200x150x3",
+      "x_cm": 1096.3,
+      "z_cm": 426.8
+     }
+    ],
+    "pt": {
+     "top": [
+      1359.5,
+      822.3,
+      2031.3,
+      792.0
+     ],
+     "bot": [
+      1359.5,
+      833.7,
+      2031.3,
+      803.3
+     ]
+    }
+   },
+   "viga_horizontal": null,
+   "puntales": [],
+   "cruces": [
+    {
+     "tramo": "F1-E3",
+     "perfil": "C150x50x3",
+     "forma": "X (dos diagonales, cada una dibujada doble = 5 cm de ancho visto)",
+     "x_ini_cm": 7.3,
+     "x_fin_cm": 199.8,
+     "z_min_cm": 4.2,
+     "z_max_cm": 405.0,
+     "lineas_pt": [
+      [
+       1518.2,
+       1049.9,
+       1463.9,
+       943.8
+      ],
+      [
+       1409.1,
+       1046.9,
+       1518.2,
+       828.9
+      ],
+      [
+       1518.2,
+       1056.1,
+       1462.4,
+       946.9
+      ],
+      [
+       1409.1,
+       1053.3,
+       1518.2,
+       835.2
+      ],
+      [
+       1460.8,
+       943.8,
+       1409.1,
+       842.9
+      ],
+      [
+       1462.3,
+       940.6,
+       1409.1,
+       836.7
+      ]
+     ]
+    },
+    {
+     "tramo": "A2-A1",
+     "perfil": "C150x50x3",
+     "forma": "X (dos diagonales, cada una dibujada doble = 5 cm de ancho visto)",
+     "x_ini_cm": 847.5,
+     "x_fin_cm": 1017.5,
+     "z_min_cm": 5.5,
+     "z_max_cm": 434.8,
+     "lineas_pt": [
+      [
+       1885.4,
+       1047.9,
+       1981.7,
+       812.0
+      ],
+      [
+       1885.4,
+       813.0,
+       1933.8,
+       929.4
+      ],
+      [
+       1885.4,
+       1055.4,
+       1981.7,
+       819.5
+      ],
+      [
+       1885.4,
+       820.4,
+       1932.3,
+       933.1
+      ],
+      [
+       1933.8,
+       936.9,
+       1981.7,
+       1052.1
+      ],
+      [
+       1935.3,
+       933.1,
+       1981.7,
+       1044.7
+      ]
+     ]
+    }
+   ],
+   "costaneras": {
+    "perfil": "CA 100x50x15x3",
+    "cantidad": 20,
+    "x_cm": [
+     -58.2,
+     2.6,
+     63.5,
+     125.3,
+     186.1,
+     247.0,
+     307.9,
+     368.7,
+     429.6,
+     490.4,
+     551.3,
+     612.2,
+     673.0,
+     733.9,
+     795.7,
+     856.5,
+     917.4,
+     978.2,
+     1039.1,
+     1100.0
+    ],
+    "paso_horizontal_cm": [
+     60.8,
+     60.9,
+     61.8
+    ],
+    "paso_inclinado_prom_cm": 61.0,
+    "desde_punta_F1_cm": 22.0,
+    "hasta_punta_A1_cm": 5.0,
+    "cotas_61_en_texto": 19,
+    "cota_3_en_texto": 1
+   },
+   "soporte_alero": {
+    "rotulo": "C150x50x3 soporte",
+    "ubicacion": "solo en la punta del alero lado F1, pieza corta diagonal entre la viga y la 1.ª costanera",
+    "x_cm": -69.2,
+    "rotulo_presente": true
+   },
+   "niveles": [
+    {
+     "texto": "NTN=-50",
+     "x_texto_cm": -137.5,
+     "z_punta_flecha_cm": -50.2
+    },
+    {
+     "texto": "NTN=-50",
+     "x_texto_cm": 1123.7,
+     "z_punta_flecha_cm": null
+    },
+    {
+     "texto": "NPOG=0.00",
+     "x_texto_cm": 601.4,
+     "z_punta_flecha_cm": -0.2
+    },
+    {
+     "texto": "NPOG=-272",
+     "x_texto_cm": 707.2,
+     "z_punta_flecha_cm": -292.2
+    },
+    {
+     "texto": "-312",
+     "x_texto_cm": 1071.0,
+     "z_punta_flecha_cm": -312.2
+    },
+    {
+     "texto": "-342",
+     "x_texto_cm": 1101.8,
+     "z_punta_flecha_cm": -342.2
+    },
+    {
+     "texto": "+410",
+     "x_texto_cm": 900.8,
+     "z_punta_flecha_cm": 446.2
+    },
+    {
+     "texto": "+410",
+     "x_texto_cm": 92.8,
+     "z_punta_flecha_cm": 400.6
+    }
+   ],
+   "cotas": [
+    {
+     "valor": 80,
+     "orient": "H",
+     "x_cm": -38.0,
+     "z_cm": 350.4
+    },
+    {
+     "valor": 205,
+     "orient": "H",
+     "x_cm": 102.3,
+     "z_cm": -372.1
+    },
+    {
+     "valor": 170,
+     "orient": "H",
+     "x_cm": 289.0,
+     "z_cm": -372.1
+    },
+    {
+     "valor": 125,
+     "orient": "H",
+     "x_cm": 436.5,
+     "z_cm": -372.1
+    },
+    {
+     "valor": 1186,
+     "orient": "H",
+     "x_cm": 510.4,
+     "z_cm": 530.6
+    },
+    {
+     "valor": 343,
+     "orient": "H",
+     "x_cm": 671.2,
+     "z_cm": -372.5
+    },
+    {
+     "valor": 500,
+     "orient": "H",
+     "x_cm": 761.2,
+     "z_cm": -199.5
+    },
+    {
+     "valor": 525,
+     "orient": "H",
+     "x_cm": 762.5,
+     "z_cm": -410.8
+    },
+    {
+     "valor": 182,
+     "orient": "H",
+     "x_cm": 932.8,
+     "z_cm": -372.5
+    },
+    {
+     "valor": 80,
+     "orient": "H",
+     "x_cm": 1067.4,
+     "z_cm": 396.0
+    },
+    {
+     "valor": -312,
+     "orient": "H",
+     "x_cm": 1071.0,
+     "z_cm": -281.8
+    },
+    {
+     "valor": -342,
+     "orient": "H",
+     "x_cm": 1101.8,
+     "z_cm": -311.7
+    },
+    {
+     "valor": 401,
+     "orient": "V",
+     "x_cm": 44.6,
+     "z_cm": 202.0
+    },
+    {
+     "valor": 20,
+     "orient": "V",
+     "x_cm": 624.7,
+     "z_cm": -10.2
+    },
+    {
+     "valor": 292,
+     "orient": "V",
+     "x_cm": 624.7,
+     "z_cm": -166.2
+    },
+    {
+     "valor": 272,
+     "orient": "V",
+     "x_cm": 919.2,
+     "z_cm": -156.2
+    }
+   ],
+   "bunker": {
+    "muro_E1": {
+     "cara_ext": {
+      "x_cm": 487.8,
+      "z_sup_cm": -0.2,
+      "z_inf_cm": -312.2,
+      "n_trazos": 1,
+      "punteada": false
+     },
+     "cara_int": {
+      "x_cm": 512.5,
+      "z_sup_cm": -0.2,
+      "z_inf_cm": -312.2,
+      "n_trazos": 18,
+      "punteada": true
+     }
+    },
+    "muro_A1": {
+     "cara_int": {
+      "x_cm": 1010.0,
+      "z_sup_cm": -0.2,
+      "z_inf_cm": -312.2,
+      "n_trazos": 18,
+      "punteada": true
+     },
+     "cara_ext": {
+      "x_cm": 1037.3,
+      "z_sup_cm": -0.2,
+      "z_inf_cm": -312.2,
+      "n_trazos": 1,
+      "punteada": false
+     }
+    },
+    "losa_techo": {
+     "cara_sup_0": [
+      {
+       "z_cm": 0.0,
+       "x_ini_cm": -12.7,
+       "x_fin_cm": 1037.5,
+       "n_trazos": 4,
+       "punteada": false
+      }
+     ],
+     "cara_inf_-20": []
+    },
+    "piso": {
+     "linea_-292": [
+      {
+       "z_cm": -292.0,
+       "x_ini_cm": 512.4,
+       "x_fin_cm": 1010.0,
+       "n_trazos": 28,
+       "punteada": true
+      }
+     ],
+     "linea_-302": [
+      {
+       "z_cm": -302.6,
+       "x_ini_cm": 512.4,
+       "x_fin_cm": 1010.0,
+       "n_trazos": 27,
+       "punteada": true
+      }
+     ],
+     "linea_-312": [
+      {
+       "z_cm": -312.3,
+       "x_ini_cm": 459.9,
+       "x_fin_cm": 1065.0,
+       "n_trazos": 32,
+       "punteada": true
+      }
+     ]
+    },
+    "base": {
+     "linea_-342": [
+      {
+       "z_cm": -342.3,
+       "x_ini_cm": 459.9,
+       "x_fin_cm": 1095.0,
+       "n_trazos": 2,
+       "punteada": false
+      }
+     ],
+     "linea_-347": [
+      {
+       "z_cm": -347.5,
+       "x_ini_cm": 459.9,
+       "x_fin_cm": 1065.0,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ]
+    },
+    "rotulo_DM": "DM, muro e=25 V: ∅12@15 H: ∅10@20"
+   },
+   "fundacion_F1_y_CF": {
+    "pedestal_F1_25x50": {
+     "cara_izq": {
+      "x_cm": -12.3,
+      "z_sup_cm": -0.2,
+      "z_inf_cm": -50.2,
+      "n_trazos": 1,
+      "punteada": false
+     },
+     "cara_der": null
+    },
+    "zapata_F1_75x25": {
+     "linea_-75": [
+      {
+       "z_cm": -75.0,
+       "x_ini_cm": -40.2,
+       "x_fin_cm": 487.4,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ],
+     "linea_-80": [
+      {
+       "z_cm": -80.3,
+       "x_ini_cm": -40.2,
+       "x_fin_cm": 487.4,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ],
+     "borde_izq": {
+      "x_cm": -40.6,
+      "z_sup_cm": -50.2,
+      "z_inf_cm": -80.2,
+      "n_trazos": 2,
+      "punteada": false
+     },
+     "borde_der": {
+      "x_cm": 34.4,
+      "z_sup_cm": -50.2,
+      "z_inf_cm": -75.2,
+      "n_trazos": 2,
+      "punteada": false
+     }
+    },
+    "entre_F1_y_bunker": {
+     "linea_-10": [
+      {
+       "z_cm": -10.6,
+       "x_ini_cm": 7.3,
+       "x_fin_cm": 487.4,
+       "n_trazos": 26,
+       "punteada": true
+      }
+     ],
+     "linea_-50": [
+      {
+       "z_cm": -50.3,
+       "x_ini_cm": 7,
+       "x_fin_cm": 487,
+       "punteada": true,
+       "nota": "parte del cluster punteado −50 que cruza toda la elevación"
+      }
+     ],
+     "linea_-55": [],
+     "linea_-75": [
+      {
+       "z_cm": -75.0,
+       "x_ini_cm": -40.2,
+       "x_fin_cm": 487.4,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ],
+     "linea_-80": [
+      {
+       "z_cm": -80.3,
+       "x_ini_cm": -40.2,
+       "x_fin_cm": 487.4,
+       "n_trazos": 1,
+       "punteada": false
+      }
+     ]
+    },
+    "rotulo_CF_25/40_presente": false,
+    "NTN_-50": [
+     {
+      "z_cm": -50.3,
+      "x_ini_cm": -98.3,
+      "x_fin_cm": 1111.9,
+      "n_trazos": 29,
+      "punteada": true
+     }
+    ]
+   }
+  }
+ },
+ "diferencias_entre_elevaciones": [
+  "1.b y 1.c son iguales (pilares PM1 150x150x5 sólo en F1 y A1, viga horizontal 150x100x3 a +4,00/+4,10 entre caras de pilares, viga inclinada 200x150x5, 4 puntales 150x100x3 en E2/E1/E1+171/A2 de 7/12/20/28 cm, sin cruces). 1.c agrega las cotas 312 y 30 y el rótulo CF 25/40; 1.b no.",
+  "2.a: 7 pilares (PM2 150x150x4 en F1, E2, A1; PM3 150x100x3 en E3, x=450, x=560 y A2), sin viga horizontal ni puntales, viga inclinada 200x150x3 apoyada directo en los pilares (altura de cada pilar sigue la pendiente), una cruz C150x50x3 en el tramo F1–E3, cotas 110 (450→560) y 282 (560→A2), CF 25/40 continuo de F1 al búnker (−10 a −50, línea a −55) con cotas 10 (radier) y 40.",
+  "3.a: 5 pilares (PM2 en F1, E2, A1; PM3 en E3 y A2), sin pilares intermedios, viga inclinada 200x150x3, cruces C150x50x3 en F1–E3 y en A2–A1, búnker punteado con rótulo del muro DM, niveles +410 ×2; bajo el radier: CF punteado (−10 a −50) y zapata corrida en línea continua (−50 a −75, +5) desde la zapata de F1 hasta el muro del búnker.",
+  "Los pilares intermedios de 2.a (x=450 y x=560) tienen línea de eje punteada pero sin burbuja; el de 560 y el de A2 se paran sobre la losa del búnker (x 487,5–1037,5), el de 450 sobre el radier.",
+  "Altura del pilar A1 en 1.b/1.c: 446 (sube hasta la viga inclinada); el de F1: 401 (hasta la viga horizontal)."
+ ],
+ "dudas_para_el_ingeniero": [
+  "Pendiente: rotulada 3,5 % pero dibujada 4,52 % en las 4 elevaciones (alturas de pilares 401→447 también salen con 4,5 %). ¿Cuál manda?",
+  "Nivel de piso del búnker: NPOG=−272 apunta a la línea −292. ¿El piso terminado va a −292 (altura libre 272 bajo losa de 20) o a −272?",
+  "Viga horizontal de 1.b/1.c rotulada 150x100x3 (10 cm de alto, de plano); la cubicación lista RECT 150x100x3 = 16,9 m, que no alcanza para 2 vigas de 10,1 m más los puntales ni para los 6 pilares PM3. ¿Qué perfil es la viga horizontal realmente?",
+  "Base del búnker: ¿es una losa de fundación corrida de 30 cm (−312 a −342, 605 de ancho) o zapatas bajo cada muro? El dibujo la muestra continua.",
+  "Línea a −347 bajo la base y a −80 bajo la zapata de F1 (5 cm): ¿emplantillado?",
+  "CF 25/40: en 2.a va de −10 a −50 sin zapata; en 3.a el CF va punteado y la zapata (−50 a −75) continua de F1 al búnker. ¿En qué ejes lleva zapata corrida?",
+  "En 1.c el rótulo CF 25/40 queda flotando entre F1 y E3 sin línea asociada; ¿hay CF bajo los ejes 1.b/1.c?",
+  "+410 en 3.a: a la derecha la viga está a +446 medido. ¿El +410 es sólo el nivel de la cara inferior de viga en el lado bajo (F1)?"
+ ]
+}
