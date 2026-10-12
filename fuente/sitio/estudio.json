@@ -184,7 +184,7 @@
   "dato": "Gabriel (2026-10-11); la excavación se digitaliza de la foto de dron rectificada con las esquinas del lote (precisión ±30 cm)"
  },
  "nivel_piso": {
-  "z_cm": 50.0,
-  "dato": "Gabriel (2026-10-11): la losa terminada del estudio va 50 cm sobre el NPT de la casa"
+  "z_cm": -20.0,
+  "dato": "Gabriel (2026-10-12): la losa terminada del estudio va 50 cm sobre el terreno natural (NPT ±0,00), es decir 20 cm bajo el piso del nivel 1 de la casa (que está a +0,70); el búnker baja con ella"
  }
 }

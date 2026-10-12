@@ -199,7 +199,7 @@
       });
       // losa de piso y zócalo hasta el terreno (la losa va 50 cm sobre el NPT de la casa; fundación pendiente del ingeniero)
       const losa = prisma(E.exterior, zT, E.z_piso, lambert(C.muro, { transparent: true, opacity: .95 }), true);
-      ficha(losa, 'Estudio: losa de piso y zócalo', `${fmt(E.ancho)} × ${fmt(E.largo)} m exteriores · losa terminada ${fmt(E.z_piso - zT)} m sobre el terreno (Gabriel: 50 cm sobre el NPT de la casa) · fundación según el ingeniero (supuesto: macizo hasta el terreno)`);
+      ficha(losa, 'Estudio: losa de piso y zócalo', `${fmt(E.ancho)} × ${fmt(E.largo)} m exteriores · losa terminada ${fmt(E.z_piso - zT)} m sobre el terreno natural, ${fmt(-E.z_piso)} m bajo el piso de la casa (Gabriel) · fundación según el ingeniero`);
       sub.estudio.add(losa);
       const zInf = y => E.techo.z0 + (E.techo.z1 - E.techo.z0) * (y - E.techo.y0) / (E.techo.y1 - E.techo.y0);
       const techo = losaInclinada(E.techo.contorno, zInf, E.techo.espesor, lambert(C.estudioTecho, { transparent: true, opacity: .9 }));
@@ -252,7 +252,8 @@
     agua(R.piscina, 'Piscina', C.agua, 150); agua(R.piscina_chica, 'Jacuzzi', C.agua, 100);
     const EX = R.excavacion || R.excavacion_bunker || R.laguna;
     if (EX && EX.pts) {
-      const pozo = prisma(EX.pts, zT - 200, zT, lambert(dark ? 0x4A3B2E : 0x8C7355, { transparent: true, opacity: .85 }), true, true);
+      const fondo = (D.estudio && D.estudio.bunker) ? D.estudio.bunker.z_piso - 10 : zT - 200;   // hasta 10 cm bajo el piso del búnker
+      const pozo = prisma(EX.pts, fondo, zT, lambert(dark ? 0x4A3B2E : 0x8C7355, { transparent: true, opacity: .85 }), true, true);
       ficha(pozo, 'Excavación del búnker (actual)', `${(Math.abs(areaDe(EX.pts)) / 1e4).toFixed(1).replace('.', ',')} m² en la foto de dron · ${EX.dato || 'con agua en la foto; el búnker se centra aquí (Gabriel)'}`);
       sub.urbanismo.add(pozo, linea(EX.pts, zT + 2, C.lote, true, .6));
     }
