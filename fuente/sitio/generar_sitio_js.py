@@ -51,8 +51,23 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
                    techo=E['techo']['dato'], alero=A['dato_alero'], emplazamiento=E['emplazamiento']['dato'], nivel=E['nivel_piso']['dato']),
     )
 
+# Qué NO va al 3D por ahora (Gabriel, 2026-10-12): el galpón de obra y el baño provisorio (caseta del lado
+# poniente), el camino de grava y las líneas del plano en el piso (soleras, contornos, radier y el edificio B del
+# arquitecto). Los datos siguen en sitio.json por si se vuelven a usar.
+OCULTAR_REAL = {'galpon'}
+OCULTAR_OTROS = {'Galpón de obra (ala oeste)', 'Galpón de obra (ala este)', 'Caseta de bombas'}
+OCULTAR_URBANISMO = {'grava', 'soleras', 'contornos', 'senderos', 'radier'}
+OCULTAR_CLAVES = {'estudio_arq', 'radier_arq', 'accesos_arq'}
+
+def filtrar(S):
+    real = {k: v for k, v in S.get('real', {}).items() if k not in OCULTAR_REAL}
+    if 'otros' in real: real['otros'] = [x for x in real['otros'] if x.get('nombre') not in OCULTAR_OTROS]
+    urb = {k: ([] if k in OCULTAR_URBANISMO else v) for k, v in S.get('urbanismo', {}).items()}
+    return real, urb
+
 def main(sitio_json, estudio_json, salida):
     S = json.load(open(sitio_json)); E = json.load(open(estudio_json))
+    real_vis, urb_vis = filtrar(S)
     lote = S['lote']
     xs = [p[0] for p in lote['poligono']]; ys = [p[1] for p in lote['poligono']]
     out = dict(
@@ -67,12 +82,9 @@ def main(sitio_json, estudio_json, salida):
         gimnasio=S.get('gimnasio'),
         estudio=armar_estudio(E, S['estudio_origen'], S['estudio_pendiente'], E['techo']['sube_hacia']),
         estudio_anclaje=S.get('estudio_anclaje'),
-        estudio_arq=S.get('estudio_arq'),
         estacionamiento=S.get('estacionamiento'),
-        accesos_arq=S.get('accesos_arq'),
-        radier_arq=S.get('radier_arq'),
-        urbanismo=S.get('urbanismo', {}),
-        real=S.get('real', {}),
+        urbanismo=urb_vis,
+        real=real_vis,
         notas=S.get('notas', []),
     )
     js = 'const DATA_SITIO = ' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n'

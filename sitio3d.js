@@ -197,8 +197,9 @@
         ficha(mesh, rc.nombre, `${rc.area_m2.toLocaleString('es-CL')} m² · ${rc.dato} · ${D.estudio_anclaje ? D.estudio_anclaje.metodo : ''}`);
         sub.estudio.add(mesh, bordes(mesh, C.muro));
       });
-      const losa = prisma(E.exterior, E.z_piso - 12, E.z_piso, lambert(C.muro, { transparent: true, opacity: .95 }), true);
-      ficha(losa, 'Estudio: losa de piso', `${fmt(E.ancho)} × ${fmt(E.largo)} m exteriores · ${E.datos.exterior}`);
+      // losa de piso y zócalo hasta el terreno (la losa va 50 cm sobre el NPT de la casa; fundación pendiente del ingeniero)
+      const losa = prisma(E.exterior, zT, E.z_piso, lambert(C.muro, { transparent: true, opacity: .95 }), true);
+      ficha(losa, 'Estudio: losa de piso y zócalo', `${fmt(E.ancho)} × ${fmt(E.largo)} m exteriores · losa terminada ${fmt(E.z_piso - zT)} m sobre el terreno (Gabriel: 50 cm sobre el NPT de la casa) · fundación según el ingeniero (supuesto: macizo hasta el terreno)`);
       sub.estudio.add(losa);
       const zInf = y => E.techo.z0 + (E.techo.z1 - E.techo.z0) * (y - E.techo.y0) / (E.techo.y1 - E.techo.y0);
       const techo = losaInclinada(E.techo.contorno, zInf, E.techo.espesor, lambert(C.estudioTecho, { transparent: true, opacity: .9 }));
