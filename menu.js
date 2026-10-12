@@ -2,6 +2,8 @@
 //   <script src="menu.js" data-vista="plano"></script>
 // y el menú se dibuja ahí mismo, antes del primer pintado (el script es síncrono).
 // Para agregar una vista nueva basta con sumarla a VISTAS.
+// Versión publicada: la escribe fuente/version.py antes de cada commit (V<n> = número de commits del proyecto).
+window.PILAUCO_VERSION = { n: 'V56', fecha: '12-10-2026' };
 (function () {
   const VISTAS = [
     { id: 'plano', href: 'index.html', t: 'Plano', d: 'Nivel 1 y nivel 2: recintos, medidas, herramienta de medir',
@@ -27,6 +29,8 @@
 .menu .m-tab:hover{color:var(--chrome-ink)}
 .menu .m-tab[aria-current="page"]{background:var(--chrome-ink);color:var(--chrome)}
 .menu .m-tab svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round;flex:none}
+.menu .m-ver{font-size:10.5px;font-weight:600;letter-spacing:.06em;color:var(--chrome-muted);border:1px solid var(--chrome-line);border-radius:999px;padding:3px 8px;margin-left:6px;white-space:nowrap}
+.menu .m-ver:hover{color:var(--chrome-ink)}
 .menu .m-btn{display:none;font:inherit;font-size:12.5px;font-weight:500;color:var(--chrome-ink);background:transparent;border:1px solid var(--chrome-line);border-radius:999px;padding:4px 11px 4px 9px;cursor:pointer;align-items:center;gap:7px;line-height:1.35}
 .menu .m-btn:hover{border-color:var(--chrome-muted)}
 .menu .m-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round}
@@ -59,7 +63,7 @@
   </button>
   <div class="m-pop" hidden>${VISTAS.map(v =>
     `<a class="m-item" href="${v.href}"${v.id === actual ? ' aria-current="page"' : ''}>${svg(v.ico)}<div><b>${v.t}</b><span>${v.d}</span></div></a>`).join('')}</div>
-</nav>`;
+</nav><span class="m-ver" title="Versión publicada: número de commit y fecha">${window.PILAUCO_VERSION ? window.PILAUCO_VERSION.n : ''}</span>`;
   yo.insertAdjacentHTML('afterend', html);
 
   const nav = yo.nextElementSibling;

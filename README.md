@@ -203,3 +203,8 @@ Base: plano L3 PLARQ2 (Planta Arquitectura Nivel 2, GVArq, dic. 2025, esc. 1:50)
 
 Los **PDF originales no están en el repositorio**: su viñeta lleva RUT, teléfono y correo. Tampoco
 el manual del tablero (sus dibujos se rehicieron, no se copiaron), ni la foto ni el video de dron.
+
+## Versión publicada
+
+Antes de cada commit: `python3 fuente/version.py`. Marca `V<n>` (n = número de commits del proyecto) y la fecha en `menu.js`, que se ve
+como chip en el menú de todas las páginas y en la ⓘ de la Vista 3D, y actualiza los `?v=` de los scripts para que Safari no use caché.

@@ -88,9 +88,9 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=20261012o" data-vista="3d"></script>
+    <script src="menu.js?v=V56" data-vista="3d"></script>
     <h1>Vista 3D</h1>
-    <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · v. 12-10-2026</span>
+    <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
   <div class="stage" id="stage">
     <div class="loading" id="loading">Cargando el modelo…</div>
@@ -104,7 +104,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       pieza para ver su perfil, dónde está y su largo. <b>Losa colaborante</b> agrega el marco C y
       las placas del entrepiso; su vista especial trae el despiece y el montaje. <b>Terreno:</b> lote,
       gimnasio, estudio con búnker y piscina; toca cualquiera para ver su ficha
-      y de dónde sale el dato. <span class="version">Versión del 12-10-2026.</span></span>
+      y de dónde sale el dato. <span class="version"></span></span>
     </div>
     <a class="btn" id="pantalla-completa" href="3d.html?vista=estudio" target="_blank" rel="noopener" hidden style="position:absolute;top:12px;right:12px;text-decoration:none;box-shadow:0 2px 8px rgba(16,18,22,.14)">Pantalla completa ↗</a>
     <div class="panel" id="panel" hidden>
@@ -149,15 +149,15 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=20261012o"></script>
-<script src="data.js?v=20261012o"></script>
-<script src="estructura.js?v=20261012o"></script>
-<script src="losa.js?v=20261012o"></script>
-<script src="sitio.js?v=20261012o"></script>
-<script src="sitio3d.js?v=20261012o"></script>
-<script src="estudio_estructura.js?v=20261012o"></script>
-<script src="mobiliario3d.js?v=20261012o"></script>
-<script src="cotas3d.js?v=20261012o"></script>
+<script src="nav3d.js?v=V56"></script>
+<script src="data.js?v=V56"></script>
+<script src="estructura.js?v=V56"></script>
+<script src="losa.js?v=V56"></script>
+<script src="sitio.js?v=V56"></script>
+<script src="sitio3d.js?v=V56"></script>
+<script src="estudio_estructura.js?v=V56"></script>
+<script src="mobiliario3d.js?v=V56"></script>
+<script src="cotas3d.js?v=V56"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -180,6 +180,9 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
   const PISO = 3.46;       // m, confirmada en 4 elevaciones distintas de la estructura
   const LOSA = 0.12;       // m, espesor ilustrativo de la losa entre niveles
   const cm = v => v / 100;
+  // versión publicada (menu.js la trae; fuente/version.py la escribe antes de cada commit): se muestra en la cabecera y en la ⓘ
+  const pintarVersion = () => { const V = window.PILAUCO_VERSION || {n: '', fecha: ''}; document.querySelectorAll('.version').forEach(e => { e.textContent = `Versión ${V.n} · ${V.fecha}.`; }); };
+  pintarVersion();
   // parámetros: ?estudio=1 (estructura del estudio) / =2 (+ muros, ventanas y mobiliario); ?vista=estudio (solo el estudio con un
   // pedazo de terreno, como en la pestaña Estudio); ?embed=1 (sin cabecera, para incrustar)
   const qs = new URLSearchParams(location.search), nivelEstudio = qs.get('estudio'), vistaEstudio = qs.get('vista') === 'estudio', embed = qs.get('embed') === '1';
@@ -624,6 +627,17 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       mesh.rotation.x = -Math.PI / 2; mesh.position.y = cm(z0 + 0.6);
       g.add(ficha(mesh, rc.nombre, `${rc.area_m2.toLocaleString('es-CL')} m² · ${def[1]}`));
     });
+    // cielo interior por recinto (4,00 al norte, sube al sur con el techo): placa inclinada, va con la capa Techo
+    const matCielo = new THREE.MeshLambertMaterial({color: dark ? 0xD8DADF : 0xF2F1EC, side: THREE.DoubleSide});
+    const zCielo = y => E.cielo.z_norte + (E.cielo.z_sur - E.cielo.z_norte) * (y - E.cielo.y_norte) / (E.cielo.y_sur - E.cielo.y_norte);
+    E.recintos.forEach(rc => {
+      if (rc.id === 'escalera') return;
+      const v2 = rc.pts.map(q => new THREE.Vector2(q[0], q[1])), tris = THREE.ShapeUtils.triangulateShape(v2, []), pos = [];
+      tris.forEach(t => t.forEach(i => { const q = rc.pts[i]; pos.push(cm(q[0]), cm(zCielo(q[1]) - 0.5), cm(q[1])); }));
+      const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.computeVertexNormals();
+      const mesh = new THREE.Mesh(geo, matCielo); mesh.userData.cieloEstudio = true;
+      g.add(ficha(mesh, 'Cielo de ' + rc.nombre.split(' (')[0].toLowerCase(), `a ${(zCielo(rc.pts[0][1]) - z0) / 100 > 0 ? ((zCielo(rc.pts[0][1]) - z0) / 100).toFixed(2).replace('.', ',') : ''} m en su lado norte; sube con el techo (3,5 %) · bajo las vigas (propuesta)`));
+    });
     // escalera al búnker: 16 peldaños terminados, baranda en el borde sur del hueco y pasamanos en el muro
     // tramo real (3,75 desde el descanso hacia el norte, sigue bajo la losa dentro del búnker); el hueco en la losa es más corto
     const esc = D.hormigon.escalera, tr = esc.tramo || {y_arriba: esc.pts[2][1], y_abajo: esc.pts[0][1], largo: esc.largo, peldanos: 16}, n = tr.peldanos, dz = (esc.z_arriba - esc.z_abajo) / n, dy = tr.largo / n, haciaNorte = esc.baja_hacia === 'norte';
@@ -795,6 +809,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
         if (o.material && o.userData.sitio && !o.userData.bunker && !o.userData.losaEstudio) { if (o.userData.opBase == null) o.userData.opBase = o.material.opacity; o.material.opacity = ((chkEstudioEst.checked || chkEstudioHormigon.checked) && !chkCerramiento.checked) ? 0.2 : o.userData.opBase; }   // transparentes solo cuando no hay muros que tapen la estructura
       });
       grupoCerramiento.visible = chkCerramiento.checked;
+      grupoCerramiento.traverse(o => { if (o.userData.cieloEstudio) o.visible = chkEstudioTecho.checked; });
       grupoMobiliario.visible = chkMobiliario.checked; grupoCotas.visible = chkCotas.checked;
       sitio.bajoTierra(chkBajoTierra.checked);
       ground.visible = !chkBajoTierra.checked; grid.visible = !chkBajoTierra.checked && !vistaEstudio;
@@ -934,7 +949,8 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     if (vistaEstudio){
       document.getElementById('aviso-texto').innerHTML = '<b>El estudio en 3D:</b> muros, ventanas y puertas propuestos, con el mobiliario de referencia (idea para conversar). ' +
         'En <b>Capas</b> prende la <b>estructura</b> de acero y hormigón, mira <b>bajo tierra</b> el búnker y sus fundaciones, o prende las <b>medidas</b> de puertas, ventanas, muros y recintos. ' +
-        'Toca cualquier pieza para ver su ficha. Todo es propuesta hasta que el ingeniero lo revise. <span class="version">Versión del 12-10-2026.</span>';
+        'Toca cualquier pieza para ver su ficha. Todo es propuesta hasta que el ingeniero lo revise. <span class="version"></span>';
+      pintarVersion();
       document.title = 'Estudio en 3D';
     }
   }
