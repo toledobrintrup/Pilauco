@@ -165,7 +165,7 @@ def main(estudio_json, sitio_json, salida):
         muros=dict(espesor=BUNKER_MURO, armadura='V ø12@15, H ø10@20 (dato: muro DM e=25)', z_inf=r1(z0 + z_piso), z_sup=r1(z0 + z_losa_inf),
                    piezas=[dict(id='M-N', pts=rect(bx0, by0, bx1, by0 + BUNKER_MURO), lado='norte (recibe los 5 pilares del eje A)'),
                            dict(id='M-S', pts=rect(bx0, by1 - BUNKER_MURO, bx1, by1), lado='sur, bajo el tabique cafetería/estudio (recibe los 5 pilares del eje B)'),
-                           dict(id='M-O', pts=rect(bx0, by0, bx0 + BUNKER_MURO, by1), lado='poniente'), dict(id='M-E', pts=rect(bx1 - BUNKER_MURO, by0, bx1, by1), lado='oriente')]),
+                           dict(id='M-O', pts=rect(bx0, by0 + BUNKER_MURO, bx0 + BUNKER_MURO, by1 - BUNKER_MURO), lado='poniente'), dict(id='M-E', pts=rect(bx1 - BUNKER_MURO, by0 + BUNKER_MURO, bx1, by1 - BUNKER_MURO), lado='oriente')]),   # entre los muros norte y sur, sin montarse (caras coplanares parpadean)
         losa=dict(espesor=BUNKER_LOSA, pts=rect(bx0, by0, bx1, by1), hueco=rect(ex_h, ey0, ex1, ey1), z_inf=r1(z0 + z_losa_inf), z_sup=r1(z0),
                   armadura='ø10@20 en la luz corta (N-S) y ø8@20 en la larga, borde del hueco 2ø12 (dato del original, luz de 5,00; ahora 6,00: recalcular)'),
         piso=dict(espesor=BUNKER_RADIER, pts=rect(bx0, by0, bx1, by1), z_inf=r1(z0 + z_rad_inf), z_sup=r1(z0 + z_piso), armadura='radier de 20 (dato: piso −292, fondo −312)'),
@@ -193,13 +193,16 @@ def main(estudio_json, sitio_json, salida):
         if y > by1 + 1:
             # enterrada: tope en el terreno natural (50 bajo el piso), sello a 1,00 m; pedestal de 30 x 30 hasta la placa base del pilar
             zap.append(dict(id='Z-' + mb['id'][2:], pts=rect(x - ZAPATA[0] / 2, y - ZAPATA[1] / 2, x + ZAPATA[0] / 2, y + ZAPATA[1] / 2), z_sup=r1(z0 - 55), z_inf=r1(z0 - 55 - ZAPATA[2]),   # 5 cm bajo el terreno natural, para que el pasto la tape
-                            pedestal=dict(pts=rect(x - 12.5, y - 12.5, x + 12.5, y + 12.5), z_sup=r1(z0), z_inf=r1(z0 - 55)),   # 25 x 25: dentro del espesor del muro
-                            d=f'zapata aislada 1 x 1 x 1 bajo el pilar {mb["id"][2:]}, tope en el terreno natural y pedestal 25 x 25 hasta el pilar (Gabriel, como las del gimnasio; a confirmar)'))
+                            pedestal=dict(pts=rect(x - 12, y - 12, x + 12, y + 12), z_sup=r1(z0), z_inf=r1(z0 - 55)),   # 24 x 24: queda medio centímetro adentro de las caras de la viga de fundación y del radier (si coincidieran, parpadean)
+                            d=f'zapata aislada 1 x 1 x 1 bajo el pilar {mb["id"][2:]}, tope en el terreno natural y pedestal 24 x 24 hasta el pilar (Gabriel, como las del gimnasio; a confirmar)'))
     vf = []
     def vfund(id_, x0, y0, x1, y1, d): vf.append(dict(id=id_, pts=rect(min(x0, x1) - VIGA_FUND[0] / 2, min(y0, y1) - VIGA_FUND[0] / 2, max(x0, x1) + VIGA_FUND[0] / 2, max(y0, y1) + VIGA_FUND[0] / 2), z_sup=r1(z0 - RADIER), z_inf=r1(z0 - RADIER - VIGA_FUND[1]), d=d))
-    vfund('VF-1', xA[0], yB, xA[0], yA[5], 'viga de fundación 25 x 50 bajo el eje 1 (B-E)'); vfund('VF-5', xA[4], yB, xA[4], yA[5], 'viga de fundación 25 x 50 bajo el eje 5 (B-E)')
-    vfund('VF-E', xA[0], yA[5], xA[4], yA[5], 'viga de fundación 25 x 50 bajo la fachada sur'); vfund('VF-4', xA[3], yB, xA[3], yA[5], 'viga de fundación 25 x 50 bajo el tabique del eje 4')
-    vfund('VF-C', xA[3], yC, xA[4], yC, 'viga de fundación 25 x 50 bajo el tabique baño/bodega')
+    # cada viga termina donde empieza la otra (o el muro sur del búnker): se tocan, no se montan, para que no parpadeen
+    hv = VIGA_FUND[0] / 2
+    vfund('VF-E', xA[0], yA[5], xA[4], yA[5], 'viga de fundación 25 x 50 bajo la fachada sur')
+    vfund('VF-1', xA[0], by1 + hv, xA[0], yA[5] - 2 * hv, 'viga de fundación 25 x 50 bajo el eje 1 (B-E)'); vfund('VF-5', xA[4], by1 + hv, xA[4], yA[5] - 2 * hv, 'viga de fundación 25 x 50 bajo el eje 5 (B-E)')
+    vfund('VF-4', xA[3], by1 + hv, xA[3], yA[5] - 2 * hv, 'viga de fundación 25 x 50 bajo el tabique del eje 4')
+    vfund('VF-C', xA[3] + 2 * hv, yC, xA[4] - 2 * hv, yC, 'viga de fundación 25 x 50 bajo el tabique baño/bodega')
     radier = dict(espesor=RADIER, pts=rect(bx0, by1, bx1, L), z_sup=r1(z0), z_inf=r1(z0 - RADIER), dato='radier de 10 fuera del búnker (dato lámina 04)')
 
     # ---------- vanos propuestos (ventanas y puertas) ----------

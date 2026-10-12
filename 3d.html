@@ -88,7 +88,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=20261012n" data-vista="3d"></script>
+    <script src="menu.js?v=20261012o" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · v. 12-10-2026</span>
   </header>
@@ -149,15 +149,15 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=20261012n"></script>
-<script src="data.js?v=20261012n"></script>
-<script src="estructura.js?v=20261012n"></script>
-<script src="losa.js?v=20261012n"></script>
-<script src="sitio.js?v=20261012n"></script>
-<script src="sitio3d.js?v=20261012n"></script>
-<script src="estudio_estructura.js?v=20261012n"></script>
-<script src="mobiliario3d.js?v=20261012n"></script>
-<script src="cotas3d.js?v=20261012n"></script>
+<script src="nav3d.js?v=20261012o"></script>
+<script src="data.js?v=20261012o"></script>
+<script src="estructura.js?v=20261012o"></script>
+<script src="losa.js?v=20261012o"></script>
+<script src="sitio.js?v=20261012o"></script>
+<script src="sitio3d.js?v=20261012o"></script>
+<script src="estudio_estructura.js?v=20261012o"></script>
+<script src="mobiliario3d.js?v=20261012o"></script>
+<script src="cotas3d.js?v=20261012o"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -458,7 +458,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     hormigon.add(ficha(prismaH(H.piso.pts, H.piso.z_inf, H.piso.z_sup, matH), 'Búnker: radier', `e=${H.piso.espesor} · ${H.piso.armadura}`));
     H.vigas.forEach(v => hormigon.add(ficha(prismaH(v.pts, v.z_inf, v.z_sup, matH), v.nombre, `${v.d} · ${v.armadura}`)));
     if (H.fundacion) hormigon.add(ficha(prismaH(H.fundacion.pts, H.fundacion.z_inf, H.fundacion.z_sup, matCF), 'Búnker: losa de fundación', `e=${H.fundacion.espesor} · ${H.fundacion.dato}`));
-    (D.zapatas || []).forEach(z => { hormigon.add(ficha(prismaH(z.pts, z.z_inf, z.z_sup, matCF), 'Zapata aislada 1 × 1 × 1', z.d)); if (z.pedestal) hormigon.add(ficha(prismaH(z.pedestal.pts, z.pedestal.z_inf, z.pedestal.z_sup, matCF), 'Pedestal 25 × 25', 'de la zapata a la placa base del pilar (propuesta)')); });
+    (D.zapatas || []).forEach(z => { hormigon.add(ficha(prismaH(z.pts, z.z_inf, z.z_sup, matCF), 'Zapata aislada 1 × 1 × 1', z.d)); if (z.pedestal) hormigon.add(ficha(prismaH(z.pedestal.pts, z.pedestal.z_inf, z.pedestal.z_sup, matCF), 'Pedestal 24 × 24', 'de la zapata a la placa base del pilar (propuesta)')); });
     (D.vigas_fundacion || []).forEach(v => hormigon.add(ficha(prismaH(v.pts, v.z_inf, v.z_sup, matCF), 'Viga de fundación 25 × 50', v.d)));
     if (D.radier) hormigon.add(ficha(prismaH(D.radier.pts, D.radier.z_inf, D.radier.z_sup, matH), 'Radier del estudio', `e=${D.radier.espesor} · ${D.radier.dato}`));
     // escalera esquemática: una rampa de peldaños
