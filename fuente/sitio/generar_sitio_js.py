@@ -29,8 +29,8 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
     # cielo interior: 4,00 m en el lado bajo (norte) y sube con la pendiente de la casa hacia el sur
     y_bajo = 0 if sube_hacia == 'sur' else largo_
     def z_cielo(y_local): return z0 + A['interior_cm'] + pendiente * ((y_local - y_bajo) if sube_hacia == 'sur' else (y_bajo - y_local))
-    # aleros del ingeniero medidos desde el eje del pilar; el contorno del volumen parte de la cara exterior (medio muro más afuera)
-    an, ae = A['alero_ns_cm'] - muro / 2, A['alero_eo_cm'] - muro / 2
+    # aleros medidos desde la cara exterior del muro (estudio.json); el contorno del volumen también parte de la cara exterior
+    an, ae = A['alero_ns_cm'], A['alero_eo_cm']
     est = A.get('estructura_techo_cm', 0)   # vigas y costaneras entre el cielo y la plancha del techo
     techo = [[-ae, -an], [ancho + ae, -an], [ancho + ae, largo_ + an], [-ae, largo_ + an]]
     recintos = []

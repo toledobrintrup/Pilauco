@@ -84,20 +84,22 @@
 
     // ---------- una cota ----------
     // a, b: extremos de la línea de medida (app cm, [x, y, z]). n: unitario perpendicular "hacia afuera":
-    // da la oblicua de las marcas (45° entre la línea y n) y el exceso de las extensiones.
+    // da la oblicua de las marcas (45° entre la línea y n) y, salvo que venga op.nx, el exceso de las extensiones.
     // op.ea / op.eb: puntos del elemento medido, de donde salen las líneas de extensión (si faltan, no hay).
+    // op.nx: dirección del exceso de 10 cm de las extensiones (por defecto n; en una cota vertical vista de
+    // frente las marcas van en el plano de la vista pero la extensión sigue derecha hacia el elemento).
     // op.texto: rótulo (por defecto la distancia a-b en m). op.rot: dirección del corrimiento del rótulo
     // (por defecto n), op.sep: cuánto se corre (m), op.alza: cuánto se levanta en Z (m).
     // op.t / op.s: título y subtítulo de la ficha del rótulo.
     function cota(f, a, b, n, op) {
       op = op || {};
-      const d = unit(resta(b, a)), L = largo(resta(b, a));
+      const d = unit(resta(b, a)), L = largo(resta(b, a)), nx = op.nx || n;
       const tk = unit([d[0] + n[0], d[1] + n[1], d[2] + n[2]]);
       seg(lineas[f], a, b);
       seg(lineas[f], suma(a, tk, -5), suma(a, tk, 5));
       seg(lineas[f], suma(b, tk, -5), suma(b, tk, 5));
-      if (op.ea) seg(extens[f], op.ea, suma(a, n, 10));
-      if (op.eb) seg(extens[f], op.eb, suma(b, n, 10));
+      if (op.ea) seg(extens[f], op.ea, suma(a, nx, 10));
+      if (op.eb) seg(extens[f], op.eb, suma(b, nx, 10));
       const c = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2];
       const rot = op.rot || n, sep = op.sep == null ? 0.3 : op.sep, alza = op.alza || 0;
       const p = suma(suma(c, rot, sep * 100), UP, alza * 100);
@@ -118,15 +120,19 @@
     const cielo = D.cielo || E.cielo || {};
     const zTerreno = o.zTerreno != null ? o.zTerreno
       : (window.DATA_SITIO && DATA_SITIO.terreno && DATA_SITIO.terreno.z != null ? DATA_SITIO.terreno.z : -70);
+    const lote = o.lote || (window.DATA_SITIO && DATA_SITIO.lote && DATA_SITIO.lote.poligono) || null;   // deslindes
+    const pend = techo.pendiente || (D.parametros && D.parametros.pendiente) || 0.035;
     const bunker = E.bunker || {};
     const H = D.hormigon || {};
-    // bandas de muro en planta [x0, x1, y0, y1] (fachadas, tabiques entre recintos y el muro de la escalera, que
-    // 3d.html dibuja con su eje a M del hueco): sirven para no dejar una cota o un rótulo metidos en un muro
+    // bandas de muro en planta [x0, x1, y0, y1] (fachadas, tabiques entre recintos y el muro de la escalera, con
+    // sus pts reales si vienen en D.hormigon.escalera.muro): sirven para no dejar una cota o un rótulo metidos en un muro
     const bandas = [[x0, x1, y0, y0 + M], [x0, x1, y1 - M, y1], [x0, x0 + M, y0, y1], [x1 - M, x1, y0, y1]];
     if (rec.cafeteria && rec.estudio) bandas.push([x0, x1, rec.cafeteria.y1, rec.estudio.y0]);
     if (rec.estudio && rec.bano) bandas.push([rec.estudio.x1, rec.bano.x0, rec.estudio.y0, y1]);
     if (rec.bano && rec.bodega) bandas.push([rec.bano.x0, x1, rec.bano.y1, rec.bodega.y0]);
-    if (rec.escalera) bandas.push([rec.escalera.x0 - 1.5 * M, rec.escalera.x0 - 0.5 * M, rec.escalera.y0, rec.escalera.y1]);
+    const muroEsc = H.escalera && H.escalera.muro && H.escalera.muro.pts ? bbox(H.escalera.muro.pts) : null;
+    if (muroEsc) bandas.push([muroEsc.x0, muroEsc.x1, muroEsc.y0, muroEsc.y1]);
+    else if (rec.escalera) bandas.push([rec.escalera.x0 - 1.5 * M, rec.escalera.x0 - 0.5 * M, rec.escalera.y0, rec.escalera.y1]);
     const enMuro = p => bandas.some(b => p[0] > b[0] + 0.5 && p[0] < b[1] - 0.5 && p[1] > b[2] + 0.5 && p[1] < b[3] - 0.5);
     const cruzaMuro = (a, b) => {       // ¿el tramo a-b (planta) pasa por un muro? se muestrea cada 5 cm
       const n = Math.max(2, Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / 5));
@@ -152,6 +158,24 @@
       cota(f, [x0 - s, y0, z], [x0 - s, y1, z], OES, { ea: [x0, y0, z], eb: [x0, y1, z], sep: 0.5, alza: ALZA, t: 'Estudio: largo, fachada poniente', s: largoE + sE });
       // espesor del muro oriente, visto desde el sur en la esquina SE (lejos de las ventanas y de las cotas de altura)
       cota(f, [x1 - M, y1 + 30, z], [x1, y1 + 30, z], S, { ea: [x1 - M, y1, z], eb: [x1, y1, z], sep: 0.3, alza: ALZA, t: 'Muro exterior', s: fmt(M) + ' m de espesor (como la casa; supuesto)' });
+      // distancia al deslinde oriente (el de la derecha en la planta): sigue la cadena de la cota sur, desde la
+      // cara exterior del muro hasta donde el polígono del lote corta esa línea; con un tramo del deslinde como extensión
+      if (lote && lote.length > 2) {
+        const yd = y1 + s;
+        let xd = null;
+        for (let i = 0; i < lote.length; i++) {
+          const p = lote[i], q = lote[(i + 1) % lote.length];
+          if (p[1] === q[1] || (p[1] - yd) * (q[1] - yd) > 0) continue;
+          const x = p[0] + (q[0] - p[0]) * (yd - p[1]) / (q[1] - p[1]);
+          if (x > x1 && (xd == null || x < xd)) xd = x;
+        }
+        if (xd != null && xd - x1 < 5000) {
+          const alero = techo.contorno ? bbox(techo.contorno).x1 : x1;
+          cota(f, [x1, yd, z], [xd, yd, z], S, { ea: [x1, y1, z], sep: 0.5, alza: ALZA, texto: fmt(xd - x1), t: 'Estudio al deslinde oriente',
+            s: fmt(xd - x1) + ' m de la cara exterior del muro al deslinde (' + fmt(xd - alero) + ' m desde el borde del alero) · lote del emplazamiento' });
+          seg(extens[f], [xd, yd - 60, z], [xd, yd + 60, z]);
+        }
+      }
     }
 
     // ========== 3. Vanos: ancho en la cara exterior (0,30 m afuera, a la altura del alféizar) y alto vertical al costado ==========
@@ -163,6 +187,14 @@
         norte: [x0, x1], sur: [x0, x1], oriente: [y0, y1], poniente: [y0, y1],
         'tabique B': rec.cafeteria ? [rec.cafeteria.x0, rec.cafeteria.x1] : [x0 + M, x1 - M],
         'tabique 4': rec.estudio ? [rec.estudio.y0, rec.estudio.y1] : [y0 + M, y1 - M],
+      };
+      // caras de cada muro [cara baja, cara alta] en la coordenada perpendicular, sacadas del edificio y de los
+      // recintos (sitio.js): así la cota queda pegada al muro dibujado aunque el a/b del vano venga desfasado
+      // (en estudio_estructura.js los vanos del tabique B pueden traer un eje viejo); si falta, se usa a/b ± M/2
+      const CARAS = {
+        norte: [y0, y0 + M], sur: [y1 - M, y1], oriente: [x1 - M, x1], poniente: [x0, x0 + M],
+        'tabique B': rec.cafeteria && rec.estudio ? [rec.cafeteria.y1, rec.estudio.y0] : null,
+        'tabique 4': rec.estudio && rec.bano ? [rec.estudio.x1, rec.bano.x0] : null,
       };
       const lugar = mu => /^tabique/.test(mu) ? mu : 'fachada ' + mu;
       const porMuro = {};
@@ -176,9 +208,9 @@
           const lo = Math.min(v.a[eje], v.b[eje]), hi = Math.max(v.a[eje], v.b[eje]);
           const tabique = /^tabique/.test(muro), afuera = tabique ? 20 : 30;   // distancia de la cota a la cara
           let nn = NORMAL[muro], sep = i % 2 ? 0.75 : 0.3;
-          // a/b están en el eje del muro: la cara queda a M/2. En un tabique, si la cota o su rótulo caerían
-          // dentro de otro muro (p. ej. el de la escalera), la cota se pasa al otro lado del tabique
-          const cara = n => v.a[1 - eje] + n[1 - eje] * M / 2;
+          // la cara del lado n sale de CARAS (o, si falta, del eje del muro ± M/2). En un tabique, si la cota o su
+          // rótulo caerían dentro de otro muro (p. ej. el de la escalera), la cota se pasa al otro lado del tabique
+          const cara = n => CARAS[muro] ? CARAS[muro][n[1 - eje] > 0 ? 1 : 0] : v.a[1 - eje] + n[1 - eje] * M / 2;
           const P = (n, t, z) => eje === 1 ? [cara(n), t, z] : [t, cara(n), z];
           if (tabique) {
             const c0 = suma(P(nn, lo, 0), nn, afuera), c1 = suma(P(nn, hi, 0), nn, afuera);
@@ -204,8 +236,9 @@
           const lado = der ? along : [-along[0], -along[1], 0];
           const base = der ? P(nn, hi, 0) : P(nn, lo, 0);
           const pie = suma(suma(base, lado, 15), nn, 10);
+          // extensiones derechas a lo largo del muro, en el plano de la cota (10 cm delante de la cara)
           cota(f, [pie[0], pie[1], v.z0], [pie[0], pie[1], v.z1], lado,
-            { ea: suma([base[0], base[1], v.z0], nn, 3), eb: suma([base[0], base[1], v.z1], nn, 3), rot: nn, sep: 0.45, texto: fmt(v.z1 - v.z0), t: t + ': alto', s: sV });
+            { ea: suma([base[0], base[1], v.z0], nn, 10), eb: suma([base[0], base[1], v.z1], nn, 10), rot: nn, sep: 0.45, texto: fmt(v.z1 - v.z0), t: t + ': alto', s: sV });
         });
       });
     }
@@ -234,7 +267,7 @@
       const vertical = (x, y, za, zb, ladoTk, rot, texto, t, s) =>
         cota(f, [x, y, za], [x, y, zb], ladoTk, { ea: [x - ladoTk[0] * d, y - ladoTk[1] * d, za], eb: [x - ladoTk[0] * d, y - ladoTk[1] * d, zb], rot, sep: 0.45, texto, t, s });
       const zCN = cielo.z_norte, zCS = cielo.z_sur;
-      if (zCN != null) vertical(x0 - d, y0 - fuera, zP, zCN, OES, N, mas(zCN - zP), 'Cielo interior, lado norte', mas(zCN - zP) + ' m sobre el piso del estudio (4,00 m terminados; sube hacia el sur al 3,5 %)');
+      if (zCN != null) vertical(x0 - d, y0 - fuera, zP, zCN, OES, N, mas(zCN - zP), 'Cielo interior, lado norte', mas(zCN - zP) + ' m sobre el piso del estudio (' + fmt(zCN - zP) + ' m terminados; sube hacia el sur al ' + String(Math.round(pend * 1000) / 10).replace('.', ',') + ' %)');
       if (zCS != null) vertical(x0 - d, y1 + fuera, zP, zCS, OES, S, mas(zCS - zP), 'Cielo interior, lado sur', mas(zCS - zP) + ' m sobre el piso del estudio (el cielo sigue la pendiente del techo)');
       if (techo.z0 != null) {
         const zTN = techoZ(y0), zTS = techoZ(y1);
@@ -242,7 +275,7 @@
         vertical(x1 + d, y1 + fuera, zP, zTS, EST, S, mas(zTS - zP), 'Fachada sur: alto hasta el techo', mas(zTS - zP) + ' m del piso a la cara inferior del techo (la cubierta agrega ' + fmt(eTecho) + ')');
       }
       // piso del estudio sobre el terreno (misma vertical que el cielo norte, bajo el piso)
-      vertical(x0 - d, y0 - fuera, zTerreno, zP, OES, N, mas(zP - zTerreno), 'Piso del estudio sobre el terreno', mas(zP - zTerreno) + ' m: el terreno se toma plano, 0,70 bajo el piso del nivel 1 de la casa');
+      vertical(x0 - d, y0 - fuera, zTerreno, zP, OES, N, mas(zP - zTerreno), 'Piso del estudio sobre el terreno', mas(zP - zTerreno) + ' m: el terreno se toma plano, ' + fmt(-zTerreno) + ' bajo el piso del nivel 1 de la casa');
     }
 
     // ========== 5. Ejes: 1-2-3-4-5 sobre el alero norte y A-A2-B-C-D-E sobre el alero poniente, 0,60 m sobre el techo ==========
@@ -283,12 +316,12 @@
       }
       if (pb && zPB != null && zCB != null) {
         const xm = (H.muros && H.muros.piezas ? bbox(H.muros.piezas.reduce((a, p) => a.concat(p.pts), [])).x0 : pb.x0 - M) - 40, ym = (pb.y0 + pb.y1) / 2;
-        cota(f, [xm, ym, zPB], [xm, ym, zCB], S, { ea: [pb.x0, ym, zPB], eb: [pb.x0, ym, zCB], rot: OES, sep: 0.45, texto: fmt(zCB - zPB), t: 'Búnker: alto interior', s: fmt(bi.alto || zCB - zPB) + ' m terminados (Gabriel)' });
+        cota(f, [xm, ym, zPB], [xm, ym, zCB], S, { ea: [pb.x0, ym, zPB], eb: [pb.x0, ym, zCB], nx: OES, rot: OES, sep: 0.45, texto: fmt(zCB - zPB), t: 'Búnker: alto interior', s: fmt(bi.alto || zCB - zPB) + ' m terminados (Gabriel)' });
       }
       // losa de fundación del búnker: espesor, vertical en su borde poniente
       if (H.fundacion && H.fundacion.pts) {
         const F = H.fundacion, fb = bbox(F.pts), yF = fb.y0 + (fb.y1 - fb.y0) * 0.8;
-        cota(f, [fb.x0 - 20, yF, F.z_inf], [fb.x0 - 20, yF, F.z_sup], S, { ea: [fb.x0, yF, F.z_inf], eb: [fb.x0, yF, F.z_sup], rot: OES, sep: 0.45, texto: fmt(F.z_sup - F.z_inf), t: 'Búnker: losa de fundación', s: fmt(F.z_sup - F.z_inf) + ' m de espesor bajo todo el búnker (dato del ingeniero)' });
+        cota(f, [fb.x0 - 20, yF, F.z_inf], [fb.x0 - 20, yF, F.z_sup], S, { ea: [fb.x0, yF, F.z_inf], eb: [fb.x0, yF, F.z_sup], nx: OES, rot: OES, sep: 0.45, texto: fmt(F.z_sup - F.z_inf), t: 'Búnker: losa de fundación', s: fmt(F.z_sup - F.z_inf) + ' m de espesor bajo todo el búnker (dato del ingeniero)' });
       }
       // una zapata: 1,00 × 1,00 × 1,00 (ancho por el borde sur, fondo por el borde poniente, alto en la esquina SO)
       const Z = (D.zapatas || [])[0];
@@ -297,7 +330,7 @@
         const sZ = fmt(zb.x1 - zb.x0) + ' × ' + fmt(zb.y1 - zb.y0) + ' × ' + fmt(zs - zi) + ' m · ' + (Z.d || '');
         cota(f, [zb.x0, zb.y1 + s, zs], [zb.x1, zb.y1 + s, zs], S, { ea: [zb.x0, zb.y1, zs], eb: [zb.x1, zb.y1, zs], sep: 0.3, alza: ALZA, t: 'Zapata ' + Z.id + ': ancho', s: sZ });
         cota(f, [zb.x0 - s, zb.y0, zs], [zb.x0 - s, zb.y1, zs], OES, { ea: [zb.x0, zb.y0, zs], eb: [zb.x0, zb.y1, zs], sep: 0.3, alza: ALZA, t: 'Zapata ' + Z.id + ': fondo', s: sZ });
-        cota(f, [zb.x0 - s, zb.y1 + s, zi], [zb.x0 - s, zb.y1 + s, zs], S, { ea: [zb.x0, zb.y1 + s, zi], eb: [zb.x0, zb.y1 + s, zs], rot: OES, sep: 0.45, texto: fmt(zs - zi), t: 'Zapata ' + Z.id + ': alto', s: sZ });
+        cota(f, [zb.x0 - s, zb.y1 + s, zi], [zb.x0 - s, zb.y1 + s, zs], S, { ea: [zb.x0, zb.y1 + s, zi], eb: [zb.x0, zb.y1 + s, zs], nx: OES, rot: OES, sep: 0.45, texto: fmt(zs - zi), t: 'Zapata ' + Z.id + ': alto', s: sZ });
       }
       // una viga de fundación: 0,25 × 0,50. El alto va en su cara expuesta, en un tramo libre de zapatas;
       // el ancho (espesor) solo se ve en sección, así que va 10 cm bajo la viga con el rótulo colgando
@@ -315,10 +348,10 @@
         const tm = (libre[0] + libre[1]) / 2;
         const sV = fmt(enY ? vb.x1 - vb.x0 : vb.y1 - vb.y0) + ' × ' + fmt(zs - zi) + ' m · ' + (V.d || '');
         if (enY) {
-          cota(f, [vb.x0 - 20, tm, zi], [vb.x0 - 20, tm, zs], S, { ea: [vb.x0, tm, zi], eb: [vb.x0, tm, zs], rot: OES, sep: 0.45, texto: fmt(zs - zi), t: 'Viga de fundación ' + V.id + ': alto', s: sV });
+          cota(f, [vb.x0 - 20, tm, zi], [vb.x0 - 20, tm, zs], S, { ea: [vb.x0, tm, zi], eb: [vb.x0, tm, zs], nx: OES, rot: OES, sep: 0.45, texto: fmt(zs - zi), t: 'Viga de fundación ' + V.id + ': alto', s: sV });
           cota(f, [vb.x0, tm, zi - 10], [vb.x1, tm, zi - 10], DOWN, { ea: [vb.x0, tm, zi], eb: [vb.x1, tm, zi], sep: 0.3, texto: fmt(vb.x1 - vb.x0), t: 'Viga de fundación ' + V.id + ': ancho', s: sV });
         } else {
-          cota(f, [tm, vb.y1 + 20, zi], [tm, vb.y1 + 20, zs], EST, { ea: [tm, vb.y1, zi], eb: [tm, vb.y1, zs], rot: S, sep: 0.45, texto: fmt(zs - zi), t: 'Viga de fundación ' + V.id + ': alto', s: sV });
+          cota(f, [tm, vb.y1 + 20, zi], [tm, vb.y1 + 20, zs], EST, { ea: [tm, vb.y1, zi], eb: [tm, vb.y1, zs], nx: S, rot: S, sep: 0.45, texto: fmt(zs - zi), t: 'Viga de fundación ' + V.id + ': alto', s: sV });
           cota(f, [tm, vb.y0, zi - 10], [tm, vb.y1, zi - 10], DOWN, { ea: [tm, vb.y0, zi], eb: [tm, vb.y1, zi], sep: 0.3, texto: fmt(vb.y1 - vb.y0), t: 'Viga de fundación ' + V.id + ': ancho', s: sV });
         }
       }

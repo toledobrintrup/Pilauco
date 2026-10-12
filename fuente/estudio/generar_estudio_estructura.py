@@ -34,8 +34,8 @@ h2 = lambda p: PERFILES[p]['h'] / 2   # medio alto del perfil: las líneas de lo
 # ---------- lo que dicen las láminas (dato) ----------
 H_PILAR = 400.0        # cara inferior de la viga inclinada en el lado bajo (lámina 04: +400 en F1, +447 en A1)
 PEND = 0.035           # pendiente: rotulada 3,5 % (dibujada 4,5 %); Gabriel pide la de la casa, 3,5 %
-ALERO_NS = 80.0        # aleros norte y sur (1.186 = 1.025 + 80 + 80)
-ALERO_EO = 52.0        # aleros oriente y poniente (cota 52)
+ALERO_NS = 80.0        # aleros del ingeniero: norte y sur (1.186 = 1.025 + 80 + 80); se reemplazan por los de estudio.json si vienen (Gabriel: como la casa)
+ALERO_EO = 52.0        # aleros del ingeniero: oriente y poniente (cota 52)
 PASO_COST = 61.0       # costaneras CA 100x50x15x3 cada 61
 PASO_PUNTAL = 171.0    # puntales RECT 150x100x3 cada 171 desde donde el cordón se separa de la viga
 GAP_PUNTAL = 7.0       # el primer puntal del original tiene 7 cm
@@ -57,6 +57,10 @@ def r1(v): return round(float(v), 1)
 
 def main(estudio_json, sitio_json, salida):
     E = json.load(open(estudio_json)); S = json.load(open(sitio_json))
+    global ALERO_NS, ALERO_EO
+    _al = E.get('alturas', {})   # aleros de estudio.json (Gabriel: como la casa), medidos desde la cara exterior → aquí van desde el eje del pilar
+    if _al.get('alero_ns_cm'): ALERO_NS = float(_al['alero_ns_cm']) + MURO / 2
+    if _al.get('alero_eo_cm'): ALERO_EO = float(_al['alero_eo_cm']) + MURO / 2
     ox, oy = S['estudio_origen']; z0 = E['nivel_piso']['z_cm']
     W, L = E['exterior']['ancho'], E['exterior']['largo']           # 1055 x 1575
     rec = {r['id']: r['pts'] for r in E['recintos']}
@@ -173,7 +177,9 @@ def main(estudio_json, sitio_json, salida):
                     armadura='como VHA 25/40 (propuesta)', d='viga de borde del hueco de la escalera (el original llevaba 2ø12 de borde en un hueco de 3,05 x 1,00)')],
         escalera=dict(pts=rect(ex_h, ey0, ex1, ey1), ancho=r1(ex1 - ex_h), largo=r1(ey1 - ey0), baja=r1(-z_piso), z_arriba=r1(z0), z_abajo=r1(z0 + z_piso), baja_hacia='norte',
                       tramo=dict(y_arriba=r1(oy + ey1), y_abajo=r1(oy + y_pie), largo=TRAMO_ESC, peldanos=16),
-                      muro=dict(pts=rect(ex0, ey0, ex_h, ey1), espesor=MURO_ESC),
+                      muro=dict(pts=rect(ex0, ey0, ex_h, y_desc), espesor=MURO_ESC),           # muro poniente de la caja de escalera, hasta el tabique (con la puerta del descanso)
+                      muro_norte=dict(pts=rect(ex0, rec['cafeteria'][2][1], ex1, ey0), espesor=ey0 - rec['cafeteria'][2][1]),   # muro hacia la minicocina
+                      hormigon=True,   # escalera y sus muros en hormigón armado (Gabriel, 2026-10-12)
                       descanso=rect(ex_h, ey1, ex1, y_desc),
                       nota=f'se entra por el sur (descanso de {(ex1 - ex_h)/100:.2f} x {(y_desc - ey1)/100:.2f}) y baja {-z_piso/100:.2f} m hacia el norte en {TRAMO_ESC/100:.2f} m: 16 peldaños de {TRAMO_ESC/16:.1f} x {-z_piso/16:.2f}; el hueco en la losa mide {(ex1 - ex_h)/100:.2f} x {(ey1 - ey0)/100:.2f} y el último metro va bajo la losa, dentro del búnker (altura libre en el borde norte del hueco ≈ {(-z_piso * (ey1 - ey0) / TRAMO_ESC - BUNKER_LOSA)/100:.2f} m; a revisar)'.replace('.', ',')),
         interior=dict(ancho=r1(bx1 - bx0 - 2 * BUNKER_MURO), largo=r1(by1 - by0 - 2 * BUNKER_MURO), alto=BUNKER_H),
@@ -221,7 +227,9 @@ def main(estudio_json, sitio_json, salida):
     vano('V-5-bano', 'ventana alta', 'oriente', xA[4], (yB + yC) / 2 - 75, xA[4], (yB + yC) / 2 + 75, 230, 290, 'ventana alta del baño (1,50 x 0,60) en la fachada oriente')
     # la bodega va sin ventana (Gabriel, 2026-10-12)
     vano('P-4-bodega', 'puerta', 'tabique 4', xA[3], yC + 40, xA[3], yC + 130, 0, 240, 'puerta de la bodega desde el estudio (0,90)')
-    vano('P-esc', 'escalera', 'interior', ex0, ey1, ex0, y_desc, 0, 0, 'bajada al búnker: se entra por el descanso del sur (abierto al poniente) y se baja hacia el norte')
+    vano('P-esc', 'escalera', 'interior', ex0, ey1, ex0, y_desc, 0, 0, 'bajada al búnker: se entra por el descanso del sur y se baja hacia el norte')
+    # puerta con llave al descanso de la escalera (seguridad del búnker), en el muro poniente de la caja de escalera
+    vano('P-esc-puerta', 'puerta', 'muro escalera', ex0 + MURO_ESC / 2, y_desc - 95, ex0 + MURO_ESC / 2, y_desc - 5, 0, 210, 'puerta con llave al descanso de la escalera (0,90 x 2,10): la bajada al búnker queda cerrada por seguridad')
     # ---------- esquema interior (idea, para conversar) ----------
     est = rec['estudio']; ce_x = (est[0][0] + est[1][0]) / 2
     caf = rec['cafeteria']
@@ -239,6 +247,7 @@ def main(estudio_json, sitio_json, salida):
     mueble('sofa', 'sofa', 'estudio', 'Sofá de clientes', ce_x - 130, est[0][1] + 120, ce_x + 130, est[0][1] + 210, 85, 'S', 'al norte, junto al vidrio hacia la cafetería')
     for k, yy in enumerate((est[0][1] + 280, est[0][1] + 430, est[0][1] + 580)):
         mueble(f'panel_o{k+1}', 'panel_acustico', 'estudio', 'Panel acústico 100 × 120', est[0][0], yy, est[0][0] + 6, yy + 100, 220, 'E', 'en el muro poniente, a 1,00 del piso')
+    for k, yy in enumerate((est[0][1] + 230, est[0][1] + 350, est[0][1] + 600)):   # en el oriente, lejos de la puerta de la bodega (yC+40..yC+130)
         mueble(f'panel_e{k+1}', 'panel_acustico', 'estudio', 'Panel acústico 100 × 120', est[1][0] - 6, yy, est[1][0], yy + 100, 220, 'O', 'en el muro oriente, a 1,00 del piso')
     mueble('alfombra', 'alfombra', 'estudio', 'Alfombra', ce_x - 200, est[2][1] - 460, ce_x + 200, est[2][1] - 100, 1, 'S', 'bajo la consola')
     # --- cafetería: cabina en el tramo 1-2, barra contra el muro de la escalera, mesas al centro ---
@@ -274,6 +283,7 @@ def main(estudio_json, sitio_json, salida):
     cielo = dict(z_norte=r1(z0 + z_viga(yA[0])), z_sur=r1(z0 + z_viga(yA[5])), y_norte=r1(oy + yA[0]), y_sur=r1(oy + yA[5]))
     cambios = [
         dict(que='Orientación', original='búnker bajo el tramo E1–A1 (lado alto del techo)', nuevo='búnker bajo la cafetería (norte, lado bajo); el techo sube al sur como la casa', por='Gabriel'),
+        dict(que='Aleros', original='80 al norte y al sur, 52 al oriente y al poniente', nuevo=f'{ALERO_NS - MURO/2:.0f} cm por todos lados desde la cara exterior del muro, como los de la casa', por='Gabriel: el techo se veía corto'),
         dict(que='Pendiente del techo', original='rotulada 3,5 %, dibujada 4,5 % (+400 en F1, +447 en A1)', nuevo='3,5 % (+400 al norte, +454 al sur)', por='Gabriel: la de la casa · preguntar cuál manda'),
         dict(que='Planta', original='11,05 x 10,25 m entre ejes (5 ejes E-O a 205 | 365 | 205 | 330; 6 ejes N-S a 205 | 170 | 125 | 343 | 182)', nuevo=f'10,55 x 15,75 m por fuera; ejes 1-5 a {xA[1]-xA[0]:.0f} | {xA[2]-xA[1]:.0f} | {xA[3]-xA[2]:.0f} | {xA[4]-xA[3]:.0f} y A-E a 200 | {yB-yA[1]:.0f} | {yC-yB:.0f} | {yA[4]-yC:.0f} | 200', por='planta de Gabriel (medidas interiores) · ejes: propuesta'),
         dict(que='Búnker', original='5,00 x 10,80 interiores (muros 1.a, 3.a, E1, A1), 2,72 de alto, hueco de 3,05 x 1,00 junto al muro A1', nuevo=f'{hormigon["interior"]["largo"]/100:.2f} x {hormigon["interior"]["ancho"]/100:.2f} interiores, 2,80 de alto, hueco de escalera de {hormigon["escalera"]["ancho"]/100:.2f} x {hormigon["escalera"]["largo"]/100:.2f} junto al muro oriente', por='Gabriel'),

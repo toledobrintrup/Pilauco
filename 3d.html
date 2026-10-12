@@ -88,7 +88,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=20261012m" data-vista="3d"></script>
+    <script src="menu.js?v=20261012n" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · v. 12-10-2026</span>
   </header>
@@ -149,15 +149,15 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=20261012m"></script>
-<script src="data.js?v=20261012m"></script>
-<script src="estructura.js?v=20261012m"></script>
-<script src="losa.js?v=20261012m"></script>
-<script src="sitio.js?v=20261012m"></script>
-<script src="sitio3d.js?v=20261012m"></script>
-<script src="estudio_estructura.js?v=20261012m"></script>
-<script src="mobiliario3d.js?v=20261012m"></script>
-<script src="cotas3d.js?v=20261012m"></script>
+<script src="nav3d.js?v=20261012n"></script>
+<script src="data.js?v=20261012n"></script>
+<script src="estructura.js?v=20261012n"></script>
+<script src="losa.js?v=20261012n"></script>
+<script src="sitio.js?v=20261012n"></script>
+<script src="sitio3d.js?v=20261012n"></script>
+<script src="estudio_estructura.js?v=20261012n"></script>
+<script src="mobiliario3d.js?v=20261012n"></script>
+<script src="cotas3d.js?v=20261012n"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -518,7 +518,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     const matPuerta = new THREE.MeshLambertMaterial({color: dark ? 0x6B4A2E : 0x8B6A45});
     const matManilla = new THREE.MeshPhongMaterial({color: 0x9AA0A8, shininess: 60});
     const matZocalo = new THREE.MeshLambertMaterial({color: dark ? 0x4A4E55 : 0xA7A9AD, side: THREE.DoubleSide});   // el prisma extruido puede quedar con las caras al revés: se dibujan las dos
-    const matPeldano = new THREE.MeshLambertMaterial({color: dark ? 0x7A7D83 : 0xC2C4C8, side: THREE.DoubleSide});
+    const matPeldano = new THREE.MeshLambertMaterial({color: dark ? 0x8A8D93 : 0xB4B3AA, side: THREE.DoubleSide});   // escalera de hormigón
     const ficha = (mesh, t, s2) => { mesh.userData.sitio = `<b>${t}</b><br><span class="sub">${s2}</span>`; return mesh; };
     // segmentos de muro (cm app), cada uno por su EJE. Fachadas 12,5 hacia adentro de la cara exterior: norte y sur cubren las esquinas,
     // oriente y poniente van entre ellas; los tabiques parten en la cara interior de la fachada y no se montan unos sobre otros.
@@ -532,8 +532,12 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     segs.push({a: [ext[0][0] + M, yB], b: [ext[1][0] - M, yB], e: M, nombre: 'tabique cafetería/estudio'});
     segs.push({a: [x4, yB + h], b: [x4, ext[2][1] - M], e: M, nombre: 'tabique estudio/baño-bodega'});
     segs.push({a: [x4 + h, yC], b: [ext[1][0] - M, yC], e: M, nombre: 'tabique baño/bodega'});
-    const escD = D.hormigon.escalera, mE = escD.muro;   // muro de la escalera dentro del 1,53 de la planta (23,3), solo a lo largo del hueco
-    segs.push({a: [(mE.pts[0][0] + mE.pts[1][0]) / 2, mE.pts[0][1]], b: [(mE.pts[0][0] + mE.pts[1][0]) / 2, mE.pts[2][1]], e: mE.espesor, nombre: 'muro de la escalera'});
+    // caja de escalera en hormigón armado (Gabriel): muro poniente dentro del 1,53 de la planta (23,3), hasta el tabique, con la puerta del
+    // descanso; y muro norte hacia la minicocina
+    const escD = D.hormigon.escalera, mE = escD.muro, mN = escD.muro_norte;
+    const matMuroH = new THREE.MeshLambertMaterial({color: dark ? 0x8A8D93 : 0xB4B3AA, side: THREE.DoubleSide});
+    segs.push({a: [(mE.pts[0][0] + mE.pts[1][0]) / 2, mE.pts[0][1]], b: [(mE.pts[0][0] + mE.pts[1][0]) / 2, mE.pts[2][1]], e: mE.espesor, nombre: 'muro de hormigón de la escalera', mat: matMuroH, sub: 'hormigón armado e=23 (propuesta)'});
+    if (mN) segs.push({a: [mN.pts[0][0], (mN.pts[0][1] + mN.pts[2][1]) / 2], b: [mN.pts[1][0], (mN.pts[0][1] + mN.pts[2][1]) / 2], e: mN.espesor, nombre: 'muro de hormigón de la escalera (hacia la minicocina)', mat: matMuroH, sub: 'hormigón armado e=23 (propuesta)'});
     // ¿qué vanos caen sobre un segmento? (distancia al eje < 20 cm) → intervalo [t0, t1] a lo largo del muro
     const sobre = (v, s) => { const dx = s.b[0] - s.a[0], dy = s.b[1] - s.a[1], L = Math.hypot(dx, dy); const t = p => ((p[0] - s.a[0]) * dx + (p[1] - s.a[1]) * dy) / (L * L); const d = p => Math.abs((p[0] - s.a[0]) * dy - (p[1] - s.a[1]) * dx) / L; return d(v.a) < 20 && d(v.b) < 20 ? [Math.min(t(v.a), t(v.b)), Math.max(t(v.a), t(v.b))] : null; };
     // caja alineada con el muro: entre t0 y t1 (fracción del largo), de zA a zB, con un grosor y un corrimiento perpendicular (+ = lado izquierdo del sentido a→b)
@@ -561,7 +565,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       const vs = D.vanos.map(v => ({v, t: sobre(v, s)})).filter(x => x.t && x.v.tipo !== 'escalera').sort((p, q) => p.t[0] - q.t[0]);
       let t = 0;
       vs.forEach(({v, t: [t0, t1]}) => {
-        panel(s, t, t0, z0, matMuro, s.nombre, 'muro de ' + s.e + ' cm hasta el techo (propuesta)');
+        panel(s, t, t0, z0, s.mat || matMuro, s.nombre, s.sub || ('muro de ' + s.e + ' cm hasta el techo (propuesta)'));
         const esPuerta = v.tipo === 'puerta', corredera = v.tipo.includes('corredera'), medidas = `${fm(v.ancho)} × ${fm(v.alto)} m`;
         const titulo = `${v.tipo.charAt(0).toUpperCase() + v.tipo.slice(1)} ${v.id}`;
         if (v.z0 > z0 + 1) caja(s, t0, t1, z0, v.z0, matMuro, s.nombre, 'antepecho bajo la ventana');      // ventanas altas
@@ -595,10 +599,10 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
             pieza(s, t0 + f(2.5), t1 - f(2.5), v.z0 + 5, v.z1 - 5, 3, 0, matVidrio, titulo, `${medidas} · ${v.d} (propuesta)`);
           }
         }
-        panel(s, t0, t1, v.z1, matMuro, s.nombre, 'dintel sobre el vano');
+        panel(s, t0, t1, v.z1, s.mat || matMuro, s.nombre, 'dintel sobre el vano');
         t = t1;
       });
-      panel(s, t, 1, z0, matMuro, s.nombre, 'muro de ' + s.e + ' cm hasta el techo (propuesta)');
+      panel(s, t, 1, z0, s.mat || matMuro, s.nombre, s.sub || ('muro de ' + s.e + ' cm hasta el techo (propuesta)'));
     });
     // prisma por puntos (cm app) con huecos, de zA a zB
     const prismaP = (pts, zA, zB, mat, huecos) => {
@@ -610,7 +614,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     // zócalo y losa (del terreno al piso terminado) con el hueco de la escalera; reemplaza a la losa del volumen cuando esta capa está prendida
     // 1 cm más afuera que la cara exterior, para que las vigas de fundación y los pedestales (coplanares) no parpadeen a través
     const extZ = [[ext[0][0] - 1, ext[0][1] - 1], [ext[1][0] + 1, ext[1][1] - 1], [ext[2][0] + 1, ext[2][1] + 1], [ext[3][0] - 1, ext[3][1] + 1]];
-    g.add(ficha(prismaP(extZ, zT, z0, matZocalo, [r.escalera]), 'Estudio: losa de piso y zócalo', `losa terminada ${fm(z0 - zT)} m sobre el terreno natural, con el hueco de la escalera · fundaciones según el ingeniero`));
+    g.add(ficha(prismaP(extZ, zT, z0 - 0.5, matZocalo, [r.escalera]), 'Estudio: losa de piso y zócalo', `losa terminada ${fm(z0 - zT)} m sobre el terreno natural, con el hueco de la escalera · fundaciones según el ingeniero`));
     // pisos terminados por recinto (6 mm sobre la losa): madera en el estudio y la cafetería, porcelanato en el baño, hormigón pulido en la bodega
     const pisos = {estudio: ['madera', 'piso de madera (idea)'], cafeteria: ['maderaClara', 'piso de madera clara (idea)'], bano: ['porcelanato', 'porcelanato 60 × 60 (idea)'], bodega: ['hormigon', 'radier afinado (idea)']};
     E.recintos.forEach(rc => {
@@ -625,14 +629,9 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     const esc = D.hormigon.escalera, tr = esc.tramo || {y_arriba: esc.pts[2][1], y_abajo: esc.pts[0][1], largo: esc.largo, peldanos: 16}, n = tr.peldanos, dz = (esc.z_arriba - esc.z_abajo) / n, dy = tr.largo / n, haciaNorte = esc.baja_hacia === 'norte';
     for (let i = 0; i < n; i++){
       const y0 = haciaNorte ? tr.y_arriba - (i + 1) * dy : tr.y_abajo + i * dy, zt = esc.z_arriba - (i + 1) * dz;
-      g.add(ficha(prismaP([[esc.pts[0][0], y0], [esc.pts[1][0], y0], [esc.pts[1][0], y0 + dy], [esc.pts[0][0], y0 + dy]], esc.z_abajo, zt + dz, matPeldano), 'Escalera al búnker', esc.nota));
+      g.add(ficha(prismaP([[esc.pts[0][0], y0], [esc.pts[1][0], y0], [esc.pts[1][0], y0 + dy], [esc.pts[0][0], y0 + dy]], esc.z_abajo, zt + dz, matPeldano), 'Escalera de hormigón al búnker', esc.nota));
     }
-    // baranda en el borde del hueco opuesto a la entrada (si se baja hacia el norte, en el borde norte) y dos postes en la entrada
-    const xb0 = esc.pts[0][0], xb1 = esc.pts[1][0], yS = haciaNorte ? esc.pts[0][1] - 4 : esc.pts[2][1] + 4, yEnt = haciaNorte ? esc.pts[2][1] + 4 : esc.pts[0][1] - 4, nP = Math.ceil((xb1 - xb0) / 60);
-    const poste = (x, y, zA, zB) => { const m = new THREE.Mesh(new THREE.BoxGeometry(cm(3), cm(zB - zA), cm(3)), matMarco); m.position.set(cm(x), cm((zA + zB) / 2), cm(y)); return ficha(m, 'Baranda de la escalera', 'acero negro, 1,00 m (propuesta)'); };
-    for (let i = 0; i <= nP; i++) g.add(poste(xb0 + (xb1 - xb0) * i / nP, yS, z0, z0 + 100));
-    [[96, 100], [48, 52]].forEach(([a, b]) => { const m = new THREE.Mesh(new THREE.BoxGeometry(cm(xb1 - xb0 + 3), cm(b - a), cm(4)), matMarco); m.position.set(cm((xb0 + xb1) / 2), cm(z0 + (a + b) / 2), cm(yS)); g.add(ficha(m, 'Baranda de la escalera', 'acero negro, 1,00 m (propuesta)')); });
-    g.add(poste(xb0 - 4, yEnt, z0, z0 + 100)); g.add(poste(xb1 + 4, yEnt, z0, z0 + 100));
+    const xb0 = esc.pts[0][0];   // la caja de escalera va cerrada con muros de hormigón: sin baranda, solo pasamanos
     // pasamanos en el muro, siguiendo la pendiente de la escalera (yA_ = extremo norte, yB_ = extremo sur)
     // pasamanos solo en el tramo que se ve por el hueco (de la entrada al borde norte del hueco), a 0,90 sobre los peldaños
     const zEn = y => esc.z_arriba - (esc.z_arriba - esc.z_abajo) * (haciaNorte ? (tr.y_arriba - y) : (y - tr.y_abajo)) / tr.largo;
@@ -787,7 +786,11 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       // con la estructura prendida, los volúmenes del estudio se vuelven más transparentes para ver las piezas
       // con los muros y ventanas propuestos, los volúmenes de los recintos se esconden (ocupan el mismo lugar); la losa y el techo se quedan
       sitio.sub.estudio.traverse(o => {
-        if (o.userData.recintoEstudio || o.userData.losaEstudio) o.visible = !chkCerramiento.checked;   // el cerramiento trae su propia losa con el hueco de la escalera
+        // el cerramiento trae su propia losa con el hueco de la escalera; y con el hormigón prendido, el volumen esquemático del búnker y la losa
+        // se esconden (quedarían en el mismo plano que el hormigón real y parpadean)
+        if (o.userData.recintoEstudio) o.visible = !chkCerramiento.checked;
+        if (o.userData.losaEstudio) o.visible = !chkCerramiento.checked && !chkEstudioHormigon.checked;
+        if (o.userData.bunker) o.visible = !chkEstudioHormigon.checked;
         if (o.userData.techoEstudio) o.visible = chkEstudioTecho.checked;
         if (o.material && o.userData.sitio && !o.userData.bunker && !o.userData.losaEstudio) { if (o.userData.opBase == null) o.userData.opBase = o.material.opacity; o.material.opacity = ((chkEstudioEst.checked || chkEstudioHormigon.checked) && !chkCerramiento.checked) ? 0.2 : o.userData.opBase; }   // transparentes solo cuando no hay muros que tapen la estructura
       });

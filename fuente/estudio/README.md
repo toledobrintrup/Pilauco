@@ -40,7 +40,7 @@ La cubicación del ingeniero no se usa como referencia.
 `vanos`: vidrio de piso a 3,00 en los cuatro tramos de la fachada norte (corredera en el tramo 2-3, en el eje del estudio), tabique vidriado de piso
 a cielo (hasta la viga E-O, que en B y E va pegada bajo la viga inclinada) entre cafetería y estudio con corredera centrada en el estudio, una ventana de piso a cielo centrada en la
 fachada sur entre los parlantes, entrada de 1,80 por el poniente (pegada al pilar A2), puertas del baño (desde la cafetería, pegada al eje 4)
-y de la bodega (desde el estudio), ventana alta del baño al oriente (la bodega sin ventana). La escalera se entra por el sur y baja hacia el norte. `interior`: parlantes, consola, rack, silla, sofá, paneles acústicos,
+y de la bodega (desde el estudio), ventana alta del baño al oriente (la bodega sin ventana). La escalera (de hormigón, en su caja de muros de 23,3 con puerta con llave en el descanso) se entra por el sur y baja hacia el norte. Aleros de 1,00 m como la casa (Gabriel). `interior`: parlantes, consola, rack, silla, sofá, paneles acústicos,
 alfombra, barra con taburetes, mesas con sillas, lámparas, cocina chica con lavaplatos y minibar en la esquina nororiente, baño y estanterías (sin
 cabina de grabación por ahora, Gabriel 2026-10-12), solo
 como idea para conversar. `zapatas`, `vigas_fundacion` y `radier`: las fundaciones fuera del búnker. Todo se dibuja en

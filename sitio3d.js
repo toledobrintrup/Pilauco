@@ -214,7 +214,8 @@
       const bk = prisma(B.pts, B.z_piso, B.z_cielo, lambert(C.bunker, { transparent: true, opacity: .6 }), true);
       ficha(bk, 'Búnker', `${B.area_m2.toLocaleString('es-CL')} m² · ${fmt(B.interior_cm)} m interiores · piso en ${fmt(B.z_piso)} m · ${B.dato}`);
       bk.userData.bunker = true;
-      sub.estudio.add(bk, bordes(bk, C.bunkerBorde, .7));
+      const bkBordes = bordes(bk, C.bunkerBorde, .7); bkBordes.userData.bunker = true;   // se esconden con el hormigón real
+      sub.estudio.add(bk, bkBordes);
       const ce = centro(E.exterior); etq('Estudio', ce[0], ce[1], E.cielo.z_sur + E.techo.espesor + 120, 6);
       const cb = centro(B.pts); etq('Búnker', cb[0], cb[1], B.z_piso + 60, 5);
     }
