@@ -165,7 +165,7 @@ def main(estudio_json, sitio_json, salida):
                     armadura='3ø12 sup, 2ø10 medios, 3ø16 inf, Est ø10@20 (dato: detalle VHA 25/40)', d=f'viga bajo la losa en el eje 3, de muro a muro ({by1 - by0 - 2 * BUNKER_MURO:.0f}): parte la losa en dos paños como la del eje 2.a original'),
                dict(id='VHA-esc', nombre='VHA 25/40 de borde', pts=rect(ex0 - 25, ey0 - 25, ex0, ey1), z_inf=r1(z0 + z_losa_inf - 20), z_sup=r1(z0 + z_losa_inf),
                     armadura='como VHA 25/40 (propuesta)', d='viga de borde del hueco de la escalera (el original llevaba 2ø12 de borde en un hueco de 3,05 x 1,00)')],
-        escalera=dict(pts=rect(ex0, ey0, ex1, ey1), ancho=r1(ex1 - ex0), largo=r1(ey1 - ey0), baja=r1(-z_piso), z_arriba=r1(z0), z_abajo=r1(z0 + z_piso),
+        escalera=dict(pts=rect(ex0, ey0, ex1, ey1), ancho=r1(ex1 - ex0), largo=r1(ey1 - ey0), baja=r1(-z_piso), z_arriba=r1(z0), z_abajo=r1(z0 + z_piso), baja_hacia='norte',   # se entra por el sur (lado de la barra) y se baja hacia el norte (Gabriel, 2026-10-12)
                       nota=f'baja {-z_piso/100:.2f} m en {(ey1 - ey0)/100:.2f} m: con 16 peldaños salen huellas de {(ey1 - ey0)/16:.0f} cm y contrahuellas de {-z_piso/16:.1f} cm (se ve en el siguiente paso)'),
         interior=dict(ancho=r1(bx1 - bx0 - 2 * BUNKER_MURO), largo=r1(by1 - by0 - 2 * BUNKER_MURO), alto=BUNKER_H),
         placas='placa de 15x15 bajo los PM1/PM2 y 15x10 bajo los PM3, sobre los muros (dato planta losa)',
@@ -176,7 +176,10 @@ def main(estudio_json, sitio_json, salida):
         if mb['c'] != 'pilar': continue
         x, y = mb['a'][0] - ox, mb['a'][1] - oy
         if y > by1 + 1:
-            zap.append(dict(id='Z-' + mb['id'][2:], pts=rect(x - ZAPATA[0] / 2, y - ZAPATA[1] / 2, x + ZAPATA[0] / 2, y + ZAPATA[1] / 2), z_sup=r1(z0 - RADIER - 10), z_inf=r1(z0 - RADIER - 10 - ZAPATA[2]), d=f'zapata aislada 1 x 1 x 1 bajo el pilar {mb["id"][2:]} (Gabriel, como las del gimnasio; a confirmar)'))
+            # enterrada: tope en el terreno natural (50 bajo el piso), sello a 1,00 m; pedestal de 30 x 30 hasta la placa base del pilar
+            zap.append(dict(id='Z-' + mb['id'][2:], pts=rect(x - ZAPATA[0] / 2, y - ZAPATA[1] / 2, x + ZAPATA[0] / 2, y + ZAPATA[1] / 2), z_sup=r1(z0 - 55), z_inf=r1(z0 - 55 - ZAPATA[2]),   # 5 cm bajo el terreno natural, para que el pasto la tape
+                            pedestal=dict(pts=rect(x - 12.5, y - 12.5, x + 12.5, y + 12.5), z_sup=r1(z0), z_inf=r1(z0 - 55)),   # 25 x 25: dentro del espesor del muro
+                            d=f'zapata aislada 1 x 1 x 1 bajo el pilar {mb["id"][2:]}, tope en el terreno natural y pedestal 25 x 25 hasta el pilar (Gabriel, como las del gimnasio; a confirmar)'))
     vf = []
     def vfund(id_, x0, y0, x1, y1, d): vf.append(dict(id=id_, pts=rect(min(x0, x1) - VIGA_FUND[0] / 2, min(y0, y1) - VIGA_FUND[0] / 2, max(x0, x1) + VIGA_FUND[0] / 2, max(y0, y1) + VIGA_FUND[0] / 2), z_sup=r1(z0 - RADIER), z_inf=r1(z0 - RADIER - VIGA_FUND[1]), d=d))
     vfund('VF-1', xA[0], yB, xA[0], yA[5], 'viga de fundación 25 x 50 bajo el eje 1 (B-E)'); vfund('VF-5', xA[4], yB, xA[4], yA[5], 'viga de fundación 25 x 50 bajo el eje 5 (B-E)')
@@ -199,17 +202,17 @@ def main(estudio_json, sitio_json, salida):
         x0, x1 = xA[i] + hol, xA[i + 1] - hol
         if i == 1: vano(f'V-B-{i+1}', 'puerta corredera interior', 'tabique B', x0, yB, x1, yB, 0, z_vB, 'corredera vidriada de 2 hojas entre cafetería y estudio, centrada en el estudio')
         else: vano(f'V-B-{i+1}', 'vidrio interior', 'tabique B', x0, yB, x1, yB, 0, z_vB, f'vidrio fijo de piso a cielo ({z_vB/100:.2f} m, hasta la viga E-O bajo el techo) entre cafetería y estudio (acústico: doble vidrio)'.replace('.', ','))
-    vano('P-B-bano', 'puerta', 'tabique B', xA[3] + 25, yB, xA[3] + 115, yB, 0, 210, 'puerta del baño desde la cafetería (0,90 x 2,10), pegada al eje 4 para que la diagonal pase por encima')
+    vano('P-B-bano', 'puerta', 'tabique B', xA[3] + 25, yB, xA[3] + 105, yB, 0, 210, 'puerta del baño desde la cafetería (0,80 x 2,10), pegada al eje 4 para que la diagonal pase por encima y no tope con la escalera')
     # fachada sur (E): ventana de piso a cielo centrada en el estudio (tramo 2-3), entre los parlantes; la viga E-O del eje E va arriba para no cortarla
     vano('V-E-2', 'ventana', 'sur', xA[1] + hol, yA[5], xA[2] - hol, yA[5], 0, z_vE, f'ventana de piso a cielo ({z_vE/100:.2f} m, hasta la viga E-O bajo el techo) centrada en el estudio; los parlantes van a los lados, en el muro ciego'.replace('.', ','))
     # entrada principal: fachada poniente, lado de la casa, en la cafetería (tramo A2-B)
     # entrada pegada al pilar A2 (el tramo A-A2 lleva cruz); la cabina de grabación queda al sur de la puerta, contra el tabique vidriado
     vano('P-O-entrada', 'puerta', 'poniente', xA[0], yA[1] + 10, xA[0], yA[1] + 190, 0, 240, 'puerta de entrada de 2 hojas (1,80) desde el lado de la casa y el estacionamiento')
-    # ventanas altas del baño y la bodega en la fachada oriente (tramos B-C y C-D, sin cruces)
+    # ventana alta del baño en la fachada oriente (tramo B-C, sin cruces)
     vano('V-5-bano', 'ventana alta', 'oriente', xA[4], (yB + yC) / 2 - 75, xA[4], (yB + yC) / 2 + 75, 230, 290, 'ventana alta del baño (1,50 x 0,60) en la fachada oriente')
-    vano('V-5-bodega', 'ventana alta', 'oriente', xA[4], (yC + yA[4]) / 2 - 75, xA[4], (yC + yA[4]) / 2 + 75, 230, 290, 'ventana alta de la bodega (1,50 x 0,60) en la fachada oriente, para ventilar')
+    # la bodega va sin ventana (Gabriel, 2026-10-12)
     vano('P-4-bodega', 'puerta', 'tabique 4', xA[3], yC + 40, xA[3], yC + 130, 0, 240, 'puerta de la bodega desde el estudio (0,90)')
-    vano('P-esc', 'escalera', 'interior', ex0, ey0, ex1, ey0, 0, 0, 'bajada al búnker')
+    vano('P-esc', 'escalera', 'interior', ex0, ey1, ex1, ey1, 0, 0, 'bajada al búnker: se entra por el sur y se baja hacia el norte')
     # ---------- esquema interior (idea, para conversar) ----------
     est = rec['estudio']; ce_x = (est[0][0] + est[1][0]) / 2
     caf = rec['cafeteria']
@@ -230,7 +233,7 @@ def main(estudio_json, sitio_json, salida):
         mueble(f'panel_e{k+1}', 'panel_acustico', 'estudio', 'Panel acústico 100 × 120', est[1][0] - 6, yy, est[1][0], yy + 100, 220, 'O', 'en el muro oriente, a 1,00 del piso')
     mueble('alfombra', 'alfombra', 'estudio', 'Alfombra', ce_x - 200, est[2][1] - 460, ce_x + 200, est[2][1] - 100, 1, 'S', 'bajo la consola')
     # --- cafetería: cabina en el tramo 1-2, barra contra el muro de la escalera, mesas al centro ---
-    mueble('sala', 'cabina', 'cafeteria', 'Sala de grabación (cabina)', caf[0][0], caf[5][1] - 220, xA[1], caf[5][1], 260, 'N', '2,40 x 2,20 en la esquina sur-poniente de la cafetería, en el tramo 1-2: entre la puerta de entrada y el tabique vidriado, sin tapar la corredera; desde el estudio se ve la cabina a través del vidrio 1-2')
+    # la cabina de grabación de la cafetería se sacó por ahora (Gabriel, 2026-10-12)
     mueble('barra', 'barra', 'cafeteria', 'Barra de la cafetería', ex0 - 25 - 100, ey0 + 20, ex0 - 25 - 20, ey0 + 290, 105, 'O', 'de espaldas al muro de la escalera (2,70 x 0,80), sin tapar las ventanas del patio')
     for k, yy in enumerate((ey0 + 60, ey0 + 150, ey0 + 240)):
         mueble(f'taburete{k+1}', 'taburete', 'cafeteria', 'Taburete de la barra', ex0 - 25 - 165, yy, ex0 - 25 - 130, yy + 35, 75, 'E', '')

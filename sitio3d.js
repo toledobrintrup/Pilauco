@@ -207,7 +207,8 @@
       sub.estudio.add(losa);
       const zInf = y => E.techo.z0 + (E.techo.z1 - E.techo.z0) * (y - E.techo.y0) / (E.techo.y1 - E.techo.y0);
       const techo = losaInclinada(E.techo.contorno, zInf, E.techo.espesor, lambert(C.estudioTecho, { transparent: true, opacity: .9 }));
-      ficha(techo, 'Techo del estudio', `Un agua al ${(E.techo.pendiente * 100).toLocaleString('es-CL')} % como la casa, sube hacia el ${E.techo.sube_hacia} · alero ${fmt(E.techo.alero)} m · ${E.datos.techo}`);
+      ficha(techo, 'Techo del estudio', `Un agua al ${(E.techo.pendiente * 100).toLocaleString('es-CL')} % como la casa, sube hacia el ${E.techo.sube_hacia} · aleros de ${fmt(E.techo.alero_ns || E.techo.alero)} (N-S) y ${fmt(E.techo.alero_eo || E.techo.alero)} m (E-O) · ${E.datos.techo}`);
+      techo.userData.techoEstudio = true;   // se apaga con la capa Techo del estudio
       sub.estudio.add(techo);
       const B = E.bunker;
       const bk = prisma(B.pts, B.z_piso, B.z_cielo, lambert(C.bunker, { transparent: true, opacity: .6 }), true);

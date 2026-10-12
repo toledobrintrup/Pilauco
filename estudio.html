@@ -115,7 +115,7 @@ ol.preg li{margin:0 0 8px}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=20261012h" data-vista="estudio"></script>
+  <script src="menu.js?v=20261012k" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
   <span class="meta" id="meta">Propuesta · no es un cálculo</span>
 </header>
@@ -142,7 +142,7 @@ ol.preg li{margin:0 0 8px}
   <p>La misma vista 3D de la casa, centrada en el estudio: muros, ventanas y puertas propuestos y el mobiliario de referencia. En <b>Capas</b> se
   prenden la estructura de acero y hormigón, el búnker bajo tierra y las <b>medidas</b> de puertas, ventanas, muros y recintos (vienen apagadas).
   Arrastra para girar, rueda o pellizco para acercar, doble toque para centrar; toca una pieza para ver su ficha.</p>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=20261012h" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=20261012k" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
@@ -176,8 +176,8 @@ ol.preg li{margin:0 0 8px}
   por el norte con vidrio de piso a 3,00 m en los cuatro tramos y una corredera en el tramo 2-3 (alineada con la corredera interior y la ventana sur); entre cafetería y estudio va un tabique vidriado de
   piso a cielo (doble vidrio, por la acústica) con corredera centrada en el estudio; el estudio tiene una sola ventana, de piso a cielo, centrada
   en la fachada sur entre los parlantes. Para que ese vidrio llegue de verdad al cielo, las vigas E-O de los ejes B y E van pegadas bajo la viga
-  inclinada (en A y C siguen a +4,00). La entrada principal da al poniente, hacia la casa y el estacionamiento, pegada al pilar A2; el baño y la
-  bodega ventilan por ventanas altas al oriente. Las cruces quedaron solo en
+  inclinada (en A y C siguen a +4,00). La entrada principal da al poniente, hacia la casa y el estacionamiento, pegada al pilar A2 (sin cabina de grabación en la cafetería por ahora); el baño ventila por una
+  ventana alta al oriente y la bodega va sin ventana. Las cruces quedaron solo en
   muros ciegos, así ningún vidrio choca con la estructura; en el tabique del baño cabe una sola diagonal, porque la puerta ocupa el lado del eje 4.</p>
   <figure><svg id="svg-vanos" role="img" aria-label="Planta de ventanas, puertas y esquema interior"></svg>
     <figcaption id="cap-vanos"></figcaption></figure>
@@ -214,8 +214,8 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=20261012h"></script>
-<script src="estudio_estructura.js?v=20261012h"></script>
+<script src="sitio.js?v=20261012k"></script>
+<script src="estudio_estructura.js?v=20261012k"></script>
 <script>
 (function () {
   const D = DATA_ESTUDIO_EST, E = DATA_SITIO.estudio, ox = E.origen[0], oy = E.origen[1], z0 = D.z_piso;
@@ -339,7 +339,7 @@ ol.preg li{margin:0 0 8px}
     const enEje = pts => pts.map(loc).every(p => Math.abs(p[horiz === 'x' ? 0 : 1] - valor) < 60);
     const cajaF = (pts, zs, zi, estilo) => { const us = pts.map(loc).map(u); el('rect', { x: Math.min(...us), y: Y(zs), width: Math.max(...us) - Math.min(...us), height: zs - zi, style: estilo }, svg); };
     D.vigas_fundacion.filter(v => enEje(v.pts)).forEach(v => cajaF(v.pts, loc([0, 0, v.z_sup])[2], loc([0, 0, v.z_inf])[2], 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:.8;opacity:.8'));
-    D.zapatas.filter(z => enEje(z.pts)).forEach(z => cajaF(z.pts, loc([0, 0, z.z_sup])[2], loc([0, 0, z.z_inf])[2], 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1'));
+    D.zapatas.filter(z => enEje(z.pts)).forEach(z => { cajaF(z.pts, loc([0, 0, z.z_sup])[2], loc([0, 0, z.z_inf])[2], 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1'); if (z.pedestal) cajaF(z.pedestal.pts, loc([0, 0, z.pedestal.z_sup])[2], loc([0, 0, z.pedestal.z_inf])[2], 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:.8'); });
     // ventanas y puertas propuestas en este eje (sección 04)
     const muroEje = horiz === 'x' ? { 1: 'poniente', 5: 'oriente' }[Object.keys(D.ejes.x).find(k => Math.abs(D.ejes.x[k] - valor) < 6)] : { A: 'norte', B: 'tabique B', E: 'sur' }[Object.keys(D.ejes.y).find(k => Math.abs(D.ejes.y[k] - valor) < 6)];
     D.vanos.filter(v => v.muro === muroEje && v.tipo !== 'escalera').forEach(v => {
@@ -389,18 +389,18 @@ ol.preg li{margin:0 0 8px}
     // vanos: vidrio en azul, puertas en café, escalera
     D.vanos.forEach(v => {
       const a = loc(v.a), b = loc(v.b);
-      if (v.tipo === 'escalera') { const p = H.escalera.pts.map(loc); for (let i = 1; i < 16; i++) { const y = p[0][1] + (p[2][1] - p[0][1]) * i / 16; el('line', { x1: p[0][0], y1: y, x2: p[1][0], y2: y, style: 'stroke:var(--fig-soft);stroke-width:.8' }, svg); } return; }
+      if (v.tipo === 'escalera') { const p = H.escalera.pts.map(loc); for (let i = 1; i < 16; i++) { const y = p[0][1] + (p[2][1] - p[0][1]) * i / 16; el('line', { x1: p[0][0], y1: y, x2: p[1][0], y2: y, style: 'stroke:var(--fig-soft);stroke-width:.8' }, svg); } const xm = (p[0][0] + p[1][0]) / 2; el('line', { x1: xm, y1: p[2][1] - 15, x2: xm, y2: p[0][1] + 40, style: 'stroke:var(--fig-ink);stroke-width:1.5' }, svg); el('polygon', { points: `${xm - 7},${p[0][1] + 44} ${xm + 7},${p[0][1] + 44} ${xm},${p[0][1] + 28}`, style: 'fill:var(--fig-ink)' }, svg); txt(svg, xm, p[2][1] - 22, 'baja', { 'text-anchor': 'middle', 'font-size': 12, class: 'txs' }); return; }
       const esVidrio = v.tipo.includes('ventana') || v.tipo.includes('vidri') || v.tipo.includes('corredera');
       el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], style: `stroke:${esVidrio ? 'var(--fig-viga)' : 'var(--fig-pilar)'};stroke-width:${esVidrio ? 10 : 12};stroke-linecap:butt` }, svg);
       if (v.tipo.includes('corredera')) el('line', { x1: a[0], y1: a[1], x2: (a[0] + b[0]) / 2, y2: (a[1] + b[1]) / 2, style: 'stroke:var(--paper);stroke-width:3' }, svg);
     });
     txt(svg, W / 2, -95, 'N ↑ · patio', { 'text-anchor': 'middle', 'font-size': 16, class: 'txs' });
     txt(svg, -100, L / 2, 'casa →', { 'text-anchor': 'middle', 'font-size': 15, class: 'txs', transform: `rotate(-90 -100 ${L / 2})` });
-    $('#cap-vanos').innerHTML = 'Planta de ventanas (azul), puertas (naranjo) y cruces (verde) sobre los muros, con un esquema interior de referencia (punteado): parlantes a los lados de la ventana sur, consola a 2,5 m mirando al sur, sofá junto al vidrio, cabina de grabación de 2,40 × 2,20 en la esquina sur-poniente de la cafetería (tramo 1-2), entre la entrada y el tabique vidriado sin tapar la corredera (desde el estudio se ve por el vidrio 1-2), barra junto a la escalera y mesas de cowork frente al patio. Todo es propuesta para conversar.';
+    $('#cap-vanos').innerHTML = 'Planta de ventanas (azul), puertas (naranjo) y cruces (verde) sobre los muros, con un esquema interior de referencia (punteado): parlantes a los lados de la ventana sur, consola a 2,5 m mirando al sur, sofá junto al vidrio, barra de espaldas al muro de la escalera y mesas de cowork frente al patio (la cabina de grabación de la cafetería se sacó por ahora). Todo es propuesta para conversar.';
     const fmtm = v => (v / 100).toFixed(2).replace('.', ',');
     $('#tabla-vanos').innerHTML = `<thead><tr><th>Vano</th><th>Dónde</th><th>Tipo</th><th class="r">Ancho × alto</th><th>Nota</th></tr></thead><tbody>${D.vanos.filter(v => v.tipo !== 'escalera').map(v => `<tr><td><b>${v.id}</b></td><td>${v.muro}</td><td>${v.tipo}</td><td class="r">${fmtm(v.ancho)} × ${fmtm(v.alto)} m</td><td class="small">${v.d}</td></tr>`).join('')}</tbody>`;
     const vid = D.vanos.filter(v => v.tipo.includes('ventana') || v.tipo.includes('vidri') || v.tipo.includes('corredera')).reduce((s, v) => s + v.ancho * v.alto / 1e4, 0);
-    $('#txt-vanos').textContent = `${vid.toFixed(1).replace('.', ',')} m² de vidrio en total. Las ventanas al patio llegan a 3,00 m (hasta 4,00 es posible: queda a la vista). El baño y la bodega llevan ventanas altas al oriente; el poniente queda ciego (cruz, entrada y cabina). Pendiente: el detalle acústico del tabique vidriado y la escalera.`;
+    $('#txt-vanos').textContent = `${vid.toFixed(1).replace('.', ',')} m² de vidrio en total. Las ventanas al patio llegan a 3,00 m (hasta 4,00 es posible: queda a la vista). El baño lleva una ventana alta al oriente; la bodega va sin ventana y el poniente queda ciego (cruz, entrada y cabina). Pendiente: el detalle acústico del tabique vidriado y la escalera.`;
   })();
 
   // ---------- cambios ----------
