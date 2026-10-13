@@ -213,3 +213,9 @@ Prueba de humo del 3D sin WebGL (antes de cada commit que toque `3d.html` o sus 
 genera una copia de `3d.html` con un renderizador falso; servida en local corre todo el código (datos, hormigón, fierros, mobiliario,
 cotas, nav, loop) y cualquier error de ejecución sale en la consola. La revisión de sintaxis sola no pilla, por ejemplo, usar una
 variable antes de declararla (V68 cargaba en blanco por eso).
+
+Captura real con el motor de Safari: `swiftc -O -o /tmp/webshot fuente/webshot.swift` y luego
+`/tmp/webshot "http://127.0.0.1:8799/3d.html?vista=estudio" salida.png 1400 900 7 "VISTA3D.dibujar(); JSON.stringify({errs: window.__errs})" "<js previo>"`
+(con el repo servido en 8799). Carga la página en un WKWebView con WebGL, ejecuta el js previo 1,5 s antes (apretar capas, mover la
+cámara) y guarda el PNG; imprime los errores de consola. El visor interno del app no tiene WebGL, así que esta es la única forma de
+ver lo que ve Gabriel sin pedirle capturas.

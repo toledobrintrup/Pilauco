@@ -94,7 +94,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V70" data-vista="3d"></script>
+    <script src="menu.js?v=V71" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -141,7 +141,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       <div class="row"><label><input type="checkbox" id="chk-estudio-hormigon"> Búnker y fundaciones en hormigón</label></div>
       <div class="row"><label><input type="checkbox" id="chk-estudio-fierros"> Enfierradura (fierros)</label></div>
       <div id="fierros-leyenda" class="row" hidden style="padding-left:22px;gap:6px;flex-wrap:wrap;font-size:11px"></div>
-      <div id="fierros-grosor" class="row" hidden style="padding-left:22px;gap:6px;font-size:11px"><span style="opacity:.7">Grosor</span><button class="btn mini" data-g="0.6">fino</button><button class="btn mini activo" data-g="1">medio</button><button class="btn mini" data-g="1.6">grueso</button></div>
+      <div id="fierros-grosor" class="row" hidden style="padding-left:22px;gap:6px;font-size:11px"><span style="opacity:.7">Grosor</span><button class="btn mini" data-g="0.7">fino</button><button class="btn mini activo" data-g="1">medio</button><button class="btn mini" data-g="1.5">grueso</button></div>
       <div class="row"><label><input type="checkbox" id="chk-cotas"> Medidas</label></div>
       <div class="row"><label><input type="checkbox" id="chk-bajo-tierra"> Ver bajo tierra</label></div>
       </div>
@@ -163,16 +163,16 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V70"></script>
-<script src="data.js?v=V70"></script>
-<script src="estructura.js?v=V70"></script>
-<script src="losa.js?v=V70"></script>
-<script src="sitio.js?v=V70"></script>
-<script src="sitio3d.js?v=V70"></script>
-<script src="estudio_estructura.js?v=V70"></script>
-<script src="mobiliario3d.js?v=V70"></script>
-<script src="cotas3d.js?v=V70"></script>
-<script src="goku3d.js?v=V70"></script>
+<script src="nav3d.js?v=V71"></script>
+<script src="data.js?v=V71"></script>
+<script src="estructura.js?v=V71"></script>
+<script src="losa.js?v=V71"></script>
+<script src="sitio.js?v=V71"></script>
+<script src="sitio3d.js?v=V71"></script>
+<script src="estudio_estructura.js?v=V71"></script>
+<script src="mobiliario3d.js?v=V71"></script>
+<script src="cotas3d.js?v=V71"></script>
+<script src="goku3d.js?v=V71"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -526,8 +526,8 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
   // ---------- enfierradura del estudio: cada familia de barras (estudio_estructura.js → fierros) como líneas, con su color por diámetro ----------
   const COLOR_FIERRO = {8: 0xE2C044, 10: 0xE8893A, 12: 0xD9534F, 16: 0x8E2A2A, 19: 0x3F8FD6};
   const materialesFierro = [];   // LineMaterial de cada familia: resize() les pone el tamaño real del lienzo (aquí 'stage' aún no existe: se declara más abajo)
-  const ANCHO_FIERRO = d => d >= 16 ? 2.2 : d >= 12 ? 1.8 : 1.4;   // px en pantalla por diámetro (V67 iba al doble y Gabriel lo encontró demasiado grueso)
-  let factorGrosor = 1;   // fino 0.6 · medio 1 · grueso 1.6: botones bajo la capa de fierros
+  const ANCHO_FIERRO = d => d >= 16 ? 1.5 : d >= 12 ? 1.2 : 0.9;   // px en pantalla por diámetro (V67 iba a 3,6/3/2,4 y V70 a 2,2/1,8/1,4: Gabriel los encontró demasiado gruesos las dos veces)
+  let factorGrosor = 1;   // fino 0.7 · medio 1 · grueso 1.5: botones bajo la capa de fierros
   function ponerGrosor(f){ factorGrosor = f; materialesFierro.forEach(m => { m.linewidth = ANCHO_FIERRO(m.userData.diam) * f; }); document.querySelectorAll('#fierros-grosor .btn').forEach(b => b.classList.toggle('activo', +b.dataset.g === f)); }
   let goku = null;   // huevo de Pascua (3d.html?goku=1): se crea al final; colocarGoku() lo sienta según si el techo está prendido
   function buildFierros(){
@@ -907,7 +907,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
         // se esconden (quedarían en el mismo plano que el hormigón real y parpadean)
         if (o.userData.recintoEstudio) o.visible = !chkCerramiento.checked;
         if (o.userData.losaEstudio) o.visible = !chkCerramiento.checked && !chkEstudioHormigon.checked;
-        if (o.userData.bunker) o.visible = !chkEstudioHormigon.checked;
+        if (o.userData.bunker) o.visible = !chkEstudioHormigon.checked && !chkEstudioFierros.checked && !vistaEstudio;   // el cajón esquemático solo en la vista general sin hormigón ni fierros (Gabriel: al apagar el hormigón aparecía 'algo raro')
         if (o.userData.techoEstudio) o.visible = chkEstudioTecho.checked;
         if (o.material && o.userData.sitio && !o.userData.bunker && !o.userData.losaEstudio) { if (o.userData.opBase == null) o.userData.opBase = o.material.opacity; o.material.opacity = ((chkEstudioEst.checked || chkEstudioHormigon.checked) && !chkCerramiento.checked) ? 0.2 : o.userData.opBase; }   // transparentes solo cuando no hay muros que tapen la estructura
       });
@@ -1119,7 +1119,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     if (!goku || !goku.userData.viga) return;
     const v = goku.userData.viga, xm = (v.a[0] + v.b[0]) / 2, T = DATA_SITIO.estudio.techo;
     if (chkEstudioTecho.checked && T){
-      const ySeat = T.y1 - 38;   // el trasero 38 cm dentro del borde del alero: los muslos llegan al borde y las piernas cuelgan afuera
+      const ySeat = T.y1 - (goku.userData.imagen ? 4 : 38);   // figura: el trasero 38 cm dentro del borde (los muslos llegan al borde y las piernas cuelgan afuera); imagen: en el borde mismo
       const zTecho = T.z0 + (T.z1 - T.z0) * (ySeat - T.y0) / (T.y1 - T.y0) + T.espesor;   // cara superior del techo en ese punto
       goku.position.set(cm(xm), cm(zTecho) + 0.01, cm(ySeat));
     } else goku.position.set(cm(xm), cm(v.a[2] + 5), cm(v.a[1]) + 0.05);   // tope de la viga CUAD 100 (eje + 5)
@@ -1128,13 +1128,14 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     try {
       const v = DATA_ESTUDIO_EST.miembros.find(mb => mb.id === 'VT-E-23');
       if (v){
-        goku = Goku3D.crear(THREE, {mira: 'S', dorado: qs.get('goku') !== 'negro'});
+        const modo = qs.get('goku');   // 1: imagen goku.png si existe (si no, la figura) · figura · negro (figura de pelo negro)
+        goku = Goku3D.crear(THREE, {mira: 'S', dorado: modo !== 'negro', imagen: (modo === 'figura' || modo === 'negro') ? null : 'goku.png?v=' + (window.PILAUCO_VERSION || {}).n});
         goku.userData.viga = v; scene.add(goku); colocarGoku();
         chkEstudioTecho.addEventListener('input', colocarGoku);
       }
     } catch (err){ console.error('goku3d', err); goku = null; }
   }
-  (function loop(t){ requestAnimationFrame(loop); if (nav) nav.actualizar(t); if (goku) goku.animar(t); controls.update(); renderer.render(scene, camera); })();
+  (function loop(t){ requestAnimationFrame(loop); if (nav) nav.actualizar(t); if (goku) goku.animar(t, camera); controls.update(); renderer.render(scene, camera); })();
   // para pruebas desde la consola (igual que LOSA y PERNOS en las otras vistas)
   window.VISTA3D = { camera, controls, nav, scene, sitio, renderer, stage, dibujar: () => { if (nav) nav.saltar(); controls.update(); renderer.render(scene, camera); } };
 })();

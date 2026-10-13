@@ -1,7 +1,8 @@
 // Huevo de Pascua: un saiyajin sentado en una viga del perímetro, con el ki moviéndose. Se prende con 3d.html?goku=1.
 // Figura armada con geometría (no es un modelo escaneado): cuerpo, gi naranjo, pelo en punta y un aura animada con
 // capas aditivas y partículas que suben. window.Goku3D.crear(THREE, {pos: [x, y, z] (m, mundo), mira: 'S'|'N'|'E'|'O', dorado: bool})
-// devuelve un THREE.Group con .animar(t) para llamarlo en cada cuadro.
+// devuelve un THREE.Group con .animar(t, camera) para llamarlo en cada cuadro. Con o.imagen (ruta a un PNG con fondo transparente) usa esa
+// imagen como un plano que gira para mirar a la cámara (el ki queda igual); si la imagen no carga, arma la figura.
 (function () {
   if (window.Goku3D) return;
   const ROT = { S: 0, N: Math.PI, E: Math.PI / 2, O: -Math.PI / 2 };
@@ -21,19 +22,22 @@
     o = o || {};
     const g = new T.Group(); g.name = 'goku';
     const dorado = o.dorado !== false;
+    const FICHA = '<b>Un saiyajin de visita</b><br><span class="sub">huevo de Pascua: se sienta en el borde del alero a mirar la obra; su ki no cuenta en la cubicación</span>';
+    let cab = null, tablero = null;   // cab: cabeza de la figura (mira para los lados); tablero: plano con la imagen (gira hacia la cámara)
+    const S = 1.0;   // escala (1,75 m de pie)
+    function figura(){
     const piel = new T.MeshLambertMaterial({ color: 0xF1C9A5 }), gi = new T.MeshLambertMaterial({ color: 0xF07A1C }), azul = new T.MeshLambertMaterial({ color: 0x1E3A8A });
     const pelo = new T.MeshLambertMaterial({ color: dorado ? 0xF5D033 : 0x15161A, emissive: dorado ? 0x8A6A00 : 0x000000 });
     const bota = new T.MeshLambertMaterial({ color: 0x1B2A6B }), blanco = new T.MeshLambertMaterial({ color: 0xF4F4F0 }), negro = new T.MeshLambertMaterial({ color: 0x111111 });
     const add = (geo, mat, x, y, z, rx, ry, rz) => { const m = new T.Mesh(geo, mat); m.position.set(x, y, z); if (rx) m.rotation.x = rx; if (ry) m.rotation.y = ry; if (rz) m.rotation.z = rz; g.add(m); return m; };
     // sentado en el borde: el origen del grupo es el punto de apoyo (el trasero sobre la viga); +z local = hacia adelante (las piernas cuelgan)
-    const S = 1.0;   // escala (1,75 m de pie)
     // tronco (gi) con cuello azul y cinturón
     add(new T.BoxGeometry(0.46 * S, 0.60 * S, 0.30 * S), gi, 0, 0.30 * S, 0.02 * S);
     add(new T.BoxGeometry(0.24 * S, 0.16 * S, 0.31 * S), azul, 0, 0.56 * S, 0.02 * S);                 // camiseta azul asomando en el cuello
     add(new T.BoxGeometry(0.48 * S, 0.08 * S, 0.32 * S), azul, 0, 0.06 * S, 0.02 * S);                 // cinturón
     // cuello y cabeza
     add(new T.CylinderGeometry(0.07 * S, 0.08 * S, 0.10 * S, 12), piel, 0, 0.65 * S, 0.02 * S);
-    const cab = add(new T.SphereGeometry(0.15 * S, 18, 14), piel, 0, 0.80 * S, 0.03 * S);
+    cab = add(new T.SphereGeometry(0.15 * S, 18, 14), piel, 0, 0.80 * S, 0.03 * S);
     add(new T.BoxGeometry(0.05 * S, 0.012 * S, 0.02 * S), negro, -0.055 * S, 0.84 * S, 0.17 * S, 0, 0, 0.35);   // cejas en V (ceño saiyajin)
     add(new T.BoxGeometry(0.05 * S, 0.012 * S, 0.02 * S), negro, 0.055 * S, 0.84 * S, 0.17 * S, 0, 0, -0.35);
     add(new T.SphereGeometry(0.018 * S, 8, 6), negro, -0.05 * S, 0.81 * S, 0.16 * S);                   // ojos
@@ -57,7 +61,18 @@
       add(new T.BoxGeometry(0.13 * S, 0.12 * S, 0.22 * S), bota, s * 0.13 * S, -0.52 * S, 0.44 * S);
       add(new T.BoxGeometry(0.14 * S, 0.03 * S, 0.23 * S), blanco, s * 0.13 * S, -0.455 * S, 0.44 * S);
     });
-    g.traverse(m => { if (m.isMesh) m.userData.sitio = '<b>Un saiyajin de visita</b><br><span class="sub">huevo de Pascua: se sienta en la viga a mirar la obra; su ki no cuenta en la cubicación</span>'; });
+    g.traverse(m => { if (m.isMesh) m.userData.sitio = FICHA; });
+    }
+    if (o.imagen) {
+      g.userData.imagen = o.imagen;
+      new T.TextureLoader().load(o.imagen, tex => {
+        const asp = tex.image.width / tex.image.height, alto = (o.alto || 1.55) * S;   // de los pies a la punta del pelo, sentado
+        tex.minFilter = T.LinearMipmapLinearFilter; tex.anisotropy = 4;
+        tablero = new T.Mesh(new T.PlaneGeometry(alto * asp, alto), new T.MeshBasicMaterial({ map: tex, transparent: true, alphaTest: 0.08, side: T.DoubleSide }));
+        tablero.position.set(0, alto / 2 - 0.60 * S, 0.06 * S);   // el asiento queda al 39 % de la altura: 60 cm de piernas colgando bajo el borde
+        tablero.userData.sitio = FICHA; g.add(tablero);
+      }, undefined, () => { g.userData.imagen = null; figura(); });
+    } else figura();
 
     // ---------- ki: tres capas de aura aditivas que laten y giran, y partículas que suben ----------
     const colAura = dorado ? '255,215,60' : '120,190,255';
@@ -74,7 +89,8 @@
     g.add(puntos);
     const luz = new T.PointLight(dorado ? 0xFFD040 : 0x7FB4FF, 1.2, 6 * S); luz.position.set(0, 0.6 * S, 0.1 * S); g.add(luz);
     let tAnt = 0;
-    g.animar = function (t) {
+    const vP = new T.Vector3();
+    g.animar = function (t, camera) {
       if (!Number.isFinite(t)) t = performance.now();   // el primer cuadro del loop llega sin tiempo: con NaN las partículas se perdían para siempre
       const s = t / 1000, dt = tAnt ? Math.min(0.05, Math.max(0, s - tAnt)) : 0.016; tAnt = s;
       capas.forEach(sp => { const [w, h, op, i] = sp.userData.base; const lat = 1 + 0.12 * Math.sin(s * (6 + i * 1.7) + i) + 0.05 * Math.sin(s * 13 + i * 2); sp.scale.set(w * lat, h * (1 + 0.18 * Math.sin(s * 4.5 + i)), 1); sp.material.rotation = s * (0.6 + i * 0.3) * (i % 2 ? -1 : 1); sp.material.opacity = op * (0.8 + 0.2 * Math.sin(s * 9 + i)); });
@@ -82,7 +98,8 @@
       for (let i = 0; i < N; i++) { a[i * 3 + 1] += vel[i] * dt; a[i * 3] += Math.sin(s * 5 + fase[i]) * 0.004 * S; if (a[i * 3 + 1] > 1.25 * S) { a[i * 3 + 1] = -0.55 * S; const an = Math.random() * Math.PI * 2, r = (0.2 + Math.random() * 0.45) * S; a[i * 3] = Math.cos(an) * r; a[i * 3 + 2] = Math.sin(an) * r * 0.7; } }
       puntos.geometry.attributes.position.needsUpdate = true;
       luz.intensity = 1.0 + 0.5 * Math.sin(s * 11) + 0.25 * Math.sin(s * 23);
-      cab.rotation.y = 0.15 * Math.sin(s * 0.7);   // mira de a poco para los lados
+      if (cab) cab.rotation.y = 0.15 * Math.sin(s * 0.7);   // mira de a poco para los lados
+      if (tablero && camera) { g.getWorldPosition(vP); tablero.rotation.y = Math.atan2(camera.position.x - vP.x, camera.position.z - vP.z) - g.rotation.y; }   // la imagen gira sobre su eje para mirar a la cámara
     };
     if (o.pos) g.position.set(o.pos[0], o.pos[1], o.pos[2]);
     g.rotation.y = ROT[o.mira || 'S'] || 0;
