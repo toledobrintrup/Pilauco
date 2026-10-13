@@ -1,4 +1,8 @@
-// Harness jsc: THREE real + OrbitControls + nav3d con un lienzo de mentira. Simula la rueda hacia un muro y mide si la cámara entra.
+// Harness para probar nav3d.js sin navegador (JavaScriptCore): THREE real + OrbitControls r128 + nav3d con un lienzo de mentira.
+// Simula pasos de rueda hacia el muro de una sala y mide cuántos toma llegar, atravesar, cruzar la sala y volver a salir.
+// Uso (desde una carpeta que tenga three/three.min.js y three/OrbitControls.js de r128, bajados del CDN):
+//   /System/Library/Frameworks/JavaScriptCore.framework/Versions/Current/Helpers/jsc fuente/navtest_nav3d.js
+// Ajusta las rutas de load() de abajo si los pones en otro lado.
 var window = globalThis, self = globalThis; var t0 = 0; var _now = 0;
 var performance = { now: function(){ return _now; } };
 function El(){ this.ls = {}; this.style = {}; this.children = []; this.attrs = {}; this.classList = { add(){}, remove(){}, toggle(){} }; this.clientWidth = 1200; this.clientHeight = 800; this.ownerDocument = null; }
