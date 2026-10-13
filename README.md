@@ -208,3 +208,8 @@ el manual del tablero (sus dibujos se rehicieron, no se copiaron), ni la foto ni
 
 Antes de cada commit: `python3 fuente/version.py`. Marca `V<n>` (n = número de commits del proyecto) y la fecha en `menu.js`, que se ve
 como chip en el menú de todas las páginas y en la ⓘ de la Vista 3D, y actualiza los `?v=` de los scripts para que Safari no use caché.
+
+Prueba de humo del 3D sin WebGL (antes de cada commit que toque `3d.html` o sus módulos): `python3 fuente/smoke3d.py <carpeta>`
+genera una copia de `3d.html` con un renderizador falso; servida en local corre todo el código (datos, hormigón, fierros, mobiliario,
+cotas, nav, loop) y cualquier error de ejecución sale en la consola. La revisión de sintaxis sola no pilla, por ejemplo, usar una
+variable antes de declararla (V68 cargaba en blanco por eso).

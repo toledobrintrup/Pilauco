@@ -92,7 +92,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V68" data-vista="3d"></script>
+    <script src="menu.js?v=V69" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -160,16 +160,16 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V68"></script>
-<script src="data.js?v=V68"></script>
-<script src="estructura.js?v=V68"></script>
-<script src="losa.js?v=V68"></script>
-<script src="sitio.js?v=V68"></script>
-<script src="sitio3d.js?v=V68"></script>
-<script src="estudio_estructura.js?v=V68"></script>
-<script src="mobiliario3d.js?v=V68"></script>
-<script src="cotas3d.js?v=V68"></script>
-<script src="goku3d.js?v=V68"></script>
+<script src="nav3d.js?v=V69"></script>
+<script src="data.js?v=V69"></script>
+<script src="estructura.js?v=V69"></script>
+<script src="losa.js?v=V69"></script>
+<script src="sitio.js?v=V69"></script>
+<script src="sitio3d.js?v=V69"></script>
+<script src="estudio_estructura.js?v=V69"></script>
+<script src="mobiliario3d.js?v=V69"></script>
+<script src="cotas3d.js?v=V69"></script>
+<script src="goku3d.js?v=V69"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -522,7 +522,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 
   // ---------- enfierradura del estudio: cada familia de barras (estudio_estructura.js → fierros) como líneas, con su color por diámetro ----------
   const COLOR_FIERRO = {8: 0xE2C044, 10: 0xE8893A, 12: 0xD9534F, 16: 0x8E2A2A, 19: 0x3F8FD6};
-  const materialesFierro = [];   // LineMaterial de cada familia: hay que decirles el tamaño del lienzo cuando cambia
+  const materialesFierro = [];   // LineMaterial de cada familia: resize() les pone el tamaño real del lienzo (aquí 'stage' aún no existe: se declara más abajo)
   function buildFierros(){
     const g = new THREE.Group();
     if (typeof DATA_ESTUDIO_EST === 'undefined' || !DATA_ESTUDIO_EST.fierros) return g;
@@ -536,7 +536,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       let ls;
       if (THREE.LineSegments2 && THREE.LineMaterial && THREE.LineSegmentsGeometry){
         const geo = new THREE.LineSegmentsGeometry(); geo.setPositions(pos);
-        const mat = new THREE.LineMaterial({color: COLOR_FIERRO[f.diam] || 0x888888, linewidth: (f.diam >= 16 ? 3.6 : f.diam >= 12 ? 3.0 : 2.4) * (window.devicePixelRatio > 1 ? 1.25 : 1), resolution: new THREE.Vector2(stage.clientWidth || 800, stage.clientHeight || 600)});
+        const mat = new THREE.LineMaterial({color: COLOR_FIERRO[f.diam] || 0x888888, linewidth: (f.diam >= 16 ? 3.6 : f.diam >= 12 ? 3.0 : 2.4) * (window.devicePixelRatio > 1 ? 1.25 : 1), resolution: new THREE.Vector2(window.innerWidth || 800, window.innerHeight || 600)});
         ls = new THREE.LineSegments2(geo, mat); ls.computeLineDistances(); materialesFierro.push(mat);
       } else {
         const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
