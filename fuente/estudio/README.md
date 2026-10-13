@@ -74,4 +74,6 @@ como idea para conversar. `hormigon` (muros, losa, zapata corrida, cimiento, CF,
 como propuesta de espesores a revisar. Con eso `interior_cm` (4,00) y `bunker.interior_cm` (2,80) son alturas **libres terminadas**, y los generadores
 suben la estructura (vigas E-O y cordones a +411/+421, pilares 11 cm más largos, techo 11 cm más arriba) y bajan el radier del búnker 11 cm (piso de obra
 gruesa −311, sello −371). Los vanos se miden desde el NPT (+5,5). Si cambian los espesores, basta cambiar `estudio.json` y regenerar `sitio.js` y
-`estudio_estructura.js`. La sección "Alturas para la obra" de `estudio.html` dibuja cada lado con la cadena de obra gruesa y la de niveles terminados.
+`estudio_estructura.js`. La sección "Alturas para la obra" de `estudio.html` dibuja un corte N-S por el muro norte del búnker (eje A) con tres detalles
+ampliados (A fundación y piso del búnker, B losa, pisos y placa base, C techo y cielo), cada uno con su cadena de cotas; todo sale de
+`DATA_ESTUDIO_EST` (niveles, espesores, terminaciones), así que cambia solo con los datos (propuesta 3 elegida por Gabriel, 13-10-2026).
