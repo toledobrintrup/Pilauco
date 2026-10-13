@@ -28,7 +28,9 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
     z0 = E['nivel_piso']['z_cm']
     # techo: 4,00 m de cielo en el lado bajo (norte) y sube con la pendiente de la casa hacia el sur (el cielo interior va plano, ver abajo)
     y_bajo = 0 if sube_hacia == 'sur' else largo_
-    def z_cielo(y_local): return z0 + A['interior_cm'] + pendiente * ((y_local - y_bajo) if sube_hacia == 'sur' else (y_bajo - y_local))
+    t_piso, t_cielo = A.get('terminacion_piso_cm', 0), A.get('terminacion_cielo_cm', 0)   # terminaciones (porcelanato / yeso cartón): la estructura va encima de los 4,00 libres
+    z_est = z0 + A['interior_cm'] + t_piso + t_cielo                                    # cara inferior de la estructura (vigas E-O): 4,00 + 1,5 + 5,5 = +4,07
+    def z_cielo(y_local): return z_est + pendiente * ((y_local - y_bajo) if sube_hacia == 'sur' else (y_bajo - y_local))
     # aleros medidos desde la cara exterior del muro (estudio.json); el contorno del volumen también parte de la cara exterior
     an, ae = A['alero_ns_cm'], A['alero_eo_cm']
     est = A.get('estructura_techo_cm', 0)   # vigas y costaneras entre el cielo y la plancha del techo
@@ -39,15 +41,17 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
                              area_m2=round(area(rc['pts']) / 1e4, 2), dato=rc.get('dato', '')))
     B = E['bunker']
     z_losa = z0 - A['losa_piso_cm']           # cara inferior de la losa de piso del estudio = cielo del búnker
-    bunker = dict(nombre=B['nombre'], pts=desplazar(B['pts'], ox, oy), z_cielo=r1(z_losa), z_piso=r1(z_losa - B['interior_cm']),
-                  interior_cm=B['interior_cm'], area_m2=round(area(B['pts']) / 1e4, 2), dato=B['dato'])
+    h_bk = B['interior_cm'] + t_piso + t_cielo   # obra gruesa del búnker: 2,80 libres terminados + piso + cielo = 2,87
+    bunker = dict(nombre=B['nombre'], pts=desplazar(B['pts'], ox, oy), z_cielo=r1(z_losa), z_piso=r1(z_losa - h_bk), npt=r1(z_losa - h_bk + t_piso), cielo_terminado=r1(z_losa - t_cielo),
+                  interior_cm=B['interior_cm'], obra_gruesa_cm=r1(h_bk), area_m2=round(area(B['pts']) / 1e4, 2), dato=B['dato'])
     return dict(
         origen=[r1(ox), r1(oy)], exterior=desplazar(ext, ox, oy), ancho=ancho, largo=largo_, muro=muro,
         z_piso=r1(z0), recintos=recintos, bunker=bunker,
         # cielo interior plano a 4,00 en todo el estudio (Gabriel, 13-10-2026: "el cielo completo terminado a 4 m, esa fue siempre la idea");
         # el techo sigue inclinado por encima, con la estructura en el entretecho
-        cielo=dict(z_norte=r1(z0 + A['interior_cm']), z_sur=r1(z0 + A['interior_cm']), y_norte=r1(oy), y_sur=r1(oy + largo_),
-                   dato='cielo plano a 4,00 m en todo el estudio (Gabriel); el techo sube con la pendiente de la casa por encima'),
+        cielo=dict(z_norte=r1(z0 + t_piso + A['interior_cm']), z_sur=r1(z0 + t_piso + A['interior_cm']), y_norte=r1(oy), y_sur=r1(oy + largo_),
+                   dato='cielo terminado plano a 4,00 sobre el piso terminado, en todo el estudio (Gabriel, 13-10-2026); la estructura y el techo van encima'),
+        npt=r1(z0 + t_piso), z_estructura=r1(z_est), terminaciones=dict(piso=t_piso, cielo=t_cielo, libre=A['interior_cm'], capas=A.get('capas', {}), dato=A.get('dato_terminaciones', '')),
         techo=dict(contorno=desplazar(techo, ox, oy), espesor=A['techo_espesor_cm'], alero=A['alero_ns_cm'], alero_ns=A['alero_ns_cm'], alero_eo=A['alero_eo_cm'], pendiente=pendiente, sube_hacia=sube_hacia,
                    y0=r1(oy - an), y1=r1(oy + largo_ + an),
                    z0=r1(z_cielo(-an) + est), z1=r1(z_cielo(largo_ + an) + est), estructura=est),

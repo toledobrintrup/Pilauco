@@ -464,7 +464,7 @@
     // ---------- armado: una pieza por elemento de D.interior ----------
     const cielo = E && E.cielo ? E.cielo : (D.cielo || { z_norte: 380, z_sur: 435.1, y_norte: 10.5, y_sur: 1585.5 });
     const zCielo = y => cielo.z_norte + (cielo.z_sur - cielo.z_norte) * (y - cielo.y_norte) / ((cielo.y_sur - cielo.y_norte) || 1);
-    const zPiso = D.z_piso != null ? D.z_piso : (E && E.z_piso != null ? E.z_piso : 0);
+    const zPiso = (E && E.npt != null) ? E.npt : (D.z_piso != null ? D.z_piso : (E && E.z_piso != null ? E.z_piso : 0));   // sobre el piso terminado (porcelanato) si existe
     const grupo = new T.Group(); grupo.name = 'mobiliario';
     const omitidos = [];
     (D.interior || []).forEach(it => {

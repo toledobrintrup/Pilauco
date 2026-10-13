@@ -94,7 +94,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V76" data-vista="3d"></script>
+    <script src="menu.js?v=V77" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -164,16 +164,16 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V76"></script>
-<script src="data.js?v=V76"></script>
-<script src="estructura.js?v=V76"></script>
-<script src="losa.js?v=V76"></script>
-<script src="sitio.js?v=V76"></script>
-<script src="sitio3d.js?v=V76"></script>
-<script src="estudio_estructura.js?v=V76"></script>
-<script src="mobiliario3d.js?v=V76"></script>
-<script src="cotas3d.js?v=V76"></script>
-<script src="goku3d.js?v=V76"></script>
+<script src="nav3d.js?v=V77"></script>
+<script src="data.js?v=V77"></script>
+<script src="estructura.js?v=V77"></script>
+<script src="losa.js?v=V77"></script>
+<script src="sitio.js?v=V77"></script>
+<script src="sitio3d.js?v=V77"></script>
+<script src="estudio_estructura.js?v=V77"></script>
+<script src="mobiliario3d.js?v=V77"></script>
+<script src="cotas3d.js?v=V77"></script>
+<script src="goku3d.js?v=V77"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -699,15 +699,26 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     // 1 cm más afuera que la cara exterior, para que las vigas de fundación y los pedestales (coplanares) no parpadeen a través
     const extZ = [[ext[0][0] - 1, ext[0][1] - 1], [ext[1][0] + 1, ext[1][1] - 1], [ext[2][0] + 1, ext[2][1] + 1], [ext[3][0] - 1, ext[3][1] + 1]];
     g.add(ficha(prismaP(extZ, zT, z0 - 0.5, matZocalo, [r.escalera]), 'Estudio: losa de piso y zócalo', `losa terminada ${fm(z0 - zT)} m sobre el terreno natural, con el hueco de la escalera · fundaciones según el ingeniero`));
-    // pisos terminados por recinto (6 mm sobre la losa): madera en el estudio y la cafetería, porcelanato en el baño, hormigón pulido en la bodega
-    const pisos = {estudio: ['madera', 'piso de madera (idea)'], cafeteria: ['maderaClara', 'piso de madera clara (idea)'], bano: ['porcelanato', 'porcelanato 60 × 60 (idea)'], bodega: ['hormigon', 'radier afinado (idea)']};
+    // pisos terminados por recinto: porcelanato en todo (Gabriel, 13-10-2026), sobre el NPT (NPOG + piso 1,5); en el búnker también, sobre su NPT
+    const tPiso = E.terminaciones ? E.terminaciones.piso : 0, npt = E.npt != null ? E.npt : z0 + 0.6;
+    const pisoTxt = `porcelanato sobre adhesivo (${(tPiso || 1.5).toLocaleString('es-CL')} cm sobre la obra gruesa), piso terminado a NPT +${(tPiso || 0).toLocaleString('es-CL')}`;
+    const pisos = {estudio: ['porcelanato', pisoTxt], cafeteria: ['porcelanato', pisoTxt], bano: ['porcelanato', pisoTxt], bodega: ['porcelanato', pisoTxt]};
     E.recintos.forEach(rc => {
       const def = pisos[rc.id]; if (!def) return;
       const mat = new THREE.MeshLambertMaterial({map: texturaPiso(def[0]), side: THREE.DoubleSide});
       const mesh = new THREE.Mesh(new THREE.ShapeGeometry(shapeFromPts(rc.pts)), mat);
-      mesh.rotation.x = -Math.PI / 2; mesh.position.y = cm(z0 + 0.6);
+      mesh.rotation.x = -Math.PI / 2; mesh.position.y = cm(npt + 0.1);
       g.add(ficha(mesh, rc.nombre, `${rc.area_m2.toLocaleString('es-CL')} m² · ${def[1]}`));
     });
+    if (E.bunker && E.bunker.npt != null){
+      // búnker: porcelanato sobre el radier y cielo de yeso cartón bajo la losa, a sus niveles terminados (2,80 libres)
+      const bp = E.bunker.pts, matB = new THREE.MeshLambertMaterial({map: texturaPiso('porcelanato'), side: THREE.DoubleSide});
+      const pisoB = new THREE.Mesh(new THREE.ShapeGeometry(shapeFromPts(bp)), matB); pisoB.rotation.x = -Math.PI / 2; pisoB.position.y = cm(E.bunker.npt + 0.1);
+      g.add(ficha(pisoB, 'Búnker: piso terminado', `porcelanato sobre el radier · NPT ${fm(E.bunker.npt - z0)} m bajo el piso del estudio · ${E.bunker.interior_cm / 100} m libres terminados`));
+      const cieloB = new THREE.Mesh(new THREE.ShapeGeometry(shapeFromPts(bp)), new THREE.MeshLambertMaterial({color: dark ? 0xD8DADF : 0xF2F1EC, side: THREE.DoubleSide}));
+      cieloB.rotation.x = -Math.PI / 2; cieloB.position.y = cm(E.bunker.cielo_terminado - 0.5); cieloB.userData.cieloEstudio = true;
+      g.add(ficha(cieloB, 'Búnker: cielo terminado', `yeso cartón grueso bajo la losa (${(E.terminaciones ? E.terminaciones.cielo : 5.5).toLocaleString('es-CL')} cm con la perfilería) · ${fm(E.bunker.cielo_terminado - E.bunker.npt)} m libres`));
+    }
     // cielo interior por recinto: placa plana a 4,00 (Gabriel, 13-10-2026), va con la capa Techo; la estructura queda en el entretecho
     const matCielo = new THREE.MeshLambertMaterial({color: dark ? 0xD8DADF : 0xF2F1EC, side: THREE.DoubleSide});
     const zCielo = y => E.cielo.z_norte + (E.cielo.z_sur - E.cielo.z_norte) * (y - E.cielo.y_norte) / (E.cielo.y_sur - E.cielo.y_norte);
