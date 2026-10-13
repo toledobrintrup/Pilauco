@@ -150,17 +150,17 @@
  ],
  "alturas": {
   "interior_cm": 400.0,
-  "dato_interior": "Gabriel (13-10-2026): 4,00 m libres TERMINADOS (de porcelanato a cielo de yeso cartón) en todo el estudio; la estructura va encima: 4,00 + piso 1,5 + cielo 5,5 = cara inferior de las vigas a +4,07",
+  "dato_interior": "Gabriel (13-10-2026): 4,00 m libres TERMINADOS (de porcelanato a cielo de yeso cartón) en todo el estudio; la estructura va encima: 4,00 + piso 5,5 + cielo 5,5 = cara inferior de las vigas a +4,11",
   "losa_piso_cm": 20.0,
   "dato_losa": "lámina 03 rev H del ingeniero: losa del búnker e=20",
   "techo_espesor_cm": 10.0,
   "dato_techo": "supuesto: plancha y aislación, solo para el volumen",
   "estructura_techo_cm": 40.0,
-  "dato_estructura_techo": "viga E-O 100x100 sobre los pilares, viga inclinada 200x150 encima y costanera CA 100 (láminas 04 y 05 del ingeniero): el techo va 40 cm sobre la cara inferior de la estructura (+4,07)",
+  "dato_estructura_techo": "viga E-O 100x100 sobre los pilares, viga inclinada 200x150 encima y costanera CA 100 (láminas 04 y 05 del ingeniero): el techo va 40 cm sobre la cara inferior de la estructura (+4,11)",
   "alero_ns_cm": 100.0,
   "alero_eo_cm": 100.0,
   "dato_alero": "Gabriel (2026-10-12): aleros como los de la casa (≈1,00 m por todos lados; el techo con 0,80/0,52 del ingeniero se veía corto); medidos desde la cara exterior del muro",
-  "terminacion_piso_cm": 1.5,
+  "terminacion_piso_cm": 5.5,
   "terminacion_cielo_cm": 5.5,
   "capas": {
    "piso": [
@@ -169,8 +169,12 @@
      1.0
     ],
     [
-     "Adhesivo en capa delgada sobre el afinado",
+     "Adhesivo en capa delgada",
      0.5
+    ],
+    [
+     "Sobrelosa / mortero de nivelación",
+     4.0
     ]
    ],
    "cielo": [
@@ -184,7 +188,7 @@
     ]
    ]
   },
-  "dato_terminaciones": "propuesta (13-10-2026, a revisar con Gabriel): porcelanato 1,0 sobre adhesivo 0,5 (piso 1,5) en el estudio y en el búnker; cielo de yeso cartón grueso 15 mm sobre perfilería de 40 (5,5). Si cambian los espesores, cambia aquí y se regenera todo"
+  "dato_terminaciones": "Gabriel (13-10-2026): porcelanato 1,0 + adhesivo 0,5 + sobrelosa de nivelación 4,0 (piso 5,5) en el estudio y en el búnker; cielo de yeso cartón grueso 15 mm sobre perfilería de 40 (5,5). Si cambian los espesores, cambia aquí y se regenera todo"
  },
  "techo": {
   "tipo": "un agua",
@@ -213,7 +217,7 @@
    ]
   ],
   "interior_cm": 280.0,
-  "dato": "Gabriel: justo debajo de la cafetería y con sus mismas medidas interiores (6,00 x 10,05); 2,80 m libres TERMINADOS (13-10-2026: de porcelanato a cielo de yeso cartón), o sea 2,87 de obra gruesa; centrado en la excavación ya hecha. Su muro sur (625..650) queda bajo el tabique cafetería/estudio"
+  "dato": "Gabriel: justo debajo de la cafetería y con sus mismas medidas interiores (6,00 x 10,05); 2,80 m libres TERMINADOS (13-10-2026: de porcelanato a cielo de yeso cartón), o sea 2,91 de obra gruesa; centrado en la excavación ya hecha. Su muro sur (625..650) queda bajo el tabique cafetería/estudio"
  },
  "emplazamiento": {
   "anclaje": "el búnker centrado en la excavación actual (foto de dron de octubre 2026), con la cafetería hacia el patio (norte) y el estudio hacia el camino (sur)",

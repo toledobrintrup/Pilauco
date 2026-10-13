@@ -98,7 +98,7 @@ def main(estudio_json, sitio_json, salida):
             # lámina 05: en el marco bajo (F) el pilar termina a +400 bajo la viga E-O y sobre ella apoya la viga inclinada; en el marco alto (A1) el pilar
             # pasa la viga E-O de +400/+410 y sigue hasta la cara inferior de la viga inclinada (+447). Opción A de Gabriel (12-10-2026): igual aquí.
             zt = z_viga(y) if z_viga(y) - 10 > Z_CORDON[1] + 0.5 else Z_CORDON[0]
-            d_t = (f'llega a +{Z_CORDON[0]:.0f}, bajo la viga E-O 100x100 de +{Z_CORDON[0]:.0f}/+{Z_CORDON[1]:.0f}, y sobre ella apoya la viga inclinada (lámina 05, marco F; allá a +400/+410, aquí 7 más arriba por las terminaciones)' if zt == Z_CORDON[0]
+            d_t = (f'llega a +{Z_CORDON[0]:.0f}, bajo la viga E-O 100x100 de +{Z_CORDON[0]:.0f}/+{Z_CORDON[1]:.0f}, y sobre ella apoya la viga inclinada (lámina 05, marco F; allá a +400/+410, aquí más arriba por las terminaciones)' if zt == Z_CORDON[0]
                    else f'pasa por la viga E-O de +{Z_CORDON[0]:.0f}/+{Z_CORDON[1]:.0f} y sigue hasta la cara inferior de la viga inclinada (+{zt:.0f}), como los pilares del marco A1 de la lámina 05')
             m(f'P-{xn}{yn}', 'pilar', perfil, (x, y, 0), (x, y, zt), f'{pm} eje {xn} x {yn}, {apoyo}; {d_t}', alma='Y')
     for yn in ('A2', 'C', 'D'):

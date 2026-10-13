@@ -16,7 +16,7 @@ y rev 1 (27-04-2026); 02 rev G (07-04); 03 rev G/H; 04 rev G/H/I (11-04); 05 rev
 
 - Pilares PM1 CUAD 150×150×5 (ejes interiores de las fachadas largas) y PM2 CUAD 150×150×4; intermedios PM3
   RECT 150×100×3; 15×15 centrados en el eje; llegan a la cara inferior de la viga inclinada.
-- Vigas E-O CUAD 100×100×3 entre pilares, de +400 a +410 en la lámina 05 (aquí +407/+417: 7 cm más arriba por las terminaciones, ver abajo); cordón horizontal RECT 150×100×3 en los marcos
+- Vigas E-O CUAD 100×100×3 entre pilares, de +400 a +410 en la lámina 05 (aquí +411/+421: 11 cm más arriba por las terminaciones, ver abajo); cordón horizontal RECT 150×100×3 en los marcos
   interiores. Las líneas de todos los miembros van por el eje del perfil, como en `estructura.js`.
 - Vigas inclinadas de techo RECT 200×150×5 (marcos interiores, luz de 10,25 m) y 200×150×3 (marcos con pilares
   intermedios), pendiente 3,5 % (dibujada 4,5 %), aleros de 80 (N-S) y 52 (E-O); puntales cortos RECT 150×100×3 cada 171.
@@ -50,7 +50,7 @@ las medidas, no otras"), así que el edificio mide 10,55 × 15,75 por fuera con 
 coincide con el muro sur del búnker; C sobre el tabique baño/bodega; A2 y D a 2 m de las fachadas para que las cruces
 queden en tramos de 2 m como las del original); 22 pilares, ninguno dentro de los recintos; cruces N-S en A–A2 y D–E de
 las fachadas laterales y E-O solo en muros ciegos (C 4-5, fachada sur 1-2 y 4-5, y una sola diagonal en B 4-5 por la
-puerta del baño); búnker de 10,05 × 6,00 × 2,80 libres terminados (2,87 de obra gruesa) con VHA 25/40 en el eje 3 y viga de borde en la escalera. Fuera del
+puerta del baño); búnker de 10,05 × 6,00 × 2,80 libres terminados (2,91 de obra gruesa) con VHA 25/40 en el eje 3 y viga de borde en la escalera. Fuera del
 búnker, las fundaciones del ingeniero (sobrecimiento + cimiento corrido bajo las fachadas, CF 25/40 bajo los tabiques con pilares):
 ver arriba. La tabla completa y las luces que crecieron están en `estudio.html`.
 La cubicación del ingeniero no se usa como referencia.
@@ -58,7 +58,7 @@ La cubicación del ingeniero no se usa como referencia.
 ## Ventanas, puertas y esquema interior (propuesta, 2026-10-12)
 
 `vanos`: vidrio de piso terminado a cielo terminado (4,00) solo en los dos tramos centrales de la fachada norte y del tabique B (Gabriel, 13-10-2026) (corredera en el tramo 2-3, en el eje del estudio), tabique vidriado de piso
-a cielo (4,00 libres; la viga E-O de +4,07 y la franja sobre ella quedan en el entretecho) entre cafetería y estudio con corredera centrada en el estudio, una ventana de piso a cielo centrada en la
+a cielo (4,00 libres; la viga E-O de +4,11 y la franja sobre ella quedan en el entretecho) entre cafetería y estudio con corredera centrada en el estudio, una ventana de piso a cielo centrada en la
 fachada sur entre los parlantes, entrada de 1,80 por el poniente (pegada al pilar A2), puertas del baño (desde la cafetería, pegada al eje 4)
 y de la bodega (desde el estudio), ventana alta del baño al oriente (la bodega sin ventana). La escalera (de hormigón, en su caja de muros de 23,3 con puerta con llave en el descanso) se entra por el sur y baja hacia el norte. Aleros de 1,00 m como la casa (Gabriel). `interior`: parlantes, consola, rack, silla, sofá, paneles acústicos,
 alfombra, barra con taburetes, mesas con sillas, lámparas, cocina chica con lavaplatos y minibar en la esquina nororiente, baño y estanterías (sin
@@ -70,8 +70,8 @@ como idea para conversar. `hormigon` (muros, losa, zapata corrida, cimiento, CF,
 
 ## Terminaciones y alturas libres (Gabriel, 13-10-2026: "terminado 4, 4, 4")
 
-`estudio.json → alturas` define las terminaciones: piso 1,5 (porcelanato 1,0 + adhesivo 0,5) y cielo 5,5 (yeso cartón grueso 15 mm + perfilería 40),
+`estudio.json → alturas` define las terminaciones: piso 5,5 (porcelanato 1,0 + adhesivo 0,5 + sobrelosa de nivelación 4,0) y cielo 5,5 (yeso cartón grueso 15 mm + perfilería 40),
 como propuesta de espesores a revisar. Con eso `interior_cm` (4,00) y `bunker.interior_cm` (2,80) son alturas **libres terminadas**, y los generadores
-suben la estructura (vigas E-O y cordones a +407/+417, pilares 7 cm más largos, techo 7 cm más arriba) y bajan el radier del búnker 7 cm (piso de obra
-gruesa −307, sello −367). Los vanos se miden desde el NPT (+1,5). Si cambian los espesores, basta cambiar `estudio.json` y regenerar `sitio.js` y
+suben la estructura (vigas E-O y cordones a +411/+421, pilares 11 cm más largos, techo 11 cm más arriba) y bajan el radier del búnker 11 cm (piso de obra
+gruesa −311, sello −371). Los vanos se miden desde el NPT (+5,5). Si cambian los espesores, basta cambiar `estudio.json` y regenerar `sitio.js` y
 `estudio_estructura.js`. La sección "Alturas para la obra" de `estudio.html` dibuja cada lado con la cadena de obra gruesa y la de niveles terminados.
