@@ -120,7 +120,7 @@ ol.preg li{margin:0 0 8px}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V78" data-vista="estudio"></script>
+  <script src="menu.js?v=V79" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
   <span class="meta" id="meta">Propuesta · no es un cálculo</span>
 </header>
@@ -147,7 +147,7 @@ ol.preg li{margin:0 0 8px}
   <p>La misma vista 3D de la casa, centrada en el estudio: muros, ventanas y puertas propuestos y el mobiliario de referencia. En <b>Capas</b> se
   prenden la estructura de acero y hormigón, el búnker bajo tierra y las <b>medidas</b> de puertas, ventanas, muros y recintos (vienen apagadas).
   Arrastra para girar, rueda o pellizco para acercar, doble toque para centrar; toca una pieza para ver su ficha.</p>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V78" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V79" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
@@ -249,8 +249,8 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=V78"></script>
-<script src="estudio_estructura.js?v=V78"></script>
+<script src="sitio.js?v=V79"></script>
+<script src="estudio_estructura.js?v=V79"></script>
 <script>
 (function () {
   const D = DATA_ESTUDIO_EST, E = DATA_SITIO.estudio, ox = E.origen[0], oy = E.origen[1], z0 = D.z_piso;
@@ -432,9 +432,9 @@ ol.preg li{margin:0 0 8px}
     const zTechoApp = y => E.techo.z0 + (E.techo.z1 - E.techo.z0) * (y - E.techo.y0) / (E.techo.y1 - E.techo.y0);   // cara inferior del techo (app) en y app
     const zTecho = yLocal => zl(zTechoApp(yLocal + oy));
     const zMin = NIV.emplantillado_inf - 30, zTop = Math.max(zTecho(-al), zTecho(L + al)) + E.techo.espesor + 40;
-    const FS = 44, FSs = 38;   // tamaños de letra en unidades del dibujo (cm): la lámina se escala a ~0,4 px por cm, así que 34 ≈ 14 px (Gabriel: "nadie verá eso")
-    const MX = 620;   // margen lateral para las cadenas de cotas (rótulos cortos)
-    svg.setAttribute('viewBox', `${-al - MX} ${Y(zTop) - 260} ${largoT + 2 * al + 2 * MX} ${zTop - zMin + 440}`);
+    const FS = 46, FSs = 40;   // tamaños de letra en unidades del dibujo (cm): la lámina se escala a ~0,4 px por cm, así que 34 ≈ 14 px (Gabriel: "nadie verá eso")
+    const MX = 740;   // margen lateral para las cadenas de cotas (rótulos cortos)
+    svg.setAttribute('viewBox', `${-al - MX} ${Y(zTop) - 330} ${largoT + 2 * al + 2 * MX} ${zTop - zMin + 520}`);
     const estH = 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1', estE = 'fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:.6', estSuave = 'fill:var(--fig-fill);stroke:var(--fig-soft);stroke-width:.6';
     const caja = (u0, u1, zs, zi, estilo) => el('rect', { x: Math.min(u0, u1), y: Y(zs), width: Math.abs(u1 - u0), height: zs - zi, style: estilo }, svg);
     const enEje = pts => pts.map(loc).every(q => Math.abs(q[horiz === 'x' ? 0 : 1] - valor) < 60);
@@ -528,20 +528,24 @@ ol.preg li{margin:0 0 8px}
     nivelesOG.push([Math.max(zTecho(-al), zTecho(L + al)) + E.techo.espesor, 'techo alero']);
     const cadena = (x, niveles, lado, titulo) => {
       // niveles repetidos (misma cota) se juntan en un rótulo
-      const porZ = new Map(); niveles.forEach(([z, n]) => { const k = Math.round(z * 2) / 2; if (!porZ.has(k)) porZ.set(k, n); else if ((porZ.get(k) + ' · ' + n).length <= 22) porZ.set(k, porZ.get(k) + ' · ' + n); });   // si no cabe, queda el primero
+      const porZ = new Map(); niveles.forEach(([z, n]) => { const k = Math.round(z * 2) / 2; if (!porZ.has(k)) porZ.set(k, n); else if ((porZ.get(k) + ' · ' + n).length <= 20) porZ.set(k, porZ.get(k) + ' · ' + n); });   // si no cabe, queda el primero
       const ns = [...porZ.entries()].sort((a, b) => a[0] - b[0]);
       el('line', { x1: x, y1: Y(ns[0][0]), x2: x, y2: Y(ns[ns.length - 1][0]), style: 'stroke:var(--fig-ink);stroke-width:1' }, svg);
-      let ultimoTexto = 1e9;   // en SVG el eje y crece hacia abajo: cada texto va al menos 13 unidades más arriba que el anterior
+      // cada rótulo en su fila, con aire (1,6 veces la letra): los niveles juntos se reparten hacia arriba y una línea guía los une a su marca
+      const PASO = FSs * 1.6, xTxt = x + (lado < 0 ? -70 : 70);
+      let ultimoTexto = 1e9;   // en SVG el eje y crece hacia abajo
       ns.forEach(([z, nombre], i) => {
         el('line', { x1: x - 8, y1: Y(z), x2: x + 8, y2: Y(z), style: 'stroke:var(--fig-ink);stroke-width:1' }, svg);
         const sig = z >= 0 ? '+' : '−', num = `${sig}${coma(Math.abs(z), z % 1 ? 1 : 0)}`;
-        // niveles a menos de 13 cm del anterior: el texto se corre hacia arriba en escalera, para que no se pise
-        const yT = Math.min(Y(z) + FSs * 0.35, ultimoTexto - FSs * 1.15); ultimoTexto = yT;
-        if (yT < Y(z) - 8) el('line', { x1: x + (lado < 0 ? -10 : 10), y1: Y(z), x2: x + (lado < 0 ? -34 : 34), y2: yT - FSs * 0.3, style: 'stroke:var(--fig-soft);stroke-width:.8' }, svg);
-        txt(svg, x + (lado < 0 ? -40 : 40), yT, `${num}  ${nombre}`, { 'text-anchor': lado < 0 ? 'end' : 'start', 'font-size': FSs, class: 'txs' });
-        if (i) { const z0_ = ns[i - 1][0], d = z - z0_; if (d >= FSs * 0.8) txt(svg, x + (lado < 0 ? 16 : -16), Y((z + z0_) / 2) + FSs * 0.35, coma(d, d % 1 ? 1 : 0), { 'text-anchor': lado < 0 ? 'start' : 'end', 'font-size': FSs, 'font-weight': 600 }); }
+        const yT = Math.min(Y(z) + FSs * 0.35, ultimoTexto - PASO); ultimoTexto = yT;
+        el('line', { x1: x + (lado < 0 ? -10 : 10), y1: Y(z), x2: xTxt + (lado < 0 ? 8 : -8), y2: yT - FSs * 0.32, style: 'stroke:var(--fig-soft);stroke-width:.8' }, svg);
+        const t = el('text', { x: xTxt, y: yT, class: 'txs', 'font-size': FSs, 'text-anchor': lado < 0 ? 'end' : 'start' }, svg);
+        const n1 = document.createElementNS(NS, 'tspan'); n1.setAttribute('font-weight', '700'); n1.textContent = lado < 0 ? `${nombre}  ` : num; t.appendChild(n1);
+        const n2 = document.createElementNS(NS, 'tspan'); n2.textContent = lado < 0 ? num : `  ${nombre}`; t.appendChild(n2);
+        if (lado < 0) { n1.setAttribute('font-weight', '400'); n2.setAttribute('font-weight', '700'); }
+        if (i) { const z0_ = ns[i - 1][0], d = z - z0_; if (d >= FSs * 1.1) txt(svg, x + (lado < 0 ? 18 : -18), Y((z + z0_) / 2) + FSs * 0.35, coma(d, d % 1 ? 1 : 0), { 'text-anchor': lado < 0 ? 'start' : 'end', 'font-size': FSs, 'font-weight': 600 }); }
       });
-      txt(svg, x, Y(zTop) - 200, titulo, { 'text-anchor': 'middle', 'font-size': FS, 'font-weight': 600 });
+      txt(svg, x, Y(zTop) - 280, titulo, { 'text-anchor': 'middle', 'font-size': FS, 'font-weight': 600 });
     };
     cadena(xI, nivelesOG, -1, 'OBRA GRUESA');
     // ---- cadena de terminaciones (derecha) ----
@@ -555,7 +559,7 @@ ol.preg li{margin:0 0 8px}
     ents.forEach(([n, v]) => { el('line', { x1: v, y1: Y(zTop - 10), x2: v, y2: Y(zMin + 30), style: 'stroke:var(--fig-soft);stroke-width:.7;stroke-dasharray:14 5 3 5' }, svg); el('circle', { cx: v, cy: yB, r: 32, style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.5' }, svg); txt(svg, v, yB + FS * 0.36, n, { 'text-anchor': 'middle', 'font-size': FS, 'font-weight': 600 }); });
     for (let i = 1; i < ents.length; i++) cota(svg, ents[i - 1][1], yB + 60, ents[i][1], yB + 60, coma(ents[i][1] - ents[i - 1][1], 1), 0, FS);
     cota(svg, ents[0][1], yB + 115, ents[ents.length - 1][1], yB + 115, coma(ents[ents.length - 1][1] - ents[0][1], 1) + ' entre ejes extremos', 0, FS);
-    cota(svg, -al, Y(zTop) - 90, 0 - 12.5, Y(zTop) - 90, 'alero ' + coma(al - 12.5, 1), 0, FSs); cota(svg, largoT + 12.5, Y(zTop) - 90, largoT + al, Y(zTop) - 90, 'alero ' + coma(al - 12.5, 1), 0, FSs);
+    cota(svg, -al, Y(zTop) - 110, 0 - 12.5, Y(zTop) - 110, 'alero ' + coma(al - 12.5, 1), 0, FSs); cota(svg, largoT + 12.5, Y(zTop) - 110, largoT + al, Y(zTop) - 110, 'alero ' + coma(al - 12.5, 1), 0, FSs);
     $('#alturas-cap').innerHTML = `<b>${A.titulo}.</b> Obra gruesa: sello a −${coma(-NIV.emplantillado_inf, 0)}, zapata corrida de ${coma(H.zapata_corrida.espesor, 0)} (−${coma(-NIV.zapata_sup, 0)} / −${coma(-NIV.zapata_inf, 0)}), relleno 10, radier 10, piso del búnker a −${coma(-NIV.piso_bunker, 0)}, losa de 20 (−20 / 0,00), estructura de acero desde NPOG 0,00 con la viga E-O a +${coma(Z_VIGA_INF, 0)}/+${coma(Z_VIGA_INF + 10, 0)} y el techo al 3,5 %. Terminado: piso +${coma(T_PISO, 1)} (${TERM.piso.map(c => c[0].toLowerCase().split(' /')[0] + ' ' + coma(c[1], 1)).join(' + ')}), cielo a +${coma(Z_VIGA_INF - T_CIELO, 1)} (${coma(T_CIELO, 1)} bajo la estructura: yeso cartón ${coma(TERM.cielo[0][1], 1)} + perfilería ${coma(TERM.cielo[1][1], 1)}): ${coma(Z_VIGA_INF - T_CIELO - T_PISO, 0)} libres. En el búnker, piso a −${coma(-(NIV.piso_bunker + T_PISO), 1)} y cielo a −${coma(-(NIV.losa_inf - T_CIELO), 1)}: ${coma(NIV.losa_inf - T_CIELO - NIV.piso_bunker - T_PISO, 0)} libres. Las líneas punteadas naranjas son los niveles terminados.`;
   }
   const botAlt = $('#alt-botones');
