@@ -109,6 +109,9 @@ svg .txs{font-family:var(--ui);fill:var(--fig-soft)}
 .aviso b{color:var(--hi)}
 .pendiente{border:1px dashed var(--line);border-radius:10px;padding:10px 12px;margin:8px 0;font-size:13px;color:var(--muted)}
 .pendiente b{color:var(--ink)}
+.kvs{display:grid;grid-template-columns:max-content 1fr;gap:5px 16px;font-size:13.5px;margin:10px 0 12px;align-items:baseline}.kvs .k{color:var(--muted);text-transform:uppercase;font-size:10.5px;letter-spacing:.09em;font-weight:500;white-space:nowrap}.kvs .v b{font-weight:620}
+.puntos{margin:8px 0 10px;padding-left:18px;font-size:13.5px;line-height:1.55}.puntos li{margin:2px 0}.puntos b{font-weight:620}
+@media (max-width:560px){.kvs{grid-template-columns:1fr;gap:2px 0}.kvs .k{margin-top:6px}}
 .barras{display:flex;flex-direction:column;gap:4px;margin:8px 0}
 .barra{display:grid;grid-template-columns:52px minmax(0,1fr) 54px;gap:8px;align-items:center;font-size:11.5px;font-variant-numeric:tabular-nums}
 .barra .b{display:flex;height:16px;border-radius:3px;overflow:hidden;background:var(--line2);border:1px solid var(--line)}
@@ -182,7 +185,7 @@ details.areas[open] summary::before{content:"▾ ";}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V81" data-vista="losa"></script>
+  <script src="menu.js?v=V82" data-vista="losa"></script>
   <h1>Losa colaborante <small>Entrepiso de 15 cm · marco C, placa Instadeck 0,8, pernos, malla C-188 y hormigón</small></h1>
   <span class="meta">Fuentes: planta estructura nivel 1 (rev. 08-04-2026), detalle del ingeniero (05-10-2026), lámina 11 de pernos (07-10-2026), fichas de Instadeck, pernos Nelson y mallas ACMA, y áreas marcadas en obra</span>
 </header>
@@ -247,10 +250,8 @@ details.areas[open] summary::before{content:"▾ ";}
     </nav>
     <div class="doc-in">
 <section id="resumen" style="padding-top:14px">
-  <p class="lead">El entrepiso es una <b>losa colaborante</b>: planchas de acero <b>Instadeck 0,8</b> apoyadas sobre las vigas
-  de acero, hormigón encima y conectores de corte que hacen trabajar todo junto. El modelo trae el <b>marco perimetral
-  de perfil C 150×50×3</b> que contiene el hormigón, las <b>planchas</b> con su dirección área por área, los <b>pernos Nelson</b>,
-  las <b>alzaprimas</b>, la <b>malla</b> y el <b>hormigón</b>. Cada capa se prende y se apaga en el 3D.</p>
+  <p class="lead"><b>Losa colaborante</b>: planchas de acero <b>Instadeck 0,8</b> sobre las vigas, hormigón encima y conectores de corte que hacen trabajar todo junto.</p>
+  <ul class="puntos"><li><b>Capas del 3D</b> (se prenden y apagan): <b>marco perimetral C 150×50×3</b> que contiene el hormigón · <b>planchas</b> con su dirección área por área · <b>pernos Nelson</b> · <b>alzaprimas</b> · <b>malla</b> · <b>hormigón</b>.</li></ul>
   <div class="specs" id="specs"></div>
   <p class="small sub"><span class="fuente man">plano</span> dato del plano o de la ficha ·
   <span class="fuente med">obra</span> lo que se marcó a mano en el plano ·
@@ -259,14 +260,10 @@ details.areas[open] summary::before{content:"▾ ";}
 
 <section id="areas">
   <h2><span class="n">01</span>Áreas y planchas</h2>
-  <p>Las 8 áreas que se marcaron en el plano, cada una con la dirección de sus planchas. Las planchas corren
-  <b>perpendiculares a las vigas que las sostienen</b>. El hueco de la escalera (ejes 2–3, B–A) no lleva losa.</p>
+  <ul class="puntos"><li><b>8 áreas</b> marcadas en el plano, cada una con la dirección de sus planchas.</li><li>Planchas <b>perpendiculares a las vigas que las sostienen</b>.</li><li><b>Hueco de la escalera</b> (ejes 2–3, B–A): sin losa.</li></ul>
   <figure>
     <svg id="svg-planta" role="img" aria-label="Planta de la losa colaborante con áreas, planchas y marco"></svg>
-    <figcaption>Planta de la losa: cada rectángulo delgado es una plancha (avance útil 0,95 m) y la flecha indica hacia dónde corre.
-    En amarillo, el marco de perfil C con el número de cada tramo; en morado, los pernos Nelson, uno en cada valle de las vigas
-    que marca el ingeniero; en verde, las líneas de
-    alzaprimas (solera) con sus puntales; en rojo, los pilares del nivel 2. Toca una fila de la tabla para verla en el 3D.</figcaption>
+    <figcaption>Rectángulo delgado = plancha (avance útil 0,95 m) · flecha = sentido de las planchas · amarillo: marco C con el número de cada tramo · morado: pernos Nelson, uno en cada valle de las vigas que marca el ingeniero · verde: líneas de alzaprimas (solera) con sus puntales · rojo: pilares del nivel 2. Tocar una fila de la tabla → se ve en el 3D.</figcaption>
   </figure>
   <div class="tw"><table id="tabla-areas"></table></div>
   <div id="dif-areas"></div>
@@ -274,9 +271,12 @@ details.areas[open] summary::before{content:"▾ ";}
 
 <section id="marco">
   <h2><span class="n">02</span>Marco perimetral: perfil C 150×50×3</h2>
-  <p>Un canal C de 150 mm de alto, alas de 50 mm y 3 mm de espesor recorre todo el borde de la losa, incluido el
-  hueco de la escalera. Va apoyado sobre el ala superior de la viga de borde, con el alma vertical en el borde y las alas
-  hacia adentro: el alma contiene el hormigón y su alto, 150 mm, es el espesor de la losa.</p>
+  <div class="kvs">
+    <div class="k">Perfil</div><div class="v">canal C · alto <b>150 mm</b> · alas 50 mm · espesor 3 mm</div>
+    <div class="k">Recorrido</div><div class="v">todo el borde de la losa, incluido el hueco de la escalera</div>
+    <div class="k">Apoyo</div><div class="v">sobre el ala superior de la viga de borde · alma vertical en el borde · alas hacia adentro</div>
+    <div class="k">Función</div><div class="v">el alma contiene el hormigón · su alto, 150 mm, es el <b>espesor de la losa</b></div>
+  </div>
   <figure><svg id="svg-c" role="img" aria-label="Sección del perfil C 150x50x3 con sus medidas"></svg>
     <figcaption>Sección del perfil a escala. Peso calculado con radio interior igual al espesor.</figcaption></figure>
   <figure><svg id="svg-borde" role="img" aria-label="Detalle del borde de la losa sobre la viga"></svg>
@@ -284,14 +284,13 @@ details.areas[open] summary::before{content:"▾ ";}
   <h3>Tramos del marco</h3>
   <div class="tw"><table id="tabla-marco" class="small"></table></div>
   <h3>Compra y cortes (barras de 6 m)</h3>
-  <p class="small" id="txt-cortes"></p>
+  <div class="kvs" id="txt-cortes"></div>
   <div class="barras" id="barras"></div>
 </section>
 
 <section id="placa">
   <h2><span class="n">03</span>Placa colaborante Instadeck 0,8</h2>
-  <p>Plancha trapezoidal de acero galvanizado: tres nervios por plancha, 63,5 mm de alto y 950 mm de <b>avance útil</b>
-  (lo que cubre cada plancha descontando el traslapo con la vecina).</p>
+  <ul class="puntos"><li><b>Plancha:</b> trapezoidal, acero galvanizado · tres nervios por plancha · 63,5 mm de alto · <b>avance útil 950 mm</b> (lo que cubre cada plancha descontado el traslapo con la vecina).</li></ul>
   <figure><svg id="svg-placa" role="img" aria-label="Sección de la placa Instadeck con sus medidas"></svg>
     <figcaption id="cap-placa">Sección de una plancha a escala, tomada del dibujo de la ficha técnica.</figcaption></figure>
   <div class="specs" id="specs-placa"></div>
@@ -304,65 +303,64 @@ details.areas[open] summary::before{content:"▾ ";}
 
 <section id="pernos">
   <h2><span class="n">04</span>Pernos Nelson</h2>
-  <p>Según el ingeniero (consulta del 05-10-2026), los pernos van en las <b>vigas receptoras</b>: las que reciben la carga de
-  la losa. Son las que quedan <b>perpendiculares a las planchas</b>, donde las planchas apoyan; en las vigas paralelas a las
-  planchas no van. Cada perno va al centro de un valle, en una perforación de la placa, soldado directo al ala de la viga. La <b>lámina 11</b>
-  del ingeniero (07-10-2026) marca con puntos las <b>vigas que llevan pernos</b>. Los puntos son un esquema, no la
-  cantidad: en cada viga marcada va un perno en <b>todos sus valles</b>.</p>
+  <div class="kvs">
+    <div class="k">Dónde</div><div class="v">en las <b>vigas receptoras</b> (reciben la carga de la losa) = las <b>perpendiculares a las planchas</b>, donde apoyan · en las vigas paralelas a las planchas no van <span class="fuente man">ingeniero, 05-10-2026</span></div>
+    <div class="k">Cada perno</div><div class="v">al centro de un valle · en una perforación de la placa · soldado directo al ala de la viga</div>
+    <div class="k">Lámina 11</div><div class="v">puntos en las <b>vigas que llevan pernos</b> (07-10-2026) · esquema, no cantidad: en cada viga marcada va un perno en <b>todos sus valles</b> <span class="fuente man">ingeniero</span></div>
+  </div>
   <figure><svg id="svg-perno" role="img" aria-label="Detalle del perno Nelson en el valle de la placa sobre la viga"></svg>
-    <figcaption>Corte a lo largo de una viga receptora, a escala: la plancha cruza la viga y va un perno al centro de cada valle,
-    a 31,7 cm. En cada perno la placa se perfora y el perno se suelda al arco directo al ala, con un anillo libre
-    alrededor (el perno no lleva cabeza abajo). Medidas del detalle del ingeniero
-    (perno Ø19 × 5", malla ACMA C-188 a 2,5 cm de la cara superior, losa de 15).</figcaption></figure>
+    <figcaption>Corte a lo largo de una viga receptora, a escala · un perno al centro de cada valle, a 31,7 cm · placa perforada, perno soldado al arco directo al ala, con un anillo libre alrededor · sin cabeza abajo · medidas del detalle del ingeniero: perno Ø19 × 5", malla ACMA C-188 a 2,5 cm de la cara superior, losa de 15.</figcaption></figure>
   <div class="specs" id="specs-pernos"></div>
-  <p class="small" id="txt-ajuste"></p>
-  <p class="small" id="txt-soldadura"></p>
+  <ul class="puntos" id="txt-ajuste"></ul>
+  <ul class="puntos" id="txt-soldadura"></ul>
   <div class="tw"><table class="small" id="tabla-pernos"></table></div>
   <div class="aviso" id="aviso-pernos"></div>
 </section>
 
 <section id="apoyos">
   <h2><span class="n">05</span>Alzaprimas</h2>
-  <p>El ingeniero indicó considerar <b>1,87 m como luz máxima sin apoyo</b> mientras el hormigón está fresco. Cada vano
-  entre vigas receptoras se divide en espacios iguales de 1,87 m o menos, y entre espacio y espacio va una línea de
-  alzaprimas. Su ejemplo: 6,88 m entre pilares da 4 espacios de 1,72 m, o sea 3 alzaprimas. Con vanos de 1,87 a 3,74 m
-  la línea queda <b>al centro</b> del vano; con vanos más largos, en los tercios.</p>
-  <p>Cada línea es una <b>solera</b> (tablón o perfil) apoyada bajo la placa, que reparte el apoyo bajo todas las planchas,
-  sobre <b>puntales repartidos a lo largo</b> de ella, también al centro del paño. Cada cuánto van los puntales en ese sentido
-  no viene en la indicación: el modelo usa 1,0 m como máximo, como referencia para confirmar con el ingeniero.</p>
+  <div class="kvs">
+    <div class="k">Luz máxima</div><div class="v"><b>1,87 m sin apoyo</b> mientras el hormigón está fresco <span class="fuente man">ingeniero</span></div>
+    <div class="k">Regla</div><div class="v">cada vano entre vigas receptoras en espacios iguales de 1,87 m o menos · una línea de alzaprimas entre espacio y espacio</div>
+    <div class="k">Su ejemplo</div><div class="v">6,88 m entre pilares → 4 espacios de 1,72 m = 3 alzaprimas</div>
+    <div class="k">Posición</div><div class="v">vanos de 1,87 a 3,74 m → línea <b>al centro</b> del vano · más largos → en los tercios</div>
+    <div class="k">Cada línea</div><div class="v"><b>solera</b> (tablón o perfil) bajo la placa, reparte el apoyo bajo todas las planchas · sobre <b>puntales repartidos a lo largo</b>, también al centro del paño</div>
+    <div class="k">Puntales</div><div class="v">separación no indicada · el modelo usa <b>1,0 m como máximo</b> <span class="fuente calc">referencia</span>, por confirmar con el ingeniero</div>
+  </div>
   <div class="aviso" id="aviso-alz"></div>
   <div class="tw"><table class="small" id="tabla-apoyos"></table></div>
-  <p class="small sub" id="txt-apoyos"></p>
+  <ul class="puntos" id="txt-apoyos"></ul>
 </section>
 
 <section id="malla">
   <h2><span class="n">06</span>Malla ACMA C-188</h2>
-  <p>Según el detalle del ingeniero, la losa lleva una malla electrosoldada <b>ACMA C-188</b> con su cara superior a
-  <b>2,5 cm de la cara de la losa</b>, a la altura de la cabeza de los pernos. Es una malla de barras Ø6 a 15 cm en las dos
-  direcciones (1,88 cm²/m en cada una; la ficha de la placa pide al menos 1,8). Viene en paneles de 2,60 × 5,00 m que se
-  traslapan entre sí y se cortan en los bordes y alrededor de los pilares.</p>
+  <div class="kvs">
+    <div class="k">Malla</div><div class="v">electrosoldada <b>ACMA C-188</b> <span class="fuente man">ingeniero</span></div>
+    <div class="k">Altura</div><div class="v">cara superior a <b>2,5 cm de la cara de la losa</b>, a la altura de la cabeza de los pernos</div>
+    <div class="k">Barras</div><div class="v">Ø6 a 15 cm en las dos direcciones · 1,88 cm²/m en cada una (la ficha de la placa pide al menos 1,8)</div>
+    <div class="k">Paneles</div><div class="v">2,60 × 5,00 m · traslapados entre sí · cortados en los bordes y alrededor de los pilares</div>
+  </div>
   <figure><svg id="svg-malla" role="img" aria-label="Planta de los paneles de malla sobre la losa"></svg>
     <figcaption id="cap-malla"></figcaption></figure>
   <div class="specs" id="specs-malla"></div>
-  <p class="small" id="txt-malla"></p>
+  <ul class="puntos" id="txt-malla"></ul>
 </section>
 
 <section id="hormigon">
   <h2><span class="n">07</span>Hormigón</h2>
-  <p>El hormigón llena los valles de la placa y sube hasta el borde del perfil C: <b>15 cm</b> desde la base de la placa,
-  <b>8,65 cm sobre la cresta</b> (la ficha pide al menos 5). Antes de vaciar se sellan los extremos de los nervios en los
-  bordes perpendiculares a las planchas, para que el hormigón no se escape por debajo.</p>
+  <div class="kvs">
+    <div class="k">Altura</div><div class="v">llena los valles de la placa y sube hasta el borde del perfil C · <b>15 cm</b> desde la base de la placa · <b>8,65 cm sobre la cresta</b> (la ficha pide al menos 5)</div>
+    <div class="k">Antes de vaciar</div><div class="v">sellar los extremos de los nervios en los bordes perpendiculares a las planchas, para que el hormigón no se escape por debajo</div>
+    <div class="k">3D</div><div class="v">capa <b>Hormigón</b> = losa terminada · <b>Montaje</b>: el vaciado al final · <b>Despiece</b>: lo primero que se levanta</div>
+  </div>
   <div class="specs" id="specs-horm"></div>
   <div class="tw"><table class="small" id="tabla-horm"></table></div>
-  <p class="small sub">En el 3D, la capa <b>Hormigón</b> pone la losa terminada; en <b>Montaje</b> se ve el vaciado al final, y en
-  <b>Despiece</b> es lo primero que se levanta.</p>
 </section>
 
 <section id="notas">
   <h2><span class="n">08</span>Notas</h2>
   <ul class="small" id="lista-notas"></ul>
-  <footer>Planos y ficha técnica no están en el repositorio: el plano lleva datos personales en la viñeta. Los dibujos de
-  esta página están hechos de nuevo a partir de ellos.</footer>
+  <footer>Planos y ficha técnica fuera del repositorio (el plano lleva datos personales en la viñeta) · los dibujos de esta página están hechos de nuevo a partir de ellos.</footer>
 </section>
     </div>
   </div>
@@ -371,11 +369,11 @@ details.areas[open] summary::before{content:"▾ ";}
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=V81"></script>
+<script src="nav3d.js?v=V82"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
-<script src="placa3d.js?v=V81"></script>
-<script src="estructura.js?v=V81"></script>
-<script src="losa.js?v=V81"></script>
+<script src="placa3d.js?v=V82"></script>
+<script src="estructura.js?v=V82"></script>
+<script src="losa.js?v=V82"></script>
 <script>
 (function () {
 'use strict';
@@ -632,7 +630,12 @@ dibujarBorde();
   const barras = [];
   trozos.forEach(tz => { const b = barras.find(b => b.libre >= tz.l + 0.3); if (b) { b.t.push(tz); b.libre -= tz.l + 0.3; } else barras.push({ t: [tz], libre: BARRA - tz.l - 0.3 }); });
   const resto = barras.reduce((s, b) => s + b.libre, 0);
-  $('#txt-cortes').innerHTML = `<b>${barras.length} barras de 6 m</b> para ${fm(LARGO_PZ, 1)} de marco en ${N_PZ} piezas (cortes de 3 mm incluidos). Sobran ≈ ${fm(resto, 1)} (${coma(100 * resto / (barras.length * BARRA), 0)} %). Las piezas de más de 6 m se arman con barras enteras más un resto, soldadas a tope. Plan de corte sugerido, sin contar traslapos ni ajustes en las esquinas (letras = piezas de un mismo tramo, de su inicio a su fin):`;
+  $('#txt-cortes').innerHTML = [
+    ['Compra', `<b>${barras.length} barras de 6 m</b> · ${fm(LARGO_PZ, 1)} de marco en ${N_PZ} piezas · cortes de 3 mm incluidos`],
+    ['Sobra', `≈ ${fm(resto, 1)} (${coma(100 * resto / (barras.length * BARRA), 0)} %)`],
+    ['Piezas > 6 m', 'barras enteras más un resto, soldadas a tope'],
+    ['Plan de corte', 'sugerido · sin traslapos ni ajustes en las esquinas · letras = piezas de un mismo tramo, de su inicio a su fin'],
+  ].map(([k, v]) => `<div class="k">${k}</div><div class="v">${v}</div>`).join('');
   $('#barras').innerHTML = barras.map((b, i) => `<div class="barra"><span>Barra ${i + 1}</span><span class="b">${b.t.map(tz => `<i style="width:${100 * tz.l / BARRA}%" title="${tz.id}: ${fm(tz.l)}">${tz.id}</i>`).join('')}<i class="r" style="width:${100 * b.libre / BARRA}%"></i></span><span>${fm(BARRA - b.libre, 2)}</span></div>`).join('');
 })();
 
@@ -650,7 +653,7 @@ function dibujarPlaca() {
   cota(0, 40, PL.util, 40, `avance útil ${PL.util} mm`, 0, 22);
   cota(-20, 0, -20, -Hh, coma(Hh, 1), -10, 0, true);
   if (PL.paso) cota(PL.x_nervio0, -Hh - 20, PL.x_nervio0 + PL.paso, -Hh - 20, `${coma(PL.paso, 1)} mm entre nervios`, 0, -8);
-  $('#cap-placa').textContent = `Sección de una plancha a escala, tomada del dibujo vectorial de la ficha técnica: ${PL.nervios} nervios, ancho total ${miles(W)} mm, avance útil ${PL.util} mm. ${PL.cotas_texto || ''}`;
+  $('#cap-placa').textContent = `Sección a escala (dibujo vectorial de la ficha técnica) · ${PL.nervios} nervios · ancho total ${miles(W)} mm · avance útil ${PL.util} mm. ${PL.cotas_texto || ''}`;
   const s = [
     ['Espesor', '0,8 mm', 'Acero estructural G37, galvanizado G-90 (ASTM A653) <span class="fuente man">ficha</span>'],
     ['Peso', coma(PL.peso, 2) + ' kg/m²', 'Ficha: 8,03 en la portada; 8,00 en las tablas <span class="fuente man">ficha</span>'],
@@ -662,7 +665,10 @@ function dibujarPlaca() {
   $('#tabla-espesor').innerHTML = `<thead><tr><th class="r">Losa total</th><th class="r">Hormigón sobre la cresta</th><th class="r">Hormigón</th><th class="r">Peso propio</th></tr></thead><tbody>` +
     T.map(r => `<tr${Math.abs(r[0] - L.espesor_plano) < 0.01 ? ' class="on"' : ''}><td class="r">${coma(r[0], 2)} cm${Math.abs(r[0] - L.espesor_plano) < 0.01 ? ' <span class="fuente man">plano</span>' : ''}</td><td class="r">${coma(r[1], 0)} cm</td><td class="r">${coma(r[2], 3)} m³/m²</td><td class="r">${r[3]} kg/m²</td></tr>`).join('') +
     `<tr><td class="r"><b>${coma(ESP, 2)} cm</b> <span class="fuente calc">esta losa</span></td><td class="r">${coma(HC, 2)} cm</td><td class="r">${coma(VOL_M2, 4)} m³/m²</td><td class="r">≈ ${miles(VOL_M2 * 2400 + PL.peso)} kg/m²</td></tr></tbody>`;
-  $('#aviso-espesor').innerHTML = `<b>Espesor.</b> El plano del ingeniero dice <b>e = ${coma(L.espesor_plano, 2)} cm</b> (una de las losas de la tabla: placa 6,35 + 8 cm de hormigón sobre la cresta). Con el marco de 150 mm y la losa de ${coma(ESP, 0)} cm que se va a hacer, quedan ${coma(HC, 2)} cm sobre la cresta: ${coma((ESP - L.espesor_plano) * 10, 1)} mm más que en el plano. El detalle del ingeniero del 05-10-2026, posterior al plano, ya acota la losa en ${coma(ESP, 0)} cm; el modelo usa esa medida.`;
+  $('#aviso-espesor').innerHTML = `<b>Espesor.</b><ul class="puntos" style="margin:4px 0 0;font-size:inherit">
+    <li><b>Plano:</b> e = ${coma(L.espesor_plano, 2)} cm (una losa de la tabla: placa 6,35 + 8 cm de hormigón sobre la cresta).</li>
+    <li><b>Esta losa:</b> ${coma(ESP, 0)} cm, por el marco de 150 mm → ${coma(HC, 2)} cm sobre la cresta, ${coma((ESP - L.espesor_plano) * 10, 1)} mm más que el plano.</li>
+    <li><b>Manda:</b> el detalle del ingeniero del 05-10-2026 (posterior al plano) acota la losa en ${coma(ESP, 0)} cm · el modelo usa esa medida.</li></ul>`;
   $('#lista-ficha').innerHTML = (PL.notas_ficha || []).map(n => `<li>${n}</li>`).join('');
 }
 dibujarPlaca();
@@ -696,22 +702,24 @@ dibujarPlaca();
   const totP = ALZ.reduce((t, l) => t + (l.puntales || []).length, 0);
   $('#tabla-apoyos').innerHTML = `<thead><tr><th>Área</th><th>Vanos entre vigas receptoras (m) → espacios</th><th class="c">Líneas</th><th class="r">Solera</th><th class="c">Puntales</th><th class="r">Máx. por flecha</th></tr></thead><tbody>${filas}
     <tr><td><b>Total</b></td><td></td><td class="c"><b>${tot}</b> <span class="sub">(${totT} tramos)</span></td><td class="r"><b>${fm(totM, 1)}</b></td><td class="c"><b>${totP}</b></td><td></td></tr></tbody>`;
-  $('#txt-apoyos').innerHTML = `Las líneas corren paralelas a las vigas receptoras, bajo la placa, y se ven en el 3D con la capa <b>Alzaprimas</b>. Donde una línea pasa bajo una viga, la solera se corta en dos tramos. Cuando un área tiene planchas con vanos distintos (el área 5 entre los ejes 2–4 y entre 4–5), cada grupo va en su renglón. "Máx. por flecha" es la distancia máxima entre apoyos de la losa terminada según la ficha (control de deformaciones, ${coma(ESP, 0)} cm de espesor); ninguna luz la pasa. Puntales a 1,0 m como máximo a lo largo de cada solera (referencia) y a 15 cm de cada extremo de tramo.`;
+  $('#txt-apoyos').innerHTML = `<li><b>Líneas:</b> paralelas a las vigas receptoras, bajo la placa · 3D: capa <b>Alzaprimas</b> · bajo una viga, la solera se corta en dos tramos.</li>
+    <li><b>Renglones:</b> un área con planchas de vanos distintos (área 5: ejes 2–4 y 4–5) lleva un renglón por grupo.</li>
+    <li><b>Máx. por flecha:</b> distancia máxima entre apoyos de la losa terminada según la ficha (control de deformaciones, ${coma(ESP, 0)} cm de espesor) · ninguna luz la pasa.</li>
+    <li><b>Puntales:</b> a 1,0 m como máximo a lo largo de cada solera (referencia) · a 15 cm de cada extremo de tramo.</li>`;
 })();
 
 (function avisoAlz() {
   const ALZ = L.alzaprimas || [], maxV = Math.max(0, ...ALZ.map(l => l.vano));
-  $('#aviso-alz').innerHTML = `<b>Por confirmar con el ingeniero.</b> El modelo pone las alzaprimas bajo la <b>placa</b>, entre las vigas
-  que la reciben. A favor: ${fm(L.luz_max_alzaprima, 2)} es justo el largo máximo sin alzaprimas que da la ficha de Instadeck para un vano
-  con 8 cm de hormigón sobre la cresta (la losa e = 14,35 del plano); con la losa de ${coma(ESP, 0)} cm la ficha baja a ${fm(maxSinAlz(1, HC), 2)}.
-  En contra: su ejemplo mide 6,88 m <b>«entre pilar y pilar»</b>, y entre pilares van vigas, no placa: en esta losa ningún vano de placa
-  pasa de ${fm(maxV, 2)}. Preguntas para él:
+  $('#aviso-alz').innerHTML = `<b>Por confirmar con el ingeniero</b> (con sus respuestas se rehace al tiro).<ul class="puntos" style="margin:4px 0 0;font-size:inherit">
+    <li><b>Modelo:</b> alzaprimas bajo la <b>placa</b>, entre las vigas que la reciben.</li>
+    <li><b>A favor:</b> ${fm(L.luz_max_alzaprima, 2)} es justo el largo máximo sin alzaprimas de la ficha de Instadeck para un vano con 8 cm de hormigón sobre la cresta (losa e = 14,35 del plano) · con la losa de ${coma(ESP, 0)} cm la ficha baja a ${fm(maxSinAlz(1, HC), 2)}.</li>
+    <li><b>En contra:</b> su ejemplo mide 6,88 m <b>«entre pilar y pilar»</b>, y entre pilares van vigas, no placa · ningún vano de placa de esta losa pasa de ${fm(maxV, 2)}.</li></ul>
   <ol class="small" style="margin:6px 0 0;padding-left:20px">
     <li>¿Las alzaprimas a ${fm(L.luz_max_alzaprima, 2)} son para la placa o para las vigas, mientras se hormigona?</li>
     <li>Si son para las vigas, ¿para cuáles?</li>
     <li>¿Cada cuánto van los puntales a lo largo de cada línea? El modelo usa ${fm(L.puntal_sep_max, 1)}.</li>
     <li>¿Qué solera usar? El modelo pone madera de 2×6" de canto.</li>
-  </ol>Con sus respuestas se rehace al tiro.`;
+  </ol>`;
 })();
 
 (function malla() {
@@ -734,9 +742,7 @@ dibujarPlaca();
     txt(svg, cx, cy + 14, String(p.n), { 'font-size': 38, 'text-anchor': 'middle', 'font-weight': 700, style: p.cortado ? 'fill:var(--fig-soft)' : '' });
   });
   const ent = MA_N - MA_CORT, kgCompra = MA_N * MA.kg_panel;
-  $('#cap-malla').innerHTML = `Planta de los ${MA_N} paneles a escala, recortados al contorno de la losa (en amarillo, el marco C; en rojo, los pilares del nivel 2).
-    Línea llena: panel entero; punteada: panel con algún corte. Donde dos paneles se traslapan el relleno se ve más oscuro. Van con el largo en sentido
-    ${MA.largo_en === 'x' ? 'este–oeste' : 'norte–sur'}, numerados en el orden de colocación.`;
+  $('#cap-malla').innerHTML = `${MA_N} paneles a escala, recortados al contorno de la losa · amarillo: marco C · rojo: pilares del nivel 2 · línea llena: panel entero · punteada: con algún corte · traslapo: relleno más oscuro · largo en sentido ${MA.largo_en === 'x' ? 'este–oeste' : 'norte–sur'} · numerados en el orden de colocación.`;
   const sp = [
     ['Paneles', MA_N, `De 2,60 × 5,00 m; ${ent} enteros y ${MA_CORT} con algún corte (borde, pilar o reparto corrido) <span class="fuente calc">calculado</span>`],
     ['Peso', '≈ ' + miles(kgCompra) + ' kg', `${MA_N} × ${coma(MA.kg_panel, 2)} kg por panel. En obra quedan ${miles(MA.m_barra)} m de barra Ø6 (≈ ${miles(MA.kg_obra)} kg) <span class="fuente calc">calculado</span>`],
@@ -747,18 +753,12 @@ dibujarPlaca();
   ];
   $('#specs-malla').innerHTML = sp.map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
   const alt = (MA.alternativas || [])[0];
-  $('#txt-malla').innerHTML = `<b>Traslapo.</b> El modelo usa la regla de ACMA para empalmes (NCh 219): al menos 4 alambres transversales de cada malla
-    y 30 cm o más entre los últimos. Con cuadrícula de 15 cm son 45 cm más las puntas de los dos paneles: ${coma(MA.traslapo.punta, 0)} cm donde se
-    juntan las puntas y ${coma(MA.traslapo.costado, 0)} cm en los costados. Esa regla es para armaduras; si el ingeniero acepta un traslapo de
-    retracción menor${alt ? ` (por ejemplo ${alt.criterio.replace(/^[^:]+: /, '')}, como pide Armacero), salen ${alt.paneles} paneles en vez de ${MA_N}` : ''}.
-    Donde se juntan cuatro paneles se corta la esquina de dos de ellos para que no queden cuatro capas.</p>
-    <p class="small"><b>Pernos.</b> La malla queda a la altura de las cabezas de los pernos, así que algunas barras pasan junto a una cabeza. El reparto
-    se corrió ${coma(MA.corrimiento[0], 0)} cm en cada sentido para que eso pase lo menos posible: ${MA.choques} de los ${L.pernos.length} pernos quedan a menos de 1,9 cm
-    de una barra (sin correrlo eran ${MA.choques_sin_correr}). En obra esas barras se corren un poco o se apoyan en la cabeza.</p>
-    <p class="small">El reparto prueba las dos orientaciones y las cuatro esquinas de partida y deja el que usa menos paneles. Los recortes pueden servir
-    para completar otros bordes, así que la compra real puede bajar. También existe la C-188 con <b>economía de borde</b> (barras de 4,2 mm en los
-    bordes largos, 34,5 kg por panel): sirve si el traslapo de los costados cubre esas barras. En el 3D, la capa <b>Malla</b> muestra cada barra;
-    toca un panel para ver sus datos.`;
+  $('#txt-malla').innerHTML = `<li><b>Traslapo (regla ACMA para empalmes, NCh 219):</b> al menos 4 alambres transversales de cada malla y 30 cm o más entre los últimos · con cuadrícula de 15 cm: 45 cm más las puntas de los dos paneles = ${coma(MA.traslapo.punta, 0)} cm donde se juntan las puntas y ${coma(MA.traslapo.costado, 0)} cm en los costados · donde se juntan cuatro paneles se corta la esquina de dos, para que no queden cuatro capas.</li>
+    <li><b>Alternativa:</b> esa regla es para armaduras · si el ingeniero acepta un traslapo de retracción menor${alt ? ` (por ejemplo ${alt.criterio.replace(/^[^:]+: /, '')}, como pide Armacero): ${alt.paneles} paneles en vez de ${MA_N}` : ''}.</li>
+    <li><b>Pernos:</b> la malla queda a la altura de las cabezas, algunas barras pasan junto a una · reparto corrido ${coma(MA.corrimiento[0], 0)} cm en cada sentido → ${MA.choques} de los ${L.pernos.length} pernos a menos de 1,9 cm de una barra (sin correrlo eran ${MA.choques_sin_correr}) · en obra esas barras se corren un poco o se apoyan en la cabeza.</li>
+    <li><b>Reparto:</b> prueba las dos orientaciones y las cuatro esquinas de partida y deja el de menos paneles · los recortes pueden completar otros bordes → la compra real puede bajar.</li>
+    <li><b>Economía de borde:</b> C-188 con barras de 4,2 mm en los bordes largos, 34,5 kg por panel · sirve si el traslapo de los costados cubre esas barras.</li>
+    <li><b>3D:</b> la capa <b>Malla</b> muestra cada barra · tocar un panel → sus datos.</li>`;
 })();
 
 (function hormigon() {
@@ -797,10 +797,19 @@ dibujarPlaca();
   ].map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
   const cot = L.cotizacion_pernos || 850;
   const alas = [...new Set(P.map(p => p.perfil))].map(n => (E.perfiles[n] || {}).tf * 10).filter(Boolean);
-  $('#txt-soldadura').innerHTML = `<b>Con la placa perforada.</b> En cada perno la placa se perfora con una sierra copa de ${coma(L.perforacion * 10, 0)} mm y el perno se suelda directo al ala de la viga, como sobre acero plano: no hay que calificar la soldadura a través de la placa, y el perno se acorta solo ${coma(PN.quema_desnudo, 1)} mm, así que el de 5 3/16" (${coma(PN.largo_compra, 1)} mm) queda en <b>${coma(PN.largo_compra - PN.quema_desnudo, 0)} mm</b>, los 5" del detalle del ingeniero. Sobresale ${coma(PN.largo_compra - PN.quema_desnudo - PL.alto, 0)} mm de la cresta (mínimo 38) y le quedan ${coma(ESP * 10 - PN.largo_compra + PN.quema_desnudo, 0)} mm de hormigón encima (mínimo 13; los dos mínimos son de AISC 360). El ala de la viga tiene que medir al menos el diámetro del perno dividido por 2,5 (7,6 mm, AISC 360): las vigas receptoras tienen alas de ${coma(Math.min(...alas), 1)} a ${coma(Math.max(...alas), 1)} mm. Dos cuidados: la broca guía de la sierra copa no debe marcar el ala justo donde va el perno (se saca la guía después de marcar, o se usa una plantilla), y el ala tiene que quedar limpia y sin pintura. Como el perno ya no sujeta la placa a la viga, falta que el ingeniero diga cómo se fija. Detalles de cada caso en <a href="pernos.html">Pernos: instalación</a>.`;
+  $('#txt-soldadura').innerHTML = `<li><b>Placa perforada:</b> sierra copa de ${coma(L.perforacion * 10, 0)} mm en cada perno · soldado directo al ala de la viga, como sobre acero plano → no hay que calificar la soldadura a través de la placa.</li>
+    <li><b>Largo:</b> el perno se acorta solo ${coma(PN.quema_desnudo, 1)} mm → el de 5 3/16" (${coma(PN.largo_compra, 1)} mm) queda en <b>${coma(PN.largo_compra - PN.quema_desnudo, 0)} mm</b>, los 5" del detalle del ingeniero.</li>
+    <li><b>Mínimos AISC 360:</b> sobresale ${coma(PN.largo_compra - PN.quema_desnudo - PL.alto, 0)} mm de la cresta (mín. 38) · ${coma(ESP * 10 - PN.largo_compra + PN.quema_desnudo, 0)} mm de hormigón encima (mín. 13) · ala ≥ Ø del perno / 2,5 = 7,6 mm; las vigas receptoras tienen alas de ${coma(Math.min(...alas), 1)} a ${coma(Math.max(...alas), 1)} mm.</li>
+    <li><b>Cuidados:</b> la broca guía de la sierra copa no debe marcar el ala justo donde va el perno (sacar la guía después de marcar, o usar plantilla) · ala limpia y sin pintura.</li>
+    <li><b>Pendiente:</b> el perno ya no sujeta la placa a la viga · falta que el ingeniero diga cómo se fija · detalles de cada caso en <a href="pernos.html">Pernos: instalación</a>.</li>`;
   const vallesSin = SIN.reduce((t, s) => t + s.valles, 0);
-  $('#txt-ajuste').innerHTML = MAR.length ? `<b>Cómo se ubicaron.</b> Los ${MAR.length} puntos de la lámina se sacaron por su relleno (uno no tiene contorno) y se ubicaron con la grilla de ejes (error menor a 1 cm). Son un esquema: marcan <b>qué vigas llevan pernos</b>, y en cada una va un perno en <b>todos sus valles</b>, a 31,7 cm, del principio al fin de la viga. Son <b>${P.length} pernos</b> en ${nVigas} vigas receptoras. Donde un pilar del nivel 2 tapa un valle, ahí no va perno. Donde se juntan dos áreas a tope, las dos planchas tienen su valle a 2 a 4 cm una de otra: va un perno por valle (dos quedarían a menos de 4 diámetros), al lado de la viga donde el ingeniero dibujó los puntos. Donde se cruzan dos vigas y sus valles de la esquina caen casi en el mismo punto, va un solo perno. El perno va al <b>centro del valle</b>, encima del rigidizador o, en el valle de la unión entre dos planchas, del gancho del traslapo (la broca los corta): queda a ≈ 76 mm del alma del nervio hacia cada lado, en la "posición fuerte" de AISC 360. Donde la plancha termina sobre la viga (en el borde, en la punta del ala del C; entre dos áreas, en el eje, a tope), el perno se corrió hasta ${coma(Math.max(...P.map(p => Math.abs(p.corrido || 0))), 1)} cm hacia su plancha para que la perforación no corte el ala del C ni la plancha vecina (${P.filter(p => p.corrido).length} pernos). El borde de cada perno queda al menos a 2,5 cm de la cara de los pilares.${SIN.length ? ` <b>${SIN.length} trozos cortos de viga receptora no tienen ningún punto en la lámina</b> y también llevan perno en todos sus valles, por decisión del dueño (07-10-2026; ${vallesSin} pernos): ${Object.entries(SIN.reduce((o, s) => { const e = s.viga.split('-')[1].replace('ap', "a'"); (o[e] = o[e] || []).push(s); return o; }, {})).map(([e, ss]) => `eje ${e}, ${ss.length} trozo${ss.length > 1 ? 's' : ''} con ${ss.reduce((t, s) => t + s.valles, 0)} valle${ss.reduce((t, s) => t + s.valles, 0) > 1 ? 's' : ''}`).join(' · ')}.` : ''}` : '';
-  $('#aviso-pernos').innerHTML = `<b>Contra la cotización.</b> La cotización pide <b>${cot}</b> pernos y las vigas receptoras llevan <b>${P.length}</b>: ${cot - P.length} menos. Conviene ajustar la compra (con algunos de repuesto para las pruebas de soldadura).`;
+  $('#txt-ajuste').innerHTML = MAR.length ? `<li><b>Lámina 11:</b> ${MAR.length} puntos sacados por su relleno (uno no tiene contorno), ubicados con la grilla de ejes (error menor a 1 cm) · esquema: marcan <b>qué vigas llevan pernos</b>.</li>
+    <li><b>Regla:</b> en cada viga marcada, un perno en <b>todos sus valles</b>, a 31,7 cm, del principio al fin → <b>${P.length} pernos</b> en ${nVigas} vigas receptoras.</li>
+    <li><b>Un perno o ninguno:</b> valle tapado por un pilar del nivel 2 → sin perno · dos áreas a tope (valles a 2 a 4 cm uno de otro) → un perno por valle, al lado de la viga donde el ingeniero dibujó los puntos (dos quedarían a menos de 4 diámetros) · cruce de dos vigas con los valles de la esquina casi en el mismo punto → un solo perno.</li>
+    <li><b>Centro del valle:</b> encima del rigidizador o, en el valle de la unión entre dos planchas, del gancho del traslapo (la broca los corta) · ≈ 76 mm del alma del nervio hacia cada lado, "posición fuerte" de AISC 360.</li>
+    <li><b>Corridos:</b> donde la plancha termina sobre la viga (en el borde, en la punta del ala del C; entre dos áreas, en el eje, a tope), hasta ${coma(Math.max(...P.map(p => Math.abs(p.corrido || 0))), 1)} cm hacia su plancha para que la perforación no corte el ala del C ni la plancha vecina (${P.filter(p => p.corrido).length} pernos) · borde del perno a 2,5 cm o más de la cara de los pilares.</li>${SIN.length ? `
+    <li><b>${SIN.length} trozos cortos de viga receptora sin punto en la lámina:</b> también con perno en todos sus valles, por decisión del dueño (07-10-2026; ${vallesSin} pernos): ${Object.entries(SIN.reduce((o, s) => { const e = s.viga.split('-')[1].replace('ap', "a'"); (o[e] = o[e] || []).push(s); return o; }, {})).map(([e, ss]) => `eje ${e}, ${ss.length} trozo${ss.length > 1 ? 's' : ''} con ${ss.reduce((t, s) => t + s.valles, 0)} valle${ss.reduce((t, s) => t + s.valles, 0) > 1 ? 's' : ''}`).join(' · ')}.</li>` : ''}` : '';
+  $('#aviso-pernos').innerHTML = `<b>Contra la cotización.</b> Cotización: <b>${cot}</b> pernos · vigas receptoras: <b>${P.length}</b> → ${cot - P.length} menos · ajustar la compra, con algunos de repuesto para las pruebas de soldadura.`;
 })();
 
 // centros de los valles de la placa (mm desde el borde de la plancha): entre las dos mitades que separa el rigidizador;

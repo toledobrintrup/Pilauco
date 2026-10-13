@@ -167,6 +167,12 @@ svg .cota{stroke:var(--fig-ink);stroke-width:1;fill:none}
 .alturas{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
 footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
 
+/* fichas clave → valor y listas cortas (mismo patrón que estudio.html). En esta página .k ya es la tecla de pieza:
+   el rótulo de la ficha se estila solo como hijo directo (.kvs > .k) y anula el estilo de tecla; las teclas dentro de .v no se tocan */
+.kvs{display:grid;grid-template-columns:max-content 1fr;gap:5px 16px;font-size:13.5px;margin:10px 0 12px;align-items:baseline}.kvs > .k{display:block;min-width:0;height:auto;padding:0;border:0;border-radius:0;background:transparent;cursor:default;line-height:1.55;color:var(--muted);text-transform:uppercase;font-size:10.5px;letter-spacing:.09em;font-weight:500;white-space:nowrap}.kvs > .k:hover{color:var(--muted);background:transparent}.kvs .v b{font-weight:620}
+.puntos{margin:8px 0 10px;padding-left:18px;font-size:13.5px;line-height:1.55}.puntos li{margin:2px 0}.puntos b{font-weight:620}
+@media (max-width:560px){.kvs{grid-template-columns:1fr;gap:2px 0}.kvs > .k{margin-top:6px}}
+
 /* ---------- visor 3D ---------- */
 .visor canvas{display:block;width:100%;height:100%;outline:none}
 .v-carga{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:13px;text-align:center;padding:20px}
@@ -230,7 +236,7 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V81" data-vista="tablero"></script>
+  <script src="menu.js?v=V82" data-vista="tablero"></script>
   <h1>Tablero de básquetbol <small>Aro Dunking · poste empotrado · altura 1,50 a 3,05 m</small></h1>
   <span class="meta">Fuente: manual del fabricante (9 págs.) · medidas en mm salvo indicación</span>
 </header>
@@ -281,10 +287,9 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
     <div class="doc-in">
 
 <section id="ficha-tec" style="padding-top:14px">
-  <p class="lead">Aro de básquetbol de <b>poste fijo</b>, apernado a una fundación de hormigón, con tablero de
-  <b>vidrio templado de 12 mm</b> y <b>altura regulable con manivela entre 1,50 y 3,05 m</b>. Aquí está todo lo
-  que trae el manual del fabricante (9 páginas, en inglés), traducido y ordenado, y un modelo 3D armado con las
-  medidas del manual y de sus dibujos: se mueve igual que el de verdad.</p>
+  <p class="lead">Aro de básquetbol de <b>poste fijo</b> apernado a una fundación de hormigón · tablero de
+  <b>vidrio templado de 12 mm</b> · <b>altura regulable con manivela entre 1,50 y 3,05 m</b>.</p>
+  <ul class="puntos"><li><b>Fuente:</b> manual del fabricante (9 páginas, en inglés), traducido y ordenado.</li><li><b>3D:</b> armado con las medidas del manual y de sus dibujos · se mueve igual que el de verdad.</li></ul>
   <div class="specs">
     <div class="spec"><div class="l">Altura del aro</div><div class="v">1,50 – 3,05 m</div><div class="d">Con manivela, sin escalera <span class="fuente man">manual</span></div></div>
     <div class="spec"><div class="l">Alcance</div><div class="v">1,227 m</div><div class="d">De la cara del poste al tablero, con el aro a 3,05 m <span class="fuente man">manual</span></div></div>
@@ -298,30 +303,24 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
   <p class="leyenda-fuente"><span class="fuente man">manual</span> dato escrito en el manual ·
   <span class="fuente med">medido</span> medido sobre los dibujos del manual, aproximado ·
   <span class="fuente calc">calculado</span> sale de los datos del manual. Cómo se midió: en <a href="#notas">Notas</a>.</p>
-  <p class="small sub">Según el fabricante, el vidrio es de alta resistencia al impacto, alta transparencia, durable,
-  plano y seguro; el aro es de competencia, de norma china, con reemplazo gratis de por vida; la pintura es de color
-  vivo y no se destiñe fácilmente.</p>
+  <div class="kvs">
+    <div class="k">Vidrio</div><div class="v">alta resistencia al impacto · alta transparencia · durable · plano · seguro <span class="fuente man">manual</span></div>
+    <div class="k">Aro</div><div class="v">de competencia · norma china · <b>reemplazo gratis de por vida</b> <span class="fuente man">manual</span></div>
+    <div class="k">Pintura</div><div class="v">color vivo · no se destiñe fácilmente <span class="fuente man">manual</span></div>
+  </div>
 </section>
 
 <section id="funciona">
   <h2><span class="n">01</span>Cómo funciona</h2>
-  <p>El tablero <span class="k" data-p="A">A</span> cuelga de dos barras que giran sobre el poste
-  <span class="k" data-p="E">E</span>: el <b>brazo</b> <span class="k" data-p="D">D</span> abajo y la <b>barra de tiro</b>
-  <span class="k" data-p="C">C</span> arriba. Las dos tienen el mismo largo entre ejes (≈ 1,62 m) y la misma
-  separación en el poste y en el tablero: forman un <b>paralelogramo</b>, y por eso el tablero sube y baja
-  <b>siempre vertical</b>.</p>
-  <p>El brazo sigue de largo por detrás del poste. Ahí lo empuja el <b>tornillo de elevación</b>
-  <span class="k" data-p="G">G</span>, que se mueve con la <b>manivela</b> <span class="k" data-p="H">H</span>. La
-  <b>barra auxiliar</b> <span class="k" data-p="F">F</span> acompaña el movimiento y lleva pegada la escala de altura,
-  que se lee con la <b>regla</b> <span class="k" data-p="J">J</span>. La <b>barra tope</b>
-  <span class="k" data-p="8">8</span> cruza el poste justo sobre el eje del brazo, con fundas de silicona en las
-  puntas: por su nombre y su posición, es el tope que detiene el brazo abajo.</p>
+  <ul class="puntos">
+    <li><b>Paralelogramo:</b> el tablero <span class="k" data-p="A">A</span> cuelga de dos barras que giran sobre el poste <span class="k" data-p="E">E</span>: <b>brazo</b> <span class="k" data-p="D">D</span> abajo y <b>barra de tiro</b> <span class="k" data-p="C">C</span> arriba · mismo largo entre ejes (≈ 1,62 m) y misma separación en poste y tablero → sube y baja <b>siempre vertical</b>.</li>
+    <li><b>Elevación:</b> el brazo sigue por detrás del poste; ahí lo empuja el <b>tornillo de elevación</b> <span class="k" data-p="G">G</span>, movido con la <b>manivela</b> <span class="k" data-p="H">H</span>.</li>
+    <li><b>Escala:</b> la <b>barra auxiliar</b> <span class="k" data-p="F">F</span> acompaña el movimiento y lleva pegada la escala de altura · se lee con la <b>regla</b> <span class="k" data-p="J">J</span>.</li>
+    <li><b>Barra tope</b> <span class="k" data-p="8">8</span>: cruza el poste justo sobre el eje del brazo, fundas de silicona en las puntas · por nombre y posición, tope que detiene el brazo abajo.</li>
+  </ul>
   <figure class="fig-perfil">
     <svg id="svg-perfil" role="img" aria-label="Vista lateral con el aro en 3,05 m y en 1,50 m"></svg>
-    <figcaption>Vista lateral a escala, como la del manual: en negro el aro arriba (3,05 m), en naranjo abajo (1,50 m).
-    Al bajar, el brazo pasa de 42° sobre la horizontal a 17° bajo ella y el tablero <b>avanza</b>: el alcance va de
-    1,23 m arriba a un máximo de <span id="alc-max">1,64</span> m con el brazo horizontal (aro a <span id="h-horiz">1,97</span> m) y
-    queda en <span id="alc-min">1,57</span> m abajo. Geometría medida, aproximada.</figcaption>
+    <figcaption>Vista lateral a escala, como la del manual: negro = aro a 3,05 m · naranjo = 1,50 m. Al bajar, el brazo pasa de 42° sobre la horizontal a 17° bajo ella y el tablero <b>avanza</b>: alcance 1,23 m arriba · máximo <span id="alc-max">1,64</span> m con el brazo horizontal (aro a <span id="h-horiz">1,97</span> m) · <span id="alc-min">1,57</span> m abajo. Geometría medida, aproximada.</figcaption>
   </figure>
 </section>
 
@@ -332,15 +331,12 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
     <thead><tr><th>Pieza</th><th>Nombre</th><th class="c">Cant.</th><th>Qué es</th></tr></thead>
     <tbody></tbody>
   </table></div>
-  <p class="small sub">La lista del manual trae además: calcomanía de escala (1), fundas de silicona de la barra tope
-  (2) y el kit de anclaje M24 (4 varillas, 2 placas y 8 tuercas).</p>
+  <ul class="puntos sub"><li><b>Además en la lista del manual:</b> calcomanía de escala (1) · fundas de silicona de la barra tope (2) · kit de anclaje M24 (4 varillas, 2 placas y 8 tuercas).</li></ul>
 </section>
 
 <section id="perneria">
   <h2><span class="n">03</span>Pernería</h2>
-  <p>Todos los pernos, dibujados <b>a la misma escala</b> para que se distingan a la vista (el largo y el diámetro
-  son los del manual; la cabeza y el hilo, de norma). Los de 345 mm se parecen: el <b>[2]</b> es M18 y el
-  <b>[3]</b> es M16.</p>
+  <ul class="puntos"><li>Todos <b>a la misma escala</b>, para distinguirlos a la vista · largo y diámetro del manual · cabeza e hilo de norma.</li><li>Los dos de 345 mm se parecen: <b>[2]</b> = M18 · <b>[3]</b> = M16.</li></ul>
   <div class="pernos" id="pernos"></div>
   <h3>Tuercas y arandelas</h3>
   <div class="tw"><table class="small">
@@ -351,18 +347,14 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
   <p class="small">Cuánto usa cada paso del armado contra lo que trae la caja. Cuadra todo: no sobra ni falta nada.</p>
   <div class="tw"><table class="cuad small" id="tabla-cuad"></table></div>
   <h3>Herramientas</h3>
-  <p class="small">El manual no las lista. Para estas medidas de perno, las llaves de norma ISO son
-  (confírmalas con las piezas antes de comprar):</p>
+  <p class="small">El manual no las lista · llaves de norma ISO por medida de perno · confirmar con las piezas antes de comprar:</p>
   <div class="llaves">
     <span class="llave">M10 → <b>16 mm</b></span><span class="llave">M12 → <b>18 mm</b></span>
     <span class="llave">M16 → <b>24 mm</b></span><span class="llave">M18 → <b>27 mm</b></span><span class="llave">M24 → <b>36 mm</b></span>
   </div>
-  <p class="small sub">Dos llaves de cada medida (una para la cabeza y otra para la tuerca), salvo en los pernos coche
-  <b>[5]</b>, que no giran por su cuello cuadrado. Además: nivel para aplomar el poste, lainas metálicas, pala, carretilla
-  y hormigón, y dos listones para sostener la plantilla del anclaje.</p>
+  <ul class="puntos sub"><li><b>Llaves:</b> dos de cada medida (cabeza y tuerca) · pernos coche <b>[5]</b>: una sola, no giran por su cuello cuadrado.</li><li><b>Además:</b> nivel para aplomar el poste · lainas metálicas · pala, carretilla y hormigón · dos listones para sostener la plantilla del anclaje.</li></ul>
   <h3>Revisión de la caja</h3>
-  <p class="small">El manual pide revisar la lista de empaque antes de instalar. Esta lista queda guardada en este
-  navegador.</p>
+  <p class="small">Lista de empaque del manual, para revisar antes de instalar · las marcas quedan guardadas en este navegador.</p>
   <div class="prog"><span id="kit-n">0 de 0</span><span class="bar"><i id="kit-bar"></i></span><button class="btn" id="kit-reset">Desmarcar todo</button></div>
   <ul class="check cols2" id="kit"></ul>
 </section>
@@ -375,78 +367,72 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
     dibujo.</figcaption>
   </figure>
   <h3>Dónde va</h3>
-  <ul>
-    <li>La placa va <b>de frente a la línea de fondo</b>: sus dos agujeros delanteros miran hacia la cancha.</li>
-    <li>El <b>centro de la placa queda a 527 mm detrás de la línea de fondo</b> (fuera de la cancha).</li>
-    <li>Detrás de la placa, <b>por lo menos 500 mm libres</b> hasta muros, rejas u otras construcciones, para poder subir y bajar el aro.</li>
-    <li>Con el aro a 3,05 m, el alcance es de <b>1,227 m</b>.</li>
-  </ul>
+  <div class="kvs">
+    <div class="k">Orientación</div><div class="v">placa <b>de frente a la línea de fondo</b> · los dos agujeros delanteros miran a la cancha <span class="fuente man">manual</span></div>
+    <div class="k">Centro de la placa</div><div class="v"><b>527 mm detrás de la línea de fondo</b> (fuera de la cancha) <span class="fuente man">manual</span></div>
+    <div class="k">Detrás</div><div class="v"><b>≥ 500 mm libres</b> hasta muros, rejas u otras construcciones, para subir y bajar el aro <span class="fuente man">manual</span></div>
+    <div class="k">Alcance</div><div class="v"><b>1,227 m</b> con el aro a 3,05 m <span class="fuente man">manual</span></div>
+  </div>
   <figure>
     <svg id="svg-planta" role="img" aria-label="Planta de ubicación del aro respecto de la línea de fondo"></svg>
-    <figcaption>Planta. De las medidas del manual sale que entre la línea de fondo y un muro hacen falta al menos
-    <b>1,20 m</b> (527 + 175 + 500 mm) y que el tablero queda <b>≈ 0,80 m dentro de la cancha</b> (1.227 − 427 mm, si
-    el alcance se mide desde la cara del poste, como en el dibujo). En una cancha reglamentaria FIBA el tablero va a
-    1,20 m de la línea de fondo.</figcaption>
+    <figcaption>Planta, con las medidas del manual: línea de fondo a muro, al menos <b>1,20 m</b> (527 + 175 + 500 mm) · tablero <b>≈ 0,80 m dentro de la cancha</b> (1.227 − 427 mm, con el alcance medido desde la cara del poste, como en el dibujo) · cancha reglamentaria FIBA: tablero a 1,20 m de la línea de fondo.</figcaption>
   </figure>
 </section>
 
 <section id="armado">
   <h2><span class="n">05</span>Armado paso a paso</h2>
-  <p>Cada paso se ve en el 3D: <span class="hint-escritorio">al pasar por él, el modelo muestra lo ya armado y
-  destaca en naranjo lo que se agrega.</span> <span class="hint-movil">toca <b>Ver en 3D</b>.</span></p>
+  <p>Cada paso se ve en el 3D: <span class="hint-escritorio">al pasar por él, el modelo muestra lo ya armado y destaca en naranjo lo que se agrega.</span> <span class="hint-movil">tocar <b>Ver en 3D</b>.</span></p>
   <div id="pasos"></div>
 </section>
 
 <section id="altura">
   <h2><span class="n">06</span>Ajuste de altura</h2>
-  <p>Mirando la regla <span class="k" data-p="J">J</span>: la manivela <span class="k" data-p="H">H</span> girada en
-  sentido <b>antihorario sube</b> el aro y en sentido <b>horario lo baja</b>. Usa el control del 3D para verlo.</p>
+  <ul class="puntos"><li><b>Manivela</b> <span class="k" data-p="H">H</span>, mirando la regla <span class="k" data-p="J">J</span>: <b>antihorario sube</b> el aro · <b>horario lo baja</b>.</li><li>Control <b>Altura del aro</b> del 3D para verlo.</li></ul>
   <div class="tw"><table class="small" id="tabla-alturas"></table></div>
-  <p class="small sub">Alcance, ángulo del brazo y largo del tornillo de elevación salen de la geometría medida en el
-  dibujo lateral del manual: son aproximados. La altura reglamentaria es 3,05 m; 2,60 m es la del minibásquetbol (FIBA),
-  como referencia.</p>
-  <div class="aviso"><b>La escala.</b> Después de fijar una altura, mide la altura real de la <b>cara superior del aro</b>
-  y pega la calcomanía de escala en la barra auxiliar <span class="k" data-p="F">F</span> de modo que la regla marque esa
-  medida. En el 3D la escala ya está puesta: acércate a la barra auxiliar y verás la punta de la regla moverse sobre
-  ella (todo el recorrido cabe en ≈ 17 cm).</div>
+  <ul class="puntos sub"><li><b>Alcance, ángulo del brazo y largo del tornillo:</b> geometría medida en el dibujo lateral del manual · aproximados <span class="fuente med">medido</span>.</li><li><b>3,05 m</b> reglamentaria · <b>2,60 m</b> minibásquetbol (FIBA), como referencia.</li></ul>
+  <div class="aviso"><b>La escala.</b>
+    <ul class="puntos" style="margin:4px 0 0"><li>Fijar una altura → medir la altura real de la <b>cara superior del aro</b> → pegar la calcomanía de escala en la barra auxiliar <span class="k" data-p="F">F</span> donde la regla marque esa medida.</li><li>En el 3D ya está puesta: acercarse a la barra auxiliar y la punta de la regla se mueve sobre ella · todo el recorrido cabe en ≈ 17 cm.</li></ul>
+  </div>
 </section>
 
 <section id="cuidados">
   <h2><span class="n">07</span>Precauciones y mantención</h2>
   <h3>Antes de usar</h3>
-  <ul>
-    <li>Úsalo sólo cuando <b>todos los pernos estén apretados</b>.</li>
-    <li>Antes de instalar, revisa la lista de empaque, saca todo el embalaje y trabaja con cuidado para no lastimarte. Si se puede, acordona el lugar: la seguridad va en serio.</li>
+  <ul class="puntos">
+    <li>Usar solo con <b>todos los pernos apretados</b>.</li>
+    <li>Antes de instalar: revisar la lista de empaque · sacar todo el embalaje · trabajar con cuidado · acordonar el lugar si se puede.</li>
   </ul>
   <h3>Al usarlo</h3>
-  <ul>
-    <li>No golpees el tablero con objetos duros o con punta.</li>
-    <li>No tires ni empujes a la fuerza la barra de tiro <span class="k" data-p="C">C</span>: se daña el tablero.</li>
-    <li><b>No te cuelgues ni te subas al aro.</b></li>
-    <li>Juega según tu condición física; si te sientes mal, para.</li>
+  <ul class="puntos">
+    <li>No golpear el tablero con objetos duros o con punta.</li>
+    <li>No tirar ni empujar a la fuerza la barra de tiro <span class="k" data-p="C">C</span>: daña el tablero.</li>
+    <li><b>No colgarse ni subirse al aro.</b></li>
+    <li>Jugar según la condición física · ante malestar, parar.</li>
   </ul>
   <h3>Mantención</h3>
-  <ul>
-    <li>Revisa que todas las uniones estén firmes. Si algo está suelto, apriétalo o cambia la pieza de inmediato.</li>
-    <li><b>Una vez al año</b>, revisa el óxido y la firmeza de las uniones. Si notas algo raro, deja de usarlo hasta revisarlo y repararlo.</li>
-    <li>Si se salta la pintura, retócala a tiempo.</li>
+  <ul class="puntos">
+    <li>Uniones firmes · algo suelto: apretar o cambiar la pieza de inmediato.</li>
+    <li><b>Una vez al año:</b> revisar óxido y firmeza de las uniones · ante algo raro, no usar hasta revisar y reparar.</li>
+    <li>Pintura saltada: retocar a tiempo.</li>
   </ul>
 </section>
 
 <section id="notas">
   <h2><span class="n">08</span>Notas sobre el manual y el modelo</h2>
   <h3>Lo que el manual no dice o dice dos veces</h3>
-  <ul>
-    <li>La letra <b>J</b> se usa para dos piezas: la regla de altura y la placa de anclaje. Aquí J es la regla y la otra se llama «placa de anclaje». En la foto del hoyo, la placa aparece rotulada <b>H</b>, que es la manivela.</li>
-    <li>El paso 1 nombra arandelas <b>[5C]</b> y <b>[5B]</b> para el anclaje, pero la caja no las trae: sólo 8 tuercas <b>[5A]</b>, justo 2 por varilla. En los dibujos van 4 tuercas sobre la placa de anclaje (sostienen la plantilla al hormigonar y sobre ellas se apoya el poste) y 4 encima de la placa base del poste.</li>
-    <li>El manual no da medidas del tablero, del poste ni del brazo, ni el paso del tornillo de elevación (cuántas vueltas de manivela por centímetro).</li>
-    <li>La «barra tope» se llama en el manual <i>gag lever post</i>; que sea el tope inferior del brazo se deduce de su nombre y de su posición en el dibujo.</li>
+  <ul class="puntos">
+    <li><b>Letra J repetida:</b> regla de altura y placa de anclaje · aquí J = regla; la otra, «placa de anclaje» · en la foto del hoyo la placa sale rotulada <b>H</b>, que es la manivela.</li>
+    <li><b>Arandelas [5C] y [5B]</b> del paso 1: la caja no las trae · solo 8 tuercas <b>[5A]</b>, justo 2 por varilla · en los dibujos, 4 sobre la placa de anclaje (sostienen la plantilla al hormigonar y apoyan el poste) y 4 encima de la placa base del poste.</li>
+    <li><b>Sin medida en el manual:</b> tablero, poste, brazo y paso del tornillo de elevación (vueltas de manivela por centímetro).</li>
+    <li><b>«Barra tope»</b> = <i>gag lever post</i> en el manual · que sea el tope inferior del brazo se deduce del nombre y de su posición en el dibujo.</li>
   </ul>
   <h3>Cómo se midió el modelo</h3>
-  <p class="small">Se tomó el dibujo lateral de la página 3 del manual (es una vista de costado sin perspectiva
-  apreciable) y se ubicó cada eje de giro buscando los círculos de los pernos. La escala (1,46 mm por píxel) se fijó
-  para que el aro quede a 3,05 m sobre el piso, con la placa base del poste 20 mm sobre el piso (una tuerca de
-  nivelación). Con esa escala se comprobó lo que el manual sí dice:</p>
+  <div class="kvs">
+    <div class="k">Base</div><div class="v">dibujo lateral de la página 3 del manual · vista de costado sin perspectiva apreciable</div>
+    <div class="k">Ejes de giro</div><div class="v">ubicados por los círculos de los pernos</div>
+    <div class="k">Escala</div><div class="v"><b>1,46 mm por píxel</b> · fijada con el aro a 3,05 m sobre el piso y la placa base del poste 20 mm sobre el piso (una tuerca de nivelación)</div>
+    <div class="k">Comprobación</div><div class="v">con esa escala, contra lo que el manual sí dice:</div>
+  </div>
   <div class="tw"><table class="small">
     <thead><tr><th>Medida</th><th class="r">Manual</th><th class="r">Modelo</th></tr></thead>
     <tbody>
@@ -456,15 +442,15 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
       <tr><td>Rango de altura del aro</td><td class="r">1,50 – 3,05 m</td><td class="r" id="n-ang">brazo de −16,9° a +41,6°</td></tr>
     </tbody>
   </table></div>
-  <p class="small">El poste mide 194 mm en el dibujo; se modeló de 200 mm (la proporción poste/placa del dibujo da 198).
-  El brazo y la barra de tiro miden 1.624 mm entre ejes y forman un paralelogramo casi perfecto (las separaciones en el
-  poste y en el tablero difieren 10 mm en el dibujo; se igualaron). El tablero se midió por proporción en la portada,
-  que tiene perspectiva: ≈ 1,80 × 1,05 m. Del mismo dibujo sale que el tornillo de elevación pasa de ≈ 58 a 95 cm entre
-  3,05 y 1,50 m, y que la barra tope queda a 83 mm sobre el eje del brazo.</p>
-  <p class="small sub">Todo lo marcado <span class="fuente med">medido</span> es aproximado (±2 %). Para cualquier
-  decisión de obra (ubicación exacta, fundación según el suelo) manda el manual y lo que se mida en las piezas reales.</p>
-  <footer>Fuente: manual de usuario del fabricante, 9 páginas en inglés. El PDF no está en el repositorio. Los dibujos y
-  el 3D de esta página están hechos de nuevo a partir de él; no son imágenes del manual.</footer>
+  <div class="kvs">
+    <div class="k">Poste</div><div class="v">194 mm en el dibujo · modelado de <b>200 mm</b> (la proporción poste/placa del dibujo da 198)</div>
+    <div class="k">Brazo y barra de tiro</div><div class="v"><b>1.624 mm</b> entre ejes · paralelogramo casi perfecto (las separaciones en poste y tablero difieren 10 mm en el dibujo; se igualaron)</div>
+    <div class="k">Tablero</div><div class="v">por proporción en la portada, que tiene perspectiva · ≈ <b>1,80 × 1,05 m</b></div>
+    <div class="k">Tornillo de elevación</div><div class="v">≈ 58 a 95 cm entre 3,05 y 1,50 m (mismo dibujo)</div>
+    <div class="k">Barra tope</div><div class="v">83 mm sobre el eje del brazo</div>
+  </div>
+  <ul class="puntos sub"><li>Todo lo marcado <span class="fuente med">medido</span> es aproximado (±2 %).</li><li><b>Decisiones de obra</b> (ubicación exacta, fundación según el suelo): manda el manual y lo medido en las piezas reales.</li></ul>
+  <footer>Fuente: manual de usuario del fabricante, 9 páginas en inglés · el PDF no está en el repositorio · dibujos y 3D hechos de nuevo a partir de él, no son imágenes del manual.</footer>
 </section>
 
     </div>
@@ -474,7 +460,7 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=V81"></script>
+<script src="nav3d.js?v=V82"></script>
 <script>
 (function () {
 'use strict';
@@ -570,12 +556,12 @@ const PASOS = [
       <li>La placa de arriba del anclaje tiene que quedar <b>a nivel con el piso terminado</b> de la cancha.</li>
       <li>Deja fraguar <b>5 a 7 días</b>.</li></ol>
       <div class="aviso"><b>Ojo:</b> las medidas del hoyo son de referencia; el manual pide ajustarlas al tipo de suelo.</div>
-      <p class="nota-paso">En los dibujos: las varillas asoman 60 mm sobre el piso, la placa se sostiene nivelada con dos listones atravesados sobre el hoyo y las 4 tuercas van encima de ella. Ubícala como dice <a href="#fundacion">Fundación</a>.</p>`,
+      <p class="nota-paso">En los dibujos: varillas 60 mm sobre el piso · placa nivelada con dos listones atravesados sobre el hoyo · las 4 tuercas encima de ella · ubicación según <a href="#fundacion">Fundación</a>.</p>`,
     cam: [[1.7, 0.75, 2.0], [0, -0.3, 0]] },
   { t: 'Poste', destaca: ['E', '5A'], usa: [['5A', 4, 'tuercas M24']],
-    html: `<p>Pon el poste <span class="k" data-p="E">E</span> sobre la placa de anclaje y apriétalo con las tuercas <b>[5A]</b>.
-      Mide que quede a plomo; si no está vertical, suplézalo con <b>lainas metálicas</b> hasta que lo esté.</p>
-      <p class="nota-paso">El texto nombra también arandelas [5C] y [5B], que no vienen en la caja (ver Notas). La placa base del poste se apoya sobre las 4 tuercas que ya están sobre la placa de anclaje; las otras 4 van encima.</p>`,
+    html: `<ol><li>Pon el poste <span class="k" data-p="E">E</span> sobre la placa de anclaje y apriétalo con las tuercas <b>[5A]</b>.</li>
+      <li>Mide que quede a plomo; si no está vertical, suple con <b>lainas metálicas</b> hasta que lo esté.</li></ol>
+      <p class="nota-paso">Arandelas [5C] y [5B] del texto: no vienen en la caja (ver <a href="#notas">Notas</a>) · placa base del poste apoyada en las 4 tuercas que ya están sobre la placa de anclaje · las otras 4 van encima.</p>`,
     cam: [[1.25, 1.05, 1.75], [0, 0.45, 0]] },
   { t: 'Barra tope y brazo', destaca: ['8', '9', 'D', 'p2a'], usa: [['8', 1, 'barra tope'], ['9', 1, 'perilla'], ['', 2, 'fundas'], ['2', 1, 'M18×345'], ['4A·4B·4C', 1, '']],
     html: `<ol><li>Pasa la barra tope <span class="k" data-p="8">8</span> por el agujero del poste y <b>céntrala</b>: tiene que sobresalir lo mismo por cada lado.</li>
