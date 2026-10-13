@@ -94,7 +94,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V74" data-vista="3d"></script>
+    <script src="menu.js?v=V75" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -164,16 +164,16 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V74"></script>
-<script src="data.js?v=V74"></script>
-<script src="estructura.js?v=V74"></script>
-<script src="losa.js?v=V74"></script>
-<script src="sitio.js?v=V74"></script>
-<script src="sitio3d.js?v=V74"></script>
-<script src="estudio_estructura.js?v=V74"></script>
-<script src="mobiliario3d.js?v=V74"></script>
-<script src="cotas3d.js?v=V74"></script>
-<script src="goku3d.js?v=V74"></script>
+<script src="nav3d.js?v=V75"></script>
+<script src="data.js?v=V75"></script>
+<script src="estructura.js?v=V75"></script>
+<script src="losa.js?v=V75"></script>
+<script src="sitio.js?v=V75"></script>
+<script src="sitio3d.js?v=V75"></script>
+<script src="estudio_estructura.js?v=V75"></script>
+<script src="mobiliario3d.js?v=V75"></script>
+<script src="cotas3d.js?v=V75"></script>
+<script src="goku3d.js?v=V75"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -317,14 +317,12 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       const {h, b, tf, tw} = p, H = h / 2, B = b / 2, w = tw / 2;
       poli([[-B,-H],[B,-H],[B,-H+tf],[w,-H+tf],[w,H-tf],[B,H-tf],[B,H],[-B,H],[-B,H-tf],[-w,H-tf],[-w,-H+tf],[-B,-H+tf]]);
     } else if (p.forma === 'tubo_rect'){
-      const H = p.h / 2, B = p.b / 2, t = p.t;
+      // los tubos se dibujan con los extremos cerrados (en obra van con tapa): antes iban huecos y, visto de cerca desde abajo, el
+      // agujero con el espesor de pared parecía una terminación mal hecha (Gabriel, 13-10-2026). El espesor sigue en la ficha.
+      const H = p.h / 2, B = p.b / 2;
       poli([[-B,-H],[B,-H],[B,H],[-B,H]]);
-      const hueco = new THREE.Path();
-      [[-B+t,-H+t],[-B+t,H-t],[B-t,H-t],[B-t,-H+t]].forEach(([x, y], i) => i ? hueco.lineTo(m(x), m(y)) : hueco.moveTo(m(x), m(y)));
-      hueco.closePath(); s.holes.push(hueco);
     } else if (p.forma === 'tubo_circ'){
       s.absarc(0, 0, m(p.d / 2), 0, Math.PI * 2, false);
-      const hueco = new THREE.Path(); hueco.absarc(0, 0, m(p.d / 2 - p.t), 0, Math.PI * 2, true); s.holes.push(hueco);
     } else if (p.forma === 'C'){
       const H = p.h / 2, B = p.b / 2, t = p.t;
       poli([[-B,-H],[B,-H],[B,-H+t],[-B+t,-H+t],[-B+t,H-t],[B,H-t],[B,H],[-B,H]]);
@@ -458,7 +456,10 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       const clave = grupoDeClase[mb.c] || 'arriostre';
       const mesh = new THREE.Mesh(geometriaDe(mb.p), sub[clave].userData.material);
       mesh.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(x, y, z));
-      mesh.position.copy(a); mesh.scale.set(1, 1, largo);
+      // pilares y puntales entran 1 cm en la pieza que los recibe (solo en el dibujo, la ficha y la cubicación usan el largo real):
+      // si el tope queda en el mismo plano que la cara de la viga, las dos caras titilan y la terminación se ve mal hecha
+      const emb = (mb.c === 'pilar' || mb.c === 'puntal') ? 0.01 : 0, embAbajo = mb.c === 'puntal' ? emb : 0;
+      mesh.position.copy(a).addScaledVector(z, -embAbajo); mesh.scale.set(1, 1, largo + emb + embAbajo);
       mesh.userData.miembro = mb; mesh.userData.largo = largo; mesh.userData.estudio = true;
       sub[clave].add(mesh);
     });

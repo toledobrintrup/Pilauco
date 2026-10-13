@@ -81,7 +81,6 @@ def main(estudio_json, sitio_json, salida):
     def z_viga(y): return Z_CORDON[1] + PEND * (y - yA[0])           # cara inferior de la viga inclinada: apoyada sobre la viga E-O 100x100 de +400/+410 (lámina 05: +411 en F1)
     # Convención: cada miembro se dibuja centrado en su línea, así que las cotas del ingeniero (caras inferiores) llevan sumado medio perfil.
     Z_CORDON_EJE = (Z_CORDON[0] + Z_CORDON[1]) / 2                     # 405: eje del cordón y de las vigas E-O (de +400 a +410)
-    def z_tope(y): return z_viga(y) - 5                                # eje de una viga E-O CUAD 100 pegada bajo la viga inclinada
     M = []
     def m(id_, c, p, a, b, d, **k): M.append(dict(id=id_, c=c, p=p, a=ap(*a), b=ap(*b), d=d, **k))
     lateral = lambda xn: xn in ('1', '5')
@@ -92,18 +91,24 @@ def main(estudio_json, sitio_json, salida):
             pm = 'PM1' if xn in ('2', '3') else 'PM2'
             perfil = 'CUAD 150x150x5' if pm == 'PM1' else 'CUAD 150x150x4'
             apoyo = {'A': 'sobre el muro norte del búnker', 'B': 'sobre el muro sur del búnker', 'E': 'sobre zapata aislada 1 x 1 x 1'}[yn]
-            m(f'P-{xn}{yn}', 'pilar', perfil, (x, y, 0), (x, y, z_viga(y) - 10), f'{pm} eje {xn} x {yn}, {apoyo}; llega a la viga E-O 100x100 (+{z_viga(y) - 10:.0f}), y sobre ella apoya la viga inclinada (lámina 05)', alma='Y')
+            # lámina 05: en el marco bajo (F) el pilar termina a +400 bajo la viga E-O y sobre ella apoya la viga inclinada; en el marco alto (A1) el pilar
+            # pasa la viga E-O de +400/+410 y sigue hasta la cara inferior de la viga inclinada (+447). Opción A de Gabriel (12-10-2026): igual aquí.
+            zt = z_viga(y) if z_viga(y) - 10 > Z_CORDON[1] + 0.5 else Z_CORDON[0]
+            d_t = ('llega a +400, bajo la viga E-O 100x100 de +400/+410, y sobre ella apoya la viga inclinada (lámina 05, marco F)' if zt == Z_CORDON[0]
+                   else f'pasa por la viga E-O de +400/+410 y sigue hasta la cara inferior de la viga inclinada (+{zt:.0f}), como los pilares del marco A1 de la lámina 05')
+            m(f'P-{xn}{yn}', 'pilar', perfil, (x, y, 0), (x, y, zt), f'{pm} eje {xn} x {yn}, {apoyo}; {d_t}', alma='Y')
     for yn in ('A2', 'C', 'D'):
         y = yA[yN.index(yn)]
         for xn, x in (('1', xA[0]), ('5', xA[4])):
             apoyo = 'sobre el muro del búnker' if y < yB else 'sobre zapata aislada'
             m(f'P-{xn}{yn}', 'pilar', 'RECT 150x100x3', (x, y, 0), (x, y, z_viga(y)), f'PM3 eje {xn} x {yn}, pilar intermedio de la fachada lateral, {apoyo}', alma='Y')
     m('P-4C', 'pilar', 'RECT 150x100x3', (xA[3], yC, 0), (xA[3], yC, z_viga(yC)), 'PM3 eje 4 x C, en el encuentro de los tabiques estudio/baño/bodega (recibe la cruz E-O del eje C)', alma='Y')
-    # ---------- vigas E-O CUAD 100x100x3: de +400 a +410 en A y C (4-5); en B y E pegadas bajo la viga inclinada, para que el vidrio llegue al cielo ----------
-    for yn, y, tramos, alta in (('A', yA[0], range(4), False), ('B', yB, range(4), True), ('E', yA[5], range(4), True), ('C', yC, [3], False)):
+    # ---------- vigas E-O CUAD 100x100x3: de +400 a +410 en A, B, E y C (4-5), como la lámina 05 (opción A de Gabriel, 12-10-2026) ----------
+    for yn, y, tramos in (('A', yA[0], range(4)), ('B', yB, range(4)), ('E', yA[5], range(4)), ('C', yC, [3])):
         for i in tramos:
-            zv = z_tope(y) if alta else Z_CORDON_EJE
-            m(f'VT-{yn}-{xN[i]}{xN[i+1]}', 'viga', 'CUAD 100x100x3', (xA[i], y, zv), (xA[i + 1], y, zv), (f'viga E-O bajo la viga inclinada (+{zv-5:.0f}/+{zv+5:.0f}) entre pilares {xN[i]} y {xN[i+1]} del eje {yn}: va arriba para que el vidrio llegue al cielo (propuesta)' if alta else f'viga E-O a +4,00/+4,10 entre pilares {xN[i]} y {xN[i+1]} del eje {yn}'))
+            zv = Z_CORDON_EJE
+            arriba = 'sobre ella apoya la viga inclinada' if abs(z_viga(y) - Z_CORDON[1]) < 0.5 else f'los pilares siguen hasta la viga inclinada (+{z_viga(y):.0f})'
+            m(f'VT-{yn}-{xN[i]}{xN[i+1]}', 'viga', 'CUAD 100x100x3', (xA[i], y, zv), (xA[i + 1], y, zv), f'viga E-O a +4,00/+4,10 entre pilares {xN[i]} y {xN[i+1]} del eje {yn} (lámina 05); {arriba}')
     # ---------- marcos N-S: cordón RECT 150x100x3 + viga inclinada + puntales (como 1.b y 1.c) ----------
     y_ini, y_fin = yA[0] - ALERO_NS, yA[5] + ALERO_NS   # puntas de los aleros (eje del pilar ± alero)
     for xn, x in zip(xN, xA):
@@ -184,15 +189,16 @@ def main(estudio_json, sitio_json, salida):
         x0, x1 = xA[i] + hol, xA[i + 1] - hol
         if i == 1: vano(f'V-A-{i+1}', 'puerta corredera', 'norte', x0, yA[0], x1, yA[0], 0, H_VENTANA, 'corredera vidriada de 2 hojas al patio, en el tramo 2-3: alineada con la corredera interior y la ventana sur (eje del estudio)')
         else: vano(f'V-A-{i+1}', 'ventana', 'norte', x0, yA[0], x1, yA[0], 0, H_VENTANA, 'ventana fija de piso a 3,00 entre pilares; la cafetería mira al patio')
-    # tabique cafetería/estudio (B): vidrio de piso a la viga E-O (que va pegada bajo la viga inclinada) en los tramos 1-2 y 3-4, corredera en el 2-3 (centrada en el estudio)
-    z_vB, z_vE = z_tope(yB) - 5 - 5, z_tope(yA[5]) - 5 - 5   # 5 cm bajo la cara inferior de la viga E-O
+    # tabique cafetería/estudio (B): vidrio de piso a 3,95 (hasta la viga E-O de +4,00, lámina 05) en los tramos 1-2 y 3-4, corredera en el 2-3 (centrada en el estudio)
+    z_vB = z_vE = Z_CORDON[0] - 5   # 5 cm bajo la cara inferior de la viga E-O de +4,00; sobre la viga queda una franja ciega hasta el techo
+    gapB, gapE = z_viga(yB) - Z_CORDON[1], z_viga(yA[5]) - Z_CORDON[1]   # franja ciega sobre la viga E-O: 22 en B, 54 en E
     for i in range(3):
         x0, x1 = xA[i] + hol, xA[i + 1] - hol
         if i == 1: vano(f'V-B-{i+1}', 'puerta corredera interior', 'tabique B', x0, yB, x1, yB, 0, z_vB, 'corredera vidriada de 2 hojas entre cafetería y estudio, centrada en el estudio')
-        else: vano(f'V-B-{i+1}', 'vidrio interior', 'tabique B', x0, yB, x1, yB, 0, z_vB, f'vidrio fijo de piso a cielo ({z_vB/100:.2f} m, hasta la viga E-O bajo el techo) entre cafetería y estudio (acústico: doble vidrio)'.replace('.', ','))
+        else: vano(f'V-B-{i+1}', 'vidrio interior', 'tabique B', x0, yB, x1, yB, 0, z_vB, f'vidrio fijo de piso a {z_vB/100:.2f} m (hasta la viga E-O de +4,00; sobre ella, franja ciega de {gapB:.0f} cm hasta el techo) entre cafetería y estudio (acústico: doble vidrio)'.replace('.', ','))
     vano('P-B-bano', 'puerta', 'tabique B', xA[3] + 25, yB, xA[3] + 105, yB, 0, 210, 'puerta del baño desde la cafetería (0,80 x 2,10), pegada al eje 4 para que la diagonal pase por encima y no tope con la escalera')
-    # fachada sur (E): ventana de piso a cielo centrada en el estudio (tramo 2-3), entre los parlantes; la viga E-O del eje E va arriba para no cortarla
-    vano('V-E-2', 'ventana', 'sur', xA[1] + hol, yA[5], xA[2] - hol, yA[5], 0, z_vE, f'ventana de piso a cielo ({z_vE/100:.2f} m, hasta la viga E-O bajo el techo) centrada en el estudio; los parlantes van a los lados, en el muro ciego'.replace('.', ','))
+    # fachada sur (E): ventana de piso a 3,95 centrada en el estudio (tramo 2-3), entre los parlantes; la viga E-O de +4,00 la remata y arriba queda la franja ciega
+    vano('V-E-2', 'ventana', 'sur', xA[1] + hol, yA[5], xA[2] - hol, yA[5], 0, z_vE, f'ventana de piso a {z_vE/100:.2f} m (hasta la viga E-O de +4,00; sobre ella, franja ciega de {gapE:.0f} cm hasta el techo) centrada en el estudio; los parlantes van a los lados, en el muro ciego'.replace('.', ','))
     # entrada principal: fachada poniente, lado de la casa, en la cafetería (tramo A2-B)
     # entrada pegada al pilar A2 (el tramo A-A2 lleva cruz); la cabina de grabación queda al sur de la puerta, contra el tabique vidriado
     vano('P-O-entrada', 'puerta', 'poniente', xA[0], yA[1] + 10, xA[0], yA[1] + 190, 0, 240, 'puerta de entrada de 2 hojas (1,80) desde el lado de la casa y el estacionamiento')
@@ -263,7 +269,7 @@ def main(estudio_json, sitio_json, salida):
         dict(que='Muro sur del búnker', original='—', nuevo='coincide con el tabique cafetería/estudio (eje B) y recibe sus 5 pilares', por='planta de Gabriel'),
         dict(que='Losa del búnker', original='e=20, luz 5,00 (ø10@20 N-S, ø8@20 E-O), VHA 25/40 en 2.a', nuevo='e=20, luz 6,00 (+20 %, +44 % de momento), VHA 25/40 en el eje 3 y viga de borde en la escalera', por='para el ingeniero'),
         dict(que='Marcos interiores', original='1.b y 1.c: pilares solo en F1 y A1 (10,25 m), cordón RECT 150x100x3 a +400, viga 200x150x5, puntales 150x100x3 cada 171', nuevo=f'ejes 2, 3 y 4: pilares en A, B y E; luces de {(yB-yA[0])/100:.2f} y {(yA[5]-yB)/100:.2f} m con el mismo esquema'.replace('.', ','), por='propuesta'),
-        dict(que='Vigas E-O de B y E', original='todas a +400/+410', nuevo=f'en B y E van pegadas bajo la viga inclinada (+{z_tope(yB)-5:.0f} en B, +{z_tope(yA[5])-5:.0f} en E) para que el vidrio del tabique y la ventana sur lleguen al cielo; A y C siguen a +400', por='propuesta: Gabriel quiere la ventana sur de piso a cielo'),
+        dict(que='Vigas E-O de B y E', original='todas a +400/+410; en el marco alto (A1) los pilares pasan la viga y siguen hasta la viga inclinada', nuevo=f'igual: +400/+410 en A, B, C y E; en B y E los pilares pasan la viga y siguen hasta la viga inclinada (+{z_viga(yB):.0f} y +{z_viga(yA[5]):.0f}); el vidrio del tabique y de la ventana sur llega a +395 y sobre la viga queda una franja ciega de {gapB:.0f} / {gapE:.0f} cm', por='dato (lámina 05); Gabriel eligió seguir al ingeniero (12-10-2026)'),
         dict(que='Fachadas laterales', original='1.a, 2.a, 3.a: pilares cada 1,25–3,43 m, viga 200x150x3, cruces en los tramos de 2,05 y 1,82', nuevo='ejes 1 y 5: pilares en A, A2, B, C, D, E; cruces en A-A2 y D-E (2,00 m)', por='propuesta'),
         dict(que='Pilares', original='21 (13 de 15×15 y 8 de 15×10 en la planta de cubierta)', nuevo=f'{sum(1 for mb in M if mb["c"] == "pilar")}; ninguno dentro de los recintos', por='propuesta'),
         dict(que='Rigidez E-O', original='sin cruces E-O en las láminas', nuevo='cruces en los muros ciegos: tabique baño/bodega (C, 4-5) y fachada sur (1-2 y 4-5), y una sola diagonal en el tabique cafetería/baño (B, 4-5) por la puerta del baño; el vidrio entre cafetería y estudio queda libre', por='propuesta: revisar'),
@@ -272,7 +278,7 @@ def main(estudio_json, sitio_json, salida):
         dict(que='Base del búnker', original='zapata corrida de 100 x 30 bajo los muros (ø16@20 + 4ø10), radier 10 sobre relleno granular 10, emplantillado G5', nuevo='igual, con el búnker nuevo (todo 8 cm más abajo por los 2,80 de alto)', por='dato'),
         dict(que='Placas base', original='PLb 200 x 200 x 8 en todos los pilares, anclajes 1+1 ø3/4 en horquilla (L=1200: 140 + 430 + ganchos de 100), Est ø8@20', nuevo='igual, en los 22 pilares (los ganchos doblan hacia adentro: el ancla mide 140 y cabe en el muro de 25)', por='dato'),
         dict(que='CF bajo los tabiques', original='CF 25/40 bajo el eje interior 2.a, de −10 a −50 bajo el radier (3ø12 + 2ø10 + 3ø12, Est ø10@25)', nuevo='el mismo CF 25/40 bajo los ejes 4 y C; el anclaje de 43 de las placas termina dentro del CF con 7 de recubrimiento', por='dato'),
-        dict(que='Viga inclinada y viga E-O', original='lámina 04: viga inclinada con la cara inferior a +400 en F1; lámina 05: apoyada sobre la viga E-O 100x100 de +401 a +411', nuevo='como la lámina 05: pilares hasta +400, viga E-O de +400 a +410 y la viga inclinada apoyada encima (+410 al norte)', por='dato (lámina 05, la más nueva)'),
+        dict(que='Viga inclinada y viga E-O', original='lámina 04: viga inclinada con la cara inferior a +400 en F1; lámina 05: apoyada sobre la viga E-O 100x100 de +401 a +411', nuevo='como la lámina 05: viga E-O de +400 a +410 en todos los marcos; al norte (lado bajo) los pilares terminan a +400 y la viga inclinada apoya sobre la viga E-O (+410); en B y E los pilares pasan la viga y siguen hasta la viga inclinada, como el marco A1', por='dato (lámina 05, la más nueva)'),
         dict(que='Niveles del búnker', original='2,72 libres; radier a −292 por cotas (rótulos −272 / −305 / −342, inconsistentes)', nuevo='2,80 libres (Gabriel); losa 0 / −20, piso −300, radier −310, zapata −320 / −350, sello −360', por='Gabriel; el detalle baja 8 cm'),
         dict(que='Costaneras en el alero', original='la primera a 61 del eje: 19 dentro de la punta del alero de 80, con el soporte C 150x50x3 en la punta', nuevo='igual: la primera a 19 de la punta (alero de 100) y luego cada 61', por='dato'),
         dict(que='Enfierradura', original='muros DM ø12@15 / ø10@20, losa ø10@20 + ø8@20, VHA 3ø12+2ø10+3ø16, CF 3ø12+2ø10+3ø12', nuevo='las mismas armaduras, en el modelo 3D barra por barra (capa Enfierradura)', por='dato; largos y cantidades del modelo'),
@@ -282,7 +288,7 @@ def main(estudio_json, sitio_json, salida):
         f'Marcos interiores de {(yA[5] - yB) / 100:.2f} m (ejes 2, 3 y 4, tramo B-E):'.replace('.', ',') + ' ¿sirve el mismo esquema de 1.b/1.c (cordón 150x100x3 + viga 200x150x5 + puntales), que salvaba 10,25?',
         'Losa del búnker: con 6,00 m de luz (antes 5,00), ¿se mantiene e=20 con más armadura o conviene e=25? ¿Basta una VHA 25/40 al centro?',
         'Rigidez E-O: las láminas no muestran cruces E-O. Con vidrio entre cafetería y estudio y ventanas al patio, se proponen cruces en los muros ciegos del lado oriente y de la fachada sur. ¿Van bien, o prefiere marcos rígidos? En el tabique cafetería/baño (B, 4-5) cabe una sola diagonal por la puerta del baño: ¿sirve, o conviene que el baño se abra desde el estudio (eje 4) y poner la cruz completa?',
-        f'Ventanas: vidrio de piso a 3,00 en los cuatro tramos de la fachada norte y de piso a cielo en el tabique B ({z_vB/100:.2f}) y en el tramo 2-3 de la fachada sur ({z_vE/100:.2f}), todas entre pilares; para eso las vigas E-O de B y E se subieron hasta quedar bajo la viga inclinada. ¿Sirve así, o la viga E-O tiene que quedar a +4,00 y el vidrio para ahí? ¿Los pilares reciben el marco directamente o hacen falta montantes y un travesaño a +3,00?'.replace('.', ','),
+        f'Ventanas: vidrio de piso a 3,00 en los cuatro tramos de la fachada norte y de piso a 3,95 en el tabique B y en el tramo 2-3 de la fachada sur (hasta la viga E-O de +4,00, con una franja ciega de {gapB:.0f} y {gapE:.0f} cm sobre ella hasta el techo), todas entre pilares. ¿Los pilares reciben el marco directamente o hacen falta montantes y un travesaño a +3,00?',
         'Escalera del búnker en hormigón, con su caja de muros: ¿muro de 23 con la misma armadura DM del búnker, y losa de escalera de cuánto?',
     ]
     out = dict(

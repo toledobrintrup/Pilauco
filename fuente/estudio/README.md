@@ -33,7 +33,9 @@ y rev 1 (27-04-2026); 02 rev G (07-04); 03 rev G/H; 04 rev G/H/I (11-04); 05 rev
   relleno granular 15 (T.máx 1 1/2", 90 % Proctor modificado) y sub base granular compactada.
 - Placas base PLb 200 × 200 × 8 mm en todos los pilares, soldadas al tubo; anclaje 1+1 ø3/4" en horquilla (L=1200 mm: 140 bajo la
   placa, ramas de 430 y ganchos de 100 hacia adentro), estribos ø8@20, embebido en el muro, sobrecimiento o CF (sin pedestal).
-- Lámina 05 (la más nueva): la viga inclinada apoya sobre la viga E-O 100×100 (+400/+410); pilares hasta +400. El modelo lo sigue.
+- Lámina 05 (la más nueva): viga E-O 100×100 de +400/+410 en los dos marcos extremos; en el marco bajo (F) el pilar termina a +400 y la viga
+  inclinada apoya sobre la viga E-O; en el marco alto (A1) el pilar pasa la viga E-O y sigue hasta la viga inclinada (+447). El modelo lo sigue
+  en A (bajo), B y E (pilares hasta la viga inclinada): opción A de Gabriel (12-10-2026), que descartó subir las vigas E-O de B y E.
 - Especificaciones (lámina 02): emplantillado G5, hormigón G25, acero A630-420H, recubrimientos 5 (fundaciones) / 3 (h.a.) / 2 (losa),
   traslapo mínimo 60 ø.
 - Contradicciones de sus láminas (Gabriel decidió no preguntarlas: manda lo que se deja aquí): la planta de 01 rev 1 es 1,00 m más larga
@@ -56,7 +58,7 @@ La cubicación del ingeniero no se usa como referencia.
 ## Ventanas, puertas y esquema interior (propuesta, 2026-10-12)
 
 `vanos`: vidrio de piso a 3,00 en los cuatro tramos de la fachada norte (corredera en el tramo 2-3, en el eje del estudio), tabique vidriado de piso
-a cielo (hasta la viga E-O, que en B y E va pegada bajo la viga inclinada) entre cafetería y estudio con corredera centrada en el estudio, una ventana de piso a cielo centrada en la
+a 3,95 (hasta la viga E-O de +4,00; sobre ella, una franja ciega de 22 / 54 cm hasta el techo) entre cafetería y estudio con corredera centrada en el estudio, una ventana de piso a cielo centrada en la
 fachada sur entre los parlantes, entrada de 1,80 por el poniente (pegada al pilar A2), puertas del baño (desde la cafetería, pegada al eje 4)
 y de la bodega (desde el estudio), ventana alta del baño al oriente (la bodega sin ventana). La escalera (de hormigón, en su caja de muros de 23,3 con puerta con llave en el descanso) se entra por el sur y baja hacia el norte. Aleros de 1,00 m como la casa (Gabriel). `interior`: parlantes, consola, rack, silla, sofá, paneles acústicos,
 alfombra, barra con taburetes, mesas con sillas, lámparas, cocina chica con lavaplatos y minibar en la esquina nororiente, baño y estanterías (sin

@@ -118,7 +118,7 @@ ol.preg li{margin:0 0 8px}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V74" data-vista="estudio"></script>
+  <script src="menu.js?v=V75" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
   <span class="meta" id="meta">Propuesta · no es un cálculo</span>
 </header>
@@ -145,7 +145,7 @@ ol.preg li{margin:0 0 8px}
   <p>La misma vista 3D de la casa, centrada en el estudio: muros, ventanas y puertas propuestos y el mobiliario de referencia. En <b>Capas</b> se
   prenden la estructura de acero y hormigón, el búnker bajo tierra y las <b>medidas</b> de puertas, ventanas, muros y recintos (vienen apagadas).
   Arrastra para girar, rueda o pellizco para acercar, doble toque para centrar; toca una pieza para ver su ficha.</p>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V74" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V75" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
@@ -179,8 +179,7 @@ ol.preg li{margin:0 0 8px}
   <p>Las ventanas van <b>entre pilares</b>: la grilla de 2,45 m es el módulo de cada paño, con marcos de acero negro. La cafetería mira al patio
   por el norte con vidrio de piso a 3,00 m en los cuatro tramos y una corredera en el tramo 2-3 (alineada con la corredera interior y la ventana sur); entre cafetería y estudio va un tabique vidriado de
   piso a cielo (doble vidrio, por la acústica) con corredera centrada en el estudio; el estudio tiene una sola ventana, de piso a cielo, centrada
-  en la fachada sur entre los parlantes. Para que ese vidrio llegue de verdad al cielo, las vigas E-O de los ejes B y E van pegadas bajo la viga
-  inclinada (en A y C siguen a +4,00). La entrada principal da al poniente, hacia la casa y el estacionamiento, pegada al pilar A2 (sin cabina de grabación en la cafetería por ahora); el baño ventila por una
+  en la fachada sur entre los parlantes. El vidrio llega hasta la viga E-O de +4,00 (como la lámina 05 del ingeniero, en A, B, C y E); sobre ella queda una franja ciega hasta el techo: 22 cm en el tabique B y 54 cm en la fachada sur. La entrada principal da al poniente, hacia la casa y el estacionamiento, pegada al pilar A2 (sin cabina de grabación en la cafetería por ahora); el baño ventila por una
   ventana alta al oriente y la bodega va sin ventana. Las cruces quedaron solo en
   muros ciegos, así ningún vidrio choca con la estructura; en el tabique del baño cabe una sola diagonal, porque la puerta ocupa el lado del eje 4.</p>
   <figure><svg id="svg-vanos" role="img" aria-label="Planta de ventanas, puertas y esquema interior"></svg>
@@ -232,8 +231,8 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=V74"></script>
-<script src="estudio_estructura.js?v=V74"></script>
+<script src="sitio.js?v=V75"></script>
+<script src="estudio_estructura.js?v=V75"></script>
 <script>
 (function () {
   const D = DATA_ESTUDIO_EST, E = DATA_SITIO.estudio, ox = E.origen[0], oy = E.origen[1], z0 = D.z_piso;
@@ -297,7 +296,7 @@ ol.preg li{margin:0 0 8px}
     cota(svg, W + P.alero_eo + 20, ys[0], W + P.alero_eo + 20, ys[5], coma(ys[5] - ys[0], 0), -85, 17);
     txt(svg, W / 2, -P.alero_ns - 125, 'N ↑', { 'text-anchor': 'middle', 'font-size': 18, class: 'txs' });
     const nC = D.miembros.filter(x => x.c === 'costanera').length;
-    $('#cap-planta').innerHTML = `Planta de la estructura de techo, a escala (cm). Pilares en naranjo (${pil}); vigas inclinadas norte-sur RECT 200×150 en los 5 ejes y vigas E-O CUAD 100×100×3 en A, B y E (azul; a +4,00 en A y C, bajo la viga inclinada en B y E); ${nC} costaneras CA 100×50×15×3 cada ${P.paso_costanera} cm de alero a alero (morado); tensores Fe 16 en X en los paños 1-2 y 4-5 (verde punteado). El contorno punteado gris es el búnker; el morado punteado, la cubierta con aleros de ${P.alero_ns} (N-S) y ${P.alero_eo} (E-O).`;
+    $('#cap-planta').innerHTML = `Planta de la estructura de techo, a escala (cm). Pilares en naranjo (${pil}); vigas inclinadas norte-sur RECT 200×150 en los 5 ejes y vigas E-O CUAD 100×100×3 en A, B y E (azul; todas a +4,00/+4,10 como la lámina 05); ${nC} costaneras CA 100×50×15×3 cada ${P.paso_costanera} cm de alero a alero (morado); tensores Fe 16 en X en los paños 1-2 y 4-5 (verde punteado). El contorno punteado gris es el búnker; el morado punteado, la cubierta con aleros de ${P.alero_ns} (N-S) y ${P.alero_eo} (E-O).`;
     $('#ley-planta').innerHTML = [['var(--fig-pilar)', 'pilares'], ['var(--fig-viga)', 'vigas'], ['var(--fig-techo)', 'costaneras y cubierta'], ['var(--fig-diag)', 'tensores y cruces'], ['var(--fig-horm2)', 'búnker']].map(([c, t]) => `<span><span class="sw" style="background:${c}"></span>${t}</span>`).join('');
   })();
 
@@ -559,7 +558,7 @@ ol.preg li{margin:0 0 8px}
     ['Costaneras CA 100×50×15×3 @61', 'paño de 3,65 m con colgadores ø10', `paño mayor de ${coma(bahiaMax / 100, 2)} m, sin colgadores`, 'menor'],
     ['Viga inclinada RECT 200×150×5 (marcos interiores) + cordón + puntales', '10,25 m sin pilares (1.b, 1.c)', `${coma((ys[5] - ys[2]) / 100, 2)} m en el estudio (B–E) y ${coma((ys[2] - ys[0]) / 100, 2)} m en la cafetería (A–B)`, 'menor'],
     ['Viga inclinada RECT 200×150×3 (fachadas laterales)', 'tramos de 1,25 a 3,43 m entre pilares', `tramos de ${coma(tramoYmin / 100, 2)} a ${coma(tramoYmax / 100, 2)} m entre pilares (A2–B y B–C)`, tramoYmax > 343 ? 'mayor' : 'menor'],
-    ['Vigas E-O CUAD 100×100×3 (+4,00 en A y C; bajo la viga inclinada en B y E)', 'tramos de 2,05 a 3,65 m', `tramos de ${coma(Math.min(...xs.slice(1).map((v, i) => v - xs[i])) / 100, 2)} a ${coma(bahiaMax / 100, 2)} m`, 'menor'],
+    ['Vigas E-O CUAD 100×100×3 (+4,00/+4,10 en A, B, C y E)', 'tramos de 2,05 a 3,65 m', `tramos de ${coma(Math.min(...xs.slice(1).map((v, i) => v - xs[i])) / 100, 2)} a ${coma(bahiaMax / 100, 2)} m`, 'menor'],
     ['Pilares CUAD 150×150', '4,01 a 4,47 m (F1 a A1, con el 4,5 % dibujado)', `${coma(Math.min(...hP) / 100, 2)} a ${coma(Math.max(...hP) / 100, 2)} m (A a E)`, Math.max(...hP) > 447 ? 'mayor' : 'menor'],
     ['Cruces C 150×50×3', 'tramos de 2,05 y 1,82 m × 4,01 m', 'tramos de 2,00 m × 4,00 m en las fachadas laterales; 2,52 y 2,75 m en los muros ciegos E-O (una sola diagonal en B 4-5)', 'menor'],
     ['Losa del búnker e=20', '5,00 m (ø10@20)', `${coma(H.interior.largo / 100, 2)} m`, 'mayor'],
