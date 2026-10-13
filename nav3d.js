@@ -215,17 +215,14 @@
         k = 1 - avance / dp;
       } else {
         // alejarse: proporcional, pero nunca menos de avanceMin por paso (si no, salir de un rincón es a centímetros)
-        const retroMin = avanceMin * (k - 1) / (Math.exp(ZPASO_RUEDA) - 1);
-        if (d * (k - 1) < retroMin) k = 1 + retroMin / d;
-        k = Math.min(k, Math.max(1, distMax / d));
-        if (d < avanceMin && k > 1) {
-          // alejarse con el centro de giro pegado (recién se entró a algún lado): la cámara retrocede un paso entero
-          // en la dirección de la vista, en vez de un porcentaje de centímetros
-          const retro = Math.max(d * (k - 1), avanceMin * (k - 1) / (Math.exp(ZPASO_RUEDA) - 1));
+        const retro = Math.max(d * (k - 1), avanceMin * (k - 1) / (Math.exp(ZPASO_RUEDA) - 1));
+        if (d < avanceMin) {
+          // con el centro de giro pegado (recién se entró a algún lado): la cámara retrocede ese paso en la dirección de la vista
           dirV.subVectors(controls.target, camera.position).normalize();
           camera.position.addScaledVector(dirV, -retro);
           return k;
         }
+        k = Math.min(1 + retro / d, Math.max(1, distMax / d));
       }
       if (Math.abs(k - 1) < 1e-7) return 1;
       camera.position.sub(p).multiplyScalar(k).add(p);
