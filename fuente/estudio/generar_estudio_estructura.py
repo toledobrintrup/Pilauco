@@ -13,6 +13,7 @@ norte, z desde el piso terminado del estudio (NPOG 0,00 del ingeniero). Se convi
 origen del estudio (sitio.json) y su nivel de piso. No es un cálculo: es el sistema del ingeniero acomodado.
 """
 import json, sys, math
+import hormigon as HORM
 
 PERFILES = {
     'CUAD 150x150x5': dict(forma='tubo_rect', h=15, b=15, t=0.5),
@@ -161,49 +162,18 @@ def main(estudio_json, sitio_json, salida):
     ex0 = ex_h - MURO_ESC                      # cara poniente del muro de la escalera
     TRAMO_ESC = 375.0; y_pie = ey1 - TRAMO_ESC  # el tramo parte en ey1 (arriba) y termina 3,75 m al norte, en el piso del búnker
     y_desc = rec['cafeteria'][6][1]            # cara norte del tabique B: fin del descanso de entrada
-    hormigon = dict(
-        muros=dict(espesor=BUNKER_MURO, armadura='V ø12@15, H ø10@20 (dato: muro DM e=25)', z_inf=r1(z0 + z_piso), z_sup=r1(z0 + z_losa_inf),
-                   piezas=[dict(id='M-N', pts=rect(bx0, by0, bx1, by0 + BUNKER_MURO), lado='norte (recibe los 5 pilares del eje A)'),
-                           dict(id='M-S', pts=rect(bx0, by1 - BUNKER_MURO, bx1, by1), lado='sur, bajo el tabique cafetería/estudio (recibe los 5 pilares del eje B)'),
-                           dict(id='M-O', pts=rect(bx0, by0 + BUNKER_MURO, bx0 + BUNKER_MURO, by1 - BUNKER_MURO), lado='poniente'), dict(id='M-E', pts=rect(bx1 - BUNKER_MURO, by0 + BUNKER_MURO, bx1, by1 - BUNKER_MURO), lado='oriente')]),   # entre los muros norte y sur, sin montarse (caras coplanares parpadean)
-        losa=dict(espesor=BUNKER_LOSA, pts=rect(bx0, by0, bx1, by1), hueco=rect(ex_h, ey0, ex1, ey1), z_inf=r1(z0 + z_losa_inf), z_sup=r1(z0),
-                  armadura='ø10@20 en la luz corta (N-S) y ø8@20 en la larga, borde del hueco 2ø12 (dato del original, luz de 5,00; ahora 6,00: recalcular)'),
-        piso=dict(espesor=BUNKER_RADIER, pts=rect(bx0, by0, bx1, by1), z_inf=r1(z0 + z_rad_inf), z_sup=r1(z0 + z_piso), armadura='radier de 20 (dato: piso −292, fondo −312)'),
-        fundacion=dict(espesor=BUNKER_FUND, pts=rect(bx0 - BUNKER_FUND_MARGEN, by0 - BUNKER_FUND_MARGEN, bx1 + BUNKER_FUND_MARGEN, by1 + BUNKER_FUND_MARGEN),
-                       z_inf=r1(z0 + z_fund_inf), z_sup=r1(z0 + z_rad_inf), dato='losa de fundación de 30 bajo todo el búnker, 37,5 más ancha que los muros, más 5 de emplantillado (dato láminas 04 y 05: −312 a −342, −347)'),
-        vigas=[dict(id='VHA-3', nombre='VHA 25/40', pts=rect(xA[2] - 12.5, by0 + BUNKER_MURO, xA[2] + 12.5, by1 - BUNKER_MURO), z_inf=r1(z0 + z_losa_inf - 20), z_sup=r1(z0 + z_losa_inf),
-                    armadura='3ø12 sup, 2ø10 medios, 3ø16 inf, Est ø10@20 (dato: detalle VHA 25/40)', d=f'viga bajo la losa en el eje 3, de muro a muro ({by1 - by0 - 2 * BUNKER_MURO:.0f}): parte la losa en dos paños como la del eje 2.a original'),
-               dict(id='VHA-esc', nombre='VHA 25/40 de borde', pts=rect(ex0, ey0 - 25, ex_h, ey1), z_inf=r1(z0 + z_losa_inf - 20), z_sup=r1(z0 + z_losa_inf),
-                    armadura='como VHA 25/40 (propuesta)', d='viga de borde del hueco de la escalera (el original llevaba 2ø12 de borde en un hueco de 3,05 x 1,00)')],
-        escalera=dict(pts=rect(ex_h, ey0, ex1, ey1), ancho=r1(ex1 - ex_h), largo=r1(ey1 - ey0), baja=r1(-z_piso), z_arriba=r1(z0), z_abajo=r1(z0 + z_piso), baja_hacia='norte',
-                      tramo=dict(y_arriba=r1(oy + ey1), y_abajo=r1(oy + y_pie), largo=TRAMO_ESC, peldanos=16),
-                      muro=dict(pts=rect(ex0, ey0, ex_h, y_desc), espesor=MURO_ESC),           # muro poniente de la caja de escalera, hasta el tabique (con la puerta del descanso)
-                      muro_norte=dict(pts=rect(ex0, rec['cafeteria'][2][1], ex1, ey0), espesor=ey0 - rec['cafeteria'][2][1]),   # muro hacia la minicocina
-                      hormigon=True,   # escalera y sus muros en hormigón armado (Gabriel, 2026-10-12)
-                      descanso=rect(ex_h, ey1, ex1, y_desc),
-                      nota=f'se entra por el sur (descanso de {(ex1 - ex_h)/100:.2f} x {(y_desc - ey1)/100:.2f}) y baja {-z_piso/100:.2f} m hacia el norte en {TRAMO_ESC/100:.2f} m: 16 peldaños de {TRAMO_ESC/16:.1f} x {-z_piso/16:.2f}; el hueco en la losa mide {(ex1 - ex_h)/100:.2f} x {(ey1 - ey0)/100:.2f} y el último metro va bajo la losa, dentro del búnker (altura libre en el borde norte del hueco ≈ {(-z_piso * (ey1 - ey0) / TRAMO_ESC - BUNKER_LOSA)/100:.2f} m; a revisar)'.replace('.', ',')),
-        interior=dict(ancho=r1(bx1 - bx0 - 2 * BUNKER_MURO), largo=r1(by1 - by0 - 2 * BUNKER_MURO), alto=BUNKER_H),
-        placas='placa de 15x15 bajo los PM1/PM2 y 15x10 bajo los PM3, sobre los muros (dato planta losa)',
-    )
-    # ---------- fundaciones fuera del búnker: zapatas aisladas 1x1x1 y vigas de fundación (Gabriel, a confirmar) ----------
-    zap = []
-    for mb in M:
-        if mb['c'] != 'pilar': continue
-        x, y = mb['a'][0] - ox, mb['a'][1] - oy
-        if y > by1 + 1:
-            # enterrada: tope en el terreno natural (50 bajo el piso), sello a 1,00 m; pedestal de 30 x 30 hasta la placa base del pilar
-            zap.append(dict(id='Z-' + mb['id'][2:], pts=rect(x - ZAPATA[0] / 2, y - ZAPATA[1] / 2, x + ZAPATA[0] / 2, y + ZAPATA[1] / 2), z_sup=r1(z0 - 55), z_inf=r1(z0 - 55 - ZAPATA[2]),   # 5 cm bajo el terreno natural, para que el pasto la tape
-                            pedestal=dict(pts=rect(x - 12, y - 12, x + 12, y + 12), z_sup=r1(z0), z_inf=r1(z0 - 55)),   # 24 x 24: queda medio centímetro adentro de las caras de la viga de fundación y del radier (si coincidieran, parpadean)
-                            d=f'zapata aislada 1 x 1 x 1 bajo el pilar {mb["id"][2:]}, tope en el terreno natural y pedestal 24 x 24 hasta el pilar (Gabriel, como las del gimnasio; a confirmar)'))
-    vf = []
-    def vfund(id_, x0, y0, x1, y1, d): vf.append(dict(id=id_, pts=rect(min(x0, x1) - VIGA_FUND[0] / 2, min(y0, y1) - VIGA_FUND[0] / 2, max(x0, x1) + VIGA_FUND[0] / 2, max(y0, y1) + VIGA_FUND[0] / 2), z_sup=r1(z0 - RADIER), z_inf=r1(z0 - RADIER - VIGA_FUND[1]), d=d))
-    # cada viga termina donde empieza la otra (o el muro sur del búnker): se tocan, no se montan, para que no parpadeen
-    hv = VIGA_FUND[0] / 2
-    vfund('VF-E', xA[0], yA[5], xA[4], yA[5], 'viga de fundación 25 x 50 bajo la fachada sur')
-    vfund('VF-1', xA[0], by1 + hv, xA[0], yA[5] - 2 * hv, 'viga de fundación 25 x 50 bajo el eje 1 (B-E)'); vfund('VF-5', xA[4], by1 + hv, xA[4], yA[5] - 2 * hv, 'viga de fundación 25 x 50 bajo el eje 5 (B-E)')
-    vfund('VF-4', xA[3], by1 + hv, xA[3], yA[5] - 2 * hv, 'viga de fundación 25 x 50 bajo el tabique del eje 4')
-    vfund('VF-C', xA[3] + 2 * hv, yC, xA[4] - 2 * hv, yC, 'viga de fundación 25 x 50 bajo el tabique baño/bodega')
-    radier = dict(espesor=RADIER, pts=rect(bx0, by1, bx1, L), z_sup=r1(z0), z_inf=r1(z0 - RADIER), dato='radier de 10 fuera del búnker (dato lámina 04)')
+    escalera = dict(pts=rect(ex_h, ey0, ex1, ey1), ancho=r1(ex1 - ex_h), largo=r1(ey1 - ey0), baja=r1(-z_piso), z_arriba=r1(z0), z_abajo=r1(z0 + z_piso), baja_hacia='norte',
+        tramo=dict(y_arriba=r1(oy + ey1), y_abajo=r1(oy + y_pie), largo=TRAMO_ESC, peldanos=16),
+        muro=dict(pts=rect(ex0, ey0, ex_h, y_desc), espesor=MURO_ESC),           # muro poniente de la caja de escalera, hasta el tabique (con la puerta del descanso)
+        muro_norte=dict(pts=rect(ex0, rec['cafeteria'][2][1], ex1, ey0), espesor=ey0 - rec['cafeteria'][2][1]),   # muro hacia la minicocina
+        hormigon=True,   # escalera y sus muros en hormigón armado (Gabriel, 2026-10-12)
+        descanso=rect(ex_h, ey1, ex1, y_desc),
+        nota=f'se entra por el sur (descanso de {(ex1 - ex_h)/100:.2f} x {(y_desc - ey1)/100:.2f}) y baja {-z_piso/100:.2f} m hacia el norte en {TRAMO_ESC/100:.2f} m: 16 peldaños de {TRAMO_ESC/16:.1f} x {-z_piso/16:.2f}; el hueco en la losa mide {(ex1 - ex_h)/100:.2f} x {(ey1 - ey0)/100:.2f} y el último metro va bajo la losa, dentro del búnker (altura libre en el borde norte del hueco ≈ {(-z_piso * (ey1 - ey0) / TRAMO_ESC - BUNKER_LOSA)/100:.2f} m; a revisar)'.replace('.', ','))
+    # ---------- hormigón armado, fundaciones, placas base y enfierradura: hormigon.py (láminas 01 rev 1, 02 rev G, 03 rev H, 05 rev H) ----------
+    hormigon, fierros, cub_hormigon = HORM.armar(dict(ap=ap, rect=rect, r1=r1, z0=z0, ox=ox, oy=oy, xA=xA, yA=yA, yB=yB, yC=yC, W=W, L=L, rec=rec, bk=bk, BUNKER_H=BUNKER_H,
+                                                      pilares=[mb for mb in M if mb['c'] == 'pilar'], escalera=escalera, ex0=ex0, ex_h=ex_h, ex1=ex1, ey0=ey0, ey1=ey1, y_desc=y_desc, x3=xA[2],
+                                                      h_caja=z_viga(yB)))
+    z_piso = hormigon['niveles']['piso_bunker']; z_losa_inf = hormigon['niveles']['losa_inf']
 
     # ---------- vanos propuestos (ventanas y puertas) ----------
     V = []
@@ -298,8 +268,10 @@ def main(estudio_json, sitio_json, salida):
         dict(que='Pilares', original='21 (13 de 15×15 y 8 de 15×10 en la planta de cubierta)', nuevo=f'{sum(1 for mb in M if mb["c"] == "pilar")}; ninguno dentro de los recintos', por='propuesta'),
         dict(que='Rigidez E-O', original='sin cruces E-O en las láminas', nuevo='cruces en los muros ciegos: tabique baño/bodega (C, 4-5) y fachada sur (1-2 y 4-5), y una sola diagonal en el tabique cafetería/baño (B, 4-5) por la puerta del baño; el vidrio entre cafetería y estudio queda libre', por='propuesta: revisar'),
         dict(que='Costaneras', original='CA 100x50x15x3 @61, 20 por línea; colgadores ø10 en los paños de 3,65 y 3,30', nuevo=f'mismo perfil y paso, {n} por línea; paños de ≤ {max(xA[i+1]-xA[i] for i in range(4))/100:.2f} m: sin colgadores', por='propuesta'),
-        dict(que='Fundaciones fuera del búnker', original='pedestal 25x50 y zapata corrida 75x25 (CF 25/40), radier de 10', nuevo='zapatas aisladas 1x1x1 con vigas de fundación 25x50, radier de 10', por='Gabriel: como las del gimnasio; pendiente'),
-        dict(que='Base del búnker', original='losa de fundación de 30 bajo todo el búnker, radier de 20', nuevo='igual, con el búnker nuevo', por='dato'),
+        dict(que='Fundaciones fuera del búnker', original='sobrecimiento 25 x 50 + cimiento corrido 80 x 25 (de −50 a −75) bajo el perímetro, CF 25/40 bajo el eje interior 2.a, radier 10 sobre poliestireno 10 y relleno 15 (lámina 01 rev 1)', nuevo='lo mismo: sobrecimiento y cimiento corrido bajo las fachadas fuera del búnker, CF 25/40 bajo los tabiques con pilares (ejes 4 y C), radier igual', por='dato del ingeniero, aplicado a la planta nueva'),
+        dict(que='Base del búnker', original='zapata corrida de 100 x 30 bajo los muros (ø16@20 + 4ø10), radier 10 sobre relleno granular 10, emplantillado G5', nuevo='igual, con el búnker nuevo (todo 8 cm más abajo por los 2,80 de alto)', por='dato'),
+        dict(que='Placas base', original='PLb 200 x 200 x 8 en todos los pilares, anclajes 1+1 ø3/4 L=430 + gancho 100, Est ø8@20', nuevo='igual, en los 22 pilares', por='dato'),
+        dict(que='Enfierradura', original='muros DM ø12@15 / ø10@20, losa ø10@20 + ø8@20, VHA 3ø12+2ø10+3ø16, CF 3ø12+2ø10+3ø12', nuevo='las mismas armaduras, en el modelo 3D barra por barra (capa Enfierradura)', por='dato; largos y cantidades del modelo'),
         dict(que='Acero', original='—', nuevo=f'{tot} kg de perfiles en el modelo (sin placas ni pérdidas)', por='cubicación del modelo'),
     ]
     preguntas = [
@@ -308,14 +280,17 @@ def main(estudio_json, sitio_json, salida):
         'Losa del búnker: con 6,00 m de luz (antes 5,00), ¿se mantiene e=20 con más armadura o conviene e=25? ¿Basta una VHA 25/40 al centro?',
         'Rigidez E-O: las láminas no muestran cruces E-O. Con vidrio entre cafetería y estudio y ventanas al patio, se proponen cruces en los muros ciegos del lado oriente y de la fachada sur. ¿Van bien, o prefiere marcos rígidos? En el tabique cafetería/baño (B, 4-5) cabe una sola diagonal por la puerta del baño: ¿sirve, o conviene que el baño se abra desde el estudio (eje 4) y poner la cruz completa?',
         f'Ventanas: vidrio de piso a 3,00 en los cuatro tramos de la fachada norte y de piso a cielo en el tabique B ({z_vB/100:.2f}) y en el tramo 2-3 de la fachada sur ({z_vE/100:.2f}), todas entre pilares; para eso las vigas E-O de B y E se subieron hasta quedar bajo la viga inclinada. ¿Sirve así, o la viga E-O tiene que quedar a +4,00 y el vidrio para ahí? ¿Los pilares reciben el marco directamente o hacen falta montantes y un travesaño a +3,00?'.replace('.', ','),
-        'Fundaciones fuera del búnker: Gabriel piensa en zapatas aisladas 1x1x1 con vigas de fundación, como las del gimnasio. ¿O se repite el cimiento corrido del original?',
-        'Búnker de 2,80 de alto (antes 2,72): ¿cambia algo en los muros o en la losa de fundación?',
+        'Fundaciones: se aplicó su lámina 01 rev 1 (sobrecimiento 25 x 50 + cimiento corrido 80 x 25 bajo las fachadas, CF 25/40 bajo los tabiques con pilares, zapata corrida 100 x 30 bajo los muros del búnker). ¿Vale el mismo detalle con el búnker 8 cm más profundo (2,80 libres) y con los tramos nuevos?',
+        'Escalera del búnker en hormigón, con su caja de muros: ¿muro de 23 con la misma armadura DM del búnker, y losa de escalera de cuánto?',
+        'Su lámina 01 rev 1 (27-04) dibuja la planta 1,00 m más larga que las láminas de estructura (F1-A1 = 1125 y búnker 625, contra 1025 y 525 en las láminas 02, 03 y 04): ¿cuál manda? Aquí no importa, porque la planta es la nueva, pero conviene saberlo.',
+        'Placas base: el anclaje en horquilla baja 43 cm, y el CF 25/40 mide 40 de alto: ¿sobre el CF (pilares 4C, 4E y 5C) va un dado, o el CF se hace más alto ahí? ¿Los ganchos de 100 mm van girados a lo largo del muro (si no, no caben en 25)?',
+        'Nivel del radier del búnker: la cadena de cotas da −292, pero los rótulos dicen −272 (elevaciones), −305 (corte c-c) y −342 (corte a-a). Aquí el búnker tiene 2,80 libres (radier en −300): confirmar que los 2,80 van.',
     ]
     out = dict(
         fuente='Adaptación de las láminas 03, 04 y 05 del ingeniero (proyecto del estudio, abril 2026, leídas de sus vectores) a la planta de Gabriel (medidas interiores, 2026-10-12); propuesta para revisión del ingeniero, no es un cálculo',
         marco='cm del marco de la app; z = 0 en el piso del nivel 1 de la casa; el piso del estudio (NPOG 0,00 del ingeniero) está en z = %s' % z0,
         z_piso=z0, ejes=ejes, perfiles={k: PERFILES[k] for k in sorted(set(mb['p'] for mb in M))}, miembros=M,
-        hormigon=hormigon, zapatas=zap, vigas_fundacion=vf, radier=radier, vanos=V, interior=interior, techo=techo, cielo=cielo,
+        hormigon=hormigon, fierros=fierros, cubicacion_hormigon=cub_hormigon, vanos=V, interior=interior, techo=techo, cielo=cielo,
         cubicacion=cubicacion, total_kg=tot, cambios=cambios, preguntas=preguntas,
         parametros=dict(muro=MURO, h_pilar=H_PILAR, pendiente=PEND, alero_ns=ALERO_NS, alero_eo=ALERO_EO, paso_costanera=PASO_COST, paso_puntal=PASO_PUNTAL, h_ventana=H_VENTANA,
                         bunker=dict(losa=BUNKER_LOSA, muro=BUNKER_MURO, radier=BUNKER_RADIER, fundacion=BUNKER_FUND, alto=BUNKER_H)),
@@ -323,7 +298,7 @@ def main(estudio_json, sitio_json, salida):
     open(salida, 'w').write('const DATA_ESTUDIO_EST = ' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n')
     clases = {}
     for mb in M: clases[mb['c']] = clases.get(mb['c'], 0) + 1
-    print(f'{salida}: {len(M)} piezas {clases} · acero {tot} kg · búnker {hormigon["interior"]["ancho"]/100:.2f} x {hormigon["interior"]["largo"]/100:.2f} x {BUNKER_H/100:.2f} m · {len(V)} vanos · {len(zap)} zapatas')
+    print(f'{salida}: {len(M)} piezas {clases} · acero {tot} kg · búnker {hormigon["interior"]["ancho"]/100:.2f} x {hormigon["interior"]["largo"]/100:.2f} x {BUNKER_H/100:.2f} m · {len(V)} vanos · hormigón {cub_hormigon["total_m3"]} m³ · fierro {cub_hormigon["total_kg"]} kg en {len(fierros)} familias')
     for c in cubicacion: print(f"   {c['perfil']:16s} {c['metros']:7.1f} m  {c['kg']:5d} kg")
 
 if __name__ == '__main__':

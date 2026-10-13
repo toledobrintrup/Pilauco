@@ -335,42 +335,29 @@
         const xm = (H.muros && H.muros.piezas ? bbox(H.muros.piezas.reduce((a, p) => a.concat(p.pts), [])).x0 : pb.x0 - M) - 40, ym = (pb.y0 + pb.y1) / 2;
         cota(f, [xm, ym, zPB], [xm, ym, zCB], S, { ea: [pb.x0, ym, zPB], eb: [pb.x0, ym, zCB], nx: OES, rot: OES, sep: 0.45, texto: fmt(zCB - zPB), t: 'Búnker: alto interior', s: fmt(bi.alto || zCB - zPB) + ' m terminados (Gabriel)' });
       }
-      // losa de fundación del búnker: espesor, vertical en su borde poniente
-      if (H.fundacion && H.fundacion.pts) {
-        const F = H.fundacion, fb = bbox(F.pts), yF = fb.y0 + (fb.y1 - fb.y0) * 0.8;
-        cota(f, [fb.x0 - 20, yF, F.z_inf], [fb.x0 - 20, yF, F.z_sup], S, { ea: [fb.x0, yF, F.z_inf], eb: [fb.x0, yF, F.z_sup], nx: OES, rot: OES, sep: 0.45, texto: fmt(F.z_sup - F.z_inf), t: 'Búnker: losa de fundación', s: fmt(F.z_sup - F.z_inf) + ' m de espesor bajo todo el búnker (dato del ingeniero)' });
+      // fundaciones del ingeniero (lámina 01 rev 1): zapata corrida del búnker (1,00 × 0,30) en su borde poniente,
+      // sobrecimiento (0,25 × 0,75) y cimiento corrido (0,80 × 0,25) en la fachada poniente fuera del búnker, CF 25/40 en el eje 4
+      if (H.zapata_corrida && H.zapata_corrida.piezas) {
+        const Zc = H.zapata_corrida, zo = Zc.piezas.find(p => p.id === 'ZC-O') || Zc.piezas[0], zb = bbox(zo.pts), yF = zb.y0 + (zb.y1 - zb.y0) * 0.7;
+        const sZ = fmt(Zc.ancho) + ' × ' + fmt(Zc.espesor) + ' m bajo los muros del búnker · ' + Zc.armadura;
+        cota(f, [zb.x0 - 20, yF, Zc.z_inf], [zb.x0 - 20, yF, Zc.z_sup], S, { ea: [zb.x0, yF, Zc.z_inf], eb: [zb.x0, yF, Zc.z_sup], nx: OES, rot: OES, sep: 0.45, texto: fmt(Zc.z_sup - Zc.z_inf), t: 'Zapata corrida del búnker: alto', s: sZ });
+        cota(f, [zb.x0, yF + 30, Zc.z_inf - 10], [zb.x1, yF + 30, Zc.z_inf - 10], DOWN, { ea: [zb.x0, yF + 30, Zc.z_inf], eb: [zb.x1, yF + 30, Zc.z_inf], sep: 0.3, texto: fmt(zb.x1 - zb.x0), t: 'Zapata corrida del búnker: ancho', s: sZ });
       }
-      // una zapata: 1,00 × 1,00 × 1,00 (ancho por el borde sur, fondo por el borde poniente, alto en la esquina SO)
-      const Z = (D.zapatas || [])[0];
-      if (Z && Z.pts) {
-        const zb = bbox(Z.pts), zs = Z.z_sup, zi = Z.z_inf, s = 20;
-        const sZ = fmt(zb.x1 - zb.x0) + ' × ' + fmt(zb.y1 - zb.y0) + ' × ' + fmt(zs - zi) + ' m · ' + (Z.d || '');
-        cota(f, [zb.x0, zb.y1 + s, zs], [zb.x1, zb.y1 + s, zs], S, { ea: [zb.x0, zb.y1, zs], eb: [zb.x1, zb.y1, zs], sep: 0.3, alza: ALZA, t: 'Zapata ' + Z.id + ': ancho', s: sZ });
-        cota(f, [zb.x0 - s, zb.y0, zs], [zb.x0 - s, zb.y1, zs], OES, { ea: [zb.x0, zb.y0, zs], eb: [zb.x0, zb.y1, zs], sep: 0.3, alza: ALZA, t: 'Zapata ' + Z.id + ': fondo', s: sZ });
-        cota(f, [zb.x0 - s, zb.y1 + s, zi], [zb.x0 - s, zb.y1 + s, zs], S, { ea: [zb.x0, zb.y1 + s, zi], eb: [zb.x0, zb.y1 + s, zs], nx: OES, rot: OES, sep: 0.45, texto: fmt(zs - zi), t: 'Zapata ' + Z.id + ': alto', s: sZ });
+      if (H.cimiento && H.cimiento.sobrecimiento) {
+        const Sc = H.cimiento.sobrecimiento, Ci = H.cimiento.zapata;
+        const sc1 = Sc.piezas.find(p => p.id === 'SC-1') || Sc.piezas[0], cc1 = Ci.piezas.find(p => p.id === 'CC-1') || Ci.piezas[0];
+        const sb = bbox(sc1.pts), cb = bbox(cc1.pts), ym = (sb.y0 + sb.y1) / 2;
+        const sS = fmt(Sc.ancho) + ' × ' + fmt(Sc.alto) + ' m · ' + Sc.armadura, sC = fmt(Ci.ancho) + ' × ' + fmt(Ci.espesor) + ' m · ' + Ci.armadura;
+        cota(f, [sb.x0 - 20, ym, Sc.z_inf], [sb.x0 - 20, ym, Sc.z_sup], S, { ea: [sb.x0, ym, Sc.z_inf], eb: [sb.x0, ym, Sc.z_sup], nx: OES, rot: OES, sep: 0.45, texto: fmt(Sc.z_sup - Sc.z_inf), t: 'Sobrecimiento: alto', s: sS });
+        cota(f, [sb.x0, ym - 40, Sc.z_sup + 10], [sb.x1, ym - 40, Sc.z_sup + 10], S, { ea: [sb.x0, ym - 40, Sc.z_sup], eb: [sb.x1, ym - 40, Sc.z_sup], sep: 0.3, alza: ALZA, texto: fmt(sb.x1 - sb.x0), t: 'Sobrecimiento: ancho', s: sS });
+        cota(f, [cb.x0 - 20, ym + 40, Ci.z_inf], [cb.x0 - 20, ym + 40, Ci.z_sup], S, { ea: [cb.x0, ym + 40, Ci.z_inf], eb: [cb.x0, ym + 40, Ci.z_sup], nx: OES, rot: OES, sep: 0.45, texto: fmt(Ci.z_sup - Ci.z_inf), t: 'Cimiento corrido: alto', s: sC });
+        cota(f, [cb.x0, ym + 40, Ci.z_inf - 10], [cb.x1, ym + 40, Ci.z_inf - 10], DOWN, { ea: [cb.x0, ym + 40, Ci.z_inf], eb: [cb.x1, ym + 40, Ci.z_inf], sep: 0.3, texto: fmt(cb.x1 - cb.x0), t: 'Cimiento corrido: ancho', s: sC });
       }
-      // una viga de fundación: 0,25 × 0,50. El alto va en su cara expuesta, en un tramo libre de zapatas;
-      // el ancho (espesor) solo se ve en sección, así que va 10 cm bajo la viga con el rótulo colgando
-      const V = (D.vigas_fundacion || [])[0];
-      if (V && V.pts) {
-        const vb = bbox(V.pts), zs = V.z_sup, zi = V.z_inf;
-        const enY = (vb.y1 - vb.y0) >= (vb.x1 - vb.x0);        // corre norte-sur
-        const l0 = enY ? vb.y0 : vb.x0, l1 = enY ? vb.y1 : vb.x1;
-        // tramo más largo sin zapatas encima
-        const ocup = (D.zapatas || []).map(z => bbox(z.pts)).filter(b => enY ? (b.x0 < vb.x1 && b.x1 > vb.x0) : (b.y0 < vb.y1 && b.y1 > vb.y0))
-          .map(b => enY ? [b.y0, b.y1] : [b.x0, b.x1]).sort((p, q) => p[0] - q[0]);
-        let libre = [l0, l0], t0 = l0;
-        ocup.forEach(iv => { if (iv[0] - t0 > libre[1] - libre[0]) libre = [t0, iv[0]]; t0 = Math.max(t0, iv[1]); });
-        if (l1 - t0 > libre[1] - libre[0]) libre = [t0, l1];
-        const tm = (libre[0] + libre[1]) / 2;
-        const sV = fmt(enY ? vb.x1 - vb.x0 : vb.y1 - vb.y0) + ' × ' + fmt(zs - zi) + ' m · ' + (V.d || '');
-        if (enY) {
-          cota(f, [vb.x0 - 20, tm, zi], [vb.x0 - 20, tm, zs], S, { ea: [vb.x0, tm, zi], eb: [vb.x0, tm, zs], nx: OES, rot: OES, sep: 0.45, texto: fmt(zs - zi), t: 'Viga de fundación ' + V.id + ': alto', s: sV });
-          cota(f, [vb.x0, tm, zi - 10], [vb.x1, tm, zi - 10], DOWN, { ea: [vb.x0, tm, zi], eb: [vb.x1, tm, zi], sep: 0.3, texto: fmt(vb.x1 - vb.x0), t: 'Viga de fundación ' + V.id + ': ancho', s: sV });
-        } else {
-          cota(f, [tm, vb.y1 + 20, zi], [tm, vb.y1 + 20, zs], EST, { ea: [tm, vb.y1, zi], eb: [tm, vb.y1, zs], nx: S, rot: S, sep: 0.45, texto: fmt(zs - zi), t: 'Viga de fundación ' + V.id + ': alto', s: sV });
-          cota(f, [tm, vb.y0, zi - 10], [tm, vb.y1, zi - 10], DOWN, { ea: [tm, vb.y0, zi], eb: [tm, vb.y1, zi], sep: 0.3, texto: fmt(vb.y1 - vb.y0), t: 'Viga de fundación ' + V.id + ': ancho', s: sV });
-        }
+      if (H.cf && H.cf.piezas) {
+        const Cf = H.cf, c4 = Cf.piezas[0], fb = bbox(c4.pts), ym = fb.y0 + (fb.y1 - fb.y0) * 0.6;
+        const sF = fmt(Cf.ancho) + ' × ' + fmt(Cf.alto) + ' m · ' + Cf.armadura;
+        cota(f, [fb.x0 - 20, ym, Cf.z_inf], [fb.x0 - 20, ym, Cf.z_sup], S, { ea: [fb.x0, ym, Cf.z_inf], eb: [fb.x0, ym, Cf.z_sup], nx: OES, rot: OES, sep: 0.45, texto: fmt(Cf.z_sup - Cf.z_inf), t: 'CF 25/40: alto', s: sF });
+        cota(f, [fb.x0, ym, Cf.z_inf - 10], [fb.x1, ym, Cf.z_inf - 10], DOWN, { ea: [fb.x0, ym, Cf.z_inf], eb: [fb.x1, ym, Cf.z_inf], sep: 0.3, texto: fmt(fb.x1 - fb.x0), t: 'CF 25/40: ancho', s: sF });
       }
     }
 

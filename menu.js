@@ -3,7 +3,7 @@
 // y el menú se dibuja ahí mismo, antes del primer pintado (el script es síncrono).
 // Para agregar una vista nueva basta con sumarla a VISTAS.
 // Versión publicada: la escribe fuente/version.py antes de cada commit (V<n> = número de commits del proyecto).
-window.PILAUCO_VERSION = { n: 'V56', fecha: '12-10-2026' };
+window.PILAUCO_VERSION = { n: 'V57', fecha: '12-10-2026' };
 (function () {
   const VISTAS = [
     { id: 'plano', href: 'index.html', t: 'Plano', d: 'Nivel 1 y nivel 2: recintos, medidas, herramienta de medir',
