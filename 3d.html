@@ -92,7 +92,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V59" data-vista="3d"></script>
+    <script src="menu.js?v=V60" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -157,15 +157,15 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=V59"></script>
-<script src="data.js?v=V59"></script>
-<script src="estructura.js?v=V59"></script>
-<script src="losa.js?v=V59"></script>
-<script src="sitio.js?v=V59"></script>
-<script src="sitio3d.js?v=V59"></script>
-<script src="estudio_estructura.js?v=V59"></script>
-<script src="mobiliario3d.js?v=V59"></script>
-<script src="cotas3d.js?v=V59"></script>
+<script src="nav3d.js?v=V60"></script>
+<script src="data.js?v=V60"></script>
+<script src="estructura.js?v=V60"></script>
+<script src="losa.js?v=V60"></script>
+<script src="sitio.js?v=V60"></script>
+<script src="sitio3d.js?v=V60"></script>
+<script src="estudio_estructura.js?v=V60"></script>
+<script src="mobiliario3d.js?v=V60"></script>
+<script src="cotas3d.js?v=V60"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -968,7 +968,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
         planoY: PISO,
         inicio: encuadre,
         contenedor: stage, lado: 'derecha', vertical: '(max-width: 639px)',
-        distMin: 0.3, distMax: 320,
+        distMin: 0.05, distMax: 320,   // 5 cm: se puede llegar hasta pegado a una pieza y seguir adentro (nav3d atraviesa al llegar al mínimo)
       });
     } catch (err){ console.error(err); nav = null; controls.enableZoom = true; }
   }
@@ -990,7 +990,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
   let modoEntrar = false;
   const entrarBtn = document.getElementById('entrar-btn');
   entrarBtn.hidden = false;
-  entrarBtn.addEventListener('click', () => { modoEntrar = !modoEntrar; entrarBtn.setAttribute('aria-pressed', modoEntrar ? 'true' : 'false'); controls.minDistance = modoEntrar ? 0.05 : 0.1; });
+  entrarBtn.addEventListener('click', () => { modoEntrar = !modoEntrar; entrarBtn.setAttribute('aria-pressed', modoEntrar ? 'true' : 'false'); });
   document.getElementById('fit').addEventListener('click', () => { if (nav) nav.vistaInicio(); else fit(); });
   // vista del terreno completo: centrada en el lote, desde arriba y el sur-oriente
   function encuadreTerreno(){
@@ -1014,7 +1014,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
   if (nav){
     const hint = document.getElementById('hint');
     hint.textContent = '';
-    Nav3D.ayudaLineas.concat(['Entrar ↘: doble clic (o doble toque) en el piso de una sala para pararse adentro']).forEach((l, i) => { if (i) hint.appendChild(document.createElement('br')); hint.appendChild(document.createTextNode(l)); });
+    Nav3D.ayudaLineas.concat(['Seguir acercando atraviesa muros y losas: así se entra a una sala o al búnker', 'Entrar ↘: doble clic (o doble toque) en el piso de una sala para pararse adentro']).forEach((l, i) => { if (i) hint.appendChild(document.createElement('br')); hint.appendChild(document.createTextNode(l)); });
   }
 
   // ---------- arranque ----------

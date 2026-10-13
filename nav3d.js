@@ -194,8 +194,16 @@
     function zoomHacia(p, k) {
       const d = camera.position.distanceTo(controls.target);
       if (!(d > 0) || !(k > 0)) return 1;
-      if (k < 1) k = Math.max(k, Math.min(1, distMin / d));
-      else k = Math.min(k, Math.max(1, distMax / d));
+      if (k < 1 && d * k < distMin) {
+        // ya se llegó encima del punto: en vez de frenar, cámara y centro de giro siguen avanzando derecho
+        // (así se atraviesa un muro o una losa y se entra a la sala; la rueda sigue acercando lo que haya adelante)
+        const avance = d * (1 - k);
+        dirV.subVectors(controls.target, camera.position).normalize();
+        camera.position.addScaledVector(dirV, avance);
+        controls.target.addScaledVector(dirV, avance);
+        return k;
+      }
+      if (k >= 1) k = Math.min(k, Math.max(1, distMax / d));
       if (Math.abs(k - 1) < 1e-7) return 1;
       camera.position.sub(p).multiplyScalar(k).add(p);
       controls.target.sub(p).multiplyScalar(k).add(p);
