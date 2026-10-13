@@ -25,6 +25,7 @@
   const AYUDA = 'Arrastrar: girar · Rueda o pellizco: acercar donde apuntas · Doble clic: acercarse ahí · Clic derecho o dos dedos: desplazar';
 
   const ZPASO = Math.log(1.5);      // + y −: 1,5 veces más cerca o más lejos
+  const ZPASO_RUEDA = 100 * 0.0015;  // un paso de rueda de 100 px (lo que suma sumarZoom): 16 % de la distancia
   const TAU_ZOOM = 75;              // ms: inercia corta de la rueda y de los botones
   const TAU_PAN = 70;               // ms: inercia de las flechas
   const EPS_PLANTA = 1e-3;          // rad: la planta queda casi vertical para que el norte (-Z) quede arriba
@@ -87,6 +88,9 @@
     const distMin = o.distMin > 0 ? o.distMin : (controls.minDistance > 0 ? controls.minDistance : 0.1);
     const distMax = o.distMax > distMin ? o.distMax
       : (Number.isFinite(controls.maxDistance) && controls.maxDistance > distMin ? controls.maxDistance : distMin * 2000);
+    // avance mínimo por paso de rueda al acercarse (m): cerca de una superficie el zoom proporcional se vuelve un arrastre de
+    // centímetros; con esto cada paso avanza por lo menos esto, y al llegar encima atraviesa y sigue (opción avanceMin)
+    const avanceMin = o.avanceMin > 0 ? o.avanceMin : Math.min(distMin * 4, 0.3);
 
     // ---------- OrbitControls: sin su zoom (lo hace este módulo), botón del medio = desplazar ----------
     const previo = {
@@ -194,16 +198,35 @@
     function zoomHacia(p, k) {
       const d = camera.position.distanceTo(controls.target);
       if (!(d > 0) || !(k > 0)) return 1;
-      if (k < 1 && d * k < distMin) {
-        // ya se llegó encima del punto: en vez de frenar, cámara y centro de giro siguen avanzando derecho
-        // (así se atraviesa un muro o una losa y se entra a la sala; la rueda sigue acercando lo que haya adelante)
-        const avance = d * (1 - k);
-        dirV.subVectors(controls.target, camera.position).normalize();
-        camera.position.addScaledVector(dirV, avance);
-        controls.target.addScaledVector(dirV, avance);
-        return k;
+      if (k < 1) {
+        // acercarse: proporcional a la distancia al punto apuntado, pero nunca menos de avanceMin por paso
+        const dp = camera.position.distanceTo(p);
+        const avance = Math.max(dp * (1 - k), avanceMin * (1 - k) / (1 - Math.exp(-ZPASO_RUEDA)));
+        if (dp - avance < distMin) {
+          // se llega encima del punto (o se pasaría de largo): cámara, centro de giro y el propio punto siguen derecho en la
+          // dirección del cursor (si el punto ya quedó encima, en la dirección de la vista), atravesando el muro o la losa;
+          // en el paso siguiente la rueda ya apunta a lo que hay adentro
+          if (dp > distMin) dirV.subVectors(p, camera.position).normalize(); else dirV.subVectors(controls.target, camera.position).normalize();
+          camera.position.addScaledVector(dirV, avance);
+          controls.target.addScaledVector(dirV, avance);
+          p.addScaledVector(dirV, avance);
+          return Math.max(1e-3, 1 - avance / Math.max(dp, avance));
+        }
+        k = 1 - avance / dp;
+      } else {
+        // alejarse: proporcional, pero nunca menos de avanceMin por paso (si no, salir de un rincón es a centímetros)
+        const retroMin = avanceMin * (k - 1) / (Math.exp(ZPASO_RUEDA) - 1);
+        if (d * (k - 1) < retroMin) k = 1 + retroMin / d;
+        k = Math.min(k, Math.max(1, distMax / d));
+        if (d < avanceMin && k > 1) {
+          // alejarse con el centro de giro pegado (recién se entró a algún lado): la cámara retrocede un paso entero
+          // en la dirección de la vista, en vez de un porcentaje de centímetros
+          const retro = Math.max(d * (k - 1), avanceMin * (k - 1) / (Math.exp(ZPASO_RUEDA) - 1));
+          dirV.subVectors(controls.target, camera.position).normalize();
+          camera.position.addScaledVector(dirV, -retro);
+          return k;
+        }
       }
-      if (k >= 1) k = Math.min(k, Math.max(1, distMax / d));
       if (Math.abs(k - 1) < 1e-7) return 1;
       camera.position.sub(p).multiplyScalar(k).add(p);
       controls.target.sub(p).multiplyScalar(k).add(p);
@@ -214,7 +237,7 @@
       zPend -= paso;
       if (Math.abs(zPend) < 1e-4) { paso += zPend; zPend = 0; }
       const pedido = Math.exp(paso), hecho = zoomHacia(ancla, pedido);
-      if (Math.abs(hecho - pedido) > 1e-9) zPend = 0;      // tope de distancia: no acumular
+      if (pedido > 1 && hecho < pedido - 1e-9) zPend = 0;   // tope al alejarse: no acumular (al acercarse siempre avanza algo)
       return hecho !== 1;
     }
     function aplicarPan(frac) {
@@ -437,7 +460,7 @@
       lanzar();
       ray.ray.at(toques.prof, ancla);
       const hecho = zoomHacia(ancla, k);
-      if (hecho !== 1) { toques.prof *= hecho; pedir(); }
+      if (hecho !== 1) { toques.prof = Math.max(distMin, toques.prof * hecho); pedir(); }
     }
     function onTouchEnd(e) {
       toques.n = e.touches.length;
