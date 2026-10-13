@@ -94,7 +94,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V72" data-vista="3d"></script>
+    <script src="menu.js?v=V73" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -140,6 +140,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       <div class="row"><label><input type="checkbox" id="chk-mobiliario"> Mobiliario (idea)</label></div>
       <div class="row"><label><input type="checkbox" id="chk-estudio-est"> Estructura de acero (propuesta)</label></div>
       <div class="row"><label><input type="checkbox" id="chk-estudio-hormigon"> Búnker y fundaciones en hormigón</label></div>
+      <div class="row" id="fila-htrans" hidden style="padding-left:22px"><label><input type="checkbox" id="chk-estudio-htrans" checked> Hormigón translúcido (para ver los fierros adentro)</label></div>
       <div class="row"><label><input type="checkbox" id="chk-estudio-fierros"> Enfierradura (fierros)</label></div>
       <div id="fierros-leyenda" class="row" hidden style="padding-left:22px;gap:6px;flex-wrap:wrap;font-size:11px"></div>
       <div id="fierros-grosor" class="row" hidden style="padding-left:22px;gap:6px;font-size:11px"><span style="opacity:.7">Grosor</span><button class="btn mini" data-g="0.7">fino</button><button class="btn mini activo" data-g="1">medio</button><button class="btn mini" data-g="1.5">grueso</button></div>
@@ -164,16 +165,16 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V72"></script>
-<script src="data.js?v=V72"></script>
-<script src="estructura.js?v=V72"></script>
-<script src="losa.js?v=V72"></script>
-<script src="sitio.js?v=V72"></script>
-<script src="sitio3d.js?v=V72"></script>
-<script src="estudio_estructura.js?v=V72"></script>
-<script src="mobiliario3d.js?v=V72"></script>
-<script src="cotas3d.js?v=V72"></script>
-<script src="goku3d.js?v=V72"></script>
+<script src="nav3d.js?v=V73"></script>
+<script src="data.js?v=V73"></script>
+<script src="estructura.js?v=V73"></script>
+<script src="losa.js?v=V73"></script>
+<script src="sitio.js?v=V73"></script>
+<script src="sitio3d.js?v=V73"></script>
+<script src="estudio_estructura.js?v=V73"></script>
+<script src="mobiliario3d.js?v=V73"></script>
+<script src="cotas3d.js?v=V73"></script>
+<script src="goku3d.js?v=V73"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -846,7 +847,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
   const chkSitio = {terreno: 'chk-terreno', gimnasio: 'chk-gimnasio', estudio: 'chk-estudio', urbanismo: 'chk-urbanismo'};
   Object.keys(chkSitio).forEach(k => { chkSitio[k] = document.getElementById(chkSitio[k]); });
   const chkBajoTierra = document.getElementById('chk-bajo-tierra'), chkEstudioEst = document.getElementById('chk-estudio-est'), chkCerramiento = document.getElementById('chk-cerramiento');
-  const chkMobiliario = document.getElementById('chk-mobiliario'), chkCotas = document.getElementById('chk-cotas'), chkEstudioTecho = document.getElementById('chk-estudio-techo'), chkEstudioHormigon = document.getElementById('chk-estudio-hormigon'), chkEstudioFierros = document.getElementById('chk-estudio-fierros');
+  const chkMobiliario = document.getElementById('chk-mobiliario'), chkCotas = document.getElementById('chk-cotas'), chkEstudioTecho = document.getElementById('chk-estudio-techo'), chkEstudioHormigon = document.getElementById('chk-estudio-hormigon'), chkHTransE = document.getElementById('chk-estudio-htrans'), chkEstudioFierros = document.getElementById('chk-estudio-fierros');
   // vista del búnker (3d.html?vista=hormigon): sus propias capas, por grupo de hormigón y por elemento de la enfierradura
   const chkHGrupo = {}, chkFElem = {};
   const chkHTrans = document.createElement('input'), chkHCotas = document.createElement('input'); chkHTrans.type = chkHCotas.type = 'checkbox'; chkHTrans.checked = true; chkHCotas.checked = true;
@@ -900,14 +901,15 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       grupoFierros.visible = chkEstudioFierros.checked;
       document.getElementById('fierros-leyenda').hidden = !chkEstudioFierros.checked; document.getElementById('fierros-grosor').hidden = vistaHormigon ? false : !chkEstudioFierros.checked;
       const subH = grupoEstudioEst.userData.sub && grupoEstudioEst.userData.sub.hormigon;
-      if (subH) subH.traverse(o => { if (o.material && o.material.transparent){ if (o.userData.opBaseH == null) o.userData.opBaseH = o.material.opacity; o.material.opacity = chkEstudioFierros.checked ? 0.22 : o.userData.opBaseH; } });
+      if (subH) subH.traverse(o => { if (o.material && o.material.transparent){ if (o.userData.opBaseH == null) o.userData.opBaseH = o.material.opacity; o.material.opacity = (chkEstudioFierros.checked && chkHTransE.checked) ? 0.55 : o.userData.opBaseH; } });   // prendido se tiene que ver como hormigón (Gabriel); translúcido solo si él lo deja marcado
+      document.getElementById('fila-htrans').hidden = chkEstudioHormigon.closest('.row').hidden || !chkEstudioHormigon.checked || !chkEstudioFierros.checked;
       // con la estructura prendida, los volúmenes del estudio se vuelven más transparentes para ver las piezas
       // con los muros y ventanas propuestos, los volúmenes de los recintos se esconden (ocupan el mismo lugar); la losa y el techo se quedan
       sitio.sub.estudio.traverse(o => {
         // el cerramiento trae su propia losa con el hueco de la escalera; y con el hormigón prendido, el volumen esquemático del búnker y la losa
         // se esconden (quedarían en el mismo plano que el hormigón real y parpadean)
         if (o.userData.recintoEstudio) o.visible = !chkCerramiento.checked;
-        if (o.userData.losaEstudio) o.visible = !chkCerramiento.checked && !chkEstudioHormigon.checked;
+        if (o.userData.losaEstudio) o.visible = !chkCerramiento.checked && !chkEstudioHormigon.checked && !vistaEstudio;   // en la vista del estudio, con el hormigón apagado no aparece nada en su lugar
         if (o.userData.bunker) o.visible = !chkEstudioHormigon.checked && !chkEstudioFierros.checked && !vistaEstudio;   // el cajón esquemático solo en la vista general sin hormigón ni fierros (Gabriel: al apagar el hormigón aparecía 'algo raro')
         if (o.userData.techoEstudio) o.visible = chkEstudioTecho.checked;
         if (o.material && o.userData.sitio && !o.userData.bunker && !o.userData.losaEstudio) { if (o.userData.opBase == null) o.userData.opBase = o.material.opacity; o.material.opacity = ((chkEstudioEst.checked || chkEstudioHormigon.checked) && !chkCerramiento.checked) ? 0.2 : o.userData.opBase; }   // transparentes solo cuando no hay muros que tapen la estructura
@@ -941,7 +943,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     grupoRoof.position.y = off;
     grupoEstructura.traverse(o => { if (o.userData.superior) o.position.y = o.userData.y0 + off; });
   }
-  [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, explode, chkBajoTierra, chkEstudioEst, chkEstudioHormigon, chkEstudioFierros, chkEstudioTecho, chkCerramiento, chkMobiliario, chkCotas].concat(Object.values(chkSitio)).forEach(el => el.addEventListener('input', aplica));
+  [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, explode, chkBajoTierra, chkEstudioEst, chkEstudioHormigon, chkHTransE, chkEstudioFierros, chkEstudioTecho, chkCerramiento, chkMobiliario, chkCotas].concat(Object.values(chkSitio)).forEach(el => el.addEventListener('input', aplica));
   if (!sitio) Object.values(chkSitio).concat([chkBajoTierra, chkEstudioEst, chkEstudioHormigon, chkEstudioFierros, chkEstudioTecho, chkCerramiento, chkMobiliario, chkCotas]).forEach(el => { el.closest('.row').hidden = true; });
   if (!grupoFierros.children.length) chkEstudioFierros.closest('.row').hidden = true;
   else document.getElementById('fierros-leyenda').innerHTML = Object.entries(COLOR_FIERRO).map(([d, c]) => `<span><span class="sw" style="display:inline-block;vertical-align:middle;background:#${c.toString(16).padStart(6, '0')}"></span> ø${d === '19' ? '3/4"' : d}</span>`).join('');
