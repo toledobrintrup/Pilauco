@@ -92,7 +92,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V67" data-vista="3d"></script>
+    <script src="menu.js?v=V68" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -160,15 +160,16 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V67"></script>
-<script src="data.js?v=V67"></script>
-<script src="estructura.js?v=V67"></script>
-<script src="losa.js?v=V67"></script>
-<script src="sitio.js?v=V67"></script>
-<script src="sitio3d.js?v=V67"></script>
-<script src="estudio_estructura.js?v=V67"></script>
-<script src="mobiliario3d.js?v=V67"></script>
-<script src="cotas3d.js?v=V67"></script>
+<script src="nav3d.js?v=V68"></script>
+<script src="data.js?v=V68"></script>
+<script src="estructura.js?v=V68"></script>
+<script src="losa.js?v=V68"></script>
+<script src="sitio.js?v=V68"></script>
+<script src="sitio3d.js?v=V68"></script>
+<script src="estudio_estructura.js?v=V68"></script>
+<script src="mobiliario3d.js?v=V68"></script>
+<script src="cotas3d.js?v=V68"></script>
+<script src="goku3d.js?v=V68"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -953,7 +954,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     puntero.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     raycaster.setFromCamera(puntero, camera);
     raycaster.params.Line.threshold = 0.04; raycaster.params.Line2 = {threshold: 0.04}; raycaster.camera = camera;
-    const objetivos = [grupoEstructura, grupoLosa, grupoEstudioEst, grupoFierros, grupoCerramiento, grupoMobiliario].concat(sitio ? Object.values(sitio.sub) : []).filter(gr => gr.visible);
+    const objetivos = [grupoEstructura, grupoLosa, grupoEstudioEst, grupoFierros, grupoCerramiento, grupoMobiliario].concat(goku ? [goku] : []).concat(sitio ? Object.values(sitio.sub) : []).filter(gr => gr.visible);
     const hit = raycaster.intersectObjects(objetivos, true).find(h => h.object.visible && h.object.parent.visible && (h.object.userData.miembro || h.object.userData.losa || h.object.userData.sitio));
     if (!hit){ ficha.hidden = true; return; }
     if (hit.object.userData.losa || hit.object.userData.sitio){
@@ -1102,7 +1103,19 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     pintarUI();
   }
   aplica();   // aplica lo que viene marcado al abrir (volúmenes apagados; estructura, losa y techo prendidos)
-  (function loop(t){ requestAnimationFrame(loop); if (nav) nav.actualizar(t); controls.update(); renderer.render(scene, camera); })();
+  // huevo de Pascua (3d.html?goku=1): un saiyajin sentado en la viga E-O de la fachada sur del estudio (tramo 2-3), con el ki moviéndose
+  let goku = null;
+  if (qs.get('goku') && window.Goku3D && typeof DATA_ESTUDIO_EST !== 'undefined'){
+    try {
+      const v = DATA_ESTUDIO_EST.miembros.find(mb => mb.id === 'VT-E-23');
+      if (v){
+        const xm = (v.a[0] + v.b[0]) / 2, zTop = v.a[2] + 5;   // tope de la viga CUAD 100 (eje + 5)
+        goku = Goku3D.crear(THREE, {pos: [cm(xm), cm(zTop), cm(v.a[1]) + 0.05], mira: 'S', dorado: qs.get('goku') !== 'negro'});
+        scene.add(goku);
+      }
+    } catch (err){ console.error('goku3d', err); goku = null; }
+  }
+  (function loop(t){ requestAnimationFrame(loop); if (nav) nav.actualizar(t); if (goku) goku.animar(t); controls.update(); renderer.render(scene, camera); })();
   // para pruebas desde la consola (igual que LOSA y PERNOS en las otras vistas)
   window.VISTA3D = { camera, controls, nav, scene, sitio, renderer, stage, dibujar: () => { if (nav) nav.saltar(); controls.update(); renderer.render(scene, camera); } };
 })();
