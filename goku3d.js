@@ -75,7 +75,8 @@
     const luz = new T.PointLight(dorado ? 0xFFD040 : 0x7FB4FF, 1.2, 6 * S); luz.position.set(0, 0.6 * S, 0.1 * S); g.add(luz);
     let tAnt = 0;
     g.animar = function (t) {
-      const s = t / 1000, dt = tAnt ? Math.min(0.05, s - tAnt) : 0.016; tAnt = s;
+      if (!Number.isFinite(t)) t = performance.now();   // el primer cuadro del loop llega sin tiempo: con NaN las partículas se perdían para siempre
+      const s = t / 1000, dt = tAnt ? Math.min(0.05, Math.max(0, s - tAnt)) : 0.016; tAnt = s;
       capas.forEach(sp => { const [w, h, op, i] = sp.userData.base; const lat = 1 + 0.12 * Math.sin(s * (6 + i * 1.7) + i) + 0.05 * Math.sin(s * 13 + i * 2); sp.scale.set(w * lat, h * (1 + 0.18 * Math.sin(s * 4.5 + i)), 1); sp.material.rotation = s * (0.6 + i * 0.3) * (i % 2 ? -1 : 1); sp.material.opacity = op * (0.8 + 0.2 * Math.sin(s * 9 + i)); });
       const a = puntos.geometry.attributes.position.array;
       for (let i = 0; i < N; i++) { a[i * 3 + 1] += vel[i] * dt; a[i * 3] += Math.sin(s * 5 + fase[i]) * 0.004 * S; if (a[i * 3 + 1] > 1.25 * S) { a[i * 3 + 1] = -0.55 * S; const an = Math.random() * Math.PI * 2, r = (0.2 + Math.random() * 0.45) * S; a[i * 3] = Math.cos(an) * r; a[i * 3 + 2] = Math.sin(an) * r * 0.7; } }
