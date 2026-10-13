@@ -69,7 +69,7 @@ def main(estudio_json, sitio_json, salida):
     x_tab = (rec['estudio'][1][0] + rec['bano'][0][0]) / 2            # 767,5
     xA = [MURO / 2, MURO / 2 + (x_tab - MURO / 2) / 3, MURO / 2 + 2 * (x_tab - MURO / 2) / 3, x_tab, W - MURO / 2]
     xN = ['1', '2', '3', '4', '5']
-    yB = (rec['cafeteria'][5][1] + rec['estudio'][0][1]) / 2          # 637,5: tabique cafetería/estudio = muro sur del búnker
+    yB = rec['estudio'][0][1] - MURO / 2                               # 637,5: tabique cafetería/estudio = muro sur del búnker (la cafetería es un polígono en L: no usar su punto 5)
     yC = (rec['bano'][2][1] + rec['bodega'][0][1]) / 2                # 1072,5: tabique baño/bodega
     yA = [MURO / 2, MURO / 2 + 200, yB, yC, L - MURO / 2 - 200, L - MURO / 2]   # A, A2, B, C, D, E
     yN = ['A', 'A2', 'B', 'C', 'D', 'E']
@@ -257,7 +257,7 @@ def main(estudio_json, sitio_json, salida):
     cambios = [
         dict(que='Orientación', original='búnker bajo el tramo E1–A1 (lado alto del techo)', nuevo='búnker bajo la cafetería (norte, lado bajo); el techo sube al sur como la casa', por='Gabriel'),
         dict(que='Aleros', original='80 al norte y al sur, 52 al oriente y al poniente', nuevo=f'{ALERO_NS - MURO/2:.0f} cm por todos lados desde la cara exterior del muro, como los de la casa', por='Gabriel: el techo se veía corto'),
-        dict(que='Pendiente del techo', original='rotulada 3,5 %, dibujada 4,5 % (+400 en F1, +447 en A1)', nuevo='3,5 % (+400 al norte, +454 al sur)', por='Gabriel: la de la casa · preguntar cuál manda'),
+        dict(que='Pendiente del techo', original='rotulada 3,5 %, dibujada 4,5 % (+400 en F1, +447 en A1)', nuevo='3,5 % (+400 al norte, +454 al sur), la de la casa; el 4,5 % dibujado se toma como error de la lámina', por='Gabriel'),
         dict(que='Planta', original='11,05 x 10,25 m entre ejes (5 ejes E-O a 205 | 365 | 205 | 330; 6 ejes N-S a 205 | 170 | 125 | 343 | 182)', nuevo=f'10,55 x 15,75 m por fuera; ejes 1-5 a {xA[1]-xA[0]:.0f} | {xA[2]-xA[1]:.0f} | {xA[3]-xA[2]:.0f} | {xA[4]-xA[3]:.0f} y A-E a 200 | {yB-yA[1]:.0f} | {yC-yB:.0f} | {yA[4]-yC:.0f} | 200', por='planta de Gabriel (medidas interiores) · ejes: propuesta'),
         dict(que='Búnker', original='5,00 x 10,80 interiores (muros 1.a, 3.a, E1, A1), 2,72 de alto, hueco de 3,05 x 1,00 junto al muro A1', nuevo=f'{hormigon["interior"]["largo"]/100:.2f} x {hormigon["interior"]["ancho"]/100:.2f} interiores, 2,80 de alto, hueco de escalera de {hormigon["escalera"]["ancho"]/100:.2f} x {hormigon["escalera"]["largo"]/100:.2f} junto al muro oriente', por='Gabriel'),
         dict(que='Muro sur del búnker', original='—', nuevo='coincide con el tabique cafetería/estudio (eje B) y recibe sus 5 pilares', por='planta de Gabriel'),
@@ -270,21 +270,18 @@ def main(estudio_json, sitio_json, salida):
         dict(que='Costaneras', original='CA 100x50x15x3 @61, 20 por línea; colgadores ø10 en los paños de 3,65 y 3,30', nuevo=f'mismo perfil y paso, {n} por línea; paños de ≤ {max(xA[i+1]-xA[i] for i in range(4))/100:.2f} m: sin colgadores', por='propuesta'),
         dict(que='Fundaciones fuera del búnker', original='sobrecimiento 25 x 50 + cimiento corrido 80 x 25 (de −50 a −75) bajo el perímetro, CF 25/40 bajo el eje interior 2.a, radier 10 sobre poliestireno 10 y relleno 15 (lámina 01 rev 1)', nuevo='lo mismo: sobrecimiento y cimiento corrido bajo las fachadas fuera del búnker, CF 25/40 bajo los tabiques con pilares (ejes 4 y C), radier igual', por='dato del ingeniero, aplicado a la planta nueva'),
         dict(que='Base del búnker', original='zapata corrida de 100 x 30 bajo los muros (ø16@20 + 4ø10), radier 10 sobre relleno granular 10, emplantillado G5', nuevo='igual, con el búnker nuevo (todo 8 cm más abajo por los 2,80 de alto)', por='dato'),
-        dict(que='Placas base', original='PLb 200 x 200 x 8 en todos los pilares, anclajes 1+1 ø3/4 L=430 + gancho 100, Est ø8@20', nuevo='igual, en los 22 pilares', por='dato'),
+        dict(que='Placas base', original='PLb 200 x 200 x 8 en todos los pilares, anclajes 1+1 ø3/4 en horquilla (L=1200: 140 + 430 + ganchos de 100), Est ø8@20', nuevo='igual, en los 22 pilares; la horquilla transversal lleva los ganchos girados a lo largo del muro (340 no caben en 25)', por='dato; ganchos: adaptación'),
+        dict(que='CF bajo los tabiques', original='CF 25/40 bajo el eje interior 2.a (3ø12 + 2ø10 + 3ø12, Est ø10@25)', nuevo='CF 25/50 bajo los ejes 4 y C, con la misma armadura: 50 de alto para que el anclaje de 43 de las placas quede con 5 de recubrimiento', por='adaptación'),
+        dict(que='Niveles del búnker', original='2,72 libres; radier a −292 por cotas (rótulos −272 / −305 / −342, inconsistentes)', nuevo='2,80 libres (Gabriel); losa 0 / −20, piso −300, radier −310, zapata −320 / −350, sello −360', por='Gabriel; el detalle baja 8 cm'),
         dict(que='Enfierradura', original='muros DM ø12@15 / ø10@20, losa ø10@20 + ø8@20, VHA 3ø12+2ø10+3ø16, CF 3ø12+2ø10+3ø12', nuevo='las mismas armaduras, en el modelo 3D barra por barra (capa Enfierradura)', por='dato; largos y cantidades del modelo'),
         dict(que='Acero', original='—', nuevo=f'{tot} kg de perfiles en el modelo (sin placas ni pérdidas)', por='cubicación del modelo'),
     ]
     preguntas = [
-        'Pendiente del techo: sus láminas la rotulan 3,5 % pero la dibujan 4,5 %. Gabriel quiere la de la casa (3,5 %). ¿Cuál manda?',
         f'Marcos interiores de {(yA[5] - yB) / 100:.2f} m (ejes 2, 3 y 4, tramo B-E):'.replace('.', ',') + ' ¿sirve el mismo esquema de 1.b/1.c (cordón 150x100x3 + viga 200x150x5 + puntales), que salvaba 10,25?',
         'Losa del búnker: con 6,00 m de luz (antes 5,00), ¿se mantiene e=20 con más armadura o conviene e=25? ¿Basta una VHA 25/40 al centro?',
         'Rigidez E-O: las láminas no muestran cruces E-O. Con vidrio entre cafetería y estudio y ventanas al patio, se proponen cruces en los muros ciegos del lado oriente y de la fachada sur. ¿Van bien, o prefiere marcos rígidos? En el tabique cafetería/baño (B, 4-5) cabe una sola diagonal por la puerta del baño: ¿sirve, o conviene que el baño se abra desde el estudio (eje 4) y poner la cruz completa?',
         f'Ventanas: vidrio de piso a 3,00 en los cuatro tramos de la fachada norte y de piso a cielo en el tabique B ({z_vB/100:.2f}) y en el tramo 2-3 de la fachada sur ({z_vE/100:.2f}), todas entre pilares; para eso las vigas E-O de B y E se subieron hasta quedar bajo la viga inclinada. ¿Sirve así, o la viga E-O tiene que quedar a +4,00 y el vidrio para ahí? ¿Los pilares reciben el marco directamente o hacen falta montantes y un travesaño a +3,00?'.replace('.', ','),
-        'Fundaciones: se aplicó su lámina 01 rev 1 (sobrecimiento 25 x 50 + cimiento corrido 80 x 25 bajo las fachadas, CF 25/40 bajo los tabiques con pilares, zapata corrida 100 x 30 bajo los muros del búnker). ¿Vale el mismo detalle con el búnker 8 cm más profundo (2,80 libres) y con los tramos nuevos?',
         'Escalera del búnker en hormigón, con su caja de muros: ¿muro de 23 con la misma armadura DM del búnker, y losa de escalera de cuánto?',
-        'Su lámina 01 rev 1 (27-04) dibuja la planta 1,00 m más larga que las láminas de estructura (F1-A1 = 1125 y búnker 625, contra 1025 y 525 en las láminas 02, 03 y 04): ¿cuál manda? Aquí no importa, porque la planta es la nueva, pero conviene saberlo.',
-        'Placas base: el anclaje en horquilla baja 43 cm, y el CF 25/40 mide 40 de alto: ¿sobre el CF (pilares 4C, 4E y 5C) va un dado, o el CF se hace más alto ahí? ¿Los ganchos de 100 mm van girados a lo largo del muro (si no, no caben en 25)?',
-        'Nivel del radier del búnker: la cadena de cotas da −292, pero los rótulos dicen −272 (elevaciones), −305 (corte c-c) y −342 (corte a-a). Aquí el búnker tiene 2,80 libres (radier en −300): confirmar que los 2,80 van.',
     ]
     out = dict(
         fuente='Adaptación de las láminas 03, 04 y 05 del ingeniero (proyecto del estudio, abril 2026, leídas de sus vectores) a la planta de Gabriel (medidas interiores, 2026-10-12); propuesta para revisión del ingeniero, no es un cálculo',

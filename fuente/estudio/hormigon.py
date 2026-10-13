@@ -22,7 +22,7 @@ ZAPATA_B = (100.0, 30.0)    # zapata corrida bajo los muros del búnker: 37,5 + 
 EMPLANTILLADO = 10.0        # emplantillado G5 "Var. / Mn. 10" (sello 20 cm en el estrato indicado en la memoria de cálculo)
 SOBRECIM = (25.0, 50.0)     # sobrecimiento de 25 x 50 bajo los pilares fuera del búnker (corte b-b: cadena 50 | 25 | var. mín. 10 = 75 hasta el sello)
 CIMIENTO = (80.0, 25.0)     # cimiento corrido 27,5 + 25 + 27,5 = 80 de ancho, 25 de alto, de −50 (NTN) a −75 (corte b-b)
-CF = (25.0, 40.0)           # CF 25/40 bajo los ejes interiores con pilares (detalle CF 25/40, elevación 2.a)
+CF = (25.0, 50.0)           # el ingeniero usa CF 25/40 (detalle CF 25/40, elevación 2.a); aquí va de 50 de alto para que quepa el anclaje de 43 de las placas con 5 de recubrimiento (adaptación)
 RADIER_EST = 10.0           # radier e=10 del estudio (corte b-b)
 POLIESTIRENO = 10.0         # poliestireno expandido de alta densidad e=100 mm bajo el radier (corte b-b)
 RELLENO_EST = 15.0          # relleno granular 15 bajo el poliestireno, sobre sub base granular compactada (corte b-b)
@@ -117,14 +117,14 @@ def armar(c):
                     fuente='lámina 01 rev 1, corte b-b (cadena 50 | 25 | var. mín. 10: sobrecimiento 25 x 50 hasta el NTN −50, zapata 27,5 + 25 + 27,5 = 80 x 25 de −50 a −75, emplantillado)',
                     nota='bajo las fachadas fuera del búnker; el original lo lleva bajo todo su perímetro F1 y sus esquinas, con placas PLb encima de cada pilar')
     hcf = CF[0] / 2; z_cf_inf = -CF[1]; z_cfe_inf = z_cf_inf - EMPLANTILLADO   # −40, −50 (= NTN)
-    cf_piezas = [pieza('CF-4', xA[3] - hcf, by1, xA[3] + hcf, yA[5] - hs, z_cf_inf, 0, 'CF 25/40', 'bajo el tabique estudio/baño-bodega (eje 4), del búnker a la fachada sur'),
-                 pieza('CF-C', xA[3] + hcf, yC - hcf, xA[4] - hs, yC + hcf, z_cf_inf, 0, 'CF 25/40', 'bajo el tabique baño/bodega (eje C), del eje 4 a la fachada oriente')]
+    cf_piezas = [pieza('CF-4', xA[3] - hcf, by1, xA[3] + hcf, yA[5] - hs, z_cf_inf, 0, 'CF 25/50', 'bajo el tabique estudio/baño-bodega (eje 4), del búnker a la fachada sur'),
+                 pieza('CF-C', xA[3] + hcf, yC - hcf, xA[4] - hs, yC + hcf, z_cf_inf, 0, 'CF 25/50', 'bajo el tabique baño/bodega (eje C), del eje 4 a la fachada oriente')]
     cf = dict(ancho=CF[0], alto=CF[1], z_sup=Z(0), z_inf=Z(z_cf_inf), piezas=cf_piezas,
               emplantillado=dict(espesor=EMPLANTILLADO, z_sup=Z(z_cf_inf - GAP), z_inf=Z(z_cfe_inf), hormigon='G5',
                                  piezas=[dict(id=p['id'].replace('CF', 'EMP'), pts=rect(min(q[0] for q in p['pts']) - 7.5 - c['ox'], min(q[1] for q in p['pts']) - 7.5 - c['oy'], max(q[0] for q in p['pts']) + 7.5 - c['ox'], max(q[1] for q in p['pts']) + 7.5 - c['oy'])) for p in cf_piezas]),
-              armadura='3ø12 arriba, 2ø10 al medio, 3ø12 abajo, Est ø10@25; emplantillado de 40 x 10',
+              armadura='3ø12 arriba, 2ø10 al medio, 3ø12 abajo, Est ø10@25 (la del CF 25/40 del ingeniero); emplantillado de 40 x 10',
               fuente='lámina 01 rev 1, detalle CF 25/40 y planta (bajo el eje 2.a del original); lámina 04 rev I, elevación 2.a',
-              nota='el original lo usa bajo el eje interior 2.a; aquí va bajo los dos tabiques con pilares (propuesta con su detalle)')
+              nota='el ingeniero lo detalla de 25 x 40 bajo su eje interior 2.a; aquí va bajo los dos tabiques con pilares y de 50 de alto, para que el anclaje de 43 de las placas base quede con 5 de recubrimiento (adaptación, con su misma armadura)')
     # radier del estudio (fuera del búnker) en tres paños, dejando las franjas del sobrecimiento y de los CF (caras coplanares parpadean)
     g = GAP
     rad_pts = [('estudio', xA[0] + hs + g, by1 + g, xA[3] - hcf - g, yA[5] - hs - g),
@@ -141,7 +141,9 @@ def armar(c):
         x, y = mb['a'][0], mb['a'][1]
         yl = y - c['oy']
         sobre = 'muro del búnker' if yl <= by1 + 1 else ('CF 25/40' if abs(mb['a'][0] - c['ox'] - xA[3]) < 1 or abs(yl - yC) < 1 else 'sobrecimiento')
-        placas.append(dict(id='PLb-' + mb['id'][2:], pilar=mb['id'], perfil=mb['p'], centro=[r1(x), r1(y)], z=Z(0), lado=PLACA[0], espesor=PLACA[2], sobre=sobre,
+        xl = mb['a'][0] - c['ox']
+        muro_dir = 'y' if (abs(xl - xA[0]) < 1 or abs(xl - xA[4]) < 1 or (abs(xl - xA[3]) < 1 and yl > by1 + 1 and abs(yl - yC) > 1)) else 'x'   # sentido del muro bajo el pilar
+        placas.append(dict(id='PLb-' + mb['id'][2:], pilar=mb['id'], perfil=mb['p'], centro=[r1(x), r1(y)], z=Z(0), lado=PLACA[0], espesor=PLACA[2], sobre=sobre, muro_dir=muro_dir,
                            anclajes=f'1+1 ø3/4" en horquilla (L=120: {ANCLAJE["sep"]:.0f} bajo la placa, ramas de {ANCLAJE["largo"]:.0f} y ganchos de {ANCLAJE["gancho"]:.0f}), Est. {ANCLAJE["estribos"]}'))
     placas_info = dict(detalle='PLb 200 x 200 x 8 mm soldada al tubo en todo el contorno, bajo todos los pilares (PM1, PM2 y PM3); anclaje 1+1 ø3/4" en horquilla, L=1200 mm (140 bajo la placa, ramas de 430, ganchos de 100), con estribos ø8@20, embebido en el muro o sobrecimiento de 25 (sin pedestal)',
                        fuente='lámina 01 rev 1, detalle placa base PLb y planta (PLb en los 23 pilares del original)', lista=placas)
@@ -232,21 +234,27 @@ def armar(c):
     for cid, x0, y0, x1, y1 in (('CF-4', xA[3], by1 + 5, xA[3], yA[5] - 15), ('CF-C', xA[3] + 15, yC, xA[4] - 15, yC)):
         dx, dy = x1 - x0, y1 - y0; ln = math.hypot(dx, dy); ux, uy = dx / ln, dy / ln; px, py = -uy, ux
         fam(f'{cid}-sup', 'CF 25/40', 12, None, polis=[[(x0 + px * k, y0 + py * k, -5), (x1 + px * k, y1 + py * k, -5)] for k in (-9, 0, 9)], d=f'3ø12 superiores del {cid}')
-        fam(f'{cid}-med', 'CF 25/40', 10, None, polis=[[(x0 + px * k, y0 + py * k, -20), (x1 + px * k, y1 + py * k, -20)] for k in (-9, 9)], d=f'2ø10 medios del {cid}')
-        fam(f'{cid}-inf', 'CF 25/40', 12, None, polis=[[(x0 + px * k, y0 + py * k, -35), (x1 + px * k, y1 + py * k, -35)] for k in (-9, 0, 9)], d=f'3ø12 inferiores del {cid}')
-        fam(f'{cid}-est', 'CF 25/40', 10, [(x0 - px * 9, y0 - py * 9, -5), (x0 + px * 9, y0 + py * 9, -5), (x0 + px * 9, y0 + py * 9, -35), (x0 - px * 9, y0 - py * 9, -35), (x0 - px * 9, y0 - py * 9, -5)],
+        fam(f'{cid}-med', 'CF 25/40', 10, None, polis=[[(x0 + px * k, y0 + py * k, -25), (x1 + px * k, y1 + py * k, -25)] for k in (-9, 9)], d=f'2ø10 medios del {cid}')
+        fam(f'{cid}-inf', 'CF 25/40', 12, None, polis=[[(x0 + px * k, y0 + py * k, -45), (x1 + px * k, y1 + py * k, -45)] for k in (-9, 0, 9)], d=f'3ø12 inferiores del {cid}')
+        fam(f'{cid}-est', 'CF 25/40', 10, [(x0 - px * 9, y0 - py * 9, -5), (x0 + px * 9, y0 + py * 9, -5), (x0 + px * 9, y0 + py * 9, -45), (x0 - px * 9, y0 - py * 9, -45), (x0 - px * 9, y0 - py * 9, -5)],
             n=int(ln // 25) + 1, paso=(ux * 25, uy * 25, 0), d=f'estribos ø10@25 del {cid}')
     # anclajes de las placas base: 1+1 ø3/4 de 43 + gancho 10, con estribos ø8@20
     polisA, polisE = [], []
     h, g_, L_ = ANCLAJE['sep'] / 2, ANCLAJE['gancho'], ANCLAJE['largo']
     for pl in placas:
         x, y = pl['centro'][0] - c['ox'], pl['centro'][1] - c['oy']
-        # dos horquillas en U: una en el sentido x y otra en el sentido y (1+1), colgadas de la placa
-        polisA.append([(x - h - g_, y, -L_), (x - h, y, -L_), (x - h, y, -1), (x + h, y, -1), (x + h, y, -L_), (x + h + g_, y, -L_)])
-        polisA.append([(x, y - h - g_, -L_), (x, y - h, -L_), (x, y - h, -1), (x, y + h, -1), (x, y + h, -L_), (x, y + h + g_, -L_)])
+        # dos horquillas en U (1+1) colgadas de la placa. La del sentido del muro lleva los ganchos hacia afuera, como el detalle;
+        # la transversal los lleva girados a lo largo del muro, porque 140 + 2 x 100 = 340 mm no caben en un muro de 25 (adaptación)
+        a_lo_x = pl['muro_dir'] == 'x'
+        if a_lo_x:
+            polisA.append([(x - h - g_, y, -L_), (x - h, y, -L_), (x - h, y, -1), (x + h, y, -1), (x + h, y, -L_), (x + h + g_, y, -L_)])
+            polisA.append([(x - g_, y - h, -L_), (x, y - h, -L_), (x, y - h, -1), (x, y + h, -1), (x, y + h, -L_), (x + g_, y + h, -L_)])
+        else:
+            polisA.append([(x, y - h - g_, -L_), (x, y - h, -L_), (x, y - h, -1), (x, y + h, -1), (x, y + h, -L_), (x, y + h + g_, -L_)])
+            polisA.append([(x - h, y - g_, -L_), (x - h, y, -L_), (x - h, y, -1), (x + h, y, -1), (x + h, y, -L_), (x + h, y + g_, -L_)])
         for zz in (-12, -32):
             polisE.append([(x - 7, y - 7, zz), (x + 7, y - 7, zz), (x + 7, y + 7, zz), (x - 7, y + 7, zz), (x - 7, y - 7, zz)])
-    fam('AN', 'placa base PLb', 19, None, polis=polisA, d='anclajes 1+1 ø3/4" en horquilla (L=1200 mm: 140 bajo la placa, ramas de 430 y ganchos de 100) de las placas base, en los 22 pilares')
+    fam('AN', 'placa base PLb', 19, None, polis=polisA, d='anclajes 1+1 ø3/4" en horquilla (L=1200 mm: 140 bajo la placa, ramas de 430 y ganchos de 100; la horquilla transversal con los ganchos a lo largo del muro) de las placas base, en los 22 pilares')
     fam('AE', 'placa base PLb', 8, None, polis=polisE, d='estribos ø8@20 de los anclajes')
 
     # ---------- cubicación de hormigón (m³) y de fierro (kg) ----------
@@ -267,7 +275,7 @@ def armar(c):
         dict(elemento='Radier del búnker e=10', m3=round(vol([piso], RADIER_BUNKER), 2), hormigon='G25'),
         dict(elemento='Sobrecimiento 25 × 50', m3=round(vol(sc_piezas, SOBRECIM[1]), 2), hormigon='G25'),
         dict(elemento='Cimiento corrido 80 × 25', m3=round(vol(ci_piezas, CIMIENTO[1]), 2), hormigon='G25'),
-        dict(elemento='CF 25/40', m3=round(vol(cf_piezas, CF[1]), 2), hormigon='G25'),
+        dict(elemento='CF 25/50', m3=round(vol(cf_piezas, CF[1]), 2), hormigon='G25'),
         dict(elemento='Radier del estudio e=10', m3=round(vol(radier_estudio['capas'][0]['piezas'], RADIER_EST), 2), hormigon='G25'),
         dict(elemento='Escalera de hormigón y su caja de muros', m3=round(v_esc + v_caja, 2), hormigon='G25'),
         dict(elemento='Emplantillados (zapata del búnker, cimientos y CF)', m3=round(vol(zap_piezas, EMPLANTILLADO) + vol(cemp_piezas, EMPLANTILLADO) + vol(cf['emplantillado']['piezas'], EMPLANTILLADO), 2), hormigon='G5'),

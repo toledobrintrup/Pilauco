@@ -29,6 +29,6 @@ for nombre in paginas:
     p = raiz / nombre
     if not p.exists(): continue
     s = p.read_text()
-    s2, k = re.subn(r'\?v=[A-Za-z0-9]+', f'?v={ver}', s)
+    s2, k = re.subn(r'(\?v=|&amp;v=|&v=)[A-Za-z0-9]+', lambda m: m.group(1) + ver, s)   # ?v= de los scripts y &v= de los iframes
     p.write_text(s2); total += k
 print(f'{ver} · {fecha} · {total} scripts marcados en {len(paginas)} páginas')
