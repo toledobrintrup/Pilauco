@@ -155,8 +155,8 @@
   "dato_losa": "supuesto: espesor de la losa sobre el búnker, hasta que el ingeniero la defina",
   "techo_espesor_cm": 10.0,
   "dato_techo": "supuesto: plancha y aislación, solo para el volumen",
-  "estructura_techo_cm": 30.0,
-  "dato_estructura_techo": "viga inclinada 200x150 + costanera CA 100 sobre los pilares (láminas del ingeniero): el techo va 30 cm sobre el cielo de 4,00",
+  "estructura_techo_cm": 40.0,
+  "dato_estructura_techo": "viga E-O 100x100 sobre los pilares de 4,00, viga inclinada 200x150 encima y costanera CA 100 (láminas 04 y 05 del ingeniero): el techo va 40 cm sobre el cielo de 4,00",
   "alero_ns_cm": 100.0,
   "alero_eo_cm": 100.0,
   "dato_alero": "Gabriel (2026-10-12): aleros como los de la casa (≈1,00 m por todos lados; el techo con 0,80/0,52 del ingeniero se veía corto); medidos desde la cara exterior del muro"

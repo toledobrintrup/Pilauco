@@ -78,7 +78,7 @@ def main(estudio_json, sitio_json, salida):
                      'cafetería/estudio (= muro sur del búnker), C sobre el tabique baño/bodega; A2 y D a 2,00 m de las fachadas norte y sur, '
                      'para que las cruces queden en tramos de 2 m como las del original (2,05 y 1,82).')
     def ap(x, y, z): return [r1(ox + x), r1(oy + y), r1(z0 + z)]
-    def z_viga(y): return H_PILAR + PEND * (y - yA[0])               # cara inferior de la viga inclinada (cota del ingeniero)
+    def z_viga(y): return Z_CORDON[1] + PEND * (y - yA[0])           # cara inferior de la viga inclinada: apoyada sobre la viga E-O 100x100 de +400/+410 (lámina 05: +411 en F1)
     # Convención: cada miembro se dibuja centrado en su línea, así que las cotas del ingeniero (caras inferiores) llevan sumado medio perfil.
     Z_CORDON_EJE = (Z_CORDON[0] + Z_CORDON[1]) / 2                     # 405: eje del cordón y de las vigas E-O (de +400 a +410)
     def z_tope(y): return z_viga(y) - 5                                # eje de una viga E-O CUAD 100 pegada bajo la viga inclinada
@@ -92,7 +92,7 @@ def main(estudio_json, sitio_json, salida):
             pm = 'PM1' if xn in ('2', '3') else 'PM2'
             perfil = 'CUAD 150x150x5' if pm == 'PM1' else 'CUAD 150x150x4'
             apoyo = {'A': 'sobre el muro norte del búnker', 'B': 'sobre el muro sur del búnker', 'E': 'sobre zapata aislada 1 x 1 x 1'}[yn]
-            m(f'P-{xn}{yn}', 'pilar', perfil, (x, y, 0), (x, y, z_viga(y)), f'{pm} eje {xn} x {yn}, {apoyo}; llega a la viga inclinada (+{z_viga(y):.0f})', alma='Y')
+            m(f'P-{xn}{yn}', 'pilar', perfil, (x, y, 0), (x, y, z_viga(y) - 10), f'{pm} eje {xn} x {yn}, {apoyo}; llega a la viga E-O 100x100 (+{z_viga(y) - 10:.0f}), y sobre ella apoya la viga inclinada (lámina 05)', alma='Y')
     for yn in ('A2', 'C', 'D'):
         y = yA[yN.index(yn)]
         for xn, x in (('1', xA[0]), ('5', xA[4])):
@@ -105,7 +105,7 @@ def main(estudio_json, sitio_json, salida):
             zv = z_tope(y) if alta else Z_CORDON_EJE
             m(f'VT-{yn}-{xN[i]}{xN[i+1]}', 'viga', 'CUAD 100x100x3', (xA[i], y, zv), (xA[i + 1], y, zv), (f'viga E-O bajo la viga inclinada (+{zv-5:.0f}/+{zv+5:.0f}) entre pilares {xN[i]} y {xN[i+1]} del eje {yn}: va arriba para que el vidrio llegue al cielo (propuesta)' if alta else f'viga E-O a +4,00/+4,10 entre pilares {xN[i]} y {xN[i+1]} del eje {yn}'))
     # ---------- marcos N-S: cordón RECT 150x100x3 + viga inclinada + puntales (como 1.b y 1.c) ----------
-    y_ini, y_fin = yA[0] - ALERO_NS, yA[5] + ALERO_NS
+    y_ini, y_fin = yA[0] - ALERO_NS, yA[5] + ALERO_NS   # puntas de los aleros (eje del pilar ± alero)
     for xn, x in zip(xN, xA):
         if not lateral(xn):
             for (ya, yb) in ((yA[0], yB), (yB, yA[5])):
@@ -122,9 +122,9 @@ def main(estudio_json, sitio_json, salida):
                     y += PASO_PUNTAL
     # ---------- costaneras CA 100x50x15x3 cada 61 de alero a alero, continuas sobre las 5 vigas ----------
     x_ini, x_fin = xA[0] - ALERO_EO, xA[4] + ALERO_EO
-    n = int(math.floor((y_fin - y_ini - 6) / PASO_COST)) + 1
+    n = int(math.floor((y_fin - y_ini - 38) / PASO_COST)) + 1   # la primera a 19 de la punta del alero, como el original (61 del eje con alero de 80)
     for i in range(n):
-        y = y_ini + 3 + i * PASO_COST
+        y = y_ini + 19 + i * PASO_COST
         z = z_viga(y) + PERFILES['RECT 200x150x5']['h'] + h2('CA 100x50x15x3')   # apoyada sobre la viga inclinada
         m(f'CO-{i+1:02d}', 'costanera', 'CA 100x50x15x3', (x_ini, y, z), (x_fin, y, z), f'costanera {i+1} de {n}, y = {y:.0f}')
     for yn, y in (('norte', y_ini), ('sur', y_fin)):
@@ -270,9 +270,11 @@ def main(estudio_json, sitio_json, salida):
         dict(que='Costaneras', original='CA 100x50x15x3 @61, 20 por línea; colgadores ø10 en los paños de 3,65 y 3,30', nuevo=f'mismo perfil y paso, {n} por línea; paños de ≤ {max(xA[i+1]-xA[i] for i in range(4))/100:.2f} m: sin colgadores', por='propuesta'),
         dict(que='Fundaciones fuera del búnker', original='sobrecimiento 25 x 50 + cimiento corrido 80 x 25 (de −50 a −75) bajo el perímetro, CF 25/40 bajo el eje interior 2.a, radier 10 sobre poliestireno 10 y relleno 15 (lámina 01 rev 1)', nuevo='lo mismo: sobrecimiento y cimiento corrido bajo las fachadas fuera del búnker, CF 25/40 bajo los tabiques con pilares (ejes 4 y C), radier igual', por='dato del ingeniero, aplicado a la planta nueva'),
         dict(que='Base del búnker', original='zapata corrida de 100 x 30 bajo los muros (ø16@20 + 4ø10), radier 10 sobre relleno granular 10, emplantillado G5', nuevo='igual, con el búnker nuevo (todo 8 cm más abajo por los 2,80 de alto)', por='dato'),
-        dict(que='Placas base', original='PLb 200 x 200 x 8 en todos los pilares, anclajes 1+1 ø3/4 en horquilla (L=1200: 140 + 430 + ganchos de 100), Est ø8@20', nuevo='igual, en los 22 pilares; la horquilla transversal lleva los ganchos girados a lo largo del muro (340 no caben en 25)', por='dato; ganchos: adaptación'),
-        dict(que='CF bajo los tabiques', original='CF 25/40 bajo el eje interior 2.a (3ø12 + 2ø10 + 3ø12, Est ø10@25)', nuevo='CF 25/50 bajo los ejes 4 y C, con la misma armadura: 50 de alto para que el anclaje de 43 de las placas quede con 5 de recubrimiento', por='adaptación'),
+        dict(que='Placas base', original='PLb 200 x 200 x 8 en todos los pilares, anclajes 1+1 ø3/4 en horquilla (L=1200: 140 + 430 + ganchos de 100), Est ø8@20', nuevo='igual, en los 22 pilares (los ganchos doblan hacia adentro: el ancla mide 140 y cabe en el muro de 25)', por='dato'),
+        dict(que='CF bajo los tabiques', original='CF 25/40 bajo el eje interior 2.a, de −10 a −50 bajo el radier (3ø12 + 2ø10 + 3ø12, Est ø10@25)', nuevo='el mismo CF 25/40 bajo los ejes 4 y C; el anclaje de 43 de las placas termina dentro del CF con 7 de recubrimiento', por='dato'),
+        dict(que='Viga inclinada y viga E-O', original='lámina 04: viga inclinada con la cara inferior a +400 en F1; lámina 05: apoyada sobre la viga E-O 100x100 de +401 a +411', nuevo='como la lámina 05: pilares hasta +400, viga E-O de +400 a +410 y la viga inclinada apoyada encima (+410 al norte)', por='dato (lámina 05, la más nueva)'),
         dict(que='Niveles del búnker', original='2,72 libres; radier a −292 por cotas (rótulos −272 / −305 / −342, inconsistentes)', nuevo='2,80 libres (Gabriel); losa 0 / −20, piso −300, radier −310, zapata −320 / −350, sello −360', por='Gabriel; el detalle baja 8 cm'),
+        dict(que='Costaneras en el alero', original='la primera a 61 del eje: 19 dentro de la punta del alero de 80, con el soporte C 150x50x3 en la punta', nuevo='igual: la primera a 19 de la punta (alero de 100) y luego cada 61', por='dato'),
         dict(que='Enfierradura', original='muros DM ø12@15 / ø10@20, losa ø10@20 + ø8@20, VHA 3ø12+2ø10+3ø16, CF 3ø12+2ø10+3ø12', nuevo='las mismas armaduras, en el modelo 3D barra por barra (capa Enfierradura)', por='dato; largos y cantidades del modelo'),
         dict(que='Acero', original='—', nuevo=f'{tot} kg de perfiles en el modelo (sin placas ni pérdidas)', por='cubicación del modelo'),
     ]

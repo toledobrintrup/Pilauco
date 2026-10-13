@@ -55,6 +55,10 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 .panel .cab .cerrar{top:-6px;right:-6px}
 #info-btn{position:absolute;top:12px;left:12px;width:32px;height:32px;border-radius:50%;padding:0;font:600 15px/1 Georgia,'Times New Roman',serif;font-style:italic;box-shadow:0 2px 8px rgba(16,18,22,.14)}
 #capas-btn{position:absolute;left:12px;bottom:12px;box-shadow:0 2px 8px rgba(16,18,22,.14)}
+#ayuda-btn{position:absolute;right:12px;bottom:62px;width:32px;height:32px;border-radius:50%;padding:0;font-weight:600;box-shadow:0 2px 8px rgba(16,18,22,.14)}
+#entrar-btn{position:absolute;right:52px;bottom:62px;box-shadow:0 2px 8px rgba(16,18,22,.14)}
+#entrar-btn[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.hint{bottom:102px}
 .loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px}
 #grupos-acero{padding:2px 0 0 22px}
 #grupos-acero .row{padding:2px 0;font-size:12px}
@@ -88,7 +92,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V58" data-vista="3d"></script>
+    <script src="menu.js?v=V59" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -145,21 +149,23 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       <div class="row"><button class="btn" id="fit">Ajustar vista</button></div>
     </div>
     <div class="hint" id="hint" hidden>Arrastrar: girar · rueda: acercar · clic derecho: desplazar</div>
+    <button type="button" class="btn redondo" id="ayuda-btn" aria-label="Cómo se mueve" title="Cómo se mueve" hidden>?</button>
+    <button type="button" class="btn" id="entrar-btn" aria-pressed="false" title="Modo entrar: doble clic o doble toque en el piso de una sala para pararse adentro" hidden>Entrar ↘</button>
     <div class="ficha" id="ficha" hidden></div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=V58"></script>
-<script src="data.js?v=V58"></script>
-<script src="estructura.js?v=V58"></script>
-<script src="losa.js?v=V58"></script>
-<script src="sitio.js?v=V58"></script>
-<script src="sitio3d.js?v=V58"></script>
-<script src="estudio_estructura.js?v=V58"></script>
-<script src="mobiliario3d.js?v=V58"></script>
-<script src="cotas3d.js?v=V58"></script>
+<script src="nav3d.js?v=V59"></script>
+<script src="data.js?v=V59"></script>
+<script src="estructura.js?v=V59"></script>
+<script src="losa.js?v=V59"></script>
+<script src="sitio.js?v=V59"></script>
+<script src="sitio3d.js?v=V59"></script>
+<script src="estudio_estructura.js?v=V59"></script>
+<script src="mobiliario3d.js?v=V59"></script>
+<script src="cotas3d.js?v=V59"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -772,7 +778,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 
   // ---------- camara + controles ----------
   const stage = document.getElementById('stage');
-  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 500);
+  const camera = new THREE.PerspectiveCamera(42, 1, 0.05, 500);   // near de 5 cm: se puede entrar a las salas sin que los muros se corten
   const renderer = new THREE.WebGLRenderer({antialias: true});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   stage.appendChild(renderer.domElement);
@@ -967,7 +973,24 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     } catch (err){ console.error(err); nav = null; controls.enableZoom = true; }
   }
   // doble clic / doble toque: la cámara vuela, así que la ficha del primer clic quedaría fuera de lugar
-  renderer.domElement.addEventListener('nav3d-doble', () => { ficha.hidden = true; });
+  renderer.domElement.addEventListener('nav3d-doble', e => {
+    ficha.hidden = true;
+    // modo Entrar: el doble clic deja el ojo a 1,60 m sobre el piso tocado (el piso más cercano por debajo del punto), mirando hacia donde se miraba
+    const p = e.detail && e.detail.punto;
+    if (!modoEntrar || !p) return;
+    const pisos = [0, PISO];
+    if (typeof DATA_SITIO !== 'undefined'){ pisos.push(cm(DATA_SITIO.terreno.z)); if (DATA_SITIO.estudio){ pisos.push(cm(DATA_SITIO.estudio.z_piso)); if (DATA_SITIO.estudio.bunker) pisos.push(cm(DATA_SITIO.estudio.bunker.z_piso)); } if (DATA_SITIO.gimnasio) pisos.push(cm(DATA_SITIO.gimnasio.z_piso)); }
+    const piso = pisos.filter(z => z <= p.y + 0.3).sort((a, b) => b - a)[0];
+    if (piso == null) return;
+    const ojo = new THREE.Vector3(p.x, piso + 1.6, p.z);
+    const dir = new THREE.Vector3().subVectors(controls.target, camera.position); dir.y = 0; if (dir.lengthSq() < 1e-6) dir.set(0, 0, 1); dir.normalize();
+    const mira = ojo.clone().addScaledVector(dir, 3);
+    if (nav && nav.irA) nav.irA(ojo, mira, 900); else { camera.position.copy(ojo); controls.target.copy(mira); controls.update(); }
+  });
+  let modoEntrar = false;
+  const entrarBtn = document.getElementById('entrar-btn');
+  entrarBtn.hidden = false;
+  entrarBtn.addEventListener('click', () => { modoEntrar = !modoEntrar; entrarBtn.setAttribute('aria-pressed', modoEntrar ? 'true' : 'false'); controls.minDistance = modoEntrar ? 0.05 : 0.1; });
   document.getElementById('fit').addEventListener('click', () => { if (nav) nav.vistaInicio(); else fit(); });
   // vista del terreno completo: centrada en el lote, desde arriba y el sur-oriente
   function encuadreTerreno(){
@@ -991,36 +1014,41 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
   if (nav){
     const hint = document.getElementById('hint');
     hint.textContent = '';
-    Nav3D.ayudaLineas.forEach((l, i) => { if (i) hint.appendChild(document.createElement('br')); hint.appendChild(document.createTextNode(l)); });
+    Nav3D.ayudaLineas.concat(['Entrar ↘: doble clic (o doble toque) en el piso de una sala para pararse adentro']).forEach((l, i) => { if (i) hint.appendChild(document.createElement('br')); hint.appendChild(document.createTextNode(l)); });
   }
 
   // ---------- arranque ----------
   resize(); fit();
   document.getElementById('loading').hidden = true;
-  document.getElementById('hint').hidden = false;
   // en el celular (vertical u horizontal) el panel y la información vienen cerrados; en escritorio, abiertos
   const movil = window.matchMedia('(max-width:639px), (max-height:520px)');
   const aviso = document.getElementById('aviso'), panel = document.getElementById('panel');
   const infoBtn = document.getElementById('info-btn'), capasBtn = document.getElementById('capas-btn');
   // incrustado (pestaña Estudio): el panel y la información vienen cerrados también en escritorio, con sus botones para abrirlos
-  let avisoAbierto = !movil.matches && !embed, panelAbierto = !movil.matches && !embed;
+  // en las vistas del estudio (y en el celular o incrustado) las tarjetas vienen cerradas: se abren con sus botones
+  const compacto = movil.matches || embed || vistaEstudio || vistaHormigon;
+  let avisoAbierto = !compacto, panelAbierto = !compacto, ayudaAbierta = false;
   if (embed) document.body.classList.add('embed');
   function pintarUI(){
     aviso.hidden = !avisoAbierto; panel.hidden = !panelAbierto;
-    infoBtn.hidden = !(movil.matches || embed) || avisoAbierto; capasBtn.hidden = !(movil.matches || embed) || panelAbierto;
+    infoBtn.hidden = !compacto || avisoAbierto; capasBtn.hidden = !compacto || panelAbierto;
+    const hintEl = document.getElementById('hint'), ayudaBtn = document.getElementById('ayuda-btn');
+    hintEl.hidden = !ayudaAbierta; ayudaBtn.hidden = false; ayudaBtn.setAttribute('aria-pressed', ayudaAbierta ? 'true' : 'false');
     infoBtn.setAttribute('aria-expanded', avisoAbierto ? 'true' : 'false');
   }
   infoBtn.addEventListener('click', () => { avisoAbierto = true; pintarUI(); });
   document.getElementById('aviso-cerrar').addEventListener('click', () => { avisoAbierto = false; pintarUI(); });
   capasBtn.addEventListener('click', () => { panelAbierto = true; pintarUI(); });
   document.getElementById('panel-cerrar').addEventListener('click', () => { panelAbierto = false; pintarUI(); });
-  movil.addEventListener('change', () => { if (!movil.matches && !embed){ avisoAbierto = true; panelAbierto = true; } else { avisoAbierto = false; panelAbierto = false; } pintarUI(); });
+  movil.addEventListener('change', () => { if (!movil.matches && !embed && !vistaEstudio && !vistaHormigon){ avisoAbierto = true; panelAbierto = true; } else { avisoAbierto = false; panelAbierto = false; } pintarUI(); });
+  document.getElementById('ayuda-btn').addEventListener('click', () => { ayudaAbierta = !ayudaAbierta; pintarUI(); });
   pintarUI();
   // 3d.html?estudio=1 (estructura del estudio), ?estudio=2 (estructura + muros y ventanas) o ?vista=estudio (muros, ventanas y mobiliario,
   // como en la pestaña Estudio): la estructura de la casa se apaga y la cámara parte sobre el estudio. ?embed=1: sin cabecera, para incrustar.
   if (sitio && grupoEstudioEst.children.length && (nivelEstudio || vistaEstudio || vistaHormigon)){
     // vista del estudio: todo prendido (muros, mobiliario, acero y hormigón) salvo las medidas; ?estudio=1 solo la estructura, ?estudio=2 estructura + muros
-    chkEstudioEst.checked = !!nivelEstudio || vistaEstudio; chkEstudioHormigon.checked = !!nivelEstudio || vistaEstudio; chkCerramiento.checked = vistaEstudio || nivelEstudio === '2'; chkMobiliario.checked = vistaEstudio || nivelEstudio === '2';
+    chkEstudioEst.checked = !!nivelEstudio || vistaEstudio; chkEstudioHormigon.checked = !!nivelEstudio || vistaEstudio; chkCerramiento.checked = nivelEstudio === '2'; chkMobiliario.checked = vistaEstudio || nivelEstudio === '2';
+    if (vistaEstudio){ chkEstudioFierros.checked = true; chkBajoTierra.checked = true; }   // la vista por defecto que pidió Gabriel: estructura, hormigón y fierros a la vista, muros apagados
     chkEstructura.checked = false; chkLosa.checked = false; chkRoof.checked = false;
     if (vistaHormigon){
       [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, chkEstudioEst, chkEstudioHormigon, chkEstudioFierros, chkEstudioTecho, chkCerramiento, chkMobiliario, chkCotas, chkBajoTierra].forEach(el => { el.closest('.row').hidden = true; });

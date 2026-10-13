@@ -29,15 +29,16 @@ y rev 1 (27-04-2026); 02 rev G (07-04); 03 rev G/H; 04 rev G/H/I (11-04); 05 rev
   (sello 20 cm en el estrato de la memoria de cálculo). Niveles del original: 0 / −20 / −292 / −312 / −342.
 - Fuera del búnker (lámina 01 rev 1, corte b-b): **sobrecimiento 25 × 50** (2ø12 arriba, ø10@20 L=211 en U, ø8@20) hasta el NTN −50,
   **cimiento corrido 80 × 25** de −50 a −75 (ø12@20 L=100 en U + 4ø10), emplantillado ≥ 10; **CF 25/40** bajo el eje interior 2.a
-  (3ø12 + 2ø10 + 3ø12, Est ø10@25, emplantillado 40 × 10, de 0 a −40); radier 10 sobre poliestireno expandido de alta densidad e=100 mm,
+  (3ø12 + 2ø10 + 3ø12, Est ø10@25, emplantillado 40 × 10, de −10 a −50 bajo el radier: elevación 2.a); radier 10 sobre poliestireno expandido de alta densidad e=100 mm,
   relleno granular 15 (T.máx 1 1/2", 90 % Proctor modificado) y sub base granular compactada.
 - Placas base PLb 200 × 200 × 8 mm en todos los pilares, soldadas al tubo; anclaje 1+1 ø3/4" en horquilla (L=1200 mm: 140 bajo la
-  placa, ramas de 430 y ganchos de 100), estribos ø8@20, embebido en el muro o sobrecimiento (sin pedestal).
+  placa, ramas de 430 y ganchos de 100 hacia adentro), estribos ø8@20, embebido en el muro, sobrecimiento o CF (sin pedestal).
+- Lámina 05 (la más nueva): la viga inclinada apoya sobre la viga E-O 100×100 (+400/+410); pilares hasta +400. El modelo lo sigue.
 - Especificaciones (lámina 02): emplantillado G5, hormigón G25, acero A630-420H, recubrimientos 5 (fundaciones) / 3 (h.a.) / 2 (losa),
   traslapo mínimo 60 ø.
-- Contradicciones de sus láminas, para preguntarle: la planta de 01 rev 1 es 1,00 m más larga (1125 / 625) que las de estructura
-  (1025 / 525); el nivel del radier del búnker sale −292 por cotas pero −272 / −305 / −342 por rótulos; el anclaje de 43 baja más que el
-  CF de 40; los ganchos de 100 de la horquilla no caben en un muro de 25 si no van girados.
+- Contradicciones de sus láminas (Gabriel decidió no preguntarlas: manda lo que se deja aquí): la planta de 01 rev 1 es 1,00 m más larga
+  (1125 / 625) que las de estructura (1025 / 525); el radier del búnker sale −292 por cotas pero −272 / −305 / −342 por rótulos (aquí 2,80
+  libres); las elevaciones 03/04 están dibujadas al 4,5 % aunque rotulen 3,5 % (aquí 3,5 %).
 
 ## Lo que cambia (propuesta)
 
