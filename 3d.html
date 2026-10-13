@@ -92,7 +92,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V62" data-vista="3d"></script>
+    <script src="menu.js?v=V65" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -157,15 +157,15 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=V62"></script>
-<script src="data.js?v=V62"></script>
-<script src="estructura.js?v=V62"></script>
-<script src="losa.js?v=V62"></script>
-<script src="sitio.js?v=V62"></script>
-<script src="sitio3d.js?v=V62"></script>
-<script src="estudio_estructura.js?v=V62"></script>
-<script src="mobiliario3d.js?v=V62"></script>
-<script src="cotas3d.js?v=V62"></script>
+<script src="nav3d.js?v=V65"></script>
+<script src="data.js?v=V65"></script>
+<script src="estructura.js?v=V65"></script>
+<script src="losa.js?v=V65"></script>
+<script src="sitio.js?v=V65"></script>
+<script src="sitio3d.js?v=V65"></script>
+<script src="estudio_estructura.js?v=V65"></script>
+<script src="mobiliario3d.js?v=V65"></script>
+<script src="cotas3d.js?v=V65"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -900,11 +900,12 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       }
       if (vistaHormigon){
         // vista del búnker y las fundaciones (para los maestros): solo hormigón, fierros, placas y medidas; nada de acero, muros ni muebles
-        sitio.sub.estudio.visible = false; grupoCerramiento.visible = false; grupoMobiliario.visible = false; ground.visible = grid.visible = false; if (sueloEstudio) sueloEstudio.visible = false;
+        // sin terreno ni casa; la grilla queda como piso de referencia (está 10 cm bajo el sello de fundación), para que nada parezca flotar
+        sitio.sub.estudio.visible = false; grupoCerramiento.visible = false; grupoMobiliario.visible = false; ground.visible = false; grid.visible = true; if (sueloEstudio) sueloEstudio.visible = false;
         grupoEstudioEst.visible = true;
         Object.keys(grupoEstudioEst.userData.sub || {}).forEach(k => { grupoEstudioEst.userData.sub[k].visible = k === 'hormigon'; });
         const subH = grupoEstudioEst.userData.sub.hormigon, trans = chkHTrans.checked;
-        subH.traverse(o => { if (o.userData.hgrupo){ o.visible = chkHGrupo[o.userData.hgrupo] ? chkHGrupo[o.userData.hgrupo].checked : true; } if (o.material && o.material.transparent){ if (o.userData.opBaseH == null) o.userData.opBaseH = o.material.opacity; o.material.opacity = trans ? 0.28 : o.userData.opBaseH; } });
+        subH.traverse(o => { if (o.userData.hgrupo){ o.visible = chkHGrupo[o.userData.hgrupo] ? chkHGrupo[o.userData.hgrupo].checked : true; } if (o.material && o.material.transparent){ if (o.userData.opBaseH == null) o.userData.opBaseH = o.material.opacity; o.material.opacity = trans ? 0.45 : o.userData.opBaseH; } });
         grupoFierros.visible = true; grupoFierros.children.forEach(ls => { const el = chkFElem[ls.userData.elemento]; ls.visible = el ? el.checked : true; });
         grupoCotas.visible = chkHCotas.checked;
         if (grupoCotas.userData.sub) Object.keys(grupoCotas.userData.sub).forEach(f => { grupoCotas.userData.sub[f].visible = f === 'bunker'; });

@@ -61,7 +61,7 @@ def armar(c):
 
     # ---------- búnker ----------
     muros = dict(espesor=MURO, z_inf=Z(z_zap_sup + GAP), z_sup=Z(z_losa_inf), alto=r1(z_losa_inf - z_zap_sup),
-                 armadura='DM (doble malla): V ø12@15 (L≈362: gancho 30 en la zapata y 20 en la losa), H ø10@20, 2ø12 de coronamiento bajo la losa; recubrimiento 3',
+                 armadura='DM (doble malla): V ø12@15 que bajan hasta el fondo de la zapata (pata de 30 sobre su parrilla) y terminan con gancho de 20 en la losa (L≈3,92 m), H ø10@20, 2ø12 de coronamiento bajo la losa; recubrimiento 3',
                  fuente='lámina 01 rev 1, cortes a-a y c-c; lámina 03 rev H, elevación 1.a; lámina 05 rev H, elevación A1',
                  piezas=[dict(id='M-N', pts=rect(bx0, by0, bx1, by0 + MURO), lado='norte (recibe los 5 pilares del eje A)'),
                          dict(id='M-S', pts=rect(bx0, by1 - MURO, bx1, by1), lado='sur, bajo el tabique cafetería/estudio (recibe los 5 pilares del eje B)'),
@@ -176,8 +176,9 @@ def armar(c):
             gx, gy = nrm[0] * (-s) * 30, nrm[1] * (-s) * 30  # gancho inferior de 30 hacia la otra cara
             hx, hy = nrm[0] * 20, nrm[1] * 20               # gancho superior de 20 en la losa, hacia adentro
             x0, y0 = a[0] + ux * 7.5 + fx, a[1] + uy * 7.5 + fy
-            fam(f'MV-{nm}-{cara[:3]}', 'muro del búnker', 12, [(x0 + gx, y0 + gy, z_zap_sup + 5), (x0, y0, z_zap_sup + 5), (x0, y0, -3), (x0 + hx, y0 + hy, -3)],
-                n=nV, paso=(ux * 15, uy * 15, 0), d=f'verticales ø12@15 del muro {nm}, malla {cara} (gancho 30 en la zapata, 20 en la losa)')
+            # la barra baja dentro de la zapata: la pata de 30 va apoyada sobre la parrilla del fondo (corte a-a: 20 + 334 + 30 = 384 en el original)
+            fam(f'MV-{nm}-{cara[:3]}', 'muro del búnker', 12, [(x0 + gx, y0 + gy, z_zap_inf + 7), (x0, y0, z_zap_inf + 7), (x0, y0, -3), (x0 + hx, y0 + hy, -3)],
+                n=nV, paso=(ux * 15, uy * 15, 0), d=f'verticales ø12@15 del muro {nm}, malla {cara}: bajan dentro de la zapata con la pata de 30 sobre la parrilla del fondo y terminan con gancho de 20 en la losa (L≈{(-3 - (z_zap_inf + 7) + 50)/100:.2f} m)'.replace('.', ','))
             fam(f'MH-{nm}-{cara[:3]}', 'muro del búnker', 10, [(a[0] + fx, a[1] + fy, z_zap_sup + 10), (b[0] + fx, b[1] + fy, z_zap_sup + 10)],
                 n=int((z_losa_inf - 5 - (z_zap_sup + 10)) // 20) + 1, paso=(0, 0, 20), d=f'horizontales ø10@20 del muro {nm}, malla {cara}')
             fam(f'MC-{nm}-{cara[:3]}', 'muro del búnker', 12, [(a[0] + fx, a[1] + fy, -3), (b[0] + fx, b[1] + fy, -3)], d=f'2ø12 de coronamiento del muro {nm} (borde de la losa)')
