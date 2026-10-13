@@ -58,7 +58,7 @@ La cubicación del ingeniero no se usa como referencia.
 ## Ventanas, puertas y esquema interior (propuesta, 2026-10-12)
 
 `vanos`: vidrio de piso a 3,00 en los cuatro tramos de la fachada norte (corredera en el tramo 2-3, en el eje del estudio), tabique vidriado de piso
-a 3,95 (hasta la viga E-O de +4,00; sobre ella, una franja ciega de 22 / 54 cm hasta el techo) entre cafetería y estudio con corredera centrada en el estudio, una ventana de piso a cielo centrada en la
+a 3,95 (hasta la viga E-O de +4,00, a ras del cielo plano de 4,00; la franja de 22 / 54 cm sobre la viga queda en el entretecho) entre cafetería y estudio con corredera centrada en el estudio, una ventana de piso a cielo centrada en la
 fachada sur entre los parlantes, entrada de 1,80 por el poniente (pegada al pilar A2), puertas del baño (desde la cafetería, pegada al eje 4)
 y de la bodega (desde el estudio), ventana alta del baño al oriente (la bodega sin ventana). La escalera (de hormigón, en su caja de muros de 23,3 con puerta con llave en el descanso) se entra por el sur y baja hacia el norte. Aleros de 1,00 m como la casa (Gabriel). `interior`: parlantes, consola, rack, silla, sofá, paneles acústicos,
 alfombra, barra con taburetes, mesas con sillas, lámparas, cocina chica con lavaplatos y minibar en la esquina nororiente, baño y estanterías (sin

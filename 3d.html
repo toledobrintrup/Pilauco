@@ -94,7 +94,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V75" data-vista="3d"></script>
+    <script src="menu.js?v=V76" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -164,16 +164,16 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V75"></script>
-<script src="data.js?v=V75"></script>
-<script src="estructura.js?v=V75"></script>
-<script src="losa.js?v=V75"></script>
-<script src="sitio.js?v=V75"></script>
-<script src="sitio3d.js?v=V75"></script>
-<script src="estudio_estructura.js?v=V75"></script>
-<script src="mobiliario3d.js?v=V75"></script>
-<script src="cotas3d.js?v=V75"></script>
-<script src="goku3d.js?v=V75"></script>
+<script src="nav3d.js?v=V76"></script>
+<script src="data.js?v=V76"></script>
+<script src="estructura.js?v=V76"></script>
+<script src="losa.js?v=V76"></script>
+<script src="sitio.js?v=V76"></script>
+<script src="sitio3d.js?v=V76"></script>
+<script src="estudio_estructura.js?v=V76"></script>
+<script src="mobiliario3d.js?v=V76"></script>
+<script src="cotas3d.js?v=V76"></script>
+<script src="goku3d.js?v=V76"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -452,7 +452,8 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       if (Math.abs(z.y) > 0.95) y = mb.alma === 'Y' ? new THREE.Vector3(0, 0, 1) : new THREE.Vector3(1, 0, 0);
       else y = ARRIBA.clone();
       y.addScaledVector(z, -y.dot(z)).normalize();
-      const x = new THREE.Vector3().crossVectors(y, z).normalize();
+      let x = new THREE.Vector3().crossVectors(y, z).normalize();
+      if (mb.acostado){ y = x; x = new THREE.Vector3().crossVectors(y, z).normalize(); }   // perfil acostado: su alto (h) queda horizontal (cordones de +4,00 a +4,10)
       const clave = grupoDeClase[mb.c] || 'arriostre';
       const mesh = new THREE.Mesh(geometriaDe(mb.p), sub[clave].userData.material);
       mesh.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(x, y, z));
@@ -707,7 +708,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       mesh.rotation.x = -Math.PI / 2; mesh.position.y = cm(z0 + 0.6);
       g.add(ficha(mesh, rc.nombre, `${rc.area_m2.toLocaleString('es-CL')} m² · ${def[1]}`));
     });
-    // cielo interior por recinto (4,00 al norte, sube al sur con el techo): placa inclinada, va con la capa Techo
+    // cielo interior por recinto: placa plana a 4,00 (Gabriel, 13-10-2026), va con la capa Techo; la estructura queda en el entretecho
     const matCielo = new THREE.MeshLambertMaterial({color: dark ? 0xD8DADF : 0xF2F1EC, side: THREE.DoubleSide});
     const zCielo = y => E.cielo.z_norte + (E.cielo.z_sur - E.cielo.z_norte) * (y - E.cielo.y_norte) / (E.cielo.y_sur - E.cielo.y_norte);
     E.recintos.forEach(rc => {
@@ -716,7 +717,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       tris.forEach(t => t.forEach(i => { const q = rc.pts[i]; pos.push(cm(q[0]), cm(zCielo(q[1]) - 0.5), cm(q[1])); }));
       const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.computeVertexNormals();
       const mesh = new THREE.Mesh(geo, matCielo); mesh.userData.cieloEstudio = true;
-      g.add(ficha(mesh, 'Cielo de ' + rc.nombre.split(' (')[0].toLowerCase(), `a ${(zCielo(rc.pts[0][1]) - z0) / 100 > 0 ? ((zCielo(rc.pts[0][1]) - z0) / 100).toFixed(2).replace('.', ',') : ''} m en su lado norte; sube con el techo (3,5 %) · bajo las vigas (propuesta)`));
+      g.add(ficha(mesh, 'Cielo de ' + rc.nombre.split(' (')[0].toLowerCase(), `plano a ${((zCielo(rc.pts[0][1]) - z0) / 100).toFixed(2).replace('.', ',')} m (Gabriel); sobre él, el entretecho con las vigas y la pendiente del techo · bajo las vigas (propuesta)`));
     });
     // escalera al búnker: 16 peldaños terminados, baranda en el borde sur del hueco y pasamanos en el muro
     // tramo real (3,75 desde el descanso hacia el norte, sigue bajo la losa dentro del búnker); el hueco en la losa es más corto

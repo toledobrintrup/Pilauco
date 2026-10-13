@@ -26,7 +26,7 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
     ext = [[0, 0], [ancho, 0], [ancho, largo_], [0, largo_]]
     A = E['alturas']
     z0 = E['nivel_piso']['z_cm']
-    # cielo interior: 4,00 m en el lado bajo (norte) y sube con la pendiente de la casa hacia el sur
+    # techo: 4,00 m de cielo en el lado bajo (norte) y sube con la pendiente de la casa hacia el sur (el cielo interior va plano, ver abajo)
     y_bajo = 0 if sube_hacia == 'sur' else largo_
     def z_cielo(y_local): return z0 + A['interior_cm'] + pendiente * ((y_local - y_bajo) if sube_hacia == 'sur' else (y_bajo - y_local))
     # aleros medidos desde la cara exterior del muro (estudio.json); el contorno del volumen también parte de la cara exterior
@@ -44,8 +44,10 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
     return dict(
         origen=[r1(ox), r1(oy)], exterior=desplazar(ext, ox, oy), ancho=ancho, largo=largo_, muro=muro,
         z_piso=r1(z0), recintos=recintos, bunker=bunker,
-        cielo=dict(z_norte=r1(z_cielo(0)), z_sur=r1(z_cielo(largo_)), y_norte=r1(oy), y_sur=r1(oy + largo_),
-                   dato='4,00 m interiores en el lado bajo; sube con la pendiente de la casa (supuesto el lado)'),
+        # cielo interior plano a 4,00 en todo el estudio (Gabriel, 13-10-2026: "el cielo completo terminado a 4 m, esa fue siempre la idea");
+        # el techo sigue inclinado por encima, con la estructura en el entretecho
+        cielo=dict(z_norte=r1(z0 + A['interior_cm']), z_sur=r1(z0 + A['interior_cm']), y_norte=r1(oy), y_sur=r1(oy + largo_),
+                   dato='cielo plano a 4,00 m en todo el estudio (Gabriel); el techo sube con la pendiente de la casa por encima'),
         techo=dict(contorno=desplazar(techo, ox, oy), espesor=A['techo_espesor_cm'], alero=A['alero_ns_cm'], alero_ns=A['alero_ns_cm'], alero_eo=A['alero_eo_cm'], pendiente=pendiente, sube_hacia=sube_hacia,
                    y0=r1(oy - an), y1=r1(oy + largo_ + an),
                    z0=r1(z_cielo(-an) + est), z1=r1(z_cielo(largo_ + an) + est), estructura=est),
