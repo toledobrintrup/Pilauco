@@ -110,6 +110,9 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
 .cx-cota{stroke:var(--fig-ink);stroke-width:1}.cx-guia{stroke:var(--fig-soft);stroke-width:.7}.cx-niv{stroke:#C2410C;stroke-width:1.2;stroke-dasharray:8 5}.cx-ntn{stroke:var(--fig-soft);stroke-width:1;stroke-dasharray:10 6}
 .cx-marco{fill:none;stroke:var(--fig-ink);stroke-width:1.5}.cx-rec{fill:none;stroke:#C2410C;stroke-width:1.5;stroke-dasharray:5 3}.cx-h{font-size:20px;font-weight:700;fill:var(--ink)}
 .leyenda{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted);margin:4px 0 0}
+.kvs{display:grid;grid-template-columns:max-content 1fr;gap:5px 16px;font-size:13.5px;margin:10px 0 12px;align-items:baseline}.kvs .k{color:var(--muted);text-transform:uppercase;font-size:10.5px;letter-spacing:.09em;font-weight:500;white-space:nowrap}.kvs .v b{font-weight:620}
+.puntos{margin:8px 0 10px;padding-left:18px;font-size:13.5px;line-height:1.55}.puntos li{margin:2px 0}.puntos b{font-weight:620}
+@media (max-width:560px){.kvs{grid-template-columns:1fr;gap:2px 0}.kvs .k{margin-top:6px}}
 ol.preg{padding-left:20px;margin:6px 0}
 ol.preg li{margin:0 0 8px}
 .elevs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px}
@@ -126,7 +129,7 @@ ol.preg li{margin:0 0 8px}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V80" data-vista="estudio"></script>
+  <script src="menu.js?v=V81" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
   <span class="meta" id="meta">Propuesta · no es un cálculo</span>
 </header>
@@ -136,31 +139,22 @@ ol.preg li{margin:0 0 8px}
 <div class="doc-in">
 
 <section id="resumen" style="padding-top:14px">
-  <p class="lead">En abril de 2026 el ingeniero proyectó un estudio con búnker de 11,05 × 10,25 m (entre ejes), con el búnker de
-  5,00 m de ancho bajo un extremo y el techo subiendo hacia ese lado. La planta nueva mide <b>10,55 × 15,75 m por fuera</b> (10,05 × 15,25 interiores, con la cafetería de 6,00 m), tiene el búnker bajo
-  la cafetería (al norte, hacia el patio), el techo subiendo hacia el sur como la casa, y recintos divididos. Esta página toma
-  <b>el mismo sistema estructural que él usó</b> (pilares de tubo cuadrado 150×150, vigas de techo 200×150 con 3,5 %, costaneras
-  CA 100×50 cada 61 cm, cruces C 150×50, tensores Fe 16, búnker en hormigón con muros de 25 y losa de 20) y lo acomoda a la planta
-  nueva. Cada pieza dice si es <span class="fuente man">dato</span> de sus láminas o <span class="fuente med">propuesta</span>.</p>
-  <div class="aviso"><b>Ojo:</b> no es un cálculo. Es el diseño armado con los perfiles y la lógica del ingeniero para que él
-  verifique, corrija o cambie lo que corresponda, en vez de partir de cero. Las luces que crecieron respecto del original están marcadas.</div>
+  <p class="lead">Estudio con búnker, con el <b>sistema estructural del ingeniero</b> (abril 2026) acomodado a la planta nueva. Cada pieza dice si es <span class="fuente man">dato</span> de sus láminas o <span class="fuente med">propuesta</span>.</p>
+  <div class="aviso"><b>No es un cálculo.</b> Diseño con los perfiles y la lógica del ingeniero, para que él verifique o cambie. Las luces que crecieron están marcadas.</div>
   <div class="specs" id="specs"></div>
   <p style="margin-top:12px"><a class="btn p" href="3d.html?estudio=1">Ver en 3D →</a> <span class="small sub">con la sección real de cada perfil; toca una pieza para ver qué es</span></p>
 </section>
 
 <section id="vista3d">
   <h2><span class="n">01</span>Vista 3D del estudio</h2>
-  <p>La misma vista 3D de la casa, centrada en el estudio: muros, ventanas y puertas propuestos y el mobiliario de referencia. En <b>Capas</b> se
-  prenden la estructura de acero y hormigón, el búnker bajo tierra y las <b>medidas</b> de puertas, ventanas, muros y recintos (vienen apagadas).
-  Arrastra para girar, rueda o pellizco para acercar, doble toque para centrar; toca una pieza para ver su ficha.</p>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V80" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <ul class="puntos"><li><b>Capas:</b> estructura de acero y hormigón, búnker bajo tierra, enfierradura, medidas (vienen apagadas).</li><li><b>Girar:</b> arrastrar · <b>acercar:</b> rueda o pellizco · <b>centrar:</b> doble toque · <b>ficha:</b> tocar la pieza.</li></ul>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V81" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
 <section id="planta">
   <h2><span class="n">02</span>Planta de estructura</h2>
-  <p>Ejes 1 a 5 de poniente a oriente y A a E de norte a sur. Los pilares van solo en muros: fachadas norte (A) y sur (E), el tabique
-  cafetería/estudio (B), que apoya sobre el muro sur del búnker, y las fachadas laterales. Ningún pilar queda dentro del estudio ni de la cafetería.</p>
+  <ul class="puntos"><li><b>Ejes:</b> 1–5 de poniente a oriente, A–E de norte a sur.</li><li><b>Pilares</b> solo en muros: fachadas A y E, tabique B (sobre el muro sur del búnker) y fachadas laterales. Ninguno dentro de los recintos.</li></ul>
   <figure><svg id="svg-planta" role="img" aria-label="Planta de la estructura de techo"></svg>
     <figcaption id="cap-planta"></figcaption></figure>
   <div class="leyenda" id="ley-planta"></div>
@@ -168,45 +162,30 @@ ol.preg li{margin:0 0 8px}
 
 <section id="bunker">
   <h2><span class="n">03</span>Búnker</h2>
-  <p id="txt-bunker"></p>
+  <div class="kvs" id="txt-bunker"></div>
   <figure><svg id="svg-bunker" role="img" aria-label="Planta del búnker"></svg>
     <figcaption id="cap-bunker"></figcaption></figure>
 </section>
 
 <section id="elevaciones">
   <h2><span class="n">04</span>Elevaciones</h2>
-  <p>Mismo dibujo que las láminas del ingeniero: pilares de 4,11 m en el lado bajo (norte) que crecen con el techo hasta 4,75 m al sur (11 cm más que en las láminas, por las terminaciones de piso y cielo), con la viga E-O 100×100 encima y
-  sobre ella la viga inclinada al 3,5 % (como la lámina 05), cordón horizontal con puntales
-  cortos donde se separan, y cruces de San Andrés en los tramos extremos. El búnker aparece bajo la cafetería en los ejes norte-sur; abajo van las
-  las fundaciones del ingeniero (sección 07), y en azul y naranjo las ventanas y puertas de la sección 06.</p>
+  <ul class="puntos"><li><b>Pilares</b> 4,11 (norte) a 4,75 m (sur) · <b>viga E-O</b> 100×100 encima · <b>viga inclinada</b> al 3,5 % · cordón + puntales en los marcos interiores · cruces en los tramos extremos.</li><li><b>Colores:</b> naranjo pilares · azul vigas · morado techo · verde diagonales · gris hormigón · azul/naranjo ventanas y puertas.</li></ul>
   <div class="elevs" id="elevs"></div>
 </section>
 
 <section id="alturas">
   <h2><span class="n">05</span>Alturas para la obra</h2>
-  <p>Un corte por el muro norte del búnker (eje A), del sello de fundación al punto más alto del techo, con cada pieza dibujada a su tamaño
-  y su medida al lado: la lámina para que los maestros sepan cómo se construye. El corte chico de la izquierda ubica los tres recuadros; los detalles
-  <b>A</b> (fundación y piso del búnker), <b>B</b> (losa, pisos y placa base) y <b>C</b> (techo y cielo) van a escala grande con sus cotas. Obra gruesa
-  (hormigón y acero) es <b>DATO</b> del ingeniero adaptado a esta planta; los espesores de piso y cielo son una propuesta ya aplicada al modelo
-  (porcelanato 1,0 + adhesivo 0,5 + sobrelosa 4,0; yeso cartón grueso 1,5 + perfilería 4,0): la obra gruesa se ajustó para que queden <b>4,00 libres
-  terminados</b> en el estudio y <b>2,80</b> en el búnker (Gabriel, 13-10-2026). Si cambian los espesores, cambia todo con ellos.</p>
+  <ul class="puntos"><li>Corte N-S por el muro norte del búnker (eje A), del sello al techo. Detalles <b>A</b> fundación y piso del búnker · <b>B</b> losa, pisos y placa base · <b>C</b> techo y cielo.</li><li><b>Obra gruesa</b> = dato del ingeniero · <b>terminaciones</b> = propuesta ya aplicada (la obra gruesa se ajustó para <b>4,00 / 2,80 libres terminados</b>).</li></ul>
   <figure id="alturas-fig"></figure>
-  <p class="small sub" id="alturas-cap"></p>
+  <div class="kvs" id="alturas-cap"></div>
   <h3>Capas de piso y cielo (<b>PROPUESTA</b>)</h3>
   <div class="tw"><table id="tabla-capas"></table></div>
-  <p id="txt-capas"></p>
+  <ul class="puntos" id="txt-capas"></ul>
 </section>
 
 <section id="vanos">
   <h2><span class="n">06</span>Ventanas, puertas y esquema interior (propuesta)</h2>
-  <p>Las ventanas van <b>entre pilares</b>: la grilla de 2,45 m es el módulo de cada paño, con marcos de acero negro, y todas llegan de piso a
-  <b>cielo terminado</b>: 4,00 libres sobre el porcelanato; la viga E-O queda a +4,11/+4,21 y el cielo de yeso cartón va entre medio. La cafetería mira al patio por
-  el norte solo por los <b>dos tramos centrales</b>: corredera de 2 hojas en el 2-3 (en el eje del estudio) y paño fijo en el 3-4; los tramos 1-2 y 4-5 van ciegos.
-  Entre cafetería y estudio el tabique vidriado (doble vidrio, por la acústica) ocupa esos mismos dos tramos, con la corredera centrada en el estudio y el 1-2 ciego.
-  El estudio tiene una sola ventana, de piso a cielo (4,00), centrada en la fachada sur entre los parlantes. La franja sobre la viga (22 cm en el tabique B, 54 cm en la
-  fachada sur) queda en el entretecho, y por fuera la fachada sigue hasta el techo. La entrada principal da al poniente, hacia la casa y el estacionamiento,
-  pegada al pilar A2 (sin cabina de grabación en la cafetería por ahora); el baño ventila por una ventana alta al oriente y la bodega va sin ventana. Las cruces
-  quedaron solo en muros ciegos, así ningún vidrio choca con la estructura; en el tabique del baño cabe una sola diagonal, porque la puerta ocupa el lado del eje 4.</p>
+  <ul class="puntos"><li><b>Módulo:</b> entre pilares (2,45 m) · marcos de acero negro · de piso a <b>cielo terminado (4,00)</b>; la viga E-O +4,11/+4,21 y el cielo quedan encima.</li><li><b>Norte (patio):</b> solo tramos 2-3 (corredera 2 hojas) y 3-4 (fijo); 1-2 y 4-5 ciegos.</li><li><b>Tabique cafetería/estudio:</b> mismos dos tramos, corredera centrada en el estudio, doble vidrio.</li><li><b>Sur:</b> una ventana centrada (2-3), entre los parlantes.</li><li><b>Puertas:</b> entrada 1,80 al poniente junto al pilar A2 · baño desde la cafetería (eje 4) · bodega desde el estudio · llave al búnker.</li><li><b>Cruces</b> solo en muros ciegos (baño/bodega, fachada sur, laterales); en el tabique del baño cabe una sola diagonal.</li></ul>
   <figure><svg id="svg-vanos" role="img" aria-label="Planta de ventanas, puertas y esquema interior"></svg>
     <figcaption id="cap-vanos"></figcaption></figure>
   <div class="tw"><table id="tabla-vanos"></table></div>
@@ -216,14 +195,15 @@ ol.preg li{margin:0 0 8px}
 
 <section id="fundaciones">
   <h2><span class="n">07</span>Fundaciones y hormigón armado (láminas del ingeniero)</h2>
-  <p>Lo que mandó el ingeniero en abril de 2026 (lámina 01 PLANTA FUNDACIONES rev 1 del 27-04-2026, lámina 03 rev H y lámina 05 rev H), aplicado
-  a la planta nueva sin cambiar ninguna medida del diseño: bajo los muros del búnker una <b>zapata corrida de 100 × 30</b>; fuera del búnker,
-  <b>sobrecimiento de 25 × 50 sobre cimiento corrido de 80 × 25</b> bajo las fachadas y <b>CF 25/40</b> bajo los tabiques con pilares, de −10 a −50
-  bajo el radier (el anclaje de 43 de las placas termina adentro con 7 de recubrimiento); emplantillado
-  G5 de 10 bajo todo; radier de 10 sobre poliestireno de 10 y relleno granular; y en cada pilar una <b>placa base PLb 200 × 200 × 8</b> con dos anclajes
-  ø3/4" en horquilla (ganchos de 100 hacia adentro: el ancla mide 140 y cabe en los 25 del muro). Cada elemento lleva su armadura;
-  en el 3D la capa <b>Enfierradura</b> la dibuja barra por barra. Niveles con el búnker de 2,80 libres terminados (2,91 de obra gruesa): losa 0 / −20, piso de obra gruesa −311, radier −321,
-  zapata −331 / −361, sello −371; sobrecimiento 0 / −50, cimiento −50 / −75, CF −10 / −50.</p>
+  <div class="kvs">
+    <div class="k">Fuente</div><div class="v">lámina 01 Planta fundaciones rev 1 (27-04-2026), 03 rev H y 05 rev H · aplicadas a la planta nueva sin cambiar medidas <span class="fuente man">dato</span></div>
+    <div class="k">Búnker</div><div class="v"><b>zapata corrida 100 × 30</b> bajo los muros · emplantillado G5 10</div>
+    <div class="k">Fachadas</div><div class="v"><b>sobrecimiento 25 × 50</b> (0 / −50) sobre <b>cimiento corrido 80 × 25</b> (−50 / −75) · emplantillado 10</div>
+    <div class="k">Tabiques</div><div class="v"><b>CF 25/40</b> bajo los ejes 4 y C, de −10 a −50 bajo el radier (el anclaje de 43 termina adentro con 7 de recubrimiento)</div>
+    <div class="k">Radier estudio</div><div class="v">10 sobre poliestireno 10 + relleno granular 15 + sub base</div>
+    <div class="k">Placas</div><div class="v"><b>PLb 200 × 200 × 8</b> en los 22 pilares · anclaje 1+1 ø3/4" en horquilla (140 + 430 + ganchos 100 hacia adentro) · Est ø8@20</div>
+    <div class="k">Niveles</div><div class="v">búnker 2,80 libres (2,91 OG) · bajo el terreno natural: radier −261 · zapata −281 / −311 · sello −321 (desde la losa: −311 / −331 / −361 / −371) · losa 0 / −20 · 3D: capa <b>Enfierradura</b> barra por barra</div>
+  </div>
   <figure><svg id="svg-fund" role="img" aria-label="Planta de fundaciones"></svg><figcaption id="cap-fund"></figcaption></figure>
   <div class="cortes" id="cortes-fund"></div>
   <div class="tw"><table id="tabla-armaduras"></table></div>
@@ -235,8 +215,7 @@ ol.preg li{margin:0 0 8px}
 
 <section id="luces">
   <h2><span class="n">08</span>Luces y perfiles: qué se mantiene y qué hay que recalcular</h2>
-  <p>El criterio es simple: donde la luz nueva es igual o menor que la del original con el mismo perfil, el diseño del ingeniero
-  cubre el caso; donde creció, él decide si el perfil aguanta o se cambia.</p>
+  <ul class="puntos"><li>Luz nueva ≤ original con el mismo perfil → <b>cubierto</b> por el diseño del ingeniero · luz mayor → <b>recalcular</b> (él decide perfil).</li></ul>
   <div class="tw"><table id="tabla-luces"></table></div>
 </section>
 
@@ -256,8 +235,8 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=V80"></script>
-<script src="estudio_estructura.js?v=V80"></script>
+<script src="sitio.js?v=V81"></script>
+<script src="estudio_estructura.js?v=V81"></script>
 <script>
 (function () {
   const D = DATA_ESTUDIO_EST, E = DATA_SITIO.estudio, ox = E.origen[0], oy = E.origen[1], z0 = D.z_piso;
@@ -275,6 +254,10 @@ ol.preg li{margin:0 0 8px}
     ['Pilares', pil, `${D.miembros.filter(x => x.p === 'CUAD 150x150x5').length} PM1 150×150×5, ${D.miembros.filter(x => x.p === 'CUAD 150x150x4').length} PM2 150×150×4, ${D.miembros.filter(x => x.c === 'pilar' && x.p === 'RECT 150x100x3').length} PM3 150×100×3 <span class="fuente med">propuesta</span>`],
     ['Búnker', `${coma(H.interior.ancho / 100, 2)} × ${coma(H.interior.largo / 100, 2)} m`, `${coma(H.interior.alto / 100, 2)} m interiores; muros ${H.muros.espesor}, losa ${H.losa.espesor}, radier ${H.piso.espesor} <span class="fuente man">dato</span>`],
     ['Acero', `${coma(D.total_kg, 0)} kg`, 'perfiles del modelo, sin placas ni pérdidas <span class="fuente calc">calculado</span>'],
+    ['Alturas libres', `${coma(D.parametros.terminaciones.libre / 100, 2)} / ${coma(E.bunker.interior_cm / 100, 2)} m`, `estudio / búnker, terminadas; estructura a +${coma(D.parametros.z_viga_inf, 0)} <span class="fuente med">Gabriel</span>`],
+    ['Techo', `${(P.pendiente * 100).toLocaleString('es-CL')} % al sur`, `viga 200×150, costaneras CA 100×50 @${P.paso_costanera}, aleros 1,00 <span class="fuente man">dato</span>`],
+    ['Fundación', 'zapata 100×30', 'bajo el búnker; sobrecimiento 25×50 + cimiento 80×25 en fachadas; CF 25/40 en tabiques <span class="fuente man">dato</span>'],
+    ['Original', '11,05 × 10,25 m', 'búnker de 5,00 bajo un extremo, 2,72 libres; techo hacia ese lado <span class="fuente man">láminas</span>'],
   ].map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
   $('#meta').textContent = `Propuesta sobre las láminas 03, 04 y 05 (abril 2026) · ${D.miembros.length} piezas de acero · no es un cálculo`;
 
@@ -321,7 +304,7 @@ ol.preg li{margin:0 0 8px}
     cota(svg, W + P.alero_eo + 20, ys[0], W + P.alero_eo + 20, ys[5], coma(ys[5] - ys[0], 0), -85, 17);
     txt(svg, W / 2, -P.alero_ns - 125, 'N ↑', { 'text-anchor': 'middle', 'font-size': 18, class: 'txs' });
     const nC = D.miembros.filter(x => x.c === 'costanera').length;
-    $('#cap-planta').innerHTML = `Planta de la estructura de techo, a escala (cm). Pilares en naranjo (${pil}); vigas inclinadas norte-sur RECT 200×150 en los 5 ejes y vigas E-O CUAD 100×100×3 en A, B y E (azul; todas a +4,11/+4,21: la lámina 05 las tiene a +4,00/+4,10 y suben 11 cm por las terminaciones); ${nC} costaneras CA 100×50×15×3 cada ${P.paso_costanera} cm de alero a alero (morado); tensores Fe 16 en X en los paños 1-2 y 4-5 (verde punteado). El contorno punteado gris es el búnker; el morado punteado, la cubierta con aleros de ${P.alero_ns} (N-S) y ${P.alero_eo} (E-O).`;
+    $('#cap-planta').innerHTML = `Escala en cm · ${pil} pilares · ${nC} costaneras @${P.paso_costanera} · vigas E-O a +${coma(P.z_viga_inf, 0)}/+${coma(P.z_viga_inf + 10, 0)} (lámina 05: +400/+410, suben ${coma(P.z_viga_inf - 400, 0)} por terminaciones) · aleros ${coma(P.alero_ns - 12.5, 0)}.`;
     $('#ley-planta').innerHTML = [['var(--fig-pilar)', 'pilares'], ['var(--fig-viga)', 'vigas'], ['var(--fig-techo)', 'costaneras y cubierta'], ['var(--fig-diag)', 'tensores y cruces'], ['var(--fig-horm2)', 'búnker']].map(([c, t]) => `<span><span class="sw" style="background:${c}"></span>${t}</span>`).join('');
   })();
 
@@ -345,7 +328,16 @@ ol.preg li{margin:0 0 8px}
     cota(svg, bx0, by1 + 20, bx1, by1 + 20, coma(bx1 - bx0, 0) + ' exterior', 85, 16);
     txt(svg, (bx0 + bx1) / 2, (by0 + by1) / 2 - 30, 'losa e=' + H.losa.espesor, { 'text-anchor': 'middle', 'font-size': 17 });
     txt(svg, (bx0 + bx1) / 2, (by0 + by1) / 2 - 6, H.losa.armadura.split(' (')[0], { 'text-anchor': 'middle', 'font-size': 13, class: 'txs' });
-    $('#txt-bunker').innerHTML = `Mismas reglas que el búnker original: muros de ${H.muros.espesor} cm con ${H.muros.armadura.replace(' (dato: DM muro e=25)', '')} <span class="fuente man">dato</span>, losa de techo de ${H.losa.espesor} cm, radier de ${H.piso.espesor} cm sobre relleno granular de ${H.relleno ? H.relleno.espesor : 10}, zapata corrida de ${H.zapata_corrida ? coma(H.zapata_corrida.ancho, 0) + ' × ' + coma(H.zapata_corrida.espesor, 0) : '100 × 30'} bajo los muros, viga VHA 25/40 bajo la losa. Lo que cambia: mide <b>${coma(H.interior.ancho / 100, 2)} × ${coma(H.interior.largo / 100, 2)} m interiores y ${coma(H.interior.alto / 100, 2)} m de obra gruesa (2,80 libres terminados)</b> (el original 10,55 × 5,00 × 2,72), su muro sur queda bajo el tabique cafetería/estudio y recibe los 5 pilares del eje B, y tiene la escalera junto al muro oriente, con una viga de borde <span class="fuente med">propuesta</span>. Niveles: la cara de la losa es el 0,00 del ingeniero (NPOG, nivel de piso de obra gruesa), 50 cm sobre el terreno natural y 20 cm bajo el piso de la casa; bajo el terreno las cotas van medidas desde el terreno natural: radier del búnker a −${coma(-(H.niveles.piso_bunker + 50), 0)}, tope de la zapata a −${coma(-(H.niveles.zapata_sup + 50), 0)}, sello de fundación a −${coma(-(H.niveles.emplantillado_inf + 50), 0)} (desde la losa: −${coma(-H.niveles.piso_bunker, 0)}, −${coma(-H.niveles.zapata_sup, 0)} y −${coma(-H.niveles.emplantillado_inf, 0)}; el original −272, −312 y −352).`;
+    $('#txt-bunker').innerHTML = [
+      ['Interior', `<b>${coma(H.interior.ancho / 100, 2)} × ${coma(H.interior.largo / 100, 2)} m</b> · 2,80 libres terminados (${coma(H.interior.alto / 100, 2)} de obra gruesa) · original 10,55 × 5,00 × 2,72`],
+      ['Muros', `e=${H.muros.espesor} · DM V ø12@15 (bajan a la zapata con pata de 30) / H ø10@20 / 2ø12 de coronamiento · recubrimiento 3 <span class="fuente man">dato</span>`],
+      ['Losa', `e=${H.losa.espesor} · ø10@20 N-S / ø8@20 E-O · 2ø12 de borde · VHA 25/40 bajo la losa en el eje 3 <span class="fuente man">dato</span>`],
+      ['Piso', `radier ${H.piso.espesor} sobre relleno granular ${H.relleno ? H.relleno.espesor : 10} · porcelanato + sobrelosa 4 encima`],
+      ['Zapata', `corrida ${coma(H.zapata_corrida.ancho, 0)} × ${coma(H.zapata_corrida.espesor, 0)} bajo los muros · ø16@20 en U + 4ø10 · emplantillado G5 10 <span class="fuente man">dato</span>`],
+      ['Niveles', `bajo el terreno natural: radier −${coma(-(H.niveles.piso_bunker + 50), 0)} · zapata −${coma(-(H.niveles.zapata_sup + 50), 0)} / −${coma(-(H.niveles.zapata_inf + 50), 0)} · sello −${coma(-(H.niveles.emplantillado_inf + 50), 0)} (desde la losa, 50 más)`],
+      ['0,00', 'cara de la losa (NPOG, nivel de piso de obra gruesa del ingeniero) · 50 sobre el terreno · 20 bajo el piso de la casa'],
+      ['Cambios', `muro sur bajo el tabique cafetería/estudio (recibe los 5 pilares del eje B) · escalera junto al muro oriente con viga de borde <span class="fuente med">propuesta</span>`],
+    ].map(([k, v]) => `<div class="k">${k}</div><div class="v">${v}</div>`).join('');
     $('#cap-bunker').innerHTML = `Planta del búnker con la losa de techo. ${H.vigas[0].d}. ${H.escalera.nota}.`;
   })();
 
@@ -512,7 +504,12 @@ ol.preg li{margin:0 0 8px}
     detalle(nv.sello - 15, nv.pisoBk + 45, -70, 100, 'fundación y piso del búnker (cotas bajo el terreno)', [[nv.sello, 'sello de fundación'], [nv.zapInf, 'zapata inf'], [nv.zapSup, 'zapata sup'], [nv.radInf, 'radier inf'], [nv.pisoBk, 'radier (obra gruesa)'], [nv.pisoBk + TP, 'piso terminado (NPT)']], 'A');
     const Hs = Math.max(top - 30, oyk - (nv.sello - 20) * sc0 + 30);
     svg.setAttribute('viewBox', `0 0 ${W} ${Hs}`);
-    $('#alturas-cap').innerHTML = `<b>Corte N-S por el muro norte del búnker (eje A).</b> Obra gruesa: sello a −${coma(-nv.sello, 0)}, emplantillado G5 de 10, zapata corrida ${coma(ZAP_W, 0)} × ${coma(ZAP_H, 0)} (ø16@20 en U + 4ø10), relleno granular 10, radier 10, piso del búnker a −${coma(-nv.pisoBk, 0)}, muro e=${coma(MURO, 0)} (DM ø12@15 / ø10@20), losa de ${coma(LOSA, 0)} (−${coma(LOSA, 0)} / 0,00), placa PLb 200×200×8 con anclajes 1+1 ø3/4, pilar CUAD 150×150 hasta la viga E-O de +${coma(Z_VIGA_INF, 0)}/+${coma(Z_VIGA_INF + VT, 0)}, viga inclinada 200×150 al 3,5 %, costaneras CA 100×50 cada ${coma(PASO, 0)} y plancha de ${coma(TECHO, 0)}, hasta el canto del alero sur a ${sg(ZTOP)}. Terminado: piso +${coma(TP, 1)} (${capP.map(c => c[0].toLowerCase().split(' /')[0] + ' ' + coma(c[1], 1)).join(' + ')}), cielo a +${coma(Z_VIGA_INF - TC, 1)} (${coma(TC, 1)} bajo la estructura: ${capC.map(c => c[0].toLowerCase().split(' /')[0] + ' ' + coma(c[1], 1)).join(' + ')}): <b>${coma(LIB_EST, 0)} libres</b>. En el búnker, piso a −${coma(-(nv.pisoBk + TP), 1)} y cielo a −${coma(-(nv.losaInf - TC), 1)}: <b>${coma(LIB_BK, 0)} libres</b>. Bajo el terreno natural las cotas se miden desde el terreno: sello a −${coma(-(nv.sello + 50), 0)}, zapata −${coma(-(nv.zapInf + 50), 0)} / −${coma(-(nv.zapSup + 50), 0)}, radier −${coma(-(nv.pisoBk + 50), 0)}, piso terminado del búnker −${coma(-(nv.pisoBk + TP + 50), 1)} (desde la losa son 50 más: sello −${coma(-nv.sello, 0)}). Las líneas punteadas naranjas son los niveles terminados; los fierros van en naranjo. <b>Siglas:</b> NPOG = nivel de piso de obra gruesa, el 0,00 del ingeniero (cara superior de la losa, sin terminaciones); NPT = nivel de piso terminado (sobre el porcelanato); NTN = nivel de terreno natural, 50 cm bajo el 0,00.`;
+    $('#alturas-cap').innerHTML = [
+      ['Obra gruesa', `sello −${coma(-nv.sello, 0)} · emplantillado G5 10 · zapata ${coma(ZAP_W, 0)} × ${coma(ZAP_H, 0)} · relleno 10 · radier 10 · muro e=${coma(MURO, 0)} · losa ${coma(LOSA, 0)} · placa PLb 200×200×8 · pilar 150×150 · viga E-O +${coma(Z_VIGA_INF, 0)}/+${coma(Z_VIGA_INF + VT, 0)} · viga inclinada 200×150 al 3,5 % · costaneras @${coma(PASO, 0)} · plancha ${coma(TECHO, 0)} · alero sur ${sg(ZTOP)}`],
+      ['Terminado', `piso +${coma(TP, 1)} (${capP.map(c => c[0].toLowerCase().split(' /')[0] + ' ' + coma(c[1], 1)).join(' + ')}) · cielo +${coma(Z_VIGA_INF - TC, 1)} (${capC.map(c => c[0].toLowerCase().split(' /')[0] + ' ' + coma(c[1], 1)).join(' + ')}) → <b>${coma(LIB_EST, 0)} libres</b> · búnker piso −${coma(-(nv.pisoBk + TP), 1)}, cielo −${coma(-(nv.losaInf - TC), 1)} → <b>${coma(LIB_BK, 0)} libres</b>`],
+      ['Bajo el terreno', `cotas desde el terreno natural: sello −${coma(-(nv.sello + 50), 0)} · zapata −${coma(-(nv.zapInf + 50), 0)} / −${coma(-(nv.zapSup + 50), 0)} · radier −${coma(-(nv.pisoBk + 50), 0)} · piso terminado −${coma(-(nv.pisoBk + TP + 50), 1)} (desde la losa, 50 más)`],
+      ['Siglas', 'NPOG = nivel de piso de obra gruesa (0,00 del ingeniero, cara de la losa) · NPT = nivel de piso terminado · NTN = nivel de terreno natural (−50) · punteado naranjo = niveles terminados · naranjo = fierros'],
+    ].map(([k, v]) => `<div class="k">${k}</div><div class="v">${v}</div>`).join('');
   })();
   // tabla de capas y qué pasa con las alturas libres
   (() => {
@@ -529,7 +526,7 @@ ol.preg li{margin:0 0 8px}
       <tr><td>${TERM.cielo[1][0]}</td><td class="r">${coma(TERM.cielo[1][1], 1)}</td><td rowspan="2">cielo terminado a −${coma(-(NIV.losa_inf - T_CIELO), 1)}</td></tr>
       <tr><td>${TERM.cielo[0][0]}</td><td class="r">${coma(TERM.cielo[0][1], 1)}</td></tr>
       <tr><td><b>Alturas libres terminadas</b></td><td>estudio: de NPT a cielo terminado</td><td class="r">${coma(libreEst, 1)}</td><td>búnker: ${coma(libreBk, 1)} (obra gruesa ${coma(LIBRE_OG_BUNKER, 0)})</td></tr></tbody>`;
-    $('#txt-capas').innerHTML = `<b>Cómo se cuadró.</b> El 0,00 del ingeniero (NPOG, nivel de piso de obra gruesa) es la cara de la losa, no el piso terminado, y su estructura iba a +4,00/+4,10. Para que queden <b>${coma(libreEst, 0)} libres terminados</b> en el estudio y <b>${coma(libreBk, 0)}</b> en el búnker: (1) la estructura de acero sube <b>${coma(subir, 1)} cm</b> (viga E-O y cordones a +${coma(Z_VIGA_INF, 0)}/+${coma(Z_VIGA_INF + 10, 0)}, pilares ${coma(subir, 1)} cm más largos, techo ${coma(subir, 1)} cm más arriba); (2) el radier del búnker baja <b>${coma(subir, 1)} cm</b> (bajo el terreno natural: radier a −${coma(-(NIV.piso_bunker + 50), 0)}, zapata −${coma(-(NIV.zapata_sup + 50), 0)} / −${coma(-(NIV.zapata_inf + 50), 0)}, sello −${coma(-(NIV.emplantillado_inf + 50), 0)}; desde la losa, 50 más). Son cambios chicos para el ingeniero (largo de pilares y profundidad de excavación), pero hay que avisarle: está en las preguntas. Los espesores de las capas son supuestos razonables; si eliges otro porcelanato o cielo, se cambia en un solo lugar y se regenera todo.`;
+    $('#txt-capas').innerHTML = `<li>El 0,00 del ingeniero es la cara de la losa; su estructura iba a +400/+410.</li><li>Para <b>${coma(libreEst, 0)} / ${coma(libreBk, 0)} libres terminados</b>: la estructura sube <b>${coma(subir, 1)} cm</b> (viga E-O y cordones a +${coma(Z_VIGA_INF, 0)}/+${coma(Z_VIGA_INF + 10, 0)}, pilares y techo con ella) y el radier del búnker baja <b>${coma(subir, 1)} cm</b> (radier −${coma(-(NIV.piso_bunker + 50), 0)}, zapata −${coma(-(NIV.zapata_sup + 50), 0)} / −${coma(-(NIV.zapata_inf + 50), 0)}, sello −${coma(-(NIV.emplantillado_inf + 50), 0)} bajo el terreno).</li><li>Cambios chicos (largo de pilares, excavación): avisados en las preguntas al ingeniero. Otro porcelanato o cielo se cambia en un solo lugar.</li>`;
   })();
 
   // ---------- ventanas, puertas y esquema interior ----------
@@ -592,7 +589,7 @@ ol.preg li{margin:0 0 8px}
     lab(H.cf.piezas[0].pts, 'CF 25/40', -24, 0, true); lab(H.cf.piezas[1].pts, 'CF 25/40', 0, -20);
     lab(H.vigas[0].pts, 'VHA 25/40', 30, 0, true);
     txt(svg, W + mg - 20, -mg + 30, 'N ↑ · patio', { 'text-anchor': 'end', 'font-size': 16, class: 'txs' });
-    $('#cap-fund').innerHTML = `Planta de fundaciones: zapata corrida del búnker (${coma(H.zapata_corrida.ancho, 0)} × ${coma(H.zapata_corrida.espesor, 0)}), sobrecimiento y cimiento corrido bajo las fachadas fuera del búnker, CF 25/40 bajo los tabiques con pilares, emplantillados G5 punteados y una placa base PLb (⊠) en cada uno de los ${H.placas.lista.length} pilares. ${H.cf.nota}.`;
+    $('#cap-fund').innerHTML = `Zapata corrida del búnker ${coma(H.zapata_corrida.ancho, 0)} × ${coma(H.zapata_corrida.espesor, 0)} · sobrecimiento + cimiento corrido en fachadas · CF 25/40 en tabiques · emplantillados punteados · ⊠ placa PLb en cada pilar (${H.placas.lista.length}).`;
 
     // ---- cortes tipo, dibujados con las medidas del modelo (como los cortes a-a, b-b y CF / PLb de la lámina 01) ----
     const cont = $('#cortes-fund'); const N = H.niveles;
@@ -715,7 +712,7 @@ ol.preg li{margin:0 0 8px}
 
   // ---------- preguntas ----------
   $('#preguntas-lista').innerHTML = D.preguntas.map(p => `<li>${p}</li>`).join('');
-  $('#pendiente').innerHTML = `<b>Pendiente del ingeniero:</b> verificar la adaptación de sus fundaciones (lámina 01 rev 1) a la planta nueva, con el búnker 8 cm más profundo, y todo lo marcado como "recalcular". Cuando entregue su versión, el modelo se actualiza con sus piezas.`;
+  $('#pendiente').innerHTML = `<b>Pendiente del ingeniero:</b> fundaciones adaptadas a la planta nueva (búnker 19 cm más profundo), estructura 11 cm más alta y todo lo marcado "recalcular". Con su versión, el modelo se actualiza.`;
 
   // ---------- índice activo ----------
   const links = [...document.querySelectorAll('.toc a')], secs = links.map(a => document.querySelector(a.getAttribute('href')));
