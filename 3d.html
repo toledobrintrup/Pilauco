@@ -94,7 +94,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V71" data-vista="3d"></script>
+    <script src="menu.js?v=V72" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -135,6 +135,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       <div id="estudio-filas">
       <div class="row"><label><input type="checkbox" id="chk-estudio" checked> Volumen y búnker</label></div>
       <div class="row"><label><input type="checkbox" id="chk-estudio-techo" checked> Techo</label></div>
+      <div class="row" id="fila-goku" hidden><label><input type="checkbox" id="chk-goku" checked> Visita en el alero (huevo de Pascua)</label></div>
       <div class="row"><label><input type="checkbox" id="chk-cerramiento"> Muros, ventanas y puertas (propuesta)</label></div>
       <div class="row"><label><input type="checkbox" id="chk-mobiliario"> Mobiliario (idea)</label></div>
       <div class="row"><label><input type="checkbox" id="chk-estudio-est"> Estructura de acero (propuesta)</label></div>
@@ -163,16 +164,16 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V71"></script>
-<script src="data.js?v=V71"></script>
-<script src="estructura.js?v=V71"></script>
-<script src="losa.js?v=V71"></script>
-<script src="sitio.js?v=V71"></script>
-<script src="sitio3d.js?v=V71"></script>
-<script src="estudio_estructura.js?v=V71"></script>
-<script src="mobiliario3d.js?v=V71"></script>
-<script src="cotas3d.js?v=V71"></script>
-<script src="goku3d.js?v=V71"></script>
+<script src="nav3d.js?v=V72"></script>
+<script src="data.js?v=V72"></script>
+<script src="estructura.js?v=V72"></script>
+<script src="losa.js?v=V72"></script>
+<script src="sitio.js?v=V72"></script>
+<script src="sitio3d.js?v=V72"></script>
+<script src="estudio_estructura.js?v=V72"></script>
+<script src="mobiliario3d.js?v=V72"></script>
+<script src="cotas3d.js?v=V72"></script>
+<script src="goku3d.js?v=V72"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -1124,14 +1125,16 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       goku.position.set(cm(xm), cm(zTecho) + 0.01, cm(ySeat));
     } else goku.position.set(cm(xm), cm(v.a[2] + 5), cm(v.a[1]) + 0.05);   // tope de la viga CUAD 100 (eje + 5)
   }
-  if (qs.get('goku') && window.Goku3D && typeof DATA_ESTUDIO_EST !== 'undefined'){
+  // en la vista del estudio va prendido por defecto (Gabriel lo pidió tres veces); ?goku=0 lo quita, y la capa 'Visita en el alero' lo apaga
+  if ((qs.get('goku') || (vistaEstudio && qs.get('goku') !== '0')) && qs.get('goku') !== '0' && window.Goku3D && typeof DATA_ESTUDIO_EST !== 'undefined'){
     try {
       const v = DATA_ESTUDIO_EST.miembros.find(mb => mb.id === 'VT-E-23');
       if (v){
-        const modo = qs.get('goku');   // 1: imagen goku.png si existe (si no, la figura) · figura · negro (figura de pelo negro)
+        const modo = qs.get('goku') || '1';   // 1: imagen goku.png si existe (si no, la figura) · figura · negro (figura de pelo negro)
         goku = Goku3D.crear(THREE, {mira: 'S', dorado: modo !== 'negro', imagen: (modo === 'figura' || modo === 'negro') ? null : 'goku.png?v=' + (window.PILAUCO_VERSION || {}).n});
         goku.userData.viga = v; scene.add(goku); colocarGoku();
         chkEstudioTecho.addEventListener('input', colocarGoku);
+        const filaGoku = document.getElementById('fila-goku'), chkGoku = document.getElementById('chk-goku'); filaGoku.hidden = false; chkGoku.addEventListener('input', () => { goku.visible = chkGoku.checked; });
       }
     } catch (err){ console.error('goku3d', err); goku = null; }
   }
