@@ -179,15 +179,16 @@ def armar(c):
         fierros.append(f)
     # muros del búnker: por muro, eje y normal hacia adentro
     murosL = [('N', (bx0, by0 + 12.5), (bx1, by0 + 12.5), (0, 1)), ('S', (bx0, by1 - 12.5), (bx1, by1 - 12.5), (0, -1)),
-              ('O', (bx0 + 12.5, by0 + 25), (bx0 + 12.5, by1 - 25), (1, 0)), ('E', (bx1 - 12.5, by0 + 25), (bx1 - 12.5, by1 - 25), (-1, 0))]
+              ('O', (bx0 + 12.5, by0 + 25), (bx0 + 12.5, by1 - 25), (1, 0)), ('E', (bx1 - 12.5, by0 + 25), (bx1 - 12.5, by1 - 25), (-1, 0))]   # O/E entre los muros N y S (sus verticales se alargan a las esquinas abajo)
     for nm, a, b, nrm in murosL:
         dx, dy = b[0] - a[0], b[1] - a[1]; ln = math.hypot(dx, dy); ux, uy = dx / ln, dy / ln
-        nV = int(ln // 15)
+        extV = 25.0 if nm in ('O', 'E') else 0.0   # verticales: los muros poniente/oriente también arman la esquina (las mallas se cruzan)
+        nV = int((ln + 2 * extV) // 15)
         for cara, s in (('exterior', -1), ('interior', 1)):
             fx, fy = nrm[0] * 9 * s, nrm[1] * 9 * s        # 9 = 12,5 − 3 de recubrimiento − medio ø
             gx, gy = nrm[0] * (-s) * 30, nrm[1] * (-s) * 30  # gancho inferior de 30 hacia la otra cara
             hx, hy = nrm[0] * 20, nrm[1] * 20               # gancho superior de 20 en la losa, hacia adentro
-            x0, y0 = a[0] + ux * 7.5 + fx, a[1] + uy * 7.5 + fy
+            x0, y0 = a[0] - ux * extV + ux * 7.5 + fx, a[1] - uy * extV + uy * 7.5 + fy
             # la barra baja dentro de la zapata: la pata de 30 va apoyada sobre la parrilla del fondo (corte a-a: 20 + 334 + 30 = 384 en el original)
             fam(f'MV-{nm}-{cara[:3]}', 'muro del búnker', 12, [(x0 + gx, y0 + gy, z_zap_inf + 7), (x0, y0, z_zap_inf + 7), (x0, y0, -3), (x0 + hx, y0 + hy, -3)],
                 n=nV, paso=(ux * 15, uy * 15, 0), d=f'verticales ø12@15 del muro {nm}, malla {cara}: bajan dentro de la zapata con la pata de 30 sobre la parrilla del fondo y terminan con gancho de 20 en la losa (L≈{(-3 - (z_zap_inf + 7) + 50)/100:.2f} m)'.replace('.', ','))
@@ -237,7 +238,7 @@ def armar(c):
     # zapata corrida del búnker: U ø16@20 (90 + ganchos 20) + 4ø10
     for nm, a, b, nrm in murosL:
         dx, dy = b[0] - a[0], b[1] - a[1]; ln = math.hypot(dx, dy); ux, uy = dx / ln, dy / ln
-        ext = 37.5 if nm in ('N', 'S') else -12.5   # norte y sur: la U cubre también las esquinas; poniente/oriente: entre ellas
+        ext = 37.5   # las U de los cuatro lados cubren las esquinas (ahí la parrilla queda doble, en los dos sentidos)
         extL = 37.5 if nm in ('N', 'S') else -12.5 + L60(10)   # longitudinales O/E: entran 60ø (60 cm) en las zapatas norte y sur
         a2 = (a[0] - ux * ext, a[1] - uy * ext); ln2 = ln + 2 * ext
         px, py = nrm[0], nrm[1]
@@ -261,13 +262,20 @@ def armar(c):
     for n, x0, y0, x1, y1, d in tramos_sc:
         dx, dy = x1 - x0, y1 - y0; ln = math.hypot(dx, dy); ux, uy = dx / ln, dy / ln; px, py = -uy, ux
         ejeB = 'y' if abs(dx) < 1 else 'x'; cB = x0 if ejeB == 'y' else y0; tA, tB = (y0, y1) if ejeB == 'y' else (x0, x1)
-        fam(f'SU-{n}', 'sobrecimiento', 10, [(x0 + px * 6, y0 + py * 6, -5), (x0 - px * 9, y0 - py * 9, -5), (x0 - px * 9, y0 - py * 9, z_ci_inf + 7), (x0 + px * 9, y0 + py * 9, z_ci_inf + 7), (x0 + px * 9, y0 + py * 9, -5), (x0 - px * 6, y0 - py * 6, -5)],
-            n=int(ln // 20) + 1, paso=(ux * 20, uy * 20, 0), d=f'ø10@20 L=211 en U del sobrecimiento (eje {n}), con ganchos de 15 arriba')
+        # las U arrancan 3,5 antes del inicio del tramo (recubrimiento) y llegan al final de la pieza: en las esquinas quedan U en los dos sentidos
+        # tramo E: su pieza va de cara exterior a cara exterior (0..1055): las U de 3,5 a 1051,5. Tramos 1 y 5: siguen hasta la cara exterior del tramo E menos 3,5
+        xU, yU = x0 + ux * (3.5 if n == 'E' else 0.0), y0 + uy * 0.0
+        lnU = (ln - 7.0) if n == 'E' else (ln + 25.0 - 3.5)
+        fam(f'SU-{n}', 'sobrecimiento', 10, [(xU + px * 6, yU + py * 6, -5), (xU - px * 9, yU - py * 9, -5), (xU - px * 9, yU - py * 9, z_ci_inf + 7), (xU + px * 9, yU + py * 9, z_ci_inf + 7), (xU + px * 9, yU + py * 9, -5), (xU - px * 6, yU - py * 6, -5)],
+            n=int(lnU // 20) + 1, paso=(ux * 20, uy * 20, 0), d=f'ø10@20 L=211 en U del sobrecimiento (eje {n}), con ganchos de 15 arriba; en las esquinas las U van en los dos sentidos')
         i12, f12 = extremos(n, 12, 'sc'); i8, f8 = extremos(n, 8, 'sc'); i10, f10 = extremos(n, 10, 'ci')
         fam(f'S12-{n}', 'sobrecimiento', 12, None, polis=[barra_L(ejeB, cB, k, tA, tB, -5, i12, f12) for k in (-9, 9)], d=f'2ø12 superiores del sobrecimiento (eje {n}), con patas de {L60(12):.0f} (60ø) en las esquinas y ancladas en el muro del búnker')
         fam(f'S8-{n}', 'sobrecimiento', 8, None, polis=[barra_L(ejeB, cB, k, tA, tB, zz, i8, f8) for k in (-9, 9) for zz in (-15, -35)], d=f'ø8@20 horizontales del sobrecimiento (eje {n}), dos caras, con patas de {L60(8):.0f} (60ø) en las esquinas')
-        fam(f'CU-{n}', 'cimiento corrido', 12, [(x0 - px * 35, y0 - py * 35, z_ci_inf + 20), (x0 - px * 35, y0 - py * 35, z_ci_inf + 5), (x0 + px * 35, y0 + py * 35, z_ci_inf + 5), (x0 + px * 35, y0 + py * 35, z_ci_inf + 20)],
-            n=int(ln // 20) + 1, paso=(ux * 20, uy * 20, 0), d=f'ø12@20 L=100 en U del cimiento corrido (eje {n}), ganchos de 15')
+        # cimiento: la pieza E va de −27,5 a 1082,5 (80 de ancho en los extremos): U de −22,5 a 1077,5; las de 1 y 5 siguen hasta 1597,5 (cara exterior del cimiento E menos 5)
+        xC, yC_ = x0 - ux * (27.5 - 5.0 if n == 'E' else 0.0), y0 + uy * 0.0
+        lnC = (ln + 2 * (27.5 - 5.0)) if n == 'E' else (ln + 12.5 + 40.0 - 5.0)
+        fam(f'CU-{n}', 'cimiento corrido', 12, [(xC - px * 35, yC_ - py * 35, z_ci_inf + 20), (xC - px * 35, yC_ - py * 35, z_ci_inf + 5), (xC + px * 35, yC_ + py * 35, z_ci_inf + 5), (xC + px * 35, yC_ + py * 35, z_ci_inf + 20)],
+            n=int(lnC // 20) + 1, paso=(ux * 20, uy * 20, 0), d=f'ø12@20 L=100 en U del cimiento corrido (eje {n}), ganchos de 15; en las esquinas las U van en los dos sentidos')
         fam(f'CL-{n}', 'cimiento corrido', 10, None, polis=[barra_L(ejeB, cB, k, tA, tB, z_ci_inf + 6, i10, f10) for k in (-33, -11, 11, 33)], d=f'4ø10 longitudinales del cimiento corrido (eje {n}), con patas de {L60(10):.0f} (60ø) en las esquinas y ancladas en el muro del búnker')
     # CF 25/40
     for cid, x0, y0, x1, y1 in (('CF-4', xA[3], by1 + 5, xA[3], yA[5] - 15), ('CF-C', xA[3] + 15, yC, xA[4] - 15, yC)):

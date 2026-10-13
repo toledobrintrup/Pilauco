@@ -92,7 +92,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V66" data-vista="3d"></script>
+    <script src="menu.js?v=V67" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -157,15 +157,18 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=V66"></script>
-<script src="data.js?v=V66"></script>
-<script src="estructura.js?v=V66"></script>
-<script src="losa.js?v=V66"></script>
-<script src="sitio.js?v=V66"></script>
-<script src="sitio3d.js?v=V66"></script>
-<script src="estudio_estructura.js?v=V66"></script>
-<script src="mobiliario3d.js?v=V66"></script>
-<script src="cotas3d.js?v=V66"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
+<script src="nav3d.js?v=V67"></script>
+<script src="data.js?v=V67"></script>
+<script src="estructura.js?v=V67"></script>
+<script src="losa.js?v=V67"></script>
+<script src="sitio.js?v=V67"></script>
+<script src="sitio3d.js?v=V67"></script>
+<script src="estudio_estructura.js?v=V67"></script>
+<script src="mobiliario3d.js?v=V67"></script>
+<script src="cotas3d.js?v=V67"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -518,6 +521,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 
   // ---------- enfierradura del estudio: cada familia de barras (estudio_estructura.js → fierros) como líneas, con su color por diámetro ----------
   const COLOR_FIERRO = {8: 0xE2C044, 10: 0xE8893A, 12: 0xD9534F, 16: 0x8E2A2A, 19: 0x3F8FD6};
+  const materialesFierro = [];   // LineMaterial de cada familia: hay que decirles el tamaño del lienzo cuando cambia
   function buildFierros(){
     const g = new THREE.Group();
     if (typeof DATA_ESTUDIO_EST === 'undefined' || !DATA_ESTUDIO_EST.fierros) return g;
@@ -526,8 +530,17 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       const add = pl => { for (let i = 0; i + 1 < pl.length; i++){ const a = pl[i], b = pl[i + 1]; pos.push(cm(a[0]), cm(a[2]), cm(a[1]), cm(b[0]), cm(b[2]), cm(b[1])); } };
       if (f.polilineas) f.polilineas.forEach(add);
       else for (let k = 0; k < f.n; k++) add(f.polilinea.map(p => [p[0] + f.paso[0] * k, p[1] + f.paso[1] * k, p[2] + f.paso[2] * k]));
-      const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-      const ls = new THREE.LineSegments(geo, new THREE.LineBasicMaterial({color: COLOR_FIERRO[f.diam] || 0x888888}));
+      // barras "gordas" (líneas con ancho en píxeles, LineSegments2 de three): se ven bien de lejos y de cerca; los diámetros grandes
+      // van un poco más anchos. Si los scripts de líneas no cargaron, se cae a líneas de 1 px.
+      let ls;
+      if (THREE.LineSegments2 && THREE.LineMaterial && THREE.LineSegmentsGeometry){
+        const geo = new THREE.LineSegmentsGeometry(); geo.setPositions(pos);
+        const mat = new THREE.LineMaterial({color: COLOR_FIERRO[f.diam] || 0x888888, linewidth: (f.diam >= 16 ? 3.6 : f.diam >= 12 ? 3.0 : 2.4) * (window.devicePixelRatio > 1 ? 1.25 : 1), resolution: new THREE.Vector2(stage.clientWidth || 800, stage.clientHeight || 600)});
+        ls = new THREE.LineSegments2(geo, mat); ls.computeLineDistances(); materialesFierro.push(mat);
+      } else {
+        const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+        ls = new THREE.LineSegments(geo, new THREE.LineBasicMaterial({color: COLOR_FIERRO[f.diam] || 0x888888}));
+      }
       ls.userData.sitio = `<b>${f.elemento}: ø${f.diam === 19 ? '3/4"' : f.diam}</b><br><span class="sub">${f.d} · ${(f.largo / 100).toFixed(1).replace('.', ',')} m de barra en el modelo</span>`;
       ls.userData.fierro = true; ls.userData.elemento = f.elemento; g.add(ls);
     });
@@ -790,6 +803,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     const w = stage.clientWidth, h = stage.clientHeight;
     camera.aspect = w / h; camera.updateProjectionMatrix();
     renderer.setSize(w, h);
+    materialesFierro.forEach(m => m.resolution.set(w, h));
   }
   window.addEventListener('resize', resize);
 
@@ -938,7 +952,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     const r = renderer.domElement.getBoundingClientRect();
     puntero.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     raycaster.setFromCamera(puntero, camera);
-    raycaster.params.Line.threshold = 0.04;
+    raycaster.params.Line.threshold = 0.04; raycaster.params.Line2 = {threshold: 0.04}; raycaster.camera = camera;
     const objetivos = [grupoEstructura, grupoLosa, grupoEstudioEst, grupoFierros, grupoCerramiento, grupoMobiliario].concat(sitio ? Object.values(sitio.sub) : []).filter(gr => gr.visible);
     const hit = raycaster.intersectObjects(objetivos, true).find(h => h.object.visible && h.object.parent.visible && (h.object.userData.miembro || h.object.userData.losa || h.object.userData.sitio));
     if (!hit){ ficha.hidden = true; return; }
