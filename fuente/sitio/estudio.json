@@ -2,13 +2,13 @@
  "fuente": "Planta del estudio enviada por Gabriel el 2026-10-11 (cotas en mm) y sus indicaciones del 11 y 12 de octubre; estructura y fundaciones pendientes del ingeniero",
  "unidad": "cm, marco local del estudio: x hacia el oriente desde la cara exterior poniente, y hacia el sur desde la cara exterior norte",
  "exterior": {
-  "ancho": 1055.0,
-  "largo": 1575.0,
-  "dato": "Gabriel (2026-10-12): las cotas de la planta son medidas interiores (cafetería 6,00 de luz, estudio 9,00, 7,30 + 2,50 de ancho) y los 250 son los tabiques; con muros exteriores de 25 el edificio mide 10,55 x 15,75 por fuera"
+  "ancho": 1095.0,
+  "largo": 1635.0,
+  "dato": "Gabriel (2026-10-12/14): las cotas de la planta son medidas TERMINADAS (cafetería 6,00, estudio 7,30 x 9,00, baño 2,50 x 4,10, bodega 2,50 x 4,65); muros y tabiques estructurales de 25 más un tabique de 10 por cada cara interior → 10.95 x 16.35 por fuera (antes 10,55 x 15,75)"
  },
  "muro": {
   "espesor": 25.0,
-  "dato": "tabiques de 25 según las cotas (7300 + 250 + 2500; 6000 + 250 + 9000); muros exteriores de 25, como en la casa (supuesto)"
+  "dato": "muros exteriores y muros del búnker de 25 (hormigón); tabiques estructurales interiores de 25 (con los pilares PM3 dentro)"
  },
  "recintos": [
   {
@@ -17,39 +17,39 @@
    "tipo": "estar",
    "pts": [
     [
-     25,
-     25
+     25.0,
+     25.0
     ],
     [
-     1030,
-     25
+     1070.0,
+     25.0
     ],
     [
-     1030,
-     225
+     1070.0,
+     235.0
     ],
     [
-     876.7,
-     225
+     906.7,
+     235.0
     ],
     [
-     876.7,
-     522
+     906.7,
+     532.0
     ],
     [
-     1030,
-     522
+     1070.0,
+     532.0
     ],
     [
-     1030,
-     625
+     1070.0,
+     645.0
     ],
     [
-     25,
-     625
+     25.0,
+     645.0
     ]
    ],
-   "dato": "6,00 x 10,05 interiores; se descuenta la caja de la escalera (1,53 x 3,75 desde 2,00 de la cara norte) · escalera: el 1.533 incluye un muro de 23,3; hueco libre de 1,30 x 2,75 y descanso de entrada de 1,30 x 1,03 (planta de Gabriel, 2026-10-12)"
+   "dato": "terminado 10,25 x 6,00 entre tabiques (obra gruesa 10,45 x 6,20 entre muros); se descuenta la caja de la escalera (muro de 23,3 + hueco 1,30 x 2,74 + muro norte de 23) en la esquina nororiente"
   },
   {
    "id": "escalera",
@@ -57,23 +57,23 @@
    "tipo": "hall",
    "pts": [
     [
-     900,
-     248
+     930.0,
+     258.0
     ],
     [
-     1030,
-     248
+     1060.0,
+     258.0
     ],
     [
-     1030,
-     522
+     1060.0,
+     532.0
     ],
     [
-     900,
-     522
+     930.0,
+     532.0
     ]
    ],
-   "dato": "hueco libre de 1,30 x 2,75 (el 1.533 de la planta incluye el muro de 23,3); se entra por el sur y se baja al norte en 3,75 m: el último metro va bajo la losa, dentro del búnker (Gabriel, 2026-10-12)"
+   "dato": "hueco libre de 1,30 x 2,74 entre el muro de 23,3 (poniente) y el tabique del muro oriente; el muro norte de 23 va a 2,00 de la cara terminada norte; se entra por el descanso del sur"
   },
   {
    "id": "estudio",
@@ -81,23 +81,23 @@
    "tipo": "oficina",
    "pts": [
     [
-     25,
-     650
+     25.0,
+     670.0
     ],
     [
-     755,
-     650
+     775.0,
+     670.0
     ],
     [
-     755,
-     1550
+     775.0,
+     1610.0
     ],
     [
-     25,
-     1550
+     25.0,
+     1610.0
     ]
    ],
-   "dato": "7,30 x 9,00 interiores"
+   "dato": "terminado 7,30 x 9,20 entre tabiques (Gabriel dio 9,00: crece 20 porque baño y bodega llevan tabique a los dos lados de su muro); obra gruesa 7,50 x 9,40"
   },
   {
    "id": "bano",
@@ -105,23 +105,23 @@
    "tipo": "bano",
    "pts": [
     [
-     780,
-     650
+     800.0,
+     670.0
     ],
     [
-     1030,
-     650
+     1070.0,
+     670.0
     ],
     [
-     1030,
-     1060
+     1070.0,
+     1100.0
     ],
     [
-     780,
-     1060
+     800.0,
+     1100.0
     ]
    ],
-   "dato": "2,50 x 4,10 interiores"
+   "dato": "terminado 2,50 x 4,10 entre tabiques; obra gruesa 2,70 x 4,30"
   },
   {
    "id": "bodega",
@@ -129,23 +129,23 @@
    "tipo": "serv",
    "pts": [
     [
-     780,
-     1085
+     800.0,
+     1125.0
     ],
     [
-     1030,
-     1085
+     1070.0,
+     1125.0
     ],
     [
-     1030,
-     1550
+     1070.0,
+     1610.0
     ],
     [
-     780,
-     1550
+     800.0,
+     1610.0
     ]
    ],
-   "dato": "2,50 x 4,65 interiores"
+   "dato": "terminado 2,50 x 4,65 entre tabiques; obra gruesa 2,70 x 4,85"
   }
  ],
  "alturas": {
@@ -200,24 +200,24 @@
   "nombre": "Búnker",
   "pts": [
    [
-    25,
-    25
+    25.0,
+    25.0
    ],
    [
-    1030,
-    25
+    1070.0,
+    25.0
    ],
    [
-    1030,
-    625
+    1070.0,
+    645.0
    ],
    [
-    25,
-    625
+    25.0,
+    645.0
    ]
   ],
   "interior_cm": 280.0,
-  "dato": "Gabriel: justo debajo de la cafetería y con sus mismas medidas interiores (6,00 x 10,05); 2,80 m libres TERMINADOS (13-10-2026: de porcelanato a cielo de yeso cartón), o sea 2,91 de obra gruesa; centrado en la excavación ya hecha. Su muro sur (625..650) queda bajo el tabique cafetería/estudio"
+  "dato": "Gabriel: justo debajo de la cafetería y con sus mismas medidas; 2,80 m libres TERMINADOS (de porcelanato a cielo de yeso cartón, 2,91 de obra gruesa) y tabique de 10 por dentro de los 4 muros: 10,25 x 6,00 terminado, 10,45 x 6,20 entre muros de hormigón; centrado en la excavación ya hecha. Su muro sur (645..670) queda bajo el tabique cafetería/estudio"
  },
  "emplazamiento": {
   "anclaje": "el búnker centrado en la excavación actual (foto de dron de octubre 2026), con la cafetería hacia el patio (norte) y el estudio hacia el camino (sur)",
@@ -226,5 +226,9 @@
  "nivel_piso": {
   "z_cm": -20.0,
   "dato": "Gabriel (2026-10-12): la losa terminada del estudio va 50 cm sobre el terreno natural (NPT ±0,00), es decir 20 cm bajo el piso del nivel 1 de la casa (que está a +0,70); el búnker baja con ella"
+ },
+ "tabique": {
+  "espesor": 10.0,
+  "dato": "Gabriel (2026-10-14): tabique de 10 cm en cada pared por dentro (sobre el hormigón del búnker y sobre la estructura arriba); todas las medidas interiores de la planta son entre tabiques, terminadas. La obra gruesa crece 20 por recinto; donde dos recintos vecinos llevan tabique a ambos lados del muro de 25, el recinto mayor crece: cafetería y búnker quedan de 10,25 (no 10,05) y el estudio de 9,20 (no 9,00)"
  }
 }

@@ -12,8 +12,10 @@ Marco local del estudio en cm: x al oriente desde la cara exterior poniente, y a
 norte, z desde el piso terminado del estudio (NPOG 0,00 del ingeniero). Se convierte al marco de la app con el
 origen del estudio (sitio.json) y su nivel de piso. No es un cálculo: es el sistema del ingeniero acomodado.
 """
-import json, sys, math
+import json, sys, math, os
 import hormigon as HORM
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'sitio'))
+from geom import offset_rect_poly
 
 PERFILES = {
     'CUAD 150x150x5': dict(forma='tubo_rect', h=15, b=15, t=0.5),
@@ -68,7 +70,9 @@ def main(estudio_json, sitio_json, salida):
     if _al.get('alero_eo_cm'): ALERO_EO = float(_al['alero_eo_cm']) + MURO / 2
     ox, oy = S['estudio_origen']; z0 = E['nivel_piso']['z_cm']
     W, L = E['exterior']['ancho'], E['exterior']['largo']           # 1055 x 1575
-    rec = {r['id']: r['pts'] for r in E['recintos']}
+    rec = {r['id']: r['pts'] for r in E['recintos']}                 # caras de obra gruesa (muros y tabiques de 25)
+    T = float(E.get('tabique', {}).get('espesor', 0))                # tabique por dentro: las medidas terminadas son entre tabiques
+    recT = {k: (v if k == 'escalera' or not T else offset_rect_poly(v, T)) for k, v in rec.items()}
     # ---------- ejes: x 1-5 (el 4 sobre el tabique estudio | baño-bodega), y A-E ----------
     x_tab = (rec['estudio'][1][0] + rec['bano'][0][0]) / 2            # 767,5
     xA = [MURO / 2, MURO / 2 + (x_tab - MURO / 2) / 3, MURO / 2 + 2 * (x_tab - MURO / 2) / 3, x_tab, W - MURO / 2]
@@ -180,7 +184,7 @@ def main(estudio_json, sitio_json, salida):
         nota=f'se entra por el sur (descanso de {(ex1 - ex_h)/100:.2f} x {(y_desc - ey1)/100:.2f}) y baja {-z_piso/100:.2f} m hacia el norte en {TRAMO_ESC/100:.2f} m: 16 peldaños de {TRAMO_ESC/16:.1f} x {-z_piso/16:.2f}; el hueco en la losa mide {(ex1 - ex_h)/100:.2f} x {(ey1 - ey0)/100:.2f} y el último metro va bajo la losa, dentro del búnker (altura libre en el borde norte del hueco ≈ {(-z_piso * (ey1 - ey0) / TRAMO_ESC - BUNKER_LOSA)/100:.2f} m; a revisar)'.replace('.', ','))
     # ---------- hormigón armado, fundaciones, placas base y enfierradura: hormigon.py (láminas 01 rev 1, 02 rev G, 03 rev H, 05 rev H) ----------
     hormigon, fierros, cub_hormigon = HORM.armar(dict(ap=ap, rect=rect, r1=r1, z0=z0, ox=ox, oy=oy, xA=xA, yA=yA, yB=yB, yC=yC, W=W, L=L, rec=rec, bk=bk, BUNKER_H=BUNKER_H,
-                                                      pilares=[mb for mb in M if mb['c'] == 'pilar'], escalera=escalera, ex0=ex0, ex_h=ex_h, ex1=ex1, ey0=ey0, ey1=ey1, y_desc=y_desc, x3=xA[2],
+                                                      pilares=[mb for mb in M if mb['c'] == 'pilar'], escalera=escalera, ex0=ex0, ex_h=ex_h, ex1=ex1, ey0=ey0, ey1=ey1, y_desc=y_desc, x3=xA[2], T=T,
                                                       h_caja=z_viga(yB)))
     z_piso = hormigon['niveles']['piso_bunker']; z_losa_inf = hormigon['niveles']['losa_inf']
 
@@ -215,8 +219,8 @@ def main(estudio_json, sitio_json, salida):
     # puerta con llave al descanso de la escalera (seguridad del búnker), en el muro poniente de la caja de escalera
     vano('P-esc-puerta', 'puerta', 'muro escalera', ex0 + MURO_ESC / 2, y_desc - 95, ex0 + MURO_ESC / 2, y_desc - 5, 0, 210, 'puerta con llave al descanso de la escalera (0,90 x 2,10): la bajada al búnker queda cerrada por seguridad')
     # ---------- esquema interior (idea, para conversar) ----------
-    est = rec['estudio']; ce_x = (est[0][0] + est[1][0]) / 2
-    caf = rec['cafeteria']
+    est = recT['estudio']; ce_x = (est[0][0] + est[1][0]) / 2     # el mobiliario va contra las caras terminadas (tabique)
+    caf = recT['cafeteria']
     # Cada mueble: tipo (lo dibuja mobiliario3d.js), recinto, pts = rectángulo en planta (app, cm), alto (cm, desde el piso) y
     # mira = hacia dónde da el frente ('N', 'S', 'E', 'O'). Solo es una idea para conversar; Gabriel decide el amoblado.
     interior = []
@@ -252,7 +256,7 @@ def main(estudio_json, sitio_json, salida):
     for k, (mx, my) in enumerate(mesas):
         mueble(f'lampara_mesa{k+1}', 'lampara', 'cafeteria', 'Lámpara colgante', mx + 65, my + 25, mx + 95, my + 55, 230, 'S', 'sobre la mesa; cuelga del cielo')
     # --- baño y bodega ---
-    ban = rec['bano']; bod = rec['bodega']
+    ban = recT['bano']; bod = recT['bodega']
     mueble('wc', 'wc', 'bano', 'Inodoro', ban[1][0] - 80, ban[2][1] - 75, ban[1][0] - 40, ban[2][1] - 5, 80, 'N', 'contra el tabique baño/bodega')
     mueble('lavamanos', 'lavamanos', 'bano', 'Lavamanos con mueble', ban[1][0] - 50, ban[0][1] + 150, ban[1][0], ban[0][1] + 210, 85, 'O', 'en el muro oriente, bajo la ventana alta')
     mueble('estante_e', 'estante', 'bodega', 'Estantería metálica 40 de fondo', bod[1][0] - 40, bod[0][1] + 35, bod[1][0], bod[2][1] - 45, 200, 'O', 'en el muro oriente de la bodega')
@@ -274,6 +278,7 @@ def main(estudio_json, sitio_json, salida):
         dict(que='Muro sur del búnker', original='—', nuevo='coincide con el tabique cafetería/estudio (eje B) y recibe sus 5 pilares', por='planta de Gabriel'),
         dict(que='Losa del búnker', original='e=20, luz 5,00 (ø10@20 N-S, ø8@20 E-O), VHA 25/40 en 2.a', nuevo='e=20, luz 6,00 (+20 %, +44 % de momento), VHA 25/40 en el eje 3 y viga de borde en la escalera', por='para el ingeniero'),
         dict(que='Marcos interiores', original='1.b y 1.c: pilares solo en F1 y A1 (10,25 m), cordón RECT 150x100x3 a +400, viga 200x150x5, puntales 150x100x3 cada 171', nuevo=f'ejes 2, 3 y 4: pilares en A, B y E; luces de {(yB-yA[0])/100:.2f} y {(yA[5]-yB)/100:.2f} m con el mismo esquema'.replace('.', ','), por='propuesta'),
+        dict(que='Tabiques y medidas terminadas', original='medidas interiores entre caras de hormigón (muros y tabiques de 25)', nuevo=f'tabique de {T:.0f} por dentro de cada pared (sobre el hormigón del búnker y sobre la estructura arriba): las medidas de la planta son terminadas, entre tabiques; la obra gruesa crece {2*T:.0f} por recinto → {W/100:.2f} × {L/100:.2f} m por fuera (antes 10,55 × 15,75); búnker {hormigon["interior"]["terminado"]["ancho"]/100:.2f} × {hormigon["interior"]["terminado"]["largo"]/100:.2f} terminado ({hormigon["interior"]["ancho"]/100:.2f} × {hormigon["interior"]["largo"]/100:.2f} entre muros); el estudio queda de 9,20 y la cafetería de 10,25 porque sus vecinos llevan tabique a los dos lados del muro'.replace('.', ','), por='Gabriel (14-10-2026)'),
         dict(que='Vigas E-O y cordones', original='todas a +400/+410 (lámina 05); en el marco alto (A1) los pilares pasan la viga y siguen hasta la viga inclinada', nuevo=f'+{Z_CORDON[0]:.0f}/+{Z_CORDON[1]:.0f} en A, B, C y E: {T_PISO + T_CIELO:.1f} cm más arriba, para que el cielo terminado quede a 4,00 sobre el porcelanato (piso {T_PISO:.1f} + cielo {T_CIELO:.1f}); los pilares crecen lo mismo; en B y E pasan la viga y siguen hasta la viga inclinada'.replace('.', ','), por='Gabriel (13-10-2026): 4,00 libres terminados; avisar al ingeniero'),
         dict(que='Fachadas laterales', original='1.a, 2.a, 3.a: pilares cada 1,25–3,43 m, viga 200x150x3, cruces en los tramos de 2,05 y 1,82', nuevo='ejes 1 y 5: pilares en A, A2, B, C, D, E; cruces en A-A2 y D-E (2,00 m)', por='propuesta'),
         dict(que='Pilares', original='21 (13 de 15×15 y 8 de 15×10 en la planta de cubierta)', nuevo=f'{sum(1 for mb in M if mb["c"] == "pilar")}; ninguno dentro de los recintos', por='propuesta'),
@@ -291,7 +296,7 @@ def main(estudio_json, sitio_json, salida):
     ]
     preguntas = [
         f'Marcos interiores de {(yA[5] - yB) / 100:.2f} m (ejes 2, 3 y 4, tramo B-E):'.replace('.', ',') + ' ¿sirve el mismo esquema de 1.b/1.c (cordón 150x100x3 + viga 200x150x5 + puntales), que salvaba 10,25?',
-        'Losa del búnker: con 6,00 m de luz (antes 5,00), ¿se mantiene e=20 con más armadura o conviene e=25? ¿Basta una VHA 25/40 al centro?',
+        f'Losa del búnker: con {hormigon["interior"]["largo"]/100:.2f} m de luz entre muros (antes 5,00), ¿se mantiene e=20 con más armadura o conviene e=25? ¿Basta una VHA 25/40 al centro?'.replace('.', ','),
         'Rigidez E-O: las láminas no muestran cruces E-O. Con vidrio entre cafetería y estudio y ventanas al patio, se proponen cruces en los muros ciegos del lado oriente y de la fachada sur. ¿Van bien, o prefiere marcos rígidos? En el tabique cafetería/baño (B, 4-5) cabe una sola diagonal por la puerta del baño: ¿sirve, o conviene que el baño se abra desde el estudio (eje 4) y poner la cruz completa?',
         f'Ventanas: vidrio de piso terminado a cielo terminado (4,00) en los dos tramos centrales de la fachada norte y del tabique B (2-3 y 3-4) y en el tramo 2-3 de la fachada sur, todas entre pilares; la viga E-O queda a +{Z_CORDON[0]:.0f}/+{Z_CORDON[1]:.0f}, sobre el cielo. ¿Los pilares reciben el marco directamente o hacen falta montantes y un travesaño a +3,00?',
         f'Terminaciones: la estructura va {T_PISO + T_CIELO:.0f} cm más arriba que sus láminas (vigas E-O y cordones a +{Z_CORDON[0]:.0f}/+{Z_CORDON[1]:.0f}, pilares de {Z_CORDON[0]/100:.2f} en el lado bajo) y el radier del búnker {T_PISO + T_CIELO:.0f} cm más abajo (piso de obra gruesa a −{BUNKER_H + 20:.0f}, sello a −{BUNKER_H + 80:.0f}), para que queden 4,00 y 2,80 libres con porcelanato ({T_PISO:.1f}) y cielo de yeso cartón ({T_CIELO:.1f}). ¿Algún reparo?'.replace('.', ','),
@@ -303,7 +308,7 @@ def main(estudio_json, sitio_json, salida):
         z_piso=z0, ejes=ejes, perfiles={k: PERFILES[k] for k in sorted(set(mb['p'] for mb in M))}, miembros=M,
         hormigon=hormigon, fierros=fierros, cubicacion_hormigon=cub_hormigon, vanos=V, interior=interior, techo=techo, cielo=cielo,
         cubicacion=cubicacion, total_kg=tot, cambios=cambios, preguntas=preguntas,
-        parametros=dict(muro=MURO, h_pilar=H_PILAR, z_viga_inf=Z_CORDON[0], terminaciones=dict(piso=T_PISO, cielo=T_CIELO, libre=LIBRE, capas=E['alturas'].get('capas', {}), dato=E['alturas'].get('dato_terminaciones', '')), pendiente=PEND, alero_ns=ALERO_NS, alero_eo=ALERO_EO, paso_costanera=PASO_COST, paso_puntal=PASO_PUNTAL, h_ventana=H_VENTANA,
+        parametros=dict(muro=MURO, tabique=T, h_pilar=H_PILAR, z_viga_inf=Z_CORDON[0], terminaciones=dict(piso=T_PISO, cielo=T_CIELO, libre=LIBRE, capas=E['alturas'].get('capas', {}), dato=E['alturas'].get('dato_terminaciones', '')), pendiente=PEND, alero_ns=ALERO_NS, alero_eo=ALERO_EO, paso_costanera=PASO_COST, paso_puntal=PASO_PUNTAL, h_ventana=H_VENTANA,
                         bunker=dict(losa=BUNKER_LOSA, muro=BUNKER_MURO, radier=BUNKER_RADIER, fundacion=BUNKER_FUND, alto=BUNKER_H)),
     )
     open(salida, 'w').write('const DATA_ESTUDIO_EST = ' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n')

@@ -117,7 +117,7 @@
     // ---------- datos base ----------
     const zP = D.z_piso, M = E.muro || (D.parametros && D.parametros.muro) || 25;
     const ext = bbox(E.exterior), x0 = ext.x0, x1 = ext.x1, y0 = ext.y0, y1 = ext.y1;   // caras exteriores
-    const rec = {}; (E.recintos || []).forEach(r => { rec[r.id] = Object.assign({ r }, bbox(r.pts)); });
+    const rec = {}; (E.recintos || []).forEach(r => { rec[r.id] = Object.assign({ r }, bbox(r.terminado || r.pts)); });   // medidas terminadas, entre tabiques
     const techo = E.techo || D.techo || {};
     const techoZ = y => techo.z0 + (techo.z1 - techo.z0) * (y - techo.y0) / (techo.y1 - techo.y0);   // cara inferior del techo
     const eTecho = techo.espesor || 10;
@@ -265,9 +265,9 @@
     {
       const f = 'recintos', z = zP + 10, s = 45;
       (E.recintos || []).forEach(r => {
-        const b = bbox(r.pts), nombre = (r.nombre || r.id).split(' (')[0], oc = ocupa[r.id] || {};
+        const b = bbox(r.terminado || r.pts), nombre = (r.nombre || r.id).split(' (')[0], oc = ocupa[r.id] || {};
         const esHueco = r.id === 'escalera';
-        const sA = fmt(b.x1 - b.x0) + ' × ' + fmt(b.y1 - b.y0) + ' m' + (esHueco ? ' el hueco' : ' interiores') + (r.area_m2 ? ' · ' + String(r.area_m2).replace('.', ',') + ' m²' : '');
+        const sA = fmt(b.x1 - b.x0) + ' × ' + fmt(b.y1 - b.y0) + ' m' + (esHueco ? ' el hueco' : (r.terminado ? ' terminados, entre tabiques' : ' interiores')) + (r.area_m2 ? ' · ' + String(r.area_m2).replace('.', ',') + ' m²' : '');
         // ancho: pegado al lado norte (o al sur), rótulo corrido hacia el centro del recinto; en el hueco de la
         // escalera (angosto y abierto por ese lado) el rótulo sale hacia afuera para no pisar el del fondo
         const ya = oc.N ? b.y1 - s : b.y0 + s, na = oc.N ? N : S;

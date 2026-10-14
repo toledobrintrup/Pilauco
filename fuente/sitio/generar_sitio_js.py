@@ -7,7 +7,9 @@ gimnasio y la foto de dron) y estudio.json (la planta del estudio con búnker, d
 Todo en cm, en el marco de la app: X hacia el oriente (eje 6 de la casa), Y hacia el sur (eje A), Z hacia
 arriba, con Z = 0 en el piso terminado del nivel 1 de la casa (NPT +0,70 del emplazamiento).
 """
-import json, sys, math
+import json, sys, math, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from geom import offset_rect_poly
 
 def r1(v): return round(float(v), 1)
 def poli(pts): return [[r1(x), r1(y)] for x, y in pts]
@@ -23,6 +25,7 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
     ox, oy = origen
     ancho, largo_ = E['exterior']['ancho'], E['exterior']['largo']
     muro = E['muro']['espesor']
+    T = float(E.get('tabique', {}).get('espesor', 0))   # tabique por dentro de cada pared: las medidas terminadas son entre tabiques
     ext = [[0, 0], [ancho, 0], [ancho, largo_], [0, largo_]]
     A = E['alturas']
     z0 = E['nivel_piso']['z_cm']
@@ -37,16 +40,19 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
     techo = [[-ae, -an], [ancho + ae, -an], [ancho + ae, largo_ + an], [-ae, largo_ + an]]
     recintos = []
     for rc in E['recintos']:
-        recintos.append(dict(id=rc['id'], nombre=rc['nombre'], tipo=rc['tipo'], pts=desplazar(rc['pts'], ox, oy),
-                             area_m2=round(area(rc['pts']) / 1e4, 2), dato=rc.get('dato', '')))
+        term = rc['pts'] if rc['id'] == 'escalera' or not T else offset_rect_poly(rc['pts'], T)   # el hueco de la escalera ya es terminado
+        recintos.append(dict(id=rc['id'], nombre=rc['nombre'], tipo=rc['tipo'], pts=desplazar(rc['pts'], ox, oy), terminado=desplazar(term, ox, oy),
+                             area_m2=round(area(term) / 1e4, 2), area_og_m2=round(area(rc['pts']) / 1e4, 2), dato=rc.get('dato', '')))
     B = E['bunker']
     z_losa = z0 - A['losa_piso_cm']           # cara inferior de la losa de piso del estudio = cielo del búnker
     h_bk = B['interior_cm'] + t_piso + t_cielo   # obra gruesa del búnker: 2,80 libres terminados + piso + cielo = 2,87
-    bunker = dict(nombre=B['nombre'], pts=desplazar(B['pts'], ox, oy), z_cielo=r1(z_losa), z_piso=r1(z_losa - h_bk), npt=r1(z_losa - h_bk + t_piso), cielo_terminado=r1(z_losa - t_cielo),
-                  interior_cm=B['interior_cm'], obra_gruesa_cm=r1(h_bk), area_m2=round(area(B['pts']) / 1e4, 2), dato=B['dato'])
+    bterm = offset_rect_poly(B['pts'], T) if T else B['pts']
+    bunker = dict(nombre=B['nombre'], pts=desplazar(B['pts'], ox, oy), terminado=desplazar(bterm, ox, oy), z_cielo=r1(z_losa), z_piso=r1(z_losa - h_bk), npt=r1(z_losa - h_bk + t_piso), cielo_terminado=r1(z_losa - t_cielo),
+                  interior_cm=B['interior_cm'], obra_gruesa_cm=r1(h_bk), area_m2=round(area(bterm) / 1e4, 2), area_og_m2=round(area(B['pts']) / 1e4, 2),
+                  terminado_cm=dict(ancho=r1(bterm[1][0] - bterm[0][0]), largo=r1(bterm[2][1] - bterm[0][1])), dato=B['dato'])
     return dict(
         origen=[r1(ox), r1(oy)], exterior=desplazar(ext, ox, oy), ancho=ancho, largo=largo_, muro=muro,
-        z_piso=r1(z0), recintos=recintos, bunker=bunker,
+        z_piso=r1(z0), recintos=recintos, bunker=bunker, tabique=dict(espesor=T, dato=E.get('tabique', {}).get('dato', '')),
         # cielo interior plano a 4,00 en todo el estudio (Gabriel, 13-10-2026: "el cielo completo terminado a 4 m, esa fue siempre la idea");
         # el techo sigue inclinado por encima, con la estructura en el entretecho
         cielo=dict(z_norte=r1(z0 + t_piso + A['interior_cm']), z_sur=r1(z0 + t_piso + A['interior_cm']), y_norte=r1(oy), y_sur=r1(oy + largo_),

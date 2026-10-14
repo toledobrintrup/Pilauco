@@ -95,7 +95,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V87" data-vista="3d"></script>
+    <script src="menu.js?v=V88" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -165,16 +165,16 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V87"></script>
-<script src="data.js?v=V87"></script>
-<script src="estructura.js?v=V87"></script>
-<script src="losa.js?v=V87"></script>
-<script src="sitio.js?v=V87"></script>
-<script src="sitio3d.js?v=V87"></script>
-<script src="estudio_estructura.js?v=V87"></script>
-<script src="mobiliario3d.js?v=V87"></script>
-<script src="cotas3d.js?v=V87"></script>
-<script src="goku3d.js?v=V87"></script>
+<script src="nav3d.js?v=V88"></script>
+<script src="data.js?v=V88"></script>
+<script src="estructura.js?v=V88"></script>
+<script src="losa.js?v=V88"></script>
+<script src="sitio.js?v=V88"></script>
+<script src="sitio3d.js?v=V88"></script>
+<script src="estudio_estructura.js?v=V88"></script>
+<script src="mobiliario3d.js?v=V88"></script>
+<script src="cotas3d.js?v=V88"></script>
+<script src="goku3d.js?v=V88"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -707,13 +707,40 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     E.recintos.forEach(rc => {
       const def = pisos[rc.id]; if (!def) return;
       const mat = new THREE.MeshLambertMaterial({map: texturaPiso(def[0]), side: THREE.DoubleSide});
-      const mesh = new THREE.Mesh(new THREE.ShapeGeometry(shapeFromPts(rc.pts)), mat);
+      const mesh = new THREE.Mesh(new THREE.ShapeGeometry(shapeFromPts(rc.terminado || rc.pts)), mat);
       mesh.rotation.x = -Math.PI / 2; mesh.position.y = cm(npt + 0.1);
-      g.add(ficha(mesh, rc.nombre, `${rc.area_m2.toLocaleString('es-CL')} m² · ${def[1]}`));
+      g.add(ficha(mesh, rc.nombre, `${rc.area_m2.toLocaleString('es-CL')} m² entre tabiques · ${def[1]}`));
     });
+    // tabique de 10 por dentro de cada recinto (Gabriel, 14-10-2026): sobre la losa, del piso al cielo terminado, abierto en los vanos;
+    // las medidas de los recintos son entre tabiques. Cada lado del recinto es una banda entre la cara de obra gruesa y la terminada.
+    const TB = E.tabique ? E.tabique.espesor : 0;   // espesor del tabique (T ya es el techo)
+    if (TB && E.cielo){
+      const matTab = new THREE.MeshLambertMaterial({color: dark ? 0x6E6760 : 0xE6E0D4, side: THREE.DoubleSide});
+      const zCieloT = E.cielo.z_norte, vanos = (typeof DATA_ESTUDIO_EST !== 'undefined' && DATA_ESTUDIO_EST.vanos) || [];
+      const caja = (x0, x1, y0, y1, za, zb, nombre, sub) => { if (x1 - x0 < 0.5 || y1 - y0 < 0.5 || zb - za < 0.5) return; g.add(ficha(prismaP([[x0, y0], [x1, y0], [x1, y1], [x0, y1]], za, zb, matTab), nombre, sub)); };
+      const bandas = (outer, inner, za, zb, nombre, sub) => {
+        const n = outer.length;
+        for (let i = 0; i < n; i++){
+          const p = outer[i], q = outer[(i + 1) % n], pi = inner[i], qi = inner[(i + 1) % n], horiz = Math.abs(p[1] - q[1]) < 0.01;
+          // extensión a lo largo del lado (las horizontales cubren la esquina, las verticales van entre las caras terminadas) y espesor del tabique
+          const a0 = horiz ? Math.min(p[0], q[0]) : Math.min(p[1], q[1]), a1 = horiz ? Math.max(p[0], q[0]) : Math.max(p[1], q[1]);
+          const b0 = horiz ? Math.min(pi[1], p[1]) : Math.min(pi[0], p[0]), b1 = horiz ? Math.max(pi[1], p[1]) : Math.max(pi[0], p[0]);
+          const u0 = horiz ? a0 : Math.min(pi[1], qi[1]), u1 = horiz ? a1 : Math.max(pi[1], qi[1]);
+          // vanos en este lado (están en el eje, a 12,5 de la cara): se dejan abiertos; sobre una puerta o bajo/sobre una ventana alta queda tabique
+          const huecos = vanos.filter(v => v.tipo !== 'escalera' && Math.abs(v.a[horiz ? 1 : 0] - p[horiz ? 1 : 0]) < 20 && Math.abs(v.a[horiz ? 1 : 0] - v.b[horiz ? 1 : 0]) < 1)
+            .map(v => ({l0: Math.max(u0, Math.min(v.a[horiz ? 0 : 1], v.b[horiz ? 0 : 1])), l1: Math.min(u1, Math.max(v.a[horiz ? 0 : 1], v.b[horiz ? 0 : 1])), z0: Math.max(v.z0, za), z1: Math.min(v.z1, zb)})).filter(h => h.l1 > h.l0 + 1 && h.z1 > h.z0 + 1).sort((x, y) => x.l0 - y.l0);   // solo los vanos que cruzan la altura de esta banda (los de arriba no abren el tabique del búnker)
+          let c = u0;
+          const pieza = (l0, l1, z0_, z1_) => horiz ? caja(l0, l1, b0, b1, z0_, z1_, nombre, sub) : caja(b0, b1, l0, l1, z0_, z1_, nombre, sub);
+          huecos.forEach(h => { pieza(c, h.l0, za, zb); if (h.z0 > za + 1) pieza(h.l0, h.l1, za, h.z0); if (h.z1 < zb - 1) pieza(h.l0, h.l1, h.z1, zb); c = h.l1; });
+          pieza(c, u1, za, zb);
+        }
+      };
+      E.recintos.forEach(rc => { if (rc.terminado && rc.id !== 'escalera') bandas(rc.pts, rc.terminado, E.npt, zCieloT, 'Tabique de ' + rc.nombre.split(' (')[0].toLowerCase(), `tabique de ${TB} cm (yeso cartón sobre perfilería) por dentro del muro, del piso al cielo · ${rc.area_m2.toLocaleString('es-CL')} m² entre tabiques (propuesta)`); });
+      if (E.bunker && E.bunker.terminado) bandas(E.bunker.pts, E.bunker.terminado, E.bunker.z_piso, E.bunker.z_cielo, 'Tabique del búnker', `tabique de ${TB} cm por dentro de los muros de hormigón, del radier a la losa · ${(E.bunker.terminado_cm.ancho / 100).toLocaleString('es-CL')} × ${(E.bunker.terminado_cm.largo / 100).toLocaleString('es-CL')} m terminados (propuesta)`);
+    }
     if (E.bunker && E.bunker.npt != null){
       // búnker: porcelanato sobre el radier y cielo de yeso cartón bajo la losa, a sus niveles terminados (2,80 libres)
-      const bp = E.bunker.pts, matB = new THREE.MeshLambertMaterial({map: texturaPiso('porcelanato'), side: THREE.DoubleSide});
+      const bp = E.bunker.terminado || E.bunker.pts, matB = new THREE.MeshLambertMaterial({map: texturaPiso('porcelanato'), side: THREE.DoubleSide});
       const pisoB = new THREE.Mesh(new THREE.ShapeGeometry(shapeFromPts(bp)), matB); pisoB.rotation.x = -Math.PI / 2; pisoB.position.y = cm(E.bunker.npt + 0.1);
       g.add(ficha(pisoB, 'Búnker: piso terminado', `porcelanato sobre sobrelosa y radier · NPT ${fm(E.bunker.npt - z0)} m bajo el piso del estudio · ${E.bunker.interior_cm / 100} m libres terminados`));
       const cieloB = new THREE.Mesh(new THREE.ShapeGeometry(shapeFromPts(bp)), new THREE.MeshLambertMaterial({color: dark ? 0xD8DADF : 0xF2F1EC, side: THREE.DoubleSide}));
@@ -725,8 +752,8 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     const zCielo = y => E.cielo.z_norte + (E.cielo.z_sur - E.cielo.z_norte) * (y - E.cielo.y_norte) / (E.cielo.y_sur - E.cielo.y_norte);
     E.recintos.forEach(rc => {
       if (rc.id === 'escalera') return;
-      const v2 = rc.pts.map(q => new THREE.Vector2(q[0], q[1])), tris = THREE.ShapeUtils.triangulateShape(v2, []), pos = [];
-      tris.forEach(t => t.forEach(i => { const q = rc.pts[i]; pos.push(cm(q[0]), cm(zCielo(q[1]) - 0.5), cm(q[1])); }));
+      const ptsC = rc.terminado || rc.pts, v2 = ptsC.map(q => new THREE.Vector2(q[0], q[1])), tris = THREE.ShapeUtils.triangulateShape(v2, []), pos = [];
+      tris.forEach(t => t.forEach(i => { const q = ptsC[i]; pos.push(cm(q[0]), cm(zCielo(q[1]) - 0.5), cm(q[1])); }));
       const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.computeVertexNormals();
       const mesh = new THREE.Mesh(geo, matCielo); mesh.userData.cieloEstudio = true;
       g.add(ficha(mesh, 'Cielo de ' + rc.nombre.split(' (')[0].toLowerCase(), `plano a ${((zCielo(rc.pts[0][1]) - z0) / 100).toFixed(2).replace('.', ',')} m (Gabriel); sobre él, el entretecho con las vigas y la pendiente del techo · bajo las vigas (propuesta)`));
