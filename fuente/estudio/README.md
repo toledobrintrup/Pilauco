@@ -77,15 +77,16 @@ gruesa −311, sello −371). Los vanos se miden desde el NPT (+5,5). Si cambian
 `estudio_estructura.js`. La sección "Alturas para la obra" de `estudio.html` dibuja un corte N-S por el muro norte del búnker (eje A) con tres detalles
 ampliados (A fundación y piso del búnker, B losa, pisos y placa base, C techo y cielo), cada uno con su cadena de cotas; todo sale de
 `DATA_ESTUDIO_EST` (niveles, espesores, terminaciones), así que cambia solo con los datos (propuesta 3 elegida por Gabriel, 13-10-2026).
-## Plano de fundaciones y corte del búnker (sección 02, 14-10-2026)
+## Plano de fundaciones (enfierradura) y corte del búnker (sección 02, 14-10-2026)
 
-Para el trazado de los maestros, sin nada de techo: ejes con cotas parciales, acumuladas (desde el eje 1 y el eje A) y exteriores;
-fundaciones del ingeniero en su posición real (zapata corrida del búnker con sus 37,5 que sobresalen de la cara exterior, sobrecimientos
-y cimientos corridos con sus 27,5, CF 25/40 con emplantillado de 40, placas PLb con el arranque de cada pilar PM1/PM2/PM3) y la línea
-del corte A–A. Debajo, el corte A–A del búnker (norte-sur entre los ejes 2 y 3): zapatas, muros, radier, losa, VHA, terminaciones,
-anclajes y fierros, con la cadena de niveles desde el terreno natural (manda en obra) y desde la losa (0,00 del ingeniero). Todo sale de
-`DATA_ESTUDIO_EST`. La estructura de techo se quitó de esta planta (Gabriel: "saca todo lo que sea techo, deja solo fundaciones"); va en
-las secciones 04 y 05.
+Para el trazado de los maestros, sin nada de techo. La planta es la **enfierradura vista desde arriba**: cada familia de barras de
+`DATA_ESTUDIO_EST.fierros` (polilínea + paso + cantidad, lo mismo que dibuja el 3D) se proyecta en planta con un color por diámetro
+(ø8 verde, ø10 celeste, ø12 naranjo, ø16 rojo, ø3/4" lila) y el ancho de la barra; las verticales de los muros se ven como puntos. El
+hormigón va solo punteado (Gabriel: "piensa que es fierro, que se vea el fierro con el ancho y todo, pero no el hormigón"). Encima, ejes
+con cotas parciales, acumuladas (desde el eje 1 y el eje A) y exteriores, placas PLb con el arranque de cada pilar PM1/PM2/PM3, rótulos
+de armadura con fondo y la línea del corte A–A. Debajo, el corte A–A del búnker (norte-sur entre los ejes 2 y 3): zapatas, muros, radier,
+losa, VHA, terminaciones, anclajes y fierros, con la cadena de niveles desde el terreno natural (manda en obra) y desde la losa (0,00 del
+ingeniero). La estructura de techo va en las secciones 04 y 05.
 
 ## Modo claro / oscuro
 
