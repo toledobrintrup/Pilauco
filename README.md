@@ -61,7 +61,7 @@ ficha y de dónde sale el dato:
   peatonal y el portón corredera de 5 m; en los otros tres lados, el cierro real de pilares con reja.
 - **Gimnasio** — ya construido: la planta en L de 9,02 × 7,00 m y la cubierta de un agua con sus
   aleros, de la lámina L11 del arquitecto, puestas donde las ubica el emplazamiento.
-- **Estudio y búnker** — los volúmenes de la planta de Gabriel (10,95 × 16,35 m por fuera, recintos medidos entre tabiques de 10: cafetería y cowork
+- **Estudio y búnker** — los volúmenes de la planta de Gabriel (10,75 × 15,95 m por fuera, muros de 25 terminado y tabique de 10 por dentro del búnker: cafetería y cowork
   con sala de grabación, estudio de producción, baño, bodega y la escalera al búnker), con el búnker
   de 2,80 m bajo la cafetería, centrado en la excavación que ya está hecha; el cielo mide 4,00 m al
   norte y sube con la pendiente de la casa. La estructura y las fundaciones las define el ingeniero.
@@ -76,7 +76,7 @@ Cómo se calibró el emplazamiento y qué es dato y qué supuesto está en `fuen
 ## Estudio y búnker: estructura
 
 `estudio.html` muestra el proyecto estructural que el ingeniero hizo en abril de 2026 para el estudio con
-búnker (11,05 × 10,25 m, búnker de 5,00 m bajo un extremo) **adaptado a la planta nueva** (10,95 × 16,35 m por fuera, recintos medidos entre tabiques de 10,
+búnker (11,05 × 10,25 m, búnker de 5,00 m bajo un extremo) **adaptado a la planta nueva** (10,75 × 15,95 m por fuera, muros de 25 terminado y tabique de 10 dentro del búnker,
 búnker de 5,75 × 9,55 m bajo la cafetería, techo subiendo al sur, recintos divididos), con el mismo sistema
 que él usó: pilares de tubo cuadrado 150×150, vigas de techo 200×150 al 3,5 %, costaneras CA 100×50 cada
 61 cm, cruces C 150×50, tensores Fe 16 y el búnker en hormigón con muros de 25 y losa de 20. Trae la planta

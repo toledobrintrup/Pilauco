@@ -95,7 +95,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V88" data-vista="3d"></script>
+    <script src="menu.js?v=V89" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -165,16 +165,16 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V88"></script>
-<script src="data.js?v=V88"></script>
-<script src="estructura.js?v=V88"></script>
-<script src="losa.js?v=V88"></script>
-<script src="sitio.js?v=V88"></script>
-<script src="sitio3d.js?v=V88"></script>
-<script src="estudio_estructura.js?v=V88"></script>
-<script src="mobiliario3d.js?v=V88"></script>
-<script src="cotas3d.js?v=V88"></script>
-<script src="goku3d.js?v=V88"></script>
+<script src="nav3d.js?v=V89"></script>
+<script src="data.js?v=V89"></script>
+<script src="estructura.js?v=V89"></script>
+<script src="losa.js?v=V89"></script>
+<script src="sitio.js?v=V89"></script>
+<script src="sitio3d.js?v=V89"></script>
+<script src="estudio_estructura.js?v=V89"></script>
+<script src="mobiliario3d.js?v=V89"></script>
+<script src="cotas3d.js?v=V89"></script>
+<script src="goku3d.js?v=V89"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -709,10 +709,10 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       const mat = new THREE.MeshLambertMaterial({map: texturaPiso(def[0]), side: THREE.DoubleSide});
       const mesh = new THREE.Mesh(new THREE.ShapeGeometry(shapeFromPts(rc.terminado || rc.pts)), mat);
       mesh.rotation.x = -Math.PI / 2; mesh.position.y = cm(npt + 0.1);
-      g.add(ficha(mesh, rc.nombre, `${rc.area_m2.toLocaleString('es-CL')} m² entre tabiques · ${def[1]}`));
+      g.add(ficha(mesh, rc.nombre, `${rc.area_m2.toLocaleString('es-CL')} m² · ${def[1]}`));
     });
-    // tabique de 10 por dentro de cada recinto (Gabriel, 14-10-2026): sobre la losa, del piso al cielo terminado, abierto en los vanos;
-    // las medidas de los recintos son entre tabiques. Cada lado del recinto es una banda entre la cara de obra gruesa y la terminada.
+    // tabique de 10 por dentro de los 4 muros del búnker (Gabriel, 14-10-2026): del radier a la losa, abierto en los vanos si los hubiera;
+    // el búnker se mide entre tabiques. Cada lado es una banda entre la cara de hormigón y la terminada.
     const TB = E.tabique ? E.tabique.espesor : 0;   // espesor del tabique (T ya es el techo)
     if (TB && E.cielo){
       const matTab = new THREE.MeshLambertMaterial({color: dark ? 0x6E6760 : 0xE6E0D4, side: THREE.DoubleSide});
@@ -735,7 +735,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
           pieza(c, u1, za, zb);
         }
       };
-      E.recintos.forEach(rc => { if (rc.terminado && rc.id !== 'escalera') bandas(rc.pts, rc.terminado, E.npt, zCieloT, 'Tabique de ' + rc.nombre.split(' (')[0].toLowerCase(), `tabique de ${TB} cm (yeso cartón sobre perfilería) por dentro del muro, del piso al cielo · ${rc.area_m2.toLocaleString('es-CL')} m² entre tabiques (propuesta)`); });
+      // arriba no hay tabique extra: muros y tabiques de 25 terminado (Gabriel, 14-10-2026, opción 1); el tabique de 10 va solo en el búnker
       if (E.bunker && E.bunker.terminado) bandas(E.bunker.pts, E.bunker.terminado, E.bunker.z_piso, E.bunker.z_cielo, 'Tabique del búnker', `tabique de ${TB} cm por dentro de los muros de hormigón, del radier a la losa · ${(E.bunker.terminado_cm.ancho / 100).toLocaleString('es-CL')} × ${(E.bunker.terminado_cm.largo / 100).toLocaleString('es-CL')} m terminados (propuesta)`);
     }
     if (E.bunker && E.bunker.npt != null){

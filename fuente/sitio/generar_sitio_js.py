@@ -25,7 +25,7 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
     ox, oy = origen
     ancho, largo_ = E['exterior']['ancho'], E['exterior']['largo']
     muro = E['muro']['espesor']
-    T = float(E.get('tabique', {}).get('espesor', 0))   # tabique por dentro de cada pared: las medidas terminadas son entre tabiques
+    T = float(E.get('tabique', {}).get('espesor', 0))   # tabique por dentro de los 4 muros del búnker: el búnker se mide entre tabiques
     ext = [[0, 0], [ancho, 0], [ancho, largo_], [0, largo_]]
     A = E['alturas']
     z0 = E['nivel_piso']['z_cm']
@@ -40,9 +40,9 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
     techo = [[-ae, -an], [ancho + ae, -an], [ancho + ae, largo_ + an], [-ae, largo_ + an]]
     recintos = []
     for rc in E['recintos']:
-        term = rc['pts'] if rc['id'] == 'escalera' or not T else offset_rect_poly(rc['pts'], T)   # el hueco de la escalera ya es terminado
-        recintos.append(dict(id=rc['id'], nombre=rc['nombre'], tipo=rc['tipo'], pts=desplazar(rc['pts'], ox, oy), terminado=desplazar(term, ox, oy),
-                             area_m2=round(area(term) / 1e4, 2), area_og_m2=round(area(rc['pts']) / 1e4, 2), dato=rc.get('dato', '')))
+        # arriba muros y tabiques de 25 terminado, sin tabique extra (Gabriel, 14-10-2026, opción 1): los recintos se miden entre caras de muro
+        recintos.append(dict(id=rc['id'], nombre=rc['nombre'], tipo=rc['tipo'], pts=desplazar(rc['pts'], ox, oy),
+                             area_m2=round(area(rc['pts']) / 1e4, 2), dato=rc.get('dato', '')))
     B = E['bunker']
     z_losa = z0 - A['losa_piso_cm']           # cara inferior de la losa de piso del estudio = cielo del búnker
     h_bk = B['interior_cm'] + t_piso + t_cielo   # obra gruesa del búnker: 2,80 libres terminados + piso + cielo = 2,87

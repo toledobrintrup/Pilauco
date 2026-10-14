@@ -2,7 +2,7 @@
 
 El ingeniero proyectó en abril de 2026 (láminas 03, 04 y 05, en iCloud `02_Ingeniería/03_Estudio Pilauco/`; no
 entran al repositorio) un estudio de 11,05 × 10,25 m entre ejes con un búnker de 5,00 × 10,55 m interiores bajo
-un extremo. La planta nueva de Gabriel (`fuente/sitio/estudio.json`) mide 10,95 × 16,35 m por fuera (muros de 25 más un tabique de 10 por dentro de cada pared; los recintos se miden terminados, entre tabiques: cafetería y búnker 10,25 × 6,00, estudio 7,30 × 9,20), lleva el búnker bajo la
+un extremo. La planta nueva de Gabriel (`fuente/sitio/estudio.json`) mide 10,75 × 15,95 m por fuera (arriba muros y tabiques de 25 terminado; el búnker lleva un tabique de 10 por dentro de sus 4 muros de hormigón y mide 10,05 × 6,00 terminado; cafetería 10,25 × 6,20, estudio 7,50 × 9,00), lleva el búnker bajo la
 cafetería (al norte) y el techo subiendo al sur. `generar_estudio_estructura.py` arma la propuesta con el mismo
 sistema del ingeniero y escribe `estudio_estructura.js` (DATA_ESTUDIO_EST):
 
@@ -45,12 +45,12 @@ y rev 1 (27-04-2026); 02 rev G (07-04); 03 rev G/H; 04 rev G/H/I (11-04); 05 rev
 ## Lo que cambia (propuesta)
 
 La planta de Gabriel se toma con medidas interiores (2026-10-12: "la cafetería tiene que medir 6 m interiores, estas son
-las medidas, no otras") y terminadas: desde el 14-10-2026 cada pared lleva un tabique de 10 por dentro del muro de 25 ("encima de ese muro nosotros haremos tabiquería en las 4 paredes interiores"), así que la obra gruesa crece 20 por recinto y el edificio mide 10,95 × 16,35 por fuera; donde dos recintos vecinos llevan tabique a ambos lados del mismo muro, el recinto mayor crece (cafetería y búnker 10,25, no 10,05; estudio 9,20, no 9,00; supuesto por confirmar). `fuente/sitio/geom.py` desplaza cada recinto 10 hacia adentro (`terminado`). Ejes 1–5 a 258,3 | 258,4 | 258,3 | 295
-(el 4 sobre el tabique estudio/baño) y A–E a 200 | 445 | 455 | 310 | 200 (B sobre el tabique cafetería/estudio, que
+las medidas, no otras") y terminadas: desde el 14-10-2026 el búnker lleva un tabique de 10 por dentro de sus 4 muros de hormigón ("encima de ese muro nosotros haremos tabiquería en las 4 paredes interiores") y tiene que medir 10,05 × 6,00 terminado, así que los ejes 1–5 pasan a 10,50 y A–B a 6,45 (opción 1: "si tiene que crecer un poco la cafetería, que sea así"); arriba muros y tabiques de 25 terminado, sin tabique extra ("se considera 25 cm terminado"); el edificio mide 10,75 × 15,95 por fuera, la cafetería 10,25 × 6,20 y el estudio 7,50 × 9,00. `fuente/sitio/geom.py` desplaza el búnker 10 hacia adentro (`terminado`). Ejes 1–5 a 258,3 | 258,4 | 258,3 | 275
+(el 4 sobre el tabique estudio/baño) y A–E a 200 | 445 | 435 | 290 | 200 (B sobre el tabique cafetería/estudio, que
 coincide con el muro sur del búnker; C sobre el tabique baño/bodega; A2 y D a 2 m de las fachadas para que las cruces
 queden en tramos de 2 m como las del original); 22 pilares, ninguno dentro de los recintos; cruces N-S en A–A2 y D–E de
 las fachadas laterales y E-O solo en muros ciegos (C 4-5, fachada sur 1-2 y 4-5, y una sola diagonal en B 4-5 por la
-puerta del baño); búnker de 10,25 × 6,00 terminado entre tabiques (10,45 × 6,20 entre muros) × 2,80 libres terminados (2,91 de obra gruesa) con VHA 25/40 en el eje 3 y viga de borde en la escalera. Fuera del
+puerta del baño); búnker de 10,05 × 6,00 terminado entre tabiques (10,25 × 6,20 entre muros) × 2,80 libres terminados (2,91 de obra gruesa) con VHA 25/40 en el eje 3 y viga de borde en la escalera. Fuera del
 búnker, las fundaciones del ingeniero (sobrecimiento + cimiento corrido bajo las fachadas, CF 25/40 bajo los tabiques con pilares):
 ver arriba. La tabla completa y las luces que crecieron están en `estudio.html`.
 La cubicación del ingeniero no se usa como referencia.
