@@ -86,7 +86,8 @@ hormigón va solo punteado (Gabriel: "piensa que es fierro, que se vea el fierro
 con cotas parciales, acumuladas (desde el eje 1 y el eje A) y exteriores, placas PLb con el arranque de cada pilar PM1/PM2/PM3, rótulos
 de armadura con fondo y la línea del corte A–A. Debajo, el corte A–A del búnker (norte-sur entre los ejes 2 y 3): zapatas, muros, radier,
 losa, VHA, terminaciones, anclajes y fierros, con la cadena de niveles desde el terreno natural (manda en obra) y desde la losa (0,00 del
-ingeniero). La estructura de techo va en las secciones 04 y 05.
+ingeniero). Para que quepa al doble de escala se omiten 300 cm del largo del búnker al medio (zigzag; ahí todo es igual) y la figura se
+sale de la columna de texto (`figure.ancho`); las cotas dicen las medidas reales. La estructura de techo va en las secciones 04 y 05.
 
 ## Modo claro / oscuro
 
