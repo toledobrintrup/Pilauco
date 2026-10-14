@@ -3,8 +3,17 @@
 // y el menú se dibuja ahí mismo, antes del primer pintado (el script es síncrono).
 // Para agregar una vista nueva basta con sumarla a VISTAS.
 // Versión publicada: la escribe fuente/version.py antes de cada commit (V<n> = número de commits del proyecto).
-window.PILAUCO_VERSION = { n: 'V82', fecha: '13-10-2026' };
+window.PILAUCO_VERSION = { n: 'V83', fecha: '14-10-2026' };
 (function () {
+  // Tema claro / oscuro (Gabriel, 14-10-2026: "agrega una versión clara de toda la web"). Sin elección guardada se sigue al sistema;
+  // el botón del menú guarda 'claro' u 'oscuro' en localStorage ('pilauco-tema') y recarga, para que el 3D (three.js) se arme con sus colores.
+  // ?tema=claro|oscuro manda para esa carga (sirve para compartir un link claro). El CSS de cada página reacciona a <html data-theme="light|dark">.
+  const raiz = document.documentElement;
+  const temaElegido = () => { try { const q = new URLSearchParams(location.search).get('tema'); if (q === 'claro' || q === 'oscuro') return q; return localStorage.getItem('pilauco-tema'); } catch (e) { return null; } };
+  const aplicarTema = t => { if (t === 'claro') raiz.dataset.theme = 'light'; else if (t === 'oscuro') raiz.dataset.theme = 'dark'; else delete raiz.dataset.theme; };
+  aplicarTema(temaElegido());
+  const esOscuro = () => raiz.dataset.theme === 'dark' || (raiz.dataset.theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  window.PILAUCO_TEMA = { esOscuro, elegido: temaElegido };
   const VISTAS = [
     { id: 'plano', href: 'index.html', t: 'Plano', d: 'Nivel 1 y nivel 2: recintos, medidas, herramienta de medir',
       ico: '<rect x="3" y="3" width="14" height="14" rx="1.5"/><path d="M3 10h6M9 10v7"/>' },
@@ -29,8 +38,11 @@ window.PILAUCO_VERSION = { n: 'V82', fecha: '13-10-2026' };
 .menu .m-tab:hover{color:var(--chrome-ink)}
 .menu .m-tab[aria-current="page"]{background:var(--chrome-ink);color:var(--chrome)}
 .menu .m-tab svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round;flex:none}
-.menu .m-ver{font-size:10.5px;font-weight:600;letter-spacing:.06em;color:var(--chrome-muted);border:1px solid var(--chrome-line);border-radius:999px;padding:3px 8px;margin-left:6px;white-space:nowrap}
-.menu .m-ver:hover{color:var(--chrome-ink)}
+.m-ver{font-size:10.5px;font-weight:600;letter-spacing:.06em;color:var(--chrome-muted);border:1px solid var(--chrome-line);border-radius:999px;padding:3px 8px;margin-left:6px;white-space:nowrap}
+.m-ver:hover{color:var(--chrome-ink)}
+.m-tema{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;margin-left:6px;border:1px solid var(--chrome-line);border-radius:999px;background:transparent;color:var(--chrome-muted);cursor:pointer;padding:0}
+.m-tema:hover{color:var(--chrome-ink);border-color:var(--chrome-muted)}
+.m-tema svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .menu .m-btn{display:none;font:inherit;font-size:12.5px;font-weight:500;color:var(--chrome-ink);background:transparent;border:1px solid var(--chrome-line);border-radius:999px;padding:4px 11px 4px 9px;cursor:pointer;align-items:center;gap:7px;line-height:1.35}
 .menu .m-btn:hover{border-color:var(--chrome-muted)}
 .menu .m-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round}
@@ -63,8 +75,19 @@ window.PILAUCO_VERSION = { n: 'V82', fecha: '13-10-2026' };
   </button>
   <div class="m-pop" hidden>${VISTAS.map(v =>
     `<a class="m-item" href="${v.href}"${v.id === actual ? ' aria-current="page"' : ''}>${svg(v.ico)}<div><b>${v.t}</b><span>${v.d}</span></div></a>`).join('')}</div>
-</nav><span class="m-ver" title="Versión publicada: número de commit y fecha">${window.PILAUCO_VERSION ? window.PILAUCO_VERSION.n : ''}</span>`;
+</nav><span class="m-ver" title="Versión publicada: número de commit y fecha">${window.PILAUCO_VERSION ? window.PILAUCO_VERSION.n : ''}</span><button class="m-tema" type="button" title="Cambiar a modo claro u oscuro" aria-label="Cambiar entre modo claro y oscuro"></button>`;
   yo.insertAdjacentHTML('afterend', html);
+  const SOL = '<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="3.5"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4"/></svg>';
+  const LUNA = '<svg viewBox="0 0 20 20"><path d="M16 12.3A6.5 6.5 0 0 1 7.7 4a6.5 6.5 0 1 0 8.3 8.3z"/></svg>';
+  const botTema = yo.parentElement.querySelector('.m-tema');
+  if (botTema) {
+    botTema.innerHTML = esOscuro() ? SOL : LUNA;   // muestra a lo que se cambia
+    botTema.addEventListener('click', () => {
+      const nuevo = esOscuro() ? 'claro' : 'oscuro';
+      try { localStorage.setItem('pilauco-tema', nuevo); } catch (e) {}
+      const u = new URL(location.href); u.searchParams.delete('tema'); location.replace(u.href);   // recarga: el 3D arma sus colores al cargar
+    });
+  }
 
   const nav = yo.nextElementSibling;
   const btn = nav.querySelector('.m-btn'), pop = nav.querySelector('.m-pop');

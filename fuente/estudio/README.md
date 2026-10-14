@@ -77,3 +77,16 @@ gruesa −311, sello −371). Los vanos se miden desde el NPT (+5,5). Si cambian
 `estudio_estructura.js`. La sección "Alturas para la obra" de `estudio.html` dibuja un corte N-S por el muro norte del búnker (eje A) con tres detalles
 ampliados (A fundación y piso del búnker, B losa, pisos y placa base, C techo y cielo), cada uno con su cadena de cotas; todo sale de
 `DATA_ESTUDIO_EST` (niveles, espesores, terminaciones), así que cambia solo con los datos (propuesta 3 elegida por Gabriel, 13-10-2026).
+## Planta de trazado (sección 02, 14-10-2026)
+
+Para el trazado de los maestros: ejes con cotas parciales, acumuladas (desde el eje 1 y el eje A) y exteriores; fundaciones del ingeniero
+en su posición real (zapata corrida del búnker con sus 37,5 que sobresalen de la cara exterior, sobrecimientos y cimientos corridos con sus
+27,5, CF 25/40 con emplantillado de 40, placas PLb en cada pilar), pilares a escala con su tipo PM1/PM2/PM3, vigas y, en una capa apagada,
+costaneras y tensores. Todo sale de `DATA_ESTUDIO_EST` (`hormigon`, `placas`, `miembros`, `ejes`). La planta de fundaciones de la sección 07
+se quitó porque era la misma vista con menos información.
+
+## Modo claro / oscuro
+
+`menu.js` pone `<html data-theme="light|dark">` según `localStorage['pilauco-tema']` ('claro' u 'oscuro') o `?tema=claro|oscuro`; sin elección
+sigue al sistema. El botón ☾/☀ del menú guarda la elección y recarga (el 3D arma sus colores al cargar). El CSS de cada página define las
+variables para `:root:not([data-theme="light"])` dentro del media query oscuro y para `:root[data-theme="dark"]`.

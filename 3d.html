@@ -17,8 +17,9 @@
   --ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme: dark){
-  :root{ --paper:#14161A; --ink:#E7E9EE; --muted:#8A909C; --line:#2A2E37; --panel:#1A1D23; --accent:#8FB4D4; }
+  :root:not([data-theme="light"]){ --paper:#14161A; --ink:#E7E9EE; --muted:#8A909C; --line:#2A2E37; --panel:#1A1D23; --accent:#8FB4D4; }
 }
+:root[data-theme="dark"]{ --paper:#14161A; --ink:#E7E9EE; --muted:#8A909C; --line:#2A2E37; --panel:#1A1D23; --accent:#8FB4D4; }
 html,body{height:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:13.5px;-webkit-font-smoothing:antialiased;overflow:hidden}
 *{box-sizing:border-box}
@@ -94,7 +95,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V82" data-vista="3d"></script>
+    <script src="menu.js?v=V83" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -164,22 +165,22 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V82"></script>
-<script src="data.js?v=V82"></script>
-<script src="estructura.js?v=V82"></script>
-<script src="losa.js?v=V82"></script>
-<script src="sitio.js?v=V82"></script>
-<script src="sitio3d.js?v=V82"></script>
-<script src="estudio_estructura.js?v=V82"></script>
-<script src="mobiliario3d.js?v=V82"></script>
-<script src="cotas3d.js?v=V82"></script>
-<script src="goku3d.js?v=V82"></script>
+<script src="nav3d.js?v=V83"></script>
+<script src="data.js?v=V83"></script>
+<script src="estructura.js?v=V83"></script>
+<script src="losa.js?v=V83"></script>
+<script src="sitio.js?v=V83"></script>
+<script src="sitio3d.js?v=V83"></script>
+<script src="estudio_estructura.js?v=V83"></script>
+<script src="mobiliario3d.js?v=V83"></script>
+<script src="cotas3d.js?v=V83"></script>
+<script src="goku3d.js?v=V83"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
   // mismas familias de color que el plano 2D, pero mas saturadas: el pastel que ahi
   // funciona de fondo bajo texto se ve casi blanco en una superficie 3D iluminada.
-  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const dark = document.documentElement.dataset.theme === 'dark' || (document.documentElement.dataset.theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);   // menu.js pone data-theme desde la elección guardada
   const KIND_COLOR = dark ? {
     oficina:0x3C577A, dorm:0x3E6148, bano:0x2F6B75, closet:0x7A6334, estar:0x7A5248,
     hall:0x5B6269, otro:0x5B6269, cocina:0x5D4E82, serv:0x7A6334, terraza:0x3E6148,

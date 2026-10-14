@@ -204,6 +204,12 @@ Base: plano L3 PLARQ2 (Planta Arquitectura Nivel 2, GVArq, dic. 2025, esc. 1:50)
 Los **PDF originales no están en el repositorio**: su viñeta lleva RUT, teléfono y correo. Tampoco
 el manual del tablero (sus dibujos se rehicieron, no se copiaron), ni la foto ni el video de dron.
 
+## Modo claro y oscuro
+
+El botón ☾/☀ del menú cambia entre claro y oscuro y lo guarda en el navegador (`localStorage` `pilauco-tema`); sin elección, el sitio sigue
+al sistema. `?tema=claro` o `?tema=oscuro` en la URL fuerza uno para esa carga (sirve para compartir un link claro). Lo maneja `menu.js`
+poniendo `data-theme` en `<html>`; el CSS de cada página y el 3D (three.js) lo respetan.
+
 ## Versión publicada
 
 Antes de cada commit: `python3 fuente/version.py`. Marca `V<n>` (n = número de commits del proyecto) y la fecha en `menu.js`, que se ve
