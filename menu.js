@@ -3,7 +3,7 @@
 // y el menú se dibuja ahí mismo, antes del primer pintado (el script es síncrono).
 // Para agregar una vista nueva basta con sumarla a VISTAS.
 // Versión publicada: la escribe fuente/version.py antes de cada commit (V<n> = número de commits del proyecto).
-window.PILAUCO_VERSION = { n: 'V86', fecha: '14-10-2026' };
+window.PILAUCO_VERSION = { n: 'V87', fecha: '14-10-2026' };
 (function () {
   // Tema claro / oscuro (Gabriel, 14-10-2026: "agrega una versión clara de toda la web"). Sin elección guardada se sigue al sistema;
   // el botón del menú guarda 'claro' u 'oscuro' en localStorage ('pilauco-tema') y recarga, para que el 3D (three.js) se arme con sus colores.
