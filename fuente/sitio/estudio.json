@@ -3,8 +3,8 @@
  "unidad": "cm, marco local del estudio: x hacia el oriente desde la cara exterior poniente, y hacia el sur desde la cara exterior norte",
  "exterior": {
   "ancho": 1075.0,
-  "largo": 1595.0,
-  "dato": "Gabriel (2026-10-12/14): las cotas de la planta son medidas terminadas; arriba muros y tabiques de 25 terminado (sin tabique extra: 'se considera 25 cm terminado'); el búnker lleva un tabique de 10 por dentro de sus 4 muros de hormigón y tiene que medir 10,05 x 6,00 terminado (opción 1, 14-10-2026): ejes 1-5 = 10,50 y A-B = 6,45 → 10,75 x 15,95 por fuera (antes 10,55 x 15,75); la cafetería crece a 10,25 x 6,20 y el estudio a 7,50 x 9,00; franja oriente (14-10-2026): baño 1,90 + cabina 3,80 + bodega 2,80 entre tabiques de 25"
+  "largo": 1745.0,
+  "dato": "Gabriel (2026-10-12/14): las cotas de la planta son medidas terminadas; arriba muros y tabiques de 25 terminado (sin tabique extra: 'se considera 25 cm terminado'); el búnker lleva un tabique de 10 por dentro de sus 4 muros de hormigón y tiene que medir 10,05 x 6,00 terminado (opción 1, 14-10-2026): ejes 1-5 = 10,50 y A-B = 6,45 → 10,75 x 15,95 por fuera (antes 10,55 x 15,75); la cafetería crece a 10,25 x 6,20 y el estudio a 7,50 x 9,00; franja oriente (14-10-2026): baño 1,90 + cabina 3,80 + bodega 2,80 entre tabiques de 25; +1,50 al largo (14-10-2026, 'la bodega yo creo que quedará chica'): bodega 4,30 y estudio 10,50 → 10,75 x 17,45 por fuera"
  },
  "muro": {
   "espesor": 25.0,
@@ -90,14 +90,14 @@
     ],
     [
      775,
-     1570
+     1720
     ],
     [
      25,
-     1570
+     1720
     ]
    ],
-   "dato": "7,50 x 9,00 entre muros de 25 terminado (Gabriel dio 7,30: crece 20 porque los ejes 1-5 pasan a 10,50 por el tabique del búnker; opción 1, 14-10-2026)"
+   "dato": "7,50 x 10,50 entre muros de 25 terminado (Gabriel dio 7,30 x 9,00: creció 20 a lo ancho por el tabique del búnker y 1,50 a lo largo el 14-10-2026 para que la bodega no quede chica; los parlantes van en el muro sur)"
   },
   {
    "id": "bano",
@@ -163,14 +163,14 @@
     ],
     [
      1050,
-     1570
+     1720
     ],
     [
      800,
-     1570
+     1720
     ]
    ],
-   "dato": "2,50 x 2,80 entre muros de 25 terminado, al sur de la cabina; puerta desde el estudio en su extremo norte"
+   "dato": "2,50 x 4,30 entre muros de 25 terminado, al sur de la cabina (Gabriel, 14-10-2026: +1,50 'a morir nomás'); puerta desde el estudio en su extremo norte"
   }
  ],
  "alturas": {
