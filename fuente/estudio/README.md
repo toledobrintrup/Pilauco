@@ -57,9 +57,8 @@ La cubicación del ingeniero no se usa como referencia.
 
 ## Ventanas, puertas y esquema interior (propuesta, 2026-10-12)
 
-`vanos`: vidrio de piso terminado a cielo terminado (4,00) solo en los dos tramos centrales de la fachada norte y del tabique B (Gabriel, 13-10-2026) (corredera en el tramo 2-3, en el eje del estudio), tabique vidriado de piso
-a cielo (4,00 libres; la viga E-O de +4,11 y la franja sobre ella quedan en el entretecho) entre cafetería y estudio con corredera centrada en el estudio, una ventana de piso a cielo centrada en la
-fachada sur entre los parlantes, entrada de 1,80 por el poniente (pegada al pilar A2), puertas del baño (desde la cafetería, pegada al eje 4)
+`vanos`: vidrio de piso terminado a cielo terminado (4,00) solo en los dos tramos centrales de la fachada norte (Gabriel, 13-10-2026) y en todo el tabique B, tramos 1-2, 2-3 y 3-4 (corredera en el 2-3, en el eje del estudio; Gabriel, 14-10-2026: "la luz es un temón", opción 1), tabique vidriado de piso
+a cielo (4,00 libres; la viga E-O de +4,11 y la franja sobre ella quedan en el entretecho) entre cafetería y estudio con corredera centrada en el estudio, fachada sur ciega con los parlantes contra el muro (la ventana sur se sacó el 14-10-2026: sin vidrio entre los monitores), entrada de 1,80 por el poniente (pegada al pilar A2), puertas del baño (desde la cafetería, pegada al eje 4)
 y de la bodega (desde el estudio, en el extremo norte de la bodega) y puerta acústica de la cabina (desde el estudio, en el extremo norte de la cabina: las dos lejos de la posición de escucha), ventana alta del baño al oriente (bodega y cabina sin ventana: la cabina es ciega a pedido de Gabriel). La escalera (de hormigón, en su caja de muros de 23,3 con puerta con llave en el descanso) se entra por el sur y baja hacia el norte. Aleros de 1,00 m como la casa (Gabriel). `interior`: parlantes, consola, rack, silla, sofá, paneles acústicos,
 alfombra, barra con taburetes, mesas con sillas, lámparas, cocina chica con lavaplatos y minibar en la esquina nororiente, baño y estanterías (sin
 cabina de grabación por ahora, Gabriel 2026-10-12), solo
