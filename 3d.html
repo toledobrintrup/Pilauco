@@ -95,7 +95,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V97" data-vista="3d"></script>
+    <script src="menu.js?v=V98" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -165,17 +165,17 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V97"></script>
-<script src="data.js?v=V97"></script>
-<script src="casa_vanos.js?v=V97"></script>
-<script src="estructura.js?v=V97"></script>
-<script src="losa.js?v=V97"></script>
-<script src="sitio.js?v=V97"></script>
-<script src="sitio3d.js?v=V97"></script>
-<script src="estudio_estructura.js?v=V97"></script>
-<script src="mobiliario3d.js?v=V97"></script>
-<script src="cotas3d.js?v=V97"></script>
-<script src="goku3d.js?v=V97"></script>
+<script src="nav3d.js?v=V98"></script>
+<script src="data.js?v=V98"></script>
+<script src="casa_vanos.js?v=V98"></script>
+<script src="estructura.js?v=V98"></script>
+<script src="losa.js?v=V98"></script>
+<script src="sitio.js?v=V98"></script>
+<script src="sitio3d.js?v=V98"></script>
+<script src="estudio_estructura.js?v=V98"></script>
+<script src="mobiliario3d.js?v=V98"></script>
+<script src="cotas3d.js?v=V98"></script>
+<script src="goku3d.js?v=V98"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -198,6 +198,8 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
   const PISO = 3.46;       // m, confirmada en 4 elevaciones distintas de la estructura
   const LOSA = 0.12;       // m, espesor ilustrativo de la losa entre niveles
   const cm = v => v / 100;
+  // caras de fachada corridas al eje del ingeniero (casa_vanos.js → caras): los muros de 25 van centrados en los ejes 1, 5, 6, H, A, I1 (Gabriel, 15-10-2026)
+  const ajustaCaras = (pts, nivel) => { const C = (typeof DATA_CASA !== 'undefined' && DATA_CASA['n' + nivel] && DATA_CASA['n' + nivel].caras) || {x: {}, y: {}}; const f = (v, m) => { for (const k in m) if (Math.abs(v - parseFloat(k)) < 1.5) return m[k]; return v; }; return pts.map(p => [f(p[0], C.x), f(p[1], C.y)]); };
   // versión publicada (menu.js la trae; fuente/version.py la escribe antes de cada commit): se muestra en la cabecera y en la ⓘ
   const pintarVersion = () => { const V = window.PILAUCO_VERSION || {n: '', fecha: ''}; document.querySelectorAll('.version').forEach(e => { e.textContent = `Versión ${V.n} · ${V.fecha}.`; }); };
   pintarVersion();
@@ -240,7 +242,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     // piso de cada recinto (2 cm, con el color del plano): para leer la planta desde arriba y tocarla
     variante.rooms.forEach(r => {
       const color = KIND_COLOR[r.kind] !== undefined ? KIND_COLOR[r.kind] : KIND_COLOR.otro;
-      const mesh = extrudeShape(shapeFromPts(r.pts), 0.02, color, 1); mesh.position.y = cm(z0);
+      const mesh = extrudeShape(shapeFromPts(ajustaCaras(r.pts, nivel)), 0.02, color, 1); mesh.position.y = cm(z0);   // el piso llega hasta la cara interior del muro corrido al eje
       mesh.userData.sitio = `<b>${r.name}</b><br><span class="sub">${r.area.toLocaleString('es-CL')} m² · ${(r.w / 100).toFixed(2).replace('.', ',')} × ${(r.h / 100).toFixed(2).replace('.', ',')} m · nivel ${nivel}</span>`;
       g.add(mesh);
     });
@@ -264,7 +266,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 
   // ---------- arma la escena a partir de DATA_N1 / DATA_N2 (las mismas del plano) ----------
   const n1v = DATA_N1.variants.v1, n2v = DATA_N2.variants.v2;
-  const n1env = pathToPts(DATA_N1.envPath);
+  const n1env = ajustaCaras(pathToPts(DATA_N1.envPath), 1);
   const n2env = {w: cm(DATA_N2.W), h: cm(DATA_N2.H)};
   const n1envM = n1env.map(p => [cm(p[0]), cm(p[1])]);
 
@@ -274,7 +276,13 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
   let grupoN1, grupoN2;   // muros de la casa: se arman después del techo, porque siguen su pendiente (alturaTecho)
   // shapeFromPts convierte cm a m: las losas van con la envolvente en cm (antes recibían metros y quedaban de 20 cm)
   const slabN1 = buildSlab(n1env, 0);
-  const slabN2 = buildSlab({w: DATA_N2.W, h: DATA_N2.H}, PISO);
+  // losa del nivel 2: hormigón de 15 sobre la placa colaborante (DATA_LOSA.perimetro, con el hueco de la escalera), de +3,46 a +3,61; antes era una losa esquemática de 12 bajo +3,46
+  const slabN2 = (() => { const g = new THREE.Group(); const Lo = (typeof DATA_LOSA !== 'undefined') ? DATA_LOSA : null;
+    if (Lo && Lo.perimetro){ const sh = shapeFromPts(Lo.perimetro); if (Lo.hueco_escalera){ const h = new THREE.Path(); Lo.hueco_escalera.forEach((q, i) => { if (i === 0) h.moveTo(cm(q[0]), -cm(q[1])); else h.lineTo(cm(q[0]), -cm(q[1])); }); sh.holes.push(h); }
+      const m = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, {depth: cm(Lo.espesor || 15), bevelEnabled: false}), new THREE.MeshLambertMaterial({color: dark ? 0x6E7177 : 0xB4B3AA, side: THREE.DoubleSide})); m.rotation.x = -Math.PI / 2; m.position.y = cm(Lo.z_viga || 346);
+      m.userData.sitio = `<b>Losa de hormigón del nivel 2</b><br><span class="sub">e=${Lo.espesor || 15} sobre la placa colaborante (de +${((Lo.z_viga || 346) / 100).toFixed(2).replace('.', ',')} a +${(((Lo.z_viga || 346) + (Lo.espesor || 15)) / 100).toFixed(2).replace('.', ',')}), con el hueco de la escalera; el nivel 2 pisa sobre ella</span>`; g.add(m); }
+    else { const r = ajustaCaras([[0, 0], [DATA_N2.W, 0], [DATA_N2.W, DATA_N2.H], [0, DATA_N2.H]], 2); g.add(buildSlab(r, PISO)); }
+    return g; })();
   // ala oriente del nivel 1 (sala de máquinas y bodega, x > 17,90): el techo de un agua termina en x = 18,94 y el plano no define su cubierta → losa plana a +3,46 (supuesto)
   const alaE = n1env.filter(p => p[0] > DATA_N2.W + 1); const alaBox = alaE.length ? [Math.min(...alaE.map(p => p[0])) - 30, Math.min(...alaE.map(p => p[1])), Math.max(...alaE.map(p => p[0])), Math.max(...alaE.map(p => p[1]))] : null;
   const slabAlaE = alaBox ? buildSlab([[alaBox[0], alaBox[1]], [alaBox[2], alaBox[1]], [alaBox[2], alaBox[3]], [alaBox[0], alaBox[3]]], PISO) : null;
@@ -485,7 +493,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     const addH = (grupo, mesh) => { mesh.userData.hgrupo = grupo; hormigon.add(mesh); return mesh; };
     H.muros.piezas.forEach(mu => addH('muros', ficha(prismaH(mu.pts, H.muros.z_inf, H.muros.z_sup, matH), `Búnker: muro ${mu.lado}`, `hormigón e=${H.muros.espesor} · ${H.muros.armadura}`)));
     addH('losa', ficha(prismaH(H.losa.pts, H.losa.z_inf, H.losa.z_sup, matH, [H.losa.hueco]), 'Búnker: losa de techo', `e=${H.losa.espesor} · ${H.losa.armadura}`));
-    addH('piso', ficha(prismaH(H.piso.pts, H.piso.z_inf, H.piso.z_sup, matH), 'Búnker: radier', `e=${H.piso.espesor} · ${H.piso.armadura}`));
+    if (H.piso) addH('piso', ficha(prismaH(H.piso.pts, H.piso.z_inf, H.piso.z_sup, matH), 'Búnker: radier', `e=${H.piso.espesor} · ${H.piso.armadura}`));
     H.vigas.forEach(v => addH('losa', ficha(prismaH(v.pts, v.z_inf, v.z_sup, matH), v.nombre, `${v.d} · ${v.armadura}`)));
     // fundaciones del ingeniero (lámina 01 rev 1): zapata corrida bajo los muros del búnker, sobrecimiento + cimiento corrido bajo las fachadas,
     // CF 25/40 bajo los tabiques con pilares, emplantillados G5, radieres con sus capas y placas base PLb
@@ -494,7 +502,12 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     const matRell = new THREE.MeshLambertMaterial({color: dark ? 0x7A6F5E : 0xB8AA93, transparent: true, opacity: 0.9, side: THREE.DoubleSide});
     const matPlaca = new THREE.MeshLambertMaterial({color: 0x2B2E34, side: THREE.DoubleSide});
     if (H.relleno) addH('piso', ficha(prismaH(H.relleno.pts, H.relleno.z_inf, H.relleno.z_sup, matRell), 'Búnker: relleno granular bajo el radier', `e=${H.relleno.espesor} · ${H.relleno.dato} · ${H.relleno.fuente}`));
-    if (H.zapata_corrida){
+    if (H.losa_fundacion){
+      // losa de fundación armada e=30 bajo todo el búnker, unida a los muros (ingeniero vía Gabriel, 15-10-2026); su cara superior es el piso
+      const Lf = H.losa_fundacion;
+      Lf.piezas.forEach(z => addH('zapata', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matCF), z.nombre, `${z.d} · ${Lf.armadura} · ${Lf.fuente}`)));
+      Lf.emplantillado.piezas.forEach(z => addH('zapata', ficha(prismaH(z.pts, Lf.emplantillado.z_inf, Lf.emplantillado.z_sup, matEmp), 'Emplantillado G5 de la losa de fundación', `e=${Lf.emplantillado.espesor} · ${Lf.emplantillado.nota}`)));
+    } else if (H.zapata_corrida){
       const Zc = H.zapata_corrida;
       Zc.piezas.forEach(z => addH('zapata', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matCF), z.nombre, `${Zc.ancho} × ${Zc.espesor} · ${z.d} · ${Zc.armadura} · ${Zc.fuente}`)));
       Zc.emplantillado.piezas.forEach(z => addH('zapata', ficha(prismaH(z.pts, Zc.emplantillado.z_inf, Zc.emplantillado.z_sup, matEmp), 'Emplantillado G5 de la zapata corrida', `e=${Zc.emplantillado.espesor} · ${Zc.emplantillado.nota}`)));
@@ -766,7 +779,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       if (E.bunker && E.bunker.terminado) bandas(E.bunker.pts, E.bunker.terminado, E.bunker.z_piso, E.bunker.z_cielo, 'Tabique del búnker', `tabique de ${TB} cm por dentro de los muros de hormigón, del radier a la losa · ${(E.bunker.terminado_cm.ancho / 100).toLocaleString('es-CL')} × ${(E.bunker.terminado_cm.largo / 100).toLocaleString('es-CL')} m terminados (propuesta)`);
     }
     if (E.bunker && E.bunker.npt != null){
-      // búnker: porcelanato sobre el radier y cielo de yeso cartón bajo la losa, a sus niveles terminados (2,80 libres)
+      // búnker: porcelanato sobre la losa de fundación y cielo de yeso cartón bajo la losa de techo, a sus niveles terminados (3,10 libres desde el 15-10-2026)
       const bp = E.bunker.terminado || E.bunker.pts, matB = new THREE.MeshLambertMaterial({map: texturaPiso('porcelanato'), side: THREE.DoubleSide});
       const pisoB = new THREE.Mesh(new THREE.ShapeGeometry(shapeFromPts(bp)), matB); pisoB.rotation.x = -Math.PI / 2; pisoB.position.y = cm(E.bunker.npt + 0.1);
       g.add(ficha(pisoB, 'Búnker: piso terminado', `porcelanato sobre sobrelosa y radier · NPT ${fm(E.bunker.npt - z0)} m bajo el piso del estudio · ${E.bunker.interior_cm / 100} m libres terminados`));
@@ -926,7 +939,8 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     const titulo = t => { const row = document.createElement('div'); row.className = 'row lbl'; row.textContent = t; panelEl.insertBefore(row, filaFit); };
     const sep = () => { const d = document.createElement('div'); d.className = 'sep'; panelEl.insertBefore(d, filaFit); };
     titulo('Hormigón');
-    [['muros', 'Muros del búnker'], ['losa', 'Losa y vigas VHA'], ['zapata', 'Zapata corrida y emplantillado'], ['piso', 'Radier y relleno del búnker'], ['escalera', 'Escalera y su caja'], ['cimiento', 'Sobrecimiento y cimiento corrido'], ['cf', 'CF bajo los tabiques'], ['radier', 'Radier del estudio y sus capas'], ['placas', 'Placas base']].forEach(([k, t]) => { const c = document.createElement('input'); c.type = 'checkbox'; c.checked = true; chkHGrupo[k] = c; fila(t, c); c.addEventListener('input', aplica); });
+    const hayH = {}; (grupoEstudioEst.userData.sub && grupoEstudioEst.userData.sub.hormigon ? grupoEstudioEst.userData.sub.hormigon : {traverse: () => {}}).traverse(o => { if (o.userData.hgrupo) hayH[o.userData.hgrupo] = true; });
+    [['muros', 'Muros del búnker'], ['losa', 'Losa y vigas VHA'], ['zapata', 'Losa de fundación y emplantillado'], ['piso', 'Radier y relleno del búnker'], ['escalera', 'Escalera y su caja'], ['cimiento', 'Sobrecimiento y cimiento corrido'], ['cf', 'CF bajo los tabiques'], ['radier', 'Radier del estudio y sus capas'], ['placas', 'Placas base']].filter(([k]) => hayH[k]).forEach(([k, t]) => { const c = document.createElement('input'); c.type = 'checkbox'; c.checked = true; chkHGrupo[k] = c; fila(t, c); c.addEventListener('input', aplica); });
     fila('Hormigón translúcido', chkHTrans); chkHTrans.addEventListener('input', aplica);
     sep(); titulo('Enfierradura');
     const elems = [...new Set(grupoFierros.children.map(ls => ls.userData.elemento))];

@@ -37,6 +37,10 @@ estructura). Nivel 1 abajo hasta la losa, Nivel 2 arriba hasta el techo siguiend
 el techo con su pendiente real encima. Todas las ventanas de 2,80 (del piso al dintel, en los dos
 niveles) y las puertas de 2,80, con marcos europeos gruesos (10 × 8); los anchos son los del plano
 (`fuente/casa/generar_casa_vanos.py` → `casa_vanos.js`). El piso de cada recinto conserva su color.
+Los **muros de fachada van centrados en los ejes del ingeniero** (desde el 15-10-2026): el plano del
+arquitecto deja el eje a 6,7 de la cara exterior y los pilares asomaban 1,3 cm; el 3D corre los muros
+~5,8 hacia afuera para que el acero quede adentro. El plano 2D sigue mostrando la línea del arquitecto.
+Sobre la placa colaborante va el hormigón de 15 (+3,46 a +3,61) y el nivel 2 pisa sobre él.
 
 - **Arrastrar** gira el modelo, **rueda** acerca, **clic derecho** desplaza.
 - Casilleros para mostrar u ocultar cada nivel, el techo y la estructura.
@@ -79,7 +83,7 @@ Cómo se calibró el emplazamiento y qué es dato y qué supuesto está en `fuen
 ## Estudio y búnker: estructura
 
 `estudio.html` muestra el proyecto estructural que el ingeniero hizo en abril de 2026 para el estudio con
-búnker (11,05 × 10,25 m, búnker de 5,00 m bajo un extremo) **adaptado a la planta nueva** (10,75 × 17,45 m por fuera, muros de 25 terminado y tabique de 10 dentro del búnker,
+búnker (11,05 × 10,25 m, búnker de 5,00 m bajo un extremo) **adaptado a la planta nueva** (10,75 × 17,45 m por fuera, muros de 25 terminado y tabique de 10 dentro del búnker; búnker de 3,10 libres sobre una losa de fundación armada de 30 que indicó el ingeniero el 15-10-2026,
 búnker de 5,75 × 9,55 m bajo la cafetería, techo subiendo al sur, recintos divididos), con el mismo sistema
 que él usó: pilares de tubo cuadrado 150×150, vigas de techo 200×150 al 3,5 %, costaneras CA 100×50 cada
 61 cm, cruces C 150×50, tensores Fe 16 y el búnker en hormigón con muros de 25 y losa de 20. Trae la planta

@@ -18,7 +18,9 @@ LOSA = 20.0                 # losa de techo del búnker (corte a-a)
 MURO = 25.0                 # muro DM e=25 (corte a-a, elevación 1.a)
 RADIER_BUNKER = 10.0        # radier e=10 (corte a-a / c-c)
 RELLENO_BUNKER = 10.0       # relleno granular T.máx 1 1/2", 90 % Proctor modificado, bajo el radier (corte a-a)
-ZAPATA_B = (100.0, 30.0)    # zapata corrida bajo los muros del búnker: 37,5 + 25 + 37,5 = 100 de ancho, 30 de alto (corte a-a)
+ZAPATA_B = (100.0, 30.0)    # zapata corrida del corte a-a (37,5 + 25 + 37,5 = 100, 30 de alto): desde el 15-10-2026 es la franja bajo cada muro de la LOSA DE FUNDACIÓN
+LOSA_FUND = 30.0            # losa de fundación armada bajo TODO el búnker, unida a los muros (ingeniero vía Gabriel, 15-10-2026): reemplaza zapata corrida + relleno + radier; su cara superior es el piso
+LOSA_FUND_MARGEN = 37.5     # sobresale 37,5 de la cara exterior de los muros, como la zapata corrida
 EMPLANTILLADO = 10.0        # emplantillado G5 "Var. / Mn. 10" (sello 20 cm en el estrato indicado en la memoria de cálculo)
 SOBRECIM = (25.0, 50.0)     # sobrecimiento de 25 x 50 bajo los pilares fuera del búnker (corte b-b: cadena 50 | 25 | var. mín. 10 = 75 hasta el sello)
 CIMIENTO = (80.0, 25.0)     # cimiento corrido 27,5 + 25 + 27,5 = 80 de ancho, 25 de alto, de −50 (NTN) a −75 (corte b-b)
@@ -50,10 +52,11 @@ def armar(c):
     ex0, ex_h, ey0, ey1, y_desc = c['ex0'], c['ex_h'], c['ey0'], c['ey1'], c['y_desc']
     x3 = c['x3']
     # ---------- niveles (NPOG, cm): 0 = piso terminado del estudio = cara superior de la losa ----------
-    z_losa_inf = -LOSA; z_piso = z_losa_inf - H                      # −20, −300
-    z_rad_inf = z_piso - RADIER_BUNKER; z_rell_inf = z_rad_inf - RELLENO_BUNKER   # −310, −320 (= tope de la zapata = pie del muro)
-    z_zap_sup = z_rell_inf; z_zap_inf = z_zap_sup - ZAPATA_B[1]      # −320, −350
-    z_emp_inf = z_zap_inf - EMPLANTILLADO                            # −360
+    z_losa_inf = -LOSA; z_piso = z_losa_inf - H                      # −20, −341 (H = 3,10 libres terminados + piso + cielo)
+    # losa de fundación de 30 bajo todo el búnker (ingeniero, 15-10-2026): su cara superior ES el piso del búnker; no hay relleno ni radier aparte
+    z_rad_inf = z_piso; z_rell_inf = z_piso                           # (sin radier ni relleno: quedan iguales al piso por compatibilidad)
+    z_zap_sup = z_piso; z_zap_inf = z_zap_sup - LOSA_FUND            # −341, −371 (el sello no cambia respecto de la zapata corrida anterior)
+    z_emp_inf = z_zap_inf - EMPLANTILLADO                            # −381
     Z = lambda z: r1(z0 + z)
     hb = ZAPATA_B[0] / 2                                             # 50: media zapata
 
@@ -62,7 +65,7 @@ def armar(c):
 
     # ---------- búnker ----------
     muros = dict(espesor=MURO, z_inf=Z(z_zap_sup + GAP), z_sup=Z(z_losa_inf), alto=r1(z_losa_inf - z_zap_sup),
-                 armadura='DM (doble malla): V ø12@15 que bajan hasta el fondo de la zapata (pata de 30 sobre su parrilla) y terminan con gancho de 20 en la losa (L≈3,92 m), H ø10@20, 2ø12 de coronamiento bajo la losa; recubrimiento 3',
+                 armadura='DM (doble malla): V ø12@15 que bajan hasta la malla inferior de la losa de fundación (pata de 30 sobre ella) y terminan con gancho de 20 en la losa de techo (L≈4,2 m), H ø10@20, 2ø12 de coronamiento bajo la losa; recubrimiento 3',
                  fuente='lámina 01 rev 1, cortes a-a y c-c; lámina 03 rev H, elevación 1.a; lámina 05 rev H, elevación A1',
                  piezas=[dict(id='M-N', pts=rect(bx0, by0, bx1, by0 + MURO), lado='norte (recibe los 5 pilares del eje A)'),
                          dict(id='M-S', pts=rect(bx0, by1 - MURO, bx1, by1), lado='sur, bajo el tabique cafetería/estudio (recibe los 5 pilares del eje B)'),
@@ -72,22 +75,22 @@ def armar(c):
                 armadura='inferior: ø10@20 en la luz corta (N-S, 6,00 m entre muros, con ganchos de 13,5 en los muros) y ø8@20 en la larga (E-O); '
                          'superior: ø8@20 sobre la VHA (42 a cada lado); 2ø12 de borde en los muros y 2ø12 L=456 de borde en el hueco de la escalera; recubrimiento 2',
                 fuente='lámina 03 rev H, planta losa (L001/L002); el original salva 5,00 m: con 6,00 el ingeniero debe recalcular')
-    piso = dict(espesor=RADIER_BUNKER, pts=rect(bx0 + MURO, by0 + MURO, bx1 - MURO, by1 - MURO), z_inf=Z(z_rad_inf), z_sup=Z(z_piso),
-                armadura='radier e=10 (sin armadura en el corte)', fuente='lámina 01 rev 1, corte a-a')
-    relleno_b = dict(espesor=RELLENO_BUNKER, pts=rect(bx0 + MURO, by0 + MURO, bx1 - MURO, by1 - MURO), z_inf=Z(z_rell_inf + GAP), z_sup=Z(z_rad_inf - GAP),
-                     dato='relleno granular T.máx 1 1/2", 90 % Proctor modificado', fuente='lámina 01 rev 1, corte a-a')
-    # zapata corrida de 100 x 30 bajo los cuatro muros (anillo: norte y sur completos, poniente y oriente entre ellos)
-    zx0, zy0, zx1, zy1 = bx0 - 37.5, by0 - 37.5, bx1 + 37.5, by1 + 37.5
-    zap_piezas = [pieza('ZC-N', zx0, zy0, zx1, zy0 + ZAPATA_B[0], z_zap_inf, z_zap_sup, 'Zapata corrida del búnker (norte)', 'bajo el muro norte'),
-                  pieza('ZC-S', zx0, zy1 - ZAPATA_B[0], zx1, zy1, z_zap_inf, z_zap_sup, 'Zapata corrida del búnker (sur)', 'bajo el muro sur'),
-                  pieza('ZC-O', zx0, zy0 + ZAPATA_B[0], zx0 + ZAPATA_B[0], zy1 - ZAPATA_B[0], z_zap_inf, z_zap_sup, 'Zapata corrida del búnker (poniente)', 'bajo el muro poniente'),
-                  pieza('ZC-E', zx1 - ZAPATA_B[0], zy0 + ZAPATA_B[0], zx1, zy1 - ZAPATA_B[0], z_zap_inf, z_zap_sup, 'Zapata corrida del búnker (oriente)', 'bajo el muro oriente')]
-    zapata_corrida = dict(ancho=ZAPATA_B[0], espesor=ZAPATA_B[1], z_sup=Z(z_zap_sup), z_inf=Z(z_zap_inf), piezas=zap_piezas,
-                          armadura='ø16@20 L=130 (U de 90 con ganchos de 20 hacia arriba) + 4ø10 longitudinales; recubrimiento 5',
-                          emplantillado=dict(espesor=EMPLANTILLADO, z_sup=Z(z_zap_inf - GAP), z_inf=Z(z_emp_inf), hormigon='G5',
-                                             piezas=[dict(id=p['id'].replace('ZC', 'EMP'), pts=p['pts']) for p in zap_piezas],
-                                             nota='Var. / mín. 10: el sello va 20 cm dentro del estrato indicado en la memoria de cálculo'),
-                          fuente='lámina 01 rev 1, cortes a-a y c-c (37,5 + 25 + 37,5 = 100; 30 de alto; NPOG −312 a −342 en el original)')
+    piso = None; relleno_b = None   # sin radier ni relleno desde el 15-10-2026: el piso es la cara superior de la losa de fundación
+    # losa de fundación armada e=30 bajo todo el búnker, unida a los muros y sobresaliendo 37,5 (ingeniero vía Gabriel, 15-10-2026).
+    # Las cuatro franjas bajo los muros (37,5 + 25 + 37,5 = 100) se mantienen como contornos para las láminas y las elevaciones.
+    zx0, zy0, zx1, zy1 = bx0 - LOSA_FUND_MARGEN, by0 - LOSA_FUND_MARGEN, bx1 + LOSA_FUND_MARGEN, by1 + LOSA_FUND_MARGEN
+    emp_lf = dict(espesor=EMPLANTILLADO, z_sup=Z(z_zap_inf - GAP), z_inf=Z(z_emp_inf), hormigon='G5', piezas=[dict(id='EMP-LF', pts=rect(zx0, zy0, zx1, zy1))],
+                  nota='Var. / mín. 10 bajo toda la losa de fundación: el sello va 20 cm dentro del estrato indicado en la memoria de cálculo')
+    losa_fundacion = dict(espesor=LOSA_FUND, margen=LOSA_FUND_MARGEN, pts=rect(zx0, zy0, zx1, zy1), z_sup=Z(z_zap_sup), z_inf=Z(z_zap_inf),
+                          piezas=[pieza('LF', zx0, zy0, zx1, zy1, z_zap_inf, z_zap_sup, 'Losa de fundación del búnker', f'e={LOSA_FUND:.0f} bajo todo el búnker, unida a los muros; sobresale {LOSA_FUND_MARGEN:.1f} de su cara exterior; su cara superior es el piso del búnker'.replace('.', ','))],
+                          armadura='doble malla ø12@15 en los dos sentidos, abajo (con ganchos de 20 hacia arriba en los bordes) y arriba; las verticales de los muros bajan con pata de 30 sobre la malla inferior; recubrimiento 5 (propuesta: la misma barra de los muros)',
+                          fuente='ingeniero (vía Gabriel, 15-10-2026): losa armada de 30 unida con la zapata de toda la fundación; armadura propuesta, por confirmar', emplantillado=emp_lf)
+    zap_piezas = [pieza('ZC-N', zx0, zy0, zx1, zy0 + ZAPATA_B[0], z_zap_inf, z_zap_sup, 'Losa de fundación: franja bajo el muro norte', 'parte de la losa de fundación'),
+                  pieza('ZC-S', zx0, zy1 - ZAPATA_B[0], zx1, zy1, z_zap_inf, z_zap_sup, 'Losa de fundación: franja bajo el muro sur', 'parte de la losa de fundación'),
+                  pieza('ZC-O', zx0, zy0 + ZAPATA_B[0], zx0 + ZAPATA_B[0], zy1 - ZAPATA_B[0], z_zap_inf, z_zap_sup, 'Losa de fundación: franja bajo el muro poniente', 'parte de la losa de fundación'),
+                  pieza('ZC-E', zx1 - ZAPATA_B[0], zy0 + ZAPATA_B[0], zx1, zy1 - ZAPATA_B[0], z_zap_inf, z_zap_sup, 'Losa de fundación: franja bajo el muro oriente', 'parte de la losa de fundación')]
+    zapata_corrida = dict(ancho=ZAPATA_B[0], espesor=LOSA_FUND, z_sup=Z(z_zap_sup), z_inf=Z(z_zap_inf), piezas=zap_piezas, armadura=losa_fundacion['armadura'], emplantillado=emp_lf, fuente=losa_fundacion['fuente'],
+                          nota='franjas de 100 (37,5 + 25 + 37,5) de la losa de fundación bajo cada muro, solo para contornos y cotas; el hormigón y la cubicación usan la losa completa (losa_fundacion)')
     # vigas bajo la losa
     vigas = [dict(id='VHA-3', nombre='VHA 25/40', pts=rect(x3 - 12.5, by0 + MURO, x3 + 12.5, by1 - MURO), z_inf=Z(z_losa_inf - (VHA[1] - LOSA)), z_sup=Z(z_losa_inf),
                   armadura='3ø12 arriba, 2ø10 al medio, 3ø16 abajo, Est ø10@20 (20 dentro de la losa + 20 bajo ella)',
@@ -153,13 +156,13 @@ def armar(c):
     placas_info = dict(detalle='PLb 200 x 200 x 8 mm soldada al tubo en todo el contorno, bajo todos los pilares (PM1, PM2 y PM3); anclaje 1+1 ø3/4" en horquilla, L=1200 mm (140 bajo la placa, ramas de 430, ganchos de 100 hacia adentro), con estribos ø8@20, embebido en el muro, sobrecimiento o CF de 25 (sin pedestal)',
                        fuente='lámina 01 rev 1, detalle placa base PLb y planta (PLb en los 23 pilares del original)', lista=placas)
 
-    hormigon = dict(especificaciones=ESPECIFICACIONES, muros=muros, losa=losa, piso=piso, relleno=relleno_b, zapata_corrida=zapata_corrida, vigas=vigas,
+    hormigon = dict(especificaciones=ESPECIFICACIONES, muros=muros, losa=losa, piso=piso, relleno=relleno_b, losa_fundacion=losa_fundacion, zapata_corrida=zapata_corrida, vigas=vigas,
                     cimiento=cimiento, cf=cf, radier_estudio=radier_estudio, placas=placas_info, escalera=c['escalera'],
                     interior=dict(ancho=r1(bx1 - bx0 - 2 * MURO), largo=r1(by1 - by0 - 2 * MURO), alto=H,
                                   terminado=dict(ancho=r1(bx1 - bx0 - 2 * MURO - 2 * c.get('T', 0)), largo=r1(by1 - by0 - 2 * MURO - 2 * c.get('T', 0)), tabique=c.get('T', 0), nota='entre los tabiques de 10 que van por dentro de los muros (Gabriel, 14-10-2026)')),
-                    niveles=dict(npog_0='NPOG 0,00 = cara superior de la losa del búnker y del radier (obra gruesa); el piso terminado va más arriba (sobrelosa + adhesivo + porcelanato)', losa_inf=z_losa_inf, piso_bunker=z_piso, radier_bunker_inf=z_rad_inf,
+                    niveles=dict(npog_0='NPOG 0,00 = cara superior de la losa del búnker y del radier (obra gruesa); el piso terminado va más arriba (sobrelosa + adhesivo + porcelanato)', losa_inf=z_losa_inf, piso_bunker=z_piso, radier_bunker_inf=z_rad_inf, losa_fund_sup=z_zap_sup, losa_fund_inf=z_zap_inf,
                                  zapata_sup=z_zap_sup, zapata_inf=z_zap_inf, emplantillado_inf=z_emp_inf, ntn=-50, sobrecimiento_inf=z_sc_inf, cimiento_inf=z_ci_inf, cf_sup=CF_TOPE, cf_inf=z_cf_inf,
-                                 nota='el original tiene el búnker de 2,72 libres (−272 piso, −292 radier, −312 zapata, −342 sello); con los 2,80 de Gabriel todo baja 8 cm'))
+                                 nota='el original tiene el búnker de 2,72 libres (−272 piso, −292 radier, −312 zapata, −342 sello); con los 2,80 de Gabriel todo bajó 8 cm; desde el 15-10-2026 la losa de fundación de 30 ocupa el lugar de la zapata (−341/−371) y el piso es su cara superior: 3,10 libres con el mismo sello'))
 
     # ---------- enfierradura (familias de barras para el 3D; polilíneas en cm app) ----------
     fierros = []
@@ -195,7 +198,7 @@ def armar(c):
             x0, y0 = a[0] - ux * extV + ux * 7.5 + fx, a[1] - uy * extV + uy * 7.5 + fy
             # la barra baja dentro de la zapata: la pata de 30 va apoyada sobre la parrilla del fondo (corte a-a: 20 + 334 + 30 = 384 en el original)
             fam(f'MV-{nm}-{cara[:3]}', 'muro del búnker', 12, [(x0 + gx, y0 + gy, z_zap_inf + 7), (x0, y0, z_zap_inf + 7), (x0, y0, -3), (x0 + hx, y0 + hy, -3)],
-                n=nV, paso=(ux * 15, uy * 15, 0), d=f'verticales ø12@15 del muro {nm}, malla {cara}: bajan dentro de la zapata con la pata de 30 sobre la parrilla del fondo y terminan con gancho de 20 en la losa (L≈{(-3 - (z_zap_inf + 7) + 50)/100:.2f} m)'.replace('.', ','))
+                n=nV, paso=(ux * 15, uy * 15, 0), d=f'verticales ø12@15 del muro {nm}, malla {cara}: bajan dentro de la losa de fundación con la pata de 30 sobre la malla inferior y terminan con gancho de 20 en la losa de techo (L≈{(-3 - (z_zap_inf + 7) + 50)/100:.2f} m)'.replace('.', ','))
             if nm in ('N', 'S'):
                 polH = [(a[0] + fx, a[1] + fy, z_zap_sup + 10), (b[0] + fx, b[1] + fy, z_zap_sup + 10)]
                 polC = [(a[0] + fx, a[1] + fy, -3), (b[0] + fx, b[1] + fy, -3)]
@@ -239,18 +242,15 @@ def armar(c):
         fam(f'{vid}-inf', 'VHA 25/40', 16, None, polis=[[(xc + k, ya, -37), (xc + k, yb, -37)] for k in (-o, 0, o)], d=f'3ø16 inferiores de la {vid}')
         fam(f'{vid}-est', 'VHA 25/40', 10, [(xc - o, ya + 10, -3), (xc + o, ya + 10, -3), (xc + o, ya + 10, -37), (xc - o, ya + 10, -37), (xc - o, ya + 10, -3)],
             n=int((yb - ya) // 20), paso=(0, 20, 0), d=f'estribos ø10@20 de la {vid}')
-    # zapata corrida del búnker: U ø16@20 (90 + ganchos 20) + 4ø10
-    for nm, a, b, nrm in murosL:
-        dx, dy = b[0] - a[0], b[1] - a[1]; ln = math.hypot(dx, dy); ux, uy = dx / ln, dy / ln
-        ext = 37.5   # las U de los cuatro lados cubren las esquinas (ahí la parrilla queda doble, en los dos sentidos)
-        extL = 37.5 if nm in ('N', 'S') else -12.5 + L60(10)   # longitudinales O/E: entran 60ø (60 cm) en las zapatas norte y sur
-        a2 = (a[0] - ux * ext, a[1] - uy * ext); ln2 = ln + 2 * ext
-        px, py = nrm[0], nrm[1]
-        fam(f'ZU-{nm}', 'zapata corrida del búnker', 16, [(a2[0] - px * 45, a2[1] - py * 45, z_zap_inf + 25), (a2[0] - px * 45, a2[1] - py * 45, z_zap_inf + 5), (a2[0] + px * 45, a2[1] + py * 45, z_zap_inf + 5), (a2[0] + px * 45, a2[1] + py * 45, z_zap_inf + 25)],
-            n=int(ln2 // 20) + 1, paso=(ux * 20, uy * 20, 0), d=f'ø16@20 L=130 en U de la zapata corrida ({nm}), ganchos de 20 hacia arriba')
-        a3 = (a[0] - ux * extL, a[1] - uy * extL); ln3 = ln + 2 * extL
-        fam(f'ZL-{nm}', 'zapata corrida del búnker', 10, None, polis=[[(a3[0] + px * k, a3[1] + py * k, z_zap_inf + 6), (a3[0] + ux * ln3 + px * k, a3[1] + uy * ln3 + py * k, z_zap_inf + 6)] for k in (-42, -14, 14, 42)],
-            d=f'4ø10 longitudinales de la zapata corrida ({nm})' + ('' if nm in ('N', 'S') else ', traslapados 60 cm (60ø) dentro de las zapatas norte y sur'))
+    # losa de fundación: doble malla ø12@15 en los dos sentidos; la inferior con ganchos de 20 hacia arriba en los bordes; recubrimiento 5
+    zi, zs = z_zap_inf + 6, z_zap_sup - 6
+    nx = int((zx1 - zx0 - 15) // 15) + 1; ny = int((zy1 - zy0 - 15) // 15) + 1
+    fam('LF-inf-NS', 'losa de fundación', 12, [(zx0 + 7.5, zy0 + 5, zi + 20), (zx0 + 7.5, zy0 + 5, zi), (zx0 + 7.5, zy1 - 5, zi), (zx0 + 7.5, zy1 - 5, zi + 20)], n=nx, paso=(15, 0, 0),
+        d='malla inferior ø12@15 N-S de la losa de fundación, con ganchos de 20 hacia arriba en los bordes (propuesta)')
+    fam('LF-inf-EO', 'losa de fundación', 12, [(zx0 + 5, zy0 + 7.5, zi + 1.2 + 20), (zx0 + 5, zy0 + 7.5, zi + 1.2), (zx1 - 5, zy0 + 7.5, zi + 1.2), (zx1 - 5, zy0 + 7.5, zi + 1.2 + 20)], n=ny, paso=(0, 15, 0),
+        d='malla inferior ø12@15 E-O de la losa de fundación, sobre la N-S, con ganchos de 20 en los bordes (propuesta)')
+    fam('LF-sup-NS', 'losa de fundación', 12, [(zx0 + 7.5, zy0 + 5, zs), (zx0 + 7.5, zy1 - 5, zs)], n=nx, paso=(15, 0, 0), d='malla superior ø12@15 N-S de la losa de fundación (propuesta)')
+    fam('LF-sup-EO', 'losa de fundación', 12, [(zx0 + 5, zy0 + 7.5, zs - 1.2), (zx1 - 5, zy0 + 7.5, zs - 1.2)], n=ny, paso=(0, 15, 0), d='malla superior ø12@15 E-O de la losa de fundación, bajo la N-S (propuesta)')
     # sobrecimiento y cimiento corrido fuera del búnker
     yE = yA[6]                                   # eje de la fachada sur; su sobrecimiento va de yE−12,5 a yE+12,5 y su cimiento de yE−40 a yE+40
     def extremos(n, diam, prof):
@@ -323,14 +323,13 @@ def armar(c):
         dict(elemento='Muros del búnker e=25 (DM)', m3=round(vol(muros['piezas'], z_losa_inf - z_zap_sup), 2), hormigon='G25'),
         dict(elemento='Losa del búnker e=20', m3=round((area(losa['pts']) - area(losa['hueco'])) * LOSA / 1e6, 2), hormigon='G25'),
         dict(elemento='VHA 25/40 (bajo la losa)', m3=round(sum(area(v['pts']) for v in vigas) * (VHA[1] - LOSA) / 1e6, 2), hormigon='G25'),
-        dict(elemento='Zapata corrida del búnker 100 × 30', m3=round(vol(zap_piezas, ZAPATA_B[1]), 2), hormigon='G25'),
-        dict(elemento='Radier del búnker e=10', m3=round(vol([piso], RADIER_BUNKER), 2), hormigon='G25'),
+        dict(elemento='Losa de fundación del búnker e=30', m3=round(vol(losa_fundacion['piezas'], LOSA_FUND), 2), hormigon='G25'),
         dict(elemento='Sobrecimiento 25 × 50', m3=round(vol(sc_piezas, SOBRECIM[1]), 2), hormigon='G25'),
         dict(elemento='Cimiento corrido 80 × 25', m3=round(vol(ci_piezas, CIMIENTO[1]), 2), hormigon='G25'),
         dict(elemento='CF 25/40', m3=round(vol(cf_piezas, CF[1]), 2), hormigon='G25'),
         dict(elemento='Radier del estudio e=10', m3=round(vol(radier_estudio['capas'][0]['piezas'], RADIER_EST), 2), hormigon='G25'),
         dict(elemento='Escalera de hormigón y su caja de muros', m3=round(v_esc + v_caja, 2), hormigon='G25'),
-        dict(elemento='Emplantillados (zapata del búnker, cimientos y CF)', m3=round(vol(zap_piezas, EMPLANTILLADO) + vol(cemp_piezas, EMPLANTILLADO) + vol(cf['emplantillado']['piezas'], EMPLANTILLADO), 2), hormigon='G5'),
+        dict(elemento='Emplantillados (losa de fundación del búnker, cimientos y CF)', m3=round(vol(losa_fundacion['piezas'], EMPLANTILLADO) + vol(cemp_piezas, EMPLANTILLADO) + vol(cf['emplantillado']['piezas'], EMPLANTILLADO), 2), hormigon='G5'),
     ]
     cub_f = {}
     for f in fierros: cub_f[f['diam']] = cub_f.get(f['diam'], 0) + f['largo']

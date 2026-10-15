@@ -339,10 +339,11 @@
       // fundaciones del ingeniero (lámina 01 rev 1): zapata corrida del búnker (1,00 × 0,30) en su borde poniente,
       // sobrecimiento (0,25 × 0,75) y cimiento corrido (0,80 × 0,25) en la fachada poniente fuera del búnker, CF 25/40 en el eje 4
       if (H.zapata_corrida && H.zapata_corrida.piezas) {
-        const Zc = H.zapata_corrida, zo = Zc.piezas.find(p => p.id === 'ZC-O') || Zc.piezas[0], zb = bbox(zo.pts), yF = zb.y0 + (zb.y1 - zb.y0) * 0.7;
-        const sZ = fmt(Zc.ancho) + ' × ' + fmt(Zc.espesor) + ' m bajo los muros del búnker · ' + Zc.armadura;
-        cota(f, [zb.x0 - 20, yF, Zc.z_inf], [zb.x0 - 20, yF, Zc.z_sup], S, { ea: [zb.x0, yF, Zc.z_inf], eb: [zb.x0, yF, Zc.z_sup], nx: OES, rot: OES, sep: 0.45, texto: fmt(Zc.z_sup - Zc.z_inf), t: 'Zapata corrida del búnker: alto', s: sZ });
-        cota(f, [zb.x0, yF + 30, Zc.z_inf - 10], [zb.x1, yF + 30, Zc.z_inf - 10], DOWN, { ea: [zb.x0, yF + 30, Zc.z_inf], eb: [zb.x1, yF + 30, Zc.z_inf], sep: 0.3, texto: fmt(zb.x1 - zb.x0), t: 'Zapata corrida del búnker: ancho', s: sZ });
+        const Zc = H.zapata_corrida, Lf = H.losa_fundacion, zo = Zc.piezas.find(p => p.id === 'ZC-O') || Zc.piezas[0], zb = bbox(zo.pts), yF = zb.y0 + (zb.y1 - zb.y0) * 0.7;
+        const sZ = Lf ? ('e=' + fmt(Lf.espesor) + ' m bajo todo el búnker, unida a los muros · ' + Lf.armadura) : (fmt(Zc.ancho) + ' × ' + fmt(Zc.espesor) + ' m bajo los muros del búnker · ' + Zc.armadura);
+        cota(f, [zb.x0 - 20, yF, Zc.z_inf], [zb.x0 - 20, yF, Zc.z_sup], S, { ea: [zb.x0, yF, Zc.z_inf], eb: [zb.x0, yF, Zc.z_sup], nx: OES, rot: OES, sep: 0.45, texto: fmt(Zc.z_sup - Zc.z_inf), t: (Lf ? 'Losa de fundación del búnker: espesor' : 'Zapata corrida del búnker: alto'), s: sZ });
+        if (Lf) cota(f, [zb.x0, yF + 30, Zc.z_inf - 10], [zb.x0 + Lf.margen, yF + 30, Zc.z_inf - 10], DOWN, { ea: [zb.x0, yF + 30, Zc.z_inf], eb: [zb.x0 + Lf.margen, yF + 30, Zc.z_inf], sep: 0.3, texto: fmt(Lf.margen), t: 'Losa de fundación: lo que sobresale del muro', s: sZ });
+        else cota(f, [zb.x0, yF + 30, Zc.z_inf - 10], [zb.x1, yF + 30, Zc.z_inf - 10], DOWN, { ea: [zb.x0, yF + 30, Zc.z_inf], eb: [zb.x1, yF + 30, Zc.z_inf], sep: 0.3, texto: fmt(zb.x1 - zb.x0), t: 'Zapata corrida del búnker: ancho', s: sZ });
       }
       if (H.cimiento && H.cimiento.sobrecimiento) {
         const Sc = H.cimiento.sobrecimiento, Ci = H.cimiento.zapata;

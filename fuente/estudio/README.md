@@ -50,7 +50,7 @@ las medidas, no otras") y terminadas: desde el 14-10-2026 el búnker lleva un ta
 coincide con el muro sur del búnker; C sobre el tabique baño/cabina y C2 sobre el tabique cabina/bodega, los dos con CF 25/40; A2 y D a 2 m de las fachadas para que las cruces
 queden en tramos de 2 m como las del original); 22 pilares, ninguno dentro de los recintos; cruces N-S en A–A2 y D–E de
 las fachadas laterales y E-O solo en muros ciegos (C 4-5, fachada sur 1-2 y 4-5, y una sola diagonal en B 4-5 por la
-puerta del baño); búnker de 10,05 × 6,00 terminado entre tabiques (10,25 × 6,20 entre muros) × 2,80 libres terminados (2,91 de obra gruesa) con VHA 25/40 en el eje 3 y viga de borde en la escalera. Fuera del
+puerta del baño); búnker de 10,05 × 6,00 terminado entre tabiques (10,25 × 6,20 entre muros) × 3,10 libres terminados (3,21 de obra gruesa; 2,80 hasta el 15-10-2026, cuando el ingeniero cambió la zapata corrida + relleno + radier por una losa de fundación armada de 30 bajo todo el búnker, unida a los muros y sobresaliendo 37,5, con el mismo sello: el piso es su cara superior; armadura propuesta DM ø12@15 en los dos sentidos, `hormigon.py → losa_fundacion`) con VHA 25/40 en el eje 3 y viga de borde en la escalera. Fuera del
 búnker, las fundaciones del ingeniero (sobrecimiento + cimiento corrido bajo las fachadas, CF 25/40 bajo los tabiques con pilares):
 ver arriba. La tabla completa y las luces que crecieron están en `estudio.html`.
 La cubicación del ingeniero no se usa como referencia.

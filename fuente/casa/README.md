@@ -15,6 +15,16 @@ Desde el 15-10-2026 la vista 3D dibuja la casa con sus muros reales en vez de un
   (`ANTEPECHO = 0`; cambiar ahí si se quiere antepecho); puertas y pasos con dintel a 2,80. Marcos europeos gruesos
   de 10 × 8 (los mismos del estudio: `kitCerramiento` en `3d.html`).
 - **Doble altura del hall**: V2, V3 y V4 se repiten en el nivel 2 (el plano las rotula en las dos plantas).
+- **Muros de fachada centrados en los ejes del ingeniero** (Gabriel, 15-10-2026: "lo correcto es lo del ingeniero, nadie pondría un pilar
+  no centrado"): el plano del arquitecto deja el eje 1 a 6,7 de la cara exterior (H a 7,2) y su muro de 25 va de la línea de fachada
+  hacia adentro, así que un HEB 160 centrado en el eje asomaba 1,3 cm. `perimetro_desde_recintos` arma las fachadas desde los
+  bordes exteriores de los recintos (25 hacia afuera), las centra en el eje del ingeniero si está a menos de 12 cm (`TOL_EJE`),
+  absorbe los muñones de wallsPath, maciza esquinas y encuentros en T, y devuelve `caras` (cara vieja → nueva) para correr las
+  losas, el zócalo y los pisos de los recintos. Resultado: fachadas corridas ~5,8 hacia afuera (poniente/oriente) y ~2,6 (norte).
+  El plano 2D (`index.html`) sigue mostrando la línea del arquitecto; el permiso tendría que absorber esos centímetros.
+- **Pilares dentro de ventanas del plano** (arquitecto vs ingeniero, sin resolver): V9 (oficina: el pilar 1×G3 y la cruz del eje 1
+  quedan en el vidrio) y V18 (dormitorio hijo 1, nivel 2: el pilar 5×E). Las cañerías Ø310 de los accesos son columnas libres y no
+  caben en un muro de 25.
 - **Supuesto**: el ala oriente (sala de máquinas y bodega) no tiene cubierta en los planos del modelo; el 3D le pone una
   losa plana a 3,46 para cerrarla.
 
