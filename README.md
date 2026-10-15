@@ -31,9 +31,12 @@ En el teléfono, la lista de recintos vive en la hoja inferior: se sube tocando 
 
 ## Vista 3D
 
-Cada recinto extruido a su altura real (**3,46 m por piso**, dato tomado del plano de
-estructura — es el primer número de altura que tiene el proyecto, hasta ahora todo era
-planta). Nivel 1 abajo, Nivel 2 arriba, el techo con su pendiente real encima.
+Los muros, puertas y ventanas de cada nivel según el plano (desde el 15-10-2026; antes eran
+volúmenes por recinto), a su altura real (**3,46 m por piso**, dato tomado del plano de
+estructura). Nivel 1 abajo hasta la losa, Nivel 2 arriba hasta el techo siguiendo su pendiente,
+el techo con su pendiente real encima. Todas las ventanas de 2,80 (del piso al dintel, en los dos
+niveles) y las puertas de 2,80, con marcos europeos gruesos (10 × 8); los anchos son los del plano
+(`fuente/casa/generar_casa_vanos.py` → `casa_vanos.js`). El piso de cada recinto conserva su color.
 
 - **Arrastrar** gira el modelo, **rueda** acerca, **clic derecho** desplaza.
 - Casilleros para mostrar u ocultar cada nivel, el techo y la estructura.
@@ -190,6 +193,8 @@ Base: plano L3 PLARQ2 (Planta Arquitectura Nivel 2, GVArq, dic. 2025, esc. 1:50)
 - `placa3d.js` — la placa colaborante en 3D con las perforaciones de los pernos (losa y pernos).
 - `fuente/losa/` — cómo se sacó la losa del plano, de las áreas marcadas en obra y de la ficha Instadeck.
 - `data.js` — los datos de ambas plantas (`DATA_N1`, `DATA_N2`), compartidos por `index.html` y `3d.html`: una sola fuente, nada duplicado.
+- `casa_vanos.js` — los muros (rectángulos), puertas y ventanas de la casa para `3d.html`; se genera con `fuente/casa/generar_casa_vanos.py` desde `data.js`.
+- `fuente/casa/` — el generador de muros y vanos de la casa y la tabla de ventanas curada contra el plano.
 - `estructura.js` — la estructura de acero pieza por pieza (perfil y extremos de cada una) para la capa "Ver estructura" de `3d.html`; se genera desde `fuente/ingenieria/datos/modelo.json`.
 - `sitio.js` — el terreno (lote, cierros, acceso, gimnasio, estudio con búnker, senderos y piscina) para `3d.html`; se genera con `fuente/sitio/generar_sitio_js.py`.
 - `sitio3d.js` — el módulo que dibuja el terreno en Three.js.
