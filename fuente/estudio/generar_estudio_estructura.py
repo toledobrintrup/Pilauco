@@ -253,7 +253,7 @@ def main(estudio_json, sitio_json, salida):
             mueble(f'silla{k+1}{j+1}n', 'silla', 'cafeteria', 'Silla', cx_, my - 50, cx_ + 45, my - 5, 85, 'S', '')
             mueble(f'silla{k+1}{j+1}s', 'silla', 'cafeteria', 'Silla', cx_, my + 85, cx_ + 45, my + 130, 85, 'N', '')
     # cocina chica en la esquina nororiente (Gabriel, 2026-10-12): mueble con lavaplatos contra el muro oriente y refrigerador pequeño al lado
-    mueble('cocina', 'cocina', 'cafeteria', 'Cocina chica con lavaplatos', ex1 - 60, caf[0][1] + 75, ex1, ey0 - 15, 90, 'O', 'mueble de 0,60 de fondo contra el muro oriente, al norte de la escalera; lavaplatos pequeño para lavar lo que se use')
+    mueble('cocina', 'cocina', 'cafeteria', 'Cocina chica con lavaplatos', ex1 - 60, caf[0][1] + 75, ex1, ey0 - MURO_ESC - 10, 90, 'O', 'mueble de 0,60 de fondo contra el muro oriente, al norte de la escalera; lavaplatos pequeño para lavar lo que se use')
     mueble('minibar', 'minibar', 'cafeteria', 'Minibar', ex1 - 55, caf[0][1] + 15, ex1 - 5, caf[0][1] + 65, 85, 'O', 'frigobar de 0,50 x 0,50 con puerta de vidrio, en la esquina nororiente junto a la cocina')
     mueble('lampara_barra', 'lampara', 'cafeteria', 'Lámpara colgante', ex0 - 75, ey0 + 125, ex0 - 45, ey0 + 155, 230, 'S', 'sobre la barra; cuelga del cielo')
     for k, (mx, my) in enumerate(mesas):
