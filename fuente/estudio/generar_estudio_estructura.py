@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Propuesta de estructura del estudio con búnker, adaptada del proyecto del ingeniero (láminas 03, 04 y 05 de
 abril de 2026, leídas de sus vectores: fuente/estudio/datos/) a la planta de Gabriel (medidas interiores:
-cafetería 6,00 x 10,05, estudio 9,00 x 7,30, baño 2,50 x 4,10, bodega 2,50 x 4,65; tabiques de 25; edificio de
+cafetería 6,20 x 10,25, estudio 9,00 x 7,50, baño 2,50 x 1,90, cabina 2,50 x 3,80, bodega 2,50 x 2,80; tabiques de 25; edificio de
 10,55 x 15,75 por fuera; búnker bajo la cafetería, al norte; techo al 3,5 % subiendo al sur como la casa).
 Genera estudio_estructura.js (DATA_ESTUDIO_EST): acero (mismo formato que estructura.js), hormigón del búnker,
 fundaciones, ejes, vanos (ventanas y puertas propuestas), esquema interior, cambios y preguntas.
@@ -78,12 +78,12 @@ def main(estudio_json, sitio_json, salida):
     xA = [MURO / 2, MURO / 2 + (x_tab - MURO / 2) / 3, MURO / 2 + 2 * (x_tab - MURO / 2) / 3, x_tab, W - MURO / 2]
     xN = ['1', '2', '3', '4', '5']
     yB = rec['estudio'][0][1] - MURO / 2                               # 637,5: tabique cafetería/estudio = muro sur del búnker (la cafetería es un polígono en L: no usar su punto 5)
-    yC = (rec['bano'][2][1] + rec['bodega'][0][1]) / 2                # 1072,5: tabique baño/bodega
+    yC = (rec['bano'][2][1] + rec['cabina'][0][1]) / 2                # 872,5: tabique baño/cabina (el tabique cabina/bodega no lleva eje ni pilar)
     yA = [MURO / 2, MURO / 2 + 200, yB, yC, L - MURO / 2 - 200, L - MURO / 2]   # A, A2, B, C, D, E
     yN = ['A', 'A2', 'B', 'C', 'D', 'E']
     ejes = dict(x={n: r1(v) for n, v in zip(xN, xA)}, y={n: r1(v) for n, v in zip(yN, yA)},
                 nota='Ejes 1-5 de poniente a oriente (el 4 sobre el tabique estudio/baño-bodega) y A-E de norte a sur: B sobre el tabique '
-                     'cafetería/estudio (= muro sur del búnker), C sobre el tabique baño/bodega; A2 y D a 2,00 m de las fachadas norte y sur, '
+                     'cafetería/estudio (= muro sur del búnker), C sobre el tabique baño/cabina; A2 y D a 2,00 m de las fachadas norte y sur, '
                      'para que las cruces queden en tramos de 2 m como las del original (2,05 y 1,82).')
     def ap(x, y, z): return [r1(ox + x), r1(oy + y), r1(z0 + z)]
     def z_viga(y): return Z_CORDON[1] + PEND * (y - yA[0])           # cara inferior de la viga inclinada: apoyada sobre la viga E-O 100x100 de +400/+410 (lámina 05: +411 en F1)
@@ -110,7 +110,7 @@ def main(estudio_json, sitio_json, salida):
         for xn, x in (('1', xA[0]), ('5', xA[4])):
             apoyo = 'sobre el muro del búnker' if y < yB else 'sobre zapata aislada'
             m(f'P-{xn}{yn}', 'pilar', 'RECT 150x100x3', (x, y, 0), (x, y, z_viga(y)), f'PM3 eje {xn} x {yn}, pilar intermedio de la fachada lateral, {apoyo}', alma='Y')
-    m('P-4C', 'pilar', 'RECT 150x100x3', (xA[3], yC, 0), (xA[3], yC, z_viga(yC)), 'PM3 eje 4 x C, en el encuentro de los tabiques estudio/baño/bodega (recibe la cruz E-O del eje C)', alma='Y')
+    m('P-4C', 'pilar', 'RECT 150x100x3', (xA[3], yC, 0), (xA[3], yC, z_viga(yC)), 'PM3 eje 4 x C, en el encuentro de los tabiques estudio/baño/cabina (recibe la cruz E-O del eje C)', alma='Y')
     # ---------- vigas E-O CUAD 100x100x3: de +400 a +410 en A, B, E y C (4-5), como la lámina 05 (opción A de Gabriel, 12-10-2026) ----------
     for yn, y, tramos in (('A', yA[0], range(4)), ('B', yB, range(4)), ('E', yA[5], range(4)), ('C', yC, [3])):
         for i in tramos:
@@ -152,7 +152,7 @@ def main(estudio_json, sitio_json, salida):
         cruz(f'X-{xn}-DE', (x, yA[4]), (x, yA[5]), f'cruz N-S en la fachada {"poniente" if xn == "1" else "oriente"}, tramo D-E (2,00 m), como A2-A1 del original')
     # en el tabique cafetería/baño (B, 4-5) va la puerta del baño pegada al eje 4: cabe una sola diagonal, del tope del pilar 4 a la base del 5
     m('X-B-45a', 'diagonal', 'C 150x50x3', (xA[3], yB, Z_CORDON[0] - 8), (xA[4], yB, 10), 'diagonal E-O única en el tabique cafetería/baño (eje B, tramo 4-5): la puerta del baño ocupa el lado del eje 4 y una cruz completa la cruzaría; propuesta, revisar')
-    cruz('X-C-45', (xA[3], yC), (xA[4], yC), 'cruz E-O en el tabique baño/bodega (eje C, tramo 4-5, muro ciego): propuesta')
+    cruz('X-C-45', (xA[3], yC), (xA[4], yC), 'cruz E-O en el tabique baño/cabina (eje C, tramo 4-5, muro ciego): propuesta')
     cruz('X-E-12', (xA[0], yA[5]), (xA[1], yA[5]), 'cruz E-O en la fachada sur, tramo 1-2 (muro ciego de los parlantes): propuesta')
     cruz('X-E-45', (xA[3], yA[5]), (xA[4], yA[5]), 'cruz E-O en la fachada sur, tramo 4-5 (bodega, muro ciego): propuesta')
     # ---------- tensores Fe 16 en el plano del techo: X en los paños extremos completos y en los vanos extremos del resto ----------
@@ -214,7 +214,8 @@ def main(estudio_json, sitio_json, salida):
     # ventana alta del baño en la fachada oriente (tramo B-C, sin cruces)
     vano('V-5-bano', 'ventana alta', 'oriente', xA[4], (yB + yC) / 2 - 75, xA[4], (yB + yC) / 2 + 75, 230, 290, 'ventana alta del baño (1,50 x 0,60) en la fachada oriente')
     # la bodega va sin ventana (Gabriel, 2026-10-12)
-    vano('P-4-bodega', 'puerta', 'tabique 4', xA[3], yC + 40, xA[3], yC + 130, 0, 240, 'puerta de la bodega desde el estudio (0,90)')
+    vano('P-4-bodega', 'puerta', 'tabique 4', xA[3], rec['bodega'][0][1] + 10, xA[3], rec['bodega'][0][1] + 100, 0, 240, 'puerta de la bodega desde el estudio (0,90), en el extremo norte de la bodega: lo más lejos posible de la posición de escucha')
+    vano('P-4-cabina', 'puerta', 'tabique 4', xA[3], rec['cabina'][0][1] + 15, xA[3], rec['cabina'][0][1] + 105, 0, 210, 'puerta acústica de la cabina desde el estudio (0,90 x 2,10, hoja maciza con doble burlete), en el extremo norte de la cabina, lejos de la posición de escucha; la cabina es ciega: sin ventana (Gabriel, 14-10-2026)')
     vano('P-esc', 'escalera', 'interior', ex0, ey1, ex0, y_desc, 0, 0, 'bajada al búnker: se entra por el descanso del sur y se baja hacia el norte')
     # puerta con llave al descanso de la escalera (seguridad del búnker), en el muro poniente de la caja de escalera
     vano('P-esc-puerta', 'puerta', 'muro escalera', ex0 + MURO_ESC / 2, y_desc - 95, ex0 + MURO_ESC / 2, y_desc - 5, 0, 210, 'puerta con llave al descanso de la escalera (0,90 x 2,10): la bajada al búnker queda cerrada por seguridad')
@@ -235,7 +236,7 @@ def main(estudio_json, sitio_json, salida):
     mueble('sofa', 'sofa', 'estudio', 'Sofá de clientes', ce_x - 130, est[0][1] + 120, ce_x + 130, est[0][1] + 210, 85, 'S', 'al norte, junto al vidrio hacia la cafetería')
     for k, yy in enumerate((est[0][1] + 280, est[0][1] + 430, est[0][1] + 580)):
         mueble(f'panel_o{k+1}', 'panel_acustico', 'estudio', 'Panel acústico 100 × 120', est[0][0], yy, est[0][0] + 6, yy + 100, 220, 'E', 'en el muro poniente, a 1,00 del piso')
-    for k, yy in enumerate((est[0][1] + 230, est[0][1] + 350, est[0][1] + 600)):   # en el oriente, lejos de la puerta de la bodega (yC+40..yC+130)
+    for k, yy in enumerate((est[0][1] + 340, est[0][1] + 470, est[0][1] + 745)):   # en el oriente, entre la puerta de la cabina (900..990) y la de la bodega (1300..1390), y al sur de esta
         mueble(f'panel_e{k+1}', 'panel_acustico', 'estudio', 'Panel acústico 100 × 120', est[1][0] - 6, yy, est[1][0], yy + 100, 220, 'O', 'en el muro oriente, a 1,00 del piso')
     mueble('alfombra', 'alfombra', 'estudio', 'Alfombra', ce_x - 200, est[2][1] - 460, ce_x + 200, est[2][1] - 100, 1, 'S', 'bajo la consola')
     # --- cafetería: cabina en el tramo 1-2, barra contra el muro de la escalera, mesas al centro ---
@@ -257,10 +258,18 @@ def main(estudio_json, sitio_json, salida):
         mueble(f'lampara_mesa{k+1}', 'lampara', 'cafeteria', 'Lámpara colgante', mx + 65, my + 25, mx + 95, my + 55, 230, 'S', 'sobre la mesa; cuelga del cielo')
     # --- baño y bodega ---
     ban = recT['bano']; bod = recT['bodega']
-    mueble('wc', 'wc', 'bano', 'Inodoro', ban[1][0] - 80, ban[2][1] - 75, ban[1][0] - 40, ban[2][1] - 5, 80, 'N', 'contra el tabique baño/bodega')
-    mueble('lavamanos', 'lavamanos', 'bano', 'Lavamanos con mueble', ban[1][0] - 50, ban[0][1] + 150, ban[1][0], ban[0][1] + 210, 85, 'O', 'en el muro oriente, bajo la ventana alta')
+    mueble('wc', 'wc', 'bano', 'Inodoro', ban[1][0] - 80, ban[2][1] - 75, ban[1][0] - 40, ban[2][1] - 5, 80, 'N', 'contra el tabique baño/cabina')
+    mueble('lavamanos', 'lavamanos', 'bano', 'Lavamanos con mueble', ban[1][0] - 50, ban[0][1] + 30, ban[1][0], ban[0][1] + 90, 85, 'O', 'en el muro oriente, bajo la ventana alta')
     mueble('estante_e', 'estante', 'bodega', 'Estantería metálica 40 de fondo', bod[1][0] - 40, bod[0][1] + 35, bod[1][0], bod[2][1] - 45, 200, 'O', 'en el muro oriente de la bodega')
     mueble('estante_s', 'estante', 'bodega', 'Estantería metálica 40 de fondo', bod[0][0] + 10, bod[2][1] - 40, bod[1][0] - 45, bod[2][1], 200, 'N', 'en el muro sur de la bodega')
+    # --- cabina de grabación (Gabriel, 14-10-2026): ciega, cielo a 3,00; alfombra, paneles en los muros y una silla para el músico ---
+    cab = recT['cabina']; cx_cab = (cab[0][0] + cab[1][0]) / 2
+    mueble('alfombra_cab', 'alfombra', 'cabina', 'Alfombra de la cabina', cab[0][0] + 20, cab[0][1] + 120, cab[1][0] - 20, cab[2][1] - 20, 1, 'S', 'del lado sur de la puerta, casi todo el piso: la cabina es seca')
+    for k, yy in enumerate((cab[0][1] + 130, cab[0][1] + 260)):   # al sur de la puerta (cab+15..cab+105)
+        mueble(f'panel_cab_o{k+1}', 'panel_acustico', 'cabina', 'Panel acústico 100 × 120', cab[0][0], yy, cab[0][0] + 6, yy + 100, 220, 'E', 'en el muro poniente de la cabina, a 1,00 del piso (por dentro va toda forrada: estos son los paneles visibles)')
+        mueble(f'panel_cab_e{k+1}', 'panel_acustico', 'cabina', 'Panel acústico 100 × 120', cab[1][0] - 6, yy, cab[1][0], yy + 100, 220, 'O', 'en el muro oriente de la cabina, a 1,00 del piso')
+    mueble('panel_cab_s', 'panel_acustico', 'cabina', 'Panel acústico 100 × 120', cx_cab - 50, cab[2][1] - 6, cx_cab + 50, cab[2][1], 220, 'N', 'en el muro sur de la cabina')
+    mueble('silla_cab', 'silla', 'cabina', 'Silla del músico', cx_cab - 22, cab[0][1] + 300, cx_cab + 23, cab[0][1] + 345, 85, 'N', 'al centro, mirando a la puerta')
     # ---------- techo, cielo, cubicación ----------
     cub = {}
     for mb in M: cub[mb['p']] = cub.get(mb['p'], 0) + math.dist(mb['a'], mb['b']) / 100
@@ -278,11 +287,12 @@ def main(estudio_json, sitio_json, salida):
         dict(que='Muro sur del búnker', original='—', nuevo='coincide con el tabique cafetería/estudio (eje B) y recibe sus 5 pilares', por='planta de Gabriel'),
         dict(que='Losa del búnker', original='e=20, luz 5,00 (ø10@20 N-S, ø8@20 E-O), VHA 25/40 en 2.a', nuevo='e=20, luz 6,00 (+20 %, +44 % de momento), VHA 25/40 en el eje 3 y viga de borde en la escalera', por='para el ingeniero'),
         dict(que='Marcos interiores', original='1.b y 1.c: pilares solo en F1 y A1 (10,25 m), cordón RECT 150x100x3 a +400, viga 200x150x5, puntales 150x100x3 cada 171', nuevo=f'ejes 2, 3 y 4: pilares en A, B y E; luces de {(yB-yA[0])/100:.2f} y {(yA[5]-yB)/100:.2f} m con el mismo esquema'.replace('.', ','), por='propuesta'),
+        dict(que='Franja oriente: baño, cabina y bodega', original='baño 2,50 x 4,10 y bodega 2,50 x 4,65 (planta del 11-10)', nuevo=f'baño 2,50 × 1,90, cabina de grabación 2,50 × 3,80 (cielo bajado a 3,00, ciega, tabiques dobles dentro de los 25) y bodega 2,50 × 2,80; el eje C pasa al tabique baño/cabina (B–C {yC-yB:.0f}, C–D {yA[4]-yC:.0f}) con su CF 25/40 y el pilar PM3 de 4 × C; la puerta de la bodega va en su extremo norte y la de la cabina en el suyo, lejos de la posición de escucha', por='Gabriel (14-10-2026): "2,5 x 4,1 será como un baño turco"; cabina al medio, ciega'),
         dict(que='Tabique del búnker y medidas terminadas', original='medidas interiores entre caras de hormigón (muros y tabiques de 25)', nuevo=f'tabique de {T:.0f} por dentro de los 4 muros de hormigón del búnker (del radier a la losa): el búnker mide {hormigon["interior"]["terminado"]["ancho"]/100:.2f} × {hormigon["interior"]["terminado"]["largo"]/100:.2f} terminado ({hormigon["interior"]["ancho"]/100:.2f} × {hormigon["interior"]["largo"]/100:.2f} entre muros); arriba muros y tabiques de 25 terminado, sin tabique extra; para eso los ejes 1–5 pasan de 10,30 a 10,50 y A–B de 6,25 a 6,45 → {W/100:.2f} × {L/100:.2f} m por fuera (antes 10,55 × 15,75); la cafetería queda de 10,25 × 6,20 y el estudio de 7,50 × 9,00'.replace('.', ','), por='Gabriel (14-10-2026): "el búnker tiene que medir lo que dijimos"; opción 1'),
         dict(que='Vigas E-O y cordones', original='todas a +400/+410 (lámina 05); en el marco alto (A1) los pilares pasan la viga y siguen hasta la viga inclinada', nuevo=f'+{Z_CORDON[0]:.0f}/+{Z_CORDON[1]:.0f} en A, B, C y E: {T_PISO + T_CIELO:.1f} cm más arriba, para que el cielo terminado quede a 4,00 sobre el porcelanato (piso {T_PISO:.1f} + cielo {T_CIELO:.1f}); los pilares crecen lo mismo; en B y E pasan la viga y siguen hasta la viga inclinada'.replace('.', ','), por='Gabriel (13-10-2026): 4,00 libres terminados; avisar al ingeniero'),
         dict(que='Fachadas laterales', original='1.a, 2.a, 3.a: pilares cada 1,25–3,43 m, viga 200x150x3, cruces en los tramos de 2,05 y 1,82', nuevo='ejes 1 y 5: pilares en A, A2, B, C, D, E; cruces en A-A2 y D-E (2,00 m)', por='propuesta'),
         dict(que='Pilares', original='21 (13 de 15×15 y 8 de 15×10 en la planta de cubierta)', nuevo=f'{sum(1 for mb in M if mb["c"] == "pilar")}; ninguno dentro de los recintos', por='propuesta'),
-        dict(que='Rigidez E-O', original='sin cruces E-O en las láminas', nuevo='cruces en los muros ciegos: tabique baño/bodega (C, 4-5) y fachada sur (1-2 y 4-5), y una sola diagonal en el tabique cafetería/baño (B, 4-5) por la puerta del baño; el vidrio entre cafetería y estudio queda libre', por='propuesta: revisar'),
+        dict(que='Rigidez E-O', original='sin cruces E-O en las láminas', nuevo='cruces en los muros ciegos: tabique baño/cabina (C, 4-5) y fachada sur (1-2 y 4-5), y una sola diagonal en el tabique cafetería/baño (B, 4-5) por la puerta del baño; el vidrio entre cafetería y estudio queda libre', por='propuesta: revisar'),
         dict(que='Costaneras', original='CA 100x50x15x3 @61, 20 por línea; colgadores ø10 en los paños de 3,65 y 3,30', nuevo=f'mismo perfil y paso, {n} por línea; paños de ≤ {max(xA[i+1]-xA[i] for i in range(4))/100:.2f} m: sin colgadores', por='propuesta'),
         dict(que='Fundaciones fuera del búnker', original='sobrecimiento 25 x 50 + cimiento corrido 80 x 25 (de −50 a −75) bajo el perímetro, CF 25/40 bajo el eje interior 2.a, radier 10 sobre poliestireno 10 y relleno 15 (lámina 01 rev 1)', nuevo='lo mismo: sobrecimiento y cimiento corrido bajo las fachadas fuera del búnker, CF 25/40 bajo los tabiques con pilares (ejes 4 y C), radier igual', por='dato del ingeniero, aplicado a la planta nueva'),
         dict(que='Base del búnker', original='zapata corrida de 100 x 30 bajo los muros (ø16@20 + 4ø10), radier 10 sobre relleno granular 10, emplantillado G5', nuevo='igual, con el búnker nuevo (todo 8 cm más abajo por los 2,80 de alto)', por='dato'),

@@ -133,7 +133,8 @@
     const bandas = [[x0, x1, y0, y0 + M], [x0, x1, y1 - M, y1], [x0, x0 + M, y0, y1], [x1 - M, x1, y0, y1]];
     if (rec.cafeteria && rec.estudio) bandas.push([x0, x1, rec.cafeteria.y1, rec.estudio.y0]);
     if (rec.estudio && rec.bano) bandas.push([rec.estudio.x1, rec.bano.x0, rec.estudio.y0, y1]);
-    if (rec.bano && rec.bodega) bandas.push([rec.bano.x0, x1, rec.bano.y1, rec.bodega.y0]);
+    if (rec.cabina){ if (rec.bano) bandas.push([rec.bano.x0, x1, rec.bano.y1, rec.cabina.y0]); if (rec.bodega) bandas.push([rec.cabina.x0, x1, rec.cabina.y1, rec.bodega.y0]); }
+    else if (rec.bano && rec.bodega) bandas.push([rec.bano.x0, x1, rec.bano.y1, rec.bodega.y0]);
     const muroEsc = H.escalera && H.escalera.muro && H.escalera.muro.pts ? bbox(H.escalera.muro.pts) : null;
     if (muroEsc) bandas.push([muroEsc.x0, muroEsc.x1, muroEsc.y0, muroEsc.y1]);
     else if (rec.escalera) bandas.push([rec.escalera.x0 - 1.5 * M, rec.escalera.x0 - 0.5 * M, rec.escalera.y0, rec.escalera.y1]);

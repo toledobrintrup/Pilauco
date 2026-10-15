@@ -95,7 +95,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V89" data-vista="3d"></script>
+    <script src="menu.js?v=V90" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -165,16 +165,16 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V89"></script>
-<script src="data.js?v=V89"></script>
-<script src="estructura.js?v=V89"></script>
-<script src="losa.js?v=V89"></script>
-<script src="sitio.js?v=V89"></script>
-<script src="sitio3d.js?v=V89"></script>
-<script src="estudio_estructura.js?v=V89"></script>
-<script src="mobiliario3d.js?v=V89"></script>
-<script src="cotas3d.js?v=V89"></script>
-<script src="goku3d.js?v=V89"></script>
+<script src="nav3d.js?v=V90"></script>
+<script src="data.js?v=V90"></script>
+<script src="estructura.js?v=V90"></script>
+<script src="losa.js?v=V90"></script>
+<script src="sitio.js?v=V90"></script>
+<script src="sitio3d.js?v=V90"></script>
+<script src="estudio_estructura.js?v=V90"></script>
+<script src="mobiliario3d.js?v=V90"></script>
+<script src="cotas3d.js?v=V90"></script>
+<script src="goku3d.js?v=V90"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -182,10 +182,10 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
   // funciona de fondo bajo texto se ve casi blanco en una superficie 3D iluminada.
   const dark = document.documentElement.dataset.theme === 'dark' || (document.documentElement.dataset.theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);   // menu.js pone data-theme desde la elección guardada
   const KIND_COLOR = dark ? {
-    oficina:0x3C577A, dorm:0x3E6148, bano:0x2F6B75, closet:0x7A6334, estar:0x7A5248,
+    oficina:0x3C577A, dorm:0x3E6148, bano:0x2F6B75, cabina:0x5A3E66, closet:0x7A6334, estar:0x7A5248,
     hall:0x5B6269, otro:0x5B6269, cocina:0x5D4E82, serv:0x7A6334, terraza:0x3E6148,
   } : {
-    oficina:0x9AB4D8, dorm:0x9FC9A8, bano:0x8FCAD2, closet:0xE3BE7E, estar:0xDCA99A,
+    oficina:0x9AB4D8, dorm:0x9FC9A8, bano:0x8FCAD2, cabina:0xC9A9D4, closet:0xE3BE7E, estar:0xDCA99A,
     hall:0xAFB6BE, otro:0xAFB6BE, cocina:0xB7A0D9, serv:0xE3BE7E, terraza:0x9FC9A8,
   };
   const WALL_COLOR = dark ? 0x4A5058 : 0x8F97A2;
@@ -613,10 +613,12 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     segs.push({a: [ext[1][0], ext[2][1] - h], b: [ext[0][0], ext[2][1] - h], e: M, nombre: 'fachada sur'});
     segs.push({a: [ext[0][0] + h, ext[2][1] - M], b: [ext[0][0] + h, ext[0][1] + M], e: M, nombre: 'fachada poniente'});
     const r = {}; E.recintos.forEach(rc => { r[rc.id] = rc.pts; });
-    const yB = r.estudio[0][1] - M / 2, x4 = (r.estudio[1][0] + r.bano[0][0]) / 2, yC = (r.bano[2][1] + r.bodega[0][1]) / 2;   // eje del tabique cafetería/estudio = muro sur del búnker (la cafetería es un polígono en L)
+    const yB = r.estudio[0][1] - M / 2, x4 = (r.estudio[1][0] + r.bano[0][0]) / 2;   // eje del tabique cafetería/estudio = muro sur del búnker (la cafetería es un polígono en L)
     segs.push({a: [ext[0][0] + M, yB], b: [ext[1][0] - M, yB], e: M, nombre: 'tabique cafetería/estudio'});
-    segs.push({a: [x4, yB + h], b: [x4, ext[2][1] - M], e: M, nombre: 'tabique estudio/baño-bodega'});
-    segs.push({a: [x4 + h, yC], b: [ext[1][0] - M, yC], e: M, nombre: 'tabique baño/bodega'});
+    segs.push({a: [x4, yB + h], b: [x4, ext[2][1] - M], e: M, nombre: 'tabique estudio/baño-cabina-bodega'});
+    // tabiques de la franja oriente, uno entre cada par de recintos vecinos (baño | cabina | bodega; sin cabina, baño | bodega)
+    const franja = ['bano', 'cabina', 'bodega'].filter(id => r[id]);
+    for (let i = 0; i + 1 < franja.length; i++){ const yT = (r[franja[i]][2][1] + r[franja[i + 1]][0][1]) / 2; segs.push({a: [x4 + h, yT], b: [ext[1][0] - M, yT], e: M, nombre: `tabique ${franja[i] === 'bano' ? 'baño' : franja[i]}/${franja[i + 1]}`}); }
     // caja de escalera en hormigón armado (Gabriel): muro poniente dentro del 1,53 de la planta (23,3), hasta el tabique, con la puerta del
     // descanso; y muro norte hacia la minicocina
     const escD = D.hormigon.escalera, mE = escD.muro, mN = escD.muro_norte;
@@ -703,7 +705,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     // pisos terminados por recinto: porcelanato en todo (Gabriel, 13-10-2026), sobre el NPT (NPOG + piso 1,5); en el búnker también, sobre su NPT
     const tPiso = E.terminaciones ? E.terminaciones.piso : 0, npt = E.npt != null ? E.npt : z0 + 0.6;
     const pisoTxt = `porcelanato sobre adhesivo y sobrelosa de nivelación (${(tPiso || 5.5).toLocaleString('es-CL')} cm sobre la obra gruesa), piso terminado a NPT +${(tPiso || 0).toLocaleString('es-CL')}`;
-    const pisos = {estudio: ['porcelanato', pisoTxt], cafeteria: ['porcelanato', pisoTxt], bano: ['porcelanato', pisoTxt], bodega: ['porcelanato', pisoTxt]};
+    const pisos = {estudio: ['porcelanato', pisoTxt], cafeteria: ['porcelanato', pisoTxt], bano: ['porcelanato', pisoTxt], bodega: ['porcelanato', pisoTxt], cabina: ['madera', 'piso de madera sobre la sobrelosa (cabina de grabación, propuesta)']};
     E.recintos.forEach(rc => {
       const def = pisos[rc.id]; if (!def) return;
       const mat = new THREE.MeshLambertMaterial({map: texturaPiso(def[0]), side: THREE.DoubleSide});
@@ -753,10 +755,11 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     E.recintos.forEach(rc => {
       if (rc.id === 'escalera') return;
       const ptsC = rc.terminado || rc.pts, v2 = ptsC.map(q => new THREE.Vector2(q[0], q[1])), tris = THREE.ShapeUtils.triangulateShape(v2, []), pos = [];
-      tris.forEach(t => t.forEach(i => { const q = ptsC[i]; pos.push(cm(q[0]), cm(zCielo(q[1]) - 0.5), cm(q[1])); }));
+      const zC = y => rc.cielo_z !== undefined ? rc.cielo_z : zCielo(y);   // cielo propio del recinto (la cabina baja a 3,00) o el plano general a 4,00
+      tris.forEach(t => t.forEach(i => { const q = ptsC[i]; pos.push(cm(q[0]), cm(zC(q[1]) - 0.5), cm(q[1])); }));
       const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.computeVertexNormals();
       const mesh = new THREE.Mesh(geo, matCielo); mesh.userData.cieloEstudio = true;
-      g.add(ficha(mesh, 'Cielo de ' + rc.nombre.split(' (')[0].toLowerCase(), `plano a ${((zCielo(rc.pts[0][1]) - z0) / 100).toFixed(2).replace('.', ',')} m (Gabriel); sobre él, el entretecho con las vigas y la pendiente del techo · bajo las vigas (propuesta)`));
+      g.add(ficha(mesh, 'Cielo de ' + rc.nombre.split(' (')[0].toLowerCase(), `plano a ${((zC(rc.pts[0][1]) - z0) / 100).toFixed(2).replace('.', ',')} m${rc.cielo_z !== undefined ? ' (bajado: cabina)' : ' (Gabriel)'}; sobre él, el entretecho con las vigas y la pendiente del techo · bajo las vigas (propuesta)`));
     });
     // escalera al búnker: 16 peldaños terminados, baranda en el borde sur del hueco y pasamanos en el muro
     // tramo real (3,75 desde el descanso hacia el norte, sigue bajo la losa dentro del búnker); el hueco en la losa es más corto

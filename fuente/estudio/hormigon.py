@@ -119,7 +119,7 @@ def armar(c):
                     nota='bajo las fachadas fuera del búnker; el original lo lleva bajo todo su perímetro F1 y sus esquinas, con placas PLb encima de cada pilar')
     hcf = CF[0] / 2; z_cf_sup = CF_TOPE - GAP; z_cf_inf = CF_TOPE - CF[1]; z_cfe_inf = z_cf_inf - EMPLANTILLADO   # −10,5, −50 (= NTN), −60
     cf_piezas = [pieza('CF-4', xA[3] - hcf, by1, xA[3] + hcf, yA[5] - hs, z_cf_inf, z_cf_sup, 'CF 25/40', 'bajo el tabique estudio/baño-bodega (eje 4), del búnker a la fachada sur, bajo el radier'),
-                 pieza('CF-C', xA[3] + hcf, yC - hcf, xA[4] - hs, yC + hcf, z_cf_inf, z_cf_sup, 'CF 25/40', 'bajo el tabique baño/bodega (eje C), del eje 4 a la fachada oriente, bajo el radier')]
+                 pieza('CF-C', xA[3] + hcf, yC - hcf, xA[4] - hs, yC + hcf, z_cf_inf, z_cf_sup, 'CF 25/40', 'bajo el tabique baño/cabina (eje C), del eje 4 a la fachada oriente, bajo el radier')]
     cf = dict(ancho=CF[0], alto=CF[1], z_sup=Z(CF_TOPE), z_inf=Z(z_cf_inf), piezas=cf_piezas,
               emplantillado=dict(espesor=EMPLANTILLADO, z_sup=Z(z_cf_inf - GAP), z_inf=Z(z_cfe_inf), hormigon='G5',
                                  piezas=[dict(id=p['id'].replace('CF', 'EMP'), pts=rect(min(q[0] for q in p['pts']) - 7.5 - c['ox'], min(q[1] for q in p['pts']) - 7.5 - c['oy'], max(q[0] for q in p['pts']) + 7.5 - c['ox'], max(q[1] for q in p['pts']) + 7.5 - c['oy'])) for p in cf_piezas]),
@@ -130,10 +130,10 @@ def armar(c):
     g = GAP
     rad_pts = [('estudio', xA[0] + hs + g, by1 + g, xA[3] - hcf - g, yA[5] - hs - g),
                ('bano', xA[3] + hcf + g, by1 + g, xA[4] - hs - g, yC - hcf - g),
-               ('bodega', xA[3] + hcf + g, yC + hcf + g, xA[4] - hs - g, yA[5] - hs - g)]
+               ('cabina y bodega', xA[3] + hcf + g, yC + hcf + g, xA[4] - hs - g, yA[5] - hs - g)]   # el tabique cabina/bodega se apoya en el radier (sin CF)
     capas = [('radier', 'Radier e=10', 0, -RADIER_EST), ('poliestireno', 'Poliestireno expandido de alta densidad e=100', -RADIER_EST - g, -RADIER_EST - POLIESTIRENO),
              ('relleno', 'Relleno granular 15 (T.máx 1 1/2", 90 % Proctor modificado) sobre sub base granular compactada', -RADIER_EST - POLIESTIRENO - g, -RADIER_EST - POLIESTIRENO - RELLENO_EST)]
-    rad_cont = [('estudio, baño y bodega', xA[0] + hs + g, by1 + g, xA[4] - hs - g, yA[5] - hs - g)]   # el radier es continuo: pasa sobre los CF
+    rad_cont = [('estudio, baño, cabina y bodega', xA[0] + hs + g, by1 + g, xA[4] - hs - g, yA[5] - hs - g)]   # el radier es continuo: pasa sobre los CF
     radier_estudio = dict(capas=[dict(id=k, nombre=nm, z_sup=Z(zs), z_inf=Z(zi), piezas=[dict(id=f'{k}-{r}', pts=rect(x0, y0, x1, y1), recinto=r) for r, x0, y0, x1, y1 in (rad_cont if k == 'radier' else rad_pts)]) for k, nm, zs, zi in capas],
                           fuente='lámina 01 rev 1, corte b-b (radier 10 sobre poliestireno 10, relleno 15 y sub base)')
 

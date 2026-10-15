@@ -62,7 +62,7 @@ ficha y de dónde sale el dato:
 - **Gimnasio** — ya construido: la planta en L de 9,02 × 7,00 m y la cubierta de un agua con sus
   aleros, de la lámina L11 del arquitecto, puestas donde las ubica el emplazamiento.
 - **Estudio y búnker** — los volúmenes de la planta de Gabriel (10,75 × 15,95 m por fuera, muros de 25 terminado y tabique de 10 por dentro del búnker: cafetería y cowork
-  con sala de grabación, estudio de producción, baño, bodega y la escalera al búnker), con el búnker
+  con sala de grabación, estudio de producción, baño, cabina de grabación, bodega y la escalera al búnker), con el búnker
   de 2,80 m bajo la cafetería, centrado en la excavación que ya está hecha; el cielo mide 4,00 m al
   norte y sube con la pendiente de la casa. La estructura y las fundaciones las define el ingeniero.
   Se dibuja también, solo como contorno, el edificio B que había puesto el arquitecto.

@@ -4,7 +4,7 @@
  "exterior": {
   "ancho": 1075.0,
   "largo": 1595.0,
-  "dato": "Gabriel (2026-10-12/14): las cotas de la planta son medidas terminadas; arriba muros y tabiques de 25 terminado (sin tabique extra: 'se considera 25 cm terminado'); el búnker lleva un tabique de 10 por dentro de sus 4 muros de hormigón y tiene que medir 10,05 x 6,00 terminado (opción 1, 14-10-2026): ejes 1-5 = 10,50 y A-B = 6,45 → 10,75 x 15,95 por fuera (antes 10,55 x 15,75); la cafetería crece a 10,25 x 6,20 y el estudio a 7,50 x 9,00"
+  "dato": "Gabriel (2026-10-12/14): las cotas de la planta son medidas terminadas; arriba muros y tabiques de 25 terminado (sin tabique extra: 'se considera 25 cm terminado'); el búnker lleva un tabique de 10 por dentro de sus 4 muros de hormigón y tiene que medir 10,05 x 6,00 terminado (opción 1, 14-10-2026): ejes 1-5 = 10,50 y A-B = 6,45 → 10,75 x 15,95 por fuera (antes 10,55 x 15,75); la cafetería crece a 10,25 x 6,20 y el estudio a 7,50 x 9,00; franja oriente (14-10-2026): baño 1,90 + cabina 3,80 + bodega 2,80 entre tabiques de 25"
  },
  "muro": {
   "espesor": 25.0,
@@ -114,14 +114,39 @@
     ],
     [
      1050,
-     1080
+     860
     ],
     [
      800,
-     1080
+     860
     ]
    ],
-   "dato": "2,50 x 4,10 entre muros de 25 terminado"
+   "dato": "2,50 x 1,90 entre muros de 25 terminado (Gabriel, 14-10-2026: el baño de 2,50 x 4,10 'será como un baño turco'; la franja oriente se parte en baño, cabina y bodega); puerta desde la cafetería, ventana alta al oriente"
+  },
+  {
+   "id": "cabina",
+   "nombre": "Cabina de grabación",
+   "tipo": "cabina",
+   "pts": [
+    [
+     800,
+     885
+    ],
+    [
+     1050,
+     885
+    ],
+    [
+     1050,
+     1265
+    ],
+    [
+     800,
+     1265
+    ]
+   ],
+   "cielo_cm": 300.0,
+   "dato": "para voz y guitarra acústica seca: 2,50 x 3,80 entre muros de 25 terminado y cielo bajado a 3,00 (proporción 1 : 1,5 : 1,2, sin dos medidas iguales); ciega: sin ventana al exterior ni al estudio (Gabriel, 14-10-2026); al medio de la franja, con la bodega de colchón contra el ruido del baño; tabiques dobles dentro de los 25 (dos bastidores separados, lana de 10, doble placa por cara); puerta acústica maciza con doble burlete hacia el estudio, en el extremo norte (lejos de la posición de escucha); por dentro absorción gruesa y trampas en las esquinas; inyección de aire silenciosa por el plenum de 1,00 sobre el cielo"
   },
   {
    "id": "bodega",
@@ -130,11 +155,11 @@
    "pts": [
     [
      800,
-     1105
+     1290
     ],
     [
      1050,
-     1105
+     1290
     ],
     [
      1050,
@@ -145,7 +170,7 @@
      1570
     ]
    ],
-   "dato": "2,50 x 4,65 entre muros de 25 terminado"
+   "dato": "2,50 x 2,80 entre muros de 25 terminado, al sur de la cabina; puerta desde el estudio en su extremo norte"
   }
  ],
  "alturas": {

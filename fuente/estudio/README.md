@@ -2,7 +2,7 @@
 
 El ingeniero proyectó en abril de 2026 (láminas 03, 04 y 05, en iCloud `02_Ingeniería/03_Estudio Pilauco/`; no
 entran al repositorio) un estudio de 11,05 × 10,25 m entre ejes con un búnker de 5,00 × 10,55 m interiores bajo
-un extremo. La planta nueva de Gabriel (`fuente/sitio/estudio.json`) mide 10,75 × 15,95 m por fuera (arriba muros y tabiques de 25 terminado; el búnker lleva un tabique de 10 por dentro de sus 4 muros de hormigón y mide 10,05 × 6,00 terminado; cafetería 10,25 × 6,20, estudio 7,50 × 9,00), lleva el búnker bajo la
+un extremo. La planta nueva de Gabriel (`fuente/sitio/estudio.json`) mide 10,75 × 15,95 m por fuera (arriba muros y tabiques de 25 terminado; el búnker lleva un tabique de 10 por dentro de sus 4 muros de hormigón y mide 10,05 × 6,00 terminado; cafetería 10,25 × 6,20, estudio 7,50 × 9,00; franja oriente partida el 14-10-2026 en baño 2,50 × 1,90, cabina de grabación 2,50 × 3,80 ciega con cielo a 3,00 y bodega 2,50 × 2,80), lleva el búnker bajo la
 cafetería (al norte) y el techo subiendo al sur. `generar_estudio_estructura.py` arma la propuesta con el mismo
 sistema del ingeniero y escribe `estudio_estructura.js` (DATA_ESTUDIO_EST):
 
@@ -46,8 +46,8 @@ y rev 1 (27-04-2026); 02 rev G (07-04); 03 rev G/H; 04 rev G/H/I (11-04); 05 rev
 
 La planta de Gabriel se toma con medidas interiores (2026-10-12: "la cafetería tiene que medir 6 m interiores, estas son
 las medidas, no otras") y terminadas: desde el 14-10-2026 el búnker lleva un tabique de 10 por dentro de sus 4 muros de hormigón ("encima de ese muro nosotros haremos tabiquería en las 4 paredes interiores") y tiene que medir 10,05 × 6,00 terminado, así que los ejes 1–5 pasan a 10,50 y A–B a 6,45 (opción 1: "si tiene que crecer un poco la cafetería, que sea así"); arriba muros y tabiques de 25 terminado, sin tabique extra ("se considera 25 cm terminado"); el edificio mide 10,75 × 15,95 por fuera, la cafetería 10,25 × 6,20 y el estudio 7,50 × 9,00. `fuente/sitio/geom.py` desplaza el búnker 10 hacia adentro (`terminado`). Ejes 1–5 a 258,3 | 258,4 | 258,3 | 275
-(el 4 sobre el tabique estudio/baño) y A–E a 200 | 445 | 435 | 290 | 200 (B sobre el tabique cafetería/estudio, que
-coincide con el muro sur del búnker; C sobre el tabique baño/bodega; A2 y D a 2 m de las fachadas para que las cruces
+(el 4 sobre el tabique estudio/baño) y A–E a 200 | 445 | 215 | 510 | 200 (B sobre el tabique cafetería/estudio, que
+coincide con el muro sur del búnker; C sobre el tabique baño/cabina (el tabique cabina/bodega no lleva eje); A2 y D a 2 m de las fachadas para que las cruces
 queden en tramos de 2 m como las del original); 22 pilares, ninguno dentro de los recintos; cruces N-S en A–A2 y D–E de
 las fachadas laterales y E-O solo en muros ciegos (C 4-5, fachada sur 1-2 y 4-5, y una sola diagonal en B 4-5 por la
 puerta del baño); búnker de 10,05 × 6,00 terminado entre tabiques (10,25 × 6,20 entre muros) × 2,80 libres terminados (2,91 de obra gruesa) con VHA 25/40 en el eje 3 y viga de borde en la escalera. Fuera del
@@ -60,7 +60,7 @@ La cubicación del ingeniero no se usa como referencia.
 `vanos`: vidrio de piso terminado a cielo terminado (4,00) solo en los dos tramos centrales de la fachada norte y del tabique B (Gabriel, 13-10-2026) (corredera en el tramo 2-3, en el eje del estudio), tabique vidriado de piso
 a cielo (4,00 libres; la viga E-O de +4,11 y la franja sobre ella quedan en el entretecho) entre cafetería y estudio con corredera centrada en el estudio, una ventana de piso a cielo centrada en la
 fachada sur entre los parlantes, entrada de 1,80 por el poniente (pegada al pilar A2), puertas del baño (desde la cafetería, pegada al eje 4)
-y de la bodega (desde el estudio), ventana alta del baño al oriente (la bodega sin ventana). La escalera (de hormigón, en su caja de muros de 23,3 con puerta con llave en el descanso) se entra por el sur y baja hacia el norte. Aleros de 1,00 m como la casa (Gabriel). `interior`: parlantes, consola, rack, silla, sofá, paneles acústicos,
+y de la bodega (desde el estudio, en el extremo norte de la bodega) y puerta acústica de la cabina (desde el estudio, en el extremo norte de la cabina: las dos lejos de la posición de escucha), ventana alta del baño al oriente (bodega y cabina sin ventana: la cabina es ciega a pedido de Gabriel). La escalera (de hormigón, en su caja de muros de 23,3 con puerta con llave en el descanso) se entra por el sur y baja hacia el norte. Aleros de 1,00 m como la casa (Gabriel). `interior`: parlantes, consola, rack, silla, sofá, paneles acústicos,
 alfombra, barra con taburetes, mesas con sillas, lámparas, cocina chica con lavaplatos y minibar en la esquina nororiente, baño y estanterías (sin
 cabina de grabación por ahora, Gabriel 2026-10-12), solo
 como idea para conversar. `hormigon` (muros, losa, zapata corrida, cimiento, CF, radieres, placas, niveles), `fierros` (familias de barras para la capa Enfierradura del 3D) y `cubicacion_hormigon` (m³ y kg): `hormigon.py`. Todo se dibuja en
