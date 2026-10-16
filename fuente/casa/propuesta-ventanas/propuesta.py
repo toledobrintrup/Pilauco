@@ -33,7 +33,7 @@ ACT=[
 ]
 # ---------- PROPUESTA v2 (15-10-2026, tarde): todo piso a cielo. Nivel 1 hasta 3,10 (bajo la viga IPE 300); nivel 2 hasta el cielo bajo los cabios (techo−4,35 → 2,65 al norte, 3,35 al sur) ----------
 N1H=340   # vidrios del nivel 1 de 3,40: lo máximo bajo la viga del entrepiso (3,50) con el nivel 1 de 3,80 medido en terreno
-def d2(y): return 280          # nivel 2 todas iguales de 2,80 (Gabriel: todas iguales; 3,00 libres bajo los cabios en el norte con el techo subido 20 cm); el cielo real es int((techo(y)-435)//5*5)
+def d2(y): return 280 if y < 30 else 300   # nivel 2 de 3,00 salvo la fachada norte, de 2,80 (Gabriel, 16-10-2026); el cielo real es int((techo(y)-454)//5*5) (Gabriel: todas iguales; 3,00 libres bajo los cabios en el norte con el techo subido 20 cm); el cielo real es int((techo(y)-435)//5*5)
 def dd(y): return int((techo(y)-74)//5*5)           # doble altura: cielo del nivel 2 bajo las vigas (techo − 74, como cielo_n2 y CIELO_HALL)
 PROP=[
  # norte N1 (la sala de máquinas la indica Gabriel)
@@ -100,7 +100,7 @@ def df(lista):
         Aw=(hi-lo)*(z1-z0)/1e4; area[(rec,niv)]=area.get((rec,niv),0)+Aw
         A,per=rooms.get((rec,niv),(None,None))
         if A is None: continue
-        h=3.2 if niv==1 else 3.1
+        h=3.5 if niv==1 else 3.1   # alturas libres: nivel 1 bajo la viga, nivel 2 bajo la estructura del techo en el norte
         th=theta(fach,niv,plano,lo,hi)
         out[(rec,niv)]=out.get((rec,niv),0)+0.63*Aw*th/((2*A+per*h)*0.75)
     return out, area

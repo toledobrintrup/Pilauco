@@ -134,7 +134,7 @@ def dibujar(f):
     g.append(f'<text x="{ML}" y="34" class="t">{tit} · propuesta de ventanas</text>')
     g.append(f'<text x="{ML}" y="58" class="nota">vista desde afuera ({izq}) · planos más lejanos en gris más oscuro · gris punteado = ventanas del plano de hoy · azul = propuesta · celeste = vidrio satinado (baños) · café = puertas</text>')
     g.append(f'<text x="{ML}" y="76" class="nota">naranjo punteado = pilares del ingeniero (eje) · X naranja = paño ciego por cruz o celosía del ingeniero · achurado = vigas y costaneras bajo el techo</text>')
-    g.append(f'<text x="{ML}" y="94" class="nota">todas iguales por nivel: nivel 1 de 3,40, lo máximo bajo la viga (el nivel 1 mide 3,80 a la viga, medido en terreno) · nivel 2 de 2,80 (el nivel 2 queda con 3,00 libres en el norte: techo 20 cm más alto, misma pendiente) · punto blanco = hoja que abre</text>')
+    g.append(f'<text x="{ML}" y="94" class="nota">todas iguales por nivel: nivel 1 de 3,40, lo máximo bajo la viga (el nivel 1 mide 3,80 a la viga, medido en terreno) · nivel 2 de 3,00, salvo la fachada norte de 2,80 (ahí el puntal del techo queda a 3,00 justos) · punto blanco = hoja que abre</text>')
     legy=hpx-40
     for i,(c,t) in enumerate((('#4A90D9','ventana / ventanal piso a cielo'),('#8ec3ee','vidrio satinado hasta 1,8 (baños)'),('#5aa4e6','puerta vidriada / doble altura'),('#8B6A45','puerta'))):
         g.append(f'<rect x="{ML+i*300}" y="{legy-11}" width="16" height="12" fill="{c}"/><text x="{ML+i*300+22}" y="{legy}" class="nota">{t}</text>')

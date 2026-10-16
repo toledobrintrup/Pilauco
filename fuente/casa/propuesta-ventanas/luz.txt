@@ -1,23 +1,23 @@
 1 Bodega             actual   0.0 m² DF   0.0% →     0 lux | propuesta   0.0 m² DF   0.0% →     0 lux
-1 Chiflonera         actual   0.0 m² DF   0.0% →     0 lux | propuesta   3.1 m² DF   1.4% →   217 lux
-1 Cocina             actual  15.0 m² DF   2.0% →   294 lux | propuesta  18.2 m² DF   2.4% →   357 lux
-1 Comedor            actual  15.2 m² DF   2.4% →   354 lux | propuesta  21.6 m² DF   3.4% →   517 lux
-1 Galería            actual   5.6 m² DF   0.9% →   129 lux | propuesta   6.8 m² DF   1.0% →   157 lux
-1 Hall               actual  44.2 m² DF  28.4% →  4254 lux | propuesta  50.4 m² DF  31.5% →  4729 lux
-1 Lavandería         actual   6.0 m² DF   2.8% →   427 lux | propuesta   8.2 m² DF   3.8% →   577 lux
-1 Living             actual  32.1 m² DF   4.8% →   714 lux | propuesta  39.0 m² DF   5.8% →   867 lux
-1 Oficina            actual  27.5 m² DF  12.8% →  1923 lux | propuesta  23.1 m² DF   9.6% →  1434 lux
+1 Chiflonera         actual   0.0 m² DF   0.0% →     0 lux | propuesta   3.1 m² DF   1.3% →   202 lux
+1 Cocina             actual  15.0 m² DF   1.9% →   282 lux | propuesta  18.2 m² DF   2.3% →   342 lux
+1 Comedor            actual  15.2 m² DF   2.2% →   336 lux | propuesta  21.6 m² DF   3.3% →   492 lux
+1 Galería            actual   5.6 m² DF   0.8% →   122 lux | propuesta   6.8 m² DF   1.0% →   148 lux
+1 Hall               actual  44.2 m² DF  26.9% →  4028 lux | propuesta  50.4 m² DF  29.9% →  4478 lux
+1 Lavandería         actual   6.0 m² DF   2.7% →   404 lux | propuesta   8.2 m² DF   3.6% →   545 lux
+1 Living             actual  32.1 m² DF   4.6% →   684 lux | propuesta  39.0 m² DF   5.5% →   831 lux
+1 Oficina            actual  27.5 m² DF  12.2% →  1823 lux | propuesta  23.1 m² DF   9.1% →  1359 lux
 1 Sala de máquinas   actual   0.0 m² DF   0.0% →     0 lux | propuesta   0.0 m² DF   0.0% →     0 lux
-2 Baño hijos         actual   4.1 m² DF   2.6% →   397 lux | propuesta   4.2 m² DF   2.7% →   405 lux
-2 Baño matrimonial   actual   8.3 m² DF   4.8% →   716 lux | propuesta   7.8 m² DF   4.5% →   673 lux
-2 Baño visitas       actual   4.1 m² DF   4.6% →   685 lux | propuesta   3.9 m² DF   4.4% →   657 lux
-2 Dorm. hijo 1       actual   8.2 m² DF   3.0% →   452 lux | propuesta   8.1 m² DF   3.0% →   445 lux
-2 Dorm. hijo 2       actual  12.4 m² DF   4.6% →   686 lux | propuesta  15.0 m² DF   5.5% →   830 lux
-2 Dorm. matrimonial  actual  16.0 m² DF   6.4% →   964 lux | propuesta  20.0 m² DF   8.0% →  1205 lux
-2 Dorm. visitas      actual   6.8 m² DF   4.1% →   622 lux | propuesta  13.4 m² DF   8.2% →  1223 lux
-2 Family room        actual   5.0 m² DF   1.1% →   158 lux | propuesta   6.7 m² DF   1.4% →   215 lux
+2 Baño hijos         actual   4.1 m² DF   2.6% →   397 lux | propuesta   4.5 m² DF   2.9% →   434 lux
+2 Baño matrimonial   actual   8.3 m² DF   4.8% →   716 lux | propuesta   8.4 m² DF   4.8% →   721 lux
+2 Baño visitas       actual   4.1 m² DF   4.6% →   685 lux | propuesta   4.2 m² DF   4.7% →   704 lux
+2 Dorm. hijo 1       actual   8.2 m² DF   3.0% →   452 lux | propuesta   8.7 m² DF   3.2% →   477 lux
+2 Dorm. hijo 2       actual  12.4 m² DF   4.6% →   686 lux | propuesta  16.1 m² DF   5.9% →   889 lux
+2 Dorm. matrimonial  actual  16.0 m² DF   6.4% →   964 lux | propuesta  20.6 m² DF   8.3% →  1239 lux
+2 Dorm. visitas      actual   6.8 m² DF   4.1% →   622 lux | propuesta  14.4 m² DF   8.7% →  1310 lux
+2 Family room        actual   5.0 m² DF   1.1% →   158 lux | propuesta   7.2 m² DF   1.5% →   230 lux
 2 WKC Gabriel        actual   0.0 m² DF   0.0% →     0 lux | propuesta   6.7 m² DF   5.2% →   782 lux
-2 WKC Maggie         actual  19.4 m² DF   7.1% →  1063 lux | propuesta  13.4 m² DF   4.9% →   735 lux
-2 WKC hijo 2         actual   2.7 m² DF   2.2% →   331 lux | propuesta   3.4 m² DF   2.7% →   410 lux
+2 WKC Maggie         actual  19.4 m² DF   7.1% →  1063 lux | propuesta  13.9 m² DF   5.1% →   761 lux
+2 WKC hijo 2         actual   2.7 m² DF   2.2% →   331 lux | propuesta   3.6 m² DF   2.9% →   439 lux
 
-VIDRIO TOTAL (sin puertas opacas): actual 233 m² · propuesta 273 m²
+VIDRIO TOTAL (sin puertas opacas): actual 233 m² · propuesta 279 m²

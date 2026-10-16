@@ -38,7 +38,7 @@ nivel 1 sube 34 cm en `generar_estructura_js.py`; antes el dato venía del plano
 estructura). Nivel 1 abajo hasta la losa, Nivel 2 arriba hasta el techo siguiendo su pendiente,
 el techo con su pendiente real encima. Las ventanas son las de la **propuesta de ventanas** elegida
 por Gabriel el 15-10-2026 (todo piso a cielo e iguales por nivel: nivel 1 de 3,40 (lo máximo bajo la viga de entrepiso), nivel 2
-de 2,80; módulo de 2,4 con las jambas en los pilares y
+de 3,00, salvo la fachada norte, de 2,80, donde el puntal del techo queda a 3,00 justos; módulo de 2,4 con las jambas en los pilares y
 fuera de las cruces del ingeniero; oficina con toda la pared norte a la piscina y tabiques vidriados
 al living y a la galería; comedor en 3 paños con los pilares a la vista; lavandería con ventana y
 puerta de servicio; baños piso a cielo con vidrio satinado; closets con ventana de 2,4) con marcos

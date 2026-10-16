@@ -19,13 +19,16 @@ Desde el 15-10-2026 la vista 3D dibuja la casa con sus muros reales en vez de un
   dentro del recinto) y puerta de servicio (P-L); dormitorios con ventanas de 2,4 (V16, V28, V12, V13) y 2,85 (V25); baños piso a cielo con vidrio
   satinado hasta 1,8 (V17, V26, V27; el satinado va en la ficha, el 3D dibuja el mismo vidrio); closets con ventana de 2,4 (V22, V20) y el WKC Maggie con corredera al pasillo-balcón (V21).
 - **Alturas**: nivel 1 del piso a 3,40 (`H_N1`: lo máximo bajo la IPE 300 del entrepiso, cuya cara inferior queda a 3,50 con el nivel 1 de 3,80
-  medido en terreno por Gabriel el 16-10-2026, `PISO_N1`; Gabriel pidió 3,20 y después 3,60, que no cabe), todas iguales; nivel 2 todas iguales de 2,80 (`H_N2`). Primero se
+  medido en terreno por Gabriel el 16-10-2026, `PISO_N1`; Gabriel pidió 3,20 y después 3,60, que no cabe), todas iguales; nivel 2 de 3,00 (`H_N2`; Gabriel, 16-10-2026: "pongamos todas las ventanas del 2do piso a 3 m") salvo la
+  fachada norte, de 2,80 (`H_N2_NORTE`): ahí el puntal RECT 200 del eje H queda a 3,00 justos sobre el piso y Gabriel dijo "solo esa pared
+  déjalo de 2,80, todo lo demás de 3"; en las otras fachadas el techo sube con la pendiente (ojo: la V20 del WKC Maggie al oriente queda
+  con 8 cm bajo el cabio del eje 5 y la V25 del dormitorio matrimonial al poniente con 13 bajo el del eje 1). Primero se
   habían hecho "hasta el cielo" siguiendo el techo (2,65 al norte → 3,35 al sur, como las ventanas del arquitecto en su lámina 9); Gabriel
   pidió la misma altura en todo el nivel ("ojo que las ventanas del segundo piso no miden lo mismo en altura") y recordó que el nivel 2
   quedó con **3,00 libres en la parte más baja** ("lo dejamos más alto… ajusta manteniendo la pendiente"): el techo y su estructura suben
   20 cm en `fuente/ingenieria/herramientas/generar_estructura_js.py` (las elevaciones del ingeniero dibujan 2,80 bajo los cabios), así
-  que la ventana de 2,80 deja 20 cm para el cabezal. `cielo_n2(y)` = techo(y) − 0,74 sobre el piso +3,95 (`PISO_N2`) y `dintel_n2` comprueba que
-  2,80 quepa en cada vano. Puertas interiores y opacas 2,80 (`H_PUERTA`); `ANTEPECHO = 0`. Marcos europeos gruesos de 10 × 8 (los
+  que bajo el puntal quedan 3,00 justos en el norte. `cielo_n2(y)` = techo(y) − 0,59 sobre el piso +3,95 (`PISO_N2`), la cara inferior de la
+  estructura del techo, y `dintel_n2(y, o, p)` da 2,80 en el muro norte y 3,00 en el resto, comprobando que quepa en cada vano. Puertas interiores y opacas 2,80 (`H_PUERTA`); `ANTEPECHO = 0`. Marcos europeos gruesos de 10 × 8 (los
   mismos del estudio: `kitCerramiento` en `3d.html`).
 - **Doble altura del hall**: V2, V3 y V4 son un solo vidrio continuo del piso del nivel 1 al cielo del nivel 2 (techo − 74, ≈7,15 m), bajo
   las vigas del techo y no entre las costaneras (Gabriel, 15-10-2026: "dejaste la ventana metida en medio de las costaneras"), sin travesaño
