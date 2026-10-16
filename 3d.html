@@ -95,7 +95,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V104" data-vista="3d"></script>
+    <script src="menu.js?v=V105" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -166,17 +166,17 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V104"></script>
-<script src="data.js?v=V104"></script>
-<script src="casa_vanos.js?v=V104"></script>
-<script src="estructura.js?v=V104"></script>
-<script src="losa.js?v=V104"></script>
-<script src="sitio.js?v=V104"></script>
-<script src="sitio3d.js?v=V104"></script>
-<script src="estudio_estructura.js?v=V104"></script>
-<script src="mobiliario3d.js?v=V104"></script>
-<script src="cotas3d.js?v=V104"></script>
-<script src="goku3d.js?v=V104"></script>
+<script src="nav3d.js?v=V105"></script>
+<script src="data.js?v=V105"></script>
+<script src="casa_vanos.js?v=V105"></script>
+<script src="estructura.js?v=V105"></script>
+<script src="losa.js?v=V105"></script>
+<script src="sitio.js?v=V105"></script>
+<script src="sitio3d.js?v=V105"></script>
+<script src="estudio_estructura.js?v=V105"></script>
+<script src="mobiliario3d.js?v=V105"></script>
+<script src="cotas3d.js?v=V105"></script>
+<script src="goku3d.js?v=V105"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -327,9 +327,9 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     const matF = new THREE.MeshLambertMaterial({color: dark ? 0x6c7076 : 0x55595f}), matP = new THREE.MeshLambertMaterial({color: dark ? 0x8a8f96 : 0x6f747b}), matB = new THREE.MeshLambertMaterial({color: 0xf5c542});
     const ficha = (m, t, s2) => { m.userData.sitio = `<b>${t}</b><br><span class="sub">${s2}</span>`; g.add(m); return m; };
     const caja = (cx, cy, cz, lx, ly, lz, mat, t, s2) => { const m = new THREE.Mesh(new THREE.BoxGeometry(cm(lx), cm(lz), cm(ly)), mat); m.position.set(cm(cx), cm(cz), cm(cy)); return ficha(m, t, s2); };
-    const sub = 'escalera de obra de fierro en la bodega (Gabriel, 16-10-2026): 1,50 de ancho, 17 huellas de 24 (avance 4,08), 18 contrahuellas de 21,9 hasta el piso del nivel 2 (+3,95), 42°, plataforma pegada al fierro del eje G; unos 550 kg de acero';
+    const sub = 'escalera de obra de fierro en la bodega (Gabriel, 16-10-2026): 1,50 de ancho, 17 huellas de 24 (avance 4,08), 18 contrahuellas de 21,9 hasta el piso del nivel 2 (+3,95), 44°, plataforma pegada al fierro del eje G; unos 650 kg de fierro (detalle y lista de compra en escalera.html)';
     for (let k = 1; k <= NH; k++) caja((X0 + X1) / 2, YA - (k - 0.5) * H, k * CH - 2, X1 - X0, H, 4, matP, `Escalera de obra · huella ${k}`, 'plancha estriada de 4 mm de 1,50 × 0,24 soldada a las zancas · ' + sub);
-    const Lz = Math.hypot(YA - YP, Z1), ang = Math.atan2(Z1, YA - YP);   // zancas: dos C 200×50×4 bajo los peldaños, inclinadas 42°
+    const Lz = Math.hypot(YA - YP, Z1), ang = Math.atan2(Z1, YA - YP);   // zancas: dos C 200×50×4 bajo los peldaños, inclinadas 44°
     [X0 + 2.5, X1 - 2.5].forEach(x => { const m = new THREE.Mesh(new THREE.BoxGeometry(cm(5), cm(20), cm(Lz)), matF); m.position.set(cm(x), cm(Z1 / 2 - 14), cm((YA + YP) / 2)); m.rotation.x = ang; ficha(m, 'Escalera de obra · zanca', 'perfil C 200×50×4 de 5,7 m, anclado abajo al radier con placa y pernos de expansión y arriba al marco de la plataforma · ' + sub); });
     // plataforma 1,5 × 1,5 a +3,95: plancha sobre marco C 150×50×3, 2 postes tubo 100×100×3 al oriente; el lado poniente va apernado a la viga IPE 270 del eje 5
     caja((X0 + X1) / 2, (PL0 + YP) / 2, Z1 - 2, X1 - X0, YP - PL0, 4, matP, 'Escalera de obra · plataforma', 'plancha estriada de 4 mm de 1,50 × 1,50 sobre marco C 150×50×3, a +3,95, pegada al fierro del eje G: desde aquí se entra al nivel 2 (el pilar F2 queda en el borde: 0,55 libres al norte y 0,79 al sur) · ' + sub);

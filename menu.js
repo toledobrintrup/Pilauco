@@ -3,7 +3,7 @@
 // y el menú se dibuja ahí mismo, antes del primer pintado (el script es síncrono).
 // Para agregar una vista nueva basta con sumarla a VISTAS.
 // Versión publicada: la escribe fuente/version.py antes de cada commit (V<n> = número de commits del proyecto).
-window.PILAUCO_VERSION = { n: 'V104', fecha: '16-10-2026' };
+window.PILAUCO_VERSION = { n: 'V105', fecha: '16-10-2026' };
 (function () {
   // Tema claro / oscuro (Gabriel, 14-10-2026: "agrega una versión clara de toda la web"). Sin elección guardada se sigue al sistema;
   // el botón del menú guarda 'claro' u 'oscuro' en localStorage ('pilauco-tema') y recarga, para que el 3D (three.js) se arme con sus colores.
@@ -27,6 +27,8 @@ window.PILAUCO_VERSION = { n: 'V104', fecha: '16-10-2026' };
       ico: '<path d="M3.5 16.5v-9l6.5-4 6.5 4v9"/><path d="M3.5 7.5l13 9M16.5 7.5l-13 9"/><path d="M3 16.5h14"/>' },
     { id: 'tablero', href: 'tablero.html', t: 'Tablero', d: 'Aro de básquetbol: piezas, fundación, armado paso a paso y 3D',
       ico: '<rect x="3" y="2.5" width="14" height="9" rx="1"/><rect x="7.5" y="5.5" width="5" height="4"/><path d="M6.5 13.5h7l-1.2 4h-4.6z"/>' },
+    { id: 'escalera', href: 'escalera.html', t: 'Escalera', d: 'Escalera de obra de la bodega: dónde va, planta y corte, medidas y el fierro para comprar',
+      ico: '<path d="M3 17h3v-3h3v-3h3V8h3V5h2"/><path d="M3 17h14"/>' },
   ];
   const yo = document.currentScript;
   const actual = yo.dataset.vista;

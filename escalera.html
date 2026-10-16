@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#1B1E24">
+<meta name="description" content="Escalera de obra de Casa Pilauco: escalera provisoria de fierro en la bodega del ala oriente para subir materiales al nivel 2. Dónde va, planta y corte con medidas, cómo se arma y la lista de fierro para comprar.">
+<title>Escalera de obra</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --paper:#FFFFFF; --panel:#F7F8FA; --ink:#16181D; --muted:#6B7280; --line:#E3E6EB; --line2:#EFF1F4;
+  --accent:#3D5A73; --hi:#D9731A; --hi-soft:rgba(217,115,26,.10); --hi-borde:rgba(217,115,26,.38);
+  --ok:#2F7D4A; --ok-soft:rgba(47,125,74,.10); --med:#9A6A12; --med-soft:rgba(154,106,18,.11); --calc:#3D5A73; --calc-soft:rgba(61,90,115,.10);
+  --mal:#B42318; --mal-soft:rgba(180,35,24,.08);
+  --shadow:0 1px 2px rgba(16,18,22,.06),0 10px 28px rgba(16,18,22,.10);
+  --chrome:#1B1E24; --chrome-ink:#F0F2F5; --chrome-muted:#9AA0AC; --chrome-line:#343943; --chrome-hi:rgba(255,255,255,.10);
+  --fig-ink:#2B2F36; --fig-soft:#8B929C; --fig-fill:#F1F2F4; --fig-horm:#DCDDDF; --fig-viga:#1D63B8; --fig-c:#C98A0E; --fig-placa:#8C96A3; --fig-malla:#3B414B; --fig-horm2:#B4B3AA; --fig-sold:#5E636B;
+  --ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+  --paper:#14161A; --panel:#1A1D23; --ink:#E7E9EE; --muted:#8A909C; --line:#2A2E37; --line2:#212530;
+  --accent:#8FB4D4; --hi:#F09A4E; --hi-soft:rgba(240,154,78,.12); --hi-borde:rgba(240,154,78,.40);
+  --ok:#74C08E; --ok-soft:rgba(116,192,142,.12); --med:#E0B25A; --med-soft:rgba(224,178,90,.12); --calc:#8FB4D4; --calc-soft:rgba(143,180,212,.13);
+  --mal:#F08A80; --mal-soft:rgba(240,138,128,.10);
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
+  --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
+  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-horm:#30333A; --fig-viga:#5AA9F0; --fig-c:#F2C14E; --fig-placa:#A3ACB8; --fig-malla:#D3D7DE; --fig-horm2:#8A8D93; --fig-sold:#9BA1AB;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#14161A; --panel:#1A1D23; --ink:#E7E9EE; --muted:#8A909C; --line:#2A2E37; --line2:#212530;
+  --accent:#8FB4D4; --hi:#F09A4E; --hi-soft:rgba(240,154,78,.12); --hi-borde:rgba(240,154,78,.40);
+  --ok:#74C08E; --ok-soft:rgba(116,192,142,.12); --med:#E0B25A; --med-soft:rgba(224,178,90,.12); --calc:#8FB4D4; --calc-soft:rgba(143,180,212,.13);
+  --mal:#F08A80; --mal-soft:rgba(240,138,128,.10);
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
+  --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
+  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-horm:#30333A; --fig-viga:#5AA9F0; --fig-c:#F2C14E; --fig-placa:#A3ACB8; --fig-malla:#D3D7DE; --fig-horm2:#8A8D93; --fig-sold:#9BA1AB;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;font-feature-settings:"cv05","ss01"}
+header.top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:12px 18px 11px;background:var(--chrome);color:var(--chrome-ink)}
+header.top h1{font-size:16.5px;font-weight:600;margin:0;letter-spacing:-.012em}
+header.top h1 small{font-weight:400;color:var(--chrome-muted);font-size:12.5px;margin-left:9px;letter-spacing:0}
+header.top .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
+@media (max-width:760px){header.top .meta{display:none}header.top h1 small{display:block;margin:2px 0 0}}
+
+.main{display:flex;flex-direction:column}
+.visor{position:relative;height:min(70svh,660px);min-height:420px;background:var(--panel);border-bottom:1px solid var(--line);overflow:hidden;touch-action:none}
+.doc{min-width:0}
+@media (min-width:1080px){
+  html,body{height:100%}
+  body{overflow:hidden}
+  .app{height:100%;display:flex;flex-direction:column}
+  .main{flex:1;min-height:0;flex-direction:row}
+  .doc{width:min(44%,700px);flex:none;overflow-y:auto;border-right:1px solid var(--line);order:1}
+  .visor{flex:1;height:auto;min-height:0;border-bottom:0;order:2}
+}
+
+.toc{position:sticky;top:0;z-index:5;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding:9px 22px;background:var(--paper);border-bottom:1px solid var(--line)}
+.toc::-webkit-scrollbar{display:none}
+.toc a{flex:none;font-size:12px;font-weight:500;color:var(--muted);text-decoration:none;padding:4px 10px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.toc a:hover{color:var(--ink);border-color:var(--line)}
+.toc a.on{color:var(--ink);background:var(--line2);border-color:var(--line)}
+.doc-in{max-width:700px;padding:6px 26px 90px}
+section{padding-top:30px;scroll-margin-top:44px}
+h2{font-size:19px;font-weight:650;letter-spacing:-.015em;margin:0 0 10px;display:flex;align-items:baseline;gap:10px}
+h2 .n{font-size:11.5px;font-weight:600;color:var(--hi);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+h3{font-size:14.5px;font-weight:600;margin:22px 0 6px}
+p{margin:0 0 10px}
+.lead{font-size:15px;margin:16px 0 14px}
+.sub{color:var(--muted)}
+.small{font-size:12.5px}
+a{color:var(--accent)}
+.specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px 0 6px}
+.spec{border:1px solid var(--line);border-radius:10px;padding:10px 12px 9px;background:var(--panel);min-width:0}
+.spec .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:500}
+.spec .v{font-size:17.5px;font-weight:620;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin:2px 0 3px;line-height:1.25}
+.spec .d{font-size:12px;color:var(--muted);line-height:1.4}
+@media (max-width:420px){.specs{grid-template-columns:1fr}}
+.fuente{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:1px 6px;border-radius:999px;vertical-align:1px;margin-left:4px;white-space:nowrap}
+.fuente.man{color:var(--ok);background:var(--ok-soft)}
+.fuente.med{color:var(--med);background:var(--med-soft)}
+.fuente.calc{color:var(--calc);background:var(--calc-soft)}
+.tw{overflow-x:auto;margin:10px 0 6px;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:12.5px;font-variant-numeric:tabular-nums}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:500;text-align:left;padding:8px 9px;border-bottom:1px solid var(--line);background:var(--panel);white-space:nowrap}
+td{padding:7px 9px;border-bottom:1px solid var(--line2);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.c,th.c{text-align:center}
+td.r,th.r{text-align:right}
+tbody tr[data-area]{cursor:pointer}
+tbody tr[data-area]:hover td,tbody tr.on td{background:var(--hi-soft)}
+td.dif{color:var(--mal);font-weight:600}
+td.okv{color:var(--ok)}
+.sw{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:6px;border:1px solid rgba(0,0,0,.15)}
+figure{margin:14px 0 10px}
+figure svg{display:block;width:100%;height:auto}
+figcaption{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45}
+svg .tx{font-family:var(--ui);fill:var(--fig-ink)}
+svg .txs{font-family:var(--ui);fill:var(--fig-soft)}
+.aviso{border:1px solid var(--hi-borde);background:var(--hi-soft);border-radius:10px;padding:9px 12px;margin:10px 0;font-size:13px}
+.aviso b{color:var(--hi)}
+.pendiente{border:1px dashed var(--line);border-radius:10px;padding:10px 12px;margin:8px 0;font-size:13px;color:var(--muted)}
+.pendiente b{color:var(--ink)}
+.kvs{display:grid;grid-template-columns:max-content 1fr;gap:5px 16px;font-size:13.5px;margin:10px 0 12px;align-items:baseline}.kvs .k{color:var(--muted);text-transform:uppercase;font-size:10.5px;letter-spacing:.09em;font-weight:500;white-space:nowrap}.kvs .v b{font-weight:620}
+.puntos{margin:8px 0 10px;padding-left:18px;font-size:13.5px;line-height:1.55}.puntos li{margin:2px 0}.puntos b{font-weight:620}
+@media (max-width:560px){.kvs{grid-template-columns:1fr;gap:2px 0}.kvs .k{margin-top:6px}}
+.barras{display:flex;flex-direction:column;gap:4px;margin:8px 0}
+.barra{display:grid;grid-template-columns:52px minmax(0,1fr) 54px;gap:8px;align-items:center;font-size:11.5px;font-variant-numeric:tabular-nums}
+.barra .b{display:flex;height:16px;border-radius:3px;overflow:hidden;background:var(--line2);border:1px solid var(--line)}
+.barra .b i{display:block;height:100%;border-right:1px solid var(--paper);background:var(--fig-c);opacity:.85;font-style:normal;font-size:9.5px;color:#fff;overflow:hidden;white-space:nowrap;padding-left:3px;line-height:15px}
+.barra .b i.r{background:transparent;opacity:1;color:var(--muted)}
+footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.btn{font:inherit;font-size:12.5px;font-weight:500;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:4px 11px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--hi-borde);color:var(--hi)}
+.btn:focus-visible,.toc a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+
+/* sin visor: una sola columna de lectura, ancha, en todas las pantallas */
+@media (min-width:1080px){ .doc{width:auto;flex:1;border-right:0;order:0} }
+.doc-in{max-width:900px;margin:0 auto}
+figure svg{max-height:78vh}
+.tw td.sub{min-width:220px}
+figure{border:1px solid var(--line);border-radius:12px;padding:12px 12px 8px;background:var(--panel)}
+figure svg text{font-family:var(--ui)}
+table .tot td{font-weight:620;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <script src="menu.js?v=V105" data-vista="escalera"></script>
+  <h1>Escalera de obra <small>Bodega del ala oriente: para subir materiales al nivel 2 mientras dure la construcción</small></h1>
+  <span class="meta">Fuentes: lo que pidió Gabriel el 16-10-2026, la estructura del ingeniero (pilares, vigas y cubierta del ala) y el nivel 1 de 3,80 medido en terreno. Fierro a criterio del modelo, a confirmar con el maestro.</span>
+</header>
+<div class="main">
+  <div class="doc" id="doc">
+    <nav class="toc" id="toc" aria-label="Secciones"><a href="#resumen">Resumen</a><a href="#donde">Dónde va</a><a href="#corte">Corte y medidas</a><a href="#armado">Cómo se arma</a><a href="#compra">Fierro para comprar</a><a href="#notas">Notas</a></nav>
+    <div class="doc-in">
+<section id="resumen" style="padding-top:14px">
+  <p class="lead">Una escalera recta de fierro, de 1,50 de ancho, pegada al muro de la casa dentro de la bodega, que sube hacia el norte hasta una plataforma de 1,50 × 1,50 a la altura del piso del nivel 2. Desde la plataforma se entra al nivel 2 por el poniente. Es provisoria: cuando la obra termine se saca y se cierra el hueco que deja en la cubierta del ala.</p>
+  <div class="specs" id="specs"></div>
+  <p class="small sub"><span class="fuente man">dato</span> lo que pidió Gabriel o midió en terreno · <span class="fuente calc">calculado</span> sale de la geometría · <span class="fuente med">propuesta</span> fierro y detalles a criterio del modelo, a confirmar.</p>
+</section>
+<section id="donde">
+  <h2><span class="n">01</span>Dónde va</h2>
+  <p>En la bodega del ala oriente (3,74 × 5,91 m), con las zancas pegadas a la cara interior del muro de la casa (eje 5 del ingeniero) y la plataforma contra el muro del eje G, al norte. La escalera baja hacia el sur y su pie queda a 0,33 m del muro sur. Al lado quedan 2,19 m de bodega libres para pasar. Arriba, la plataforma se apoya en dos postes al oriente y se aperna por el poniente a la viga IPE 270 del eje 5, que es el borde de la losa del nivel 2.</p>
+  <figure id="fig-planta"><figcaption>Planta, norte arriba. Naranjo: pilares del ingeniero con su eje. Violeta: vigas de la cubierta baja del ala (a +2,78) y el hueco provisorio que la escalera necesita en esa cubierta. Azul punteado: borde de la losa del nivel 2.</figcaption></figure>
+  <div class="aviso"><b>Ojo con el pilar F2.</b> La plataforma, pegada al eje G, queda con el pilar F2 (y 4,12) en el borde por donde se entra al nivel 2: 0,55 m libres al norte del pilar y 0,79 al sur. Si estorba para pasar materiales anchos, la escalera se baja 20 cm hacia el sur y queda centrada entre los pilares.</div>
+</section>
+<section id="corte">
+  <h2><span class="n">02</span>Corte y medidas</h2>
+  <figure id="fig-corte"><figcaption>Corte mirando al poniente (norte a la izquierda). El nivel 2 está detrás del muro de la casa; la plataforma llega a su piso terminado (+3,95). La cubierta baja del ala, a +2,88, queda abierta sobre la escalera mientras se use.</figcaption></figure>
+  <div class="tw"><table class="small" id="tabla-dims"><thead><tr><th>Medida</th><th>Valor</th><th>Detalle</th></tr></thead><tbody></tbody></table></div>
+</section>
+<section id="armado">
+  <h2><span class="n">03</span>Cómo se arma</h2>
+  <ol class="puntos">
+    <li><b>Placas base.</b> Cuatro placas de 200 × 200 × 8 ancladas al radier con 4 pernos de expansión cada una: dos para las zancas (en y 9,07) y dos para los postes de la plataforma (y 3,57 y 4,91, a 5 cm del borde oriente).</li>
+    <li><b>Postes y marco.</b> Los dos tubos de 100 × 100 se paran sobre sus placas; encima va el marco de C 150 de la plataforma (1,50 × 1,50 con dos travesaños). El lado poniente del marco se aperna con dos escuadras de ángulo a la viga IPE 270 del eje 5.</li>
+    <li><b>Zancas.</b> Dos C 200 × 50 × 4 de 5,70 m, inclinadas 44°, con el alma hacia adentro: abajo apoyan en sus placas, arriba se sueldan al marco. Se cortan a bisel en los dos extremos.</li>
+    <li><b>Peldaños.</b> 17 planchas estriadas de 4 mm de 1,50 × 0,30, dobladas con una pestaña de 6 cm hacia abajo en el frente (les da rigidez y protege el borde). Van soldadas entre las zancas a 21,9 cm una de otra, y la plataforma lleva su plancha de 1,50 × 1,50 sobre el marco.</li>
+    <li><b>Baranda.</b> Postes de tubo 50 × 50 × 3 de 1,05 m cada 4 peldaños por el lado oriente y en las cuatro esquinas de la plataforma; pasamanos de tubo redondo Ø50 a 1,00 y barra intermedia a 0,50; rodapié de pletina de 100 en los bordes norte y oriente de la plataforma.</li>
+    <li><b>Cubierta del ala.</b> Mientras la escalera esté puesta, la cubierta baja del ala (a +2,88) no se cierra sobre la franja de 1,62 × 5,76 m que ocupan la escalera y la plataforma.</li>
+  </ol>
+  <div class="tw"><table class="small" id="tabla-piezas"><thead><tr><th>Pieza</th><th>Perfil</th><th class="r">Cant.</th><th class="r">Largo c/u</th><th class="r">Total</th><th class="r">kg</th><th>Dónde</th></tr></thead><tbody></tbody></table></div>
+</section>
+<section id="compra">
+  <h2><span class="n">04</span>Fierro para comprar</h2>
+  <p>En unidades comerciales (barras de 6 m y planchas de 1,5 × 3,0). Solo el fierro: no incluye soldadura, discos, pintura ni mano de obra. Los pesos son los de catálogo; el proveedor confirma.</p>
+  <div class="tw"><table class="small" id="tabla-compra"><thead><tr><th>Ítem</th><th class="r">Cant.</th><th>Para qué</th><th class="r">kg aprox.</th></tr></thead><tbody></tbody></table></div>
+  <h3>Fijaciones</h3>
+  <div class="tw"><table class="small" id="tabla-fij"><thead><tr><th>Ítem</th><th class="r">Cant.</th><th>Para qué</th></tr></thead><tbody></tbody></table></div>
+</section>
+<section id="notas">
+  <h2><span class="n">05</span>Notas</h2>
+  <ul class="puntos">
+    <li>Altura: de piso a cara superior de la viga de entrepiso hay 3,80 (medido en terreno) y el hormigón de la losa agrega 15: la plataforma llega a +3,95. Antes de que se hormigone, hay un escalón de 15 cm hacia abajo al entrar a la placa.</li>
+    <li>Pendiente de 44°: empinada pero normal en obra. Para hacerla más tendida habría que alargar el avance, y con la plataforma la bodega no da para más.</li>
+    <li>Si se quiere más liviana, los peldaños pueden ser de rejilla electrosoldada 30 × 3 en vez de plancha estriada (unos 100 kg menos), con el mismo despiece de zancas y baranda.</li>
+    <li>Las dos ventanas del nivel 2 que miran a la bodega (V19 del dormitorio hijo 1 y V20 del WKC Maggie) no coinciden con la plataforma: la entrada al nivel 2 es por el paño ciego entre los pilares F2 y E4, que durante la obra no tiene muro.</li>
+    <li>La misma escalera está dibujada en la <a href="3d.html">vista 3D</a>, capa "Escalera de obra (bodega)", pieza por pieza con su ficha.</li>
+  </ul>
+  <footer>Escalera de obra de Casa Pilauco · geometría y despiece de <code>fuente/casa/generar_escalera_js.py</code> (<code>escalera_dibujo.js</code>), la misma del 3D.</footer>
+</section>
+    </div>
+  </div>
+</div>
+</div>
+<script src="escalera_dibujo.js?v=V105"></script>
+<script>
+(function(){
+const D = DATA_ESCALERA, $ = s => document.querySelector(s), fm = v => v.toLocaleString('es-CL');
+$('#fig-planta').insertAdjacentHTML('afterbegin', D.svg.planta); $('#fig-corte').insertAdjacentHTML('afterbegin', D.svg.corte);
+const G = D.geometria;
+$('#specs').innerHTML = [
+  ['Ancho', '1,50 m', 'libre entre zancas', 'man'], ['Alto', (G.alto / 100).toFixed(2).replace('.', ',') + ' m', G.contrahuellas + ' contrahuellas de ' + String(G.contrahuella).replace('.', ','), 'man'],
+  ['Avance', (G.huellas * G.huella / 100).toFixed(2).replace('.', ',') + ' m', G.huellas + ' huellas de ' + G.huella, 'calc'], ['Pendiente', G.pendiente.toFixed(0) + '°', 'zanca de ' + (G.zanca / 100).toFixed(2).replace('.', ',') + ' m', 'calc'],
+  ['Plataforma', '1,50 × 1,50', 'a +3,95, pegada al eje G', 'man'], ['Fierro', fm(D.total_compra) + ' kg', fm(D.total_kg) + ' kg en la escalera; el resto es sobrante de barras y planchas', 'med'],
+].map(([l, v, d, f]) => `<div class="spec"><div class="l">${l} <span class="fuente ${f}">${f === 'man' ? 'dato' : f === 'calc' ? 'calculado' : 'propuesta'}</span></div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
+$('#tabla-dims tbody').innerHTML = D.dimensiones.map(r => `<tr><td><b>${r.k}</b></td><td>${r.v}</td><td class="sub">${r.d}</td></tr>`).join('');
+$('#tabla-piezas tbody').innerHTML = D.piezas.map(p => `<tr><td><b>${p.pieza}</b></td><td>${p.perfil}</td><td class="r">${p.n}</td><td class="r">${p.largo_txt}</td><td class="r">${String(p.total).replace('.', ',')} ${p.uni}</td><td class="r">${String(p.kg).replace('.', ',')}</td><td class="sub">${p.donde}</td></tr>`).join('')
+  + `<tr class="tot"><td colspan="5">Total de fierro en la escalera</td><td class="r">${fm(D.total_kg)}</td><td></td></tr>`;
+$('#tabla-compra tbody').innerHTML = D.compra.map(c => `<tr><td><b>${c.item}</b></td><td class="r">${c.n}</td><td class="sub">${c.det}</td><td class="r">${fm(c.kg)}</td></tr>`).join('')
+  + `<tr class="tot"><td colspan="3">Total a comprar</td><td class="r">${fm(D.total_compra)}</td></tr>`;
+$('#tabla-fij tbody').innerHTML = D.fijaciones.map(c => `<tr><td><b>${c.item}</b></td><td class="r">${c.n}</td><td class="sub">${c.det}</td></tr>`).join('');
+const links = [...document.querySelectorAll('.toc a')], secs = links.map(a => document.querySelector(a.getAttribute('href')));
+let pend = false, marcada = null;
+const revisar = () => { pend = false; let act = secs[0]; secs.forEach(s => { if (s.getBoundingClientRect().top < 150) act = s; }); if (act === marcada) return; marcada = act; links.forEach(a => a.classList.toggle('on', document.querySelector(a.getAttribute('href')) === act)); };
+const pedirR = () => { if (!pend) { pend = true; requestAnimationFrame(revisar); } };
+$('#doc').addEventListener('scroll', pedirR, { passive: true }); addEventListener('scroll', pedirR, { passive: true }); revisar();
+})();
+</script>
+</body>
+</html>

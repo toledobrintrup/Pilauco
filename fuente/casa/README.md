@@ -67,8 +67,10 @@ Desde el 15-10-2026 la vista 3D dibuja la casa con sus muros reales en vez de un
   quiebre… toda de fierro, cómoda y segura para subir materiales"; después: "justo llega hasta el borde, córrela más atrás, pegado al fierro
   de atrás"): capa propia del 3D (`chk-escalera`, `grupoEscalera`). Va en la bodega pegada al muro de la casa, subiendo hacia el norte, con
   la plataforma de 1,50 × 1,50 pegada al fierro del eje G (y 3,49–4,99): 17 huellas de 24 (avance 4,08; el pie queda a 0,33 del muro sur) y
-  18 contrahuellas de 21,9 hasta el piso del nivel 2 (+3,95 = viga de entrepiso a 3,80, medida en terreno, + hormigón 15), 42°. El pilar F2
+  18 contrahuellas de 21,9 hasta el piso del nivel 2 (+3,95 = viga de entrepiso a 3,80, medida en terreno, + hormigón 15), 44°. El pilar F2
   (y 4,12) queda en el borde de entrada al nivel 2: 0,55 libres al norte y 0,79 al sur. Zancas C 200×50×4, peldaños de plancha estriada de 4,
   marco C 150 con 2 postes tubo 100×100×3 al oriente y el lado poniente apernado a la viga IPE 270 del eje 5, baranda de 1,00 con barra a
   0,50 y rodapié (unos 550 kg). Con la capa prendida, la cubierta baja del ala se dibuja con el hueco provisorio de 1,6 × 5,7 (`ESC_HUECO`)
-  por donde pasa. Lámina en `propuesta-ventanas/escalera.py`.
+  por donde pasa. **Página de detalle `escalera.html`** (pestaña Escalera): dónde va, planta y corte, medidas, armado y la lista de fierro
+  para comprar; sus datos y dibujos salen de `generar_escalera_js.py` → `escalera_dibujo.js` (misma geometría que el 3D). La lámina
+  vieja `propuesta-ventanas/escalera.py` queda como antecedente.

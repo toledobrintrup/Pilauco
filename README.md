@@ -52,7 +52,7 @@ ingeniero, que dibujan 2,80, con la misma pendiente (`fuente/ingenieria/herramie
 **Escalera de obra** (capa propia, desde el 16-10-2026): escalera provisoria de fierro en la bodega del ala
 oriente para subir materiales al nivel 2 durante la construcción (1,50 de ancho, 17 huellas de 24, 18
 contrahuellas de 21,9 hasta +3,95, plataforma de 1,50 × 1,50 pegada al fierro del eje G que entra al nivel 2,
-baranda de 1,00); con la capa prendida, la cubierta baja del ala muestra el hueco provisorio por donde pasa.
+baranda de 1,00; su detalle, medidas y lista de fierro están en la página **Escalera**); con la capa prendida, la cubierta baja del ala muestra el hueco provisorio por donde pasa.
 La **cubierta del ala oriente** va a +2,88, sobre las vigas RECT 200×150 del ingeniero (antes el 3D le
 suponía una losa a +3,46), y los muros del ala terminan ahí.
 **Cocina al plomo de la fachada** (Gabriel, 16-10-2026): el plano del arquitecto dejaba la cocina retranqueada
@@ -221,6 +221,7 @@ Base: plano L3 PLARQ2 (Planta Arquitectura Nivel 2, GVArq, dic. 2025, esc. 1:50)
 - `fuente/losa/` — cómo se sacó la losa del plano, de las áreas marcadas en obra y de la ficha Instadeck.
 - `data.js` — los datos de ambas plantas (`DATA_N1`, `DATA_N2`), compartidos por `index.html` y `3d.html`: una sola fuente, nada duplicado.
 - `casa_vanos.js` — los muros (rectángulos), puertas y ventanas de la casa para `3d.html`; se genera con `fuente/casa/generar_casa_vanos.py` desde `data.js`.
+- `escalera.html` + `escalera_dibujo.js` — detalle de la escalera de obra de la bodega (dónde va, planta y corte, medidas, armado y fierro para comprar); los datos y dibujos los genera `fuente/casa/generar_escalera_js.py` con la misma geometría del 3D.
 - `fuente/casa/` — el generador de muros y vanos de la casa y la tabla de ventanas curada contra el plano.
 - `estructura.js` — la estructura de acero pieza por pieza (perfil y extremos de cada una) para la capa "Ver estructura" de `3d.html`; se genera desde `fuente/ingenieria/datos/modelo.json`.
 - `sitio.js` — el terreno (lote, cierros, acceso, gimnasio, estudio con búnker, senderos y piscina) para `3d.html`; se genera con `fuente/sitio/generar_sitio_js.py`.

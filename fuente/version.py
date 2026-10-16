@@ -23,7 +23,7 @@ s2 = re.sub(r"window\.PILAUCO_VERSION = \{ n: '[^']*', fecha: '[^']*' \};", f"wi
 assert s2 != s or ver in s, 'menu.js sin la constante PILAUCO_VERSION'
 p.write_text(s2)
 
-paginas = ['index.html', '3d.html', 'losa.html', 'pernos.html', 'estudio.html', 'tablero.html']
+paginas = ['index.html', '3d.html', 'losa.html', 'pernos.html', 'estudio.html', 'tablero.html', 'escalera.html']
 total = 0
 for nombre in paginas:
     p = raiz / nombre
