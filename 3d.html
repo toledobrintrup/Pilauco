@@ -95,7 +95,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V98" data-vista="3d"></script>
+    <script src="menu.js?v=V99" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -165,17 +165,17 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V98"></script>
-<script src="data.js?v=V98"></script>
-<script src="casa_vanos.js?v=V98"></script>
-<script src="estructura.js?v=V98"></script>
-<script src="losa.js?v=V98"></script>
-<script src="sitio.js?v=V98"></script>
-<script src="sitio3d.js?v=V98"></script>
-<script src="estudio_estructura.js?v=V98"></script>
-<script src="mobiliario3d.js?v=V98"></script>
-<script src="cotas3d.js?v=V98"></script>
-<script src="goku3d.js?v=V98"></script>
+<script src="nav3d.js?v=V99"></script>
+<script src="data.js?v=V99"></script>
+<script src="casa_vanos.js?v=V99"></script>
+<script src="estructura.js?v=V99"></script>
+<script src="losa.js?v=V99"></script>
+<script src="sitio.js?v=V99"></script>
+<script src="sitio3d.js?v=V99"></script>
+<script src="estudio_estructura.js?v=V99"></script>
+<script src="mobiliario3d.js?v=V99"></script>
+<script src="cotas3d.js?v=V99"></script>
+<script src="goku3d.js?v=V99"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -251,7 +251,11 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     const K = kitCerramiento(g, zTop);
     const seg = r => { const horiz = (r[2] - r[0]) >= (r[3] - r[1]), cx = (r[0] + r[2]) / 2, cy = (r[1] + r[3]) / 2; return horiz ? {a: [r[0], cy], b: [r[2], cy], e: r[3] - r[1]} : {a: [cx, r[1]], b: [cx, r[3]], e: r[2] - r[0]}; };
     D.muros.forEach(r => { const s = seg(r); K.panel(s, 0, 1, z0, K.matMuro, `Muro del nivel ${nivel}`, `${s.e >= 20 ? 'muro perimetral de 25' : 'tabique de ' + Math.round(s.e)} cm, ${nivel === 1 ? 'hasta la losa' : 'hasta el techo'} (plano)`); });
-    D.vanos.forEach(v => K.vano({a: v.a, b: v.b, e: v.e}, Object.assign({}, v, {z0: z0 + v.z0, z1: z0 + v.z1}), 0, 1, z0, K.matMuro, `Muro del nivel ${nivel}`));
+    D.vanos.forEach(v => {
+      if (v.tipo === 'hueco') return;   // el ventanal de doble altura se dibuja desde el nivel 1; en el nivel 2 solo queda el hueco en el muro
+      const ym = (v.a[1] + v.b[1]) / 2, z1 = v.z1 >= 9000 ? alturaTecho(ym) - 2 : z0 + v.z1;   // 9999 = vidrio continuo hasta el techo (ventanal del hall, Gabriel 15-10-2026)
+      K.vano({a: v.a, b: v.b, e: v.e}, Object.assign({}, v, {z0: z0 + v.z0, z1, alto: v.alto || Math.round(z1 - z0 - v.z0)}), 0, 1, z0, K.matMuro, `Muro del nivel ${nivel}`);
+    });
     return g;
   }
   function buildSlab(ptsOrRect, baseY){
@@ -278,7 +282,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
   const slabN1 = buildSlab(n1env, 0);
   // losa del nivel 2: hormigón de 15 sobre la placa colaborante (DATA_LOSA.perimetro, con el hueco de la escalera), de +3,46 a +3,61; antes era una losa esquemática de 12 bajo +3,46
   const slabN2 = (() => { const g = new THREE.Group(); const Lo = (typeof DATA_LOSA !== 'undefined') ? DATA_LOSA : null;
-    if (Lo && Lo.perimetro){ const sh = shapeFromPts(Lo.perimetro); if (Lo.hueco_escalera){ const h = new THREE.Path(); Lo.hueco_escalera.forEach((q, i) => { if (i === 0) h.moveTo(cm(q[0]), -cm(q[1])); else h.lineTo(cm(q[0]), -cm(q[1])); }); sh.holes.push(h); }
+    if (Lo && Lo.perimetro){ const sh = shapeFromPts(Lo.perimetro);   // el perímetro del ingeniero ya deja fuera el hall de doble altura (la escotadura 658..1002 × 1702..); el hueco_escalera como agujero sobresalía del contorno y dejaba una cara fantasma en el ventanal
       const m = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, {depth: cm(Lo.espesor || 15), bevelEnabled: false}), new THREE.MeshLambertMaterial({color: dark ? 0x6E7177 : 0xB4B3AA, side: THREE.DoubleSide})); m.rotation.x = -Math.PI / 2; m.position.y = cm(Lo.z_viga || 346);
       m.userData.sitio = `<b>Losa de hormigón del nivel 2</b><br><span class="sub">e=${Lo.espesor || 15} sobre la placa colaborante (de +${((Lo.z_viga || 346) / 100).toFixed(2).replace('.', ',')} a +${(((Lo.z_viga || 346) + (Lo.espesor || 15)) / 100).toFixed(2).replace('.', ',')}), con el hueco de la escalera; el nivel 2 pisa sobre ella</span>`; g.add(m); }
     else { const r = ajustaCaras([[0, 0], [DATA_N2.W, 0], [DATA_N2.W, DATA_N2.H], [0, DATA_N2.H]], 2); g.add(buildSlab(r, PISO)); }
@@ -649,42 +653,42 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     const fm = v => (v / 100).toFixed(2).replace('.', ',');
     // un vano entre t0 y t1 del segmento: antepecho si no parte en el piso, marco, hoja(s) o vidrio, y el dintel de muro encima
     const vano = (s, v, t0, t1, z0, matM, nombreMuro) => {
-      const L = Math.hypot(s.b[0] - s.a[0], s.b[1] - s.a[1]), f = c => c / L, mm = matM || matMuro, HW = FW / 2;
+      const L = Math.hypot(s.b[0] - s.a[0], s.b[1] - s.a[1]), f = c => c / L, mm = matM || matMuro, FWl = v.marco || FW, FDl = v.marco || FD, HW = FWl / 2;   // v.marco: marco fino (acero) en vez del europeo grueso
       const esPuerta = v.tipo === 'puerta', vidriada = v.tipo === 'puerta vidriada', corredera = v.tipo.includes('corredera'), medidas = `${fm(v.ancho)} × ${fm(v.alto)} m`;
-      const titulo = `${v.tipo.charAt(0).toUpperCase() + v.tipo.slice(1)} ${v.id}`, subMarco = `marco europeo grueso ${FW} × ${FD} · ${medidas} (propuesta)`;
+      const titulo = `${v.tipo.charAt(0).toUpperCase() + v.tipo.slice(1)} ${v.id}`, subMarco = v.marco ? `marco de acero fino ${FWl} × ${FDl} (solo el fierro) · ${medidas} (propuesta)` : `marco europeo grueso ${FWl} × ${FDl} · ${medidas} (propuesta)`;
       if (v.z0 > z0 + 1) caja(s, t0, t1, z0, v.z0, mm, nombreMuro, 'antepecho bajo la ventana');      // ventanas altas
       if (esPuerta || vidriada){
         // marco en jambas y dintel; hoja maciza de 4,5 o vidriada con bastidor (dos hojas desde 1,50 de ancho); manilla a 1,00 m por los dos lados
-        [t0, t1].forEach(tt => pieza(s, tt - f(HW), tt + f(HW), v.z0, v.z1, FD, 0, matMarco, titulo, subMarco));
-        pieza(s, t0, t1, v.z1 - FW, v.z1, FD, 0, matMarco, titulo, 'dintel del marco');
-        const hojas = v.ancho >= 150 ? 2 : 1, w = (t1 - t0 - f(FW)) / hojas;
+        [t0, t1].forEach(tt => pieza(s, tt - f(HW), tt + f(HW), v.z0, v.z1, FDl, 0, matMarco, titulo, subMarco));
+        pieza(s, t0, t1, v.z1 - FWl, v.z1, FDl, 0, matMarco, titulo, 'dintel del marco');
+        const hojas = v.ancho >= 150 ? 2 : 1, w = (t1 - t0 - f(FWl)) / hojas;
         for (let k = 0; k < hojas; k++){
           const a = t0 + f(HW) + k * w + f(0.5), b = t0 + f(HW) + (k + 1) * w - f(0.5);
           if (vidriada){
-            pieza(s, a, b, v.z0 + 1, v.z1 - FW, 1.5, 0, matVidrio, titulo, `hoja vidriada de ${fm((b - a) * L)} m · ${v.d} (propuesta)`);
-            [a, b].forEach(tt => pieza(s, tt - f(4) * (tt === a ? 0 : 1), tt + f(4) * (tt === a ? 1 : 0), v.z0 + 1, v.z1 - FW, 5, 0, matMarco, titulo, 'bastidor de la hoja'));
-            pieza(s, a, b, v.z1 - FW - 4, v.z1 - FW, 5, 0, matMarco, titulo, 'bastidor de la hoja'); pieza(s, a, b, v.z0 + 1, v.z0 + 12, 5, 0, matMarco, titulo, 'zócalo de la hoja');
-          } else pieza(s, a, b, v.z0 + 1, v.z1 - FW, 4.5, 0, matPuerta, titulo, `hoja de ${fm((b - a) * L)} m · ${v.d} (propuesta)`);
+            pieza(s, a, b, v.z0 + 1, v.z1 - FWl, 1.5, 0, matVidrio, titulo, `hoja vidriada de ${fm((b - a) * L)} m · ${v.d} (propuesta)`);
+            [a, b].forEach(tt => pieza(s, tt - f(4) * (tt === a ? 0 : 1), tt + f(4) * (tt === a ? 1 : 0), v.z0 + 1, v.z1 - FWl, 5, 0, matMarco, titulo, 'bastidor de la hoja'));
+            pieza(s, a, b, v.z1 - FWl - 4, v.z1 - FWl, 5, 0, matMarco, titulo, 'bastidor de la hoja'); pieza(s, a, b, v.z0 + 1, v.z0 + 12, 5, 0, matMarco, titulo, 'zócalo de la hoja');
+          } else pieza(s, a, b, v.z0 + 1, v.z1 - FWl, 4.5, 0, matPuerta, titulo, `hoja de ${fm((b - a) * L)} m · ${v.d} (propuesta)`);
           const tm = hojas === 1 ? b - f(9) : (k === 0 ? b - f(8) : a + f(8));
           [1, -1].forEach(lado => pieza(s, tm - f(6), tm + f(6), z0 + 100, z0 + 103, 2.5, lado * 3.5, matManilla, titulo, 'manilla'));
         }
       } else {
         // ventana o vidrio: marco (montantes y travesaños) con el vidrio al centro; las correderas llevan montante central,
         // dos hojas con bastidor fino en rieles distintos y tiradores
-        [t0, t1].forEach(tt => pieza(s, tt - f(HW), tt + f(HW), v.z0, v.z1, FD, 0, matMarco, titulo, subMarco));
-        pieza(s, t0, t1, v.z1 - FW, v.z1, FD, 0, matMarco, titulo, 'travesaño superior');
-        pieza(s, t0, t1, v.z0, v.z0 + FW, FD, 0, matMarco, titulo, 'travesaño inferior');
+        [t0, t1].forEach(tt => pieza(s, tt - f(HW), tt + f(HW), v.z0, v.z1, FDl, 0, matMarco, titulo, subMarco));
+        pieza(s, t0, t1, v.z1 - FWl, v.z1, FDl, 0, matMarco, titulo, 'travesaño superior');
+        pieza(s, t0, t1, v.z0, v.z0 + FWl, FDl, 0, matMarco, titulo, 'travesaño inferior');
         if (corredera){
           const tc = (t0 + t1) / 2;
           [[t0 + f(HW), tc, -2.5], [tc, t1 - f(HW), 2.5]].forEach(([a, b, off], k) => {
-            pieza(s, a, b, v.z0 + FW, v.z1 - FW, 1, off, matVidrio, titulo, `${v.tipo} de 2 hojas · ${medidas} · ${v.d} (propuesta)`);
-            [a, b].forEach(tt => pieza(s, tt - f(2) * (tt === a ? 0 : 1), tt + f(2) * (tt === a ? 1 : 0), v.z0 + FW, v.z1 - FW, 4, off, matMarco, titulo, 'bastidor de la hoja'));
-            pieza(s, a, b, v.z1 - FW - 4, v.z1 - FW, 4, off, matMarco, titulo, 'bastidor de la hoja'); pieza(s, a, b, v.z0 + FW, v.z0 + FW + 4, 4, off, matMarco, titulo, 'bastidor de la hoja');
+            pieza(s, a, b, v.z0 + FWl, v.z1 - FWl, 1, off, matVidrio, titulo, `${v.tipo} de 2 hojas · ${medidas} · ${v.d} (propuesta)`);
+            [a, b].forEach(tt => pieza(s, tt - f(2) * (tt === a ? 0 : 1), tt + f(2) * (tt === a ? 1 : 0), v.z0 + FWl, v.z1 - FWl, 4, off, matMarco, titulo, 'bastidor de la hoja'));
+            pieza(s, a, b, v.z1 - FWl - 4, v.z1 - FWl, 4, off, matMarco, titulo, 'bastidor de la hoja'); pieza(s, a, b, v.z0 + FWl, v.z0 + FWl + 4, 4, off, matMarco, titulo, 'bastidor de la hoja');
             const tm = k === 0 ? b - f(6) : a + f(6);
             [1, -1].forEach(lado => pieza(s, tm - f(1.2), tm + f(1.2), z0 + 90, z0 + 118, 2.2, off + lado * 3, matManilla, titulo, 'tirador'));
           });
         } else {
-          pieza(s, t0 + f(HW), t1 - f(HW), v.z0 + FW, v.z1 - FW, 3, 0, matVidrio, titulo, `${medidas} · ${v.d} (propuesta)`);
+          pieza(s, t0 + f(HW), t1 - f(HW), v.z0 + FWl, v.z1 - FWl, 3, 0, matVidrio, titulo, `${medidas} · ${v.d} (propuesta)`);
         }
       }
       panel(s, t0, t1, v.z1, mm, nombreMuro, 'dintel sobre el vano');

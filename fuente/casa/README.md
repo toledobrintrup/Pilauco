@@ -14,7 +14,8 @@ Desde el 15-10-2026 la vista 3D dibuja la casa con sus muros reales en vez de un
 - **Alturas** (Gabriel, 15-10-2026): todas las ventanas de 2,80 iguales en los dos niveles, del piso al dintel
   (`ANTEPECHO = 0`; cambiar ahí si se quiere antepecho); puertas y pasos con dintel a 2,80. Marcos europeos gruesos
   de 10 × 8 (los mismos del estudio: `kitCerramiento` en `3d.html`).
-- **Doble altura del hall**: V2, V3 y V4 se repiten en el nivel 2 (el plano las rotula en las dos plantas).
+- **Doble altura del hall**: V2, V3 y V4 son un solo vidrio continuo del piso del nivel 1 al techo (≈7,7 m), sin travesaño entre pisos y con marco de acero fino
+  (Gabriel, 15-10-2026: "completamente vidriadas de piso a techo, el marco solo el fierro"); en el nivel 2 solo se abre el hueco.
 - **Muros de fachada centrados en los ejes del ingeniero** (Gabriel, 15-10-2026: "lo correcto es lo del ingeniero, nadie pondría un pilar
   no centrado"): el plano del arquitecto deja el eje 1 a 6,7 de la cara exterior (H a 7,2) y su muro de 25 va de la línea de fachada
   hacia adentro, así que un HEB 160 centrado en el eje asomaba 1,3 cm. `perimetro_desde_recintos` arma las fachadas desde los

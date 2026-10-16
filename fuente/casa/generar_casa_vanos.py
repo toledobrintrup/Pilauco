@@ -170,9 +170,9 @@ def restar(rects, o):
 VENT = {
  1: [
   ('V1',  'h', 1688.2, 25, 144.6, 541.6, 'ventana', 'ventana fija del living a la terraza sur'),
-  ('V2',  'v', 658.7,  25, 1979.7, 2158.7, 'ventana', 'ventana fija del hall de acceso, poniente'),
-  ('V3',  'h', 2171.6, 25, 671.3, 989.1, 'ventana', 'vidrio fijo del hall de acceso al sur (doble altura: sigue en el nivel 2)'),
-  ('V4',  'v', 1001.7, 25, 2049.8, 2158.8, 'ventana', 'ventana fija del hall de acceso, oriente'),
+  ('V2',  'v', 658.7,  25, 1979.7, 2158.7, 'vidrio doble altura', 'ventanal del hall de acceso, poniente: vidrio continuo del piso del nivel 1 al techo, marco solo de acero fino (Gabriel, 15-10-2026)'),
+  ('V3',  'h', 2171.6, 25, 671.3, 989.1, 'vidrio doble altura', 'ventanal principal del hall de acceso al sur: vidrio continuo del piso del nivel 1 al techo (≈7,7 m), sin travesaño entre pisos; marco solo de acero fino (Gabriel, 15-10-2026)'),
+  ('V4',  'v', 1001.7, 25, 2049.8, 2158.8, 'vidrio doble altura', 'ventanal del hall de acceso, oriente: vidrio continuo del piso del nivel 1 al techo, marco solo de acero fino'),
   ('V5',  'h', 1505.3, 25, 1253.2, 1550.2, 'ventana', 'ventana fija del comedor al acceso cubierto'),
   ('V6',  'v', 1777.2, 25, 1182.3, 1429.3, 'ventana', 'ventana fija del comedor, oriente'),
   ('V7',  'h', 113.0,  25, 1386.9, 1602.9, 'ventana', 'ventana de la lavandería al norte'),
@@ -190,9 +190,9 @@ VENT = {
   ('P3b', 'v', 2177.1, 25, 357.4, 447.4, 'puerta', 'puerta de la bodega al oriente (P3)'),
  ],
  2: [
-  ('V2',  'v', 658.8,  25, 1979.5, 2158.5, 'ventana', 'ventana fija del hall de doble altura, poniente (nivel 2)'),
-  ('V3',  'h', 2171.6, 25, 671.3, 989.1, 'ventana', 'vidrio fijo del hall de doble altura al sur (nivel 2)'),
-  ('V4',  'v', 1001.8, 25, 2049.8, 2158.8, 'ventana', 'ventana fija del hall de doble altura, oriente (nivel 2)'),
+  ('V2',  'v', 658.8,  25, 1979.5, 2158.5, 'hueco', 'hueco del ventanal de doble altura (se dibuja desde el nivel 1)'),
+  ('V3',  'h', 2171.6, 25, 671.3, 989.1, 'hueco', 'hueco del ventanal de doble altura (se dibuja desde el nivel 1)'),
+  ('V4',  'v', 1001.8, 25, 2049.8, 2158.8, 'hueco', 'hueco del ventanal de doble altura (se dibuja desde el nivel 1)'),
   ('V12', 'h', 1825.0, 25, 145.0, 242.0, 'puerta vidriada', 'puerta vidriada del dormitorio de visitas a la terraza sur (P 97 del plano)'),
   ('V13', 'h', 1825.0, 25, 364.7, 541.7, 'ventana', 'ventana del family room a la terraza sur'),
   ('V14', 'h', 2036.7, 25, 1100.1, 1197.1, 'ventana', 'ventana del WKC hijo 2 al sur'),
@@ -226,7 +226,8 @@ for nivel, name, vn in ((1, 'DATA_N1', 'v1'), (2, 'DATA_N2', 'v2')):
         p = eje_cercano(o, p) if e >= 20 else p          # ventanas de fachada: al eje del ingeniero, como su muro
         a, b = ([lo, p], [hi, p]) if o == 'h' else ([p, lo], [p, hi])
         z0 = 0.0 if tipo != 'ventana' else ANTEPECHO
-        vanos.append(dict(id=id_, tipo=tipo, a=a, b=b, e=e, z0=z0, z1=H_VANO, ancho=round(hi - lo, 1), alto=round(H_VANO - z0, 1), d=nota))
+        doble = tipo in ('vidrio doble altura', 'hueco')
+        vanos.append(dict(id=id_, tipo=tipo, a=a, b=b, e=e, z0=z0, z1=(9999.0 if doble else H_VANO), ancho=round(hi - lo, 1), alto=(None if doble else round(H_VANO - z0, 1)), d=nota, **({'marco': 5} if doble else {})))   # 9999 = hasta el techo (el 3D lo resuelve con la pendiente)
         rects = restar(rects, rect_vano(o, p, e, lo, hi))
     # puertas y pasos del plano (openings), menos los que ya son ventanas
     for k, op in enumerate(v['openings']):
