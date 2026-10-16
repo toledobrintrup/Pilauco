@@ -48,7 +48,17 @@ Desde el 15-10-2026 la vista 3D dibuja la casa con sus muros reales en vez de un
 - **Pilares dentro de ventanas del plano** (arquitecto vs ingeniero, sin resolver): V9 (oficina: el pilar 1×G3 y la cruz del eje 1
   quedan en el vidrio) y V18 (dormitorio hijo 1, nivel 2: el pilar 5×E). Las cañerías Ø310 de los accesos son columnas libres y no
   caben en un muro de 25.
-- **Supuesto**: el ala oriente (sala de máquinas y bodega) no tiene cubierta en los planos del modelo; el 3D le pone una
-  losa plana a 3,46 para cerrarla.
+- **Cubierta del ala oriente** (sala de máquinas y bodega): el ingeniero tiene sus vigas RECT 200×150 a +2,78 de eje (`V-G-5-6`,
+  `V-E-5-6`, `V-6-G-E` en `estructura.js`), así que la cubierta apoya a +2,88 y los muros del ala terminan ahí (`ALA_TOP` en `3d.html`;
+  `zTop` del nivel 1 recibe la x del muro para distinguir el ala). Antes el 3D le suponía una losa a +3,46. El espesor de 12 sigue
+  siendo supuesto: el plano no define esa cubierta.
+- **Escalera de obra** (Gabriel, 16-10-2026: "380 altura por 370 de avance, ancho 1,5 con baranda, plataforma de 1,5 × 1,5 arriba y el
+  quiebre… toda de fierro, cómoda y segura para subir materiales"): capa propia del 3D (`chk-escalera`, `grupoEscalera`). Va en la bodega
+  pegada al muro de la casa, subiendo hacia el norte: 16 huellas de 23,1 (avance 3,70) y 17 contrahuellas de 21,2 hasta el piso del nivel 2
+  (+3,61: de piso a cara superior de la viga del eje 5 son 3,46 y el hormigón agrega 15; si se parte del radier, sin piso, se agrega un
+  peldaño y quedan los 3,80 de Gabriel), 44°; plataforma de 1,50 × 1,50 a +3,61 que entra al nivel 2 entre los pilares F2 y E4 (2,28
+  libres); zancas C 200×50×4, peldaños de plancha estriada de 4, marco C 150 con 2 postes tubo 100×100×3 al oriente y el lado poniente
+  apernado a la viga IPE 270 del eje 5, baranda de 1,00 con barra a 0,50 y rodapié (unos 500 kg). Con la capa prendida, la cubierta baja
+  del ala se dibuja con el hueco provisorio de 1,6 × 5,3 (`ESC_HUECO`) por donde pasa. Lámina en `propuesta-ventanas/escalera.py`.
 
     python3 fuente/casa/generar_casa_vanos.py      # → casa_vanos.js (DATA_CASA)

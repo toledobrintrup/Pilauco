@@ -47,6 +47,12 @@ que va del WKC Maggie a la terraza grande) lleva baranda de vidrio, igual que la
 cada recinto conserva su color. El **nivel 2 tiene 3,00 libres en su parte más baja** (Gabriel, 15-10-2026:
 "lo dejamos más alto"): el techo y toda su estructura van 20 cm más arriba que en las elevaciones del
 ingeniero, que dibujan 2,80, con la misma pendiente (`fuente/ingenieria/herramientas/generar_estructura_js.py`).
+**Escalera de obra** (capa propia, desde el 16-10-2026): escalera provisoria de fierro en la bodega del ala
+oriente para subir materiales al nivel 2 durante la construcción (1,50 de ancho, 16 huellas de 23,1, 17
+contrahuellas de 21,2 hasta +3,61, plataforma de 1,50 × 1,50 que entra al nivel 2 entre los pilares F2 y E4,
+baranda de 1,00); con la capa prendida, la cubierta baja del ala muestra el hueco provisorio por donde pasa.
+La **cubierta del ala oriente** va a +2,88, sobre las vigas RECT 200×150 del ingeniero (antes el 3D le
+suponía una losa a +3,46), y los muros del ala terminan ahí.
 Los **muros de fachada van centrados en los ejes del ingeniero** (desde el 15-10-2026): el plano del
 arquitecto deja el eje a 6,7 de la cara exterior y los pilares asomaban 1,3 cm; el 3D corre los muros
 ~5,8 hacia afuera para que el acero quede adentro. El plano 2D sigue mostrando la línea del arquitecto.
