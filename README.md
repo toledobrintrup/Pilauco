@@ -55,6 +55,11 @@ contrahuellas de 21,9 hasta +3,95, plataforma de 1,50 × 1,50 pegada al fierro d
 baranda de 1,00); con la capa prendida, la cubierta baja del ala muestra el hueco provisorio por donde pasa.
 La **cubierta del ala oriente** va a +2,88, sobre las vigas RECT 200×150 del ingeniero (antes el 3D le
 suponía una losa a +3,46), y los muros del ala terminan ahí.
+**Cocina al plomo de la fachada** (Gabriel, 16-10-2026): el plano del arquitecto dejaba la cocina retranqueada
+2,35 m bajo el nivel 2, con un quincho cubierto delante y su ventanal viendo solo 27° de cielo; ahora el ventanal
+P4 va en la línea de fachada norte, entre los pilares 2 y 4 del ingeniero, bajo el pasillo-balcón solamente, y la
+cocina pasa de 50 a 63 m². El cambio está en `data.js` (recinto, muros, ventanal y contorno), así que el plano 2D y
+el 3D lo muestran igual.
 Los **muros de fachada van centrados en los ejes del ingeniero** (desde el 15-10-2026): el plano del
 arquitecto deja el eje a 6,7 de la cara exterior y los pilares asomaban 1,3 cm; el 3D corre los muros
 ~5,8 hacia afuera para que el acero quede adentro. El plano 2D sigue mostrando la línea del arquitecto.

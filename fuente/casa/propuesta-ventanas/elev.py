@@ -11,9 +11,7 @@ sc=0.56; ML=160; MT=130; MB=150
 def planos(f):
     # (coordenada perpendicular de la cara exterior, nivel, rango a lo largo, nota, recintos [(lo,hi,nombre)])
     if f=='norte': return [
-        (245,'N1',(660,1249),'cocina retranqueada 2,35 m bajo el nivel 2',[(660,1249,'Cocina')]),
-        (-2.6,'N1',(0,660),'bajo la terraza del nivel 2: porche cubierto de 7,85 m',[(30,390,'Oficina'),(405,645,'Galería')]),
-        (-2.6,'N1',(1249,1790),'',[(1264,1775,'Lavandería')]),
+        (-2.6,'N1',(0,1790),'oficina y galería bajo la terraza grande (porche de 7,85 m); cocina al plomo de la fachada, bajo el pasillo-balcón',[(30,390,'Oficina'),(405,645,'Galería'),(660,1249,'Cocina'),(1264,1775,'Lavandería')]),
         (-2.6,'N2',(0,1796),'pasillo-balcón de ≈1,75 m corrido por toda la fachada (baranda de vidrio), que lleva a la terraza grande',[(25,646,'Dorm. matrimonial'),(661,1000,'WKC Gabriel'),(1015,1765,'WKC Maggie')]),
         (-182.5,'ALA',(1771,2196),'sala de máquinas (sale 1,8 m)',[(1790,2165,'Sala de máquinas')])]
     if f=='sur': return [

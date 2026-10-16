@@ -56,6 +56,13 @@ Desde el 15-10-2026 la vista 3D dibuja la casa con sus muros reales en vez de un
   `V-E-5-6`, `V-6-G-E` en `estructura.js`), así que la cubierta apoya a +2,88 y los muros del ala terminan ahí (`ALA_TOP` en `3d.html`;
   `zTop` del nivel 1 recibe la x del muro para distinguir el ala). Antes el 3D le suponía una losa a +3,46. El espesor de 12 sigue
   siendo supuesto: el plano no define esa cubierta.
+- **Cocina al plomo de la fachada** (Gabriel, 16-10-2026: "hagamos lo del punto 3 de la cocina, lo había pensado y lo confirmas"): el plano del
+  arquitecto la retranqueaba 2,35 m bajo el nivel 2 (quincho cubierto delante; su ventanal veía 27° de cielo y daba 340 lux). Se editó
+  `data.js`: el recinto COCINA pasa a y 25,2–1096,8 (63,1 m²), los dos polígonos de muro que formaban el muro norte retranqueado se
+  rehacen con el muro en y 0,2–25,2 (jambas del P4 en 687,8 y 1222,8), los trazos del P4 en `windowsPath` y `doorsPath` suben 220,2
+  y el contorno (`envPath`) pierde el retranqueo. En `VENT`, P4a/P4/P4b van en p 12,7 (eje H). El 3D rearma la fachada norte corrida
+  entre los pilares 2 y 4; el pasillo-balcón sigue encima (1,75 m de cubierta en vez de 4,1). Copia del `data.js` anterior en el
+  scratchpad de la sesión del 16-10-2026, y el cambio queda registrado en git.
 - **Escalera de obra** (Gabriel, 16-10-2026: "380 altura por 370 de avance, ancho 1,5 con baranda, plataforma de 1,5 × 1,5 arriba y el
   quiebre… toda de fierro, cómoda y segura para subir materiales"; después: "justo llega hasta el borde, córrela más atrás, pegado al fierro
   de atrás"): capa propia del 3D (`chk-escalera`, `grupoEscalera`). Va en la bodega pegada al muro de la casa, subiendo hacia el norte, con
