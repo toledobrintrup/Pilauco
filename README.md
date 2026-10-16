@@ -32,10 +32,12 @@ En el teléfono, la lista de recintos vive en la hoja inferior: se sube tocando 
 ## Vista 3D
 
 Los muros, puertas y ventanas de cada nivel según el plano (desde el 15-10-2026; antes eran
-volúmenes por recinto), a su altura real (**3,46 m por piso**, dato tomado del plano de
+volúmenes por recinto), a su altura real (**3,80 m del piso terminado a la viga de entrepiso**, medido en terreno por
+Gabriel el 16-10-2026: "la hicimos más alta"; las elevaciones del ingeniero dibujan 3,46, y todo lo que está sobre el
+nivel 1 sube 34 cm en `generar_estructura_js.py`; antes el dato venía del plano de
 estructura). Nivel 1 abajo hasta la losa, Nivel 2 arriba hasta el techo siguiendo su pendiente,
 el techo con su pendiente real encima. Las ventanas son las de la **propuesta de ventanas** elegida
-por Gabriel el 15-10-2026 (todo piso a cielo e iguales por nivel: nivel 1 de 3,10 bajo la viga, nivel 2
+por Gabriel el 15-10-2026 (todo piso a cielo e iguales por nivel: nivel 1 de 3,40 (lo máximo bajo la viga de entrepiso), nivel 2
 de 2,80; módulo de 2,4 con las jambas en los pilares y
 fuera de las cruces del ingeniero; oficina con toda la pared norte a la piscina y tabiques vidriados
 al living y a la galería; comedor en 3 paños con los pilares a la vista; lavandería con ventana y
@@ -48,15 +50,15 @@ cada recinto conserva su color. El **nivel 2 tiene 3,00 libres en su parte más 
 "lo dejamos más alto"): el techo y toda su estructura van 20 cm más arriba que en las elevaciones del
 ingeniero, que dibujan 2,80, con la misma pendiente (`fuente/ingenieria/herramientas/generar_estructura_js.py`).
 **Escalera de obra** (capa propia, desde el 16-10-2026): escalera provisoria de fierro en la bodega del ala
-oriente para subir materiales al nivel 2 durante la construcción (1,50 de ancho, 16 huellas de 23,1, 17
-contrahuellas de 21,2 hasta +3,61, plataforma de 1,50 × 1,50 que entra al nivel 2 entre los pilares F2 y E4,
+oriente para subir materiales al nivel 2 durante la construcción (1,50 de ancho, 17 huellas de 24, 18
+contrahuellas de 21,9 hasta +3,95, plataforma de 1,50 × 1,50 pegada al fierro del eje G que entra al nivel 2,
 baranda de 1,00); con la capa prendida, la cubierta baja del ala muestra el hueco provisorio por donde pasa.
 La **cubierta del ala oriente** va a +2,88, sobre las vigas RECT 200×150 del ingeniero (antes el 3D le
 suponía una losa a +3,46), y los muros del ala terminan ahí.
 Los **muros de fachada van centrados en los ejes del ingeniero** (desde el 15-10-2026): el plano del
 arquitecto deja el eje a 6,7 de la cara exterior y los pilares asomaban 1,3 cm; el 3D corre los muros
 ~5,8 hacia afuera para que el acero quede adentro. El plano 2D sigue mostrando la línea del arquitecto.
-Sobre la placa colaborante va el hormigón de 15 (+3,46 a +3,61) y el nivel 2 pisa sobre él.
+Sobre la placa colaborante va el hormigón de 15 (+3,80 a +3,95) y el nivel 2 pisa sobre él.
 
 - **Arrastrar** gira el modelo, **rueda** acerca, **clic derecho** desplaza.
 - Casilleros para mostrar u ocultar cada nivel, el techo y la estructura.

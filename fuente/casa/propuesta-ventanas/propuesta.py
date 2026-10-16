@@ -32,7 +32,7 @@ ACT=[
  ('poniente',2,'Baño visitas',1113.1,1259.1,PC,'ventana',25,'V27'), ('poniente',2,'Dorm. visitas',1479.1,1626.1,PC,'ventana',25,'V28'),
 ]
 # ---------- PROPUESTA v2 (15-10-2026, tarde): todo piso a cielo. Nivel 1 hasta 3,10 (bajo la viga IPE 300); nivel 2 hasta el cielo bajo los cabios (techo−4,35 → 2,65 al norte, 3,35 al sur) ----------
-N1H=310
+N1H=340   # vidrios del nivel 1 de 3,40: lo máximo bajo la viga del entrepiso (3,50) con el nivel 1 de 3,80 medido en terreno
 def d2(y): return 280          # nivel 2 todas iguales de 2,80 (Gabriel: todas iguales; 3,00 libres bajo los cabios en el norte con el techo subido 20 cm); el cielo real es int((techo(y)-435)//5*5)
 def dd(y): return int((techo(y)-74)//5*5)           # doble altura: cielo del nivel 2 bajo las vigas (techo − 74, como cielo_n2 y CIELO_HALL)
 PROP=[

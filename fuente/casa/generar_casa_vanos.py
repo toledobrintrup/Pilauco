@@ -5,11 +5,11 @@
 - Ventanas: tabla de la propuesta de ventanas de la casa (Gabriel, 15-10-2026 tarde: "implementalo"), hecha sobre la tabla curada del plano
   (V1..V28, P1, P4, P6): todo piso a cielo, módulo 2,4, jambas en la cara de los pilares y fuera de las cruces y celosías del ingeniero;
   láminas en fuente/casa/propuesta-ventanas/ (propuesta.py, elev.py) y en Descargas → "Propuesta ventanas casa".
-Alturas: nivel 1 del piso a 3,10 (bajo la viga IPE 300 del entrepiso), todas iguales; nivel 2 todas iguales de 2,80 (Gabriel, 15-10-2026:
+Alturas (nivel 1 de 3,80 a la viga de entrepiso, medido en terreno el 16-10-2026): nivel 1 del piso a 3,40 (lo máximo bajo la viga; Gabriel, 16-10-2026), todas iguales; nivel 2 todas iguales de 2,80 (Gabriel, 15-10-2026:
   "ojo que las ventanas del segundo piso no miden lo mismo en altura" y "el segundo piso lo dejamos más alto, 3 metros en la parte más baja":
   el techo y su estructura suben 20 cm en generar_estructura_js.py, así que bajo los cabios quedan 3,00 en el norte y la ventana de 2,80
   deja 20 cm para el cabezal); puertas interiores y opacas 2,80; el ventanal de doble altura del hall hasta el cielo del nivel 2 (bajo las
-  vigas, no entre costaneras: ≈7,3 m).
+  vigas, no entre costaneras: ≈7,6 m).
 - Muros perimetrales centrados en los ejes del ingeniero (grilla.json): el arquitecto dejó el eje a 6,7 de la cara exterior, así que los muros
   de 25 se corren ~5,8 hacia afuera (Gabriel, 15-10-2026: "lo correcto es lo del ingeniero"); `caras` trae las caras viejas → nuevas para las losas.
 Uso: python3 fuente/casa/generar_casa_vanos.py  →  casa_vanos.js (DATA_CASA)"""
@@ -18,8 +18,10 @@ raiz = pathlib.Path(__file__).resolve().parents[2]
 s = open(raiz / 'data.js', encoding='utf-8').read()
 import math
 H_PUERTA = 280.0   # dintel de puertas interiores y opacas, y de los pasos (cm sobre el piso del nivel)
-H_N1 = 310.0       # vidrios del nivel 1: del piso al cielo, bajo la viga IPE 300 del entrepiso (la losa parte en 3,34)
-BANDA_N2 = 435.0   # cielo del nivel 2 bajo los cabios IPE 400: techo(y) − 435 sobre el piso +3,61 (banda de 50, holgura de 15 y el piso)
+PISO_N1 = 380.0    # cm: del piso terminado del nivel 1 a la cara superior de la viga de entrepiso (Gabriel lo midió en terreno el 16-10-2026: 3,80; las elevaciones del ingeniero dibujan 3,46)
+PISO_N2 = PISO_N1 + 15   # piso terminado del nivel 2: hormigón de 15 sobre la placa colaborante (+3,95)
+H_N1 = 340.0       # vidrios del nivel 1, todos iguales de 3,40: lo máximo bajo la IPE 300 del entrepiso (cara inferior a 3,50) dejando 10 para el cabezal (Gabriel, 16-10-2026: "entonces 3,60" no cabe)
+BANDA_N2 = 74 + PISO_N2   # cielo del nivel 2 bajo los cabios IPE 400: techo(y) − 74 (banda de 50, holgura de 15 y 9 de ajuste) medido desde el piso +3,95
 H_N2 = 280.0       # vidrios del nivel 2, todos iguales (Gabriel); caben porque el nivel 2 tiene 3,00 libres bajo los cabios en el norte (techo subido 20 cm)
 EST = json.loads(re.search(r'const DATA_ESTRUCTURA = (\{.*\});?\s*$', open(raiz / 'estructura.js', encoding='utf-8').read(), re.S).group(1)); T = EST['techo']
 def techo(y): return T['z0'] + (T['z1'] - T['z0']) * (max(T['y0'], min(T['y1'], y)) - T['y0']) / (T['y1'] - T['y0'])   # cara inferior del plano del techo (cm app), como alturaTecho en 3d.html
@@ -260,7 +262,7 @@ VENT = {
   ('P4b', 'h', 232.9,  25, 1050.9, 1222.8, 'ventana', 'N3 · paño fijo de la cocina al patio norte (P4 del plano, se mantiene)'),
   ('P2',  'v', 1777.2, 25, 991.8, 1081.8, 'puerta vidriada', 'E4 · puerta vidriada 0,9 de la chiflonera al estacionamiento cubierto (P2 del plano; vidrio laminado y cerradura multipunto)'),
   ('P1f', 'v', 1001.7, 25, 1532.8, 1553.0, 'ventana', 'E6 · paño fijo de 0,2 junto a la puerta de entrada'),
-  ('P1',  'v', 1001.7, 25, 1553.0, 1673.0, 'puerta vidriada', 'E6 · puerta de entrada vidriada de 1,2 desde el acceso cubierto (P 120 del plano), piso a cielo como el resto del nivel 1'),
+  ('P1',  'v', 1001.7, 25, 1553.0, 1673.0, 'puerta vidriada', 'E6 · puerta de entrada vidriada de 1,2 desde el acceso cubierto (P 120 del plano), piso a cielo como el resto del nivel 1 (3,40)'),
   ('P3a', 'v', 2177.1, 25, 235.5, 325.5, 'puerta', 'E1 · puerta de la sala de máquinas al oriente (P3)'),
   ('P3b', 'v', 2177.1, 25, 357.4, 447.4, 'puerta', 'E2 · puerta de la bodega al oriente (P3)'),
  ],
@@ -287,7 +289,7 @@ VENT = {
   ('V28', 'v', 12.5,   25, 1386.0, 1625.8, 'ventana', 'O8 · dormitorio de visitas al poniente (antes 1,47), jamba en la cara del pilar B1'),
  ]}
 salida = {'fuente': 'muros de wallsPath y puertas de openings (data.js, plano); ventanas curadas de windowsPath contra el plano (fuente/casa/generar_casa_vanos.py, 2026-10-15)',
-          'alturas': dict(n1=H_N1, n2=H_N2, puertas=H_PUERTA, antepecho=ANTEPECHO, dato='Gabriel (15-10-2026, tarde): todas las ventanas piso a cielo e iguales por nivel; nivel 1 de 3,10 (bajo la viga), nivel 2 de 2,80 (con 3,00 libres bajo los cabios en el norte: techo subido 20 cm); puertas 2,80; marcos europeos gruesos; el hall hasta el cielo del nivel 2 con marco de acero fino')}
+          'alturas': dict(n1=H_N1, n2=H_N2, puertas=H_PUERTA, antepecho=ANTEPECHO, dato='Gabriel (15-10-2026, tarde): todas las ventanas piso a cielo e iguales por nivel; nivel 1 de 3,40 (lo máximo bajo la viga, con el nivel 1 de 3,80 medido en terreno), nivel 2 de 2,80 (con 3,00 libres bajo los cabios en el norte); puertas 2,80; marcos europeos gruesos; el hall hasta el cielo del nivel 2 con marco de acero fino')}
 for nivel, name, vn in ((1, 'DATA_N1', 'v1'), (2, 'DATA_N2', 'v2')):
     d = datos(name); v = d['variants'][vn]
     rects = [r for poly in subpolys(v['wallsPath']) for r in rect_strips(poly)]

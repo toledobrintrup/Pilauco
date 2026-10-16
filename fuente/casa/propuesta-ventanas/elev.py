@@ -6,7 +6,7 @@ D=json.load(open(S+'/propuesta.json',encoding='utf-8')); ACT=D['actual']; PROP=D
 E=json.loads(re.search(r'const DATA_ESTRUCTURA = (\{.*\});?\s*$', open(R+'/estructura.js',encoding='utf-8').read(), re.S).group(1))
 T=E['techo']; techo=lambda y: T['z0']+(T['z1']-T['z0'])*(max(T['y0'],min(T['y1'],y))-T['y0'])/(T['y1']-T['y0'])
 PIL=[(m['id'],m['a'][0],m['a'][1],m['a'][2]) for m in E['miembros'] if m['c']=='pilar']
-N1T,LOSA0,N2F=334,334,361; BANDA=50; ALA_TOP=346
+N1T,LOSA0,N2F=368,368,395; BANDA=50; ALA_TOP=300   # nivel 1 de 3,80 a la viga (medido en terreno): losa de 12 bajo 3,80, piso del nivel 2 a 3,95; cubierta baja del ala a +3,00 (vigas RECT 200×150 a +2,78)
 sc=0.56; ML=160; MT=130; MB=150
 def planos(f):
     # (coordenada perpendicular de la cara exterior, nivel, rango a lo largo, nota, recintos [(lo,hi,nombre)])
@@ -73,15 +73,15 @@ def dibujar(f):
         if nota:
             yy = (Y(techo(pc) if f in ('norte','sur') else techo((a+b)/2))-24) if niv=='N2' else Y(-48)
             g.append(f'<text x="{(X(a)+X(b))/2:.1f}" y="{yy:.1f}" class="nota" text-anchor="middle">{nota}</text>')
-    # terraza norte (nivel 2) a +3,46: losa, baranda y sus 2 pilares (columns de DATA_N2.terrace)
+    # terraza norte (nivel 2) a +3,80 (placa) / +3,95 (piso): losa, baranda y sus 2 pilares (columns de DATA_N2.terrace)
     if f=='norte':
         g.append(f'<rect x="{min(X(590),X(660)):.1f}" y="{Y(ALA_TOP)}" width="{abs(X(660)-X(590)):.1f}" height="{ALA_TOP*sc:.1f}" fill="#7a5248"/>')
-        g.append(f'<rect x="{min(X(40),X(660)):.1f}" y="{Y(361)}" width="{abs(X(660)-X(40)):.1f}" height="{15*sc:.1f}" fill="#5c6168" stroke="#1a1a1a"/><line x1="{X(46)}" y1="{Y(466)}" x2="{X(653)}" y2="{Y(466)}" stroke="#d8d4cc" stroke-width="1.4"/>')
-        for xx in (46,653): g.append(f'<line x1="{X(xx)}" y1="{Y(466)}" x2="{X(xx)}" y2="{Y(361)}" stroke="#d8d4cc" stroke-width="1.2"/>')
-        g.append(f'<rect x="{min(X(652),X(1783)):.1f}" y="{Y(466)}" width="{abs(X(1783)-X(652)):.1f}" height="{105*sc:.1f}" fill="#8ec3ee" opacity=".25" stroke="#d8d4cc" stroke-width="1"/><rect x="{min(X(652),X(1783)):.1f}" y="{Y(361)}" width="{abs(X(1783)-X(652)):.1f}" height="{15*sc:.1f}" fill="#5c6168" stroke="#1a1a1a"/>')
+        g.append(f'<rect x="{min(X(40),X(660)):.1f}" y="{Y(395)}" width="{abs(X(660)-X(40)):.1f}" height="{15*sc:.1f}" fill="#5c6168" stroke="#1a1a1a"/><line x1="{X(46)}" y1="{Y(500)}" x2="{X(653)}" y2="{Y(500)}" stroke="#d8d4cc" stroke-width="1.4"/>')
+        for xx in (46,653): g.append(f'<line x1="{X(xx)}" y1="{Y(500)}" x2="{X(xx)}" y2="{Y(395)}" stroke="#d8d4cc" stroke-width="1.2"/>')
+        g.append(f'<rect x="{min(X(652),X(1783)):.1f}" y="{Y(500)}" width="{abs(X(1783)-X(652)):.1f}" height="{105*sc:.1f}" fill="#8ec3ee" opacity=".25" stroke="#d8d4cc" stroke-width="1"/><rect x="{min(X(652),X(1783)):.1f}" y="{Y(395)}" width="{abs(X(1783)-X(652)):.1f}" height="{15*sc:.1f}" fill="#5c6168" stroke="#1a1a1a"/>')
     if f=='poniente':
         for ya,yb in ((-785,-715),(-205,-135)): g.append(f'<rect x="{min(X(ya),X(yb)):.1f}" y="{Y(ALA_TOP)}" width="{abs(X(yb)-X(ya)):.1f}" height="{ALA_TOP*sc:.1f}" fill="#7a5248"/>')
-        g.append(f'<rect x="{min(X(-785),X(0)):.1f}" y="{Y(361)}" width="{abs(X(0)-X(-785)):.1f}" height="{15*sc:.1f}" fill="#5c6168" stroke="#1a1a1a"/><line x1="{X(-748)}" y1="{Y(466)}" x2="{X(-203)}" y2="{Y(466)}" stroke="#d8d4cc" stroke-width="1.4"/><line x1="{X(-748)}" y1="{Y(466)}" x2="{X(-748)}" y2="{Y(361)}" stroke="#d8d4cc" stroke-width="1.2"/>')
+        g.append(f'<rect x="{min(X(-785),X(0)):.1f}" y="{Y(395)}" width="{abs(X(0)-X(-785)):.1f}" height="{15*sc:.1f}" fill="#5c6168" stroke="#1a1a1a"/><line x1="{X(-748)}" y1="{Y(500)}" x2="{X(-203)}" y2="{Y(500)}" stroke="#d8d4cc" stroke-width="1.4"/><line x1="{X(-748)}" y1="{Y(500)}" x2="{X(-748)}" y2="{Y(395)}" stroke="#d8d4cc" stroke-width="1.2"/>')
         g.append(f'<text x="{(X(-785)+X(0))/2:.1f}" y="{Y(300):.1f}" class="nota" text-anchor="middle">terraza norte del nivel 2 · porche de 7,85 m abajo</text>')
     # pilares del ingeniero en la fachada
     for pid,px,py,pz in PIL:
@@ -127,14 +127,14 @@ def dibujar(f):
             g.append(f'<text x="{x0+w/2:.1f}" y="{Y(base+(z0+z1)/2)-2:.1f}" class="win" text-anchor="middle">{code}</text><text x="{x0+w/2:.1f}" y="{Y(base+(z0+z1)/2)+12:.1f}" class="wins" text-anchor="middle">{medidas}</text>')
         else:
             g.append(f'<text x="{x0+w/2:.1f}" y="{Y(base+z1)-4:.1f}" class="wins" text-anchor="middle">{code} {medidas}</text>')
-    for z,t in ((0,'±0,00 piso nivel 1'),(N2F,'+3,61 piso nivel 2')):
+    for z,t in ((0,'±0,00 piso nivel 1'),(N2F,'+3,95 piso nivel 2')):
         g.append(f'<line x1="{ML-40}" y1="{Y(z):.1f}" x2="{ML-8}" y2="{Y(z):.1f}" stroke="#b9b5ad"/><text x="{ML-44}" y="{Y(z)+4:.1f}" class="nota" text-anchor="end">{t}</text>')
     izq={'norte':'izquierda = oriente · derecha = poniente','sur':'izquierda = poniente · derecha = oriente','oriente':'izquierda = norte · derecha = sur','poniente':'izquierda = sur · derecha = norte'}[f]
     tit={'norte':'Fachada norte (patio, sol)','sur':'Fachada sur (acceso y camino)','oriente':'Fachada oriente (sol de la mañana)','poniente':'Fachada poniente (sol de la tarde)'}[f]
     g.append(f'<text x="{ML}" y="34" class="t">{tit} · propuesta de ventanas</text>')
     g.append(f'<text x="{ML}" y="58" class="nota">vista desde afuera ({izq}) · planos más lejanos en gris más oscuro · gris punteado = ventanas del plano de hoy · azul = propuesta · celeste = vidrio satinado (baños) · café = puertas</text>')
     g.append(f'<text x="{ML}" y="76" class="nota">naranjo punteado = pilares del ingeniero (eje) · X naranja = paño ciego por cruz o celosía del ingeniero · achurado = vigas y costaneras bajo el techo</text>')
-    g.append(f'<text x="{ML}" y="94" class="nota">todas iguales por nivel: nivel 1 de 3,10 (bajo la viga) · nivel 2 de 2,80 (el nivel 2 queda con 3,00 libres en el norte: techo 20 cm más alto, misma pendiente) · punto blanco = hoja que abre</text>')
+    g.append(f'<text x="{ML}" y="94" class="nota">todas iguales por nivel: nivel 1 de 3,40, lo máximo bajo la viga (el nivel 1 mide 3,80 a la viga, medido en terreno) · nivel 2 de 2,80 (el nivel 2 queda con 3,00 libres en el norte: techo 20 cm más alto, misma pendiente) · punto blanco = hoja que abre</text>')
     legy=hpx-40
     for i,(c,t) in enumerate((('#4A90D9','ventana / ventanal piso a cielo'),('#8ec3ee','vidrio satinado hasta 1,8 (baños)'),('#5aa4e6','puerta vidriada / doble altura'),('#8B6A45','puerta'))):
         g.append(f'<rect x="{ML+i*300}" y="{legy-11}" width="16" height="12" fill="{c}"/><text x="{ML+i*300+22}" y="{legy}" class="nota">{t}</text>')

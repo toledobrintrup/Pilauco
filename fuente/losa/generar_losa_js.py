@@ -678,7 +678,7 @@ def main(f_losa, f_placa, salida, f_extra=None):
         if any(b - a < SEP_MIN for a, b in zip(cs, cs[1:])): print('OJO pernos a menos de 4 d en', lin)
     out = {
         'fuente': L.get('fuentes', ''),
-        'z_viga': 346, 'espesor': 15, 'espesor_plano': 14.35,
+        'z_viga': 380, 'espesor': 15, 'espesor_plano': 14.35,   # 380: Gabriel midió en terreno 3,80 del piso terminado a la cara superior de la viga (16-10-2026); las elevaciones del ingeniero dibujan 3,46
         'perimetro': perim, 'hueco_escalera': L.get('hueco_escalera'), 'hueco_interior': None,
         'marco': marco, 'areas': areas, 'pilares_n2': pilares, 'grilla': X.get('grilla', {}),
         'perfilC': {'h': 150, 'b': 50, 't': 3, 'r': 3},

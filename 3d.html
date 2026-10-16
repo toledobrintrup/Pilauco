@@ -95,7 +95,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V101" data-vista="3d"></script>
+    <script src="menu.js?v=V102" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -105,7 +105,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     <button type="button" class="btn" id="capas-btn" hidden>Capas ▴</button>
     <div class="aviso" id="aviso" hidden>
       <button type="button" class="cerrar" id="aviso-cerrar" aria-label="Cerrar">×</button>
-      <span id="aviso-texto"><b>Qué es esto:</b> los muros, puertas y ventanas de cada nivel según el plano, a su altura real (3,46 m de piso a piso)
+      <span id="aviso-texto"><b>Qué es esto:</b> los muros, puertas y ventanas de cada nivel según el plano, a su altura real (3,80 m del piso a la viga de entrepiso, medido en terreno)
       y el techo de un agua con sus aleros. Activa <b>Ver estructura</b> para ver la estructura de
       acero de los planos del ingeniero, pieza por pieza y con la sección de su perfil; toca una
       pieza para ver su perfil, dónde está y su largo. <b>Losa colaborante</b> agrega el marco C y
@@ -166,17 +166,17 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V101"></script>
-<script src="data.js?v=V101"></script>
-<script src="casa_vanos.js?v=V101"></script>
-<script src="estructura.js?v=V101"></script>
-<script src="losa.js?v=V101"></script>
-<script src="sitio.js?v=V101"></script>
-<script src="sitio3d.js?v=V101"></script>
-<script src="estudio_estructura.js?v=V101"></script>
-<script src="mobiliario3d.js?v=V101"></script>
-<script src="cotas3d.js?v=V101"></script>
-<script src="goku3d.js?v=V101"></script>
+<script src="nav3d.js?v=V102"></script>
+<script src="data.js?v=V102"></script>
+<script src="casa_vanos.js?v=V102"></script>
+<script src="estructura.js?v=V102"></script>
+<script src="losa.js?v=V102"></script>
+<script src="sitio.js?v=V102"></script>
+<script src="sitio3d.js?v=V102"></script>
+<script src="estudio_estructura.js?v=V102"></script>
+<script src="mobiliario3d.js?v=V102"></script>
+<script src="cotas3d.js?v=V102"></script>
+<script src="goku3d.js?v=V102"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -195,11 +195,12 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
   const BG = dark ? 0x14161A : 0xF2F3F5;
   const GRID = dark ? 0x2A2E37 : 0xE3E6EB;
 
-  // ---------- altura de piso: 3,46 m, tomada de "Elevación Eje 1/2/3/5" ----------
-  const PISO = 3.46;       // m, confirmada en 4 elevaciones distintas de la estructura
+  // ---------- altura de piso: 3,80 m del piso terminado a la cara superior de la viga de entrepiso. Gabriel lo midió en terreno el 16-10-2026 ("desde la losa terminada hasta
+  // la parte de arriba de la viga hay 3,80, la hicimos más alta"); las elevaciones 1/2/3/5 del ingeniero dibujan 3,46, y estructura.js ya viene subido (ALZA_N1 en el generador) ----------
+  const PISO = 3.80;       // m, medido en terreno (el ingeniero dibuja 3,46)
   const LOSA = 0.12;       // m, espesor ilustrativo de la losa entre niveles
   const ALA_TOP = 288;     // cm: tope de los muros del ala oriente (sala de máquinas y bodega): sus vigas RECT 200×150 del ingeniero van a +2,78 de eje, así que la cubierta baja apoya a +2,88 (antes el 3D le suponía una losa a +3,46)
-  const ESC_HUECO = [[1790, 414], [1952, 414], [1952, 946], [1790, 946]];   // hueco provisorio en esa cubierta para la escalera de obra (1,6 × 5,3)
+  const ESC_HUECO = [[1790, 343], [1952, 343], [1952, 913], [1790, 913]];   // hueco provisorio en esa cubierta para la escalera de obra (1,6 × 5,7), pegada al eje G
   const cm = v => v / 100;
   // caras de fachada corridas al eje del ingeniero (casa_vanos.js → caras): los muros de 25 van centrados en los ejes 1, 5, 6, H, A, I1 (Gabriel, 15-10-2026)
   const ajustaCaras = (pts, nivel) => { const C = (typeof DATA_CASA !== 'undefined' && DATA_CASA['n' + nivel] && DATA_CASA['n' + nivel].caras) || {x: {}, y: {}}; const f = (v, m) => { for (const k in m) if (Math.abs(v - parseFloat(k)) < 1.5) return m[k]; return v; }; return pts.map(p => [f(p[0], C.x), f(p[1], C.y)]); };
@@ -239,7 +240,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
   // ventanas piso a cielo e iguales por nivel (nivel 1 de 3,10 bajo la viga, nivel 2 de 2,80 con 3,00 libres bajo los cabios), puertas de 2,80; las alturas vienen del generador (casa_vanos.js)
   function buildMurosCasa(nivel){
     const g = new THREE.Group();
-    // nivel 2: sobre la losa colaborante (placa sobre las vigas a +3,46 y hormigón de 15: piso a +3,61), para que el piso no quede bajo las nervaduras
+    // nivel 2: sobre la losa colaborante (placa sobre las vigas a +3,80 y hormigón de 15: piso a +3,95), para que el piso no quede bajo las nervaduras
     const LOSA_COL = (typeof DATA_LOSA !== 'undefined' && DATA_LOSA.espesor) || 15;
     const variante = nivel === 1 ? n1v : n2v, z0 = nivel === 1 ? 0 : PISO * 100 + LOSA_COL;
     // piso de cada recinto (2 cm, con el color del plano): para leer la planta desde arriba y tocarla
@@ -298,11 +299,11 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
   let grupoN1, grupoN2;   // muros de la casa: se arman después del techo, porque siguen su pendiente (alturaTecho)
   // shapeFromPts convierte cm a m: las losas van con la envolvente en cm (antes recibían metros y quedaban de 20 cm)
   const slabN1 = buildSlab(n1env, 0);
-  // losa del nivel 2: hormigón de 15 sobre la placa colaborante (DATA_LOSA.perimetro, con el hueco de la escalera), de +3,46 a +3,61; antes era una losa esquemática de 12 bajo +3,46
+  // losa del nivel 2: hormigón de 15 sobre la placa colaborante (DATA_LOSA.perimetro, con el hueco de la escalera), de +3,80 a +3,95 (PISO); antes era una losa esquemática de 12 bajo la viga
   const slabN2 = (() => { const g = new THREE.Group(); const Lo = (typeof DATA_LOSA !== 'undefined') ? DATA_LOSA : null;
     if (Lo && Lo.perimetro){ const sh = shapeFromPts(Lo.perimetro);   // el perímetro del ingeniero ya deja fuera el hall de doble altura (la escotadura 658..1002 × 1702..); el hueco_escalera como agujero sobresalía del contorno y dejaba una cara fantasma en el ventanal
-      const m = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, {depth: cm(Lo.espesor || 15), bevelEnabled: false}), new THREE.MeshLambertMaterial({color: dark ? 0x6E7177 : 0xB4B3AA, side: THREE.DoubleSide})); m.rotation.x = -Math.PI / 2; m.position.y = cm(Lo.z_viga || 346);
-      m.userData.sitio = `<b>Losa de hormigón del nivel 2</b><br><span class="sub">e=${Lo.espesor || 15} sobre la placa colaborante (de +${((Lo.z_viga || 346) / 100).toFixed(2).replace('.', ',')} a +${(((Lo.z_viga || 346) + (Lo.espesor || 15)) / 100).toFixed(2).replace('.', ',')}), con el hueco de la escalera; el nivel 2 pisa sobre ella</span>`; g.add(m); }
+      const m = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, {depth: cm(Lo.espesor || 15), bevelEnabled: false}), new THREE.MeshLambertMaterial({color: dark ? 0x6E7177 : 0xB4B3AA, side: THREE.DoubleSide})); m.rotation.x = -Math.PI / 2; m.position.y = cm(Lo.z_viga || PISO * 100);
+      m.userData.sitio = `<b>Losa de hormigón del nivel 2</b><br><span class="sub">e=${Lo.espesor || 15} sobre la placa colaborante (de +${((Lo.z_viga || PISO * 100) / 100).toFixed(2).replace('.', ',')} a +${(((Lo.z_viga || PISO * 100) + (Lo.espesor || 15)) / 100).toFixed(2).replace('.', ',')}), con el hueco de la escalera; el nivel 2 pisa sobre ella</span>`; g.add(m); }
     else { const r = ajustaCaras([[0, 0], [DATA_N2.W, 0], [DATA_N2.W, DATA_N2.H], [0, DATA_N2.H]], 2); g.add(buildSlab(r, PISO)); }
     return g; })();
   // ala oriente del nivel 1 (sala de máquinas y bodega, x > 17,90): el techo de un agua termina en x = 18,94 y el plano no define su cubierta → losa plana a +3,46 (supuesto)
@@ -314,23 +315,24 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
   if (slabAlaE) slabAlaE.userData.sitio = fichaAla;
   // la misma cubierta con el hueco provisorio de la escalera de obra (se muestra con la capa "Escalera de obra" prendida; la otra, apagada)
   const slabAlaEHueco = (() => { if (!alaPts) return null; const sh = shapeFromPts(alaPts); const hp = new THREE.Path(); ESC_HUECO.forEach((q, i) => { if (i === 0) hp.moveTo(cm(q[0]), -cm(q[1])); else hp.lineTo(cm(q[0]), -cm(q[1])); }); hp.closePath(); sh.holes.push(hp);
-    const m = extrudeShape(sh, LOSA, WALL_COLOR, 0.95); m.position.y = ALA_CUB - LOSA; m.userData.sitio = fichaAla.replace('espesor de 12, supuesto', 'espesor de 12, supuesto; con el hueco provisorio de 1,6 × 5,3 para la escalera de obra, que se cierra cuando la escalera se saque'); return m; })();
+    const m = extrudeShape(sh, LOSA, WALL_COLOR, 0.95); m.position.y = ALA_CUB - LOSA; m.userData.sitio = fichaAla.replace('espesor de 12, supuesto', 'espesor de 12, supuesto; con el hueco provisorio de 1,6 × 5,7 para la escalera de obra, que se cierra cuando la escalera se saque'); return m; })();
   if (slabAlaE) slabAlaE.visible = false;   // parte con la escalera prendida: se ve la cubierta con el hueco
   // ---------- escalera de obra en la bodega (Gabriel, 16-10-2026: "380 altura por 370 de avance, ancho 1,5 con baranda, plataforma de 1,5 × 1,5 y el quiebre"): de fierro, pegada al muro
-  // de la casa subiendo hacia el norte; 16 huellas de 23,1 (avance 3,70) y 17 contrahuellas de 21,2 hasta el piso del nivel 2 (+3,61, piso a cara superior de la viga 3,46 + hormigón 15);
-  // plataforma 1,5 × 1,5 a +3,61 que entra al nivel 2 entre los pilares F2 y E4 (2,28 libres); baranda de 1,00. Capa propia (chk-escalera) ----------
+  // de la casa subiendo hacia el norte, con la plataforma pegada al fierro del eje G (Gabriel, 16-10-2026: "justo llega hasta el borde, córrela más atrás, pegado al fierro de atrás");
+  // 17 huellas de 24 (avance 4,08, el pie queda a 0,33 del muro sur) y 18 contrahuellas de 21,9 hasta el piso del nivel 2 (+3,95 = viga 3,80 medida en terreno + hormigón 15);
+  // plataforma 1,5 × 1,5 a +3,95; el pilar F2 (y 4,12) queda en el borde de entrada al nivel 2 (0,55 libres al norte y 0,79 al sur); baranda de 1,00. Capa propia (chk-escalera) ----------
   const grupoEscalera = (() => {
     const g = new THREE.Group(); g.name = 'escalera de obra';
-    const X0 = 1796, X1 = 1946, YA = 940, YP = 570, NH = 16, H = 370 / 16, Z1 = PISO * 100 + 15, CH = Z1 / 17, PL0 = 420;
+    const X0 = 1796, X1 = 1946, PL0 = 349, YP = PL0 + 150, NH = 17, H = 24, YA = YP + NH * H, Z1 = PISO * 100 + 15, NC = 18, CH = Z1 / NC;
     const matF = new THREE.MeshLambertMaterial({color: dark ? 0x6c7076 : 0x55595f}), matP = new THREE.MeshLambertMaterial({color: dark ? 0x8a8f96 : 0x6f747b}), matB = new THREE.MeshLambertMaterial({color: 0xf5c542});
     const ficha = (m, t, s2) => { m.userData.sitio = `<b>${t}</b><br><span class="sub">${s2}</span>`; g.add(m); return m; };
     const caja = (cx, cy, cz, lx, ly, lz, mat, t, s2) => { const m = new THREE.Mesh(new THREE.BoxGeometry(cm(lx), cm(lz), cm(ly)), mat); m.position.set(cm(cx), cm(cz), cm(cy)); return ficha(m, t, s2); };
-    const sub = 'escalera de obra de fierro en la bodega (Gabriel, 16-10-2026): 1,50 de ancho, 16 huellas de 23,1 (avance 3,70), 17 contrahuellas de 21,2 hasta el piso del nivel 2 (+3,61), 44°; unos 500 kg de acero';
-    for (let k = 1; k <= NH; k++) caja((X0 + X1) / 2, YA - (k - 0.5) * H, k * CH - 2, X1 - X0, H, 4, matP, `Escalera de obra · huella ${k}`, 'plancha estriada de 4 mm de 1,50 × 0,23 soldada a las zancas · ' + sub);
-    const Lz = Math.hypot(YA - YP, Z1), ang = Math.atan2(Z1, YA - YP);   // zancas: dos C 200×50×4 bajo los peldaños, inclinadas 44°
-    [X0 + 2.5, X1 - 2.5].forEach(x => { const m = new THREE.Mesh(new THREE.BoxGeometry(cm(5), cm(20), cm(Lz)), matF); m.position.set(cm(x), cm(Z1 / 2 - 14), cm((YA + YP) / 2)); m.rotation.x = ang; ficha(m, 'Escalera de obra · zanca', 'perfil C 200×50×4 de 5,2 m, anclado abajo al radier con placa y pernos de expansión y arriba al marco de la plataforma · ' + sub); });
-    // plataforma 1,5 × 1,5 a +3,61: plancha sobre marco C 150×50×3, 2 postes tubo 100×100×3 al oriente; el lado poniente va apernado a la viga IPE 270 del eje 5
-    caja((X0 + X1) / 2, (PL0 + YP) / 2, Z1 - 2, X1 - X0, YP - PL0, 4, matP, 'Escalera de obra · plataforma', 'plancha estriada de 4 mm de 1,50 × 1,50 sobre marco C 150×50×3, a +3,61: desde aquí se entra al nivel 2 entre los pilares F2 y E4 (2,28 libres) · ' + sub);
+    const sub = 'escalera de obra de fierro en la bodega (Gabriel, 16-10-2026): 1,50 de ancho, 17 huellas de 24 (avance 4,08), 18 contrahuellas de 21,9 hasta el piso del nivel 2 (+3,95), 42°, plataforma pegada al fierro del eje G; unos 550 kg de acero';
+    for (let k = 1; k <= NH; k++) caja((X0 + X1) / 2, YA - (k - 0.5) * H, k * CH - 2, X1 - X0, H, 4, matP, `Escalera de obra · huella ${k}`, 'plancha estriada de 4 mm de 1,50 × 0,24 soldada a las zancas · ' + sub);
+    const Lz = Math.hypot(YA - YP, Z1), ang = Math.atan2(Z1, YA - YP);   // zancas: dos C 200×50×4 bajo los peldaños, inclinadas 42°
+    [X0 + 2.5, X1 - 2.5].forEach(x => { const m = new THREE.Mesh(new THREE.BoxGeometry(cm(5), cm(20), cm(Lz)), matF); m.position.set(cm(x), cm(Z1 / 2 - 14), cm((YA + YP) / 2)); m.rotation.x = ang; ficha(m, 'Escalera de obra · zanca', 'perfil C 200×50×4 de 5,7 m, anclado abajo al radier con placa y pernos de expansión y arriba al marco de la plataforma · ' + sub); });
+    // plataforma 1,5 × 1,5 a +3,95: plancha sobre marco C 150×50×3, 2 postes tubo 100×100×3 al oriente; el lado poniente va apernado a la viga IPE 270 del eje 5
+    caja((X0 + X1) / 2, (PL0 + YP) / 2, Z1 - 2, X1 - X0, YP - PL0, 4, matP, 'Escalera de obra · plataforma', 'plancha estriada de 4 mm de 1,50 × 1,50 sobre marco C 150×50×3, a +3,95, pegada al fierro del eje G: desde aquí se entra al nivel 2 (el pilar F2 queda en el borde: 0,55 libres al norte y 0,79 al sur) · ' + sub);
     const subM = 'perfil C 150×50×3 del marco de la plataforma; el lado poniente va apernado a la viga IPE 270 del eje 5 · ' + sub;
     caja(X0 + 2.5, (PL0 + YP) / 2, Z1 - 11.5, 5, YP - PL0, 15, matF, 'Escalera de obra · marco de la plataforma', subM); caja(X1 - 2.5, (PL0 + YP) / 2, Z1 - 11.5, 5, YP - PL0, 15, matF, 'Escalera de obra · marco de la plataforma', subM);
     caja((X0 + X1) / 2, PL0 + 2.5, Z1 - 11.5, X1 - X0, 5, 15, matF, 'Escalera de obra · marco de la plataforma', subM); caja((X0 + X1) / 2, YP - 2.5, Z1 - 11.5, X1 - X0, 5, 15, matF, 'Escalera de obra · marco de la plataforma', subM);

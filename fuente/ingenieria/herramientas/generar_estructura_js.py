@@ -49,11 +49,17 @@ def techo_desde_cabios(miembros):
 # colgadores, puntales y tensores enteros; los pilares, cruces y celosías del nivel 2 se alargan (nacen igual en la viga de entrepiso, Z 346,
 # y su tope sube 20). El modelo del ingeniero (modelo.json) queda intacto; el ajuste se aplica aquí al escribir estructura.js.
 ALZA_N2 = 20.0
-Z_N2 = 346.0        # cara superior de las vigas de entrepiso: ahí nacen los pilares del nivel 2
+Z_N2 = 346.0        # cara superior de las vigas de entrepiso en el modelo del ingeniero: ahí nacen los pilares del nivel 2
 H_N2_ING = 294.0    # altura de los pilares del nivel 2 en el modelo del ingeniero (346 → 640,1 en el eje H)
+# Nivel 1 de 3,80 (Gabriel lo midió en terreno el 16-10-2026: "desde la losa terminada hasta la parte de arriba de la viga hay 3,80, la hicimos más alta");
+# las elevaciones del ingeniero dibujan 3,46. Todo lo que está sobre el piso del nivel 1 sube ALZA_N1 = 34 cm: los pilares, cruces y celosías del nivel 1 se
+# alargan proporcionalmente (nacen igual en 0), y de la viga de entrepiso hacia arriba (losa, nivel 2, techo) sube todo parejo. Fundaciones y radier no cambian.
+ALZA_N1 = 34.0
+H_N1_ING = 316.0    # altura de los pilares del nivel 1 en el modelo del ingeniero (0 → 316, cara inferior de la IPE 300 del entrepiso)
 def alza(z):
-    """cuánto sube un punto: nada en el nivel 1 y en el entrepiso, proporcional dentro del muro del nivel 2, los 20 cm completos del tope de los pilares hacia arriba"""
-    return ALZA_N2 * min(1.0, max(0.0, (z - Z_N2) / H_N2_ING))
+    """cuánto sube un punto: proporcional dentro del nivel 1 (0 → 34 en el tope de sus pilares), 34 parejo desde el entrepiso, y además proporcional dentro del
+    muro del nivel 2 hasta los 20 cm completos del tope de sus pilares hacia arriba (techo y estructura de techumbre: 54)"""
+    return ALZA_N1 * min(1.0, max(0.0, z / H_N1_ING)) + ALZA_N2 * min(1.0, max(0.0, (z - Z_N2) / H_N2_ING))
 
 def main(entrada, salida):
     mod = json.load(open(entrada))
@@ -71,11 +77,11 @@ def main(entrada, salida):
         xs = [p[0] for p in techo['contorno']]
         techo = dict(contorno=[[round(x, 1), round(y, 1)] for x, y in techo['contorno']],
                      x0=min(xs), x1=max(xs), y0=y0, y1=y1, z0=z0, z1=z1)
-    techo['z0'] = techo['z0'] + ALZA_N2; techo['z1'] = techo['z1'] + ALZA_N2
+    techo['z0'] = techo['z0'] + ALZA_N1 + ALZA_N2; techo['z1'] = techo['z1'] + ALZA_N1 + ALZA_N2
     techo = {k: (round(float(v), 1) if isinstance(v, (int, float)) else v) for k, v in techo.items()}
-    techo['alza_n2'] = ALZA_N2
+    techo['alza_n2'] = ALZA_N2; techo['alza_n1'] = ALZA_N1
     usados = sorted(set(r['p'] for r in ms) | {'desconocido'})
-    fuente = mod.get('fuente', '') + f' Techo y estructura del nivel 2 subidos {ALZA_N2:.0f} cm respecto de las elevaciones del ingeniero (2,80 libres) para dejar 3,00 libres en la parte más baja (Gabriel, 15-10-2026), misma pendiente.'
+    fuente = mod.get('fuente', '') + f' Nivel 1 de 3,80 del piso terminado a la cara superior de la viga de entrepiso (Gabriel lo midió en terreno el 16-10-2026; las elevaciones dibujan 3,46): todo sobre el nivel 1 sube {ALZA_N1:.0f} cm. Techo y estructura del nivel 2 subidos además {ALZA_N2:.0f} cm (2,80 → 3,00 libres en la parte más baja, Gabriel 15-10-2026), misma pendiente.'
     out = dict(fuente=fuente, perfiles={k: PERFILES[k] for k in usados}, techo=techo, miembros=ms)
     js = 'const DATA_ESTRUCTURA = ' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n'
     open(salida, 'w').write(js)

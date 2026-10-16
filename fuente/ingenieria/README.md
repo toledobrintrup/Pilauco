@@ -118,7 +118,10 @@ nueva) y lo deja anotado en la pieza. Estas son las diferencias que quedaron:
   (`ALZA_N2`) el techo y toda su estructura del nivel 2** (cabios, costaneras, colgadores, puntales y tensores enteros; pilares, cruces y
   celosías del nivel 2 alargados desde la viga de entrepiso), con la misma pendiente: Gabriel dejó el nivel 2 con 3,00 libres en la parte
   más baja y las elevaciones 1, 2, 3 y 5 dibujan 2,80 desde el piso terminado hasta la cara inferior de los cabios. `datos/modelo.json`
-  sigue siendo el modelo del ingeniero tal cual; si llegan láminas nuevas con el nivel 2 más alto, `ALZA_N2 = 0`.
+  sigue siendo el modelo del ingeniero tal cual; si llegan láminas nuevas con el nivel 2 más alto, `ALZA_N2 = 0`. **Y desde el 16-10-2026
+  también sube 34 cm (`ALZA_N1`) todo lo que está sobre el piso del nivel 1**: Gabriel midió en terreno 3,80 del piso terminado a la cara
+  superior de la viga de entrepiso (las elevaciones dibujan 3,46); los pilares, cruces y celosías del nivel 1 se alargan proporcionalmente y
+  del entrepiso hacia arriba todo sube parejo (el techo queda 54 cm sobre las láminas). Fundaciones y radier no cambian.
 - `datos/extraccion_por_vista.zip` — lo extraído de cada una de las 29 vistas, antes de unir.
 - `herramientas/` — `comun.py` (lectura de láminas), `reproyectar.py` (dibuja el modelo
   sobre cualquier lámina para revisarlo) y `generar_estructura_js.py`. Necesitan los PDF en su
