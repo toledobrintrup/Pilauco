@@ -39,7 +39,7 @@ PROP=[
  # norte N1 (la sala de máquinas la indica Gabriel)
  ('norte',1,'Oficina',40,370,(0,N1H),'ventana',25,'N1 · 3,3 piso a cielo: toda la pared norte a la piscina (Gabriel: "la vista más linda de la casa")'),
  ('norte',1,'Galería',425,625,(0,N1H),'puerta vidriada',25,'N2 · puerta vidriada de 2 hojas 2,0 al porche cubierto (como el plano)'),
- ('norte',1,'Cocina',687.8,858.9,(0,N1H),'ventana',245,'N3 · P4 se mantiene: fijo 1,7'), ('norte',1,'Cocina',858.9,1050.9,(0,N1H),'corredera',245,'N3 · P4 se mantiene: corredera de 2 hojas 1,9'), ('norte',1,'Cocina',1050.9,1222.8,(0,N1H),'ventana',245,'N3 · P4 se mantiene: fijo 1,7'),
+ ('norte',1,'Cocina',687.8,858.9,(0,N1H),'ventana',25,'N3 · P4 al plomo de la fachada: fijo 1,7'), ('norte',1,'Cocina',858.9,1050.9,(0,N1H),'corredera',25,'N3 · P4 al plomo de la fachada: corredera de 2 hojas 1,9 (la cocina crece 2,2 m al norte; Gabriel, 16-10-2026)'), ('norte',1,'Cocina',1050.9,1222.8,(0,N1H),'ventana',25,'N3 · P4 al plomo de la fachada: fijo 1,7'),
  ('norte',1,'Lavandería',1290,1530,(0,N1H),'ventana',25,'N4 · ventana 2,4 piso a cielo, alineada con N8 (antes no tenía); una hoja proyectante'),
  ('norte',1,'Lavandería',1620,1710,(0,280),'puerta',25,'N4b · puerta de servicio 0,9 al patio cubierto del norte (tendedero bajo el pasillo-balcón)'),
  # norte N2
@@ -84,14 +84,14 @@ json.dump(dict(actual=ACT, propuesta=PROP, ciegos=CIEGOS), open(S+'/propuesta.js
 # ---------- luz: factor de luz diurna por recinto (Lynes), con θ por obstrucción ----------
 def theta(fach, nivel, plano, lo, hi):
     if nivel==1 and fach=='norte' and plano<100 and hi<660: return 15   # bajo la terraza norte (7,85 m de losa a 3,46)
-    if nivel==1 and fach=='norte' and plano==245: return 30             # cocina: 4,15 m bajo el nivel 2 y la cubierta del patio
     if nivel==1 and fach=='norte' and plano<100: return 50              # lavandería: cubierta de 1,8 m del eje I
+    if nivel==1 and fach=='norte' and plano==245: return 30             # cocina retranqueada del plano (solo en 'actual'): 4,15 m bajo el nivel 2 y el pasillo-balcón
     if nivel==2: return 65   # aleros de 1 m
     if fach=='sur' and plano==1493: return 20   # comedor sur: 6,6 m bajo el nivel 2 (acceso cubierto)
     if fach=='oriente' and plano==1765 and nivel==1: return 30   # comedor/chiflonera: 4 m bajo el techo del estacionamiento cubierto
     if fach=='oriente' and plano==989: return 60
     return 85
-rooms={('Oficina',1):(21.34,19.05),('Galería',1):(14.3,16.7),('Cocina',1):(50.14,28.81),('Lavandería',1):(17.36,17.01),('Living',1):(129,70),('Comedor',1):(29.6,23.1),('Hall',1):(21.2,19.7),('Bodega',1):(22.13,19.31),('Chiflonera',1):(6.52,12.61),('Sala de máquinas',1):(18.19,17.21),
+rooms={('Oficina',1):(21.34,19.05),('Galería',1):(14.3,16.7),('Cocina',1):(63.12,33.21),('Lavandería',1):(17.36,17.01),('Living',1):(129,70),('Comedor',1):(29.6,23.1),('Hall',1):(21.2,19.7),('Bodega',1):(22.13,19.31),('Chiflonera',1):(6.52,12.61),('Sala de máquinas',1):(18.19,17.21),
        ('Dorm. matrimonial',2):(32.54,22.9),('WKC Gabriel',2):(12.88,14.38),('WKC Maggie',2):(36.51,24.74),('Dorm. hijo 1',2):(32.54,27.17),('Baño hijos',2):(15.66,17.28),('Dorm. hijo 2',2):(32.19,27.02),('Dorm. visitas',2):(18.04,17.38),('Family room',2):(68.67,38.31),('Baño matrimonial',2):(18.99,18.53),('Baño visitas',2):(6.93,11.3),('WKC hijo 2',2):(11.71,14.11)}
 def df(lista):
     out={}; area={}
