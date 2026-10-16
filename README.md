@@ -34,9 +34,19 @@ En el teléfono, la lista de recintos vive en la hoja inferior: se sube tocando 
 Los muros, puertas y ventanas de cada nivel según el plano (desde el 15-10-2026; antes eran
 volúmenes por recinto), a su altura real (**3,46 m por piso**, dato tomado del plano de
 estructura). Nivel 1 abajo hasta la losa, Nivel 2 arriba hasta el techo siguiendo su pendiente,
-el techo con su pendiente real encima. Todas las ventanas de 2,80 (del piso al dintel, en los dos
-niveles) y las puertas de 2,80, con marcos europeos gruesos (10 × 8); los anchos son los del plano
-(`fuente/casa/generar_casa_vanos.py` → `casa_vanos.js`). El piso de cada recinto conserva su color.
+el techo con su pendiente real encima. Las ventanas son las de la **propuesta de ventanas** elegida
+por Gabriel el 15-10-2026 (todo piso a cielo e iguales por nivel: nivel 1 de 3,10 bajo la viga, nivel 2
+de 2,80; módulo de 2,4 con las jambas en los pilares y
+fuera de las cruces del ingeniero; oficina con toda la pared norte a la piscina y tabiques vidriados
+al living y a la galería; comedor en 3 paños con los pilares a la vista; lavandería con ventana y
+puerta de servicio; baños piso a cielo con vidrio satinado; closets con ventana de 2,4) con marcos
+europeos gruesos (10 × 8); el ventanal de doble altura del hall llega al cielo del nivel 2, bajo las
+vigas (`fuente/casa/generar_casa_vanos.py` → `casa_vanos.js`; láminas y luz por recinto en
+`fuente/casa/propuesta-ventanas/`). El **pasillo-balcón del norte** (1,8 m sobre los pilares del eje I,
+que va del WKC Maggie a la terraza grande) lleva baranda de vidrio, igual que la terraza. El piso de
+cada recinto conserva su color. El **nivel 2 tiene 3,00 libres en su parte más baja** (Gabriel, 15-10-2026:
+"lo dejamos más alto"): el techo y toda su estructura van 20 cm más arriba que en las elevaciones del
+ingeniero, que dibujan 2,80, con la misma pendiente (`fuente/ingenieria/herramientas/generar_estructura_js.py`).
 Los **muros de fachada van centrados en los ejes del ingeniero** (desde el 15-10-2026): el plano del
 arquitecto deja el eje a 6,7 de la cara exterior y los pilares asomaban 1,3 cm; el 3D corre los muros
 ~5,8 hacia afuera para que el acero quede adentro. El plano 2D sigue mostrando la línea del arquitecto.

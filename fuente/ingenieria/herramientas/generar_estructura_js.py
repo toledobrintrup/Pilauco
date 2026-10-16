@@ -43,12 +43,25 @@ def techo_desde_cabios(miembros):
     return dict(x0=round(min(xs) - 110, 1), x1=round(max(xs) + 110, 1), y0=round(y0, 1), y1=round(y1, 1),
                 z0=round(a * y0 + b + sobre, 1), z1=round(a * y1 + b + sobre, 1))
 
+# Nivel 2 con 3,00 libres en la parte más baja (Gabriel, 15-10-2026: "el segundo piso lo dejamos más alto, 3 metros en la parte más baja,
+# ajusta manteniendo la pendiente"). Las elevaciones 1, 2, 3 y 5 del ingeniero dibujan 2,80 desde el piso terminado (+3,61) hasta la cara
+# inferior de los cabios en el eje H, así que el techo y toda su estructura suben ALZA_N2 = 20 cm con la misma pendiente: cabios, costaneras,
+# colgadores, puntales y tensores enteros; los pilares, cruces y celosías del nivel 2 se alargan (nacen igual en la viga de entrepiso, Z 346,
+# y su tope sube 20). El modelo del ingeniero (modelo.json) queda intacto; el ajuste se aplica aquí al escribir estructura.js.
+ALZA_N2 = 20.0
+Z_N2 = 346.0        # cara superior de las vigas de entrepiso: ahí nacen los pilares del nivel 2
+H_N2_ING = 294.0    # altura de los pilares del nivel 2 en el modelo del ingeniero (346 → 640,1 en el eje H)
+def alza(z):
+    """cuánto sube un punto: nada en el nivel 1 y en el entrepiso, proporcional dentro del muro del nivel 2, los 20 cm completos del tope de los pilares hacia arriba"""
+    return ALZA_N2 * min(1.0, max(0.0, (z - Z_N2) / H_N2_ING))
+
 def main(entrada, salida):
     mod = json.load(open(entrada))
     ms = []
     for m in mod['miembros']:
         p = m.get('perfil') if m.get('perfil') in PERFILES else 'desconocido'
-        r = dict(id=m['id'], c=m.get('clase', 'otro'), p=p, a=[round(v, 1) for v in m['a']], b=[round(v, 1) for v in m['b']])
+        a = [m['a'][0], m['a'][1], m['a'][2] + alza(m['a'][2])]; b = [m['b'][0], m['b'][1], m['b'][2] + alza(m['b'][2])]
+        r = dict(id=m['id'], c=m.get('clase', 'otro'), p=p, a=[round(v, 1) for v in a], b=[round(v, 1) for v in b])
         if m.get('alma') in ('X', 'Y'): r['alma'] = m['alma']
         if m.get('donde'): r['d'] = m['donde']
         ms.append(r)
@@ -58,9 +71,12 @@ def main(entrada, salida):
         xs = [p[0] for p in techo['contorno']]
         techo = dict(contorno=[[round(x, 1), round(y, 1)] for x, y in techo['contorno']],
                      x0=min(xs), x1=max(xs), y0=y0, y1=y1, z0=z0, z1=z1)
+    techo['z0'] = techo['z0'] + ALZA_N2; techo['z1'] = techo['z1'] + ALZA_N2
     techo = {k: (round(float(v), 1) if isinstance(v, (int, float)) else v) for k, v in techo.items()}
+    techo['alza_n2'] = ALZA_N2
     usados = sorted(set(r['p'] for r in ms) | {'desconocido'})
-    out = dict(fuente=mod.get('fuente', ''), perfiles={k: PERFILES[k] for k in usados}, techo=techo, miembros=ms)
+    fuente = mod.get('fuente', '') + f' Techo y estructura del nivel 2 subidos {ALZA_N2:.0f} cm respecto de las elevaciones del ingeniero (2,80 libres) para dejar 3,00 libres en la parte más baja (Gabriel, 15-10-2026), misma pendiente.'
+    out = dict(fuente=fuente, perfiles={k: PERFILES[k] for k in usados}, techo=techo, miembros=ms)
     js = 'const DATA_ESTRUCTURA = ' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n'
     open(salida, 'w').write(js)
     print(salida, len(js), 'bytes,', len(ms), 'miembros; techo', techo)

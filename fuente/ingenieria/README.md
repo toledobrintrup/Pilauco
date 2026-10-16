@@ -114,7 +114,11 @@ nueva) y lo deja anotado en la pieza. Estas son las diferencias que quedaron:
 
 - `datos/grilla.json` — la grilla de ejes en cm, en el marco de la app, con su evidencia.
 - `datos/modelo.json` — el modelo completo, con las fuentes (vistas) y notas de cada pieza.
-  `estructura.js` (raíz) se genera de aquí con `herramientas/generar_estructura_js.py`.
+  `estructura.js` (raíz) se genera de aquí con `herramientas/generar_estructura_js.py`. **Desde el 15-10-2026 ese generador sube 20 cm
+  (`ALZA_N2`) el techo y toda su estructura del nivel 2** (cabios, costaneras, colgadores, puntales y tensores enteros; pilares, cruces y
+  celosías del nivel 2 alargados desde la viga de entrepiso), con la misma pendiente: Gabriel dejó el nivel 2 con 3,00 libres en la parte
+  más baja y las elevaciones 1, 2, 3 y 5 dibujan 2,80 desde el piso terminado hasta la cara inferior de los cabios. `datos/modelo.json`
+  sigue siendo el modelo del ingeniero tal cual; si llegan láminas nuevas con el nivel 2 más alto, `ALZA_N2 = 0`.
 - `datos/extraccion_por_vista.zip` — lo extraído de cada una de las 29 vistas, antes de unir.
 - `herramientas/` — `comun.py` (lectura de láminas), `reproyectar.py` (dibuja el modelo
   sobre cualquier lámina para revisarlo) y `generar_estructura_js.py`. Necesitan los PDF en su
