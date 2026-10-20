@@ -337,7 +337,7 @@
         cota(f, [xm, ym, zPB], [xm, ym, zCB], S, { ea: [pb.x0, ym, zPB], eb: [pb.x0, ym, zCB], nx: OES, rot: OES, sep: 0.45, texto: fmt(zCB - zPB), t: 'Búnker: alto interior', s: fmt(bi.alto || zCB - zPB) + ' m terminados (Gabriel)' });
       }
       // fundaciones del ingeniero (lámina 01 rev 1): zapata corrida del búnker (1,00 × 0,30) en su borde poniente,
-      // sobrecimiento (0,25 × 0,75) y cimiento corrido (0,80 × 0,25) en la fachada poniente fuera del búnker, CF 25/40 en el eje 4
+      // sobrecimiento (0,25 × 0,75) y cimiento corrido (0,80 × 0,25) en la fachada poniente fuera del búnker, CF 25/50 en el eje 4
       if (H.zapata_corrida && H.zapata_corrida.piezas) {
         const Zc = H.zapata_corrida, Lf = H.losa_fundacion, zo = Zc.piezas.find(p => p.id === 'ZC-O') || Zc.piezas[0], zb = bbox(zo.pts), yF = zb.y0 + (zb.y1 - zb.y0) * 0.7;
         const sZ = Lf ? ('e=' + fmt(Lf.espesor) + ' m bajo todo el búnker, unida a los muros · ' + Lf.armadura) : (fmt(Zc.ancho) + ' × ' + fmt(Zc.espesor) + ' m bajo los muros del búnker · ' + Zc.armadura);

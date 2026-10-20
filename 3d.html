@@ -95,7 +95,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V105" data-vista="3d"></script>
+    <script src="menu.js?v=V108" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -166,17 +166,17 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V105"></script>
-<script src="data.js?v=V105"></script>
-<script src="casa_vanos.js?v=V105"></script>
-<script src="estructura.js?v=V105"></script>
-<script src="losa.js?v=V105"></script>
-<script src="sitio.js?v=V105"></script>
-<script src="sitio3d.js?v=V105"></script>
-<script src="estudio_estructura.js?v=V105"></script>
-<script src="mobiliario3d.js?v=V105"></script>
-<script src="cotas3d.js?v=V105"></script>
-<script src="goku3d.js?v=V105"></script>
+<script src="nav3d.js?v=V108"></script>
+<script src="data.js?v=V108"></script>
+<script src="casa_vanos.js?v=V108"></script>
+<script src="estructura.js?v=V108"></script>
+<script src="losa.js?v=V108"></script>
+<script src="sitio.js?v=V108"></script>
+<script src="sitio3d.js?v=V108"></script>
+<script src="estudio_estructura.js?v=V108"></script>
+<script src="mobiliario3d.js?v=V108"></script>
+<script src="cotas3d.js?v=V108"></script>
+<script src="goku3d.js?v=V108"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -558,7 +558,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     if (H.piso) addH('piso', ficha(prismaH(H.piso.pts, H.piso.z_inf, H.piso.z_sup, matH), 'Búnker: radier', `e=${H.piso.espesor} · ${H.piso.armadura}`));
     H.vigas.forEach(v => addH('losa', ficha(prismaH(v.pts, v.z_inf, v.z_sup, matH), v.nombre, `${v.d} · ${v.armadura}`)));
     // fundaciones del ingeniero (lámina 01 rev 1): zapata corrida bajo los muros del búnker, sobrecimiento + cimiento corrido bajo las fachadas,
-    // CF 25/40 bajo los tabiques con pilares, emplantillados G5, radieres con sus capas y placas base PLb
+    // CF 25/50 bajo los tabiques con pilares (hasta la cara del radier), emplantillados G5, radieres con sus capas y placas base PLb
     const matEmp = new THREE.MeshLambertMaterial({color: dark ? 0x5A5D63 : 0x9A9CA0, transparent: true, opacity: 0.9, side: THREE.DoubleSide});
     const matPoli = new THREE.MeshLambertMaterial({color: dark ? 0xD8DADF : 0xF4F4F1, transparent: true, opacity: 0.9, side: THREE.DoubleSide});
     const matRell = new THREE.MeshLambertMaterial({color: dark ? 0x7A6F5E : 0xB8AA93, transparent: true, opacity: 0.9, side: THREE.DoubleSide});
