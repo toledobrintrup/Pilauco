@@ -1,7 +1,7 @@
 # Terreno de Casa Pilauco (sitio.js)
 
 Datos del lote, el gimnasio, el estudio con búnker, el estacionamiento futuro y el urbanismo que se dibujan
-en la Vista 3D (`sitio3d.js`). Todo en cm, en el marco de la app: X hacia el oriente (eje 6 de la casa),
+en la Vista 3D (`sitio3d.js`) y, desde el 21-10-2026, en el plano 2D como capa "Terreno" (`terreno2d.js`, en `index.html`). Todo en cm, en el marco de la app: X hacia el oriente (eje 6 de la casa),
 Y hacia el sur (eje A), Z hacia arriba con Z = 0 en el piso terminado del nivel 1 (NPT +0,70 del emplazamiento).
 
 ## Fuentes (ninguna entra al repositorio: las viñetas traen datos personales)

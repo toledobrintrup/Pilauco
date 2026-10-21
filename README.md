@@ -20,7 +20,7 @@ ancha, menú desplegable en el teléfono).
   planta sobre la que estás viendo, como referencia. Se apaga con su propio chip.
 - **Versión 1 / Versión 2** (sólo nivel 2) — alterna entre la distribución vigente y la
   alternativa sin oficinas.
-- **Capas** — recintos, medidas, puertas y ventanas, mobiliario y ejes se prenden y apagan por separado.
+- **Capas** — recintos, medidas, puertas y ventanas, mobiliario y ejes se prenden y apagan por separado. La capa **Terreno** (21-10-2026) dibuja alrededor de la casa, a la misma escala, el lote con sus deslindes, los cierros y el acceso, el gimnasio, el estudio con su búnker y lo que se ve en la foto de dron (piscina, jacuzzi, explanadas, radier, pozo, estanque), con cotas entre edificios y a los deslindes; "Ajustar vista" alterna casa ↔ lote y la regla de medir se ajusta también a deslindes, pilares y edificios.
 - **Medir** — toca el punto A y luego el punto B: la punta se ajusta sola a las esquinas de muro
   y muestra la distancia en centímetros (con Δx y Δy si la medida es diagonal).
 - **Tocar un recinto** — abre su ficha: caja, superficie, perímetro y el largo de cada tramo con sus coordenadas.
@@ -226,6 +226,7 @@ Base: plano L3 PLARQ2 (Planta Arquitectura Nivel 2, GVArq, dic. 2025, esc. 1:50)
 - `estructura.js` — la estructura de acero pieza por pieza (perfil y extremos de cada una) para la capa "Ver estructura" de `3d.html`; se genera desde `fuente/ingenieria/datos/modelo.json`.
 - `sitio.js` — el terreno (lote, cierros, acceso, gimnasio, estudio con búnker, senderos y piscina) para `3d.html`; se genera con `fuente/sitio/generar_sitio_js.py`.
 - `sitio3d.js` — el módulo que dibuja el terreno en Three.js.
+- `terreno2d.js` — el módulo que dibuja el mismo terreno (`sitio.js`) en el plano 2D, como capa "Terreno" de `index.html`.
 - `estudio.html` — la estructura del estudio con búnker adaptada del proyecto del ingeniero: planta, búnker, elevaciones, cambios, luces y preguntas.
 - `estudio_estructura.js` — las piezas de esa propuesta (acero y hormigón) para `estudio.html` y `3d.html`; se genera con `fuente/estudio/generar_estudio_estructura.py`.
 - `fuente/estudio/` — el generador de la propuesta y, en `datos/`, la lectura de las tres láminas del ingeniero.

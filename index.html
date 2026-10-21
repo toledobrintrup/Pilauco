@@ -21,6 +21,7 @@
   --accent:#3D5A73; --accent-soft:rgba(61,90,115,.10); --medida:#5C6673; --cota:#3D5A73; --win:#8A97A6; --furn:#C2C7CE; --stair:#CDD2D8;
   --f-oficina:#EEF1F9; --f-dorm:#EDF3EC; --f-bano:#EAF2F5; --f-closet:#FAF2E8; --f-estar:#F7F5F3; --f-hall:#F2F3F5; --f-otro:#F4F4F5;
   --f-cocina:#F3EFF7; --f-serv:#FAF2E8; --f-terraza:#EDF3EC; --axis2:#8A5CA8;
+  --pasto:#E6EEE2; --horm:#E9EBEE; --agua:#CFE3F3; --agua2:#7FA7C8; --edif:#ECEEF2; --cierro:#9AA3AE; --borde:#DADDE2;
   --hover:rgba(61,90,115,.10); --sel:rgba(61,90,115,.17); --shadow:0 1px 2px rgba(16,18,22,.06),0 10px 28px rgba(16,18,22,.10);
   --chrome:#1B1E24; --chrome-ink:#F0F2F5; --chrome-muted:#9AA0AC; --chrome-line:#343943; --chrome-hi:rgba(255,255,255,.10);
   --ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"Inter",system-ui,-apple-system,sans-serif;
@@ -31,6 +32,7 @@
   --accent:#8FB4D4; --accent-soft:rgba(143,180,212,.13); --medida:#99A2AF; --cota:#8FB4D4; --win:#6E7C8C; --furn:#4E5560; --stair:#454B55;
   --f-oficina:#1E2836; --f-dorm:#1F2A22; --f-bano:#1B2B30; --f-closet:#2E271B; --f-estar:#262227; --f-hall:#1F232B; --f-otro:#1D2129;
   --f-cocina:#25202E; --f-serv:#2E271B; --f-terraza:#1F2A22; --axis2:#C6A3E0;
+  --pasto:#1B2620; --horm:#262A32; --agua:#244B70; --agua2:#6FA3D6; --edif:#232833; --cierro:#5B6473; --borde:#30353F;
   --hover:rgba(143,180,212,.14); --sel:rgba(143,180,212,.24); --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
   --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
   }
@@ -40,6 +42,7 @@
   --accent:#8FB4D4; --accent-soft:rgba(143,180,212,.13); --medida:#99A2AF; --cota:#8FB4D4; --win:#6E7C8C; --furn:#4E5560; --stair:#454B55;
   --f-oficina:#1E2836; --f-dorm:#1F2A22; --f-bano:#1B2B30; --f-closet:#2E271B; --f-estar:#262227; --f-hall:#1F232B; --f-otro:#1D2129;
   --f-cocina:#25202E; --f-serv:#2E271B; --f-terraza:#1F2A22; --axis2:#C6A3E0;
+  --pasto:#1B2620; --horm:#262A32; --agua:#244B70; --agua2:#6FA3D6; --edif:#232833; --cierro:#5B6473; --borde:#30353F;
   --hover:rgba(143,180,212,.14); --sel:rgba(143,180,212,.24); --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
   --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
 }
@@ -148,6 +151,33 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
 .meas text{font-family:var(--ui);font-weight:500;font-size:calc(10px*var(--inv,1));font-variant-numeric:tabular-nums;fill:var(--cota);text-anchor:middle;dominant-baseline:middle;paint-order:stroke;stroke:var(--paper);stroke-width:calc(3px*var(--inv,1))}
 .note-lbl{font-family:var(--ui);font-weight:500;font-variant-numeric:tabular-nums;font-size:calc(10px*var(--inv,1));fill:var(--cota);text-anchor:middle;dominant-baseline:middle;pointer-events:none;paint-order:stroke;stroke:var(--paper);stroke-width:calc(3px*var(--inv,1))}
 .note-ln{stroke:var(--cota);stroke-width:1.2px;vector-effect:non-scaling-stroke;stroke-dasharray:5 4;fill:none}
+/* capa Terreno (terreno2d.js): el lote y lo que hay alrededor de la casa, a la misma escala */
+#view.lejos .lay-edges,#view.lejos .lay-axes,#view.lejos .lay-axes2,#view.lejos .wids,#view.lejos .env-dim,#view.lejos .ext-lbl,#view.lejos .setback-lbl,#view.lejos #g-notes,#view.lejos .terr-name,#view.lejos #g-names{display:none}
+#view.terreno .env-dim{display:none}   /* con el terreno prendido las cotas azules cruzarían los "máximo": el tamaño de la casa va en la ficha */
+#view.n2 .lay-terreno{opacity:.62}   /* en el nivel 2 el terreno queda 3 m más abajo: atenuado */
+.tr-pasto{fill:var(--pasto);stroke:var(--ink);stroke-width:1.3px;vector-effect:non-scaling-stroke;stroke-dasharray:14 5 3 5}
+.tr-serv{fill:none;stroke:var(--ink);stroke-width:1px;vector-effect:non-scaling-stroke;stroke-dasharray:14 5 3 5}
+.tr-serv-ext{fill:none;stroke:var(--muted);stroke-width:1px;vector-effect:non-scaling-stroke}
+.tr-norte{fill:var(--ink)}
+.tr-reja{fill:var(--muted)}
+.tr-cierro{fill:none;stroke:var(--cierro);stroke-linejoin:round;stroke-linecap:butt}
+.tr-pilar{fill:var(--ink)}
+.tr-acceso{stroke:var(--ink);stroke-width:2px;vector-effect:non-scaling-stroke}
+.tr-porton{stroke-dasharray:8 4}
+.tr-hoja{stroke:var(--ink);stroke-width:4px;vector-effect:non-scaling-stroke;opacity:.85}
+.tr-horm{fill:var(--horm);stroke:var(--muted);stroke-width:.8px;vector-effect:non-scaling-stroke}
+.tr-borde{fill:var(--borde);stroke:var(--muted);stroke-width:.8px;vector-effect:non-scaling-stroke}
+.tr-agua{fill:var(--agua);stroke:var(--agua2);stroke-width:1px;vector-effect:non-scaling-stroke}
+.tr-cub{fill:none;stroke:var(--muted);stroke-width:1px;vector-effect:non-scaling-stroke;stroke-dasharray:7 4}
+.tr-edif{fill:var(--edif);stroke:var(--ink);stroke-width:1.2px;vector-effect:non-scaling-stroke}
+.tr-recinto{fill:none;stroke:var(--muted);stroke-width:.7px;vector-effect:non-scaling-stroke}
+.tr-bunker{fill:none;stroke:var(--muted);stroke-width:1.4px;vector-effect:non-scaling-stroke;stroke-dasharray:2 3}
+.tr-casa{fill:var(--paper);stroke:none}
+.tr-lbl{font-family:var(--ui);font-weight:600;font-size:calc(12px*var(--inv,1));fill:var(--ink);text-anchor:middle;dominant-baseline:middle;letter-spacing:.06em;pointer-events:none;paint-order:stroke;stroke:var(--paper);stroke-width:calc(3px*var(--inv,1))}
+.tr-sub{font-family:var(--ui);font-weight:500;font-size:calc(10px*var(--inv,1));fill:var(--muted);text-anchor:middle;dominant-baseline:middle;pointer-events:none;paint-order:stroke;stroke:var(--paper);stroke-width:calc(3px*var(--inv,1))}
+.tr-des{font-family:var(--ui);font-weight:500;font-size:calc(10.5px*var(--inv,1));fill:var(--muted);text-anchor:middle;dominant-baseline:middle;letter-spacing:.04em;pointer-events:none;paint-order:stroke;stroke:var(--paper);stroke-width:calc(3px*var(--inv,1))}
+.tr-cota line{stroke:var(--cota);stroke-width:1px;vector-effect:non-scaling-stroke}
+.tr-cota-t{font-family:var(--ui);font-weight:500;font-size:calc(10px*var(--inv,1));font-variant-numeric:tabular-nums;fill:var(--cota);text-anchor:middle;dominant-baseline:middle;pointer-events:none;paint-order:stroke;stroke:var(--paper);stroke-width:calc(3px*var(--inv,1))}
 .hidden{display:none}
 /* .toolbar .grp gana por especificidad, hay que ser mas especifico que el */
 .toolbar .grp.hidden,.toolbar .sep.hidden{display:none}
@@ -206,7 +236,7 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V110" data-vista="plano"></script>
+    <script src="menu.js?v=V111" data-vista="plano"></script>
     <h1>Planta <span id="h1-niv">Nivel 2</span> <small>Vivienda — proyecto permiso de edificación</small></h1>
     <span class="meta" id="meta-n2">Medidas en metros · envolvente 17,90 × 21,77 · base: L3 PLARQ2 (dic. 2025, esc. 1:50)</span>
     <span class="meta hidden" id="meta-n1">Medidas en metros · envolvente construida 21,90 × 23,36 · base: L2 PLARQ (dic. 2025, esc. 1:50) + cambios de obra</span>
@@ -233,6 +263,7 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
       <button class="chip" id="ly-furn" aria-pressed="false" data-layer="lay-furn"><span class="sw" style="--sw:var(--furn)"></span>Mobiliario</button>
       <button class="chip" id="ly-axes" aria-pressed="true" data-layer="lay-axes"><span class="sw" style="--sw:var(--muted)"></span>Ejes</button>
       <button class="chip" id="ly-axes2" aria-pressed="true" data-layer="lay-axes2"><span class="sw" style="--sw:var(--axis2)"></span><span id="ly-axes2-t">Ejes otro nivel</span></button>
+      <button class="chip" id="ly-terreno" aria-pressed="false" data-layer="lay-terreno" title="Lote, deslindes, cierros, acceso, gimnasio, estudio con búnker, piscina y explanadas, a la misma escala"><span class="sw" style="--sw:var(--pasto)"></span>Terreno</button>
     </div>
     <div class="sep"></div>
     <div class="grp grp-tools"><span class="lbl">Herramientas</span>
@@ -248,6 +279,7 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
           <pattern id="hatchSb" patternUnits="userSpaceOnUse" width="14" height="14" patternTransform="rotate(-45)"><line x1="0" y1="0" x2="0" y2="14" stroke="var(--muted)" stroke-width="1" opacity=".55"/></pattern>
         </defs>
         <g id="view">
+          <g id="g-terreno" class="lay-terreno hidden"></g>
           <g id="g-terrace"></g>
           <g id="g-envelope"></g>
           <g id="g-ext"></g>
@@ -290,7 +322,9 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
     </aside>
   </div>
 </div>
-<script src="data.js?v=V110"></script>
+<script src="data.js?v=V111"></script>
+<script src="sitio.js?v=V111"></script>
+<script src="terreno2d.js?v=V111"></script>
 <script>
 (function(){
   const svg = document.getElementById('svg'), view = document.getElementById('view'), stage = document.getElementById('stage');
@@ -318,6 +352,20 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
          titulo:'Nivel 2', envTxt:'17,90 × 21,77 m', murK:'Muros', murV:'25 ext. · 15 int.'},
   };
   let piso = 'n1', CFG = FLOORS.n1, DATA = CFG.data;
+
+  // ---------- terreno (capa opcional, Gabriel 21-10-2026): sitio.js + terreno2d.js, en el mismo marco que la casa ----------
+  const gTer = $('g-terreno'); let TER = null, fitLote = false;
+  const casaPoly = (DATA_N1.envPath || '').replace(/[MLZ]/g, ' ').trim().split(/\s+/).map(Number).reduce((a, v, i, arr) => { if (i % 2 === 0) a.push([v, arr[i + 1]]); return a; }, []);
+  // DATA_SITIO es un const de sitio.js (no cuelga de window): se comprueba con typeof
+  if (typeof DATA_SITIO !== 'undefined' && window.Terreno2D) { try { TER = Terreno2D.crear(gTer, DATA_SITIO, { el, fmt, casa: casaPoly }); } catch (err) { console.error('terreno 2D', err); } }
+  const terrenoOn = () => !!TER && !gTer.classList.contains('hidden');
+  function terrenoInfo(){
+    const D = DATA_SITIO, L = D.lote, E = D.estudio, G = D.gimnasio;
+    return `<h3 style="margin-top:12px">Terreno</h3>
+      <div class="note">Lote de <b>${L.superficie_m2.toLocaleString('es-CL', {maximumFractionDigits:1})} m²</b> según el polígono del emplazamiento (la lámina rotula 5.135 m²) · rol ${esc(L.rol)} · deslindes N ${fmt(L.deslindes.norte)} · E ${fmt(L.deslindes.este)} · S ${fmt(L.deslindes.sur)} · O ${fmt(L.deslindes.oeste)} m.<br>
+      Casa ${FLOORS.n1.envTxt} (huella del nivel 1) · estudio ${fmt(E.ancho)} × ${fmt(E.largo)} m por construir, a 3,50 m del deslinde oriente · gimnasio ${fmt(G.ancho)} × ${fmt(G.largo)} m construido.<br>
+      Fuentes: lámina L1 del arquitecto (lote, deslindes, acceso, cierro sur y posición del gimnasio; su forma, de la L11) y foto de dron rectificada, ±30 a 50 cm (cierro perimetral, piscina, jacuzzi, explanadas, radier, pozo, estanque; lo supuesto está marcado en sitio.js). La casa va donde se construyó (en L1 está dibujada 3,28 m más al sur). Las cotas azules miden entre caras.</div>`;
+  }
 
   function buildStatic(){
     $('p-stairs').setAttribute('d', DATA.stairsPath || '');
@@ -447,7 +495,7 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
     $('s-area').textContent = m2(total);
   }
   function showIntro(v){
-    detail.innerHTML = `<h3>Selecciona un recinto</h3><div class="note">Clic en el plano o en la lista. Las medidas son interiores, entre caras de muro, en metros. Las superficies se calculan del polígono interior exacto.</div>`;
+    detail.innerHTML = `<h3>Selecciona un recinto</h3><div class="note">Clic en el plano o en la lista. Las medidas son interiores, entre caras de muro, en metros. Las superficies se calculan del polígono interior exacto.</div>` + (terrenoOn() ? terrenoInfo() : '');
   }
   function select(id){
     if (selected && byId[selected]) { byId[selected].el.classList.remove('sel'); byId[selected].row.setAttribute('aria-selected','false'); }
@@ -525,6 +573,7 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
       const g = svg.querySelector('.' + btn.dataset.layer);
       if (btn.dataset.layer === 'lay-rooms') { g.classList.toggle('off', !on); gN.style.display = on ? '' : 'none'; }
       else if (btn.dataset.layer === 'lay-edges') updateEdgeVisibility();
+      else if (btn.dataset.layer === 'lay-terreno') { g.classList.toggle('hidden', !on); fitLote = on; fit(); if (!measuring) $('hint').textContent = on ? HINT_T : HINT; if (!selected) showIntro(mode); }
       else g.classList.toggle('hidden', !on);
     });
   });
@@ -555,10 +604,13 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
     gE.querySelectorAll('text.doorw').forEach(t => { t.style.opacity = k >= 0.5 ? 1 : 0; });
     gW.style.opacity = k >= 0.42 ? 1 : 0;
     gS.querySelectorAll('.setback-lbl').forEach(t => { t.style.display = k >= 0.45 ? '' : 'none'; });
+    if (TER) TER.aplicar(k);
+    view.classList.toggle('lejos', terrenoOn() && k < 0.14);   // lote entero: la casa sin cotas, ejes ni rótulos
+    view.classList.toggle('terreno', terrenoOn()); view.classList.toggle('n2', piso === 'n2');
   }
   function fit(pad){
     const b = stage.getBoundingClientRect(); pad = pad || (b.width < 600 ? 12 : 40);
-    const V = CFG.view || DATA.view || [-70, -60, DATA.W + 150, DATA.H + 150];
+    const V = (terrenoOn() && fitLote) ? [TER.lote[0] - 250, TER.lote[1] - 560, TER.lote[2] + 250, TER.lote[3] + 700] : (CFG.view || DATA.view || [-70, -60, DATA.W + 150, DATA.H + 150]);
     const x0 = V[0], y0 = V[1], x1 = V[2], y1 = V[3];
     k = Math.min((b.width - pad*2) / (x1 - x0), (b.height - pad*2) / (y1 - y0));
     tx = (b.width - (x1 - x0) * k) / 2 - x0 * k; ty = (b.height - (y1 - y0) * k) / 2 - y0 * k; encuadrePropio = false; apply();
@@ -602,7 +654,7 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
   });
   const up = ev => { ptrs.delete(ev.pointerId); if (ptrs.size < 2) pinch = null; if (ptrs.size === 0) { last = null; stage.classList.remove('dragging'); } };
   stage.addEventListener('pointerup', up); stage.addEventListener('pointercancel', up);
-  $('tool-fit').addEventListener('click', () => fit());
+  $('tool-fit').addEventListener('click', () => { if (terrenoOn()) fitLote = !fitLote; fit(); });   // con el terreno prendido alterna casa ↔ lote
   // En el teléfono la barra de URL aparece y desaparece: eso dispara resize y cambia
   // sólo el alto. Reencuadrar ahí borraría el zoom del usuario, así que sólo
   // reencuadramos cuando cambia el ancho de verdad (girar el teléfono, etc.).
@@ -641,9 +693,11 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
   let measuring = false, mA = null;
   const gM = $('g-meas'), mBtn = $('tool-measure');
   function vertices(){ const v = []; rooms.forEach(r => r.pts.forEach(p => v.push(p)));
-    DATA.variants[mode].wallsPath.split('M').forEach(s => s.split(/[LZ]/).forEach(q => { const m = q.trim().split(' '); if (m.length === 2) v.push([+m[0], +m[1]]); })); return v; }
+    DATA.variants[mode].wallsPath.split('M').forEach(s => s.split(/[LZ]/).forEach(q => { const m = q.trim().split(' '); if (m.length === 2) v.push([+m[0], +m[1]]); }));
+    if (terrenoOn()) TER.vertices.forEach(p => v.push(p)); return v; }
   function snapPt(wx, wy){ const tol = (coarse ? 22 : 10) / k; let best = null, bd = tol; for (const v of vertices()) { const d = Math.hypot(v[0]-wx, v[1]-wy); if (d < bd) { bd = d; best = v; } } return best ? [best[0], best[1], true] : [wx, wy, false]; }
   const HINT = 'Rueda / pellizco: zoom · arrastrar: mover · clic en un recinto: detalle · acerca para ver más cotas';
+  const HINT_T = 'Terreno: "Ajustar vista" alterna casa ↔ lote · la regla de medir también se ajusta a deslindes, pilares y edificios · pasa el cursor por un elemento para saber qué es';
   const MSTART = coarse ? 'Medir: toca el punto A (se ajusta solo a las esquinas de muro).' : 'Medir: clic en el punto A y luego en el punto B (se ajusta a esquinas de muro). Esc para salir.';
   const MNEXT = coarse ? 'Ahora toca el punto B. Arrastra o pellizca para moverte sin perder el punto A.' : 'Ahora clic en el punto B. Esc para salir.';
   mBtn.addEventListener('click', () => { measuring = !measuring; mBtn.setAttribute('aria-pressed', measuring); stage.classList.toggle('measuring', measuring); mA = null; tempClear();
