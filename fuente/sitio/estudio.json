@@ -1,10 +1,10 @@
 {
  "fuente": "Planta del estudio enviada por Gabriel el 2026-10-11 (cotas en mm) y sus indicaciones del 11 y 12 de octubre; estructura y fundaciones pendientes del ingeniero",
- "unidad": "cm, marco local del estudio: x hacia el oriente desde la cara exterior poniente, y hacia el sur desde la cara exterior norte",
+ "unidad": "cm, marco local del estudio: x hacia el eje 5 desde la cara exterior del eje 1, y hacia el eje E desde la cara exterior del eje A",
  "exterior": {
   "ancho": 1075.0,
   "largo": 1745.0,
-  "dato": "Gabriel (2026-10-12/14): las cotas de la planta son medidas terminadas; arriba muros y tabiques de 25 terminado (sin tabique extra: 'se considera 25 cm terminado'); el búnker lleva un tabique de 10 por dentro de sus 4 muros de hormigón y tiene que medir 10,05 x 6,00 terminado (opción 1, 14-10-2026): ejes 1-5 = 10,50 y A-B = 6,45 → 10,75 x 15,95 por fuera (antes 10,55 x 15,75); la cafetería crece a 10,25 x 6,20 y el estudio a 7,50 x 9,00; franja oriente (14-10-2026): baño 1,90 + cabina 3,80 + bodega 2,80 entre tabiques de 25; +1,50 al largo (14-10-2026, 'la bodega yo creo que quedará chica'): bodega 4,30 y estudio 10,50 → 10,75 x 17,45 por fuera"
+  "dato": "Gabriel (2026-10-12/14): las cotas de la planta son medidas terminadas; arriba muros y tabiques de 25 terminado (sin tabique extra: 'se considera 25 cm terminado'); el búnker lleva un tabique de 10 por dentro de sus 4 muros de hormigón y tiene que medir 10,05 x 6,00 terminado (opción 1, 14-10-2026): ejes 1-5 = 10,50 y A-B = 6,45 → 10,75 x 15,95 por fuera (antes 10,55 x 15,75); la cafetería crece a 10,25 x 6,20 y el estudio a 7,50 x 9,00; franja 4–5 (14-10-2026): baño 1,90 + cabina 3,80 + bodega 2,80 entre tabiques de 25; +1,50 al largo (14-10-2026, 'la bodega yo creo que quedará chica'): bodega 4,30 y estudio 10,50 → 10,75 x 17,45 por fuera"
  },
  "muro": {
   "espesor": 25.0,
@@ -49,7 +49,7 @@
      645
     ]
    ],
-   "dato": "10,25 x 6,20 entre muros de 25 terminado (creció desde 10,05 x 6,00 para que el búnker de abajo mida 10,05 x 6,00 con su tabique de 10; Gabriel, 14-10-2026, opción 1); se descuenta la caja de la escalera (muro de 23,3 + hueco 1,30 x 2,74 + muro norte de 23) en la esquina nororiente"
+   "dato": "10,25 x 6,20 entre muros de 25 terminado (creció desde 10,05 x 6,00 para que el búnker de abajo mida 10,05 x 6,00 con su tabique de 10; Gabriel, 14-10-2026, opción 1); se descuenta la caja de la escalera (muro de 23,3 + hueco 1,30 x 2,74 + muro de 23 hacia el eje A) contra el muro del eje 5"
   },
   {
    "id": "escalera",
@@ -73,7 +73,7 @@
      522
     ]
    ],
-   "dato": "hueco libre de 1,30 x 2,74 entre el muro de 23,3 (poniente) y el tabique de 10 del muro oriente del búnker; el muro norte de 23 va a 2,00 de la cara norte; se entra por el descanso del sur (1,30 x 1,23)"
+   "dato": "hueco libre de 1,30 x 2,74 entre el muro de 23,3 (hacia el eje 4) y el tabique de 10 del muro del eje 5 del búnker; el muro de 23 hacia el eje A va a 2,00 de la cara interior del muro del eje A; se entra por el descanso del lado del eje B (1,30 x 1,23)"
   },
   {
    "id": "estudio",
@@ -97,7 +97,7 @@
      1720
     ]
    ],
-   "dato": "7,50 x 10,50 entre muros de 25 terminado (Gabriel dio 7,30 x 9,00: creció 20 a lo ancho por el tabique del búnker y 1,50 a lo largo el 14-10-2026 para que la bodega no quede chica; los parlantes van en el muro sur)"
+   "dato": "7,50 x 10,50 entre muros de 25 terminado (Gabriel dio 7,30 x 9,00: creció 20 a lo ancho por el tabique del búnker y 1,50 a lo largo el 14-10-2026 para que la bodega no quede chica; los parlantes van en el muro del eje E)"
   },
   {
    "id": "bano",
@@ -121,7 +121,7 @@
      860
     ]
    ],
-   "dato": "2,50 x 1,90 entre muros de 25 terminado (Gabriel, 14-10-2026: el baño de 2,50 x 4,10 'será como un baño turco'; la franja oriente se parte en baño, cabina y bodega); puerta desde la cafetería, ventana alta al oriente"
+   "dato": "2,50 x 1,90 entre muros de 25 terminado (Gabriel, 14-10-2026: el baño de 2,50 x 4,10 'será como un baño turco'; la franja 4–5 se parte en baño, cabina y bodega); puerta desde la cafetería, ventana alta en la fachada del eje 5"
   },
   {
    "id": "cabina",
@@ -146,7 +146,7 @@
     ]
    ],
    "cielo_cm": 300.0,
-   "dato": "para voz y guitarra acústica seca: 2,50 x 3,80 entre muros de 25 terminado y cielo bajado a 3,00 (proporción 1 : 1,5 : 1,2, sin dos medidas iguales); ciega: sin ventana al exterior ni al estudio (Gabriel, 14-10-2026); al medio de la franja, con la bodega de colchón contra el ruido del baño; tabiques dobles dentro de los 25 (dos bastidores separados, lana de 10, doble placa por cara); puerta acústica maciza con doble burlete hacia el estudio, en el extremo norte (lejos de la posición de escucha); por dentro absorción gruesa y trampas en las esquinas; inyección de aire silenciosa por el plenum de 1,00 sobre el cielo"
+   "dato": "para voz y guitarra acústica seca: 2,50 x 3,80 entre muros de 25 terminado y cielo bajado a 3,00 (proporción 1 : 1,5 : 1,2, sin dos medidas iguales); ciega: sin ventana al exterior ni al estudio (Gabriel, 14-10-2026); al medio de la franja, con la bodega de colchón contra el ruido del baño; tabiques dobles dentro de los 25 (dos bastidores separados, lana de 10, doble placa por cara); puerta acústica maciza con doble burlete hacia el estudio, en el extremo junto al eje C (lejos de la posición de escucha); por dentro absorción gruesa y trampas en las esquinas; inyección de aire silenciosa por el plenum de 1,00 sobre el cielo"
   },
   {
    "id": "bodega",
@@ -170,7 +170,7 @@
      1720
     ]
    ],
-   "dato": "2,50 x 4,30 entre muros de 25 terminado, al sur de la cabina (Gabriel, 14-10-2026: +1,50 'a morir nomás'); puerta desde el estudio en su extremo norte"
+   "dato": "2,50 x 4,30 entre muros de 25 terminado, entre la cabina y la fachada del eje E (Gabriel, 14-10-2026: +1,50 'a morir nomás'); puerta desde el estudio en su extremo junto al eje C2"
   }
  ],
  "alturas": {
@@ -181,7 +181,7 @@
   "techo_espesor_cm": 10.0,
   "dato_techo": "supuesto: plancha y aislación, solo para el volumen",
   "estructura_techo_cm": 40.0,
-  "dato_estructura_techo": "viga E-O 100x100 sobre los pilares, viga inclinada 200x150 encima y costanera CA 100 (láminas 04 y 05 del ingeniero): el techo va 40 cm sobre la cara inferior de la estructura (+4,11)",
+  "dato_estructura_techo": "viga 100x100 sobre los pilares, viga inclinada 200x150 encima y costanera CA 100 (láminas 04 y 05 del ingeniero): el techo va 40 cm sobre la cara inferior de la estructura (+4,11)",
   "alero_ns_cm": 100.0,
   "alero_eo_cm": 100.0,
   "dato_alero": "Gabriel (2026-10-12): aleros como los de la casa (≈1,00 m por todos lados; el techo con 0,80/0,52 del ingeniero se veía corto); medidos desde la cara exterior del muro",
@@ -219,7 +219,7 @@
   "tipo": "un agua",
   "pendiente": 0.035,
   "sube_hacia": "sur",
-  "dato": "Gabriel (2026-10-11): misma pendiente que la casa (3,5 %); cielo interior de 4,00 m en el lado norte (cafetería, hacia el patio) y sube a 4,53 m hacia el sur (estudio, hacia el camino)"
+  "dato": "Gabriel (2026-10-11): misma pendiente que la casa (3,5 %); cielo interior de 4,00 m en el eje A (cafetería, hacia el patio) y sube a 4,53 m hacia el eje E (estudio, hacia el camino)"
  },
  "bunker": {
   "nombre": "Búnker",
@@ -242,10 +242,10 @@
    ]
   ],
   "interior_cm": 310.0,
-  "dato": "Gabriel: justo debajo de la cafetería; tabique de 10 por dentro de los 4 muros de hormigón (14-10-2026): 10,05 x 6,00 terminado, 10,25 x 6,20 entre muros; centrado en la excavación ya hecha. Altura: 3,10 m libres TERMINADOS (de porcelanato a cielo de yeso cartón; 3,21 de obra gruesa) desde el 15-10-2026: el ingeniero (vía Gabriel) cambió la zapata corrida + relleno + radier por una losa de fundación armada de 30 bajo todo el búnker, cuya cara superior es el piso; el sello no cambia (−371 bajo la losa de techo) y el búnker gana los 30 cm. Revisión estructural del 23-10-2026: losa de techo de 25 y losa de fundación de 35, con los mismos 3,10 libres (el sello baja a −391). Antes 2,80 libres. Su muro sur (645..670) queda bajo el tabique cafetería/estudio"
+  "dato": "Gabriel: justo debajo de la cafetería; tabique de 10 por dentro de los 4 muros de hormigón (14-10-2026): 10,05 x 6,00 terminado, 10,25 x 6,20 entre muros; centrado en la excavación ya hecha. Altura: 3,10 m libres TERMINADOS (de porcelanato a cielo de yeso cartón; 3,21 de obra gruesa) desde el 15-10-2026: el ingeniero (vía Gabriel) cambió la zapata corrida + relleno + radier por una losa de fundación armada de 30 bajo todo el búnker, cuya cara superior es el piso; el sello no cambia (−371 bajo la losa de techo) y el búnker gana los 30 cm. Revisión estructural del 23-10-2026: losa de techo de 25 y losa de fundación de 35, con los mismos 3,10 libres (el sello baja a −391). Antes 2,80 libres. Su muro del eje B (645..675) queda bajo el tabique cafetería/estudio"
  },
  "emplazamiento": {
-  "anclaje": "el búnker centrado en la excavación actual (foto de dron de octubre 2026), con la cafetería hacia el patio (norte) y el estudio hacia el camino (sur)",
+  "anclaje": "el búnker centrado en la excavación actual (foto de dron de octubre 2026), con la cafetería hacia el patio y el estudio hacia el camino",
   "dato": "Gabriel (2026-10-11); la excavación se digitaliza de la foto de dron rectificada con las esquinas del lote (precisión ±30 cm)"
  },
  "nivel_piso": {

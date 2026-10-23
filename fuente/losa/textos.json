@@ -30,11 +30,11 @@
   }
  },
  "diferencias": [
-  "En obra se midió entre <b>caras exteriores de vigas</b> (el 7,92 del área 1 es de la cara norte de la viga K a la cara sur de la viga H). En el modelo cada plancha termina en la punta del ala del C en el borde (5 cm adentro) y en el eje de la viga donde se juntan dos áreas (a tope), así que los largos salen más cortos que los anotados.",
+  "En obra se midió entre <b>caras exteriores de vigas</b> (el 7,92 del área 1 va de la cara exterior de la viga K, en el borde de la losa, a la cara de la viga H que mira al eje G2). En el modelo cada plancha termina en la punta del ala del C en el borde (5 cm adentro) y en el eje de la viga donde se juntan dos áreas (a tope), así que los largos salen más cortos que los anotados.",
   "<b>Área 1: 7 planchas, no 8.</b> Entre las alas del C caben 6,53 m de placa y 7 × 0,95 = 6,65 m alcanzan. El ancho de 7,30 no calza con ningún par de vigas (entre los ejes 1 y 2 hay 6,47 m).",
   "<b>Área 4: 7 planchas, no 8</b> (6,49 m de ancho), de 1,36 m de largo entre el eje B y el ala del C en A3; se anotó 1,65.",
-  "<b>Área 5 tiene dos largos:</b> 6 planchas de 8,27 m entre los ejes 2 y 4 (llegan a la viga E4) y 6 de 8,57 m entre 4 y 5 (llegan a la viga F2+273, 30 cm más al sur); la que cruza el eje 4 se corta. Se anotó un solo largo, 8,70.",
-  "<b>Área 6:</b> las planchas corren de este a oeste, apoyadas en los ejes 3 y 4: son 5 de 2,49 m. Se anotó un largo de 2,90 y la cotización trae 6.",
+  "<b>Área 5 tiene dos largos:</b> 6 planchas de 8,27 m entre los ejes 2 y 4 (llegan a la viga E4) y 6 de 8,57 m entre 4 y 5 (llegan a la viga F2+273, 30 cm más hacia el eje E); la que cruza el eje 4 se corta. Se anotó un solo largo, 8,70.",
+  "<b>Área 6:</b> las planchas corren del eje 3 al eje 4, apoyadas en esos dos ejes: son 5 de 2,49 m. Se anotó un largo de 2,90 y la cotización trae 6.",
   "<b>Área 7</b> empieza en la viga F2+273, no en E4: planchas de 4,18 m. El 4,59 anotado calza con medir desde E4.",
   "<b>Área 3:</b> 12 planchas, como se anotó (la cotización trae 13). La primera, junto al escalón de la viga F a la E4, lleva un destaje de 30 × 354 cm.",
   "<b>Total: 66 planchas en el modelo contra 70 en la cotización</b> (una más en las áreas 1, 3, 4 y 6), leyendo las filas de la cotización en el orden de las áreas. La cotización no muestra los largos: conviene revisarlos contra la tabla de arriba."

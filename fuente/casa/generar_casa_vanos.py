@@ -265,8 +265,8 @@ VENT = {
   ('P2',  'v', 1777.2, 25, 991.8, 1081.8, 'puerta vidriada', 'E4 · puerta vidriada 0,9 de la chiflonera al estacionamiento cubierto (P2 del plano; vidrio laminado y cerradura multipunto)'),
   ('P1f', 'v', 1001.7, 25, 1532.8, 1553.0, 'ventana', 'E6 · paño fijo de 0,2 junto a la puerta de entrada'),
   ('P1',  'v', 1001.7, 25, 1553.0, 1673.0, 'puerta vidriada', 'E6 · puerta de entrada vidriada de 1,2 desde el acceso cubierto (P 120 del plano), piso a cielo como el resto del nivel 1 (3,40)'),
-  ('P3a', 'v', 2177.1, 25, 235.5, 325.5, 'puerta', 'E1 · puerta de la sala de máquinas al oriente (P3)'),
-  ('P3b', 'v', 2177.1, 25, 357.4, 447.4, 'puerta', 'E2 · puerta de la bodega al oriente (P3)'),
+  ('P3a', 'v', 2177.1, 25, 235.5, 325.5, 'puerta', 'E1 · puerta de la sala de máquinas en el eje 6 (P3)'),
+  ('P3b', 'v', 2177.1, 25, 357.4, 447.4, 'puerta', 'E2 · puerta de la bodega en el eje 6 (P3)'),
  ],
  2: [
   ('V2',  'v', 658.8,  25, 1979.5, 2158.5, 'hueco', 'hueco del ventanal de doble altura (se dibuja desde el nivel 1)'),

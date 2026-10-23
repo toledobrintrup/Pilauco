@@ -31,27 +31,28 @@
 
   // ---------- dónde va y de dónde sale cada barra ----------
   const PARTE = { sup: 'superiores', med: 'medias', inf: 'inferiores', est: 'estribos' };
+  const EJE_MURO = { N: 'A', S: 'B', O: '1', E: '5' };   // muros del búnker por su eje: los textos no llevan orientación (23-10-2026)
   const lista = a => a.length <= 1 ? (a[0] || '') : a.slice(0, -1).join(', ') + ' y ' + a[a.length - 1];
   function donde(ids) {
     const uniq = a => [...new Set(a)];
     const m = ids.map(id => /^M([VHC])-([NSOE])-(ext|int)$/.exec(id)).filter(Boolean);
     if (m.length) {
       const t = { V: 'verticales', H: 'horizontales', C: 'coronamiento (2ø12)' }[m[0][1]], mu = uniq(m.map(x => x[2])), ca = uniq(m.map(x => x[3]));
-      return `${t} ${mu.length > 1 ? 'de los muros' : 'del muro'} ${lista(mu)} · ${ca.length > 1 ? '2 mallas' : 'malla ' + (ca[0] === 'ext' ? 'exterior' : 'interior')}`;
+      return `${t} ${mu.length > 1 ? 'de los muros de los ejes' : 'del muro del eje'} ${lista(mu.map(x => EJE_MURO[x]))} · ${ca.length > 1 ? '2 mallas' : 'malla ' + (ca[0] === 'ext' ? 'exterior' : 'interior')}`;
     }
-    if (ids.every(id => /^LT-/.test(id)) && ids.length > 1) return 'superiores en L sobre los 4 muros (N-S y E-O)';
+    if (ids.every(id => /^LT-/.test(id)) && ids.length > 1) return 'superiores en L sobre los 4 muros (en A–B y en 1–5)';
     if (ids.every(id => /^LR-/.test(id))) return `suples ${ids.length > 1 ? 'superiores e inferiores' : ids[0] === 'LR-sup' ? 'superiores' : 'inferiores'} en las esquinas del hueco de la escalera`;
-    const lf = { 'LF-inf-NS': 'malla inferior N-S', 'LF-inf-EO': 'malla inferior E-O', 'LF-sup-NS': 'malla superior N-S', 'LF-sup-EO': 'malla superior E-O',
-      LN: 'inferiores N-S (luz corta)', LE: 'inferiores E-O', 'LT-NS': 'superiores N-S en L sobre los muros norte y sur', 'LT-EO': 'superiores E-O en L sobre los muros poniente y oriente',
+    const lf = { 'LF-inf-NS': 'malla inferior en A–B', 'LF-inf-EO': 'malla inferior en 1–5', 'LF-sup-NS': 'malla superior en A–B', 'LF-sup-EO': 'malla superior en 1–5',
+      LN: 'inferiores en A–B (luz corta)', LE: 'inferiores en 1–5', 'LT-NS': 'superiores en A–B, en L sobre los muros de los ejes A y B', 'LT-EO': 'superiores en 1–5, en L sobre los muros de los ejes 1 y 5',
       LS: 'superiores sobre la VHA del eje 3', 'LR-sup': 'suples superiores en las esquinas del hueco', 'LR-inf': 'suples inferiores en las esquinas del hueco',
       AN: 'horquillas 1+1 de las placas PLb', AP: 'pernos ø3/4" A36 de las placas PLc, con tuerca y golilla (no son A630)', AU: 'armadura de anclaje de los dados (4 verticales por dado)',
       AX: 'estribos extra bajo los pilares con cruz del sobrecimiento' };
     if (ids.every(id => lf[id])) return lista(uniq(ids.map(id => lf[id])));
-    const NV = { 'VHA-3': 'VHA del eje 3', 'VHA-esc': 'viga de borde poniente del hueco', 'VB-N': 'viga de borde norte del hueco', 'VB-S': 'viga de borde sur del hueco' };
+    const NV = { 'VHA-3': 'VHA del eje 3', 'VHA-esc': 'viga de borde del hueco (lado del eje 4)', 'VB-N': 'viga de borde del hueco (lado del eje A)', 'VB-S': 'viga de borde del hueco (lado del eje B)' };
     const v = ids.map(id => /^(VHA-3|VHA-esc|VB-N|VB-S)-(sup|med|inf|est)$/.exec(id)).filter(Boolean);
     if (v.length) return `${lista(uniq(v.map(x => NV[x[1]])))}: ${lista(uniq(v.map(x => PARTE[x[2]])))}`;
     const s = ids.map(id => /^(SU|S16|S8|CU|CL)-(1|5|E)$/.exec(id)).filter(Boolean);
-    if (s.length) { const t = { SU: 'estribos', S16: '2ø16 superiores', S8: 'horizontales (2 caras)', CU: 'U transversales', CL: '4ø10 longitudinales' }[s[0][1]]; const e = uniq(s.map(x => x[2])); return `${t} · eje${e.length > 1 ? 's' : ''} ${lista(e)}`; }
+    if (s.length) { const t = { SU: 'estribos', S16: '2ø16 superiores', S8: 'horizontales (2 caras)', CU: 'U transversales', CL: '4ø12 longitudinales' }[s[0][1]]; const e = uniq(s.map(x => x[2])); return `${t} · eje${e.length > 1 ? 's' : ''} ${lista(e)}`; }
     const da = ids.map(id => /^DA-(4C2?)-(inf|est)$/.exec(id)).filter(Boolean);
     if (da.length) return `${lista(uniq(da.map(x => x[2] === 'inf' ? 'malla inferior' : 'estribos perimetrales')))} · dado${uniq(da.map(x => x[1])).length > 1 ? 's' : ''} ${lista(uniq(da.map(x => x[1])))}`;
     const c = ids.map(id => /^CF-(4|C|C2)-(sup|med|inf|est)$/.exec(id)).filter(Boolean);
@@ -73,11 +74,12 @@
     if (/^SU-/.test(id)) return ['propuesta', 'L01 ajustada', `lámina 01, corte b-b (ø10@20); ramas y patas ajustadas al sobrecimiento de 30 y al recubrimiento 5 del cimiento (${REV})`];
     if (/^CU-/.test(id)) return ['propuesta', 'L01 ajustada', `lámina 01, corte b-b (ø12@20 en U); ramas ajustadas al recubrimiento 5 (${REV})`];
     if (/^S16-/.test(id)) return ['propuesta', 'revisión', `${REV}: 2ø16 (lámina 01: 2ø12 anclados al muro); esquinas en L traslapadas 60ø`];
-    if (/^(S8|CL)-/.test(id)) return ['dato', 'L01 b-b', 'lámina 01, corte b-b; esquinas en L de 60ø propuestas'];
+    if (/^S8-/.test(id)) return ['dato', 'L01 b-b', 'lámina 01, corte b-b; esquinas en L de 60ø propuestas'];
+    if (/^CL-/.test(id)) return ['propuesta', 'revisión', `lámina 01, corte b-b: 4ø10; 4ø12 por el sismo en A–E (${REV}); esquinas en L de 60ø`];
     if (/^CF-/.test(id)) return ['dato', 'L01 CF', `lámina 01, CF 25/40: 3ø12 + 2ø10 + 3ø12; sección 30/50 y ganchos de 90° en los extremos por la ${REV}`];
     if (id === 'AN') return ['dato', 'L01 PLb', 'lámina 01, detalle PLb; horquillas paralelas y ganchos hacia afuera (revisión 23-10-2026)'];
     if (/^(AP|AU|AX)$/.test(id)) return ['propuesta', 'revisión', `placa PLc con 4 pernos y armadura de anclaje dimensionada con Ω0 = 2 (${REV})`];
-    if (/^DA-/.test(id)) return ['propuesta', 'revisión', `dados 140 × 140 × 80 bajo 4C y 4C2 (${REV})`];
+    if (/^DA-/.test(id)) return ['propuesta', 'revisión', `dados 140 × 140 × 120 bajo 4C y 4C2, hasta 10 sobre el sello (${REV})`];
     return ['propuesta', '', ''];
   }
 

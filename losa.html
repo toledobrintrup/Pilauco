@@ -102,7 +102,11 @@ td.okv{color:var(--ok)}
 .sw{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:6px;border:1px solid rgba(0,0,0,.15)}
 figure{margin:14px 0 10px}
 figure svg{display:block;width:100%;height:auto}
-figcaption{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45}
+figcaption{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.45}
+#tabla-areas{font-size:14px}
+#tabla-areas td,#tabla-areas th{padding-left:6px;padding-right:6px}
+#tabla-areas td.r,#tabla-areas td.c{white-space:nowrap}
+#dif-areas .small{font-size:14px}
 svg .tx{font-family:var(--ui);fill:var(--fig-ink)}
 svg .txs{font-family:var(--ui);fill:var(--fig-soft)}
 .aviso{border:1px solid var(--hi-borde);background:var(--hi-soft);border-radius:10px;padding:9px 12px;margin:10px 0;font-size:13px}
@@ -185,7 +189,7 @@ details.areas[open] summary::before{content:"▾ ";}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V116" data-vista="losa"></script>
+  <script src="menu.js?v=V117" data-vista="losa"></script>
   <h1>Losa colaborante <small>Entrepiso de 15 cm · marco C, placa Instadeck 0,8, pernos, malla C-188 y hormigón</small></h1>
   <span class="meta">Fuentes: planta estructura nivel 1 (rev. 08-04-2026), detalle del ingeniero (05-10-2026), lámina 11 de pernos (07-10-2026), fichas de Instadeck, pernos Nelson y mallas ACMA, y áreas marcadas en obra</span>
 </header>
@@ -263,7 +267,7 @@ details.areas[open] summary::before{content:"▾ ";}
   <ul class="puntos"><li><b>8 áreas</b> marcadas en el plano, cada una con la dirección de sus planchas.</li><li>Planchas <b>perpendiculares a las vigas que las sostienen</b>.</li><li><b>Hueco de la escalera</b> (ejes 2–3, B–A): sin losa.</li></ul>
   <figure>
     <svg id="svg-planta" role="img" aria-label="Planta de la losa colaborante con áreas, planchas y marco"></svg>
-    <figcaption>Rectángulo delgado = plancha (avance útil 0,95 m) · flecha = sentido de las planchas · amarillo: marco C con el número de cada tramo · morado: pernos Nelson, uno en cada valle de las vigas que marca el ingeniero · verde: líneas de alzaprimas (solera) con sus puntales · rojo: pilares del nivel 2. Tocar una fila de la tabla → se ve en el 3D.</figcaption>
+    <figcaption>Rectángulo delgado = plancha (avance útil 0,95 m) · doble flecha = sentido de las planchas · amarillo: marco C con el número de cada tramo · morado: pernos Nelson, uno en cada valle de las vigas que marca el ingeniero · verde: líneas de alzaprimas (solera) con sus puntales · rojo: pilares del nivel 2. Tocar una fila de la tabla → se ve en el 3D.</figcaption>
   </figure>
   <div class="tw"><table id="tabla-areas"></table></div>
   <div id="dif-areas"></div>
@@ -369,11 +373,11 @@ details.areas[open] summary::before{content:"▾ ";}
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=V116"></script>
+<script src="nav3d.js?v=V117"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
-<script src="placa3d.js?v=V116"></script>
-<script src="estructura.js?v=V116"></script>
-<script src="losa.js?v=V116"></script>
+<script src="placa3d.js?v=V117"></script>
+<script src="estructura.js?v=V117"></script>
+<script src="losa.js?v=V117"></script>
 <script>
 (function () {
 'use strict';
@@ -386,6 +390,25 @@ const NS = 'http://www.w3.org/2000/svg';
 const el = (tag, at = {}, padre) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); if (padre) padre.appendChild(e); return e; };
 const txt = (padre, x, y, s, at = {}) => { const t = el('text', Object.assign({ x, y, class: 'tx' }, at), padre); t.textContent = s; return t; };
 const oscuro = () => document.documentElement.dataset.theme === 'dark' || (document.documentElement.dataset.theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+// flecha de norte de plano (arriba = norte, como las láminas): círculo fino, punta con la mitad derecha en tinta y la
+// izquierda en papel, y la N sobre la punta. (cx, cy) es el centro del conjunto; R y fs en unidades del dibujo.
+// Se agranda sola si el dibujo se achica, para que la N no baje de 14 px en pantalla.
+function flechaNorte(svg, cx, cy, R, fs) {
+  const g = el('g', { 'aria-hidden': 'true' }, svg), k = el('g', {}, g), sw = R * 0.05;
+  const capN = 0.72 * fs, gap = 0.18 * R, arriba = 1.35 * R + gap + capN, yc = (R - arriba) / 2;   // centro vertical del conjunto
+  el('circle', { cx: 0, cy: 0, r: R, style: `fill:none;stroke:var(--fig-ink);stroke-width:${sw}` }, k);
+  const P = [[0, -1.35 * R], [0.47 * R, 0.7 * R], [0, 0.35 * R], [-0.47 * R, 0.7 * R]], pts = a => a.map(i => P[i].join(',')).join(' ');
+  el('polygon', { points: pts([0, 2, 3]), style: `fill:var(--paper);stroke:var(--fig-ink);stroke-width:${sw};stroke-linejoin:round` }, k);
+  el('polygon', { points: pts([0, 1, 2]), style: `fill:var(--fig-ink);stroke:var(--fig-ink);stroke-width:${sw};stroke-linejoin:round` }, k);
+  txt(k, 0, -1.35 * R - gap, 'N', { 'font-size': fs, 'text-anchor': 'middle', 'font-weight': 700 });
+  const ajustar = () => {
+    const w = svg.getBoundingClientRect().width, vb = svg.viewBox.baseVal;
+    const s = w && vb && vb.width ? Math.min(1.7, Math.max(1, 14.5 / (fs * w / vb.width))) : 1;
+    g.setAttribute('transform', `translate(${cx} ${cy}) scale(${s}) translate(0 ${-yc})`);
+  };
+  ajustar();
+  if (window.ResizeObserver) new ResizeObserver(ajustar).observe(svg); else addEventListener('resize', ajustar);
+}
 
 // =====================================================================
 //  CÁLCULOS (todo en cm salvo indicación)
@@ -481,7 +504,7 @@ function maxFlecha(nVanos, et) {
     const largos = [...new Set(a.piezas.filter(p => p.largo > largoMax * 0.75).map(p => Math.round(p.largo)))].sort((p, q) => p - q)
       .filter((v, i, arr) => i === 0 || v - arr[i - 1] > 5);
     return `<tr data-area="${a.n}"><td><span class="sw" style="background:${a.color}"></span><b>${a.n}</b></td>
-      <td>${a.ejes || ''}</td><td class="c">${a.dir === 'NS' ? '↕ N–S' : '↔ E–O'}</td>
+      <td>${(a.ejes || '').split(' · ').map(s => `<span style="white-space:nowrap">${s}</span>`).join(' · ')}</td><td class="c">${a.dir === 'NS' ? '↕ K–A' : '↔ 1–5'}</td>
       <td class="r">${fm(a.ancho, 2)}</td><td class="r">${largos.map(v => coma(v / 100, 2)).join(' / ')} m</td><td class="r"><b>${a.planchas}</b></td>
       <td class="r ${ok(d.largo_m, largoMax / 100, 0.06)}">${d.largo_m != null ? coma(d.largo_m, 2) : '—'}</td>
       <td class="r ${ok(d.ancho_m, a.ancho / 100, 0.06)}">${d.ancho_m != null ? coma(d.ancho_m, 2) : '—'}</td>
@@ -498,12 +521,21 @@ function maxFlecha(nVanos, et) {
 function dibujarPlanta() {
   const svg = $('#svg-planta');
   const xs = L.perimetro.map(p => p[0]), ys = L.perimetro.map(p => p[1]);
-  const x0 = Math.min(...xs) - 140, x1 = Math.max(...xs) + 140, y0 = Math.min(...ys) - 140, y1 = Math.max(...ys) + 120;
+  const G = L.grilla;
+  // abajo llega hasta el eje A (el hueco de la escalera), para que su letra no quede cortada
+  const x0 = Math.min(...xs) - 140, x1 = Math.max(...xs) + 140, y0 = Math.min(...ys) - 140, y1 = Math.max(Math.max(...ys) + 120, Math.max(...Object.values(G.letras)) + 60);
   svg.setAttribute('viewBox', `${x0} ${y0} ${x1 - x0} ${y1 - y0}`);
   const ejes = el('g', {}, svg);
-  const G = L.grilla;
   Object.entries(G.numeros).forEach(([n, x]) => { el('line', { x1: x, x2: x, y1: y0 + 60, y2: y1 - 20, style: 'stroke:var(--fig-soft);stroke-width:2;stroke-dasharray:18 10;opacity:.6' }, ejes); txt(ejes, x, y0 + 45, n, { 'font-size': 42, 'text-anchor': 'middle', class: 'txs' }); });
-  Object.entries(G.letras).forEach(([n, y]) => { el('line', { x1: x0 + 70, x2: x1 - 20, y1: y, y2: y, style: 'stroke:var(--fig-soft);stroke-width:2;stroke-dasharray:18 10;opacity:.6' }, ejes); txt(ejes, x0 + 50, y + 14, n, { 'font-size': 38, 'text-anchor': 'middle', class: 'txs' }); });
+  // letras de los ejes: las de dos ejes muy juntos (F y E4, a 30 cm) se separan un poco hacia afuera
+  const LET = Object.entries(G.letras).sort((p, q) => p[1] - q[1]);
+  LET.forEach(([n, y], i) => {
+    const antes = i > 0 && y - LET[i - 1][1] < 45, despues = i < LET.length - 1 && LET[i + 1][1] - y < 45;
+    el('line', { x1: x0 + 70, x2: x1 - 20, y1: y, y2: y, style: 'stroke:var(--fig-soft);stroke-width:2;stroke-dasharray:18 10;opacity:.6' }, ejes);
+    txt(ejes, x0 + 40, y + 14 + (antes ? 12 : 0) - (despues ? 12 : 0), n, { 'font-size': 38, 'text-anchor': 'middle', class: 'txs' });
+  });
+  // flecha de norte en la esquina libre de arriba a la derecha: entre los ejes 4a y 5 y entre K y J
+  flechaNorte(svg, (G.numeros['4a'] + G.numeros['5']) / 2, (G.letras.K + G.letras.J) / 2, 50, 56);
   // vigas de entrepiso
   VIGAS.forEach(m => el('line', { x1: m.a[0], y1: m.a[1], x2: m.b[0], y2: m.b[1], style: `stroke:var(--fig-viga);stroke-width:${(E.perfiles[m.p] || {}).b || 12};opacity:.35` }, svg));
   // áreas y planchas
@@ -641,7 +673,7 @@ dibujarBorde();
 
 function dibujarPlaca() {
   const svg = $('#svg-placa'), pr = PL.perfil, W = PL.total, Hh = PL.alto;
-  svg.setAttribute('viewBox', `-40 -60 ${W + 80} 170`);
+  svg.setAttribute('viewBox', `-60 -112 ${W + 100} 222`);   // con aire para la cota del alto (izquierda) y la de los nervios (arriba)
   let d = ''; pr.forEach(([x, y], i) => { d += (i ? ' L ' : 'M ') + x + ' ' + (-y); });
   el('path', { d, style: 'fill:none;stroke:var(--fig-placa);stroke-width:3;stroke-linejoin:round' }, svg);
   const cota = (x1, y1, x2, y2, s, dx, dy, rot) => {
@@ -741,8 +773,10 @@ dibujarPlaca();
     el('circle', { cx, cy, r: 38, style: 'fill:var(--paper);stroke:var(--fig-malla);stroke-width:4' }, svg);
     txt(svg, cx, cy + 14, String(p.n), { 'font-size': 38, 'text-anchor': 'middle', 'font-weight': 700, style: p.cortado ? 'fill:var(--fig-soft)' : '' });
   });
+  // flecha de norte en la esquina libre de arriba a la derecha (sobre la losa del eje I, hacia el eje 5)
+  flechaNorte(svg, Math.max(...xs) - 70, Math.min(...ys) + 200, 50, 56);
   const ent = MA_N - MA_CORT, kgCompra = MA_N * MA.kg_panel;
-  $('#cap-malla').innerHTML = `${MA_N} paneles a escala, recortados al contorno de la losa · amarillo: marco C · rojo: pilares del nivel 2 · línea llena: panel entero · punteada: con algún corte · traslapo: relleno más oscuro · largo en sentido ${MA.largo_en === 'x' ? 'este–oeste' : 'norte–sur'} · numerados en el orden de colocación.`;
+  $('#cap-malla').innerHTML = `${MA_N} paneles a escala, recortados al contorno de la losa · amarillo: marco C · rojo: pilares del nivel 2 · línea llena: panel entero · punteada: con algún corte · traslapo: relleno más oscuro · largo en dirección ${MA.largo_en === 'x' ? '1–5' : 'K–A'} · numerados en el orden de colocación.`;
   const sp = [
     ['Paneles', MA_N, `De 2,60 × 5,00 m; ${ent} enteros y ${MA_CORT} con algún corte (borde, pilar o reparto corrido) <span class="fuente calc">calculado</span>`],
     ['Peso', '≈ ' + miles(kgCompra) + ' kg', `${MA_N} × ${coma(MA.kg_panel, 2)} kg por panel. En obra quedan ${miles(MA.m_barra)} m de barra Ø6 (≈ ${miles(MA.kg_obra)} kg) <span class="fuente calc">calculado</span>`],

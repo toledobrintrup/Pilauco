@@ -12,12 +12,12 @@
    "plano": {
     "z_m": "91.829 + 0.00290*x_m + 0.00217*y_m",
     "pendiente_pct": 0.36,
-    "sube_hacia": "sur-oriente (azimut 37 grados desde el eje X de la app hacia Y sur)",
+    "sube_hacia": "azimut 37 grados desde el eje +X de la app hacia +Y",
     "residuo_rms_m": 0.143,
     "residuo_max_m": 0.426,
     "n": 26
    },
-   "conclusion": "Terreno practicamente plano: 0,9 m de diferencia total en ~90 m, pendientes locales < 1 %. Lo mas alto esta alrededor de la casa (~92,0..92,3) y baja ~0,3 m hacia el cierro norte y ~0,1..0,2 m hacia el acceso sur. SUPUESTO: para el 3D se puede modelar el terreno plano o con un plano de 0,4 %."
+   "conclusion": "Terreno practicamente plano: 0,9 m de diferencia total en ~90 m, pendientes locales < 1 %. Lo mas alto esta alrededor de la casa (~92,0..92,3) y baja ~0,3 m hacia el cierro del fondo y ~0,1..0,2 m hacia el acceso. SUPUESTO: para el 3D se puede modelar el terreno plano o con un plano de 0,4 %."
   }
  },
  "lote": {
@@ -170,9 +170,9 @@
     ]
    ],
    "ancho": 70.0,
-   "desde": "deslinde oeste",
-   "hasta": "pilar oeste del acceso",
-   "dato": "LINEA CIERRO SERVIDUMBRE del emplazamiento: cierro a 5 m del deslinde sur, pilares de 50 x 70 cada 2,5 m; los extremos se curvan hacia el acceso"
+   "desde": "deslinde lateral del lado de la casa",
+   "hasta": "pilar del acceso del lado del deslinde lateral del lado de la casa",
+   "dato": "LINEA CIERRO SERVIDUMBRE del emplazamiento: cierro a 5 m del deslinde del camino, pilares de 50 x 70 cada 2,5 m; los extremos se curvan hacia el acceso"
   },
   {
    "id": "cierro_este",
@@ -228,9 +228,9 @@
     ]
    ],
    "ancho": 70.0,
-   "desde": "pilar este del acceso",
-   "hasta": "deslinde este. Dato: el borde SUR del cierro llega al deslinde en (4821.7, 4112.2) y el eje termina en (4821.6, 4077.1) = borde sur - 35 (dato, no prolongación). El borde NORTE dibujado termina en x=4770.4, cara oeste del último pilar (centro 4796.1), que queda pegado al deslinde este.",
-   "dato": "LINEA CIERRO SERVIDUMBRE del emplazamiento: cierro a 5 m del deslinde sur, pilares de 50 x 70 cada 2,5 m; los extremos se curvan hacia el acceso"
+   "desde": "pilar del acceso del lado del deslinde lateral del lado del estudio",
+   "hasta": "deslinde lateral del lado del estudio. Dato: el borde de mayor y del cierro llega al deslinde en (4821.7, 4112.2) y el eje termina en (4821.6, 4077.1) = ese borde - 35 (dato, no prolongación). El borde de menor y dibujado termina en x=4770.4, cara de menor x del último pilar (centro 4796.1), que queda pegado al deslinde lateral del lado del estudio.",
+   "dato": "LINEA CIERRO SERVIDUMBRE del emplazamiento: cierro a 5 m del deslinde del camino, pilares de 50 x 70 cada 2,5 m; los extremos se curvan hacia el acceso"
   }
  ],
  "pilares_cierro": [
@@ -515,7 +515,7 @@
     ]
    ],
    "ancho": 499.9,
-   "tipo": "corredera: la hoja abierta está dibujada corrida hacia el oriente detrás del pilar este, con una flecha -> encima",
+   "tipo": "corredera: la hoja abierta está dibujada corrida hacia +x, detrás del pilar del lado del deslinde lateral del lado del estudio, con una flecha -> encima",
    "hoja_abierta": [
     [
      2193.2,
@@ -550,7 +550,7 @@
     5094.1
    ]
   ],
-  "dato": "El eje de la servidumbre coincide con el deslinde sur; el cierro exterior dibujado queda unos 5 m al sur (otro borde de la servidumbre, supuesto)"
+  "dato": "El eje de la servidumbre coincide con el deslinde del camino; el cierro exterior dibujado queda unos 5 m hacia +y (otro borde de la servidumbre, supuesto)"
  },
  "gimnasio": {
   "z_piso": -60.0,
@@ -647,7 +647,7 @@
    "oeste": 2770,
    "este": 2377
   },
-  "dato": "Forma y alturas de la lámina L11 (902 x 700 en L, cielo +297 a +324, cubierta 981 x 1.185 con 4,44 m de alero al sur); posición de L1 (calza con L11 a 1-8 cm en los deslindes norte y oeste; en el este L11 dice 23,77 y el plano da 23,97). Piso 60 cm bajo el de la casa: L1 rotula NPT +0,10 en el gimnasio y +0,70 en la casa (supuesto que comparten datum)."
+  "dato": "Forma y alturas de la lámina L11 (902 x 700 en L, cielo +297 a +324, cubierta 981 x 1.185 con 4,44 m de alero hacia el deslinde del camino); posición de L1 (calza con L11 a 1-8 cm en los deslindes norte y oeste; en el este L11 dice 23,77 y el plano da 23,97). Piso 60 cm bajo el de la casa: L1 rotula NPT +0,10 en el gimnasio y +0,70 en la casa (supuesto que comparten datum)."
  },
  "estudio_arq": {
   "pts": [
@@ -2039,10 +2039,10 @@
       -1367.3
      ]
     ],
-    "dato": "Contorno del arquitecto (trazo negro 0.043 + capa gris): borde norte y=-2455,4 desde x=2422,3 (lado este del patio norte) hasta x=1275,1; arco norte radio 391,6 (centro 1284,3,-2063,9) y arco sur radi"
+    "dato": "Contorno del arquitecto (trazo negro 0.043 + capa gris): borde de menor y (y=-2455,4) desde x=2422,3 (extremo de mayor x del patio) hasta x=1275,1; arco de menor y radio 391,6 (centro 1284,3,-2063,9) y arco de mayor y radi"
    },
    {
-    "nombre": "Patio norte (plano)",
+    "nombre": "Patio entre la explanada en U y el gimnasio (plano)",
     "pts": [
      [
       1325.2,
@@ -2061,10 +2061,10 @@
       -2455.4
      ]
     ],
-    "dato": "Rectángulo 1097 x 400 (cota \"1.147\" incluye la franja de 50 cm en x 1275..1325) entre el U y el gimnasio; cota \"400\" a ambos lados. Nivel no rotulado adentro (NPT +0,10 al norte en (2062,-3070))."
+    "dato": "Rectángulo 1097 x 400 (cota \"1.147\" incluye la franja de 50 cm en x 1275..1325) entre el U y el gimnasio; cota \"400\" a ambos lados. Nivel no rotulado adentro (NPT +0,10 en (2062,-3070))."
    },
    {
-    "nombre": "Explanada de acceso sur (plano)",
+    "nombre": "Explanada de acceso (plano)",
     "pts": [
      [
       1890.6,
@@ -2095,7 +2095,7 @@
       2129.5
      ]
     ],
-    "dato": "Contorno sólido al sur de la casa; junto a él, escalera exterior de 368 x 478 y peldaños NPT +0,70 -> +0,10 (trazo de otra capa, no extraídos). Rótulos HALL DE ACCESO (784-856,1917), ACCESO CUBIERTO ("
+    "dato": "Contorno sólido junto a la casa, del lado de su eje A; junto a él, escalera exterior de 368 x 478 y peldaños NPT +0,70 -> +0,10 (trazo de otra capa, no extraídos). Rótulos HALL DE ACCESO (784-856,1917), ACCESO CUBIERTO ("
    }
   ]
  },
@@ -2445,7 +2445,7 @@
       -2494.3
      ]
     ],
-    "dato": "Radier de hormigón de 17,3 × 12,0 m al oriente del gimnasio (foto, ±30 cm)"
+    "dato": "Radier de hormigón de 17,3 × 12,0 m junto al gimnasio, del lado del deslinde lateral del lado del estudio (foto, ±30 cm)"
    },
    {
     "nombre": "Explanada del gimnasio",
@@ -2467,7 +2467,7 @@
       -2472.0
      ]
     ],
-    "dato": "Hormigón al sur del techo del gimnasio (foto)"
+    "dato": "Hormigón junto al techo del gimnasio, del lado del deslinde del camino (foto)"
    }
   ],
   "galpon": {
@@ -2664,7 +2664,7 @@
      ]
     ],
     "alto": 20,
-    "dato": "Cuadrado oscuro con marco de 1,8 m cerca del cierro oriente (foto); uso supuesto"
+    "dato": "Cuadrado oscuro con marco de 1,8 m cerca del cierro lateral del lado del estudio (foto); uso supuesto"
    },
    {
     "nombre": "Caseta de bombas",
@@ -2687,7 +2687,7 @@
      ]
     ],
     "alto": 150,
-    "dato": "Caja blanca de 2,5 × 2,25 m junto al cierro poniente (foto y video)"
+    "dato": "Caja blanca de 2,5 × 2,25 m junto al cierro lateral del lado de la casa (foto y video)"
    }
   ],
   "nota_homografia": "Foto rectificada con las 4 esquinas del cierro real (norte y laterales sobre el deslinde; sur sobre el cierro de servidumbre, 5 m adentro). Precisión ±30-50 cm."
@@ -2697,7 +2697,7 @@
   10.5
  ],
  "estudio_anclaje": {
-  "metodo": "a 3,50 m del deslinde oriente (Gabriel, 2026-10-12); con el edificio de 10,75 (ejes 1–5 de 10,50 por el tabique del búnker, 2026-10-14) el origen va en x = 4821,2 − 350 − 1075; el búnker queda 1,00 m al oriente del centro de la excavación actual",
+  "metodo": "a 3,50 m del deslinde lateral del lado del estudio (Gabriel, 2026-10-12); con el edificio de 10,75 (ejes 1–5 de 10,50 por el tabique del búnker, 2026-10-14) el origen va en x = 4821,2 − 350 − 1075; el búnker queda 1,00 m hacia el eje 5 del centro de la excavación actual",
   "excavacion_centro": [
    3833.7,
    335.5
@@ -2706,11 +2706,11 @@
  },
  "estudio_pendiente": 0.035,
  "notas": [
-  "Casa en el emplazamiento: el bloque de la vivienda está dibujado 3,28 m al sur de donde está construida (dx 0). Se comprobó con los muros de L2 (correlación: dy = -328 cm), con las fundaciones de la ortofoto de topografía (ejes reales) y con la losa en la foto de dron. El lote, los cierros, el acceso y el gimnasio del emplazamiento sí calzan con la realidad (cierro sur sobre sus postes a ±20 cm), así que el modelo usa esos; el estacionamiento H, el acceso G y el edificio B del arquitecto se dibujan donde él los puso respecto del lote, y quedan 3,3 m más al sur de lo que él pensó respecto de la casa. Preguntar al arquitecto.",
+  "Casa en el emplazamiento: el bloque de la vivienda está dibujado 3,28 m corrido hacia el eje A de la casa respecto de donde está construida (dx 0). Se comprobó con los muros de L2 (correlación: dy = -328 cm), con las fundaciones de la ortofoto de topografía (ejes reales) y con la losa en la foto de dron. El lote, los cierros, el acceso y el gimnasio del emplazamiento sí calzan con la realidad (cierro de la servidumbre sobre sus postes a ±20 cm), así que el modelo usa esos; el estacionamiento H, el acceso G y el edificio B del arquitecto se dibujan donde él los puso respecto del lote, y quedan 3,3 m más hacia el eje A de la casa de lo que él pensó. Preguntar al arquitecto.",
   "Lote: El polígono vectorial da 5323.9 m2; la lámina rotula 5.135 m2 (y el cuadro 5.137 m2). La geometría dibujada no cierra con esa superficie: es un dato a confirmar con el arquitecto, no un error de calibración (los 4 deslindes calzan a 1 cm salvo el sur).",
-  "Gimnasio: SUR rotulado 70,23 m no cuadra con el deslinde sur de L1 (75,1 m desde la cara sur; 70,6-70,8 desde el alero).",
+  "Gimnasio: la cota SUR de L11 (al deslinde del camino), rotulada 70,23 m, no cuadra con el deslinde del camino de L1 (75,1 m desde la cara del gimnasio de ese lado; 70,6-70,8 desde el alero).",
   "Gimnasio: ESTE rotulado 23,77 m vs 23,97 m calculado (20 cm).",
   "Gimnasio: Referencia del NPT +0,10 que L1 escribe en el bloque C.",
-  "Gimnasio: El corte 1.b-3.b rotula cielo +318: según la pendiente corresponde a ~547 cm de la cara norte, pero el marcador de corte en las plantas está más al norte."
+  "Gimnasio: El corte 1.b-3.b rotula cielo +318: según la pendiente corresponde a ~547 cm de la cara del lado del deslinde del fondo, pero el marcador de corte en las plantas está más hacia ese deslinde."
  ]
 }

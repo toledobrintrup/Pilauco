@@ -68,6 +68,13 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 .ficha{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:12px;line-height:1.45;box-shadow:0 6px 18px rgba(16,18,22,.14);max-width:260px;z-index:2}
 .ficha b{font-weight:600}
 .ficha .sub{color:var(--muted)}
+/* flecha de norte (como en las láminas: arriba de la planta = norte); gira con la cámara. Va antes que la ⓘ y los paneles en el HTML: si se juntan, ellos quedan encima */
+.norte3d{position:absolute;top:8px;right:8px;width:72px;height:72px;pointer-events:none;overflow:visible}
+body.embed .norte3d{top:52px}
+.norte3d .aro{fill:var(--paper);fill-opacity:.85;stroke:var(--ink);stroke-width:1}
+.norte3d .punta{fill:var(--paper);stroke:var(--ink);stroke-width:1;stroke-linejoin:round}
+.norte3d .mitad{fill:var(--ink)}
+.norte3d text{font:600 14px/1 var(--ui);fill:var(--ink);stroke:var(--paper);stroke-width:3px;stroke-linejoin:round;paint-order:stroke}
 @media (max-width:820px){
   .hint{display:none}
   .aviso{font-size:11.5px;padding:8px 30px 8px 10px}
@@ -95,12 +102,21 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V116" data-vista="3d"></script>
+    <script src="menu.js?v=V117" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
   <div class="stage" id="stage">
     <div class="loading" id="loading">Cargando el modelo…</div>
+    <!-- flecha de norte: círculo de radio R = 13 px y punta (0, −1.35R) (0.47R, 0.7R) (0, 0.35R) (−0.47R, 0.7R), con la mitad derecha en tinta; la N va sobre la punta y siempre derecha -->
+    <svg class="norte3d" id="norte3d" viewBox="-36 -36 72 72" role="img" aria-label="Flecha de norte" hidden>
+      <circle class="aro" r="13"/>
+      <g id="norte3d-giro">
+        <path class="punta" d="M0 -17.55 L6.11 9.1 L0 4.55 L-6.11 9.1 Z"/>
+        <path class="mitad" d="M0 -17.55 L6.11 9.1 L0 4.55 Z"/>
+      </g>
+      <text id="norte3d-n" x="0" y="-27" text-anchor="middle" dominant-baseline="central">N</text>
+    </svg>
     <button type="button" class="btn redondo" id="info-btn" aria-label="Qué es esto" hidden>i</button>
     <button type="button" class="btn" id="capas-btn" hidden>Capas ▴</button>
     <div class="aviso" id="aviso" hidden>
@@ -166,17 +182,17 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V116"></script>
-<script src="data.js?v=V116"></script>
-<script src="casa_vanos.js?v=V116"></script>
-<script src="estructura.js?v=V116"></script>
-<script src="losa.js?v=V116"></script>
-<script src="sitio.js?v=V116"></script>
-<script src="sitio3d.js?v=V116"></script>
-<script src="estudio_estructura.js?v=V116"></script>
-<script src="mobiliario3d.js?v=V116"></script>
-<script src="cotas3d.js?v=V116"></script>
-<script src="goku3d.js?v=V116"></script>
+<script src="nav3d.js?v=V117"></script>
+<script src="data.js?v=V117"></script>
+<script src="casa_vanos.js?v=V117"></script>
+<script src="estructura.js?v=V117"></script>
+<script src="losa.js?v=V117"></script>
+<script src="sitio.js?v=V117"></script>
+<script src="sitio3d.js?v=V117"></script>
+<script src="estudio_estructura.js?v=V117"></script>
+<script src="mobiliario3d.js?v=V117"></script>
+<script src="cotas3d.js?v=V117"></script>
+<script src="goku3d.js?v=V117"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -267,7 +283,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       // pasillo-balcón del norte: franja de 1,8 m sobre los pilares del eje I (la losa del ingeniero ya la trae) que lleva desde el WKC Maggie a la terraza
       // grande (Gabriel, 15-10-2026: "un balcón pasillo de 1,5 m aprox que llega al balcón grande"); baranda de vidrio como en el render del arquitecto
       const HB = 105, PB = 4, pts = [[10, -10], [10, -762], [652, -762], [652, -188], [1783, -188], [1783, -10]];
-      const sub = 'terraza norte y pasillo-balcón de 1,8 m (losa del ingeniero sobre los pilares del eje I) que lleva del WKC Maggie a la terraza grande: vidrio laminado de 1,05 con pasamanos (Gabriel, 15-10-2026; como el render del arquitecto)';
+      const sub = 'terraza entre los ejes H y K y pasillo-balcón de 1,8 m (losa del ingeniero sobre los pilares del eje I) que lleva del WKC Maggie a la terraza grande: vidrio laminado de 1,05 con pasamanos (Gabriel, 15-10-2026; como el render del arquitecto)';
       for (let i = 0; i + 1 < pts.length; i++){
         const s = {a: pts[i], b: pts[i + 1], e: PB}, L = Math.hypot(s.b[0] - s.a[0], s.b[1] - s.a[1]), n = Math.max(1, Math.ceil(L / 150));
         for (let k = 0; k <= n; k++){ const t = k / n; K.pieza(s, t - PB / 2 / L, t + PB / 2 / L, z0, z0 + HB, PB, 0, K.matMarco, 'Baranda del nivel 2', sub); }
@@ -311,7 +327,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
   const ALA_CUB = ALA_TOP / 100 + LOSA;   // m: cara superior de la cubierta baja del ala (12 cm sobre sus vigas RECT 200×150 a +2,78)
   const alaPts = alaBox ? [[alaBox[0], alaBox[1]], [alaBox[2], alaBox[1]], [alaBox[2], alaBox[3]], [alaBox[0], alaBox[3]]] : null;
   const slabAlaE = alaPts ? buildSlab(alaPts, ALA_CUB) : null;
-  const fichaAla = '<b>Cubierta baja del ala oriente</b><br><span class="sub">sala de máquinas y bodega: sus vigas RECT 200×150 del ingeniero van a +2,78, así que la cubierta apoya a +2,88 y los muros del ala terminan ahí (antes el 3D suponía una losa a +3,46); espesor de 12, supuesto</span>';
+  const fichaAla = '<b>Cubierta baja del ala entre los ejes 5 y 6</b><br><span class="sub">sala de máquinas y bodega: sus vigas RECT 200×150 del ingeniero van a +2,78, así que la cubierta apoya a +2,88 y los muros del ala terminan ahí (antes el 3D suponía una losa a +3,46); espesor de 12, supuesto</span>';
   if (slabAlaE) slabAlaE.userData.sitio = fichaAla;
   // la misma cubierta con el hueco provisorio de la escalera de obra (se muestra con la capa "Escalera de obra" prendida; la otra, apagada)
   const slabAlaEHueco = (() => { if (!alaPts) return null; const sh = shapeFromPts(alaPts); const hp = new THREE.Path(); ESC_HUECO.forEach((q, i) => { if (i === 0) hp.moveTo(cm(q[0]), -cm(q[1])); else hp.lineTo(cm(q[0]), -cm(q[1])); }); hp.closePath(); sh.holes.push(hp);
@@ -332,8 +348,8 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     const Lz = Math.hypot(YA - YP, Z1), ang = Math.atan2(Z1, YA - YP);   // zancas: dos C 200×50×4 bajo los peldaños, inclinadas 44°
     [X0 + 2.5, X1 - 2.5].forEach(x => { const m = new THREE.Mesh(new THREE.BoxGeometry(cm(5), cm(20), cm(Lz)), matF); m.position.set(cm(x), cm(Z1 / 2 - 14), cm((YA + YP) / 2)); m.rotation.x = ang; ficha(m, 'Escalera de obra · zanca', 'perfil C 200×50×4 de 5,7 m, anclado abajo al radier con placa y pernos de expansión y arriba al marco de la plataforma · ' + sub); });
     // plataforma 1,5 × 1,5 a +3,95: plancha sobre marco C 150×50×3, 2 postes tubo 100×100×3 al oriente; el lado poniente va apernado a la viga IPE 270 del eje 5
-    caja((X0 + X1) / 2, (PL0 + YP) / 2, Z1 - 2, X1 - X0, YP - PL0, 4, matP, 'Escalera de obra · plataforma', 'plancha estriada de 4 mm de 1,50 × 1,50 sobre marco C 150×50×3, a +3,95, pegada al fierro del eje G: desde aquí se entra al nivel 2 (el pilar F2 queda en el borde: 0,55 libres al norte y 0,79 al sur) · ' + sub);
-    const subM = 'perfil C 150×50×3 del marco de la plataforma; el lado poniente va apernado a la viga IPE 270 del eje 5 · ' + sub;
+    caja((X0 + X1) / 2, (PL0 + YP) / 2, Z1 - 2, X1 - X0, YP - PL0, 4, matP, 'Escalera de obra · plataforma', 'plancha estriada de 4 mm de 1,50 × 1,50 sobre marco C 150×50×3, a +3,95, pegada al fierro del eje G: desde aquí se entra al nivel 2 (el pilar F2 queda en el borde: 0,55 libres hacia el eje G y 0,79 hacia el eje F1) · ' + sub);
+    const subM = 'perfil C 150×50×3 del marco de la plataforma; el lado del eje 5 va apernado a la viga IPE 270 de ese eje · ' + sub;
     caja(X0 + 2.5, (PL0 + YP) / 2, Z1 - 11.5, 5, YP - PL0, 15, matF, 'Escalera de obra · marco de la plataforma', subM); caja(X1 - 2.5, (PL0 + YP) / 2, Z1 - 11.5, 5, YP - PL0, 15, matF, 'Escalera de obra · marco de la plataforma', subM);
     caja((X0 + X1) / 2, PL0 + 2.5, Z1 - 11.5, X1 - X0, 5, 15, matF, 'Escalera de obra · marco de la plataforma', subM); caja((X0 + X1) / 2, YP - 2.5, Z1 - 11.5, X1 - X0, 5, 15, matF, 'Escalera de obra · marco de la plataforma', subM);
     [[X1 - 5, PL0 + 5], [X1 - 5, YP - 5]].forEach(([x, y]) => caja(x, y, (Z1 - 19) / 2, 10, 10, Z1 - 19, matF, 'Escalera de obra · poste de la plataforma', 'tubo 100×100×3 del radier al marco de la plataforma, con placa base y pernos de expansión · ' + sub));
@@ -622,7 +638,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     // caja de la escalera: muros de hormigón armado del piso al cielo (Gabriel), sobre la losa
     if (esc.muro && typeof DATA_SITIO !== 'undefined'){
       const Ec = DATA_SITIO.estudio.cielo, zC = y => Ec.z_norte + (Ec.z_sur - Ec.z_norte) * (y - Ec.y_norte) / (Ec.y_sur - Ec.y_norte);
-      [[esc.muro, 'muro poniente de la caja de escalera'], [esc.muro_norte, 'muro norte de la caja de escalera (hacia la minicocina)']].forEach(([mu, nm]) => {
+      [[esc.muro, 'Estudio: muro de la caja de escalera, lado del eje 4'], [esc.muro_norte, 'Estudio: muro de la caja de escalera, lado del eje A (hacia la minicocina)']].forEach(([mu, nm]) => {
         if (!mu) return; const ym = (mu.pts[0][1] + mu.pts[2][1]) / 2;
         addH('escalera', ficha(prismaH(mu.pts, esc.z_arriba + 0.5, zC(ym), matH), nm, `hormigón armado e=${mu.espesor} del piso al cielo (armadura por definir con el ingeniero; propuesta: la DM del búnker)`));
       });
@@ -788,10 +804,10 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     // segmentos de muro (cm app), cada uno por su EJE. Fachadas 12,5 hacia adentro de la cara exterior: norte y sur cubren las esquinas,
     // oriente y poniente van entre ellas; los tabiques parten en la cara interior de la fachada y no se montan unos sobre otros.
     const ext = E.exterior, segs = [];
-    segs.push({a: [ext[0][0], ext[0][1] + h], b: [ext[1][0], ext[0][1] + h], e: M, nombre: 'fachada norte'});
-    segs.push({a: [ext[1][0] - h, ext[0][1] + M], b: [ext[1][0] - h, ext[2][1] - M], e: M, nombre: 'fachada oriente'});
-    segs.push({a: [ext[1][0], ext[2][1] - h], b: [ext[0][0], ext[2][1] - h], e: M, nombre: 'fachada sur'});
-    segs.push({a: [ext[0][0] + h, ext[2][1] - M], b: [ext[0][0] + h, ext[0][1] + M], e: M, nombre: 'fachada poniente'});
+    segs.push({a: [ext[0][0], ext[0][1] + h], b: [ext[1][0], ext[0][1] + h], e: M, nombre: 'Estudio: fachada del eje A'});
+    segs.push({a: [ext[1][0] - h, ext[0][1] + M], b: [ext[1][0] - h, ext[2][1] - M], e: M, nombre: 'Estudio: fachada del eje 5'});
+    segs.push({a: [ext[1][0], ext[2][1] - h], b: [ext[0][0], ext[2][1] - h], e: M, nombre: 'Estudio: fachada del eje E'});
+    segs.push({a: [ext[0][0] + h, ext[2][1] - M], b: [ext[0][0] + h, ext[0][1] + M], e: M, nombre: 'Estudio: fachada del eje 1'});
     const r = {}; E.recintos.forEach(rc => { r[rc.id] = rc.pts; });
     const yB = r.estudio[0][1] - M / 2, x4 = (r.estudio[1][0] + r.bano[0][0]) / 2;   // eje del tabique cafetería/estudio = muro sur del búnker (la cafetería es un polígono en L)
     segs.push({a: [ext[0][0] + M, yB], b: [ext[1][0] - M, yB], e: M, nombre: 'tabique cafetería/estudio'});
@@ -934,7 +950,7 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     const yK = -764.7 - 20, xs = [-20, DATA_N1.W + 10];
     const zocaloTerraza = extrudeShape(shapeFromPts([[xs[0], yK], [xs[1], yK], [xs[1], 0], [xs[0], 0]]), alto, WALL_COLOR, 0.95);
     zocaloTerraza.position.y = cm(DATA_SITIO.terreno.z);
-    zocaloTerraza.userData.sitio = '<b>Radier de la terraza norte</b><br><span class="sub">bajo los pilares de los ejes I, J y K; supuesto hasta tener el detalle de fundaciones</span>';
+    zocaloTerraza.userData.sitio = '<b>Radier de la terraza entre los ejes H y K</b><br><span class="sub">bajo los pilares de los ejes I, J y K; supuesto hasta tener el detalle de fundaciones</span>';
     sitio.sub.terreno.add(zocaloTerraza);
   }
   if (sitio) scene.add(sitio.grupo);
@@ -1217,9 +1233,27 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
     Nav3D.ayudaLineas.concat(['Seguir acercando atraviesa muros y losas: así se entra a una sala o al búnker', 'Entrar ↘: doble clic (o doble toque) en el piso de una sala para pararse adentro']).forEach((l, i) => { if (i) hint.appendChild(document.createElement('br')); hint.appendChild(document.createTextNode(l)); });
   }
 
+  // ---------- flecha de norte (José, vía Gabriel, 23-10-2026: en vez de escribir la orientación, un indicador con la flecha) ----------
+  // el norte del plano (y decreciente) es −Z en el mundo; la flecha apunta hacia donde queda el norte en la pantalla: en planta, arriba
+  const norteSvg = document.getElementById('norte3d'), norteGiro = document.getElementById('norte3d-giro'), norteN = document.getElementById('norte3d-n');
+  const vAdel = new THREE.Vector3(), vArriba = new THREE.Vector3(), vDer = new THREE.Vector3();
+  let norteAng = null;
+  function girarNorte(){
+    camera.getWorldDirection(vAdel); vArriba.set(0, 1, 0).applyQuaternion(camera.quaternion); vDer.set(1, 0, 0).applyQuaternion(camera.quaternion);
+    // "arriba de la pantalla" llevado al suelo: hacia donde mira la cámara; mirando casi en vertical (planta), hacia su arriba
+    let hx = vAdel.x, hz = vAdel.z; if (Math.hypot(hx, hz) < 0.1){ hx = vArriba.x; hz = vArriba.z; }
+    const lh = Math.hypot(hx, hz), ld = Math.hypot(vDer.x, vDer.z); if (lh < 1e-6 || ld < 1e-6) return;
+    const ang = Math.atan2(-vDer.z / ld, -hz / lh) * 180 / Math.PI;   // norte = (0, 0, −1): su componente a la derecha y hacia arriba de la pantalla
+    if (norteAng !== null && Math.abs(ang - norteAng) < 0.2) return;
+    norteAng = ang;
+    norteGiro.setAttribute('transform', `rotate(${ang.toFixed(1)})`);
+    const a = ang * Math.PI / 180; norteN.setAttribute('x', (27 * Math.sin(a)).toFixed(1)); norteN.setAttribute('y', (-27 * Math.cos(a)).toFixed(1));   // la N sobre la punta, siempre derecha
+  }
+
   // ---------- arranque ----------
   resize(); fit();
   document.getElementById('loading').hidden = true;
+  norteSvg.removeAttribute('hidden'); girarNorte();   // un <svg> no tiene la propiedad hidden de los elementos HTML: se saca el atributo
   // en el celular (vertical u horizontal) el panel y la información vienen cerrados; en escritorio, abiertos
   const movil = window.matchMedia('(max-width:639px), (max-height:520px)');
   const aviso = document.getElementById('aviso'), panel = document.getElementById('panel');
@@ -1311,9 +1345,9 @@ body.embed .panel{max-height:min(70vh,460px);overflow:auto}
       }
     } catch (err){ console.error('goku3d', err); goku = null; }
   }
-  (function loop(t){ requestAnimationFrame(loop); if (nav) nav.actualizar(t); if (goku) goku.animar(t, camera); controls.update(); renderer.render(scene, camera); })();
+  (function loop(t){ requestAnimationFrame(loop); if (nav) nav.actualizar(t); if (goku) goku.animar(t, camera); controls.update(); girarNorte(); renderer.render(scene, camera); })();
   // para pruebas desde la consola (igual que LOSA y PERNOS en las otras vistas)
-  window.VISTA3D = { camera, controls, nav, scene, sitio, renderer, stage, dibujar: () => { if (nav) nav.saltar(); controls.update(); renderer.render(scene, camera); } };
+  window.VISTA3D = { camera, controls, nav, scene, sitio, renderer, stage, dibujar: () => { if (nav) nav.saltar(); controls.update(); girarNorte(); renderer.render(scene, camera); } };
 })();
 </script>
 </body>

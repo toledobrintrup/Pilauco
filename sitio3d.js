@@ -127,7 +127,7 @@
     const L = D.lote;
     const R0 = D.real || {}, huecosPasto = [R0.excavacion, R0.piscina, R0.piscina_chica].filter(p => p && p.pts).map(p => p.borde || p.pts);
     const pasto = placa(L.poligono, zT, lambert(C.pasto, { transparent: true, opacity: 1 }), huecosPasto);
-    ficha(pasto, `Lote 6 "a11" · ${L.superficie_m2.toLocaleString('es-CL')} m²`, `Deslindes: norte ${fmt(L.deslindes.norte)} m · oriente ${fmt(L.deslindes.este)} m · sur ${fmt(L.deslindes.sur)} m · poniente ${fmt(L.deslindes.oeste)} m · ${D.terreno.dato}`);
+    ficha(pasto, `Lote 6 "a11" · ${L.superficie_m2.toLocaleString('es-CL')} m²`, `Deslindes: del fondo ${fmt(L.deslindes.norte)} m · lateral del lado del estudio ${fmt(L.deslindes.este)} m · del camino ${fmt(L.deslindes.sur)} m · lateral del lado de la casa ${fmt(L.deslindes.oeste)} m · ${D.terreno.dato}`);
     sub.terreno.add(pasto, linea(L.poligono, zT + 2, C.lote, true));
     // ---------- cierros ----------
     // sur (del emplazamiento): cierro de pilares de 50 x 70 cada 2,5 m con tablas, a 5 m del deslinde, curvado hacia el acceso
@@ -135,7 +135,7 @@
     const caja = (w, h, d, mat, x, y, z, ang) => { const b = new T.Mesh(new T.BoxGeometry(m(w), m(h), m(d)), mat); b.position.set(m(x), m(z), m(y)); if (ang) b.rotation.y = ang; return b; };
     (D.cierros || []).forEach(c => {
       const w = c.ancho || 7, muro = prisma(franja(c.pts, Math.min(w, 10)), zT, zT + 150, matTabla);
-      ficha(muro, 'Cierro sur', `${fmt(c.pts.reduce((s, p, i) => i ? s + Math.hypot(p[0] - c.pts[i - 1][0], p[1] - c.pts[i - 1][1]) : 0, 0))} m · ${c.dato || ''}`);
+      ficha(muro, 'Cierro de la servidumbre', `${fmt(c.pts.reduce((s, p, i) => i ? s + Math.hypot(p[0] - c.pts[i - 1][0], p[1] - c.pts[i - 1][1]) : 0, 0))} m · ${c.dato || ''}`);
       sub.cierros.add(muro);
     });
     (D.pilares_cierro || []).forEach(p => {
@@ -184,7 +184,7 @@
       sub.gimnasio.add(muros, bordes(muros, C.muro, .5));
       const zInf = y => G.z_piso + cub.z_inf_norte + (cub.z_inf_sur - cub.z_inf_norte) * (y - cub.y0) / (cub.y1 - cub.y0);
       const techo = losaInclinada(cub.contorno, zInf, cub.espesor, lambert(C.gimTecho));
-      ficha(techo, 'Cubierta del gimnasio', `Un agua, baja hacia el norte (2,2°) · ${fmt(cub.espesor)} m de espesor · aleros según L11`);
+      ficha(techo, 'Cubierta del gimnasio', `Un agua, baja hacia la casa (2,2°) · ${fmt(cub.espesor)} m de espesor · aleros según L11`);
       sub.gimnasio.add(techo);
       const cg = centro(G.planta); etq('Gimnasio', cg[0], cg[1], G.z_piso + A.cubierta_sur + 120, 6);
     }
@@ -207,7 +207,7 @@
       sub.estudio.add(losa);
       const zInf = y => E.techo.z0 + (E.techo.z1 - E.techo.z0) * (y - E.techo.y0) / (E.techo.y1 - E.techo.y0);
       const techo = losaInclinada(E.techo.contorno, zInf, E.techo.espesor, lambert(C.estudioTecho, { transparent: true, opacity: .9 }));
-      ficha(techo, 'Techo del estudio', `Un agua al ${(E.techo.pendiente * 100).toLocaleString('es-CL')} % como la casa, sube hacia el ${E.techo.sube_hacia} · aleros de ${fmt(E.techo.alero_ns || E.techo.alero)} (N-S) y ${fmt(E.techo.alero_eo || E.techo.alero)} m (E-O) · ${E.datos.techo}`);
+      ficha(techo, 'Techo del estudio', `Un agua al ${(E.techo.pendiente * 100).toLocaleString('es-CL')} % como la casa, sube hacia el eje E · aleros de ${fmt(E.techo.alero_ns || E.techo.alero)} (fachadas A y E) y ${fmt(E.techo.alero_eo || E.techo.alero)} m (fachadas 1 y 5) · ${E.datos.techo}`);
       techo.userData.techoEstudio = true;   // se apaga con la capa Techo del estudio
       sub.estudio.add(techo);
       const B = E.bunker;
