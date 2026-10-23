@@ -146,7 +146,7 @@ ol.preg li{margin:0 0 8px}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V113" data-vista="estudio"></script>
+  <script src="menu.js?v=V114" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
   <span class="meta" id="meta">Propuesta · no es un cálculo</span>
 </header>
@@ -165,7 +165,7 @@ ol.preg li{margin:0 0 8px}
 <section id="vista3d">
   <h2><span class="n">01</span>Vista 3D del estudio</h2>
   <ul class="puntos"><li><b>Capas:</b> estructura de acero y hormigón, búnker bajo tierra, enfierradura, medidas (vienen apagadas).</li><li><b>Girar:</b> arrastrar · <b>acercar:</b> rueda o pellizco · <b>centrar:</b> doble toque · <b>ficha:</b> tocar la pieza.</li></ul>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V113" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V114" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
@@ -256,9 +256,9 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=V113"></script>
-<script src="estudio_estructura.js?v=V113"></script>
-<script src="armaduras_det.js?v=V113"></script>
+<script src="sitio.js?v=V114"></script>
+<script src="estudio_estructura.js?v=V114"></script>
+<script src="armaduras_det.js?v=V114"></script>
 <script>
 (function () {
   const D = DATA_ESTUDIO_EST, E = DATA_SITIO.estudio, ox = E.origen[0], oy = E.origen[1], z0 = D.z_piso;
@@ -333,7 +333,8 @@ ol.preg li{margin:0 0 8px}
     const ptsDe = f => { const out = []; if (f.polilineas) f.polilineas.forEach(p => out.push(p)); else for (let k = 0; k < f.n; k++) out.push(f.polilinea.map(p => [p[0] + f.paso[0] * k, p[1] + f.paso[1] * k, p[2] + f.paso[2] * k])); return out; };
     const gF = {}; ['abajo', 'medio', 'arriba', 'puntos'].forEach(k => { gF[k] = el('g', { 'data-fe': k }, capas.fund); });
     const fichaF = f => `${f.elemento}: ø${f.diam === 19 ? '3/4"' : f.diam}${f.n ? ' × ' + f.n : ''} · ${f.d}`;
-    D.fierros.forEach(f => {
+    // sin la malla de relleno de la losa del cielo del búnker (Gabriel, 22-10-2026: "quítale la enfierradura del cielo del búnker… solo el entramado de relleno"); quedan muros, escalera, VHA y fundaciones
+    D.fierros.filter(f => !['LN', 'LE', 'LS'].includes(f.id)).forEach(f => {
       const w = Math.max(1.6, f.diam / 10 * 1.6), col = COLF[f.diam] || 'var(--fig-ink)';
       ptsDe(f).forEach(pl => {
         const loc2 = pl.map(loc);
@@ -367,7 +368,7 @@ ol.preg li{margin:0 0 8px}
     lab(capas.fund, (cfC[0][0] + cfC[1][0]) / 2, cfC[0][1] - 30, 'CF 25/50: 3ø12 + 2ø10 + 3ø12', false, 17);
     lab(capas.fund, (cfC2[0][0] + cfC2[1][0]) / 2, cfC2[0][1] - 30, 'CF 25/50: 3ø12 + 2ø10 + 3ø12 (igual al del eje C)', false, 17);
     lab(capas.fund, (vha[0][0] + vha[1][0]) / 2 + 40, (vha[0][1] + vha[2][1]) / 2 + 45, 'VHA 25/40: 3ø12 + 2ø10 + 3ø16, Est ø10@20', true, 17);   // entre los rótulos de la losa (arriba) y la cota entre muros (abajo)
-    lab(capas.fund, (bl[0][0] + bl[1][0]) / 2, 160, `losa e=${coma(H.losa.espesor, 0)}: ø10@20 N-S + ø8@20 E-O (abajo) · ø8@20 sobre la VHA (arriba) · 2ø12 de borde`, false, 19);
+    // (la malla de la losa del cielo no va en este plano: está en el corte A y en la planilla)
     // ---- arranque de los pilares sobre las placas: a escala y con su tipo (la estructura de techo no va en este plano) ----
     const PM = { 'CUAD 150x150x5': 'PM1', 'CUAD 150x150x4': 'PM2', 'RECT 150x100x3': 'PM3' };
     D.miembros.filter(x => x.c === 'pilar').forEach(mb => {
