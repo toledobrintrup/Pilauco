@@ -108,7 +108,7 @@
     const bx = xs.concat(cajas.flatMap(c => [c[0], c[2]])), by = ys.concat(cajas.flatMap(c => [c[1], c[3]])), pad = 6;
     const x0 = Math.min(...bx) - pad, y0 = Math.min(...by) - pad, w = Math.max(...bx) - Math.min(...bx) + 2 * pad, h = Math.max(...by) - Math.min(...by) + 2 * pad;
     const d = 'M' + Q.map(q => q[0].toFixed(1) + ' ' + q[1].toFixed(1)).join(' L');
-    return `<svg class="pl-forma" viewBox="${x0.toFixed(1)} ${y0.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}" width="${Math.round(w)}" height="${Math.round(h)}" role="img" aria-label="forma de la marca ${g.marca}"><path d="${d}" class="pl-b"/>${tx.join('')}</svg>`;
+    return `<svg class="pl-forma" viewBox="${x0.toFixed(1)} ${y0.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" role="img" aria-label="forma de la marca ${g.marca}"><path d="${d}" class="pl-b"/>${tx.join('')}</svg>`;
   }
 
   function tablaHTML(A, cub) {

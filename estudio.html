@@ -44,41 +44,41 @@
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;font-feature-settings:"cv05","ss01"}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;font-feature-settings:"cv05","ss01"}
 header.top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:12px 18px 11px;background:var(--chrome);color:var(--chrome-ink)}
 header.top h1{font-size:16.5px;font-weight:600;margin:0;letter-spacing:-.012em}
-header.top h1 small{font-weight:400;color:var(--chrome-muted);font-size:12.5px;margin-left:9px;letter-spacing:0}
-header.top .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
+header.top h1 small{font-weight:400;color:var(--chrome-muted);font-size:14px;margin-left:9px;letter-spacing:0}
+header.top .meta{color:var(--chrome-muted);font-size:13px;margin-left:auto}
 @media (max-width:760px){header.top .meta{display:none}header.top h1 small{display:block;margin:2px 0 0}}
 .toc{position:sticky;top:0;z-index:5;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding:9px 22px;background:var(--paper);border-bottom:1px solid var(--line)}
 .toc::-webkit-scrollbar{display:none}
-.toc a{flex:none;font-size:12px;font-weight:500;color:var(--muted);text-decoration:none;padding:4px 10px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.toc a{flex:none;font-size:14px;font-weight:500;color:var(--muted);text-decoration:none;padding:4px 10px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
 .toc a:hover{color:var(--ink);border-color:var(--line)}
 .toc a.on{color:var(--ink);background:var(--line2);border-color:var(--line)}
 .doc-in{max-width:980px;margin:0 auto;padding:6px 26px 90px}
 section{padding-top:30px;scroll-margin-top:44px}
 h2{font-size:19px;font-weight:650;letter-spacing:-.015em;margin:0 0 10px;display:flex;align-items:baseline;gap:10px}
-h2 .n{font-size:11.5px;font-weight:600;color:var(--hi);letter-spacing:.06em;font-variant-numeric:tabular-nums}
-h3{font-size:14.5px;font-weight:600;margin:22px 0 6px}
+h2 .n{font-size:13px;font-weight:600;color:var(--hi);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+h3{font-size:16px;font-weight:600;margin:22px 0 6px}
 p{margin:0 0 10px}
 .lead{font-size:15px;margin:16px 0 14px}
 .sub{color:var(--muted)}
-.small{font-size:12.5px}
+.small{font-size:14px}
 a{color:var(--accent)}
 .specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0 6px}
 .spec{border:1px solid var(--line);border-radius:10px;padding:10px 12px 9px;background:var(--panel);min-width:0}
-.spec .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:500}
+.spec .l{font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:500}
 .spec .v{font-size:17.5px;font-weight:620;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin:2px 0 3px;line-height:1.25}
-.spec .d{font-size:12px;color:var(--muted);line-height:1.4}
+.spec .d{font-size:14px;color:var(--muted);line-height:1.4}
 @media (max-width:760px){.specs{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:420px){.specs{grid-template-columns:1fr}}
-.fuente{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:1px 6px;border-radius:999px;vertical-align:1px;margin-left:4px;white-space:nowrap}
+.fuente{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:1px 6px;border-radius:999px;vertical-align:1px;margin-left:4px;white-space:nowrap}
 .fuente.man{color:var(--ok);background:var(--ok-soft)}
 .fuente.med{color:var(--med);background:var(--med-soft)}
 .fuente.calc{color:var(--calc);background:var(--calc-soft)}
 .tw{overflow-x:auto;margin:10px 0 6px;border:1px solid var(--line);border-radius:10px}
-table{border-collapse:collapse;width:100%;font-size:12.5px;font-variant-numeric:tabular-nums}
-th{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:500;text-align:left;padding:8px 9px;border-bottom:1px solid var(--line);background:var(--panel);white-space:nowrap}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+th{font-size:12.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:500;text-align:left;padding:8px 9px;border-bottom:1px solid var(--line);background:var(--panel);white-space:nowrap}
 td{padding:7px 9px;border-bottom:1px solid var(--line2);vertical-align:top}
 tr:last-child td{border-bottom:0}
 td.c,th.c{text-align:center}
@@ -89,20 +89,21 @@ td.med{color:var(--med);font-weight:600}
 .sw{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:6px;border:1px solid rgba(0,0,0,.15)}
 figure{margin:14px 0 10px}
 figure svg{display:block;width:100%;height:auto}
-figure.ancho{position:relative;left:50%;transform:translateX(-50%);width:min(100vw - 40px,1480px)}   /* se sale de la columna de texto para dibujar más grande (corte del búnker) */
-figcaption{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45}
+figure.ancho{position:relative;left:50%;transform:translateX(-50%);width:min(100vw - 40px,1480px);overflow-x:auto}
+figure.ancho svg{min-width:1472px}   /* letra mínima (Gabriel, 22-10-2026): los dibujos no se achican; en pantallas chicas se desplazan */   /* se sale de la columna de texto para dibujar más grande (corte del búnker) */
+figcaption{font-size:14px;color:var(--ink);opacity:.82;margin-top:6px;line-height:1.45}
 svg .tx{font-family:var(--ui);fill:var(--fig-ink)}
 svg .txs{font-family:var(--ui);fill:var(--fig-soft)}
-.aviso{border:1px solid var(--hi-borde);background:var(--hi-soft);border-radius:10px;padding:9px 12px;margin:10px 0;font-size:13px}
+.aviso{border:1px solid var(--hi-borde);background:var(--hi-soft);border-radius:10px;padding:9px 12px;margin:10px 0;font-size:14px}
 .aviso b{color:var(--hi)}
-.pendiente{border:1px dashed var(--line);border-radius:10px;padding:10px 12px;margin:8px 0;font-size:13px;color:var(--muted)}
+.pendiente{border:1px dashed var(--line);border-radius:10px;padding:10px 12px;margin:8px 0;font-size:14px;color:var(--muted)}
 .pendiente b{color:var(--ink)}
-footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
-.btn{font:inherit;font-size:12.5px;font-weight:500;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
+footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
+.btn{font:inherit;font-size:14px;font-weight:500;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
 .btn:hover{border-color:var(--hi-borde);color:var(--hi)}
 .btn.p{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .btn.p:hover{opacity:.9;color:var(--paper)}
-.segs{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 12px}.segs label{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;border:1px solid var(--line);border-radius:999px;padding:4px 11px;cursor:pointer;user-select:none}.segs label:has(input:checked){border-color:var(--accent)}.segs input{margin:0}
+.segs{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 12px}.segs label{display:inline-flex;align-items:center;gap:6px;font-size:14px;border:1px solid var(--line);border-radius:999px;padding:4px 11px;cursor:pointer;user-select:none}.segs label:has(input:checked){border-color:var(--accent)}.segs input{margin:0}
 #alturas-fig{margin:0}#alturas-fig svg{width:100%;height:auto;display:block}
 .cx-horm{fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1}.cx-horm2{fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:.8}.cx-suelo{fill:url(#cx-suelo)}.cx-grava{fill:url(#cx-grava);stroke:var(--fig-soft);stroke-width:.6}
 .cx-mort{fill:var(--fig-fill);stroke:var(--fig-ink);stroke-width:.6}.cx-tile{fill:#7FA6C2;stroke:var(--fig-ink);stroke-width:.6}.cx-yeso{fill:#E8D9B0;stroke:var(--fig-ink);stroke-width:.6}.cx-perf{fill:none;stroke:var(--fig-ink);stroke-width:.6;stroke-dasharray:3 2}
@@ -110,20 +111,21 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
 .cx-fe{stroke:#C2410C;stroke-width:1.4;fill:none}.cx-fe2{stroke:#C2410C;stroke-width:2.2;fill:none}.cx-muro{fill:var(--fig-fill);stroke:var(--fig-soft);stroke-width:.8;stroke-dasharray:4 3}
 .cx-cota{stroke:var(--fig-ink);stroke-width:1}.cx-guia{stroke:var(--fig-soft);stroke-width:.7}.cx-niv{stroke:#C2410C;stroke-width:1.2;stroke-dasharray:8 5}.cx-ntn{stroke:var(--fig-soft);stroke-width:1;stroke-dasharray:10 6}
 .cx-marco{fill:none;stroke:var(--fig-ink);stroke-width:1.5}.cx-rec{fill:none;stroke:#C2410C;stroke-width:1.5;stroke-dasharray:5 3}.cx-h{font-size:20px;font-weight:700;fill:var(--ink)}
-.leyenda{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted);margin:4px 0 0}
-.kvs{display:grid;grid-template-columns:max-content 1fr;gap:5px 16px;font-size:13.5px;margin:10px 0 12px;align-items:baseline}.kvs .k{color:var(--muted);text-transform:uppercase;font-size:10.5px;letter-spacing:.09em;font-weight:500;white-space:nowrap}.kvs .v b{font-weight:620}
-.puntos{margin:8px 0 10px;padding-left:18px;font-size:13.5px;line-height:1.55}.puntos li{margin:2px 0}.puntos b{font-weight:620}
+.leyenda{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:var(--muted);margin:4px 0 0}
+.kvs{display:grid;grid-template-columns:max-content 1fr;gap:5px 16px;font-size:14.5px;margin:10px 0 12px;align-items:baseline}.kvs .k{color:var(--muted);text-transform:uppercase;font-size:12.5px;letter-spacing:.09em;font-weight:500;white-space:nowrap}.kvs .v b{font-weight:620}
+.puntos{margin:8px 0 10px;padding-left:18px;font-size:14.5px;line-height:1.55}.puntos li{margin:2px 0}.puntos b{font-weight:620}
 @media (max-width:560px){.kvs{grid-template-columns:1fr;gap:2px 0}.kvs .k{margin-top:6px}}
 ol.preg{padding-left:20px;margin:6px 0}
 ol.preg li{margin:0 0 8px}
 .elevs{position:relative;left:50%;transform:translateX(-50%);width:min(100vw - 40px,1480px);display:flex;flex-wrap:wrap;justify-content:center;gap:34px 28px;margin:18px 0}   /* Gabriel, 22-10-2026: "agranda todos esos esquemas y letras y agrega espacio" */
-.elevs figure{margin:0;flex:1 1 var(--w,700px);max-width:var(--w,700px)}
+.elevs figure{margin:0;flex:1 1 var(--w,700px);max-width:var(--w,700px);overflow-x:auto}.elevs figure svg{min-width:var(--w,700px)}
 @media (max-width:640px){.doc-in{padding:4px 16px 70px}.toc{padding:8px 16px}}
 .marco3d{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper);height:72vh;min-height:420px;max-height:820px}
 .marco3d iframe{width:100%;height:100%;border:0;display:block}
 @media (max-width:640px){.marco3d{height:62vh;min-height:360px}}
 .cortes{position:relative;left:50%;transform:translateX(-50%);width:min(100vw - 40px,1480px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(620px,100%),1fr));gap:34px 30px;margin:18px 0}   /* Gabriel, 22-10-2026: más grandes y con aire */
-.cortes figure{margin:0}
+.cortes figure{margin:0;overflow-x:auto}
+.cortes svg{min-width:720px}
 .cortes svg{width:100%;height:auto;background:var(--paper)}
 /* detalle de armaduras (armaduras_det.js) */
 .ad-h{fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1.1px;vector-effect:non-scaling-stroke}.ad-emp{fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:.8px;vector-effect:non-scaling-stroke}
@@ -135,16 +137,16 @@ ol.preg li{margin:0 0 8px}
 .ad-rc{stroke:var(--fig-diag);stroke-width:1px;vector-effect:non-scaling-stroke}.ad-rt{font-family:var(--ui);font-weight:600;fill:var(--fig-diag)}
 .ad-ct{stroke:var(--fig-ink);stroke-width:.8px;vector-effect:non-scaling-stroke}.ad-ct2{stroke:var(--fig-ink);stroke-width:1.3px;vector-effect:non-scaling-stroke}.ad-ce{stroke:var(--fig-soft);stroke-width:.6px;vector-effect:non-scaling-stroke}
 .ad-cn{font-family:var(--ui);fill:var(--fig-ink);font-variant-numeric:tabular-nums;paint-order:stroke;stroke:var(--paper);stroke-width:3px;stroke-linejoin:round}.ad-nv{fill:var(--fig-ink)}
-.notas-ing{border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:14px 0;background:var(--panel);font-size:13px;line-height:1.55}.notas-ing b{font-weight:600}.notas-ing ul{margin:6px 0 0;padding-left:18px}
-.planilla td{vertical-align:middle}.planilla .pl-c{padding:4px 8px}.pl-forma{display:block;max-width:240px;height:auto}.pl-b{fill:none;stroke:var(--fig-pilar);stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}
-.pl-t{font-family:var(--ui);font-size:11.5px;fill:var(--ink);font-variant-numeric:tabular-nums}.pl-m{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border:1.5px solid var(--ink);border-radius:50%;font-weight:700;font-size:12.5px}
+.notas-ing{border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:14px 0;background:var(--panel);font-size:14.5px;line-height:1.55}.notas-ing b{font-weight:600}.notas-ing ul{margin:6px 0 0;padding-left:18px}
+.planilla td{vertical-align:middle}.planilla .pl-c{padding:4px 8px}.pl-forma{display:block;max-width:none}.pl-b{fill:none;stroke:var(--fig-pilar);stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}
+.pl-t{font-family:var(--ui);font-size:14px;fill:var(--ink);font-variant-numeric:tabular-nums}.pl-m{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border:1.5px solid var(--ink);border-radius:50%;font-weight:700;font-size:12.5px}
 .pl-tot td{background:var(--panel)}.pl-tt td{border-top:2px solid var(--line)}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V112" data-vista="estudio"></script>
+  <script src="menu.js?v=V113" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
   <span class="meta" id="meta">Propuesta · no es un cálculo</span>
 </header>
@@ -163,7 +165,7 @@ ol.preg li{margin:0 0 8px}
 <section id="vista3d">
   <h2><span class="n">01</span>Vista 3D del estudio</h2>
   <ul class="puntos"><li><b>Capas:</b> estructura de acero y hormigón, búnker bajo tierra, enfierradura, medidas (vienen apagadas).</li><li><b>Girar:</b> arrastrar · <b>acercar:</b> rueda o pellizco · <b>centrar:</b> doble toque · <b>ficha:</b> tocar la pieza.</li></ul>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V112" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V113" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
@@ -171,7 +173,7 @@ ol.preg li{margin:0 0 8px}
   <h2><span class="n">02</span>Plano de fundaciones: enfierradura y trazado</h2>
   <ul class="puntos"><li><b>Ejes</b> al centro de los muros de 25: 1–5 de poniente a oriente, A–E de norte a sur · cotas en cm, parciales y acumuladas desde el eje 1 y el eje A.</li><li><b>Enfierradura</b> del ingeniero vista desde arriba, barra por barra: zapata corrida del búnker, muros, losa y VHA, sobrecimientos y cimientos corridos, CF, anclajes de las placas · el hormigón va solo punteado · arranque de cada pilar (PM1/PM2/PM3) · nada de techo: la estructura va en las secciones 04 y 05 · pasar el cursor por una barra dice qué es.</li><li><b>Corte A–A</b> del búnker debajo, con los niveles desde el terreno natural.</li></ul>
   <div class="segs" id="tz-capas"></div>
-  <figure><svg id="svg-planta" role="img" aria-label="Plano de fundaciones y trazado"></svg>
+  <figure class="ancho"><svg id="svg-planta" role="img" aria-label="Plano de fundaciones y trazado"></svg>
     <figcaption id="cap-planta"></figcaption></figure>
   <figure class="ancho"><svg id="svg-corte-bunker" role="img" aria-label="Corte A–A del búnker"></svg></figure>
   <p class="sub" id="cap-corte-bunker" style="margin-top:4px"></p>
@@ -182,7 +184,7 @@ ol.preg li{margin:0 0 8px}
 <section id="bunker">
   <h2><span class="n">03</span>Búnker</h2>
   <div class="kvs" id="txt-bunker"></div>
-  <figure><svg id="svg-bunker" role="img" aria-label="Planta del búnker"></svg>
+  <figure class="ancho"><svg id="svg-bunker" role="img" aria-label="Planta del búnker"></svg>
     <figcaption id="cap-bunker"></figcaption></figure>
 </section>
 
@@ -205,7 +207,7 @@ ol.preg li{margin:0 0 8px}
 <section id="vanos">
   <h2><span class="n">06</span>Ventanas, puertas y esquema interior (propuesta)</h2>
   <ul class="puntos"><li><b>Módulo:</b> entre pilares (2,45 m) · marcos de acero negro · de piso a <b>cielo terminado (4,00)</b>; la viga E-O +4,11/+4,21 y el cielo quedan encima.</li><li><b>Norte (patio):</b> vidrio de piso a cielo en 1-2, 2-3 (corredera de 2 hojas) y 3-4; el 4-5 ciego, que es la esquina de la cocina, el minibar y la escalera (Gabriel, 14-10-2026).</li><li><b>Tabique cafetería/estudio:</b> todo de vidrio (tramos 1-2, 2-3 y 3-4), corredera centrada en el estudio, doble vidrio; cortina gruesa atrás para mezclar.</li><li><b>Sur:</b> ventana de piso a cielo en el tramo 2-3, entre los parlantes, con cortina acústica pesada para mezclar fino; luz pareja, sin sol directo (Gabriel, 14-10-2026).</li><li><b>Puertas:</b> entrada 1,80 al poniente junto al pilar A2 · baño desde la cafetería (eje 4) · cabina (acústica, maciza) y bodega desde el estudio, cada una en el extremo norte de su recinto, lejos de la posición de escucha · llave al búnker.</li><li><b>Cabina de grabación:</b> 2,50 × 3,80 ciega (sin ventana), cielo a 3,00, tabiques dobles dentro de los 25.</li><li><b>Cruces</b> solo en muros ciegos (baño/cabina, cabina/bodega, fachada sur, laterales); en el tabique del baño cabe una sola diagonal.</li></ul>
-  <figure><svg id="svg-vanos" role="img" aria-label="Planta de ventanas, puertas y esquema interior"></svg>
+  <figure class="ancho"><svg id="svg-vanos" role="img" aria-label="Planta de ventanas, puertas y esquema interior"></svg>
     <figcaption id="cap-vanos"></figcaption></figure>
   <div class="tw"><table id="tabla-vanos"></table></div>
   <p class="small sub" id="txt-vanos"></p>
@@ -254,9 +256,9 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=V112"></script>
-<script src="estudio_estructura.js?v=V112"></script>
-<script src="armaduras_det.js?v=V112"></script>
+<script src="sitio.js?v=V113"></script>
+<script src="estudio_estructura.js?v=V113"></script>
+<script src="armaduras_det.js?v=V113"></script>
 <script>
 (function () {
   const D = DATA_ESTUDIO_EST, E = DATA_SITIO.estudio, ox = E.origen[0], oy = E.origen[1], z0 = D.z_piso;
@@ -388,7 +390,7 @@ ol.preg li{margin:0 0 8px}
         const t = coma(v - vals[0], 1).replace(',0', '');
         if (horizontal) txt(C, v, fijo - 16, t, { 'text-anchor': 'middle', 'font-size': FS, 'font-weight': 700 }); else txt(C, fijo + 16, v + FS * 0.36, t, { 'text-anchor': 'start', 'font-size': FS, 'font-weight': 700 });
       });
-      if (horizontal) txt(C, p1 + 24, fijo + FS * 0.36, desde, { 'text-anchor': 'start', 'font-size': FSs, class: 'txs' }); else txt(C, fijo, p0 - 24, desde, { 'text-anchor': 'middle', 'font-size': FSs, class: 'txs' });
+      if (horizontal) txt(C, p1 + 64, fijo + FS * 0.36, desde, { 'text-anchor': 'start', 'font-size': FSs, class: 'txs' }); else txt(C, fijo, p0 - 24, desde, { 'text-anchor': 'middle', 'font-size': FSs, class: 'txs' });
     };
     for (let i = 0; i < xs.length - 1; i++) cota(C, xs[i], L + 30, xs[i + 1], L + 30, coma(xs[i + 1] - xs[i], 1).replace(',0', ''), 40, FS);
     acum(true, L + 175, xs, xn, 'desde el eje 1');
@@ -841,7 +843,7 @@ ol.preg li{margin:0 0 8px}
       const xm0 = S.U(AY(0)), xm1 = S.U(AY(25)), xl0 = S.U(AY(-37.5));
       S.cotaH(xl0, xm0, N.emplantillado_inf, '37,5', 12); S.cotaH(xm0, xm1, N.emplantillado_inf, '25', 12); S.cotaV(S.W, -20, 0, '20', 8); S.cotaV(S.W, N.zapata_inf, N.zapata_sup, '30', 8);
       S.cotaV(xm1 + 30, N.losa_inf, N.zapata_sup, coma(N.losa_inf - N.zapata_sup, 0) + ' libres (OG)', 0);
-      S.nivel(-30, 0, 'NPOG 0,00'); S.nivel(-30, -50, 'NTN (−50)'); S.nivel(-30, N.zapata_sup, '−291 NTN'); S.nivel(-30, N.zapata_inf, '−321 NTN'); S.nivel(-30, N.emplantillado_inf, '−331 NTN (sello)');
+      S.nivel(-30, 0, 'NPOG 0,00'); S.nivel(-30, -50, 'NTN (−50)'); S.nivel(-30, N.zapata_sup, '−291 NTN'); S.nivel(-30, N.zapata_inf, '−321 NTN'); S.nivel(-30, N.emplantillado_inf - 9, '−331 NTN (sello)');   // 9 más abajo para que no choque (la marca queda en su nivel con la línea de cota)
     }, `ejes 1–2, muro norte (los cuatro iguales) · medidas en cm`);
     // B) fachadas fuera del búnker: sobrecimiento y cimiento corrido del eje 1, por el pilar 1-D (con su placa y anclajes)
     corte('Corte B · sobrecimiento, cimiento corrido y placa base (fachadas)', [-112, -72, 470, 200], sv => {
@@ -854,8 +856,8 @@ ol.preg li{margin:0 0 8px}
       const c0 = S.U(AX(-27.5)), c1 = S.U(AX(52.5)), s0 = S.U(AX(0)), s1 = S.U(AX(25));   // cimiento de −27,5 a 52,5 y sobrecimiento de 0 a 25 (eje 1 en 12,5)
       S.cotaH(c0, s0, N.cimiento_inf - 10, '27,5', 15); S.cotaH(s0, s1, N.cimiento_inf - 10, '25', 15); S.cotaH(s1, c1, N.cimiento_inf - 10, '27,5', 15);
       S.cotaV(c0, N.sobrecimiento_inf, 0, '50', -10); S.cotaV(c0, N.cimiento_inf, N.sobrecimiento_inf, '25', -10); S.cotaV(c0, N.cimiento_inf - 10, N.cimiento_inf, '10', -10);
-      S.nivel(-32, 0, 'NPOG 0,00'); S.nivel(-32, -50, 'NTN (−50)'); S.nivel(-32, N.cimiento_inf, '−25 NTN (−75)'); S.nivel(-32, N.cimiento_inf - 10, '−35 NTN (sello)');
-      nota(sv, S.U(AX(85)), S.Y(-5) + 2.6, 'radier 10', 7, { 'text-anchor': 'middle' }); nota(sv, S.U(AX(85)), S.Y(-15) + 2.6, 'poliestireno 10', 7, { 'text-anchor': 'middle' }); nota(sv, S.U(AX(85)), S.Y(-27.5) + 2.6, 'relleno 15', 7, { 'text-anchor': 'middle' });
+      S.nivel(-32, 0, 'NPOG 0,00'); S.nivel(-32, -50, 'NTN (−50)'); S.nivel(-32, N.cimiento_inf + 4, '−25 NTN (−75)'); S.nivel(-32, N.cimiento_inf - 14, '−35 NTN (sello)');
+      nota(sv, S.U(AX(70)), S.Y(-5) + 2.6, 'radier 10', 7, { 'text-anchor': 'middle' }); nota(sv, S.U(AX(70)), S.Y(-27.5) + 2.6, 'poliestireno 10 · relleno 15', 7, { 'text-anchor': 'middle' });
     }, `eje 1 por el pilar D (ejes 5 y E iguales) · medidas en cm`);
     // C) CF 25/50 (eje C; los de C2 y 4 son iguales) con el radier a los dos lados
     corte('Corte C · cadena de fundación CF 25/50', [-72, -16, 330, 108], sv => {
@@ -892,10 +894,10 @@ ol.preg li{margin:0 0 8px}
       const zig = (sv, x0, y0, x1, y1) => { const L = Math.hypot(x1 - x0, y1 - y0), ux = (x1 - x0) / L, uy = (y1 - y0) / L, px = -uy * 3, py = ux * 3; let d = `M${x0},${y0}`; for (let s = 0, k = 0; s < L; s += 8, k++) { const m = Math.min(s + 4, L), e = Math.min(s + 8, L), sg = k % 2 ? -1 : 1; d += `L${x0 + ux * m + px * sg},${y0 + uy * m + py * sg}L${x0 + ux * e},${y0 + uy * e}`; } el('path', { d, style: 'fill:none;' + ink + ';stroke-width:.9' }, sv); };
       const radier = 'fill:var(--fig-fill);' + ink + ';stroke-width:.7', capa = 'fill:none;' + ink + ';stroke-width:.5;stroke-dasharray:3 3', tab = 'fill:none;' + ink + ';stroke-width:.7;stroke-dasharray:4 3', ejeS = 'stroke:var(--fig-soft);stroke-width:.8;stroke-dasharray:14 4 3 4';
       const T = (sv, x, z, t, o) => txt(sv, x, Y(z) + 3, t, Object.assign({ 'text-anchor': 'middle', 'font-size': 10, class: 'txs' }, o || {}));
-      const ZT = 62, ZF = -112, S = 2.2, YZ0 = 134, XL = -165, XR = ANCHO + 180, LX = -110, RX = 104;   // LX/RX: lo que ocupa cada sección ampliada (cm locales)   // alto del corte general; escala y arranque de la fila de secciones ampliadas
+      const ZT = 62, ZF = -112, S = 2.2, YZ0 = 134, XL = -235, XR = ANCHO + 320, LX = -110, RX = 104;   // LX/RX: lo que ocupa cada sección ampliada (cm locales)   // alto del corte general; escala y arranque de la fila de secciones ampliadas
       const CX0 = XL + (XR - XL - (2 * (RX - LX) * S + 30)) / 2 - LX * S, CX1 = CX0 + (RX - LX) * S + 30, YB = YZ0 + 10 + 156 * S + 6;
       corte('Corte transversal por los CF de los ejes C y C2', [XL, -ZT - 34, XR - XL, YB + ZT + 34], sv => {
-        sv.parentNode.style.gridColumn = '1 / -1';
+        sv.parentNode.style.gridColumn = '1 / -1'; sv.style.minWidth = '1472px';
         // ---- corte general ----
         [['B', yB, -104], ['C', yC, -58], ['C2', yC2, -58], ['E', yE, -92]].forEach(([n, y, zf]) => { const x = U(y); el('line', { x1: x, y1: Y(ZT - 12), x2: x, y2: Y(zf), style: ejeS }, sv); el('circle', { cx: x, cy: Y(ZT - 4), r: 7, style: 'fill:var(--paper);' + ink + ';stroke-width:.9' }, sv); T(sv, x, ZT - 4, n, { 'font-weight': 700, class: 'tx' }); });
         [[yB, yC], [yC, yC2], [yC2, yE]].forEach(([a, b]) => cota(sv, U(a), Y(ZT - 22), U(b), Y(ZT - 22), coma(b - a, 0), 0, 8.5));
@@ -907,7 +909,7 @@ ol.preg li{margin:0 0 8px}
         // radier e=10 sobre poliestireno 10 y relleno 15 en los tres recintos; terreno natural bajo la sub base
         [[by1 + .5, yC - hcf - .5], [yC + hcf + .5, yC2 - hcf - .5], [yC2 + hcf + .5, yE - hs - .5]].forEach(([a, b]) => { rectY(sv, a, b, -10, 0, radier); rectY(sv, a, b, -20, -10, capa); rectY(sv, a, b, -35, -20, capa); });
         lineY(sv, by1, yE - hs, -50, 'stroke:var(--fig-soft);stroke-width:.6;stroke-dasharray:2 3');
-        [['radier e=10', -5], ['poliestireno e=10', -15], ['relleno granular 15', -27.5], ['sub base compactada', -43]].forEach(([t, z]) => T(sv, U(by1 + 50), z, t, { 'font-size': 7.5 }));
+        T(sv, U(by1 + 50), -5, 'radier e=10', { 'font-size': 7.5 });   // las otras capas van rotuladas en las secciones 1 y 2 (aquí no caben con letra de 13 px)
         [['baño', yC - 50], ['cabina', yC2 - 50], ['bodega', yE - 55]].forEach(([t, y]) => T(sv, U(y), 12, t, { 'font-size': 9.5, 'font-weight': 600 }));
         // los dos CF 25/50, iguales: de 0 a −50 (hasta la cara del radier, fondo en el NTN), emplantillado 40 × 10, 3ø12 + 2ø10 + 3ø12 y Est ø10@25; tabique encima
         [['CF-C', yC, '1'], ['CF-C2', yC2, '2']].forEach(([id, yc, nm]) => {
@@ -929,14 +931,14 @@ ol.preg li{margin:0 0 8px}
         [-6.5, 6.5].forEach(dx => { barra(sv, xe + dx, -4.5, 1.8); [-15, -35].forEach(z => barra(sv, xe + dx, z, 1.3)); });
         el('polyline', { points: `${xe - 35},${Y(N.cimiento_inf + 20)} ${xe - 35},${Y(N.cimiento_inf + 5)} ${xe + 35},${Y(N.cimiento_inf + 5)} ${xe + 35},${Y(N.cimiento_inf + 20)}`, style: 'fill:none;stroke:var(--fig-pilar);stroke-width:1.1' }, sv);
         [-33, -11, 11, 33].forEach(dx => barra(sv, xe + dx, N.cimiento_inf + 6, 1.8));
-        T(sv, xe + hs + 3, -25, 'sobrecimiento 25 × 50', { 'text-anchor': 'start', 'font-size': 7.5 }); T(sv, xe + hs + 3, -44, 'NTN 0,00 (−50)', { 'text-anchor': 'start', 'font-size': 7.5 }); T(sv, xe + hc + 3, -63, 'cimiento 80 × 25', { 'text-anchor': 'start', 'font-size': 7.5 });
+        T(sv, xe + hs + 3, -25, 'sobrecimiento 25 × 50', { 'text-anchor': 'start', 'font-size': 7.5 }); T(sv, xe + hs + 3, -44, 'NTN 0,00 (−50)', { 'text-anchor': 'start', 'font-size': 7.5 }); T(sv, xe + hc + 3, -61, 'cimiento 80 × 25', { 'text-anchor': 'start', 'font-size': 7.5 });
         // quiebres entre ventanas
         for (let i = 0; i + 1 < VEN.length; i++) { zig(sv, X0[i] + VEN[i][1] - VEN[i][0], Y(6), X0[i] + VEN[i][1] - VEN[i][0], Y(-58)); zig(sv, X0[i + 1], Y(6), X0[i + 1], Y(-58)); }
         // niveles
-        const nivL = (z, t) => { el('line', { x1: -26, y1: Y(z), x2: -14, y2: Y(z), style: ink + ';stroke-width:.8' }, sv); T(sv, -30, z, t, { 'text-anchor': 'end', 'font-size': 7.5 }); };
-        const nivR = (z, t) => { const x = ANCHO + 44; el('line', { x1: x, y1: Y(z), x2: x + 12, y2: Y(z), style: ink + ';stroke-width:.8' }, sv); T(sv, x + 16, z, t, { 'text-anchor': 'start', 'font-size': 7.5 }); };
-        nivL(0, 'NPOG 0,00 · radier y tope CF'); nivL(-50, 'NTN 0,00 (−50) · fondo del CF'); nivL(-60, '−10 NTN (−60) · emplantillado');
-        nivR(0, 'NPOG 0,00'); nivR(-50, 'NTN 0,00 (−50)'); nivR(-75, '−25 NTN (−75) · cimiento'); nivR(-85, '−35 NTN (−85) · emplantillado');
+        const nivL = (z, t, dy) => { el('line', { x1: -26, y1: Y(z), x2: -14, y2: Y(z), style: ink + ';stroke-width:.8' }, sv); T(sv, -30, z - (dy || 0), t, { 'text-anchor': 'end', 'font-size': 7.5 }); };
+        const nivR = (z, t, dy) => { const x = ANCHO + 100; el('line', { x1: x, y1: Y(z), x2: x + 12, y2: Y(z), style: ink + ';stroke-width:.8' }, sv); T(sv, x + 16, z - (dy || 0), t, { 'text-anchor': 'start', 'font-size': 7.5 }); };
+        nivL(0, 'NPOG 0,00 · radier y tope CF'); nivL(-50, 'NTN 0,00 (−50) · fondo del CF', -4); nivL(-60, '−10 NTN (−60) · emplantillado', 6);
+        nivR(0, 'NPOG 0,00'); nivR(-50, 'NTN 0,00 (−50)'); nivR(-75, '−25 NTN (−75) · cimiento', -4); nivR(-85, '−35 NTN (−85) · emplantillado', 6);
         // ---- secciones 1 y 2 ampliadas, con el radier a los lados: idénticas ----
         txt(sv, (XL + XR) / 2, YZ0 - 2, 'Secciones 1 y 2 (×2,2)', { 'text-anchor': 'middle', 'font-size': 10, 'font-weight': 600 });
         const secCF = (cx, id, eje, izq, der, nm) => {
@@ -1012,6 +1014,21 @@ ol.preg li{margin:0 0 8px}
   const links = [...document.querySelectorAll('.toc a')], secs = links.map(a => document.querySelector(a.getAttribute('href')));
   const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)); }); }, { rootMargin: '-40% 0px -55% 0px' });
   secs.forEach(s => s && io.observe(s));
+
+  // ---------- letra mínima (Gabriel, 22-10-2026: "un mínimo razonable aceptado para todo y que si no entra simplemente agregues más aire") ----------
+  // Ningún texto de los dibujos bajo 14 px con el dibujo en su ancho de diseño (su min-width; bajo eso se desplaza, no se achica).
+  // Lo que quedaba más chico se sube a 13 px; si algo choca, se le da aire en el dibujo (fuente/estudio/lint_textos_svg.js lo mide).
+  (function letraMinima(MIN) {
+    document.querySelectorAll('.doc-in svg').forEach(svg => {
+      const vb = svg.viewBox && svg.viewBox.baseVal; if (!vb || !vb.width) return;
+      const ref = parseFloat(getComputedStyle(svg).minWidth) || svg.getBoundingClientRect().width, kRef = ref / vb.width, inv = svg.getCTM() && svg.getCTM().inverse();
+      svg.querySelectorAll('text').forEach(t => {
+        const fs = parseFloat(getComputedStyle(t).fontSize); if (!fs || !inv) return;
+        const m = inv.multiply(t.getCTM()), k = Math.hypot(m.a, m.b) * kRef;
+        if (fs * k < MIN - 0.05) t.style.fontSize = (MIN / k).toFixed(2) + 'px';
+      });
+    });
+  })(14);
 })();
 </script>
 </body>
