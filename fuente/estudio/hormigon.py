@@ -116,7 +116,7 @@ def armar(c):
             ci_piezas.append(pieza(f'CC-{n}', x0 - (hc - hs), y0 - hc, x1 + (hc - hs), y0 + hc, z_ci_inf, z_sc_inf - GAP, 'Cimiento corrido 80 × 25', d))
     for p in ci_piezas: cemp_piezas.append(dict(id=p['id'].replace('CC', 'EMP'), pts=p['pts'], z_inf=Z(z_cemp_inf), z_sup=Z(z_ci_inf - GAP)))
     cimiento = dict(sobrecimiento=dict(ancho=SOBRECIM[0], alto=SOBRECIM[1], z_sup=Z(0), z_inf=Z(z_sc_inf), piezas=sc_piezas,
-                                       armadura='2ø12 arriba, ø10@20 L=211 (U que baja hasta el cimiento, ganchos de 15 arriba), ø8@20 horizontales; recubrimiento 3'),
+                                       armadura='2ø12 arriba, estribos ø10@20 L=211 (cerrados arriba, ramas de 68 hasta el cimiento y patas de 30 hacia afuera), ø8@20 horizontales; recubrimiento 3'),
                     zapata=dict(ancho=CIMIENTO[0], espesor=CIMIENTO[1], z_sup=Z(z_sc_inf - GAP), z_inf=Z(z_ci_inf), piezas=ci_piezas,
                                 armadura='ø12@20 L=100 (U de 70 con ganchos de 15) + 4ø10 longitudinales; recubrimiento 5'),
                     emplantillado=dict(espesor=EMPLANTILLADO, z_sup=Z(z_ci_inf - GAP), z_inf=Z(z_cemp_inf), hormigon='G5', piezas=cemp_piezas),
@@ -185,6 +185,16 @@ def armar(c):
         if polis is not None: f['polilineas'] = [[P(*q) for q in pl] for pl in polis]; f['largo'] = r1(sum(_largo(pl) for pl in polis))
         else: f['polilinea'] = [P(*q) for q in poli]; f['n'] = n; f['paso'] = list(paso); f['largo'] = r1(_largo(poli) * n)
         fierros.append(f)
+
+    def estribo(pts, g=10.0):
+        # estribo cerrado A-B-C-D-A con ganchos de 135° de g cm en la esquina A, hacia el interior (propuesta: NCh 430 / ACI 318 piden
+        # gancho sísmico de 135° con extensión de 6ø y no menos de 7,5 cm; con el doblez queda ~10). Gabriel, 22-10-2026: "detalles de ingeniería"
+        A, B, D = pts[0], pts[1], pts[3]
+        u = [B[i] - A[i] for i in range(3)]; v = [D[i] - A[i] for i in range(3)]
+        lu, lv = math.sqrt(sum(c * c for c in u)), math.sqrt(sum(c * c for c in v))
+        b = [u[i] / lu + v[i] / lv for i in range(3)]; lb = math.sqrt(sum(c * c for c in b))
+        H = tuple(A[i] + g * b[i] / lb for i in range(3))
+        return [H] + [tuple(q) for q in pts] + [H]
     # muros del búnker: por muro, eje y normal hacia adentro
     murosL = [('N', (bx0, by0 + 12.5), (bx1, by0 + 12.5), (0, 1)), ('S', (bx0, by1 - 12.5), (bx1, by1 - 12.5), (0, -1)),
               ('O', (bx0 + 12.5, by0 + 25), (bx0 + 12.5, by1 - 25), (1, 0)), ('E', (bx1 - 12.5, by0 + 25), (bx1 - 12.5, by1 - 25), (-1, 0))]   # O/E entre los muros N y S (sus verticales se alargan a las esquinas abajo)
@@ -241,8 +251,8 @@ def armar(c):
         fam(f'{vid}-sup', 'VHA 25/40', 12, None, polis=[[(xc + k, ya, -3), (xc + k, yb, -3)] for k in (-o, 0, o)], d=f'3ø12 superiores de la {vid}')
         fam(f'{vid}-med', 'VHA 25/40', 10, None, polis=[[(xc + k, ya, -20), (xc + k, yb, -20)] for k in (-o, o)], d=f'2ø10 medios de la {vid}')
         fam(f'{vid}-inf', 'VHA 25/40', 16, None, polis=[[(xc + k, ya, -37), (xc + k, yb, -37)] for k in (-o, 0, o)], d=f'3ø16 inferiores de la {vid}')
-        fam(f'{vid}-est', 'VHA 25/40', 10, [(xc - o, ya + 10, -3), (xc + o, ya + 10, -3), (xc + o, ya + 10, -37), (xc - o, ya + 10, -37), (xc - o, ya + 10, -3)],
-            n=int((yb - ya) // 20), paso=(0, 20, 0), d=f'estribos ø10@20 de la {vid}')
+        fam(f'{vid}-est', 'VHA 25/40', 10, estribo([(xc - o, ya + 10, -3), (xc + o, ya + 10, -3), (xc + o, ya + 10, -37), (xc - o, ya + 10, -37), (xc - o, ya + 10, -3)]),
+            n=int((yb - ya) // 20), paso=(0, 20, 0), d=f'estribos ø10@20 de la {vid}, con ganchos de 135° (propuesta)')
     # losa de fundación: doble malla ø12@15 en los dos sentidos; la inferior con ganchos de 20 hacia arriba en los bordes; recubrimiento 5
     zi, zs = z_zap_inf + 6, z_zap_sup - 6
     nx = int((zx1 - zx0 - 15) // 15) + 1; ny = int((zy1 - zy0 - 15) // 15) + 1
@@ -271,11 +281,15 @@ def armar(c):
         # tramo E: su pieza va de cara exterior a cara exterior (0..1055): las U de 3,5 a 1051,5. Tramos 1 y 5: siguen hasta la cara exterior del tramo E menos 3,5
         xU, yU = x0 + ux * (3.5 if n == 'E' else 0.0), y0 + uy * 0.0
         lnU = (ln - 7.0) if n == 'E' else (ln + 25.0 - 3.5)
-        fam(f'SU-{n}', 'sobrecimiento', 10, [(xU + px * 6, yU + py * 6, -5), (xU - px * 9, yU - py * 9, -5), (xU - px * 9, yU - py * 9, z_ci_inf + 7), (xU + px * 9, yU + py * 9, z_ci_inf + 7), (xU + px * 9, yU + py * 9, -5), (xU - px * 6, yU - py * 6, -5)],
-            n=int(lnU // 20) + 1, paso=(ux * 20, uy * 20, 0), d=f'ø10@20 L=211 en U del sobrecimiento (eje {n}), con ganchos de 15 arriba; en las esquinas las U van en los dos sentidos')
+        # estribo ø10@20 L=211 de la lámina 01 (corte b-b): cerrado arriba (15), ramas de 68 que bajan al cimiento y patas de 30 hacia afuera
+        # (30 + 68 + 15 + 68 + 30 = 211). Hasta la V111 estaba dibujado al revés: U abierta arriba con ganchos de 15 (Gabriel, 22-10-2026: "revisa los detalles de enfierradura")
+        zT, zP = -3.0, -3.0 - 68.0   # −3 / −71: arriba envuelve los 2ø12; las patas quedan en el cimiento
+        fam(f'SU-{n}', 'sobrecimiento', 10, [(xU - px * 37.5, yU - py * 37.5, zP), (xU - px * 7.5, yU - py * 7.5, zP), (xU - px * 7.5, yU - py * 7.5, zT), (xU + px * 7.5, yU + py * 7.5, zT), (xU + px * 7.5, yU + py * 7.5, zP), (xU + px * 37.5, yU + py * 37.5, zP)],
+            n=int(lnU // 20) + 1, paso=(ux * 20, uy * 20, 0), d=f'estribos ø10@20 L=211 del sobrecimiento (eje {n}): cerrados arriba (15), ramas de 68 hasta el cimiento y patas de 30 hacia afuera; en las esquinas van en los dos sentidos')
         i12, f12 = extremos(n, 12, 'sc'); i8, f8 = extremos(n, 8, 'sc'); i10, f10 = extremos(n, 10, 'ci')
-        fam(f'S12-{n}', 'sobrecimiento', 12, None, polis=[barra_L(ejeB, cB, k, tA, tB, -5, i12, f12) for k in (-9, 9)], d=f'2ø12 superiores del sobrecimiento (eje {n}), con patas de {L60(12):.0f} (60ø) en las esquinas y ancladas en el muro del búnker')
-        fam(f'S8-{n}', 'sobrecimiento', 8, None, polis=[barra_L(ejeB, cB, k, tA, tB, zz, i8, f8) for k in (-9, 9) for zz in (-15, -35)], d=f'ø8@20 horizontales del sobrecimiento (eje {n}), dos caras, con patas de {L60(8):.0f} (60ø) en las esquinas')
+        fam(f'S12-{n}', 'sobrecimiento', 12, None, polis=[barra_L(ejeB, cB, k, tA, tB, -4.5, i12, f12) for k in (-6.5, 6.5)],   # dentro del estribo (ramas en ±7,5)
+            d=f'2ø12 superiores del sobrecimiento (eje {n}), con patas de {L60(12):.0f} (60ø) en las esquinas y ancladas en el muro del búnker')
+        fam(f'S8-{n}', 'sobrecimiento', 8, None, polis=[barra_L(ejeB, cB, k, tA, tB, zz, i8, f8) for k in (-6.5, 6.5) for zz in (-15, -35)], d=f'ø8@20 horizontales del sobrecimiento (eje {n}), dos caras, con patas de {L60(8):.0f} (60ø) en las esquinas')
         # cimiento: la pieza E va de −27,5 a 1082,5 (80 de ancho en los extremos): U de −22,5 a 1077,5; las de 1 y 5 siguen hasta 1597,5 (cara exterior del cimiento E menos 5)
         xC, yC_ = x0 - ux * (27.5 - 5.0 if n == 'E' else 0.0), y0 + uy * 0.0
         lnC = (ln + 2 * (27.5 - 5.0)) if n == 'E' else (ln + 12.5 + 40.0 - 5.0)
@@ -291,11 +305,12 @@ def armar(c):
         else:               # E-O: entra al CF-4 (dobla al norte) y al sobrecimiento oriente (dobla al norte)
             ejeB, cB, tA, tB = 'x', y0, x0, x1   # y0 = yC o yC2: cada CF con su eje (hasta la V105 los dos usaban yC y las barras del CF-C2 se dibujaban sobre las del CF-C)
             ext = lambda dm: ((xA[3] - 12.5 + 3.5, 0, -L60(dm)), (xA[4] + 12.5 - 3.5, 0, -L60(dm)))
-        fam(f'{cid}-sup', 'CF 25/50', 12, None, polis=[barra_L(ejeB, cB, k, tA, tB, -5, *ext(12)) for k in (-9, 0, 9)], d=f'3ø12 superiores del {cid}, anclados 60ø en los dos extremos')
-        fam(f'{cid}-med', 'CF 25/50', 10, None, polis=[barra_L(ejeB, cB, k, tA, tB, -25, *ext(10)) for k in (-9, 9)], d=f'2ø10 medios del {cid}, anclados 60ø')
-        fam(f'{cid}-inf', 'CF 25/50', 12, None, polis=[barra_L(ejeB, cB, k, tA, tB, -45, *ext(12)) for k in (-9, 0, 9)], d=f'3ø12 inferiores del {cid}, anclados 60ø')
-        fam(f'{cid}-est', 'CF 25/50', 10, [(x0 - px * 9, y0 - py * 9, -5), (x0 + px * 9, y0 + py * 9, -5), (x0 + px * 9, y0 + py * 9, -45), (x0 - px * 9, y0 - py * 9, -45), (x0 - px * 9, y0 - py * 9, -5)],
-            n=int(ln // 25) + 1, paso=(ux * 25, uy * 25, 0), d=f'estribos ø10@25 del {cid}')
+        # recubrimiento 5 (lámina 02, fundaciones): estribo ø10 con eje a ±7 y de −5,5 a −44,5 (14 × 39); barras por dentro (Gabriel, 22-10-2026)
+        fam(f'{cid}-sup', 'CF 25/50', 12, None, polis=[barra_L(ejeB, cB, k, tA, tB, -6.6, *ext(12)) for k in (-5.9, 0, 5.9)], d=f'3ø12 superiores del {cid}, anclados 60ø en los dos extremos')
+        fam(f'{cid}-med', 'CF 25/50', 10, None, polis=[barra_L(ejeB, cB, k, tA, tB, -25, *ext(10)) for k in (-6, 6)], d=f'2ø10 medios del {cid}, anclados 60ø')
+        fam(f'{cid}-inf', 'CF 25/50', 12, None, polis=[barra_L(ejeB, cB, k, tA, tB, -43.4, *ext(12)) for k in (-5.9, 0, 5.9)], d=f'3ø12 inferiores del {cid}, anclados 60ø')
+        fam(f'{cid}-est', 'CF 25/50', 10, estribo([(x0 - px * 7, y0 - py * 7, -5.5), (x0 + px * 7, y0 + py * 7, -5.5), (x0 + px * 7, y0 + py * 7, -44.5), (x0 - px * 7, y0 - py * 7, -44.5), (x0 - px * 7, y0 - py * 7, -5.5)]),
+            n=int(ln // 25) + 1, paso=(ux * 25, uy * 25, 0), d=f'estribos ø10@25 del {cid}, con ganchos de 135° (propuesta)')
     # anclajes de las placas base: 1+1 ø3/4 de 43 + gancho 10, con estribos ø8@20
     polisA, polisE = [], []
     h, g_, L_ = ANCLAJE['sep'] / 2, ANCLAJE['gancho'], ANCLAJE['largo']
@@ -303,12 +318,13 @@ def armar(c):
         x, y = pl['centro'][0] - c['ox'], pl['centro'][1] - c['oy']
         # dos horquillas en U (1+1), una por sentido, colgadas de la placa; los ganchos de 100 doblan hacia adentro, uno frente al otro
         # (así lo dibuja el detalle: el ancho total es 140 y cabe en el muro de 25)
-        polisA.append([(x - h + g_, y, -L_), (x - h, y, -L_), (x - h, y, -1), (x + h, y, -1), (x + h, y, -L_), (x + h - g_, y, -L_)])
-        polisA.append([(x, y - h + g_, -L_), (x, y - h, -L_), (x, y - h, -1), (x, y + h, -1), (x, y + h, -L_), (x, y + h - g_, -L_)])
+        zb = -1 - L_   # ramas de 43 bajo la placa (L = 10 + 43 + 14 + 43 + 10 = 120, como la lámina)
+        polisA.append([(x - h + g_, y, zb), (x - h, y, zb), (x - h, y, -1), (x + h, y, -1), (x + h, y, zb), (x + h - g_, y, zb)])
+        polisA.append([(x, y - h + g_, zb), (x, y - h, zb), (x, y - h, -1), (x, y + h, -1), (x, y + h, zb), (x, y + h - g_, zb)])
         for zz in (-12, -32):
-            polisE.append([(x - 7, y - 7, zz), (x + 7, y - 7, zz), (x + 7, y + 7, zz), (x - 7, y + 7, zz), (x - 7, y - 7, zz)])
-    fam('AN', 'placa base PLb', 19, None, polis=polisA, d='anclajes 1+1 ø3/4" en horquilla (L=1200 mm: 140 bajo la placa, ramas de 430 y ganchos de 100 hacia adentro) de las placas base, en los 22 pilares')
-    fam('AE', 'placa base PLb', 8, None, polis=polisE, d='estribos ø8@20 de los anclajes')
+            polisE.append(estribo([(x - 8.4, y - 8.4, zz), (x + 8.4, y - 8.4, zz), (x + 8.4, y + 8.4, zz), (x - 8.4, y + 8.4, zz), (x - 8.4, y - 8.4, zz)]))   # envuelve las ramas ø3/4 (en ±7)
+    fam('AN', 'placa base PLb', 19, None, polis=polisA, d='anclajes 1+1 ø3/4" en horquilla (L=1200 mm: 140 bajo la placa, ramas de 430 y ganchos de 100 hacia adentro) de las placas base, en los ' + str(len(placas)) + ' pilares')
+    fam('AE', 'placa base PLb', 8, None, polis=polisE, d='estribos ø8@20 de los anclajes, con ganchos de 135° (propuesta)')
 
     # ---------- cubicación de hormigón (m³) y de fierro (kg) ----------
     def area(pts):

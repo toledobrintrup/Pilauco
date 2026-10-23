@@ -93,3 +93,8 @@ sale de la columna de texto (`figure.ancho`); las cotas dicen las medidas reales
 `menu.js` pone `<html data-theme="light|dark">` según `localStorage['pilauco-tema']` ('claro' u 'oscuro') o `?tema=claro|oscuro`; sin elección
 sigue al sistema. El botón ☾/☀ del menú guarda la elección y recarga (el 3D arma sus colores al cargar). El CSS de cada página define las
 variables para `:root:not([data-theme="light"])` dentro del media query oscuro y para `:root[data-theme="dark"]`.
+
+## Detalle de armaduras (22-10-2026)
+
+`armaduras_det.js` arma la sección 07 de `estudio.html` desde las barras del modelo: cortes A–D (muro y losas del búnker, sobrecimiento y placa, CF 25/50, VHA 25/40) con marcas, recubrimientos y cotas, y la planilla de doblado (marca, forma acotada, L, cantidad, espaciamiento, m, kg, fuente). Correcciones del modelo: estribo ø10@20 L=211 del sobrecimiento según la lámina 01 (30 + 68 + 15 + 68 + 30), CF con recubrimiento 5, horquillas de 43 (L=120) y ganchos de 135° en estribos (propuesta).
+
