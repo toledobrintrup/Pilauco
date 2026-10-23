@@ -176,8 +176,8 @@
  "alturas": {
   "interior_cm": 400.0,
   "dato_interior": "Gabriel (13-10-2026): 4,00 m libres TERMINADOS (de porcelanato a cielo de yeso cartón) en todo el estudio; la estructura va encima: 4,00 + piso 5,5 + cielo 5,5 = cara inferior de las vigas a +4,11",
-  "losa_piso_cm": 20.0,
-  "dato_losa": "lámina 03 rev H del ingeniero: losa del búnker e=20",
+  "losa_piso_cm": 25.0,
+  "dato_losa": "lámina 03 rev H del ingeniero: losa del búnker e=20; e=25 desde la revisión estructural del 23-10-2026 (con 6,45 m de luz la de 20 no pasaba)",
   "techo_espesor_cm": 10.0,
   "dato_techo": "supuesto: plancha y aislación, solo para el volumen",
   "estructura_techo_cm": 40.0,
@@ -242,7 +242,7 @@
    ]
   ],
   "interior_cm": 310.0,
-  "dato": "Gabriel: justo debajo de la cafetería; tabique de 10 por dentro de los 4 muros de hormigón (14-10-2026): 10,05 x 6,00 terminado, 10,25 x 6,20 entre muros; centrado en la excavación ya hecha. Altura: 3,10 m libres TERMINADOS (de porcelanato a cielo de yeso cartón; 3,21 de obra gruesa) desde el 15-10-2026: el ingeniero (vía Gabriel) cambió la zapata corrida + relleno + radier por una losa de fundación armada de 30 bajo todo el búnker, cuya cara superior es el piso; el sello no cambia (−371 bajo la losa de techo) y el búnker gana los 30 cm. Antes 2,80 libres. Su muro sur (645..670) queda bajo el tabique cafetería/estudio"
+  "dato": "Gabriel: justo debajo de la cafetería; tabique de 10 por dentro de los 4 muros de hormigón (14-10-2026): 10,05 x 6,00 terminado, 10,25 x 6,20 entre muros; centrado en la excavación ya hecha. Altura: 3,10 m libres TERMINADOS (de porcelanato a cielo de yeso cartón; 3,21 de obra gruesa) desde el 15-10-2026: el ingeniero (vía Gabriel) cambió la zapata corrida + relleno + radier por una losa de fundación armada de 30 bajo todo el búnker, cuya cara superior es el piso; el sello no cambia (−371 bajo la losa de techo) y el búnker gana los 30 cm. Revisión estructural del 23-10-2026: losa de techo de 25 y losa de fundación de 35, con los mismos 3,10 libres (el sello baja a −391). Antes 2,80 libres. Su muro sur (645..670) queda bajo el tabique cafetería/estudio"
  },
  "emplazamiento": {
   "anclaje": "el búnker centrado en la excavación actual (foto de dron de octubre 2026), con la cafetería hacia el patio (norte) y el estudio hacia el camino (sur)",

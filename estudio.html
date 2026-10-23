@@ -141,31 +141,116 @@ ol.preg li{margin:0 0 8px}
 .planilla td{vertical-align:middle}.planilla .pl-c{padding:4px 8px}.pl-forma{display:block;max-width:none}.pl-b{fill:none;stroke:var(--fig-pilar);stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}
 .pl-t{font-family:var(--ui);font-size:14px;fill:var(--ink);font-variant-numeric:tabular-nums}.pl-m{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border:1.5px solid var(--ink);border-radius:50%;font-weight:700;font-size:12.5px}
 .pl-tot td{background:var(--panel)}.pl-tt td{border-top:2px solid var(--line)}
+/* revisión estructural (Gabriel, 23-10-2026: "una pestaña corta… que se lea en 2 minutos") */
+.rv-cuenta{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.rv-cuenta span{font-size:14.5px;font-weight:600;padding:5px 12px;border-radius:999px}
+.rv-lista{border:1px solid var(--line);border-radius:10px;margin:10px 0 6px;overflow:hidden}
+.rv-cab,.rv-fila{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,2fr) 92px 104px;gap:4px 14px;padding:9px 12px;align-items:baseline}
+.rv-cab{background:var(--panel);border-bottom:1px solid var(--line);font-size:14px;color:var(--muted);font-weight:500}
+.rv-fila+.rv-fila{border-top:1px solid var(--line2)}
+.rv-fila .el{font-size:15px;font-weight:600}
+.rv-fila .qp{font-size:14.5px;color:var(--ink);opacity:.86;line-height:1.45}
+.rv-fila .dc{font-size:14.5px;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.rv-fila .es{text-align:right}
+.est{display:inline-block;font-size:14px;font-weight:600;padding:1px 9px;border-radius:999px;white-space:nowrap}
+.est.no{color:var(--mal);background:var(--mal-soft)}.est.ju{color:var(--med);background:var(--med-soft)}.est.ok{color:var(--ok);background:var(--ok-soft)}
+.rv-cargas{font-size:14.5px;color:var(--muted);margin:6px 0 0}
+.rv-agua{grid-template-columns:repeat(2,minmax(0,1fr))}.rv-agua .l{font-size:14px;font-weight:600;letter-spacing:.06em}
+@media (max-width:520px){.rv-agua{grid-template-columns:1fr}}
+.rv-orden{padding-left:22px;margin:6px 0 4px;font-size:15px}.rv-orden li{margin:3px 0}
+.rv-nota{font-size:14px;color:var(--muted);margin-top:10px}
+@media (max-width:640px){
+  .rv-cab{display:none}
+  .rv-fila{grid-template-columns:minmax(0,1fr) auto;gap:2px 10px}
+  .rv-fila .qp{grid-column:1/-1;grid-row:2}
+  .rv-fila .dc{grid-column:1;grid-row:3;text-align:left;color:var(--muted)}
+  .rv-fila .dc:not(:empty)::before{content:"D/C "}
+  .rv-fila .es{grid-column:2;grid-row:1}
+}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V115" data-vista="estudio"></script>
+  <script src="menu.js?v=V116" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
-  <span class="meta" id="meta">Propuesta · no es un cálculo</span>
+  <span class="meta" id="meta">Revisado con cálculo propio · sin firma</span>
 </header>
 <nav class="toc" id="toc">
-  <a href="#resumen">Resumen</a><a href="#vista3d">3D</a><a href="#planta">Planta</a><a href="#bunker">Búnker</a><a href="#elevaciones">Elevaciones</a><a href="#alturas">Alturas</a><a href="#vanos">Ventanas</a><a href="#fundaciones">Fundaciones</a><a href="#luces">Luces</a><a href="#acero">Acero</a><a href="#preguntas">Preguntas</a>
+  <a href="#resumen">Resumen</a><a href="#revision">Revisión</a><a href="#vista3d">3D</a><a href="#planta">Planta</a><a href="#bunker">Búnker</a><a href="#elevaciones">Elevaciones</a><a href="#alturas">Alturas</a><a href="#vanos">Ventanas</a><a href="#fundaciones">Fundaciones</a><a href="#luces">Luces</a><a href="#acero">Acero</a><a href="#preguntas">Falta</a>
 </nav>
 <div class="doc-in">
 
 <section id="resumen" style="padding-top:14px">
   <p class="lead">Estudio con búnker, con el <b>sistema estructural del ingeniero</b> (abril 2026) acomodado a la planta nueva. Cada pieza dice si es <span class="fuente man">dato</span> de sus láminas o <span class="fuente med">propuesta</span>.</p>
-  <div class="aviso"><b>No es un cálculo.</b> Diseño con los perfiles y la lógica del ingeniero, para que él verifique o cambie. Las luces que crecieron están marcadas.</div>
+  <div class="aviso"><b>Revisado con cálculo propio</b> (pestaña Revisión, 23-10-2026), con los cambios ya aplicados. Falta la firma de un ingeniero civil.</div>
   <div class="specs" id="specs"></div>
   <p style="margin-top:12px"><a class="btn p" href="3d.html?estudio=1">Ver en 3D →</a> <span class="small sub">con la sección real de cada perfil; toca una pieza para ver qué es</span></p>
 </section>
 
+<section id="revision">
+  <h2>Revisión estructural</h2>
+  <p class="small sub">23-10-2026 · agua a 1,50 m sobre el piso del búnker · cálculo propio (modelo 3D de todo) y revisores independientes · cambios aprobados por Gabriel y ya aplicados en el modelo, los planos y el 3D.</p>
+  <div class="rv-cuenta" id="rv-cuenta"></div>
+
+  <h3>Búnker</h3>
+  <div class="rv-lista">
+    <div class="rv-cab"><span>Elemento</span><span>Antes → ahora</span><span style="text-align:right">D/C</span><span style="text-align:right">Estado</span></div>
+    <div class="rv-fila"><span class="el">Losa de techo</span><span class="qp">e=20 hecha para 5 m → <b>e=25</b> continua con los muros: ø10@15 abajo y ø12@15 en L arriba.</span><span class="dc">0,86</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">VHA y hueco</span><span class="qp">VHA 25/40 muy flexible → <b>25/45</b> con estribos @15 y vigas de borde en el hueco.</span><span class="dc">0,93</span><span class="es"><span class="est ju">Justo</span></span></div>
+    <div class="rv-fila"><span class="el">Losa de fundación</span><span class="qp">e=30 con fisuras de 0,6 mm → <b>e=35</b>, ø16@15 y ø12@15 arriba y abajo. Fisura máx. 0,21 mm.</span><span class="dc">0,80</span><span class="es"><span class="est ju">Justo</span></span></div>
+    <div class="rv-fila"><span class="el">Muros</span><span class="qp">e=25 → <b>e=30</b> hacia afuera (el interior no cambia): ø16@15 por fuera, ø12@15 por dentro.</span><span class="dc">0,78</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Hormigón</span><span class="qp">G25 con 2,9 cm → <b>G30 con cristalizante</b>, recubrimiento 4 por fuera y 5 en fundaciones.</span><span class="dc"></span><span class="es"><span class="est ok">Cumple</span></span></div>
+    <div class="rv-fila"><span class="el">Fierro armable</span><span class="qp">Revisado barra por barra: <b>0 choques</b> y todos con su recubrimiento.</span><span class="dc"></span><span class="es"><span class="est ok">Cumple</span></span></div>
+    <div class="rv-fila"><span class="el">Flotación terminado</span><span class="qp">FS 1,77 con el relleno puesto (piden 1,20).</span><span class="dc">0,68</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Flotación en obra</span><span class="qp">Con losa y muros, FS 1,0: hay que bombear hasta tener techo y relleno.</span><span class="dc">1,20</span><span class="es"><span class="est ju">Con bomba</span></span></div>
+    <div class="rv-fila"><span class="el">Agua hasta el terreno</span><span class="qp">Si el relleno se llena de lluvia, FS 0,99: flota. Falta el dren con salida o el vuelo de ~80 cm.</span><span class="dc">1,21</span><span class="es"><span class="est no">Falta decidir</span></span></div>
+    <div class="rv-fila"><span class="el">Suelo bajo el búnker</span><span class="qp">Pesa menos que la tierra que se saca: no se hunde.</span><span class="dc">0,74</span><span class="es"><span class="est ok">Pasa</span></span></div>
+  </div>
+
+  <h3>Estructura del estudio</h3>
+  <div class="rv-lista">
+    <div class="rv-cab"><span>Elemento</span><span>Antes → ahora</span><span style="text-align:right">D/C</span><span style="text-align:right">Estado</span></div>
+    <div class="rv-fila"><span class="el">Marcos de 10,75 m</span><span class="qp">Puntales y soldaduras no aguantaban → <b>viga 200×150×6</b> y puntales 150×150×5 con planchas.</span><span class="dc">0,76</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Sismo y viento E-O</span><span class="qp">El techo se movía 2 a 4 cm → <b>cruz nueva</b> en el muro ciego norte (A 4–5).</span><span class="dc">0,93</span><span class="es"><span class="est ju">Justo</span></span></div>
+    <div class="rv-fila"><span class="el">Cruces</span><span class="qp">Terminaban bajo el techo → <b>llegan a la viga</b>, con cartela de 8 mm y 4 pernos M16.</span><span class="dc">0,60</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Pilares</span><span class="qp">Los 150×100 de fachada, girados: lado de 150 contra el viento.</span><span class="dc">0,93</span><span class="es"><span class="est ju">Justo</span></span></div>
+    <div class="rv-fila"><span class="el">Anclajes</span><span class="qp">Fallaban 14 de 25 → <b>PLc con 4 pernos</b> y armadura de anclaje en los 17 con cruz.</span><span class="dc">0,86</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Fundaciones</span><span class="qp">El sismo levantaba el CF → <b>dado hasta el sello</b> bajo 4C y 4C2 y 4ø12 en el cimiento.</span><span class="dc">0,85</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Vigas, aleros y techo</span><span class="qp">Pasan. Costaneras de 3 mm con silla y 2 pernos.</span><span class="dc">0,75</span><span class="es"><span class="est ok">Pasa</span></span></div>
+  </div>
+  <p class="rv-cargas">Cargas: viento 40 m/s (0,74 kPa), que levanta el techo · nieve 0,25 kPa · sismo zona 3, suelo E, R&nbsp;=&nbsp;2 · anclajes con Ω<sub>0</sub>&nbsp;=&nbsp;2.</p>
+
+  <h3>Humedad y filtraciones del búnker</h3>
+  <div class="specs rv-agua">
+    <div class="spec"><div class="l">Por fuera</div><div class="d">Membrana HDPE pre-adherida bajo la losa, membrana adherida en muros y lámina drenante encima.</div></div>
+    <div class="spec"><div class="l">El hormigón</div><div class="d">G30 con cristalizante, water-stop de PVC en la junta losa–muro y los 4 muros en una sola faena.</div></div>
+    <div class="spec"><div class="l">Sacar el agua</div><div class="d">Dren perimetral al nivel del sello, con salida por gravedad (o 2 bombas con alarma), y relleno granular.</div></div>
+    <div class="spec"><div class="l">Por dentro</div><div class="d">Cámara drenada con pozo de achique detrás de la sala acústica y deshumidificador (45–55 %).</div></div>
+  </div>
+
+  <h3>Lo que falta</h3>
+  <ol class="rv-orden">
+    <li>Decidir el dren con salida por gravedad o el vuelo de ~80 cm.</li>
+    <li>Piezómetro (agua real) y sondaje de 6 m.</li>
+    <li>Pesos reales de cubierta y cielo acústico: la deriva queda en 0,93.</li>
+    <li>Sin revisar aún: escalera y su caja, uniones soldadas en detalle, pasadas, fuego y corrosión.</li>
+    <li>Firma de un ingeniero civil.</li>
+  </ol>
+  <p class="rv-nota">D/C = lo que se pide dividido por lo que aguanta: sobre 1 no pasa; justo = 0,9 a 1. Normas: NCh 433, 432, 431 y 1537, ACI 318 y AISC 360. No reemplaza la firma de un ingeniero.</p>
+</section>
+<script>
+(function () {
+  const n = c => document.querySelectorAll('#revision .est.' + c).length;
+  document.getElementById('rv-cuenta').innerHTML =
+    `<span class="est ok">${n('ok')} pasan</span><span class="est ju">${n('ju')} justos</span><span class="est no">${n('no')} por decidir</span>`;
+})();
+</script>
+
 <section id="vista3d">
   <h2><span class="n">01</span>Vista 3D del estudio</h2>
   <ul class="puntos"><li><b>Capas:</b> estructura de acero y hormigón, búnker bajo tierra, enfierradura, medidas (vienen apagadas).</li><li><b>Girar:</b> arrastrar · <b>acercar:</b> rueda o pellizco · <b>centrar:</b> doble toque · <b>ficha:</b> tocar la pieza.</li></ul>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V115" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V116" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
@@ -220,11 +305,11 @@ ol.preg li{margin:0 0 8px}
   <h2><span class="n">07</span>Fundaciones y hormigón armado</h2>
   <div class="kvs">
     <div class="k">Fuente</div><div class="v">láminas 01 rev 1, 02 rev G, 03 rev H y 05 rev H, adaptadas a la planta nueva <span class="fuente man">dato</span></div>
-    <div class="k">Búnker</div><div class="v">losa de fundación e=30 (sobresale 37,5) · muros DM e=25 · losa e=20 + VHA 25/40</div>
-    <div class="k">Fachadas</div><div class="v">sobrecimiento 25 × 50 · cimiento corrido 80 × 25 · emplantillado 10</div>
-    <div class="k">Tabiques</div><div class="v">CF 25/50 de 0 a −50 en los ejes 4, C y C2 <span class="fuente med">Gabriel · ingeniero: 25/40</span></div>
-    <div class="k">Placas</div><div class="v">PLb 200 × 200 × 8 · 1+1 ø3/4" L=120 · E ø8@20 · 25 pilares</div>
-    <div class="k">Niveles</div><div class="v">NPOG 0,00 · NTN −50 · piso búnker −341 · sello −381</div>
+    <div class="k">Búnker</div><div class="v">losa de fundación e=35 (sobresale 37,5) · muros e=30 · losa e=25 + VHA 25/45 · G30 con cristalizante <span class="fuente med">revisión</span></div>
+    <div class="k">Fachadas</div><div class="v">sobrecimiento 30 × 50 (2ø16) · cimiento corrido 80 × 25 (U ø12@20 + 4ø12) · hormigón pobre hasta −140 <span class="fuente med">revisión</span></div>
+    <div class="k">Tabiques</div><div class="v">CF 30/50 de 0 a −50 en los ejes 4, C y C2 · dados 1,40 × 1,40 bajo 4C y 4C2, hasta el sello <span class="fuente med">revisión · ingeniero: 25/40</span></div>
+    <div class="k">Placas</div><div class="v">PLc 250 × 250 × 12 con 4 pernos ø3/4" en los 17 pilares con cruz · PLb 200 × 200 × 8 con 1+1 ø3/4" en horquilla en los otros 8</div>
+    <div class="k">Niveles</div><div class="v">NPOG 0,00 · NTN −50 · piso búnker −346 · sello búnker −391 · sello fachadas −140</div>
   </div>
   <div class="notas-ing" id="notas-ing"></div>
   <div class="cortes" id="cortes-fund"></div>
@@ -237,8 +322,8 @@ ol.preg li{margin:0 0 8px}
 
 
 <section id="luces">
-  <h2><span class="n">08</span>Luces y perfiles: qué se mantiene y qué hay que recalcular</h2>
-  <ul class="puntos"><li>Luz nueva ≤ original con el mismo perfil → <b>cubierto</b> por el diseño del ingeniero · luz mayor → <b>recalcular</b> (él decide perfil).</li></ul>
+  <h2><span class="n">08</span>Luces y perfiles: qué se mantiene y qué se recalculó</h2>
+  <ul class="puntos"><li>Luz nueva ≤ original con el mismo perfil → <b>cubierto</b> por el diseño del ingeniero · luz mayor → <b>recalculado</b> en la revisión del 23-10-2026 (pestaña Revisión).</li></ul>
   <div class="tw"><table id="tabla-luces"></table></div>
 </section>
 
@@ -249,7 +334,7 @@ ol.preg li{margin:0 0 8px}
 </section>
 
 <section id="preguntas">
-  <h2><span class="n">10</span>Preguntas para el ingeniero</h2>
+  <h2><span class="n">10</span>Datos que faltan y firma</h2>
   <ol class="preg" id="preguntas-lista"></ol>
   <div class="pendiente" id="pendiente"></div>
 </section>
@@ -258,9 +343,9 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=V115"></script>
-<script src="estudio_estructura.js?v=V115"></script>
-<script src="armaduras_det.js?v=V115"></script>
+<script src="sitio.js?v=V116"></script>
+<script src="estudio_estructura.js?v=V116"></script>
+<script src="armaduras_det.js?v=V116"></script>
 <script>
 (function () {
   const D = DATA_ESTUDIO_EST, E = DATA_SITIO.estudio, ox = E.origen[0], oy = E.origen[1], z0 = D.z_piso;
@@ -280,10 +365,10 @@ ol.preg li{margin:0 0 8px}
     ['Acero', `${coma(D.total_kg, 0)} kg`, 'perfiles del modelo, sin placas ni pérdidas <span class="fuente calc">calculado</span>'],
     ['Alturas libres', `${coma(D.parametros.terminaciones.libre / 100, 2)} / ${coma(E.bunker.interior_cm / 100, 2)} m`, `estudio / búnker, terminadas; estructura a +${coma(D.parametros.z_viga_inf, 0)} <span class="fuente med">Gabriel</span>`],
     ['Techo', `${(P.pendiente * 100).toLocaleString('es-CL')} % al sur`, `viga 200×150, costaneras CA 100×50 @${P.paso_costanera}, aleros 1,00 <span class="fuente man">dato</span>`],
-    ['Fundación', 'zapata 100×30', 'bajo el búnker; sobrecimiento 25×50 + cimiento 80×25 en fachadas; CF 25/50 en tabiques, hasta la cara del radier <span class="fuente man">dato</span>'],
+    ['Fundación', `losa ${coma(H.losa_fundacion.espesor, 0)}`, `bajo el búnker; sobrecimiento ${coma(H.cimiento.sobrecimiento.ancho, 0)}×${coma(H.cimiento.sobrecimiento.alto, 0)} + cimiento ${coma(H.cimiento.zapata.ancho, 0)}×${coma(H.cimiento.zapata.espesor, 0)} en fachadas; CF ${coma(H.cf.ancho, 0)}/${coma(H.cf.alto, 0)} en tabiques; dados bajo 4C y 4C2 <span class="fuente med">revisión</span>`],
     ['Original', '11,05 × 10,25 m', 'búnker de 5,00 bajo un extremo, 2,72 libres; techo hacia ese lado <span class="fuente man">láminas</span>'],
   ].map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
-  $('#meta').textContent = `Propuesta sobre las láminas 03, 04 y 05 (abril 2026) · ${D.miembros.length} piezas de acero · no es un cálculo`;
+  $('#meta').textContent = `Propuesta sobre las láminas 03, 04 y 05 (abril 2026) · ${D.miembros.length} piezas de acero · revisado con cálculo propio, sin firma`;
 
   // ---------- helpers svg ----------
   const NS = 'http://www.w3.org/2000/svg';
@@ -338,7 +423,7 @@ ol.preg li{margin:0 0 8px}
     const gF = {}; ['abajo', 'medio', 'arriba', 'puntos'].forEach(k => { gF[k] = el('g', { 'data-fe': k }, capas.fund); });
     const fichaF = f => `${f.elemento}: ø${f.diam === 19 ? '3/4"' : f.diam}${f.n ? ' × ' + f.n : ''} · ${f.d}`;
     // sin la malla de relleno de la losa del cielo del búnker (Gabriel, 22-10-2026: "quítale la enfierradura del cielo del búnker… solo el entramado de relleno"); quedan muros, escalera, VHA y fundaciones
-    const DE_LA_LOSA_SUP = f => /^(LN|LE|LS|LH-|VHA-|MC-)/.test(f.id), DE_LOS_MUROS = f => /^M[VH]-/.test(f.id);
+    const DE_LA_LOSA_SUP = f => /^(LN|LE|LS|LT-|LR-|LH-|VHA-|VB-|MC-)/.test(f.id), DE_LOS_MUROS = f => /^M[VH]-/.test(f.id);
     D.fierros.filter(f => SUP ? (DE_LA_LOSA_SUP(f) || DE_LOS_MUROS(f)) : !DE_LA_LOSA_SUP(f)).forEach(f => {
       const w = Math.max(1.6, f.diam / 10 * 1.6), col = COLF[f.diam] || 'var(--fig-ink)';
       ptsDe(f).forEach(pl => {
@@ -364,21 +449,21 @@ ol.preg li{margin:0 0 8px}
     const lab = (g, x, y, t, rot, fs) => { const size = fs || FSs, w = t.length * size * 0.56 + 16, h = size * 1.5; const gg = el('g', { transform: rot ? `rotate(-90 ${x} ${y})` : '' }, g); el('rect', { x: x - w / 2, y: y - h * 0.72, width: w, height: h, rx: 4, style: 'fill:var(--paper);opacity:.88;stroke:var(--fig-soft);stroke-width:.6' }, gg); return txt(gg, x, y, t, { 'text-anchor': 'middle', 'font-size': size, class: 'txs' }); };
     const zN = ZC.piezas.find(z => z.id === 'ZC-N').pts.map(loc), zO = ZC.piezas.find(z => z.id === 'ZC-O').pts.map(loc), ccE = CI.zapata.piezas.find(z => z.id === 'CC-E').pts.map(loc), cc1 = CI.zapata.piezas.find(z => z.id === 'CC-1').pts.map(loc);
     const cf4 = CF.piezas.find(z => z.id === 'CF-4').pts.map(loc), cfC = CF.piezas.find(z => z.id === 'CF-C').pts.map(loc), cfC2 = CF.piezas.find(z => z.id === 'CF-C2').pts.map(loc), vha = H.vigas[0].pts.map(loc), bl = H.losa.pts.map(loc);
-    if (!SUP) lab(capas.fund, W / 2, 80, `losa de fundación e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker (sobresale ${coma(H.losa_fundacion.margen, 1)}): DM ø12@15 en los dos sentidos`, false, 19);
-    lab(capas.fund, W / 2, 118, `muros e=${coma(H.muros.espesor, 0)}: DM ø12@15 vertical (puntos) / ø10@20 horizontal`, false, 19);
-    if (!SUP) lab(capas.fund, (zO[0][0] + zO[1][0]) / 2 + 90, (zO[0][1] + zO[2][1]) / 2, 'losa de fundación DM ø12@15', true, 17);
-    if (!SUP) lab(capas.fund, W / 2, Lp - 78, `sobrecimiento ${coma(CI.sobrecimiento.ancho, 0)} × ${coma(CI.sobrecimiento.alto, 0)}: 2ø12 + ø10@20 en U + ø8@20 · cimiento corrido ${coma(CI.zapata.ancho, 0)} × ${coma(CI.zapata.espesor, 0)}: ø12@20 en U + 4ø10`, false, 19);
-    if (!SUP) lab(capas.fund, (cc1[0][0] + cc1[1][0]) / 2 + 85, (cc1[0][1] + cc1[2][1]) / 2, 'cimiento ø12@20 U + 4ø10 · sobrecim. 2ø12 + ø10@20 + ø8@20', true, 17);
-    if (!SUP) lab(capas.fund, (cf4[0][0] + cf4[1][0]) / 2 - 320, (cf4[0][1] + cf4[2][1]) / 2 - 200, 'CF 25/50 (eje 4): 3ø12 + 2ø10 + 3ø12, Est ø10@25', false, 17);   // dentro del estudio, al poniente de la viga del eje 4
-    if (!SUP) lab(capas.fund, (cfC[0][0] + cfC[1][0]) / 2, cfC[0][1] - 30, 'CF 25/50: 3ø12 + 2ø10 + 3ø12', false, 17);
-    if (!SUP) lab(capas.fund, (cfC2[0][0] + cfC2[1][0]) / 2, cfC2[0][1] - 30, 'CF 25/50: 3ø12 + 2ø10 + 3ø12 (igual al del eje C)', false, 17);
-    if (SUP) { lab(capas.fund, (vha[0][0] + vha[1][0]) / 2 + 40, (vha[0][1] + vha[2][1]) / 2 + 45, 'VHA 25/40: 3ø12 + 2ø10 + 3ø16, Est ø10@20', true, 17); lab(capas.fund, W / 2, 80, `losa e=${coma(H.losa.espesor, 0)}: ø10@20 N-S (luz corta) + ø8@20 E-O abajo · ø8@20 sobre la VHA · 2ø12 de borde en la escalera`, false, 19); }   // entre los rótulos de la losa (arriba) y la cota entre muros (abajo)
+    if (!SUP) lab(capas.fund, W / 2, 80, `losa de fundación e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker (sobresale ${coma(H.losa_fundacion.margen, 1)}): ø16@15 N-S y ø12@15 E-O, arriba y abajo`, false, 19);
+    lab(capas.fund, W / 2, 118, `muros e=${coma(H.muros.espesor, 0)}: verticales ø16@15 por fuera y ø12@15 por dentro (puntos) · horizontales ø12@15`, false, 19);
+    if (!SUP) lab(capas.fund, (zO[0][0] + zO[1][0]) / 2 + 90, (zO[0][1] + zO[2][1]) / 2, 'losa de fundación ø16@15 / ø12@15', true, 17);
+    if (!SUP) lab(capas.fund, W / 2, Lp - 78, `sobrecimiento ${coma(CI.sobrecimiento.ancho, 0)} × ${coma(CI.sobrecimiento.alto, 0)}: 2ø16 + estribos ø10@20 + ø8@20 · cimiento corrido ${coma(CI.zapata.ancho, 0)} × ${coma(CI.zapata.espesor, 0)}: ø12@20 en U + 4ø12`, false, 19);
+    if (!SUP) lab(capas.fund, (cc1[0][0] + cc1[1][0]) / 2 + 85, (cc1[0][1] + cc1[2][1]) / 2, 'cimiento ø12@20 U + 4ø12 · sobrecim. 2ø16 + ø10@20 + ø8@20', true, 17);
+    if (!SUP) lab(capas.fund, (cf4[0][0] + cf4[1][0]) / 2 - 320, (cf4[0][1] + cf4[2][1]) / 2 - 200, `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)} (eje 4): 3ø12 + 2ø10 + 3ø12, E ø10@25`, false, 17);   // dentro del estudio, al poniente de la viga del eje 4
+    if (!SUP) lab(capas.fund, (cfC[0][0] + cfC[1][0]) / 2, cfC[0][1] - 30, `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)}: 3ø12 + 2ø10 + 3ø12 · dado bajo 4C`, false, 17);
+    if (!SUP) lab(capas.fund, (cfC2[0][0] + cfC2[1][0]) / 2, cfC2[0][1] - 30, `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)}: igual al del eje C`, false, 17);
+    if (SUP) { lab(capas.fund, (vha[0][0] + vha[1][0]) / 2 + 40, (vha[0][1] + vha[2][1]) / 2 + 45, `${H.vigas[0].nombre}: 3ø12 + 2ø10 + 3ø16, E ø10@15`, true, 17); lab(capas.fund, W / 2, 80, `losa e=${coma(H.losa.espesor, 0)}: ø10@15 abajo · ø12@15 en L arriba sobre los muros · ø10@20 sobre la VHA · suples en el hueco`, false, 19); }   // entre los rótulos de la losa (arriba) y la cota entre muros (abajo)
     // (la malla de la losa del cielo no va en este plano: está en el corte A y en la planilla)
     // ---- arranque de los pilares sobre las placas: a escala y con su tipo (la estructura de techo no va en este plano) ----
     const PM = { 'CUAD 150x150x5': 'PM1', 'CUAD 150x150x4': 'PM2', 'RECT 150x100x3': 'PM3' };
     D.miembros.filter(x => x.c === 'pilar' && (!SUP || loc(x.a)[1] <= Lp + 5)).forEach(mb => {
       const a = loc(mb.a), pr = D.perfiles[mb.p] || { h: 15, b: 15 }, wx = pr.forma === 'tubo_rect' && pr.h !== pr.b ? pr.b : pr.h, wy = pr.h;
-      const r = el('rect', { x: a[0] - wx / 2, y: a[1] - wy / 2, width: wx, height: wy, style: `fill:${COL.pilar};stroke:var(--fig-ink);stroke-width:1` }, capas.fund); titulo(r, `${mb.id} · ${PM[mb.p] || ''} ${mb.p} sobre placa PLb`);
+      const r = el('rect', { x: a[0] - wx / 2, y: a[1] - wy / 2, width: wx, height: wy, style: `fill:${COL.pilar};stroke:var(--fig-ink);stroke-width:1` }, capas.fund); titulo(r, `${mb.id} · ${PM[mb.p] || ''} ${mb.p} sobre placa ${(H.placas.lista.find(q => q.pilar === mb.id) || { tipo: 'PLb' }).tipo}`);
       const dx = a[0] > W / 2 ? -14 : 14, anchor = a[0] > W / 2 ? 'end' : 'start';
       txt(capas.fund, a[0] + dx, a[1] - 14, PM[mb.p] || mb.p, { 'text-anchor': anchor, 'font-size': 17, 'font-weight': 600, style: 'fill:var(--fig-pilar)' });
     });
@@ -408,14 +493,15 @@ ol.preg li{margin:0 0 8px}
     // anchos de las fundaciones y cuánto sobresalen de la cara exterior (lo que hay que excavar)
     if (!SUP) {
     const xq = 150;   // columna de cotas verticales entre los ejes 1 y 2, lejos de los rótulos PM de los pilares del eje 1 (lo que sobresale va en las fichas)
-    [[zN[0][1], 0, '37,5', 30], [0, 25, '25', -30], [25, zN[2][1], '37,5', 30]].forEach(([y0, y1, t, off]) => cota(C, xq, y0, xq, y1, t, off, FSs));
+    const mN = H.muros.piezas.find(z => z.id === 'M-N').pts.map(loc), mO = H.muros.piezas.find(z => z.id === 'M-O').pts.map(loc);   // el muro de 30 creció 5 hacia afuera
+    [[zN[0][1], mN[0][1], coma(mN[0][1] - zN[0][1], 1), 30], [mN[0][1], mN[2][1], coma(mN[2][1] - mN[0][1], 0), -30]].forEach(([y0, y1, t, off]) => cota(C, xq, y0, xq, y1, t, off, FSs));
     const yq = 330;   // fila de cotas horizontales en el muro poniente del búnker
-    [[zO[0][0], 0, '37,5', 30], [0, 25, '25', -30], [25, zO[1][0], '37,5', 30]].forEach(([x0, x1, t, off]) => cota(C, x0, yq, x1, yq, t, off, FSs));   // alternadas arriba y abajo para que no se pisen
+    [[zO[0][0], mO[0][0], coma(mO[0][0] - zO[0][0], 1), 30], [mO[0][0], mO[1][0], coma(mO[1][0] - mO[0][0], 0), -30]].forEach(([x0, x1, t, off]) => cota(C, x0, yq, x1, yq, t, off, FSs));   // alternadas arriba y abajo para que no se pisen
     const sE = CI.sobrecimiento.piezas.find(z => z.id === 'SC-E').pts.map(loc);
-    [[ccE[0][1], sE[0][1], '27,5', 30], [sE[0][1], sE[2][1], '25', -30], [sE[2][1], ccE[2][1], '27,5', 30]].forEach(([y0, y1, t, off]) => cota(C, xq, y0, xq, y1, t, off, FSs));
-    cota(C, xq + 30, ccE[0][1], xq + 30, ccE[2][1], coma(CI.zapata.ancho, 0), -30, FSs);   // a la derecha de la columna de 27,5 / 25 / 27,5 (a la izquierda pisaba el PM2 del pilar E1)
-    const e4 = CF.emplantillado.piezas.find(z => z.id === 'EMP-4').pts.map(loc), yc = 1250;
-    cota(C, cf4[0][0], yc, cf4[1][0], yc, '25 CF', 30, FSs); cota(C, e4[0][0], yc, e4[1][0], yc, '40 emplantillado', -30, FSs);
+    [[ccE[0][1], sE[0][1], 30], [sE[0][1], sE[2][1], -30], [sE[2][1], ccE[2][1], 30]].forEach(([y0, y1, off]) => cota(C, xq, y0, xq, y1, coma(y1 - y0, 1).replace(',0', ''), off, FSs));
+    cota(C, xq + 30, ccE[0][1], xq + 30, ccE[2][1], coma(CI.zapata.ancho, 0), -30, FSs);   // a la derecha de la columna de 25 / 30 / 25 (a la izquierda pisaba el PM2 del pilar E1)
+    const e4 = CF.emplantillado.piezas.find(z => z.id === 'EMP-4').pts.map(loc), yc = 1420;   // entre el CF de C2 y la fachada sur, lejos de los rótulos
+    cota(C, cf4[0][0], yc, cf4[1][0], yc, `${coma(cf4[1][0] - cf4[0][0], 0)} CF`, 30, FSs); cota(C, e4[0][0], yc, e4[1][0], yc, `${coma(e4[1][0] - e4[0][0], 0)} emplantillado`, -30, FSs);
     }
     cota(C, bl[0][0] + 25, 585, bl[1][0] - 25, 585, `${coma(H.interior.ancho, 0)} entre muros · ${coma(H.interior.terminado.ancho, 0)} terminado`, 0, FSs);
     cota(C, 330, bl[0][1] + 25, 330, bl[2][1] - 25, `${coma(H.interior.largo, 0)} entre muros · ${coma(H.interior.terminado.largo, 0)} term.`, -20, FSs);   // a la derecha del rótulo de la zapata
@@ -424,18 +510,19 @@ ol.preg li{margin:0 0 8px}
     const def = [['fund', 'Enfierradura y arranque de pilares', true], ['recintos', 'Recintos', false], ['cotas', 'Cotas', true]];
     TZ_CAPAS.push(capas); if (SUP) { def.forEach(([k, t, on]) => { capas[k].style.display = on ? '' : 'none'; }); } else { const bot = $('#tz-capas'); def.forEach(([k, t, on]) => { const lab2 = document.createElement('label'); const ch = document.createElement('input'); ch.type = 'checkbox'; ch.checked = on; capas[k].style.display = on ? '' : 'none'; ch.addEventListener('input', () => { TZ_CAPAS.forEach(c => { c[k].style.display = ch.checked ? '' : 'none'; }); }); lab2.append(ch, ' ' + t); bot.appendChild(lab2); }); }
     const nPM = p => D.miembros.filter(x => x.c === 'pilar' && x.p === p).length;
-    if (SUP) { $('#cap-planta-sup').innerHTML = `<b>Planta 2 · losa superior</b> · cielo del búnker: losa e=20, VHA del eje 3 y del borde de la escalera, coronamiento y verticales de los muros · color por diámetro`; return; }
+    if (SUP) { $('#cap-planta-sup').innerHTML = `<b>Planta 2 · losa superior</b> · cielo del búnker: losa e=${coma(H.losa.espesor, 0)}, VHA del eje 3 y del borde de la escalera, coronamiento y verticales de los muros · color por diámetro`; return; }
     $('#cap-planta').innerHTML = `<b>Planta 1 · losa inferior</b> · losa de fundación, muros, sobrecimientos, cimientos, CF y placas · color por diámetro · PM1 = CUAD 150×150×5 · PM2 = CUAD 150×150×4 · PM3 = RECT 150×100×3`;
-    $('#ley-planta').innerHTML = [[COLF[8], 'ø8'], [COLF[10], 'ø10'], [COLF[12], 'ø12 (y arranque de pilares)'], [COLF[16], 'ø16'], [COLF[19], 'ø3/4" anclajes'], ['transparent;border:1px dashed var(--fig-soft)', 'hormigón (solo contorno)'], ['transparent;border:1px solid var(--fig-ink)', 'placa base PLb (⊠)']].map(([c, t]) => `<span><span class="sw" style="background:${c}"></span>${t}</span>`).join('');
+    $('#ley-planta').innerHTML = [[COLF[8], 'ø8'], [COLF[10], 'ø10'], [COLF[12], 'ø12 (y arranque de pilares)'], [COLF[16], 'ø16'], [COLF[19], 'ø3/4" anclajes'], ['transparent;border:1px dashed var(--fig-soft)', 'hormigón (solo contorno)'], ['transparent;border:1px solid var(--fig-ink)', 'placa base PLb o PLc (⊠)']].map(([c, t]) => `<span><span class="sw" style="background:${c}"></span>${t}</span>`).join('');
     const NIV = H.niveles;
+    const sEf = CI.sobrecimiento.piezas.find(z => z.id === 'SC-E').pts.map(loc), e4f = CF.emplantillado.piezas.find(z => z.id === 'EMP-4').pts.map(loc);   // las de arriba viven dentro del if
     $('#tz-fichas').innerHTML = [
       ['Ejes 1 → 5', `${xn.slice(1).map((n, i) => `${xn[i]}–${n} ${coma(xs[i + 1] - xs[i], 1).replace(',0', '')}`).join(' · ')} · extremos <b>${coma(xs[4] - xs[0], 0)}</b> · exterior ${coma(W, 0)}`],
       ['Ejes A → E', `${yn.slice(1).map((n, i) => `${yn[i]}–${n} ${coma(ys[i + 1] - ys[i], 0)}`).join(' · ')} · extremos <b>${coma(ys[ys.length - 1] - ys[0], 0)}</b> · exterior ${coma(Lp, 0)}`],
-      ['Búnker', `muros e=${coma(H.muros.espesor, 0)} centrados en los ejes A, B, 1 y 5 · ${coma(H.interior.ancho, 0)} × ${coma(H.interior.largo, 0)} entre muros · <b>${coma(H.interior.terminado.ancho, 0)} × ${coma(H.interior.terminado.largo, 0)} terminado</b> (tabique de ${coma(H.interior.terminado.tabique, 0)} por dentro) · losa de fundación e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker, unida a los muros (DM ø12@15): <b>sobresale ${coma(H.losa_fundacion.margen, 1)}</b> de la cara exterior · escalera ${coma(hu[1][0] - hu[0][0], 0)} × ${coma(hu[2][1] - hu[0][1], 0)} junto al muro oriente <span class="fuente man">dato</span>`],
-      ['Fachadas fuera del búnker', `sobrecimiento ${coma(CI.sobrecimiento.ancho, 0)} × ${coma(CI.sobrecimiento.alto, 0)} centrado en el eje · cimiento corrido ${coma(CI.zapata.ancho, 0)} × ${coma(CI.zapata.espesor, 0)} (27,5 + 25 + 27,5): <b>sobresale 27,5</b> de la cara exterior · emplantillado 10 <span class="fuente man">dato</span>`],
-      ['Tabiques', `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)} bajo los ejes 4 (del búnker a la fachada sur) y C y C2 (del eje 4 a la fachada oriente) · emplantillado de 40 <span class="fuente man">dato</span>`],
-      ['Placas', `PLb 200 × 200 × 8 centradas en cada cruce de ejes con pilar (${H.placas.lista.length}) · anclaje 1+1 ø3/4" en horquilla, ganchos hacia adentro`],
-      ['Niveles bajo el terreno natural', `búnker: sello −${coma(-(NIV.emplantillado_inf + 50), 0)} · losa de fundación −${coma(-(NIV.zapata_sup + 50), 0)} / −${coma(-(NIV.zapata_inf + 50), 0)} (su cara superior es el piso del búnker) · fachadas: cimiento corrido de 0 a −25, sobrecimiento de 0 a +50 (cara de la losa) · CF de +40 a 0 · emplantillados 10 más abajo`],
+      ['Búnker', `muros e=${coma(H.muros.espesor, 0)} (crecieron 5 hacia afuera: el interior no cambia) · ${coma(H.interior.ancho, 0)} × ${coma(H.interior.largo, 0)} entre muros · <b>${coma(H.interior.terminado.ancho, 0)} × ${coma(H.interior.terminado.largo, 0)} terminado</b> (tabique de ${coma(H.interior.terminado.tabique, 0)} por dentro) · losa de fundación e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker, unida a los muros (ø16@15 y ø12@15): <b>sobresale ${coma(H.losa_fundacion.margen, 1)}</b> de la cara exterior · escalera ${coma(hu[1][0] - hu[0][0], 0)} × ${coma(hu[2][1] - hu[0][1], 0)} junto al muro oriente <span class="fuente med">revisión</span>`],
+      ['Fachadas fuera del búnker', `sobrecimiento ${coma(CI.sobrecimiento.ancho, 0)} × ${coma(CI.sobrecimiento.alto, 0)} centrado en el eje · cimiento corrido ${coma(CI.zapata.ancho, 0)} × ${coma(CI.zapata.espesor, 0)}: <b>sobresale ${coma(ccE[2][1] - sEf[2][1], 1).replace(',0', '')}</b> del sobrecimiento · emplantillado 10 y hormigón pobre hasta 0,90 bajo el terreno <span class="fuente med">revisión</span>`],
+      ['Tabiques', `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)} bajo los ejes 4 (del búnker a la fachada sur) y C y C2 (del eje 4 a la fachada oriente) · emplantillado de ${coma(e4f[1][0] - e4f[0][0], 0)} · dados de ${coma(H.dados.lado / 100, 2)} × ${coma(H.dados.lado / 100, 2)} bajo 4C y 4C2 <span class="fuente med">revisión</span>`],
+      ['Placas', `PLc 250 × 250 × 12 con 4 pernos ø3/4" en los ${H.placas.lista.filter(q => q.tipo === 'PLc').length} pilares con cruz · PLb 200 × 200 × 8 con 1+1 ø3/4" en horquilla (ganchos hacia afuera) en los otros ${H.placas.lista.filter(q => q.tipo === 'PLb').length} · en los muros del búnker los anclajes van en el eje del muro`],
+      ['Niveles bajo el terreno natural', `búnker: sello −${coma(-(NIV.emplantillado_inf + 50), 0)} · losa de fundación −${coma(-(NIV.zapata_sup + 50), 0)} / −${coma(-(NIV.zapata_inf + 50), 0)} (su cara superior es el piso del búnker) · fachadas: sobrecimiento de +50 (cara de la losa) a 0 y cimiento corrido de 0 a −25 · CF de +50 a 0 · dados de +${coma(H.dados.z_sup - D.z_piso + 50, 1)} a −${coma(-(H.dados.z_inf - D.z_piso + 50), 0)} · hormigón pobre hasta el sello de −${coma(-(H.niveles.sello_fachadas + 50), 0)}`],
     ].map(([k, v]) => `<div class="k">${k}</div><div class="v">${v}</div>`).join('');
   }
   plantaTrazado('#svg-planta', 'inf'); plantaTrazado('#svg-planta-sup', 'sup');
@@ -449,7 +536,7 @@ ol.preg li{margin:0 0 8px}
     const zl = z => loc([0, 0, z])[2], sg = v => (v >= 0 ? '+' : '−') + coma(Math.abs(v), Math.abs(v - Math.round(v)) > 1e-6 ? 1 : 0);
     const bl = H.losa.pts.map(loc), y0 = bl[0][1], y1 = bl[2][1];   // caras exteriores de los muros norte y sur del búnker
     const e = H.muros.espesor, ZC = H.zapata_corrida, zw = ZC.ancho, yA = D.ejes.y.A, yB = D.ejes.y.B;
-    const yN = [yA - zw / 2, yA + zw / 2], yS = [yB - zw / 2, yB + zw / 2];   // zapatas centradas en los ejes (muros al centro)
+    const LFp = H.losa_fundacion.pts.map(loc), yN = [LFp[0][1], y0 + e], yS = [y1 - e, LFp[2][1]];   // losa de fundación: sobresale de la cara exterior de los muros
     const yLo = yN[0] - 110, yHi = y1 + 120, zLo = N.emplantillado_inf - 45, zHi = 150;
     // corte al medio del largo (Gabriel, 14-10-2026: "el doble de alto"): se omiten CUT cm del búnker donde todo es igual (losa, radier, fierros
     // corridos); el dibujo se angosta y cabe al doble de escala con toda su altura. Las cotas siguen diciendo las medidas reales.
@@ -474,12 +561,12 @@ ol.preg li{margin:0 0 8px}
     rect(yLo, yN[0], zLo, N.ntn, 'tz-suelo'); rect(yN[0], yN[1], zLo, N.emplantillado_inf, 'tz-suelo'); rect(yN[1], yS[0], zLo, N.emplantillado_inf, 'tz-suelo'); rect(yS[0], yS[1], zLo, N.emplantillado_inf, 'tz-suelo'); rect(yS[1], yHi, zLo, zRad[3], 'tz-suelo');
     rect(yN[0], y0, N.zapata_sup, N.ntn, 'tz-suelo'); rect(y1, yS[1], N.zapata_sup, zRad[3], 'tz-suelo');   // tierra pegada a los muros por fuera
     // fundación: emplantillado G5, zapata corrida (achurada), relleno granular y radier
-    rect(yN[0], yS[1], N.emplantillado_inf, N.zapata_inf, 'cx-horm2', 'emplantillado G5 e=10 bajo toda la losa de fundación'); rect(yN[0], yS[1], N.zapata_inf, N.zapata_sup, 'cx-horm', `losa de fundación e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker, unida a los muros · DM ø12@15 en los dos sentidos · sobresale ${coma(H.losa_fundacion.margen, 1)} de los muros (ingeniero, 15-10-2026)`);
+    rect(yN[0], yS[1], N.emplantillado_inf, N.zapata_inf, 'cx-horm2', 'emplantillado G5 e=10 bajo toda la losa de fundación'); rect(yN[0], yS[1], N.zapata_inf, N.zapata_sup, 'cx-horm', `losa de fundación e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker, unida a los muros · ø16@15 N-S y ø12@15 E-O, arriba y abajo · sobresale ${coma(H.losa_fundacion.margen, 1)} de los muros (ingeniero, 15-10-2026)`);
     // sin relleno ni radier: el piso del búnker es la cara superior de la losa de fundación
-    // muros DM e=25 y losa e=20
-    rect(y0, y0 + e, N.zapata_sup, N.losa_inf, 'cx-horm', `muro norte del búnker e=${coma(e, 0)} · DM ø12@15 / ø10@20`); rect(y1 - e, y1, N.zapata_sup, N.losa_inf, 'cx-horm', `muro sur del búnker e=${coma(e, 0)} · DM ø12@15 / ø10@20`);
-    rect(y0, y1, N.losa_inf, 0, 'cx-horm', `losa e=${coma(H.losa.espesor, 0)} · ø10@20 N-S / ø8@20 E-O · 2ø12 de borde`);
-    // VHA 25/40 del eje 3: queda detrás del plano de corte, se ve bajo la losa
+    // muros y losa de techo del búnker (revisión 23-10-2026)
+    rect(y0, y0 + e, N.zapata_sup, N.losa_inf, 'cx-horm', `muro norte del búnker e=${coma(e, 0)} · verticales ø16@15 por fuera y ø12@15 por dentro · horizontales ø12@15`); rect(y1 - e, y1, N.zapata_sup, N.losa_inf, 'cx-horm', `muro sur del búnker e=${coma(e, 0)} · verticales ø16@15 por fuera y ø12@15 por dentro · horizontales ø12@15`);
+    rect(y0, y1, N.losa_inf, 0, 'cx-horm', `losa e=${coma(H.losa.espesor, 0)} · ø10@15 abajo en los dos sentidos · ø12@15 en L arriba sobre los muros`);
+    // VHA del eje 3: queda detrás del plano de corte, se ve bajo la losa
     const vha = H.vigas[0], zv = zl(vha.z_inf);
     [[y0 + e, yCutLo], [yCutHi, y1 - e]].forEach(([a, b]) => { const rv = el('rect', { x: X(a), y: Y(N.losa_inf), width: X(b) - X(a), height: N.losa_inf - zv, style: 'fill:var(--fig-horm2);opacity:.5;stroke:var(--fig-ink);stroke-width:1;stroke-dasharray:8 5' }, g); tit(rv, `${vha.nombre} bajo la losa (eje 3), vista detrás del corte`); });
     // terminaciones: piso del búnker, cielo del búnker (entre vigas), piso del estudio sobre la losa y sobre el radier
@@ -492,21 +579,27 @@ ol.preg li{margin:0 0 8px}
     if (TB) { rect(y0 + e, y0 + e + TB, N.piso_bunker + TP, N.losa_inf - TC, 'cx-muro', 'tabique de 10 por dentro del muro norte del búnker (yeso cartón sobre perfilería)'); rect(y1 - e - TB, y1 - e, N.piso_bunker + TP, N.losa_inf - TC, 'cx-muro', 'tabique de 10 por dentro del muro sur del búnker'); }
     // cerramiento encima (propuesta, detrás), placas PLb sobre los muros, pilares (cortados arriba) y anclajes dentro del muro
     [[yA, 'A'], [yB, 'B']].forEach(([yc, n]) => {
-      rect(yc - e / 2, yc + e / 2, TP, zHi - 30, 'cx-muro');
+      rect(yc - 12.5, yc + 12.5, TP, zHi - 30, 'cx-muro');   // arriba, muros del estudio de 25 terminado
       rect(yc - 10, yc + 10, 0, 0.8, 'cx-placa', `PLb 200 × 200 × 8 sobre el muro del búnker, eje ${n}`);
       rect(yc - 7.5, yc + 7.5, 0.8, zHi - 30, 'cx-pil', `pilar CUAD 150 × 150 del eje ${n} (sigue hacia arriba)`);
-      [-7, 7].forEach(sx => pl([[yc + sx, 0], [yc + sx, -43], [yc + sx - 10 * Math.sign(sx), -43]], 'cx-fe2'));
+      const yw = n === 'A' ? y0 + e / 2 : y1 - e / 2;   // las dos horquillas paralelas van a ±4 del eje del muro (no del pilar)
+      [-4, 4].forEach(sx => pl([[yw + sx, -1], [yw + sx, -44]], 'cx-fe2'));
       el('path', { d: `M${X(yc) - 14},${Y(zHi - 30)} l7,-6 l7,12 l7,-12 l7,6`, style: 'stroke:var(--fig-ink);stroke-width:1;fill:var(--paper)' }, g);
     });
-    // enfierradura: verticales del muro hasta el fondo de la zapata con pata de 30, horizontales @20, U ø16 + 4ø10 en la zapata, fierros de la losa
-    [[y0], [y1 - e]].forEach(([ya]) => {
-      [ya + 3, ya + e - 3].forEach((sx, i) => pl([[sx, N.losa_inf + 15], [sx, N.zapata_inf + 5], [sx + 30 * (i ? -1 : 1), N.zapata_inf + 5]], 'cx-fe'));
-      for (let zz = N.zapata_sup + 10; zz < N.losa_inf - 5; zz += 20) [ya + 3, ya + e - 3].forEach(sx => el('circle', { cx: X(sx), cy: Y(zz), r: 1.6, style: 'fill:#C2410C' }, g));
+    // enfierradura (revisión 23-10-2026): verticales ø16@15 por fuera (a 4,8 de la cara, pata de 60) y ø12@15 por dentro (a 3,6, pata de 30), las dos
+    // con gancho de 20 en la losa de techo; horizontales @15 (puntos); malla de la losa de fundación; losa de techo con ø10@15 abajo y ø12@15 en L arriba
+    [[y0, 1], [y1, -1]].forEach(([yf, sg]) => {   // yf: cara exterior del muro; sg: hacia adentro del búnker
+      const yi = yf + sg * e;
+      pl([[yf + sg * 64.8, N.zapata_inf + 8.6], [yf + sg * 4.8, N.zapata_inf + 8.6], [yf + sg * 4.8, -5], [yf + sg * 24.8, -5]], 'cx-fe');
+      pl([[yi + sg * 26.4, N.zapata_inf + 10.4], [yi - sg * 3.6, N.zapata_inf + 10.4], [yi - sg * 3.6, -5], [yi + sg * 16.4, -5]], 'cx-fe');
+      for (let zz = N.zapata_sup + 8; zz < N.losa_inf - 5; zz += 15) [yf + sg * 6.2, yi - sg * 4.8].forEach(sx => el('circle', { cx: X(sx), cy: Y(zz), r: 1.6, style: 'fill:#C2410C' }, g));
+      pl([[yf + sg * 7.4, -2.6 - 72], [yf + sg * 7.4, -2.6], [yi + sg * 180, -2.6]], 'cx-fe');   // superior en L: pata por la cara exterior, 1,80 dentro de la losa
     });
-    // doble malla ø12@15 de la losa de fundación: inferior con ganchos de 20 en los bordes, superior recta; puntos = barras del otro sentido
-    pl([[yN[0] + 5, N.zapata_inf + 26], [yN[0] + 5, N.zapata_inf + 6], [yS[1] - 5, N.zapata_inf + 6], [yS[1] - 5, N.zapata_inf + 26]], 'cx-fe'); line(yN[0] + 5, N.zapata_sup - 6, yS[1] - 5, N.zapata_sup - 6, 'cx-fe');
+    pl([[y0 + e / 2, -6], [y0 + e / 2, N.losa_inf + 2.5], [y1 - e / 2, N.losa_inf + 2.5], [y1 - e / 2, -6]], 'cx-fe');   // inferior N-S con ganchos en los muros
+    for (let yy = y0 + e + 15; yy < y1 - e; yy += 15) { if (yy > yCutLo && yy < yCutHi) continue; el('circle', { cx: X(yy), cy: Y(N.losa_inf + 3.5), r: 1.3, style: 'fill:#C2410C' }, g); if (yy < y0 + e + 180 || yy > y1 - e - 180) el('circle', { cx: X(yy), cy: Y(-3.8), r: 1.5, style: 'fill:#C2410C' }, g); }
+    // malla de la losa de fundación: ø16@15 N-S abajo (ganchos de 15 en los bordes) y arriba; puntos = ø12@15 E-O
+    pl([[yN[0] + 5.8, N.zapata_inf + 20.8], [yN[0] + 5.8, N.zapata_inf + 5.8], [yS[1] - 5.8, N.zapata_inf + 5.8], [yS[1] - 5.8, N.zapata_inf + 20.8]], 'cx-fe'); line(yN[0] + 5.8, N.zapata_sup - 5.8, yS[1] - 5.8, N.zapata_sup - 5.8, 'cx-fe');
     for (let yy = yN[0] + 12.5; yy < yS[1] - 5; yy += 15){ if (yy > yCutLo && yy < yCutHi) continue; [N.zapata_inf + 7.2, N.zapata_sup - 7.2].forEach(zz => el('circle', { cx: X(yy), cy: Y(zz), r: 1.6, style: 'fill:#D9534F' }, g)); }
-    line(y0 + 3, N.losa_inf + 3, y1 - 3, N.losa_inf + 3, 'cx-fe'); line(y0 + 3, -3, y1 - 3, -3, 'cx-fe');
     // niveles terminados (punteado naranjo) y terreno natural
     line(y0 + e, N.piso_bunker + TP, y1 - e, N.piso_bunker + TP, 'cx-niv'); line(y0 + e, N.losa_inf - TC, y1 - e, N.losa_inf - TC, 'cx-niv'); line(y0 + e, TP, yHi, TP, 'cx-niv');
     line(yLo, N.ntn, yN[0], N.ntn, 'cx-ntn'); line(yS[1], N.ntn, yHi, N.ntn, 'cx-ntn');
@@ -526,14 +619,13 @@ ol.preg li{margin:0 0 8px}
     labD(xm, zm + 44, 'búnker', FS, 'middle', true);
     labD(xm, zm + 24, `${coma(H.interior.alto, 0)} de obra gruesa · ${coma((N.losa_inf - TC) - (N.piso_bunker + TP), 0)} libres terminados · ${coma(y1 - y0 - 2 * e - 2 * (D.parametros.tabique || 0), 0)} entre tabiques`, FSs, 'middle', true);
     labD(xm, zm + 6, `bajo la VHA (eje 3): ${coma((zv - TC) - (N.piso_bunker + TP), 0)} libres`, FSs, 'middle', true);
-    labD(xm, N.losa_inf - 46, 'VHA 25/40 (eje 3), detrás del corte', 12, 'middle', true);
+    labD(xm, N.losa_inf - 46, `${vha.nombre} (eje 3), detrás del corte`, 12, 'middle', true);
     labD(xm, N.piso_bunker + TP + 22, 'sobrelosa 4 sobre la losa de fundación', 12, 'middle', true);
     labD(xm, zTopCut - 12, `se omiten ${coma(CUT, 0)} del largo (ahí todo es igual)`, 12, 'middle', true);
     lab(yA - 20, zHi - 50, 'PLb 200×200×8 · anclaje 1+1 ø3/4', 12, 'end'); lab(yB + 20, zHi - 50, 'PLb 200×200×8 · anclaje 1+1 ø3/4', 12, 'start');
     // cotas horizontales (abajo): zapata, interior, entre ejes, exterior, zapatas
     const rb = Y(zLo) + 22;
-    [[yN[0], y0, '37,5', 26], [y0, y0 + e, '25', -26], [y0 + e, yN[1], '37,5', 26]].forEach(([a, b, t, off]) => cota(C, X(a), rb, X(b), rb, t, off, FSs));
-    [[yS[0], y1 - e, '37,5', 26], [y1 - e, y1, '25', -26], [y1, yS[1], '37,5', 26]].forEach(([a, b, t, off]) => cota(C, X(a), rb, X(b), rb, t, off, FSs));
+    [[yN[0], y0, 26], [y0, y0 + e, -26], [y1 - e, y1, -26], [y1, yS[1], 26]].forEach(([a, b, off]) => cota(C, X(a), rb, X(b), rb, coma(b - a, 1).replace(',0', ''), off, FSs));
     if (TB) [[y0 + e, y0 + e + TB], [y1 - e - TB, y1 - e]].forEach(([a, b]) => cota(C, X(a), rb, X(b), rb, '10', -26, FSs));
     cota(C, X(y0 + e), rb, X(y1 - e), rb, `${coma(y1 - y0 - 2 * e, 0)} entre muros`, 26, FSs);
     if (TB) cota(C, X(y0 + e + TB), rb + 50, X(y1 - e - TB), rb + 50, `${coma(y1 - y0 - 2 * e - 2 * TB, 0)} terminado, entre tabiques`, 26, FSs);
@@ -559,7 +651,7 @@ ol.preg li{margin:0 0 8px}
     const niveles = [[N.emplantillado_inf, 'sello'], [N.zapata_inf, 'losa de fundación inf'], [N.piso_bunker, 'piso búnker (losa fund.)'], [N.piso_bunker + TP, 'piso term. búnker'], [N.losa_inf - TC, 'cielo term. búnker'], [N.losa_inf, 'losa inf'], [N.ntn, 'terreno natural'], [0, 'losa (0,00)'], [TP, 'piso term. estudio']];
     cadena(X(yHi) + 50, niveles, 1, N.ntn, 'DESDE EL TERRENO NATURAL', 13);
     cadena(yLo - 50, niveles.filter(n => n[0] !== N.ntn), -1, 0, 'DESDE LA LOSA (0,00)', 12);
-    $('#cap-corte-bunker').innerHTML = `<b>Corte A–A</b> · norte-sur entre los ejes 2 y 3, mirando al oriente · cotas en cm · al medio se omiten ${coma(CUT, 0)} cm del largo del búnker (ahí todo es igual), para dibujar al doble de escala: las cotas dicen las medidas reales · a la derecha los niveles medidos desde el terreno natural (mandan en obra); a la izquierda, desde la cara de la losa (el 0,00 del ingeniero) · losa de fundación e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker, unida a los muros y sobresaliendo 37,5 (ingeniero, 15-10-2026; su cara superior es el piso) · muros DM e=${coma(e, 0)} · losa ${coma(H.losa.espesor, 0)} · piso terminado ${coma(TP, 1)} (porcelanato + adhesivo + sobrelosa) · cielo ${coma(TC, 1)} (yeso cartón + perfilería) · tabique de ${coma(D.parametros.tabique || 0, 0)} por dentro de cada muro del búnker (yeso cartón sobre perfilería): queda de ${coma(H.interior.terminado.ancho, 0)} × ${coma(H.interior.terminado.largo, 0)} terminado; arriba muros de 25 terminado, sin tabique extra · la VHA 25/40 del eje 3 cuelga 20 bajo la losa: ahí quedan ${coma((zv - TC) - (N.piso_bunker + TP), 0)} libres, no ${coma((N.losa_inf - TC) - (N.piso_bunker + TP), 0)} · la escalera (muro oriente) no aparece en este corte.`;
+    $('#cap-corte-bunker').innerHTML = `<b>Corte A–A</b> · norte-sur entre los ejes 2 y 3, mirando al oriente · cotas en cm · al medio se omiten ${coma(CUT, 0)} cm del largo del búnker (ahí todo es igual), para dibujar al doble de escala: las cotas dicen las medidas reales · a la derecha los niveles medidos desde el terreno natural (mandan en obra); a la izquierda, desde la cara de la losa (el 0,00 del ingeniero) · losa de fundación e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker, unida a los muros y sobresaliendo 37,5 (ingeniero, 15-10-2026; su cara superior es el piso) · muros e=${coma(e, 0)} (crecieron 5 hacia afuera; revisión 23-10-2026) · losa ${coma(H.losa.espesor, 0)} · piso terminado ${coma(TP, 1)} (porcelanato + adhesivo + sobrelosa) · cielo ${coma(TC, 1)} (yeso cartón + perfilería) · tabique de ${coma(D.parametros.tabique || 0, 0)} por dentro de cada muro del búnker (yeso cartón sobre perfilería): queda de ${coma(H.interior.terminado.ancho, 0)} × ${coma(H.interior.terminado.largo, 0)} terminado; arriba muros de 25 terminado, sin tabique extra · la ${vha.nombre} del eje 3 cuelga ${coma(N.losa_inf - zv, 0)} bajo la losa: ahí quedan ${coma((zv - TC) - (N.piso_bunker + TP), 0)} libres, no ${coma((N.losa_inf - TC) - (N.piso_bunker + TP), 0)} · la escalera (muro oriente) no aparece en este corte.`;
   })();
 
   // ---------- planta del búnker ----------
@@ -568,7 +660,7 @@ ol.preg li{margin:0 0 8px}
     const mg = 150; svg.setAttribute('viewBox', `${bx0 - mg} ${by0 - mg} ${bx1 - bx0 + 2 * mg} ${by1 - by0 + 2 * mg + 40}`);
     el('rect', { x: bx0, y: by0, width: bx1 - bx0, height: by1 - by0, style: 'fill:var(--fig-fill);stroke:none' }, svg);
     H.muros.piezas.forEach(mu => { const p = mu.pts.map(loc); el('polygon', { points: p.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:1.2' }, svg); });
-    H.vigas.forEach(v => { const p = v.pts.map(loc); el('polygon', { points: p.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:none;stroke:var(--fig-ink);stroke-width:1.5;stroke-dasharray:10 5' }, svg); const c = p.reduce((s, q) => [s[0] + q[0] / 4, s[1] + q[1] / 4], [0, 0]); const cy = v.id === 'VHA-3' ? c[1] - 170 : c[1]; txt(svg, c[0] + (v.id === 'VHA-esc' ? -40 : 0), cy + 6, v.nombre, { 'text-anchor': 'middle', 'font-size': 15, transform: v.id === 'VHA-3' ? `rotate(-90 ${c[0]} ${cy})` : '' }); /* la VHA-3 se rotula más al norte: al centro va el rótulo de la losa */ });
+    H.vigas.forEach(v => { const p = v.pts.map(loc); el('polygon', { points: p.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:none;stroke:var(--fig-ink);stroke-width:1.5;stroke-dasharray:10 5' }, svg); if (v.id === 'VB-N' || v.id === 'VB-S') return; const c = p.reduce((s, q) => [s[0] + q[0] / 4, s[1] + q[1] / 4], [0, 0]); const cy = v.id === 'VHA-3' ? c[1] - 170 : c[1]; txt(svg, c[0] + (v.id === 'VHA-esc' ? -40 : 0), cy + 6, v.nombre, { 'text-anchor': 'middle', 'font-size': 15, transform: v.id === 'VHA-3' ? `rotate(-90 ${c[0]} ${cy})` : '' }); /* la VHA-3 se rotula más al norte: al centro va el rótulo de la losa */ });
     const hu = H.losa.hueco.map(loc); el('polygon', { points: hu.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.2' }, svg);
     for (let i = 1; i < 16; i++) { const y = hu[0][1] + (hu[2][1] - hu[0][1]) * i / 16; el('line', { x1: hu[0][0], y1: y, x2: hu[1][0], y2: y, style: 'stroke:var(--fig-soft);stroke-width:.8' }, svg); }
     txt(svg, (hu[0][0] + hu[1][0]) / 2, hu[0][1] - 10, 'escalera', { 'text-anchor': 'middle', 'font-size': 15, class: 'txs' });
@@ -584,15 +676,15 @@ ol.preg li{margin:0 0 8px}
     txt(svg, (bx0 + bx1) / 2, (by0 + by1) / 2 - 6, H.losa.armadura.split(' (')[0], { 'text-anchor': 'middle', 'font-size': 13, class: 'txs' });
     $('#txt-bunker').innerHTML = [
       ['Interior', `<b>${coma(H.interior.terminado.ancho / 100, 2)} × ${coma(H.interior.terminado.largo / 100, 2)} m terminados</b> entre tabiques de ${coma(H.interior.terminado.tabique, 0)} (${coma(H.interior.ancho / 100, 2)} × ${coma(H.interior.largo / 100, 2)} entre muros) · 2,80 libres terminados (${coma(H.interior.alto / 100, 2)} de obra gruesa) · original 10,55 × 5,00 × 2,72`],
-      ['Muros', `e=${H.muros.espesor} · DM V ø12@15 (bajan a la zapata con pata de 30) / H ø10@20 / 2ø12 de coronamiento · recubrimiento 3 <span class="fuente man">dato</span>`],
-      ['Losa', `e=${H.losa.espesor} · ø10@20 N-S / ø8@20 E-O · 2ø12 de borde · VHA 25/40 bajo la losa en el eje 3 <span class="fuente man">dato</span>`],
+      ['Muros', `e=${H.muros.espesor} (5 más hacia afuera) · verticales ø16@15 por fuera y ø12@15 por dentro (bajan a la losa de fundación con patas de 60 y 30) · horizontales ø12@15 · 2ø12 de coronamiento · recubrimiento 4 por fuera, 3 por dentro · G30 con cristalizante <span class="fuente med">revisión</span>`],
+      ['Losa', `e=${H.losa.espesor} · ø10@15 abajo en los dos sentidos · ø12@15 en L arriba sobre los 4 muros (1,80 dentro de la losa) · ø10@20 sobre la VHA · ${H.vigas[0].nombre} en el eje 3 y vigas de borde en el hueco <span class="fuente med">revisión</span>`],
       ['Piso', `cara superior de la losa de fundación de ${coma(H.losa_fundacion.espesor, 0)} · porcelanato + adhesivo + sobrelosa 4 encima`],
-      ['Fundación', `losa armada e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker, unida a los muros, sobresale ${coma(H.losa_fundacion.margen, 1)} · DM ø12@15 en los dos sentidos (propuesta) · emplantillado G5 10 <span class="fuente man">ingeniero, 15-10-2026</span>`],
+      ['Fundación', `losa armada e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker, unida a los muros, sobresale ${coma(H.losa_fundacion.margen, 1)} · ø16@15 N-S y ø12@15 E-O, arriba y abajo · emplantillado G5 10 <span class="fuente med">revisión</span>`],
       ['Niveles', `bajo el terreno natural: piso −${coma(-(H.niveles.piso_bunker + 50), 0)} · losa de fundación −${coma(-(H.niveles.zapata_sup + 50), 0)} / −${coma(-(H.niveles.zapata_inf + 50), 0)} · sello −${coma(-(H.niveles.emplantillado_inf + 50), 0)} (desde la losa, 50 más)`],
       ['0,00', 'cara de la losa (NPOG, nivel de piso de obra gruesa del ingeniero) · 50 sobre el terreno · 20 bajo el piso de la casa'],
       ['Cambios', `muro sur bajo el tabique cafetería/estudio (recibe los 5 pilares del eje B) · escalera junto al muro oriente con viga de borde <span class="fuente med">propuesta</span>`],
     ].map(([k, v]) => `<div class="k">${k}</div><div class="v">${v}</div>`).join('');
-    $('#cap-bunker').innerHTML = `Planta del búnker con la losa de techo. ${H.vigas[0].d}. ${H.escalera.nota}.`;
+    $('#cap-bunker').innerHTML = `Planta del búnker con la losa de techo. ${H.vigas[0].d}. Los bordes norte y sur del hueco llevan vigas de borde ${H.vigas[0].nombre.replace('VHA ', '')} (en punteado, sin rótulo). ${H.escalera.nota}.`;
   })();
 
   // ---------- elevaciones ----------
@@ -673,7 +765,7 @@ ol.preg li{margin:0 0 8px}
   // corte de referencia + 3 detalles ampliados (propuesta 3, elegida por Gabriel el 13-10-2026): corte N-S por el muro norte del búnker (eje A)
   (() => {
     const P = D.parametros, capP = TERM.piso, capC = TERM.cielo, TP = T_PISO, TC = T_CIELO;
-    const MURO = H.muros.espesor, ZAP_W = H.zapata_corrida.ancho, ZAP_H = H.zapata_corrida.espesor, LOSA = H.losa.espesor;
+    const MURO = H.muros.espesor, ZAP_W = 2 * (MURO / 2 + H.losa_fundacion.margen), ZAP_H = H.losa_fundacion.espesor, LOSA = H.losa.espesor;   // ZAP_W: hasta donde sobresale la losa de fundación por fuera
     const TECHO = E.techo.espesor, VI_H = 20, COST_H = 10, COST_W = 5, VT = 10, PIL = 15, PLACA = [20, 0.8], PEND = P.pendiente, AL = P.alero_ns, PASO = P.paso_costanera, m = MURO / 2;
     const nv = { sello: NIV.emplantillado_inf, zapInf: NIV.zapata_inf, zapSup: NIV.zapata_sup, radInf: NIV.radier_bunker_inf, pisoBk: NIV.piso_bunker, losaInf: NIV.losa_inf };
     const zVi = x => Z_VIGA_INF + VT + PEND * x, zTecho = x => zVi(x) + VI_H + COST_H, ZTOP = zTecho(D.ejes.y.E - D.ejes.y.A + AL) + TECHO;
@@ -702,7 +794,7 @@ ol.preg li{margin:0 0 8px}
       const TB = P.tabique || 0; if (TB) rect(m, m + TB, nv.pisoBk + TP, nv.losaInf - TC, 'cx-muro');   // tabique de 10 por dentro del muro del búnker (arriba no hay tabique extra)
       z = Z_VIGA_INF; capC.forEach(([n, e]) => { rect(PIL / 2, xhi, z - e, z, /yeso/i.test(n) ? 'cx-yeso' : 'cx-perf'); z -= e; });
       rect(-PLACA[0] / 2, PLACA[0] / 2, 0, PLACA[1], 'cx-placa');
-      if (zlo < 0 && zhi > 0) [-7, 7].forEach(sx => pl([[sx, 0], [sx, Math.max(-43, zlo)], [sx - 10 * Math.sign(sx), Math.max(-43, zlo)]], 'cx-fe2'));   // anclajes ø3/4 con gancho hacia adentro
+      if (zlo < 0 && zhi > 0) [-4, 4].forEach(sx => pl([[sx, -1], [sx, Math.max(-44, zlo)]], 'cx-fe2'));   // horquillas ø3/4 paralelas a ±4 del eje del muro (los ganchos van a lo largo del muro)
       rect(-PIL / 2, PIL / 2, PLACA[1], Z_VIGA_INF, 'cx-pil'); rect(-VT / 2, VT / 2, Z_VIGA_INF, Z_VIGA_INF + VT, 'cx-viga');
       if (zhi > Z_VIGA_INF) {
         const xa = -AL, xb = xhi;
@@ -710,12 +802,23 @@ ol.preg li{margin:0 0 8px}
         for (let xc = -AL + 19; xc < xhi - 2; xc += PASO) poly([[xc - COST_W / 2, zVi(xc) + VI_H], [xc + COST_W / 2, zVi(xc) + VI_H], [xc + COST_W / 2, zVi(xc) + VI_H + COST_H], [xc - COST_W / 2, zVi(xc) + VI_H + COST_H]], 'cx-tech');
         poly([[xa, zTecho(xa)], [xb, zTecho(xb)], [xb, zTecho(xb) + TECHO], [xa, zTecho(xa) + TECHO]], 'cx-tech');
       }
-      // enfierradura: verticales del muro hasta el fondo de la zapata con pata de 30, horizontales cada 20, U ø16 de la zapata con 4ø10, fierros de la losa
-      const za = Math.max(nv.zapInf + 5, zlo), zb = Math.min(nv.losaInf + 15, zhi);
-      if (zb > za) [-m + 3, m - 3].forEach(sx => { const pts = [[sx, zb], [sx, za]]; if (zlo < nv.zapInf + 5) pts.push([sx + 30 * (sx < 0 ? 1 : -1), za]); pl(pts, 'cx-fe'); });
-      for (let zz = nv.zapSup + 10; zz < nv.losaInf - 5; zz += 20) if (zlo < zz && zz < zhi) [-m + 3, m - 3].forEach(sx => el('circle', { cx: X(sx), cy: Y(zz), r: Math.max(1.2, sc), style: 'fill:#C2410C' }, g));
-      if (zlo < nv.zapInf) { pl([[-ZAP_W / 2 + 5, nv.zapInf + 26], [-ZAP_W / 2 + 5, nv.zapInf + 6], [xhi - 5, nv.zapInf + 6]], 'cx-fe'); line(-ZAP_W / 2 + 5, nv.zapSup - 6, xhi - 5, nv.zapSup - 6, 'cx-fe'); for (let sx = -ZAP_W / 2 + 12.5; sx < xhi - 5; sx += 15) [nv.zapInf + 7.2, nv.zapSup - 7.2].forEach(zz => el('circle', { cx: X(sx), cy: Y(zz), r: 1.4, style: 'fill:#D9534F' }, g)); }
-      if (zlo < -3 && zhi > -3) { line(-m + 3, nv.losaInf + 3, xhi, nv.losaInf + 3, 'cx-fe'); line(-m + 3, -3, xhi, -3, 'cx-fe'); }
+      // enfierradura (revisión 23-10-2026): verticales ø16@15 por fuera (a 4,8, pata de 60) y ø12@15 por dentro (a 3,6, pata de 30) con gancho de 20 en la losa,
+      // horizontales @15, malla de la losa de fundación (ø16@15 N-S con ganchos de 15 y ø12@15 E-O en puntos), losa con ø10@15 abajo y ø12@15 en L arriba
+      const cl = pts => {   // polilínea recortada a la ventana zlo..zhi de cada detalle: tramo por tramo
+        for (let k = 0; k + 1 < pts.length; k++) {
+          let [xa, za_] = pts[k], [xb, zb_] = pts[k + 1];
+          if ((za_ < zlo && zb_ < zlo) || (za_ > zhi && zb_ > zhi)) continue;
+          const cut = (x0, z0, x1, z1, zc) => [x0 + (x1 - x0) * (zc - z0) / (z1 - z0), zc];
+          if (za_ < zlo) [xa, za_] = cut(xa, za_, xb, zb_, zlo); if (zb_ < zlo) [xb, zb_] = cut(xb, zb_, xa, za_, zlo);
+          if (za_ > zhi) [xa, za_] = cut(xa, za_, xb, zb_, zhi); if (zb_ > zhi) [xb, zb_] = cut(xb, zb_, xa, za_, zhi);
+          line(xa, za_, xb, zb_, 'cx-fe');
+        }
+      };
+      cl([[-m + 64.8, nv.zapInf + 8.6], [-m + 4.8, nv.zapInf + 8.6], [-m + 4.8, -5], [-m + 24.8, -5]]);
+      cl([[m + 26.4, nv.zapInf + 10.4], [m - 3.6, nv.zapInf + 10.4], [m - 3.6, -5], [m + 16.4, -5]]);
+      for (let zz = nv.zapSup + 8; zz < nv.losaInf - 5; zz += 15) if (zlo < zz && zz < zhi) [-m + 6.2, m - 4.8].forEach(sx => el('circle', { cx: X(sx), cy: Y(zz), r: Math.max(1.2, sc), style: 'fill:#C2410C' }, g));
+      if (zlo < nv.zapInf) { pl([[-ZAP_W / 2 + 5.8, nv.zapInf + 20.8], [-ZAP_W / 2 + 5.8, nv.zapInf + 5.8], [xhi - 5, nv.zapInf + 5.8]], 'cx-fe'); line(-ZAP_W / 2 + 5.8, nv.zapSup - 5.8, xhi - 5, nv.zapSup - 5.8, 'cx-fe'); for (let sx = -ZAP_W / 2 + 12.5; sx < xhi - 5; sx += 15) [nv.zapInf + 7.2, nv.zapSup - 7.2].forEach(zz => el('circle', { cx: X(sx), cy: Y(zz), r: 1.4, style: 'fill:#D9534F' }, g)); }
+      if (zlo < -3 && zhi > -3) { pl([[0, -6], [0, nv.losaInf + 2.5], [xhi, nv.losaInf + 2.5]], 'cx-fe'); cl([[-m + 7.4, -2.6 - 72], [-m + 7.4, -2.6], [Math.min(xhi, m + 180), -2.6]]); }
       if (zlo < -50 && zhi > -50) line(xlo, -50, xhi, -50, 'cx-ntn');
       [[nv.pisoBk + TP, m], [nv.losaInf - TC, m], [TP, -m], [Z_VIGA_INF - TC, PIL / 2]].forEach(([zt, x0]) => { if (zlo < zt && zt < zhi) line(x0, zt, xhi, zt, 'cx-niv'); });
     }
@@ -759,9 +862,9 @@ ol.preg li{margin:0 0 8px}
     const Hs = Math.max(top - 30, oyk - (nv.sello - 20) * sc0 + 30);
     svg.setAttribute('viewBox', `0 0 ${W} ${Hs}`);
     $('#alturas-cap').innerHTML = [
-      ['Obra gruesa', `sello −${coma(-nv.sello, 0)} · emplantillado G5 10 · losa de fundación e=${coma(ZAP_H, 0)} bajo todo el búnker (sobresale 37,5) · muro e=${coma(MURO, 0)} · losa ${coma(LOSA, 0)} · placa PLb 200×200×8 · pilar 150×150 · viga E-O +${coma(Z_VIGA_INF, 0)}/+${coma(Z_VIGA_INF + VT, 0)} · viga inclinada 200×150 al 3,5 % · costaneras @${coma(PASO, 0)} · plancha ${coma(TECHO, 0)} · alero sur ${sg(ZTOP)}`],
+      ['Obra gruesa', `sello −${coma(-nv.sello, 0)} · emplantillado G5 10 · losa de fundación e=${coma(ZAP_H, 0)} bajo todo el búnker (sobresale 37,5) · muro e=${coma(MURO, 0)} · losa ${coma(LOSA, 0)} · placa PLb 200×200×8 (PLc 250×250×12 en los pilares con cruz) · pilar 150×150 · viga E-O +${coma(Z_VIGA_INF, 0)}/+${coma(Z_VIGA_INF + VT, 0)} · viga inclinada 200×150 al 3,5 % · costaneras @${coma(PASO, 0)} · plancha ${coma(TECHO, 0)} · alero sur ${sg(ZTOP)}`],
       ['Terminado', `piso +${coma(TP, 1)} (${capP.map(c => c[0].toLowerCase().split(' /')[0] + ' ' + coma(c[1], 1)).join(' + ')}) · cielo +${coma(Z_VIGA_INF - TC, 1)} (${capC.map(c => c[0].toLowerCase().split(' /')[0] + ' ' + coma(c[1], 1)).join(' + ')}) → <b>${coma(LIB_EST, 0)} libres</b> · búnker piso −${coma(-(nv.pisoBk + TP), 1)}, cielo −${coma(-(nv.losaInf - TC), 1)} → <b>${coma(LIB_BK, 0)} libres</b>`],
-      ['Bajo el terreno', `cotas desde el terreno natural: sello −${coma(-(nv.sello + 50), 0)} · zapata −${coma(-(nv.zapInf + 50), 0)} / −${coma(-(nv.zapSup + 50), 0)} · radier −${coma(-(nv.pisoBk + 50), 0)} · piso terminado −${coma(-(nv.pisoBk + TP + 50), 1)} (desde la losa, 50 más)`],
+      ['Bajo el terreno', `cotas desde el terreno natural: sello −${coma(-(nv.sello + 50), 0)} · losa de fundación −${coma(-(nv.zapInf + 50), 0)} / −${coma(-(nv.zapSup + 50), 0)} · piso del búnker −${coma(-(nv.pisoBk + 50), 0)} · piso terminado −${coma(-(nv.pisoBk + TP + 50), 1)} (desde la losa, 50 más)`],
       ['Siglas', 'NPOG = nivel de piso de obra gruesa (0,00 del ingeniero, cara de la losa) · NPT = nivel de piso terminado · NTN = nivel de terreno natural (−50) · punteado naranjo = niveles terminados · naranjo = fierros'],
     ].map(([k, v]) => `<div class="k">${k}</div><div class="v">${v}</div>`).join('');
   })();
@@ -846,46 +949,47 @@ ol.preg li{margin:0 0 8px}
     };
     // A) búnker: muro norte, losa de techo y losa de fundación (corte N-S entre los ejes 1 y 2)
     corte('Corte A · muro, losa de techo y losa de fundación del búnker', [-118, -24, 480, 452], sv => {
-      const S = AR.seccion(sv, D, H, PL, { eje: 'x', c: AX(140), u0: AY(-56), u1: AY(180), zmin: -385, zmax: 12, fs: 9, ntn: [0, 56] });
-      columna(S, [['MC-N-ext'], ['LN', null, -14], ['LE', 'ø8@20 (luz larga)', -26], ['MV-N-int', null, -150], ['MH-N-int'], ['LF-sup-EO', null, -345], ['LF-sup-NS', null, -352], ['LF-inf-EO', null, -360], ['LF-inf-NS', null, -368]], S.W + 22, 21);
-      S.recubrimiento('LN', 'z', -20, S.U(AY(150))); S.recubrimiento('MV-N-ext', 'u', S.U(AY(0)), -200);
+      const S = AR.seccion(sv, D, H, PL, { eje: 'x', c: AX(140), u0: AY(-56), u1: AY(180), zmin: -395, zmax: 12, fs: 9, ntn: [0, 56] });
+      columna(S, [['LT-NS', null, -2], ['LT-EO', null, -8], ['MC-N-ext'], ['LN', null, -20], ['LE', null, -28], ['MV-N-ext', null, -100], ['MV-N-int', null, -150], ['MH-N-int'], ['LF-sup-EO', null, -345], ['LF-sup-NS', null, -352], ['LF-inf-EO', null, -360], ['LF-inf-NS', null, -368]], S.W + 22, 21);
+      S.recubrimiento('LN', 'z', N.losa_inf, S.U(AY(150))); S.recubrimiento('MV-N-ext', 'u', S.U(AY(-5)), -200);
       S.recubrimiento('LF-inf-NS', 'z', N.zapata_inf, S.U(AY(150))); S.recubrimiento('LF-sup-NS', 'z', N.zapata_sup, S.U(AY(150)));
-      const xm0 = S.U(AY(0)), xm1 = S.U(AY(25)), xl0 = S.U(AY(-37.5));
-      S.cotaH(xl0, xm0, N.emplantillado_inf, '37,5', 12); S.cotaH(xm0, xm1, N.emplantillado_inf, '25', 12); S.cotaV(S.W, -20, 0, '20', 8); S.cotaV(S.W, N.zapata_inf, N.zapata_sup, '30', 8);
+      const xm0 = S.U(AY(-5)), xm1 = S.U(AY(25)), xl0 = S.U(AY(-5 - H.losa_fundacion.margen));   // muro de 30: de −5 a 25 (creció 5 hacia afuera)
+      S.cotaH(xl0, xm0, N.emplantillado_inf, coma(H.losa_fundacion.margen, 1), 12); S.cotaH(xm0, xm1, N.emplantillado_inf, coma(H.muros.espesor, 0), 12); S.cotaV(S.W, N.losa_inf, 0, coma(-N.losa_inf, 0), 8); S.cotaV(S.W, N.zapata_inf, N.zapata_sup, coma(N.zapata_sup - N.zapata_inf, 0), 8);
       S.cotaV(xm1 + 30, N.losa_inf, N.zapata_sup, coma(N.losa_inf - N.zapata_sup, 0) + ' libres (OG)', 0);
-      S.nivel(-30, 0, 'NPOG 0,00'); S.nivel(-30, -50, 'NTN (−50)'); S.nivel(-30, N.zapata_sup, '−291 NTN'); S.nivel(-30, N.zapata_inf, '−321 NTN'); S.nivel(-30, N.emplantillado_inf - 9, '−331 NTN (sello)');   // 9 más abajo para que no choque (la marca queda en su nivel con la línea de cota)
+      S.nivel(-30, 0, 'NPOG 0,00'); S.nivel(-30, -50, 'NTN (−50)'); S.nivel(-30, N.zapata_sup, `−${coma(-(N.zapata_sup + 50), 0)} NTN`); S.nivel(-30, N.zapata_inf, `−${coma(-(N.zapata_inf + 50), 0)} NTN`); S.nivel(-30, N.emplantillado_inf - 9, `−${coma(-(N.emplantillado_inf + 50), 0)} NTN (sello)`);   // 9 más abajo para que no choque (la marca queda en su nivel con la línea de cota)
     }, `ejes 1–2, muro norte (los cuatro iguales) · medidas en cm`);
     // B) fachadas fuera del búnker: sobrecimiento y cimiento corrido del eje 1, por el pilar 1-D (con su placa y anclajes)
     corte('Corte B · sobrecimiento, cimiento corrido y placa base (fachadas)', [-112, -72, 470, 200], sv => {
-      const xP = AX(12.5), S = AR.seccion(sv, D, H, PL, { eje: 'y', c: AY(D.ejes.y.D) + 0.01, u0: AX(-60), u1: AX(120), zmin: -90, zmax: 52, fs: 8.5, ntn: [0, 60] });
+      const xP = AX(12.5), S = AR.seccion(sv, D, H, PL, { eje: 'y', c: AY(D.ejes.y.D) + 1, u0: AX(-60), u1: AX(120), zmin: -90, zmax: 52, fs: 8.5, ntn: [0, 60] });
       // pilar y placa (no son de hormigón: se dibujan aparte)
-      el('rect', { x: S.U(xP) - 7.5, y: S.Y(52), width: 15, height: 51.2, style: 'fill:none;stroke:var(--fig-ink);stroke-width:1;stroke-dasharray:5 3' }, sv); el('rect', { x: S.U(xP) - 10, y: S.Y(0.8), width: 20, height: 0.8, style: 'fill:var(--fig-ink)' }, sv);
-      nota(sv, S.U(xP) - 10, S.Y(40), 'pilar 150 × 150', 8, { 'text-anchor': 'end' }); nota(sv, S.U(xP) - 12, S.Y(5), 'PLb 200 × 200 × 8', 8, { 'text-anchor': 'end' });
-      columna(S, [['AN', 'ø3/4" L=120 (1+1 en horquilla)', 30], ['S12-1'], ['SU-1'], ['AE'], ['S8-1'], ['CL-1'], ['CU-1']], S.W + 20, 19);
-      S.recubrimiento('SU-1', 'z', 0, S.U(xP) + 4); S.recubrimiento('CU-1', 'z', N.cimiento_inf, S.U(AX(40))); S.recubrimiento('SU-1', 'u', S.U(AX(0)), -25);
-      const c0 = S.U(AX(-27.5)), c1 = S.U(AX(52.5)), s0 = S.U(AX(0)), s1 = S.U(AX(25));   // cimiento de −27,5 a 52,5 y sobrecimiento de 0 a 25 (eje 1 en 12,5)
-      S.cotaH(c0, s0, N.cimiento_inf - 10, '27,5', 15); S.cotaH(s0, s1, N.cimiento_inf - 10, '25', 15); S.cotaH(s1, c1, N.cimiento_inf - 10, '27,5', 15);
+      el('rect', { x: S.U(xP) - 7.5, y: S.Y(52), width: 15, height: 51.2, style: 'fill:none;stroke:var(--fig-ink);stroke-width:1;stroke-dasharray:5 3' }, sv); el('rect', { x: S.U(xP) - 12.5, y: S.Y(1.2), width: 25, height: 1.2, style: 'fill:var(--fig-ink)' }, sv);
+      nota(sv, S.U(xP) - 10, S.Y(40), 'pilar 150 × 100', 8, { 'text-anchor': 'end' }); nota(sv, S.U(xP) - 14, S.Y(5), 'PLc 250 × 250 × 12', 8, { 'text-anchor': 'end' });
+      columna(S, [['AP', 'pernos ø3/4" (hef 45)', 30], ['S16-1'], ['SU-1'], ['AX'], ['S8-1'], ['CL-1'], ['CU-1']], S.W + 20, 19);
+      S.recubrimiento('SU-1', 'z', 0, S.U(xP) + 4); S.recubrimiento('CU-1', 'z', N.cimiento_inf, S.U(AX(40))); S.recubrimiento('SU-1', 'u', S.U(AX(12.5 - H.cimiento.sobrecimiento.ancho / 2)), -25);
+      const hs_ = H.cimiento.sobrecimiento.ancho / 2, hc_ = H.cimiento.zapata.ancho / 2, c0 = S.U(AX(12.5 - hc_)), c1 = S.U(AX(12.5 + hc_)), s0 = S.U(AX(12.5 - hs_)), s1 = S.U(AX(12.5 + hs_));   // centrados en el eje 1 (12,5)
+      S.cotaH(c0, s0, N.cimiento_inf - 10, coma(hc_ - hs_, 1).replace(',0', ''), 15); S.cotaH(s0, s1, N.cimiento_inf - 10, coma(2 * hs_, 0), 15); S.cotaH(s1, c1, N.cimiento_inf - 10, coma(hc_ - hs_, 1).replace(',0', ''), 15);
       S.cotaV(c0, N.sobrecimiento_inf, 0, '50', -10); S.cotaV(c0, N.cimiento_inf, N.sobrecimiento_inf, '25', -10); S.cotaV(c0, N.cimiento_inf - 10, N.cimiento_inf, '10', -10);
-      S.nivel(-32, 0, 'NPOG 0,00'); S.nivel(-32, -50, 'NTN (−50)'); S.nivel(-32, N.cimiento_inf + 4, '−25 NTN (−75)'); S.nivel(-32, N.cimiento_inf - 14, '−35 NTN (sello)');
+      S.nivel(-32, 0, 'NPOG 0,00'); S.nivel(-32, -50, 'NTN (−50)'); S.nivel(-32, N.cimiento_inf + 4, '−25 NTN (−75)'); S.nivel(-32, N.cimiento_inf - 14, '−35 NTN');
       nota(sv, S.U(AX(70)), S.Y(-5) + 2.6, 'radier 10', 7, { 'text-anchor': 'middle' }); nota(sv, S.U(AX(70)), S.Y(-27.5) + 2.6, 'poliestireno 10 · relleno 15', 7, { 'text-anchor': 'middle' });
-    }, `eje 1 por el pilar D (ejes 5 y E iguales) · medidas en cm`);
-    // C) CF 25/50 (eje C; los de C2 y 4 son iguales) con el radier a los dos lados
-    corte('Corte C · cadena de fundación CF 25/50', [-72, -16, 330, 108], sv => {
+    }, `eje 1 por el pilar D (ejes 5 y E iguales) · bajo el emplantillado, hormigón pobre hasta el sello (−90 NTN) · medidas en cm`);
+    // C) CF (eje C; los de C2 y 4 son iguales) con el radier a los dos lados
+    corte(`Corte C · cadena de fundación CF ${coma(H.cf.ancho, 0)}/${coma(H.cf.alto, 0)}`, [-72, -16, 330, 108], sv => {
       const yC = AY(D.ejes.y.C), S = AR.seccion(sv, D, H, PL, { eje: 'x', c: AX(925), u0: yC - 45, u1: yC + 45, zmin: -66, zmax: 8, fs: 7 });
       columna(S, [['CF-C-sup'], ['CF-C-est'], ['CF-C-med'], ['CF-C-inf']], S.W + 14, 15);
-      S.recubrimiento('CF-C-est', 'z', -50, S.U(yC) - 3); S.recubrimiento('CF-C-est', 'z', 0, S.U(yC) + 3); S.recubrimiento('CF-C-est', 'u', S.U(yC - 12.5), -30);
-      S.cotaH(S.U(yC - 12.5), S.U(yC + 12.5), -60, '25', 9); S.cotaV(S.U(yC - 12.5), -50, 0, '50', -14); S.cotaV(S.U(yC - 20), -60, -50, '10', -8);
+      S.recubrimiento('CF-C-est', 'z', -50, S.U(yC) - 3); S.recubrimiento('CF-C-est', 'z', 0, S.U(yC) + 3); S.recubrimiento('CF-C-est', 'u', S.U(yC - H.cf.ancho / 2), -30);
+      S.cotaH(S.U(yC - H.cf.ancho / 2), S.U(yC + H.cf.ancho / 2), -60, coma(H.cf.ancho, 0), 9); S.cotaV(S.U(yC - H.cf.ancho / 2), -50, 0, '50', -14); S.cotaV(S.U(yC - H.cf.ancho / 2 - 7.5), -60, -50, '10', -8);
       S.nivel(-26, 0, 'NPOG 0,00'); S.nivel(-26, -50, 'NTN (−50)'); S.nivel(-26, -60, '−60');
       nota(sv, S.U(yC - 27), S.Y(-5) + 2.3, 'radier 10', 6, { 'text-anchor': 'middle' }); nota(sv, S.U(yC + 27), S.Y(-5) + 2.3, 'radier 10', 6, { 'text-anchor': 'middle' });
-    }, `eje C entre 4 y 5 (C2 y eje 4 iguales) · ingeniero: 25/40 bajo el radier · medidas en cm`);
-    // D) VHA 25/40 del eje 3, bajo la losa del búnker
-    corte('Corte D · viga VHA 25/40 bajo la losa del búnker', [-112, -26, 390, 118], sv => {
-      const x3 = AX(D.ejes.x['3']), S = AR.seccion(sv, D, H, PL, { eje: 'y', c: AY(390), u0: x3 - 75, u1: x3 + 75, zmin: -50, zmax: 6, fs: 7, ntn: false });
-      columna(S, [['LS'], ['VHA-3-sup'], ['LE', null, -16], ['LN', null, -18.5], ['VHA-3-est'], ['VHA-3-med'], ['VHA-3-inf']], S.W + 14, 12.5);
+    }, `eje C entre 4 y 5 (C2 y eje 4 iguales) · ingeniero: 25/40 bajo el radier · hormigón pobre hasta −90 NTN · medidas en cm`);
+    // D) VHA del eje 3, bajo la losa del búnker
+    corte(`Corte D · viga ${H.vigas[0].nombre} bajo la losa del búnker`, [-112, -26, 390, 118], sv => {
+      const x3 = AX(D.ejes.x['3']), S = AR.seccion(sv, D, H, PL, { eje: 'y', c: AY(390), u0: x3 - 75, u1: x3 + 75, zmin: -52, zmax: 6, fs: 7, ntn: false });
+      columna(S, [['LS'], ['VHA-3-sup'], ['LE', null, -19], ['LN', null, -23], ['VHA-3-est'], ['VHA-3-med'], ['VHA-3-inf']], S.W + 14, 12.5);
       const uLN = S.puntos.filter(p => p.f.id === 'LN').map(p => p.u).sort((a, b) => Math.abs(a - S.U(x3 + 50)) - Math.abs(b - S.U(x3 + 50)))[0];
-      S.recubrimiento('VHA-3-est', 'z', -40, S.U(x3) + 3); S.recubrimiento('VHA-3-est', 'u', S.U(x3 - 12.5), -30); if (uLN != null) S.recubrimiento('LN', 'z', -20, uLN);
-      S.cotaH(S.U(x3 - 12.5), S.U(x3 + 12.5), -40, '25', 22); S.cotaV(S.U(x3 + 12.5), -40, -20, '20', 12); S.cotaV(S.U(x3 - 60), -20, 0, '20', -8);
-      S.nivel(-26, 0, 'NPOG 0,00'); S.nivel(-26, -20, '−20 losa inf.'); S.nivel(-26, -40, '−40 VHA inf.');
+      const zVi = H.vigas[0].z_inf - D.z_piso, zLi = N.losa_inf, bV = 25;   // fondo de la VHA y de la losa (NPOG)
+      S.recubrimiento('VHA-3-est', 'z', zVi, S.U(x3) + 3); S.recubrimiento('VHA-3-est', 'u', S.U(x3 - bV / 2), -30); if (uLN != null) S.recubrimiento('LN', 'z', zLi, uLN);
+      S.cotaH(S.U(x3 - bV / 2), S.U(x3 + bV / 2), zVi, coma(bV, 0), 22); S.cotaV(S.U(x3 + bV / 2), zVi, zLi, coma(zLi - zVi, 0), 12); S.cotaV(S.U(x3 - 60), zLi, 0, coma(-zLi, 0), -8);
+      S.nivel(-26, 0, 'NPOG 0,00'); S.nivel(-26, zLi, `−${coma(-zLi, 0)} losa inf.`); S.nivel(-26, zVi, `−${coma(-zVi, 0)} VHA inf.`);
     }, `eje 3 (la del borde de la escalera es igual) · medidas en cm`);
 
     // 4) corte transversal N–S por el baño, la cabina y la bodega (entre los ejes 4 y 5, mirando al oriente): cruza los CF de los ejes C y C2, que son
@@ -893,7 +997,13 @@ ol.preg li{margin:0 0 8px}
     //    dibujaba las barras largas del CF-C2 encima de las del CF-C (el generador usaba la y del eje C para los dos), por eso se veían distintos.
     (function corteCF() {
       const EY = D.ejes.y, yB = EY.B, yC = EY.C, yC2 = EY.C2, yE = EY.E, MU = H.muros.espesor, hcf = H.cf.ancho / 2;
-      const sc = H.cimiento.sobrecimiento, ci = H.cimiento.zapata, hs = sc.ancho / 2, hc = ci.ancho / 2, by1 = yB + MU / 2;   // by1: cara sur del muro sur del búnker
+      const sc = H.cimiento.sobrecimiento, ci = H.cimiento.zapata, hs = sc.ancho / 2, hc = ci.ancho / 2;
+      const by1 = Math.max(...H.muros.piezas.find(z => z.id === 'M-S').pts.map(p => loc(p)[1]));   // cara sur del muro sur del búnker (el muro de 30 creció hacia afuera)
+      const ZL = H.niveles.losa_inf, eW = (p => Math.max(...p.map(q => q[1])) - Math.min(...p.map(q => q[1])))(H.cf.emplantillado.piezas.find(z => z.id === 'EMP-C').pts);   // fondo de la losa de techo y ancho del emplantillado del CF
+      // el fierro se dibuja con las barras del modelo (cortes en x = cte): (y, z) relativos al eje del elemento
+      const fam_ = id => D.fierros.find(f => f.id === id), insts = f => f.polilineas || Array.from({ length: f.n }, (_, k) => f.polilinea.map(q => q.map((v, i) => v + k * f.paso[i])));
+      const yzBarras = (id, yRef) => insts(fam_(id)).map(pl => [loc(pl[1])[1] - yRef, loc(pl[1])[2]]);
+      const yzPoli = (id, yRef, i) => { const ps = insts(fam_(id)); return ps[Math.min(i || 0, ps.length - 1)].map(p => [loc(p)[1] - yRef, loc(p)[2]]); };
       const cfC = H.cf.piezas.find(z => z.id === 'CF-C').pts, largoCF = Math.max(...cfC.map(p => p[0])) - Math.min(...cfC.map(p => p[0]));
       // ventanas de la planta que se dibujan (cm locales, de norte a sur) con un quiebre entre una y otra; las cotas entre ejes son las reales
       const VEN = [[yB - 72, by1 + 100], [yC - 90, yC + 90], [yC2 - 90, yC2 + 90], [yE - 95, yE + 55]], GQ = 14, X0 = [];
@@ -911,24 +1021,24 @@ ol.preg li{margin:0 0 8px}
         // ---- corte general ----
         [['B', yB, -104], ['C', yC, -58], ['C2', yC2, -58], ['E', yE, -92]].forEach(([n, y, zf]) => { const x = U(y); el('line', { x1: x, y1: Y(ZT - 12), x2: x, y2: Y(zf), style: ejeS }, sv); el('circle', { cx: x, cy: Y(ZT - 4), r: 7, style: 'fill:var(--paper);' + ink + ';stroke-width:.9' }, sv); T(sv, x, ZT - 4, n, { 'font-weight': 700, class: 'tx' }); });
         [[yB, yC], [yC, yC2], [yC2, yE]].forEach(([a, b]) => cota(sv, U(a), Y(ZT - 22), U(b), Y(ZT - 22), coma(b - a, 0), 0, 8.5));
-        // búnker: losa de techo e=20 y muro sur e=25, que sigue hacia abajo (quiebre)
-        rectY(sv, VEN[0][0], by1, -20, 0, horm); rectY(sv, by1 - MU, by1, ZF + 4, -20, horm);
+        // búnker: losa de techo y muro sur, que sigue hacia abajo (quiebre)
+        rectY(sv, VEN[0][0], by1, ZL, 0, horm); rectY(sv, by1 - MU, by1, ZF + 4, ZL, horm);
         el('rect', { x: U(by1 - MU) - 1, y: Y(ZF + 4) - 1, width: MU + 2, height: 6, style: 'fill:var(--paper);stroke:none' }, sv); zig(sv, U(by1 - MU) - 3, Y(ZF + 4), U(by1) + 3, Y(ZF + 4));
-        T(sv, U(yB - 40), -48, 'búnker', { 'font-size': 9 }); T(sv, U(yB - 36), -10, 'losa e=20', { 'font-size': 7.5 });
-        txt(sv, U(yB) + 2.5, Y(-70), 'muro sur e=25', { 'text-anchor': 'middle', 'font-size': 7.5, class: 'txs', transform: `rotate(-90 ${U(yB) + 2.5} ${Y(-70)})` });
+        T(sv, U(yB - 40), -48, 'búnker', { 'font-size': 9 }); T(sv, U(yB - 36), -10, `losa e=${coma(H.losa.espesor, 0)}`, { 'font-size': 7.5 });
+        txt(sv, U(by1 - MU / 2) + 2.5, Y(-70), `muro sur e=${coma(MU, 0)}`, { 'text-anchor': 'middle', 'font-size': 7.5, class: 'txs', transform: `rotate(-90 ${U(by1 - MU / 2) + 2.5} ${Y(-70)})` });
         // radier e=10 sobre poliestireno 10 y relleno 15 en los tres recintos; terreno natural bajo la sub base
         [[by1 + .5, yC - hcf - .5], [yC + hcf + .5, yC2 - hcf - .5], [yC2 + hcf + .5, yE - hs - .5]].forEach(([a, b]) => { rectY(sv, a, b, -10, 0, radier); rectY(sv, a, b, -20, -10, capa); rectY(sv, a, b, -35, -20, capa); });
         lineY(sv, by1, yE - hs, -50, 'stroke:var(--fig-soft);stroke-width:.6;stroke-dasharray:2 3');
         T(sv, U(by1 + 50), -5, 'radier e=10', { 'font-size': 7.5 });   // las otras capas van rotuladas en las secciones 1 y 2 (aquí no caben con letra de 13 px)
         [['baño', yC - 50], ['cabina', yC2 - 50], ['bodega', yE - 55]].forEach(([t, y]) => T(sv, U(y), 12, t, { 'font-size': 9.5, 'font-weight': 600 }));
-        // los dos CF 25/50, iguales: de 0 a −50 (hasta la cara del radier, fondo en el NTN), emplantillado 40 × 10, 3ø12 + 2ø10 + 3ø12 y Est ø10@25; tabique encima
+        // los dos CF, iguales: de 0 a −50 (hasta la cara del radier, fondo en el NTN), emplantillado y hormigón pobre, 3ø12 + 2ø10 + 3ø12 y E ø10@25; tabique de 25 encima
         [['CF-C', yC, '1'], ['CF-C2', yC2, '2']].forEach(([id, yc, nm]) => {
           const x = U(yc);
-          el('rect', { x: x - hcf, y: Y(0), width: 2 * hcf, height: 50, style: horm }, sv); el('rect', { x: x - 20, y: Y(-50), width: 40, height: 10, style: emp }, sv);
-          el('rect', { x: x - 7, y: Y(-5.5), width: 14, height: 39, rx: 1.5, style: 'fill:none;stroke:var(--fig-pilar);stroke-width:1' }, sv); el('line', { x1: x - 7, y1: Y(-5.5), x2: x - 0.5, y2: Y(-12), style: 'stroke:var(--fig-pilar);stroke-width:1' }, sv);
-          [-5.9, 0, 5.9].forEach(dx => { barra(sv, x + dx, -6.6, 1.8); barra(sv, x + dx, -43.4, 1.8); }); [-6, 6].forEach(dx => barra(sv, x + dx, -25, 1.4));
-          el('rect', { x: x - hcf, y: Y(30), width: 2 * hcf, height: 30, style: tab }, sv);   // tabique de 25 al ras del CF
-          T(sv, x, -86, id + ' 25/50', { 'font-size': 9, 'font-weight': 700, class: 'tx' }); cota(sv, x - hcf, Y(-50), x + hcf, Y(-50), '25', 14, 7.5);
+          el('rect', { x: x - hcf, y: Y(0), width: 2 * hcf, height: 50, style: horm }, sv); el('rect', { x: x - eW / 2, y: Y(-50), width: eW, height: 10, style: emp }, sv);
+          el('polyline', { points: yzPoli(id + '-est', yc, 3).map(([dy, z]) => `${x + dy},${Y(z)}`).join(' '), style: 'fill:none;stroke:var(--fig-pilar);stroke-width:1' }, sv);
+          [[id + '-sup', 1.8], [id + '-inf', 1.8], [id + '-med', 1.4]].forEach(([f, r]) => yzBarras(f, yc).forEach(([dy, z]) => barra(sv, x + dy, z, r)));
+          el('rect', { x: x - 12.5, y: Y(30), width: 25, height: 30, style: tab }, sv);   // tabique de 25, centrado en el CF
+          T(sv, x, -86, `${id} ${coma(H.cf.ancho, 0)}/${coma(H.cf.alto, 0)}`, { 'font-size': 9, 'font-weight': 700, class: 'tx' }); cota(sv, x - hcf, Y(-50), x + hcf, Y(-50), coma(2 * hcf, 0), 14, 7.5);
           el('circle', { cx: x + 30, cy: Y(22), r: 6, style: 'fill:var(--paper);' + ink + ';stroke-width:.9' }, sv); T(sv, x + 30, 22, nm, { 'font-size': 8, 'font-weight': 700, class: 'tx' });
         });
         // fachada sur: sobrecimiento 25 × 50 sobre cimiento corrido 80 × 25 y emplantillado; terreno natural afuera a −50
@@ -937,11 +1047,11 @@ ol.preg li{margin:0 0 8px}
         el('rect', { x: xe - hs, y: Y(0), width: 2 * hs, height: sc.alto, style: horm }, sv);
         el('line', { x1: xe + hs, y1: Y(-50), x2: ANCHO, y2: Y(-50), style: ink + ';stroke-width:.8' }, sv);
         el('rect', { x: xe - hs, y: Y(30), width: 2 * hs, height: 30, style: tab }, sv); T(sv, xe + hs + 3, 22, 'fachada sur', { 'text-anchor': 'start', 'font-size': 7.5 });
-        el('polyline', { points: `${xe - 37.5},${Y(-71)} ${xe - 7.5},${Y(-71)} ${xe - 7.5},${Y(-3)} ${xe + 7.5},${Y(-3)} ${xe + 7.5},${Y(-71)} ${xe + 37.5},${Y(-71)}`, style: 'fill:none;stroke:var(--fig-pilar);stroke-width:1' }, sv);   // estribo ø10@20 L=211 de la lámina 01
-        [-6.5, 6.5].forEach(dx => { barra(sv, xe + dx, -4.5, 1.8); [-15, -35].forEach(z => barra(sv, xe + dx, z, 1.3)); });
-        el('polyline', { points: `${xe - 35},${Y(N.cimiento_inf + 20)} ${xe - 35},${Y(N.cimiento_inf + 5)} ${xe + 35},${Y(N.cimiento_inf + 5)} ${xe + 35},${Y(N.cimiento_inf + 20)}`, style: 'fill:none;stroke:var(--fig-pilar);stroke-width:1.1' }, sv);
-        [-33, -11, 11, 33].forEach(dx => barra(sv, xe + dx, N.cimiento_inf + 6, 1.8));
-        T(sv, xe + hs + 3, -25, 'sobrecimiento 25 × 50', { 'text-anchor': 'start', 'font-size': 7.5 }); T(sv, xe + hs + 3, -44, 'NTN 0,00 (−50)', { 'text-anchor': 'start', 'font-size': 7.5 }); T(sv, xe + hc + 3, -61, 'cimiento 80 × 25', { 'text-anchor': 'start', 'font-size': 7.5 });
+        el('polyline', { points: yzPoli('SU-E', yE, 20).map(([dy, z]) => `${xe + dy},${Y(z)}`).join(' '), style: 'fill:none;stroke:var(--fig-pilar);stroke-width:1' }, sv);   // estribo ø10@20 del modelo (cerrado arriba, patas en el cimiento)
+        yzBarras('S16-E', yE).forEach(([dy, z]) => barra(sv, xe + dy, z, 1.8)); yzBarras('S8-E', yE).forEach(([dy, z]) => barra(sv, xe + dy, z, 1.3));
+        el('polyline', { points: yzPoli('CU-E', yE, 20).map(([dy, z]) => `${xe + dy},${Y(z)}`).join(' '), style: 'fill:none;stroke:var(--fig-pilar);stroke-width:1.1' }, sv);
+        yzBarras('CL-E', yE).forEach(([dy, z]) => barra(sv, xe + dy, z, 1.8));
+        T(sv, xe + hs + 3, -25, `sobrecimiento ${coma(sc.ancho, 0)} × ${coma(sc.alto, 0)}`, { 'text-anchor': 'start', 'font-size': 7.5 }); T(sv, xe + hs + 3, -44, 'NTN 0,00 (−50)', { 'text-anchor': 'start', 'font-size': 7.5 }); T(sv, xe + hc + 3, -61, `cimiento ${coma(ci.ancho, 0)} × ${coma(ci.espesor, 0)}`, { 'text-anchor': 'start', 'font-size': 7.5 });
         // quiebres entre ventanas
         for (let i = 0; i + 1 < VEN.length; i++) { zig(sv, X0[i] + VEN[i][1] - VEN[i][0], Y(6), X0[i] + VEN[i][1] - VEN[i][0], Y(-58)); zig(sv, X0[i + 1], Y(6), X0[i + 1], Y(-58)); }
         // niveles
@@ -962,17 +1072,17 @@ ol.preg li{margin:0 0 8px}
           el('line', { x1: -76, y1: Y(-50), x2: 76, y2: Y(-50), style: 'stroke:var(--fig-soft);stroke-width:.3;stroke-dasharray:1 1.5' }, g);
           [['radier e=10', -5], ['poliestireno e=10', -15], ['relleno granular 15', -27.5], ['sub base compactada', -42]].forEach(([s, z]) => t(-44, z, s, { 'font-size': 3.4 }));
           t(-44, 8, izq, { 'font-size': F + .6, 'font-weight': 600, class: 'tx' }); t(44, 8, der, { 'font-size': F + .6, 'font-weight': 600, class: 'tx' });
-          el('rect', { x: -hcf, y: Y(50), width: 2 * hcf, height: 50, style: tab.replace('.7', '.35').replace('4 3', '2 1.5') }, g);   // tabique de 25 al ras del CF
-          t(hcf + 3, 30, 'tabique', { 'text-anchor': 'start', 'font-size': 3.6 });
-          el('rect', { x: -hcf, y: Y(0), width: 2 * hcf, height: 50, style: horm.replace('1.2', '.5') }, g); el('rect', { x: -20, y: Y(-50), width: 40, height: 10, style: emp.replace('.8', '.4') }, g);
-          el('rect', { x: -7, y: Y(-5.5), width: 14, height: 39, rx: 1, style: 'fill:none;stroke:var(--fig-pilar);stroke-width:.6' }, g); el('line', { x1: -7, y1: Y(-5.5), x2: -0.5, y2: Y(-12), style: 'stroke:var(--fig-pilar);stroke-width:.6' }, g);
-          [-5.9, 0, 5.9].forEach(dx => { barra(g, dx, -6.6, 1.1); barra(g, dx, -43.4, 1.1); }); [-6, 6].forEach(dx => barra(g, dx, -25, .9));
-          cota(g, -hcf, Y(-50), hcf, Y(-50), '25', 14, 3.6); cota(g, 90, Y(0), 90, Y(-50), '50', -4, 3.6);   // el 50 fuera de las capas, junto a las cotas 10/10/15
+          el('rect', { x: -12.5, y: Y(50), width: 25, height: 50, style: tab.replace('.7', '.35').replace('4 3', '2 1.5') }, g);   // tabique de 25, centrado en el CF
+          t(12.5 + 3, 30, 'tabique', { 'text-anchor': 'start', 'font-size': 3.6 });
+          el('rect', { x: -hcf, y: Y(0), width: 2 * hcf, height: 50, style: horm.replace('1.2', '.5') }, g); el('rect', { x: -eW / 2, y: Y(-50), width: eW, height: 10, style: emp.replace('.8', '.4') }, g);
+          const yc_ = D.ejes.y[eje]; el('polyline', { points: yzPoli(id + '-est', yc_, 3).map(([dy, z]) => `${dy},${Y(z)}`).join(' '), style: 'fill:none;stroke:var(--fig-pilar);stroke-width:.6' }, g);
+          [[id + '-sup', 1.1], [id + '-inf', 1.1], [id + '-med', .9]].forEach(([f, r]) => yzBarras(f, yc_).forEach(([dy, z]) => barra(g, dy, z, r)));
+          cota(g, -hcf, Y(-50), hcf, Y(-50), coma(2 * hcf, 0), 14, 3.6); cota(g, 90, Y(0), 90, Y(-50), '50', -4, 3.6);   // el 50 fuera de las capas, junto a las cotas 10/10/15
           cota(g, 78, Y(0), 78, Y(-10), '10', -4, 3.2); cota(g, 78, Y(-10), 78, Y(-20), '10', -4, 3.2); cota(g, 78, Y(-20), 78, Y(-35), '15', -4, 3.2);
-          t(22, -55, 'emplantillado 40 × 10', { 'text-anchor': 'start', 'font-size': 3.4 });
+          t(eW / 2 + 2, -55, `emplantillado ${coma(eW, 0)} × 10`, { 'text-anchor': 'start', 'font-size': 3.4 });
           [[0, 'NPOG 0,00'], [-50, 'NTN 0,00 (−50)'], [-60, '−10 NTN (−60)']].forEach(([z, s]) => { el('line', { x1: -80, y1: Y(z), x2: -77, y2: Y(z), style: ink + ';stroke-width:.4' }, g); t(-81.5, z, s, { 'text-anchor': 'end', 'font-size': 3.2 }); });
           t(0, -80, '3ø12 + 2ø10 + 3ø12 · E ø10@25' + (id => { const m = [id + '-sup', id + '-med', id + '-est'].map(k => PL.marcasDe(k)[0]); return ` · marcas ${m[0]}, ${m[1]}, ${m[2]}`; })(id), { 'font-size': 4.2 });
-          t(0, -88, `${id} 25/50 · L libre ${coma(largoCF / 100, 2)} m`, { 'font-size': 4.6, 'font-weight': 600, class: 'tx' });
+          t(0, -88, `${id} ${coma(H.cf.ancho, 0)}/${coma(H.cf.alto, 0)} · L libre ${coma(largoCF / 100, 2)} m`, { 'font-size': 4.6, 'font-weight': 600, class: 'tx' });
         };
         secCF(CX0, 'CF-C', 'C', 'baño', 'cabina', '1'); secCF(CX1, 'CF-C2', 'C2', 'cabina', 'bodega', '2');
       }, `entre los ejes 4 y 5, mirando al oriente, con quiebres · secciones 1 y 2 iguales · medidas en cm`);
@@ -998,17 +1108,17 @@ ol.preg li{margin:0 0 8px}
   const hP = D.miembros.filter(x => x.c === 'pilar' && x.p.startsWith('CUAD')).map(x => x.b[2] - x.a[2]);
   const luces = [
     ['Costaneras CA 100×50×15×3 @61', 'paño de 3,65 m con colgadores ø10', `paño mayor de ${coma(bahiaMax / 100, 2)} m, sin colgadores`, 'menor'],
-    ['Viga inclinada RECT 200×150×5 (marcos interiores) + cordón + puntales', '10,25 m sin pilares (1.b, 1.c)', `${coma((D.ejes.y.E - D.ejes.y.B) / 100, 2)} m en el estudio (B–E) y ${coma((D.ejes.y.B - D.ejes.y.A) / 100, 2)} m en la cafetería (A–B)`, 'menor'],
-    ['Viga inclinada RECT 200×150×3 (fachadas laterales)', 'tramos de 1,25 a 3,43 m entre pilares', `tramos de ${coma(tramoYmin / 100, 2)} a ${coma(tramoYmax / 100, 2)} m entre pilares (A2–B y B–C)`, tramoYmax > 343 ? 'mayor' : 'menor'],
+    ['Viga inclinada (marcos interiores) + cordón + puntales', '10,25 m sin pilares (1.b, 1.c), RECT 200×150×5', `${coma((D.ejes.y.E - D.ejes.y.B) / 100, 2)} m en el estudio (B–E) y ${coma((D.ejes.y.B - D.ejes.y.A) / 100, 2)} m en la cafetería (A–B); RECT 200×150×6 en los ejes 2 y 3`, 'calc'],
+    ['Viga inclinada RECT 200×150×3 (fachadas laterales)', 'tramos de 1,25 a 3,43 m entre pilares', `tramos de ${coma(tramoYmin / 100, 2)} a ${coma(tramoYmax / 100, 2)} m entre pilares (A2–B y B–C)`, tramoYmax > 343 ? 'calc' : 'menor'],
     ['Vigas E-O CUAD 100×100×3 (+4,11/+4,21 en A, B, C y E)', 'tramos de 2,05 a 3,65 m', `tramos de ${coma(Math.min(...xs.slice(1).map((v, i) => v - xs[i])) / 100, 2)} a ${coma(bahiaMax / 100, 2)} m`, 'menor'],
-    ['Pilares CUAD 150×150', '4,01 a 4,47 m (F1 a A1, con el 4,5 % dibujado)', `${coma(Math.min(...hP) / 100, 2)} a ${coma(Math.max(...hP) / 100, 2)} m (A a E)`, Math.max(...hP) > 447 ? 'mayor' : 'menor'],
+    ['Pilares CUAD 150×150', '4,01 a 4,47 m (F1 a A1, con el 4,5 % dibujado)', `${coma(Math.min(...hP) / 100, 2)} a ${coma(Math.max(...hP) / 100, 2)} m (A a E)`, Math.max(...hP) > 447 ? 'calc' : 'menor'],
     ['Cruces C 150×50×3', 'tramos de 2,05 y 1,82 m × 4,01 m', 'tramos de 2,00 m × 4,00 m en las fachadas laterales; 2,52 y 2,75 m en los muros ciegos E-O (una sola diagonal en B 4-5)', 'menor'],
-    ['Losa del búnker e=20', '5,00 m (ø10@20)', `${coma(H.interior.largo / 100, 2)} m`, 'mayor'],
-    ['Muros del búnker e=25', '2,72 m de altura libre', `${coma(H.interior.alto / 100, 2)} m`, 'mayor'],
-    ['Viga VHA 25/40 bajo la losa', '5,00 m entre muros (eje 2.a)', `${coma(H.interior.largo / 100, 2)} m entre muros (eje 3) y viga de borde de ${coma(H.escalera.largo / 100, 2)} m en la escalera`, 'mayor'],
-    ['Tensores Fe 16 del techo', 'paños de 2,05 × 3,65 m', `paños de hasta ${coma(bahiaMax / 100, 2)} × ${coma(tramoYmax / 100, 2)} m`, 'mayor'],
+    [`Losa del búnker e=${coma(H.losa.espesor, 0)}`, '5,00 m (e=20, ø10@20)', `${coma(H.interior.largo / 100, 2)} m`, 'calc'],
+    [`Muros del búnker e=${coma(H.muros.espesor, 0)}`, '2,72 m de altura libre (e=25)', `${coma(H.interior.alto / 100, 2)} m`, 'calc'],
+    [`Viga ${H.vigas[0].nombre} bajo la losa`, '5,00 m entre muros (eje 2.a, 25/40)', `${coma(H.interior.largo / 100, 2)} m entre muros (eje 3) y viga de borde de ${coma(H.escalera.largo / 100, 2)} m en la escalera`, 'calc'],
+    ['Tensores Fe 16 del techo', 'paños de 2,05 × 3,65 m', `paños de hasta ${coma(bahiaMax / 100, 2)} × ${coma(tramoYmax / 100, 2)} m`, 'calc'],
   ];
-  const est = { menor: ['okv', 'se mantiene'], igual: ['okv', 'igual'], mayor: ['med', 'recalcular'] };
+  const est = { menor: ['okv', 'se mantiene'], igual: ['okv', 'igual'], mayor: ['med', 'recalcular'], calc: ['okv', 'recalculado: pasa'] };
   $('#tabla-luces').innerHTML = `<thead><tr><th>Elemento</th><th>Luz original</th><th>Luz nueva</th><th>Estado</th></tr></thead><tbody>${luces.map(l => `<tr><td><b>${l[0]}</b></td><td>${l[1]}</td><td>${l[2]}</td><td class="${est[l[3]][0]}">${est[l[3]][1]}</td></tr>`).join('')}</tbody>`;
 
   // ---------- acero ----------
@@ -1018,7 +1128,7 @@ ol.preg li{margin:0 0 8px}
 
   // ---------- preguntas ----------
   $('#preguntas-lista').innerHTML = D.preguntas.map(p => `<li>${p}</li>`).join('');
-  $('#pendiente').innerHTML = `<b>Pendiente:</b> su versión de las fundaciones y lo marcado «recalcular».`;
+  $('#pendiente').innerHTML = `<b>Pendiente:</b> lo de «Lo que falta» en la pestaña Revisión.`;
 
   // ---------- índice activo ----------
   const links = [...document.querySelectorAll('.toc a')], secs = links.map(a => document.querySelector(a.getAttribute('href')));
