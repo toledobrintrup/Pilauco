@@ -1,0 +1,156 @@
+{
+ "_que": "Alzaprimas bajo la placa colaborante: PUNTALES METÁLICOS ARRENDADOS (telescópicos, con tornillo central) y solera de DOS 2x4 de canto. Lo lee generar_alzaprimas_js.py junto con losa.js (líneas, áreas, ejes, tabla de la ficha) y estructura.js (vigas y pilares). Borrador para el ingeniero (23-10-2026): la separación sale de un cálculo con NCh 1198 y de su revisión independiente; los cálculos completos quedan fuera del repo.",
+
+ "fecha": "23-10-2026",
+
+ "pedido": "Gabriel, 23-10-2026: \"ojo que las alzaprimas serán las que se arriendan, con un tornillo central\". Eligió puntal metálico arrendado (regulable con tornillo, placa base y cabezal en U) + solera de dos 2x4 de canto. Antes (mismo día): detalle corto, con más planos, esquemas y números que texto. El 1,87 m es la luz máxima de la placa sin apoyo (entre vigas o entre viga y línea); las vigas no se alzapriman.",
+
+ "madera": {
+  "especie": "pino radiata G2 timbrado, seco cepillado (H < 20 %)",
+  "b": 41,
+  "h": 90,
+  "Ff": 5.4,
+  "Fcp": 6.5,
+  "Fcn": 2.5,
+  "Kcn_union": 0.8,
+  "Fcz": 1.1,
+  "E": 8900,
+  "KD": 1.237,
+  "Khf": 1.0,
+  "verde": {"b": 45, "h": 94, "kFf": 0.75, "kE": 0.83},
+  "porque": "Solo la solera (y las tablas de la base) es de madera. NCh1198:2014, G2 (lámina INFOR jul-2020, madera21.cl, pág. 4); escuadría 2x4 cepillada 41×90, verde aserrada 45×94 (NCh2824, misma lámina pág. 12); madera verde: Ff × 0,75 y E × 0,83 (Tabla 9, pág. 14). KD de 7 días (carga más corta de D + trabajo). Khf = 1,0 (revisión, NCh1198 8.2.2.3). Compresión normal en una unión con 0,80."
+ },
+
+ "cargas": {
+  "gamma_hormigon": 25.0,
+  "trabajo_kPa": 1.5,
+  "aci_kPa": 2.4,
+  "k_reaccion_placa": 1.25,
+  "porque": "Losa e=15 de losa.js menos el vacío de la placa (0,0285 m³/m²) a 25 kN/m³ + placa 8,03 kg/m² = 318 kg/m²; + trabajo 150 = 471 kg/m² (base); D/C con 2,4 kPa de ACI 347 (245 kg/m²: 562 kg/m²). 1,25 = reacción de la placa continua de 2 vanos en la línea."
+ },
+
+ "puntal": {
+  "tipo": "puntal metálico telescópico regulable, de arriendo: tubo exterior abajo con la rosca y su tuerca (collar), tubo interior arriba con agujeros y pasador, placa base y cabezal en U",
+  "rango": [220, 400],
+  "rango_largo": [300, 500],
+  "tubo_ext": 60,
+  "tubo_int": 48,
+  "placa_base": 150,
+  "placa_e": 6,
+  "cabezal_largo": 150,
+  "cabezal_alas": 60,
+  "cabezal_ala_e": 5,
+  "ancho_min_cabezal": 82,
+  "tubo_ext_largo": 195,
+  "paso_agujeros": 10,
+  "Nadm_sup_kgf": 1200,
+  "reserva_pct": 5,
+  "k_tipico": 1.1,
+  "k_union": 1.25,
+  "porque": "Gabriel, 23-10-2026: puntal metálico arrendado con tornillo central. Medidas típicas (2,2–4,0 m, tubos ø60/ø48, placa base 150 × 150 × 6, cabezal en U de 150 con alas de 60 × 5): SUPUESTO para el dibujo, hasta tener la ficha de la empresa. Capacidad supuesta ≈ 1.200 kgf admisibles: clase D de EN 1065 (20 kN característicos en todo su largo) ÷ 1,5 (cargas) ÷ 1,1 (acero), de memoria; los puntales livianos pueden dar bastante menos extendidos. Carga de diseño en un puntal: 1,25·w·a (envolvente; los que están junto a una unión llevan hasta ≈ 1,22·w·a); uno cualquiera ≈ 1,10·w·a."
+ },
+
+ "solera": {
+  "piezas": 2,
+  "k_union_flexion": 1.01,
+  "largo_pieza": 320,
+  "tablilla": 60,
+  "tablillas_por_pieza": 5,
+  "porque": "Dos 2x4 de canto clavados (82 de apoyo), dentro del cabezal en U. Flexión como tramos simples (w·a²/8), 1,01 donde se unen las piezas (revisión). Piezas de 3,20 m: una unión cada 3,20 m o menos, las dos piezas a tope sobre el MISMO puntal (cada una apoya la mitad del cabezal, 7,5 cm); el empalme lo hace el cabezal (2 clavos por pieza por sus agujeros) y una tablilla de 2x4 de 60 cm por fuera, que pasa sobre el ala del cabezal con un calzo del espesor del ala a cada lado."
+ },
+
+ "alturas": {
+  "libre": 380.0,
+  "solera": 9.0,
+  "tabla": 4.1,
+  "terreno_area1": 70.0,
+  "durmiente": 8.2,
+  "porque": "Piso terminado del nivel 1 a cara inferior de la placa = cara superior de las vigas: 3,80 m (Gabriel 16-10-2026, estructura.js). Solera de canto 9,0: el puntal trabaja a 3,71 del piso a la cara inferior de la solera (la altura la da el tornillo; sin cuñas ni tablón). Sobre un radier más bajo que el piso terminado, el puntal crece esa diferencia. Con un trozo de tablón 2x8 (4,1) bajo la placa base: 3,67. Área 1 sobre terreno a −0,70 (SUPUESTO): ≈ 4,33 sobre el durmiente doble (8,2)."
+ },
+
+ "geometria": {
+  "borde": 15.0,
+  "holgura_ala": 1.0,
+  "arriostre_cada": 360.0,
+  "porque": "Primer puntal a 15 cm de cada extremo de tramo; los demás iguales entre sí y a no más de la separación de la línea. La solera termina 1 cm antes del ala de la viga (en el modelo de losa.js 31 de 50 extremos se metían en el ala). Arriostre (supuesto): en las puntas de cada tramo y cada 3,60 m o menos, a lo largo y de lado."
+ },
+
+ "base": {
+  "tablon_ancho_2x10": 23.5,
+  "tabla_largo": 40,
+  "k_suelo": 0.05,
+  "porque": "Placa base de 150 × 150 (supuesto). Sobre radier no hace falta tabla. Sobre piso terminado, un trozo de tablón 2x8 de 40 cm para no marcarlo. Sobre terreno (área 1, supuesto), durmiente de DOS tablones 2x10 (235 mm) clavados, corrido bajo la línea, sobre suelo compactado: viga sobre suelo elástico (k = 50 MN/m³, supuesto), madera verde: {p} kg/cm² bajo el puntal y D/C {dc} en flexión; con un solo tablón, {p1} kg/cm² y D/C {dc1} (no pasa)."
+ },
+
+ "apoyo_placa": {
+  "k_ficha_3v": 1.1,
+  "k_ficha_2v": 1.25,
+  "ala_ipe220": 110,
+  "ancho_solera": 82,
+  "t_placa": 0.76,
+  "CN": 0.17,
+  "porque": "Comparación con lo que la ficha ya acepta: placa de 3 o más vanos de {L3} m (2 vanos: {L2} m) con {hc} cm de hormigón sobre la cresta, apoyada en el ala de una IPE 220 (110 mm); la reacción que acepta es 1,10 × {L3} (3 vanos, la menor) o 1,25 × {L2} (2 vanos). El factor de abolladura del alma (AISI S100, 1 + CN·√(N/t)) baja al apoyar en 82 mm. Solo relativo: el ancho mínimo lo tiene que dar Cintac."
+ },
+
+ "separacion_modulo": [80, 75, 70, 65, 60, 55, 50],
+
+ "separacion_regla": "La manda la flexión de la solera de dos 2x4: la mayor separación del módulo (de 5 en 5 cm) que la deja bajo 1 con madera seca + ACI 347 y con madera verde + carga base (cálculo). Área 8: 55 cm por la revisión. Con la línea como apoyo rígido (puntal de acero) la carga sube un poco: si el máximo queda bajo la @ nominal, manda la @ real de la línea (ver su ficha).",
+
+ "lineas": [
+  {"area": 1, "pos": -617.6, "a": 70, "f_rev": 1.11, "f_rev_madera": 1.07, "porque": ""},
+  {"area": 1, "pos": -320.1, "a": 70, "f_rev": 1.2, "f_rev_madera": 1.15, "porque": ""},
+  {"area": 2, "pos": 168.2, "a": 70, "f_rev": 1.05, "f_rev_madera": 1.01, "porque": ""},
+  {"area": 2, "pos": 491.5, "a": 70, "f_rev": 1.03, "f_rev_madera": 0.99, "porque": ""},
+  {"area": 3, "pos": 168.2, "a": 70, "f_rev": 1.03, "f_rev_madera": 1.0, "porque": ""},
+  {"area": 3, "pos": 491.5, "a": 70, "f_rev": 1.04, "f_rev_madera": 0.99, "porque": ""},
+  {"area": 3, "pos": 830.2, "a": 65, "f_rev": 1.07, "f_rev_madera": 1.04, "porque": "la luz de placa más larga (1,77 m)"},
+  {"area": 5, "pos": 118.5, "a": 80, "f_rev": 0.86, "f_rev_madera": 0.76, "porque": ""},
+  {"area": 5, "pos": 143.9, "a": 75, "f_rev": 0.69, "f_rev_madera": 0.69, "porque": ""},
+  {"area": 5, "pos": 278.0, "a": 75, "f_rev": 1.0, "f_rev_madera": 0.96, "porque": ""},
+  {"area": 5, "pos": 372.9, "a": 70, "f_rev": 0.94, "f_rev_madera": 0.88, "porque": ""},
+  {"area": 5, "pos": 548.6, "a": 75, "f_rev": 1.1, "f_rev_madera": 1.05, "porque": ""},
+  {"area": 6, "pos": 1132.2, "a": 75, "f_rev": 1.06, "f_rev_madera": 1.02, "porque": ""},
+  {"area": 7, "pos": 821.9, "a": 75, "f_rev": 1.06, "f_rev_madera": 1.02, "porque": ""},
+  {"area": 8, "pos": 1108.7, "a": 55, "f_rev": 1.56, "f_rev_madera": 1.51, "porque": "revisión: las vigas 3a y 4a (IPE 300 de 9,41 m) bajan con el hormigón y la línea carga {f} veces; @55 por la revisión"},
+  {"area": 8, "pos": 1367.7, "a": 55, "f_rev": 1.39, "f_rev_madera": 1.38, "porque": "revisión: las vigas 3a y 4a bajan con el hormigón y la línea carga {f} veces; @55 por la revisión"},
+  {"area": 8, "pos": 1654.5, "a": 55, "f_rev": 1.39, "f_rev_madera": 1.37, "porque": "revisión: las vigas 3a y 4a bajan con el hormigón y la línea carga {f} veces; @55 por la revisión"}
+ ],
+
+ "f_rev_porque": "Revisión: faja de placa continua sobre las vigas de estructura.js, que se deforman con el hormigón, y sobre las líneas. f_rev = carga que llega a la línea / la del cálculo (1,25·q·luz). Con puntal de acero la línea se toma como apoyo rígido (el lado seguro; con el puntal de madera daba entre 0 y 5 % menos). Se usa max(1, f_rev) en todas las líneas.",
+
+ "arriostre": "lo indica la empresa · supuesto: cruces con abrazaderas, a lo largo y de lado, en las puntas de cada tramo y cada ≤ 3,6 m",
+
+ "datos": [
+  ["Losa e = 15 cm; placa Instadeck 0,8, 63,5 mm, 8,03 kg/m²", "losa.js (detalle del ingeniero 05-10-2026; ficha)"],
+  ["Piso terminado del nivel 1 a cara inferior de la placa: 3,80 m", "Gabriel, medido 16-10-2026 (estructura.js)"],
+  ["Luz máxima de la placa sin apoyo: 1,87 m; las vigas no se alzapriman", "ingeniero 05-10-2026; Gabriel 23-10-2026"],
+  ["Puntales metálicos arrendados con tornillo central; solera de dos 2x4 de canto", "Gabriel 23-10-2026"],
+  ["17 líneas en 25 tramos; vigas y pilares", "losa.js y estructura.js"],
+  ["Pino radiata G2: Ff 5,4 · Fcn 2,5 · E 8.900 MPa", "NCh1198:2014 (INFOR, madera21.cl)"],
+  ["2x4 cepillado 41 × 90 mm", "NCh2824 (misma lámina)"],
+  ["Largo sin alzaprimas: 2,51 m (3 o más vanos) y 2,45 m (2 vanos) con 8,65 cm sobre la cresta", "ficha Instadeck"],
+  ["Carga de montaje de la placa: 100 kg/m² o 200 kg puntuales", "ficha Instadeck pág. 2, nota 1"]
+ ],
+
+ "supuestos": [
+  ["Hormigón fresco 25 kN/m³; trabajo 150 kg/m² (control con 245 de ACI 347)", "cálculo"],
+  ["Puntal típico: 2,2–4,0 m, tubos ø60/ø48, placa base 150 × 150, cabezal en U de 150 con alas de 60 × 5", "dibujo, hasta tener la ficha"],
+  ["Capacidad del puntal típico ≈ 1.200 kgf admisibles (clase D de EN 1065: 20 kN ÷ 1,5 ÷ 1,1)", "de memoria"],
+  ["Carga de diseño por puntal 1,25·w·a; la línea como apoyo rígido en la revisión", "revisión"],
+  ["Arriostre: cruces con abrazaderas, a lo largo y de lado, en las puntas y cada ≤ 3,6 m", "propuesta; manda la empresa"],
+  ["Área 1: terreno a −0,70, compactado (k ≈ 50 MN/m³)", "sin medir"],
+  ["Madera de la solera seca y timbrada G2", "cálculo"],
+  ["Clavos: 3\" ≈ 3,5×75, 3½\" ≈ 3,9×90, 4\" ≈ 4,3×100 mm", "medidas usuales"],
+  ["Reserva de puntales: 5 %", "propuesta"]
+ ],
+
+ "por_confirmar": [
+  ["Capacidad del puntal arrendado extendido a {H} m: ≥ {cap} kgf admisibles (pedir su tabla)", "empresa de arriendo"],
+  ["Ancho interior del cabezal en U: ≥ 82 mm (si es más, calzar) y espesor de sus alas", "empresa de arriendo"],
+  ["Base: ¿radier, piso terminado o terreno? Área 1 en terreno → {n1} puntales de ≈ {H1} m (otro modelo, más largo)", "Gabriel"],
+  ["Apoyo de la placa sobre la solera: {apoyo}", "Cintac"],
+  ["Madera G2 timbrada y seca (la de barraca sin timbre no tiene grado)", "barraca"],
+  ["Retiro: no antes de 14 días y con probetas ≥ 75 % de 25 MPa", "ingeniero"],
+  ["No acopiar material sobre la losa alzaprimada", "ingeniero"]
+ ]
+}

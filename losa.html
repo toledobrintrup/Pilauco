@@ -99,6 +99,11 @@ tbody tr[data-area]{cursor:pointer}
 tbody tr[data-area]:hover td,tbody tr.on td{background:var(--hi-soft)}
 td.dif{color:var(--mal);font-weight:600}
 td.okv{color:var(--ok)}
+/* sección 05 (alzaprimas, resumen de la pestaña Alzaprimas): letra mínima 14 px y encabezados que se parten en vez de cortar la tabla */
+#apoyos p,#apoyos table,#apoyos .small,#apoyos .fuente{font-size:14px}
+#apoyos th{font-size:14px;text-transform:none;letter-spacing:0;white-space:normal;vertical-align:bottom}
+#apoyos td.r,#apoyos td.c{white-space:nowrap}
+#apoyos .fuente{text-transform:none;letter-spacing:0}
 .sw{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:6px;border:1px solid rgba(0,0,0,.15)}
 figure{margin:14px 0 10px}
 figure svg{display:block;width:100%;height:auto}
@@ -189,7 +194,7 @@ details.areas[open] summary::before{content:"▾ ";}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V117" data-vista="losa"></script>
+  <script src="menu.js?v=V118" data-vista="losa"></script>
   <h1>Losa colaborante <small>Entrepiso de 15 cm · marco C, placa Instadeck 0,8, pernos, malla C-188 y hormigón</small></h1>
   <span class="meta">Fuentes: planta estructura nivel 1 (rev. 08-04-2026), detalle del ingeniero (05-10-2026), lámina 11 de pernos (07-10-2026), fichas de Instadeck, pernos Nelson y mallas ACMA, y áreas marcadas en obra</span>
 </header>
@@ -323,17 +328,9 @@ details.areas[open] summary::before{content:"▾ ";}
 
 <section id="apoyos">
   <h2><span class="n">05</span>Alzaprimas</h2>
-  <div class="kvs">
-    <div class="k">Luz máxima</div><div class="v"><b>1,87 m sin apoyo</b> mientras el hormigón está fresco <span class="fuente man">ingeniero</span></div>
-    <div class="k">Regla</div><div class="v">cada vano entre vigas receptoras en espacios iguales de 1,87 m o menos · una línea de alzaprimas entre espacio y espacio</div>
-    <div class="k">Su ejemplo</div><div class="v">6,88 m entre pilares → 4 espacios de 1,72 m = 3 alzaprimas</div>
-    <div class="k">Posición</div><div class="v">vanos de 1,87 a 3,74 m → línea <b>al centro</b> del vano · más largos → en los tercios</div>
-    <div class="k">Cada línea</div><div class="v"><b>solera</b> (tablón o perfil) bajo la placa, reparte el apoyo bajo todas las planchas · sobre <b>puntales repartidos a lo largo</b>, también al centro del paño</div>
-    <div class="k">Puntales</div><div class="v">separación no indicada · el modelo usa <b>1,0 m como máximo</b> <span class="fuente calc">referencia</span>, por confirmar con el ingeniero</div>
-  </div>
-  <div class="aviso" id="aviso-alz"></div>
+  <p id="txt-alz-resumen"></p>
   <div class="tw"><table class="small" id="tabla-apoyos"></table></div>
-  <ul class="puntos" id="txt-apoyos"></ul>
+  <p class="small sub" id="txt-apoyos"></p>
 </section>
 
 <section id="malla">
@@ -373,15 +370,26 @@ details.areas[open] summary::before{content:"▾ ";}
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=V117"></script>
+<script src="nav3d.js?v=V118"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
-<script src="placa3d.js?v=V117"></script>
-<script src="estructura.js?v=V117"></script>
-<script src="losa.js?v=V117"></script>
+<script src="placa3d.js?v=V118"></script>
+<script src="estructura.js?v=V118"></script>
+<script src="losa.js?v=V118"></script>
+<script src="alzaprimas.js?v=V118"></script>
 <script>
 (function () {
 'use strict';
 const L = DATA_LOSA, E = DATA_ESTRUCTURA;
+// alzaprimas: los tramos (recortados 1 cm antes del ala de la viga) y los puntales salen de la pestaña Alzaprimas
+// (alzaprimas.js: puntales metálicos arrendados con solera de dos 2x4, Gabriel 23-10-2026), para que la planta, la tabla
+// y el 3D de esta página muestren lo mismo que esa pestaña
+const ALZ_A = typeof DATA_ALZAPRIMAS !== 'undefined' ? DATA_ALZAPRIMAS : null;
+if (ALZ_A) {
+  (L.alzaprimas || []).forEach(l => { const n = ALZ_A.lineas.find(x => x.area === l.area && x.pos === l.pos);
+    if (n) Object.assign(l, { id: n.id, a: n.a, tramos: n.tramos.map(t => [t.t0, t.t1]), puntales: n.tramos.flatMap(t => t.puntales) }); });
+  const T = ALZ_A.totales, c = v => String(v).replace('.', ','), mi = v => Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  L.notas = (L.notas || []).map(n => /^<b>Alzaprimas\.<\/b>/.test(n) ? `<b>Alzaprimas.</b> Luz máxima de la placa sin apoyo 1,87 m (ingeniero; las vigas no se alzapriman): ${T.lineas} líneas en ${T.tramos} tramos. ${T.puntales} puntales metálicos arrendados a 55–80 cm con solera de dos 2x4 de canto; hasta ${mi(T.P_max)} kgf por puntal → pedir ≥ ${mi(T.capacidad)} kgf a ${c((T.H_trabajo / 100).toFixed(2))} m. Detalle en la <a href="alzaprimas.html">pestaña Alzaprimas</a>.` : n);
+}
 const $ = s => document.querySelector(s);
 const coma = (v, d) => (Math.round(v * Math.pow(10, d)) / Math.pow(10, d)).toFixed(d).replace('.', ',');
 const miles = v => Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -487,7 +495,7 @@ function maxFlecha(nVanos, et) {
     ['Marco perimetral', fm(LARGO_PZ, 1), `C 150×50×3: ${N_PZ} piezas entre pilares en ${L.marco.length} tramos · ≈ ${coma(LARGO_PZ / 100 * KG_M_C, 0)} kg <span class="fuente calc">calculado</span>`],
     ['Planchas Instadeck', N_PLANCHAS + ' planchas', `${coma(M2_PLACA, 1)} m² de placa · ≈ ${miles(M2_PLACA * PL.peso)} kg <span class="fuente calc">calculado</span>`],
     ['Pernos Nelson', L.pernos.length + ' pernos', `Ø19 × 5", vigas de la lámina 11 <span class="fuente man">ingeniero</span>; uno en cada valle <span class="fuente calc">ajustado</span>`],
-    ['Alzaprimas', (L.alzaprimas || []).reduce((t, l) => t + (l.puntales || []).length, 0) + ' puntales', `En ${(L.alzaprimas || []).length} líneas, al centro o en los tercios de cada vano (luz máx. 1,87 m) <span class="fuente man">ingeniero</span>; a 1,0 m entre sí a lo largo de la línea <span class="fuente calc">referencia</span>`],
+    ['Alzaprimas', (L.alzaprimas || []).reduce((t, l) => t + (l.puntales || []).length, 0) + ' puntales', ALZ_A ? `En ${(L.alzaprimas || []).length} líneas, al centro o en los tercios de cada vano (luz máx. 1,87 m) <span class="fuente man">ingeniero</span>; metálicos arrendados a 55–80 cm con solera de dos 2x4 · <a href="alzaprimas.html">pestaña Alzaprimas</a>` : `En ${(L.alzaprimas || []).length} líneas · ver la <a href="alzaprimas.html">pestaña Alzaprimas</a>`],
     ['Placa', '0,8 mm · 63,5 mm', `Avance útil 950 mm · ${coma(PL.peso, 2)} kg/m² · acero G37 galv. G-90 <span class="fuente man">ficha</span>`],
     ['Malla C-188', MA_N + ' paneles', `2,60 × 5,00 m, Ø6 a 15 cm; ${MA_CORT} van cortados · ≈ ${miles(MA_N * (L.malla ? L.malla.kg_panel : 39.03))} kg <span class="fuente calc">calculado</span>`],
     ['Hormigón', '≈ ' + coma(VOL_HORM, 1) + ' m³', `Losa de ${coma(ESP, 0)} cm en ${coma(SUP / 1e4, 1)} m² (${coma(M2_PLACA, 1)} m² con placa), sin pérdidas <span class="fuente calc">calculado</span>`],
@@ -732,26 +740,15 @@ dibujarPlaca();
   }).join('');
   const tot = ALZ.length, totT = ALZ.reduce((t, l) => t + l.tramos.length, 0), totM = ALZ.reduce((t, l) => t + l.tramos.reduce((u, q) => u + q[1] - q[0], 0), 0);
   const totP = ALZ.reduce((t, l) => t + (l.puntales || []).length, 0);
-  $('#tabla-apoyos').innerHTML = `<thead><tr><th>Área</th><th>Vanos entre vigas receptoras (m) → espacios</th><th class="c">Líneas</th><th class="r">Solera</th><th class="c">Puntales</th><th class="r">Máx. por flecha</th></tr></thead><tbody>${filas}
+  $('#tabla-apoyos').innerHTML = `<thead><tr><th>Área</th><th>Vanos entre vigas (m) → espacios</th><th class="c">Líneas</th><th class="r">Solera</th><th class="c">Puntales</th><th class="r">Máx. por flecha</th></tr></thead><tbody>${filas}
     <tr><td><b>Total</b></td><td></td><td class="c"><b>${tot}</b> <span class="sub">(${totT} tramos)</span></td><td class="r"><b>${fm(totM, 1)}</b></td><td class="c"><b>${totP}</b></td><td></td></tr></tbody>`;
-  $('#txt-apoyos').innerHTML = `<li><b>Líneas:</b> paralelas a las vigas receptoras, bajo la placa · 3D: capa <b>Alzaprimas</b> · bajo una viga, la solera se corta en dos tramos.</li>
-    <li><b>Renglones:</b> un área con planchas de vanos distintos (área 5: ejes 2–4 y 4–5) lleva un renglón por grupo.</li>
-    <li><b>Máx. por flecha:</b> distancia máxima entre apoyos de la losa terminada según la ficha (control de deformaciones, ${coma(ESP, 0)} cm de espesor) · ninguna luz la pasa.</li>
-    <li><b>Puntales:</b> a 1,0 m como máximo a lo largo de cada solera (referencia) · a 15 cm de cada extremo de tramo.</li>`;
+  $('#txt-apoyos').innerHTML = `Máx. por flecha: distancia máxima entre apoyos de la losa terminada según la ficha (${coma(ESP, 0)} cm) · ninguna luz la pasa.`;
 })();
 
-(function avisoAlz() {
-  const ALZ = L.alzaprimas || [], maxV = Math.max(0, ...ALZ.map(l => l.vano));
-  $('#aviso-alz').innerHTML = `<b>Por confirmar con el ingeniero</b> (con sus respuestas se rehace al tiro).<ul class="puntos" style="margin:4px 0 0;font-size:inherit">
-    <li><b>Modelo:</b> alzaprimas bajo la <b>placa</b>, entre las vigas que la reciben.</li>
-    <li><b>A favor:</b> ${fm(L.luz_max_alzaprima, 2)} es justo el largo máximo sin alzaprimas de la ficha de Instadeck para un vano con 8 cm de hormigón sobre la cresta (losa e = 14,35 del plano) · con la losa de ${coma(ESP, 0)} cm la ficha baja a ${fm(maxSinAlz(1, HC), 2)}.</li>
-    <li><b>En contra:</b> su ejemplo mide 6,88 m <b>«entre pilar y pilar»</b>, y entre pilares van vigas, no placa · ningún vano de placa de esta losa pasa de ${fm(maxV, 2)}.</li></ul>
-  <ol class="small" style="margin:6px 0 0;padding-left:20px">
-    <li>¿Las alzaprimas a ${fm(L.luz_max_alzaprima, 2)} son para la placa o para las vigas, mientras se hormigona?</li>
-    <li>Si son para las vigas, ¿para cuáles?</li>
-    <li>¿Cada cuánto van los puntales a lo largo de cada línea? El modelo usa ${fm(L.puntal_sep_max, 1)}.</li>
-    <li>¿Qué solera usar? El modelo pone madera de 2×6" de canto.</li>
-  </ol>`;
+(function resumenAlz() {
+  const T = ALZ_A && ALZ_A.totales;
+  $('#txt-alz-resumen').innerHTML = T ? `<b>${T.lineas} líneas</b> bajo la placa, al centro o en los tercios de cada vano (luz máx. sin apoyo ${fm(L.luz_max_alzaprima, 2)} <span class="fuente man">ingeniero</span>; las vigas no se alzapriman) · <b>${T.puntales} puntales metálicos arrendados</b> (+${T.reserva} de reserva) a 55–80 cm, con solera de dos 2x4 de canto (${coma(T.solera_m, 1)} m) · hasta <b>${miles(T.P_max)} kgf</b> por puntal → pedir ≥ ${miles(T.capacidad)} kgf a ${fm(T.H_trabajo, 2)}.<br><a href="alzaprimas.html">Planta, alzado, corte, carga por línea y materiales: pestaña Alzaprimas →</a>`
+    : 'Ver la <a href="alzaprimas.html">pestaña Alzaprimas</a>.';
 })();
 
 (function malla() {
@@ -1135,7 +1132,7 @@ function iniciar3D() {
   const gAlz = new T.Group(); scene.add(gAlz);
   const gAlzIn = new T.Group(); gAlz.add(gAlzIn);
   MAT.madera = std(dark ? 0xC9A06A : 0xB58650, { roughness: 0.85, metalness: 0 });
-  const SOL_B = 0.05, SOL_H = 0.15, Y_SOL = Z0 / 100 - SOL_H;   // solera de 2×6" de canto (referencia)
+  const SOL_B = 0.082, SOL_H = 0.09, Y_SOL = Z0 / 100 - SOL_H;   // solera de dos 2x4 de canto (82 × 90, pestaña Alzaprimas)
   const geoBase = new T.BoxGeometry(0.15, 0.008, 0.15); geoBase.translate(0, 0.004, 0);
   const geoExt = new T.CylinderGeometry(0.03, 0.03, Y_SOL * 0.58, 12); geoExt.translate(0, 0.008 + Y_SOL * 0.29, 0);
   const geoInt = new T.CylinderGeometry(0.024, 0.024, Y_SOL * 0.44, 12); geoInt.translate(0, Y_SOL * 0.54, 0);
@@ -1149,7 +1146,7 @@ function iniciar3D() {
       const sol = new T.Mesh(new T.BoxGeometry(ns ? largo : SOL_B, SOL_H, ns ? SOL_B : largo), MAT.madera);
       sol.position.set(ns ? (t0 + t1) / 200 : l.pos / 100, Y_SOL + SOL_H / 2, ns ? l.pos / 100 : (t0 + t1) / 200);
       const pun = (l.puntales || []).filter(c => c >= t0 - 0.5 && c <= t1 + 0.5);
-      const info = `<b>Línea de alzaprimas</b> · área ${l.area}${l.tramos.length > 1 ? `, tramo ${j + 1} de ${l.tramos.length}` : ''}<div class="d">Solera de ${fm(t1 - t0, 2)} bajo los valles de la placa, sobre ${pun.length} alzaprimas telescópicas. Va ${l.espacios === 2 ? 'al centro' : 'en un tercio'} de un vano de ${fm(l.vano, 2)} (${l.espacios} espacios de ${fm(l.vano / l.espacios, 2)}; máximo sin apoyo ${fm(L.luz_max_alzaprima, 2)}, indicación del ingeniero).<br><b>Por confirmar con el ingeniero</b>: si las alzaprimas son para la placa o para las vigas.</div>`;
+      const info = `<b>Línea de alzaprimas${l.id ? ' ' + l.id : ''}</b> · área ${l.area}${l.tramos.length > 1 ? `, tramo ${j + 1} de ${l.tramos.length}` : ''}<div class="d">Solera de dos 2x4 de ${fm(t1 - t0, 2)} bajo los valles de la placa, sobre ${pun.length} puntales metálicos arrendados${l.a ? ` @${l.a}` : ''}. Va ${l.espacios === 2 ? 'al centro' : 'en un tercio'} de un vano de ${fm(l.vano, 2)} (${l.espacios} espacios de ${fm(l.vano / l.espacios, 2)}; máximo sin apoyo ${fm(L.luz_max_alzaprima, 2)}, indicación del ingeniero).<br>Detalle en la pestaña Alzaprimas.</div>`;
       sol.userData.info = info; gAlzIn.add(sol);
       pun.forEach(c => PUNT.push({ x: ns ? c / 100 : l.pos / 100, z: ns ? l.pos / 100 : c / 100, ns, info }));
     });

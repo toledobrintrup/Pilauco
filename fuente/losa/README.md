@@ -21,8 +21,14 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
 - **Alzaprimas** con el criterio del ingeniero: luz máxima sin apoyo 1,87 m; cada vano entre vigas
   receptoras se divide en espacios iguales y entre espacio y espacio va una línea: 17 líneas, que en
   terreno son 25 tramos de solera porque algunas pasan bajo una viga.
-  Falta que el ingeniero confirme si las alzaprimas eran para la placa o para las vigas: su ejemplo habla de
-  6,88 m "entre pilar y pilar".
+  Gabriel (23-10-2026): el 1,87 m es la luz de la placa sin apoyo (entre vigas o entre viga y línea); las vigas no se
+  alzapriman.
+- **Alzaprimas arrendadas** (`alzaprimas.html`, borrador para el ingeniero, 23-10-2026): en las mismas 17 líneas,
+  puntales metálicos de arriendo (regulables con tornillo central, placa base y cabezal en U) con solera de dos 2x4 de
+  canto (Gabriel: "serán las que se arriendan, con un tornillo central"). La separación de puntales de cada línea
+  (55 a 80 cm) la manda la flexión de la solera (cálculo y revisión, `alzaprimas.json`); la carga máxima por puntal
+  fija la capacidad que hay que pedir a la empresa. `losa.html` toma de `alzaprimas.js` los tramos y puntales de cada
+  línea (planta, tabla y 3D) y en su sección 05 resume y enlaza a la pestaña.
 - **Malla ACMA C-188** (detalle del ingeniero) con su cara superior a 2,5 cm de la cara de la losa: paneles de
   2,60 × 5,00 m (18 barras Ø6 de 5,00 m y 33 de 2,60 m, a 15 cm), traslapados según la regla de ACMA (NCh 219: 4
   alambres de cada malla y 30 cm entre los últimos; 50 cm en los costados y 65 en las puntas; el ingeniero no lo
@@ -78,6 +84,20 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
   del marco y hueco de escalera, en cm en el marco de la app.
 - `placa.json` — sección de la placa y tablas de la ficha; se arma con `placa_desde_ficha.py`.
 - `pernos_ingeniero.json` — pernos de la lámina 11 en cm; se arma con `pernos_desde_plano.py "Plano 11, ubicacion pernos.pdf" pernos_ingeniero.json`.
+- `alzaprimas.json` — diseño de las alzaprimas: puntal metálico de arriendo (medidas típicas y capacidad: SUPUESTO
+  hasta tener la ficha de la empresa), solera de dos 2x4, cargas, alturas (3,71 m de trabajo), base, la separación de
+  puntales de cada línea con su porqué (cálculo con NCh 1198 y revisión independiente, 23-10-2026), datos, supuestos y
+  lo que falta confirmar.
+- `generar_alzaprimas_js.py` — escribe `alzaprimas.js` (lo leen `alzaprimas.html` y `losa.html`) desde `losa.js`,
+  `estructura.js` y `alzaprimas.json`; desde la raíz: `python3 fuente/losa/generar_alzaprimas_js.py`. Recorta cada
+  tramo de solera 1 cm antes del ala de la viga, reparte los puntales (el primero a 15 cm de cada punta, los demás
+  iguales y a no más de la separación de la línea), ubica las uniones de la solera (piezas de 3,20 m, las dos sobre el
+  mismo puntal, nunca en el 1.º ni el 2.º desde cada punta), calcula la carga por puntal (1,25·w·a de diseño, con el
+  factor de la revisión tomando la línea como apoyo rígido; y la reacción de cada puntal con su ubicación real, que
+  tiene que quedar bajo la de diseño) y la capacidad a pedir, el D/C de la solera y su separación máxima, el apoyo de
+  la placa comparado con la ficha (3 o más vanos y 2), la base (radier, tablón sobre piso terminado, durmiente doble
+  sobre terreno) y las cantidades (puntales con reserva, aparte los del área 1 si apoyan en terreno; 2x4, tablas de la
+  base, cruces de arriostre supuestas y clavos). Correrlo de nuevo cada vez que cambie `losa.js`.
 - `generar_losa_js.py` — escribe `losa.js`: `python3 generar_losa_js.py losa.json placa.json ../../losa.js textos.json` (`textos.json` trae las diferencias y notas que muestra la página).
 
 La ficha técnica, el plano y la foto marcada no están en el repositorio (el plano lleva datos
