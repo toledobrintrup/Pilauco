@@ -102,7 +102,7 @@ body.embed .norte3d{top:52px}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V118" data-vista="3d"></script>
+    <script src="menu.js?v=V119" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -182,17 +182,17 @@ body.embed .norte3d{top:52px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V118"></script>
-<script src="data.js?v=V118"></script>
-<script src="casa_vanos.js?v=V118"></script>
-<script src="estructura.js?v=V118"></script>
-<script src="losa.js?v=V118"></script>
-<script src="sitio.js?v=V118"></script>
-<script src="sitio3d.js?v=V118"></script>
-<script src="estudio_estructura.js?v=V118"></script>
-<script src="mobiliario3d.js?v=V118"></script>
-<script src="cotas3d.js?v=V118"></script>
-<script src="goku3d.js?v=V118"></script>
+<script src="nav3d.js?v=V119"></script>
+<script src="data.js?v=V119"></script>
+<script src="casa_vanos.js?v=V119"></script>
+<script src="estructura.js?v=V119"></script>
+<script src="losa.js?v=V119"></script>
+<script src="sitio.js?v=V119"></script>
+<script src="sitio3d.js?v=V119"></script>
+<script src="estudio_estructura.js?v=V119"></script>
+<script src="mobiliario3d.js?v=V119"></script>
+<script src="cotas3d.js?v=V119"></script>
+<script src="goku3d.js?v=V119"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -630,7 +630,7 @@ body.embed .norte3d{top:52px}
     // escalera esquemática: una rampa de peldaños
     const esc = H.escalera, tr = esc.tramo || {y_arriba: esc.pts[2][1], y_abajo: esc.pts[0][1], largo: esc.largo, peldanos: 16}, n = tr.peldanos, dz = (esc.z_arriba - esc.z_abajo) / n, dy = tr.largo / n, haciaNorte = esc.baja_hacia === 'norte';
     for (let i = 0; i < n; i++){
-      // peldaño i contado desde arriba: si baja hacia el norte, el primero está en el extremo sur (descanso de entrada)
+      // peldaño i contado desde arriba: si baja hacia el norte, el primero está en el extremo sur (la entrada, junto al muro del eje B)
       const y0 = haciaNorte ? tr.y_arriba - (i + 1) * dy : tr.y_abajo + i * dy, zt = esc.z_arriba - (i + 1) * dz;
       const p = [[esc.pts[0][0], y0], [esc.pts[1][0], y0], [esc.pts[1][0], y0 + dy], [esc.pts[0][0], y0 + dy]];
       addH('escalera', ficha(prismaH(p, esc.z_abajo, zt + dz, matH), 'Escalera de hormigón al búnker', esc.nota));
@@ -813,10 +813,10 @@ body.embed .norte3d{top:52px}
     segs.push({a: [ext[0][0] + M, yB], b: [ext[1][0] - M, yB], e: M, nombre: 'tabique cafetería/estudio'});
     segs.push({a: [x4, yB + h], b: [x4, ext[2][1] - M], e: M, nombre: 'tabique estudio/baño-cabina-bodega'});
     // tabiques de la franja oriente, uno entre cada par de recintos vecinos (baño | cabina | bodega; sin cabina, baño | bodega)
-    const franja = ['bano', 'cabina', 'bodega'].filter(id => r[id]);
-    for (let i = 0; i + 1 < franja.length; i++){ const yT = (r[franja[i]][2][1] + r[franja[i + 1]][0][1]) / 2; segs.push({a: [x4 + h, yT], b: [ext[1][0] - M, yT], e: M, nombre: `tabique ${franja[i] === 'bano' ? 'baño' : franja[i]}/${franja[i + 1]}`}); }
-    // caja de escalera en hormigón armado (Gabriel): muro poniente dentro del 1,53 de la planta (23,3), hasta el tabique, con la puerta del
-    // descanso; y muro norte hacia la minicocina
+    const franja = ['distribuidor', 'bano', 'cabina', 'bodega'].filter(id => r[id]), nomR = id => id === 'bano' ? 'baño' : id;   // distribuidor desde el 24-10-2026
+    for (let i = 0; i + 1 < franja.length; i++){ const yT = (r[franja[i]][2][1] + r[franja[i + 1]][0][1]) / 2; segs.push({a: [x4 + h, yT], b: [ext[1][0] - M, yT], e: M, nombre: `tabique ${nomR(franja[i])}/${nomR(franja[i + 1])}`}); }
+    // caja de escalera en hormigón armado (Gabriel): muro poniente (23,3) hasta el tabique B, donde está la puerta desde el distribuidor
+    // (24-10-2026; antes, puerta en este muro y descanso); y muro norte hacia la minicocina
     const escD = D.hormigon.escalera, mE = escD.muro, mN = escD.muro_norte;
     const matMuroH = new THREE.MeshLambertMaterial({color: dark ? 0x8A8D93 : 0xB4B3AA, side: THREE.DoubleSide});
     segs.push({a: [(mE.pts[0][0] + mE.pts[1][0]) / 2, mE.pts[0][1]], b: [(mE.pts[0][0] + mE.pts[1][0]) / 2, mE.pts[2][1]], e: mE.espesor, nombre: 'muro de hormigón de la escalera', mat: matMuroH, sub: 'hormigón armado e=23 (propuesta)'});
@@ -902,8 +902,8 @@ body.embed .norte3d{top:52px}
       const mesh = new THREE.Mesh(geo, matCielo); mesh.userData.cieloEstudio = true;
       g.add(ficha(mesh, 'Cielo de ' + rc.nombre.split(' (')[0].toLowerCase(), `plano a ${((zC(rc.pts[0][1]) - z0) / 100).toFixed(2).replace('.', ',')} m${rc.cielo_z !== undefined ? ' (bajado: cabina)' : ' (Gabriel)'}; sobre él, el entretecho con las vigas y la pendiente del techo · bajo las vigas (propuesta)`));
     });
-    // escalera al búnker: 16 peldaños terminados, baranda en el borde sur del hueco y pasamanos en el muro
-    // tramo real (3,75 desde el descanso hacia el norte, sigue bajo la losa dentro del búnker); el hueco en la losa es más corto
+    // escalera al búnker: peldaños terminados y pasamanos en el muro de la caja
+    // tramo real (desde el muro del eje B hacia el eje A; el último metro sigue bajo la losa, dentro del búnker); el hueco en la losa es más corto
     const esc = D.hormigon.escalera, tr = esc.tramo || {y_arriba: esc.pts[2][1], y_abajo: esc.pts[0][1], largo: esc.largo, peldanos: 16}, n = tr.peldanos, dz = (esc.z_arriba - esc.z_abajo) / n, dy = tr.largo / n, haciaNorte = esc.baja_hacia === 'norte';
     for (let i = 0; i < n; i++){
       const y0 = haciaNorte ? tr.y_arriba - (i + 1) * dy : tr.y_abajo + i * dy, zt = esc.z_arriba - (i + 1) * dz;

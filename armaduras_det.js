@@ -43,7 +43,7 @@
     if (ids.every(id => /^LT-/.test(id)) && ids.length > 1) return 'superiores en L sobre los 4 muros (en A–B y en 1–5)';
     if (ids.every(id => /^LR-/.test(id))) return `suples ${ids.length > 1 ? 'superiores e inferiores' : ids[0] === 'LR-sup' ? 'superiores' : 'inferiores'} en las esquinas del hueco de la escalera`;
     const lf = { 'LF-inf-NS': 'malla inferior en A–B', 'LF-inf-EO': 'malla inferior en 1–5', 'LF-sup-NS': 'malla superior en A–B', 'LF-sup-EO': 'malla superior en 1–5',
-      LN: 'inferiores en A–B (luz corta)', LE: 'inferiores en 1–5', 'LT-NS': 'superiores en A–B, en L sobre los muros de los ejes A y B', 'LT-EO': 'superiores en 1–5, en L sobre los muros de los ejes 1 y 5',
+      LN: 'inferiores en A–B (luz corta)', LE: 'inferiores en 1–5', 'LT-NS': 'superiores en A–B, en L sobre los muros de los ejes A y B', 'LT-EO': 'superiores en 1–5, en L sobre los muros de los ejes 1 y 5', 'LT-NS16': 'superiores ø16 en A–B sobre el muro del eje B, junto a la viga de borde de la escalera',
       LS: 'superiores sobre la VHA del eje 3', 'LR-sup': 'suples superiores en las esquinas del hueco', 'LR-inf': 'suples inferiores en las esquinas del hueco',
       AN: 'horquillas 1+1 de las placas PLb', AP: 'pernos ø3/4" A36 de las placas PLc, con tuerca y golilla (no son A630)', AU: 'armadura de anclaje de los dados (4 verticales por dado)',
       AX: 'estribos extra bajo los pilares con cruz del sobrecimiento' };
@@ -61,12 +61,14 @@
   }
   function fuente(id) {   // [tipo, corto, detalle]: 'dato' = lo dibujó el ingeniero (láminas); 'propuesta' = revisión del 23-10-2026 o supuesto nuestro
     const REV = 'revisión 23-10-2026';
+    if (id === 'LT-NS16') return ['propuesta', 'escalera', 'escalera de 1,20 (24-10-2026): la viga de borde se empotra en el muro del eje B; ø16@15 en vez de ø12@15 en esos 1,20'];
     if (/^MV-.*-ext$/.test(id)) return ['propuesta', 'revisión', `${REV}: ø16@15 por fuera (lámina 01: DM ø12@15)`];
     if (/^MV-/.test(id)) return ['dato', 'L01 a-a', 'lámina 01, corte a-a: ø12@15; pata y gancho ajustados a la losa de fundación y a la losa de techo'];
     if (/^MH-/.test(id)) return ['propuesta', 'revisión', `${REV}: ø12@15 en las dos caras (lámina 01: ø10@20, no pasaba fisuras en las esquinas)`];
     if (/^MC-/.test(id)) return ['dato', 'L01 a-a', 'lámina 01, corte a-a: 2ø12 de coronamiento'];
     if (/^(LN|LE)$/.test(id)) return ['propuesta', 'revisión', `${REV}: losa e=25 con ø10@15 (lámina 03: e=20, ø10@20 / ø8@20, para 5 m de luz)`];
     if (/^(LT-|LS$|LR-)/.test(id)) return ['propuesta', 'revisión', `${REV}: superiores en L sobre los muros, sobre la VHA y suples en las esquinas del hueco`];
+    if (/^(VB-N|VHA-esc)-sup$/.test(id)) return ['propuesta', 'borde hueco', 'vigas de borde del hueco de la escalera (propuesta); 3ø16 arriba desde la escalera de 1,20 (24-10-2026)'];
     if (/^VB-|^VHA-esc-/.test(id)) return ['propuesta', 'borde hueco', 'vigas de borde del hueco de la escalera (propuesta), con la armadura de la VHA'];
     if (/^(VHA|CF|DA)-.*-est$/.test(id)) return ['propuesta', 'ganchos 135°', 'diámetro de la lámina; paso y ganchos de 135° propuestos (revisión 23-10-2026)'];
     if (/^VHA-/.test(id)) return ['dato', 'L03', `lámina 03, VHA: 3ø12 + 2ø10 + 3ø16; alto 45 por la ${REV}`];

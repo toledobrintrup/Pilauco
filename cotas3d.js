@@ -187,11 +187,12 @@
     // (van antes que los recintos para saber qué caras interiores quedan ocupadas)
     {
       const f = 'vanos';
-      const NORMAL = { norte: N, sur: S, oriente: EST, poniente: OES, 'tabique B': N, 'tabique 4': OES };
+      const NORMAL = { norte: N, sur: S, oriente: EST, poniente: OES, 'tabique B': N, 'tabique 4': OES, 'tabique distribuidor': S };
       const FIN = {
         norte: [x0, x1], sur: [x0, x1], oriente: [y0, y1], poniente: [y0, y1],
         'tabique B': rec.cafeteria ? [rec.cafeteria.x0, rec.cafeteria.x1] : [x0 + M, x1 - M],
         'tabique 4': rec.estudio ? [rec.estudio.y0, rec.estudio.y1] : [y0 + M, y1 - M],
+        'tabique distribuidor': rec.bano ? [rec.bano.x0, rec.bano.x1] : [x0 + M, x1 - M],
       };
       // caras de cada muro [cara baja, cara alta] en la coordenada perpendicular, sacadas del edificio y de los
       // recintos (sitio.js): así la cota queda pegada al muro dibujado aunque el a/b del vano venga desfasado
@@ -200,9 +201,10 @@
         norte: [y0, y0 + M], sur: [y1 - M, y1], oriente: [x1 - M, x1], poniente: [x0, x0 + M],
         'tabique B': rec.cafeteria && rec.estudio ? [rec.cafeteria.y1, rec.estudio.y0] : null,
         'tabique 4': rec.estudio && rec.bano ? [rec.estudio.x1, rec.bano.x0] : null,
+        'tabique distribuidor': rec.distribuidor && rec.bano ? [rec.distribuidor.y1, rec.bano.y0] : null,
       };
-      // muro de la escalera (23,3 dentro del 1,53): su puerta se acota por el lado del descanso (oriente), donde no
-      // hay otras cotas; por el lado de la cafetería está la de la puerta del baño
+      // muro de la escalera (23,3): desde el 24-10-2026 no tiene puerta (se entra desde el distribuidor por el tabique B);
+      // si vuelve a tener una, se acota por el lado de la escalera, donde no hay otras cotas
       if (muroEsc) { NORMAL['muro escalera'] = EST; FIN['muro escalera'] = [muroEsc.y0, muroEsc.y1]; CARAS['muro escalera'] = [muroEsc.x0, muroEsc.x1]; }
       const lugar = mu => /^tabique/.test(mu) ? mu : mu === 'muro escalera' ? 'muro de la escalera' : 'fachada ' + mu;
       const porMuro = {};

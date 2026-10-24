@@ -29,19 +29,11 @@
      225
     ],
     [
-     886.7,
+     896.7,
      225
     ],
     [
-     886.7,
-     522
-    ],
-    [
-     1050,
-     522
-    ],
-    [
-     1050,
+     896.7,
      645
     ],
     [
@@ -49,7 +41,7 @@
      645
     ]
    ],
-   "dato": "10,25 x 6,20 entre muros de 25 terminado (creció desde 10,05 x 6,00 para que el búnker de abajo mida 10,05 x 6,00 con su tabique de 10; Gabriel, 14-10-2026, opción 1); se descuenta la caja de la escalera (muro de 23,3 + hueco 1,30 x 2,74 + muro de 23 hacia el eje A) contra el muro del eje 5"
+   "dato": "10,25 x 6,20 entre muros de 25 terminado (creció desde 10,05 x 6,00 para que el búnker de abajo mida 10,05 x 6,00 con su tabique de 10; Gabriel, 14-10-2026, opción 1); se descuenta la caja de la escalera (muro de 23,3 + hueco 1,20 x 3,97 + muro de 23 hacia el eje A; sin descanso desde el 23-10-2026) contra el muro del eje 5"
   },
   {
    "id": "escalera",
@@ -57,7 +49,7 @@
    "tipo": "hall",
    "pts": [
     [
-     910,
+     920,
      248
     ],
     [
@@ -66,14 +58,14 @@
     ],
     [
      1040,
-     522
+     645
     ],
     [
-     910,
-     522
+     920,
+     645
     ]
    ],
-   "dato": "hueco libre de 1,30 x 2,74 entre el muro de 23,3 (hacia el eje 4) y el tabique de 10 del muro del eje 5 del búnker; el muro de 23 hacia el eje A va a 2,00 de la cara interior del muro del eje A; se entra por el descanso del lado del eje B (1,30 x 1,23)"
+   "dato": "hueco libre de 1,20 x 3,97 entre el muro de 23,3 (hacia el eje 4) y el tabique de 10 del muro del eje 5 del búnker, hasta la cara del muro del eje B; el muro de 23 hacia el eje A va a 2,00 de la cara interior del muro del eje A; se entra desde el distribuidor por el eje B (puerta con llave) y se baja hacia el eje A, sin descanso (Gabriel con el ingeniero, 23-10-2026: escalera con el vano más largo, de 1,20 de ancho, y distribuidor de 1,20 para entrar al baño y a la escalera; la cabina y la bodega pierden 0,725 cada una (el tabique nuevo es de 25, como los demás))"
   },
   {
    "id": "estudio",
@@ -100,9 +92,9 @@
    "dato": "7,50 x 10,50 entre muros de 25 terminado (Gabriel dio 7,30 x 9,00: creció 20 a lo ancho por el tabique del búnker y 1,50 a lo largo el 14-10-2026 para que la bodega no quede chica; los parlantes van en el muro del eje E)"
   },
   {
-   "id": "bano",
-   "nombre": "Baño",
-   "tipo": "bano",
+   "id": "distribuidor",
+   "nombre": "Distribuidor",
+   "tipo": "hall",
    "pts": [
     [
      800,
@@ -114,14 +106,38 @@
     ],
     [
      1050,
-     860
+     790
     ],
     [
      800,
-     860
+     790
     ]
    ],
-   "dato": "2,50 x 1,90 entre muros de 25 terminado (Gabriel, 14-10-2026: el baño de 2,50 x 4,10 'será como un baño turco'; la franja 4–5 se parte en baño, cabina y bodega); puerta desde la cafetería, ventana alta en la fachada del eje 5"
+   "dato": "2,50 x 1,20 entre muros de 25 terminado: se entra desde la cafetería por el eje B y reparte al baño y a la escalera del búnker (Gabriel con el ingeniero, 23-10-2026: escalera con el vano más largo, de 1,20 de ancho, y distribuidor de 1,20 para entrar al baño y a la escalera; la cabina y la bodega pierden 0,725 cada una (el tabique nuevo es de 25, como los demás))"
+  },
+  {
+   "id": "bano",
+   "nombre": "Baño",
+   "tipo": "bano",
+   "pts": [
+    [
+     800,
+     815
+    ],
+    [
+     1050,
+     815
+    ],
+    [
+     1050,
+     1005
+    ],
+    [
+     800,
+     1005
+    ]
+   ],
+   "dato": "2,50 x 1,90 entre muros de 25 terminado (Gabriel, 14-10-2026: el baño de 2,50 x 4,10 'será como un baño turco'; la franja 4–5 se parte en baño, cabina y bodega); puerta desde el distribuidor, ventana alta en la fachada del eje 5; el 23-10-2026 se corrió 1,45 hacia el eje E, igual de grande, para dejar el distribuidor"
   },
   {
    "id": "cabina",
@@ -130,23 +146,23 @@
    "pts": [
     [
      800,
-     885
+     1030
     ],
     [
      1050,
-     885
+     1030
     ],
     [
      1050,
-     1265
+     1337.5
     ],
     [
      800,
-     1265
+     1337.5
     ]
    ],
    "cielo_cm": 300.0,
-   "dato": "para voz y guitarra acústica seca: 2,50 x 3,80 entre muros de 25 terminado y cielo bajado a 3,00 (proporción 1 : 1,5 : 1,2, sin dos medidas iguales); ciega: sin ventana al exterior ni al estudio (Gabriel, 14-10-2026); al medio de la franja, con la bodega de colchón contra el ruido del baño; tabiques dobles dentro de los 25 (dos bastidores separados, lana de 10, doble placa por cara); puerta acústica maciza con doble burlete hacia el estudio, en el extremo junto al eje C (lejos de la posición de escucha); por dentro absorción gruesa y trampas en las esquinas; inyección de aire silenciosa por el plenum de 1,00 sobre el cielo"
+   "dato": "para voz y guitarra acústica seca: 2,50 x 3,075 entre muros de 25 terminado (3,80 hasta el 23-10-2026, cuando perdió 0,725 por el distribuidor) y cielo bajado a 3,00; ciega: sin ventana al exterior ni al estudio (Gabriel, 14-10-2026); al medio de la franja, con la bodega de colchón contra el ruido del baño; tabiques dobles dentro de los 25 (dos bastidores separados, lana de 10, doble placa por cara); puerta acústica maciza con doble burlete hacia el estudio, en el extremo junto al eje C (lejos de la posición de escucha); por dentro absorción gruesa y trampas en las esquinas; inyección de aire silenciosa por el plenum de 1,00 sobre el cielo"
   },
   {
    "id": "bodega",
@@ -155,11 +171,11 @@
    "pts": [
     [
      800,
-     1290
+     1362.5
     ],
     [
      1050,
-     1290
+     1362.5
     ],
     [
      1050,
@@ -170,7 +186,7 @@
      1720
     ]
    ],
-   "dato": "2,50 x 4,30 entre muros de 25 terminado, entre la cabina y la fachada del eje E (Gabriel, 14-10-2026: +1,50 'a morir nomás'); puerta desde el estudio en su extremo junto al eje C2"
+   "dato": "2,50 x 3,575 entre muros de 25 terminado (4,30 hasta el 23-10-2026, cuando perdió 0,725 por el distribuidor), entre la cabina y la fachada del eje E (Gabriel, 14-10-2026: +1,50 'a morir nomás'); puerta desde el estudio en su extremo junto al eje C2"
   }
  ],
  "alturas": {

@@ -90,7 +90,7 @@ def armar(c):
                          dict(id='M-E', pts=rect(bx1 - MURO, by0 + MURO, bx1, by1 - MURO), lado='del eje 5')])
     losa = dict(espesor=LOSA, pts=rect(bx0, by0, bx1, by1), hueco=rect(ex_h, ey0, ex1 := c['ex1'], ey1), z_inf=Z(z_losa_inf), z_sup=Z(0),
                 armadura='inferior: ø10@15 en los dos sentidos (ganchos en los muros); superior: ø12@15 en L sobre los 4 muros (pata de 72 por la cara exterior del muro y 180 dentro de la losa) y ø10@20 L=160 sobre la VHA; '
-                         'vigas de borde 25/45 en los 3 lados del hueco de la escalera y suples ø10@15 arriba y abajo en 1,50 × 1,50 en sus esquinas; recubrimiento 2; G30',
+                         'vigas de borde 25/45 en los lados del hueco de la escalera hacia el eje 4 y hacia el eje A (el del eje B es el muro) y suples ø10@15 arriba y abajo en 1,50 × 1,50 en sus 2 esquinas libres; recubrimiento 2; G30',
                 fuente='revisión 23-10-2026: la losa de 20 de la lámina 03 rev H (L001/L002, diseñada para 5,00 m) no pasaba con 6,45 m; ahora e=25 y continua con los muros')
     piso = None; relleno_b = None   # sin radier ni relleno desde el 15-10-2026: el piso es la cara superior de la losa de fundación
     # losa de fundación armada e=30 bajo todo el búnker, unida a los muros y sobresaliendo 37,5 (ingeniero vía Gabriel, 15-10-2026).
@@ -115,11 +115,15 @@ def armar(c):
     vigas = [dict(id='VHA-3', nombre=NV, pts=rect(x3 - 12.5, by0 + MURO, x3 + 12.5, by1 - MURO), z_inf=zv_inf, z_sup=zv_sup, armadura=arm_v,
                   d=f'viga bajo la losa en el eje 3, de muro a muro ({by1 - by0 - 2 * MURO:.0f})', fuente='lámina 03 rev H, detalle VHA 25/40; 25/45 y estribos @15 de la revisión del 23-10-2026'),
              dict(id='VHA-esc', nombre=f'{NV} de borde', pts=rect(ex0, ey0 - 25, ex_h, ey1), z_inf=zv_inf, z_sup=zv_sup, armadura=arm_v,
-                  d='viga de borde del hueco de la escalera en su lado hacia el eje 4, bajo el muro de la caja; apoya en las vigas de borde de los lados A y B del hueco', fuente='revisión 23-10-2026'),
+                  d='viga de borde del hueco de la escalera en su lado hacia el eje 4, bajo el muro de la caja; apoya en la viga de borde del lado A y en el muro del eje B', fuente='revisión 23-10-2026'),
              dict(id='VB-N', nombre=f'{NV} de borde', pts=rect(ex_h, ey0 - 25, bx1 - MURO, ey0), z_inf=zv_inf, z_sup=zv_sup, armadura=arm_v,
-                  d='viga de borde del hueco de la escalera en su lado hacia el eje A, bajo el muro de la caja de ese lado, de la VHA de borde al muro del eje 5', fuente='revisión 23-10-2026'),
-             dict(id='VB-S', nombre=f'{NV} de borde', pts=rect(ex0, ey1, bx1 - MURO, ey1 + 25), z_inf=zv_inf, z_sup=zv_sup, armadura=arm_v,
-                  d='viga de borde del hueco de la escalera en su lado hacia el eje B (recibe el arranque de la escalera), de la VHA de borde al muro del eje 5', fuente='revisión 23-10-2026')]
+                  d='viga de borde del hueco de la escalera en su lado hacia el eje A, bajo el muro de la caja de ese lado, de la VHA de borde al muro del eje 5', fuente='revisión 23-10-2026')]
+    if ey1 < by1 - MURO - 1:   # hasta el 23-10-2026 el hueco terminaba antes del muro del eje B y llevaba viga de borde también en ese lado
+        vigas.append(dict(id='VB-S', nombre=f'{NV} de borde', pts=rect(ex0, ey1, bx1 - MURO, ey1 + 25), z_inf=zv_inf, z_sup=zv_sup, armadura=arm_v,
+                          d='viga de borde del hueco de la escalera en su lado hacia el eje B, de la VHA de borde al muro del eje 5', fuente='revisión 23-10-2026'))
+    hueco_al_muro = ey1 >= by1 - MURO - 1   # el hueco llega a la cara del muro del eje B: ese muro hace de borde (23-10-2026)
+    for v_ in vigas:
+        if hueco_al_muro and v_['id'] in ('VHA-esc', 'VB-N'): v_['armadura'] = arm_v.replace('3ø12 arriba', '3ø16 arriba')   # la VHA de borde se empotra en el muro del eje B
 
     # ---------- fuera del búnker: sobrecimiento + cimiento corrido bajo las fachadas; CF 25/50 bajo los tabiques con pilares, hasta la cara del radier ----------
     z_sc_inf = -SOBRECIM[1]; z_ci_inf = z_sc_inf - CIMIENTO[1]; z_cemp_inf = z_ci_inf - EMPLANTILLADO   # −75, −100, −110
@@ -288,8 +292,9 @@ def armar(c):
                 esquina = nm in ('N', 'S') and (X_ < bx0 + MURO or X_ > bx1 - MURO)   # en la esquina el gancho chocaría con el muro perpendicular: va recta
                 zg_ = -6.0 if nm in ('N', 'S') and abs(X_ - x3) < 12.5 else zg   # bajo la VHA-3 el gancho pasa bajo la rama superior de sus estribos, entre sus 3ø12
                 hx_g, hy_g = hx, hy
-                if nm == 'E' and not ext and ey0 - 8 <= Y_ <= ey1 + 8:   # con margen: la vertical puede correrse unos cm al revisar los choques
-                    hx_g, hy_g, zg_ = -hx, -hy, zg - 1.4   # frente al hueco de la escalera el gancho vuelve hacia el muro, bajo el de la vertical exterior
+                frente_hueco = (nm == 'E' and ey0 - 8 <= Y_ <= ey1 + 8) or (nm == 'S' and ey1 >= by1 - MURO - 1 and ex_h - 8 <= X_ <= ex1 + 8)   # con margen: la vertical puede correrse unos cm al revisar los choques
+                if frente_hueco and not ext:
+                    hx_g, hy_g, zg_ = -hx, -hy, zg - (2.8 if nm == 'S' else 1.4)   # frente al hueco de la escalera el gancho vuelve hacia el muro, bajo el de la vertical exterior (en el muro B, también bajo las ø16 de la VHA de borde)
                 barrasV.append([(X_ + gx, Y_ + gy, zp_), (X_, Y_, zp_), (X_, Y_, zg_)] + ([] if esquina else [(X_ + hx_g, Y_ + hy_g, zg_)]))
             fam(f'MV-{nm}-{cara[:3]}', 'muro del búnker', dV, None, polis=barrasV, d=f'verticales ø{dV}@15 del muro del eje {EJE_MURO[nm]}, malla {cara}' + f': bajan dentro de la losa de fundación con pata de {pata:.0f} sobre la malla inferior y terminan con gancho de 20 en la losa de techo (L≈{(-4 - zfp + pata + 20)/100:.2f} m)'.replace('.', ','))
             dH = 12; offH = MURO / 2 - rec_ - dV / 10 - dH / 20      # horizontales ø12@15 por dentro de las verticales: 6,3 / 7,7 desde el eje
@@ -333,7 +338,7 @@ def armar(c):
         xo_ = x; x = paso(x, 'y', (by0, by0 + MURO)); x = paso(x, 'y', (by1 - MURO, by1))
         if ex0 - 5 <= x <= ex1:   # el hueco y su viga de borde poniente: la barra se corta en las vigas de borde norte y sur
             polisNS.append([(x, by0 + MURO / 2, -6), (x, by0 + MURO / 2, zLN), (x, ey0 - 5, zLN)])          # termina dentro de la viga de borde norte
-            polisNS.append([(x, ey1 + 5, zLN), (x, by1 - MURO / 2, zLN), (x, by1 - MURO / 2, -6)])          # y dentro de la viga de borde sur
+            if not hueco_al_muro: polisNS.append([(x, ey1 + 5, zLN), (x, by1 - MURO / 2, zLN), (x, by1 - MURO / 2, -6)])          # y dentro de la viga de borde del lado B
         else:
             polisNS.append([(x, by0 + MURO / 2, -6), (x, by0 + MURO / 2, zLN), (x, by1 - MURO / 2, zLN), (x, by1 - MURO / 2, -6)])
         x = xo_ + 15
@@ -350,17 +355,23 @@ def armar(c):
     # superiores ø12@15 en L: la pata baja 72 (60ø) por la cara exterior del muro, por dentro de sus verticales, y la barra entra 180 en la losa desde la cara interior
     zTN, zTE = -2.0 - 0.6, -2.0 - 1.2 - 0.6    # N-S arriba, E-O debajo
     pL = L60(12); ent = MURO + 180.0; fL = 4.0 + 1.6 + 1.2 + 0.6   # la pata baja por dentro de las verticales y horizontales exteriores del muro (7,4 de la cara)
-    polT = []
+    polT, polT16 = [], []
+    pL16, fL16 = L60(16), fL + 0.2
     x = bx0 + MURO + 15.0   # alternadas 7,5 con las verticales del muro (sus ganchos superiores no chocan con la pata)
     while x < bx1 - MURO:
         xo_ = x; x = paso(x, 'y', (by0, by0 + MURO)); x = paso(x, 'y', (by1 - MURO, by1))
         polT.append([(x, by0 + fL, zTN - pL), (x, by0 + fL, zTN), (x, by0 + ent, zTN)])
-        if ex0 - 5 <= x <= ex1:
-            polT.append([(x, by1 - fL, zTN - pL), (x, by1 - fL, zTN), (x, ey1 + 12.5, zTN)])    # termina en la viga de borde sur del hueco
+        if hueco_al_muro and ex_h - 120 <= x <= ex_h - 2.5:
+            polT16.append([(x, by1 - fL16, zTN - 0.2 - pL16), (x, by1 - fL16, zTN - 0.2), (x, by1 - ent, zTN - 0.2)])   # donde la VHA de borde se empotra en el muro del eje B
+        elif hueco_al_muro and ex_h - 2.5 < x < ex1 + 2.5:
+            polT.append([(x, by1 - fL, zTN - pL), (x, by1 - fL, zTN), (x, ey1 + 4.5, zTN)])     # frente al hueco: solo la franja sobre el muro, a 4,5 de su cara
+        elif not hueco_al_muro and ex0 - 5 <= x <= ex1:
+            polT.append([(x, by1 - fL, zTN - pL), (x, by1 - fL, zTN), (x, ey1 + 12.5, zTN)])    # termina en la viga de borde del lado B del hueco
         else:
             polT.append([(x, by1 - fL, zTN - pL), (x, by1 - fL, zTN), (x, by1 - ent, zTN)])
         x = xo_ + 15
     fam('LT-NS', 'losa del búnker', 12, None, polis=polT, d=f'superiores ø12@15 en A–B, en L sobre los muros de los ejes A y B: pata de {pL:.0f} por la cara exterior del muro y {ent - MURO:.0f} dentro de la losa (continuidad losa–muro)')
+    if polT16: fam('LT-NS16', 'losa del búnker', 16, None, polis=polT16, d=f'superiores ø16@15 en A–B sobre el muro del eje B, en los 1,20 junto a la VHA de borde de la escalera (ahí se empotra en el muro): pata de {pL16:.0f} y {ent - MURO:.0f} dentro de la losa')
     polT = []
     y = by0 + MURO + 15.0
     while y < by1 - MURO:
@@ -373,7 +384,7 @@ def armar(c):
     fam('LS', 'losa del búnker', 10, [(x3 - 80, by0 + MURO + 10, zTE), (x3 + 80, by0 + MURO + 10, zTE)], n=int((by1 - by0 - 2 * MURO) // 20), paso=(0, 20, 0), d='superiores ø10@20 L=160 sobre la VHA del eje 3 (80 a cada lado)')
     # suples ø10@15 arriba y abajo en 1,50 × 1,50 alrededor de cada esquina del hueco (revisión 23-10-2026: ahí se juntan las vigas de borde y el peso de los muros de la caja)
     polS, polI = [], []
-    for (cx_, cy_) in ((ex_h, ey0), (ex1, ey0), (ex_h, ey1), (ex1, ey1)):
+    for (cx_, cy_) in ((ex_h, ey0), (ex1, ey0)) + (() if hueco_al_muro else ((ex_h, ey1), (ex1, ey1))):
         x0_, x1_ = max(cx_ - 75, bx0 + MURO), min(cx_ + 75, bx1 - MURO); y0_, y1_ = max(cy_ - 75, by0 + MURO), min(cy_ + 75, by1 - MURO)
         dentro_hueco = lambda xx, yy: ex_h < xx < ex1 and ey0 < yy < ey1
         xx = bx0 + MURO + 7.5 + 15 * math.ceil((x0_ - bx0 - MURO) / 15)   # a medio camino entre las LT-NS (arriba) y las LN (abajo)
@@ -392,22 +403,25 @@ def armar(c):
     fam('LR-inf', 'losa del búnker', 10, None, polis=polI, d='suples inferiores ø10@15 en 1,50 × 1,50 alrededor de cada esquina del hueco de la escalera (quedan ø10@7,5)')
     # VHA 25/45 (eje 3) y vigas de borde del hueco de la escalera (VHA-esc al poniente, VB-N y VB-S): 3ø12 arriba, 2ø10 al medio, 3ø16 abajo, Est ø10@15
     zvs, zvm, zvi = -6.0, z_losa_inf - (VHA[1] - LOSA) / 2 + 2, z_losa_inf - (VHA[1] - LOSA) + 4.8   # −6 (bajo las mallas superiores de la losa) / −33 / −40,2
-    for vid, eje, c_, t0, t1, ancho in (('VHA-3', 'y', x3, by0 + 5, by1 - 5, 25.0), ('VHA-esc', 'y', (ex0 + ex_h) / 2, ey0 - 25 + 5, ey1 + 25 - 5, ex_h - ex0),
-                                        ('VB-N', 'x', ey0 - 12.5, ex0 + 5, bx1 - 9, 25.0), ('VB-S', 'x', ey1 + 12.5, ex0 + 5, bx1 - 9, 25.0)):
+    for vid, eje, c_, t0, t1, ancho in (('VHA-3', 'y', x3, by0 + 5, by1 - 5, 25.0), ('VHA-esc', 'y', (ex0 + ex_h) / 2, ey0 - 25 + 5, (by1 - 9) if hueco_al_muro else (ey1 + 25 - 5), ex_h - ex0),
+                                        ('VB-N', 'x', ey0 - 12.5, ex0 + 5, bx1 - 9, 25.0)) + (() if hueco_al_muro else (('VB-S', 'x', ey1 + 12.5, ex0 + 5, bx1 - 9, 25.0),)):
         o = ancho / 2 - 4.8
         cruza = vid in ('VB-N', 'VB-S')   # las vigas de borde E-O cruzan la VHA-esc: sus barras van una capa más adentro
+        dsup = 16 if (hueco_al_muro and vid in ('VHA-esc', 'VB-N')) else 12   # 3ø16 arriba en las vigas de borde desde que la VHA de borde se empotra en el muro del eje B (23-10-2026)
         zvs_, zvi_, zvm_ = (zvs - 1.4, zvi + 1.6, zvm + 1.0) if cruza else (zvs, zvi, zvm)
+        if dsup == 16: zvs_ -= 0.4 + (0.2 if cruza else 0)   # bajo las mallas superiores de la losa y, en el cruce, bajo las ø16 de la VHA de borde
         P_ = (lambda k, t, z: (c_ + k, t, z)) if eje == 'y' else (lambda k, t, z: (t, c_ + k, z))
         nv = f'VHA {VHA[0]:.0f}/{VHA[1]:.0f}'
-        fam(f'{vid}-sup', nv, 12, None, polis=[[P_(k, t0, zvs_), P_(k, t1, zvs_)] for k in (-o, 0, o)], d=f'3ø12 superiores de la {vid}')
+        fam(f'{vid}-sup', nv, dsup, None, polis=[[P_(k, t0, zvs_), P_(k, t1, zvs_)] for k in (-o, 0, o)], d=f'3ø{dsup} superiores de la {vid}')
         fam(f'{vid}-med', nv, 10, None, polis=[[P_(k, t0, zvm_), P_(k, t1, zvm_)] for k in (-o, o)], d=f'2ø10 medios de la {vid}')
         fam(f'{vid}-inf', nv, 16, None, polis=[[P_(k, t0, zvi_), P_(k, t1, zvi_)] for k in (-o, 0, o)], d=f'3ø16 inferiores de la {vid}')
         oe = ancho / 2 - 3.5
-        if vid == 'VHA-esc': t0, t1 = ey0 + 5, ey1 - 5 + 7.5   # en los cruces con las vigas de borde mandan los estribos de esas vigas
+        if vid == 'VHA-esc': t0, t1 = ey0 + 5, (ey1 + 2.5) if hueco_al_muro else (ey1 - 5 + 7.5)   # en los cruces con las vigas de borde mandan los estribos de esas vigas; en el muro, su fierro
         if vid == 'VHA-3': t0, t1 = by0 + MURO - 2.5, by1 - MURO   # los estribos van entre las caras de los muros; dentro del muro manda su fierro
         if vid in ('VB-N', 'VB-S'): t1 = bx1 - MURO   # los estribos llegan a la cara del muro
         t = t0 + 7.5
-        q = [P_(-oe, t, zvs_ + 1.1), P_(oe, t, zvs_ + 1.1), P_(oe, t, zvi_ - 1.3), P_(-oe, t, zvi_ - 1.3), P_(-oe, t, zvs_ + 1.1)]
+        zq = zvs_ + dsup / 20 + 0.5
+        q = [P_(-oe, t, zq), P_(oe, t, zq), P_(oe, t, zvi_ - 1.3), P_(-oe, t, zvi_ - 1.3), P_(-oe, t, zq)]
         fam(f'{vid}-est', nv, 10, estribo(q), n=int((t1 - t0 - 7.5) // 15) + 1, paso=((0, 15, 0) if eje == 'y' else (15, 0, 0)), d=f'estribos ø10@15 de la {vid}, con ganchos de 135°')
     # losa de fundación e=35: ø16@15 N-S (luz corta) y ø12@15 E-O, abajo y arriba; la inferior con ganchos de 20 hacia arriba en los bordes; recubrimiento 5
     zi, zs = z_zap_inf + 5 + 0.8, z_zap_sup - 5 - 0.8
