@@ -7,16 +7,18 @@
   document.querySelectorAll('svg').forEach((svg, fi) => {
     const R = svg.getBoundingClientRect(); if (R.width < 50 || R.height < 30) return;
     const id = svg.id || (svg.closest('section') || {}).id || ('svg' + fi);
-    const formas = [...svg.querySelectorAll('rect,polygon,path,circle,ellipse')].filter(e => e.getClientRects().length && relleno(e)).map(e => ({ e, b: e.getBoundingClientRect() }))
+    const visible = e => { for (let n = e; n && n !== svg; n = n.parentNode) if (getComputedStyle(n).display === 'none') return false; return true; };   // WebKit da cajas también a lo que está en una capa apagada
+    const formas = [...svg.querySelectorAll('rect,polygon,path,circle,ellipse')].filter(e => e.getClientRects().length && relleno(e) && visible(e)).map(e => ({ e, b: e.getBoundingClientRect() }))
       .filter(f => f.b.width * f.b.height < 0.8 * R.width * R.height);   // sin el fondo del dibujo
     let n = 0;
-    [...svg.querySelectorAll('text')].filter(t => t.textContent.trim() && t.getClientRects().length).forEach(t => {
+    [...svg.querySelectorAll('text')].filter(t => t.textContent.trim() && t.getClientRects().length && visible(t)).forEach(t => {
       const b = t.getBoundingClientRect(); if (b.width < 2) return;
       // grilla de puntos sobre toda la caja del texto, hasta 1 px de sus bordes (cada ~6 px, mínimo 5 × 3): un texto que toca o pasa el borde de su figura deja puntos afuera
       const ins = 1, nx = Math.min(25, Math.max(5, Math.round(b.width / 6))), ny = Math.min(25, Math.max(3, Math.round(b.height / 6))), pts = [];
       for (let i = 0; i < nx; i++) for (let j = 0; j < ny; j++) pts.push([b.left + ins + (b.width - 2 * ins) * i / (nx - 1), b.top + ins + (b.height - 2 * ins) * j / (ny - 1)]);
       // un rótulo con su propia placa de fondo (rect relleno que lo contiene y no es mucho más grande) tapa lo que cruza: se acepta
-      if (formas.some(f => f.e.tagName === 'rect' && f.b.left <= b.left + 0.5 && f.b.right >= b.right - 0.5 && f.b.top <= b.top + 0.5 && f.b.bottom >= b.bottom - 0.5 && f.b.width * f.b.height < 3.5 * b.width * b.height && [...f.e.parentNode.children].indexOf(f.e) < [...f.e.parentNode.children].indexOf(t) + 1 && f.e.parentNode === t.parentNode)) return;
+      // (también la placa de una cota: cubre todo el ancho del número y al menos el 70 % de su alto, que es donde están las cifras)
+      if (formas.some(f => f.e.tagName === 'rect' && f.e.parentNode === t.parentNode && f.b.left <= b.left + 0.5 && f.b.right >= b.right - 0.5 && Math.min(f.b.bottom, b.bottom) - Math.max(f.b.top, b.top) >= 0.7 * b.height && f.b.width * f.b.height < 3.5 * b.width * b.height)) return;
       for (const f of formas) {
         if (f.b.right < b.left || f.b.left > b.right || f.b.bottom < b.top || f.b.top > b.bottom) continue;
         if (f.e.closest('text')) continue;

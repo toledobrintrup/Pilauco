@@ -173,7 +173,7 @@ ol.preg li{margin:0 0 8px}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V120" data-vista="estudio"></script>
+  <script src="menu.js?v=V121" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
   <span class="meta" id="meta">Revisado con cálculo propio · sin firma</span>
 </header>
@@ -257,7 +257,7 @@ ol.preg li{margin:0 0 8px}
 <section id="vista3d">
   <h2><span class="n">01</span>Vista 3D del estudio</h2>
   <ul class="puntos"><li><b>Capas:</b> estructura de acero y hormigón, búnker bajo tierra, enfierradura, medidas (vienen apagadas).</li><li><b>Girar:</b> arrastrar · <b>acercar:</b> rueda o pellizco · <b>centrar:</b> doble toque · <b>ficha:</b> tocar la pieza.</li></ul>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V120" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V121" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
@@ -350,9 +350,9 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=V120"></script>
-<script src="estudio_estructura.js?v=V120"></script>
-<script src="armaduras_det.js?v=V120"></script>
+<script src="sitio.js?v=V121"></script>
+<script src="estudio_estructura.js?v=V121"></script>
+<script src="armaduras_det.js?v=V121"></script>
 <script>
 (function () {
   const D = DATA_ESTUDIO_EST, E = DATA_SITIO.estudio, ox = E.origen[0], oy = E.origen[1], z0 = D.z_piso;
@@ -428,7 +428,11 @@ ol.preg li{margin:0 0 8px}
     txt(capas.base, W / 2, -mT + 110, 'patio', { 'text-anchor': 'middle', 'font-size': FSb, class: 'txs' }); flechaNorte(capas.base, -112, -92, 34);
     txt(capas.base, -mL + 90, Lp / 2, '← casa', { 'text-anchor': 'middle', 'font-size': FSb, class: 'txs', transform: `rotate(-90 ${-mL + 90} ${Lp / 2})` });
     // ---- recintos (tenues) ----
-    E.recintos.filter(r => !SUP || Math.max(...r.pts.map(q => loc(q)[1])) <= Lp + 5).forEach(r => { const pts = r.pts.map(loc); el('polygon', { points: pts.map(p => `${p[0]},${p[1]}`).join(' '), style: 'fill:var(--fig-fill);stroke:var(--fig-soft);stroke-width:.8;stroke-dasharray:6 4;opacity:.75' }, capas.recintos); const c = pts.reduce((s, p) => [s[0] + p[0] / pts.length, s[1] + p[1] / pts.length], [0, 0]); txt(capas.recintos, c[0], c[1] + 8, r.nombre.split(' (')[0], { 'text-anchor': 'middle', 'font-size': FSs, class: 'txs' }); });
+    E.recintos.filter(r => !SUP || Math.max(...r.pts.map(q => loc(q)[1])) <= Lp + 5).forEach(r => { const pts = r.pts.map(loc); el('polygon', { points: pts.map(p => `${p[0]},${p[1]}`).join(' '), style: 'fill:var(--fig-fill);stroke:var(--fig-soft);stroke-width:.8;stroke-dasharray:6 4;opacity:.75' }, capas.recintos); const c = pts.reduce((s, p) => [s[0] + p[0] / pts.length, s[1] + p[1] / pts.length], [0, 0]);
+      // la escalera mide 1,20 de ancho y su nombre ~1,80: va a lo largo, centrado en la caja (Gabriel, 24-10-2026: textos que se salen de su figura)
+      // en la planta 1 el nombre del baño sube 50 (sigue dentro del baño) para no quedar bajo el rótulo del CF del eje C, que va justo sobre el dado de 4C
+      const largo = r.id === 'escalera', xr = c[0] + (largo ? FSs * 0.36 : 0), yr = c[1] + (largo ? 0 : 8) - (r.id === 'bano' && !SUP ? 50 : 0);
+      txt(capas.recintos, xr, yr, r.nombre.split(' (')[0], Object.assign({ 'text-anchor': 'middle', 'font-size': FSs, class: 'txs' }, largo ? { transform: `rotate(-90 ${xr} ${yr})` } : {})); });
     // ---- fundaciones del ingeniero: la enfierradura manda, el hormigón solo punteado ----
     const ZC = H.zapata_corrida, CI = H.cimiento, CF = H.cf;
     // ---- enfierradura vista desde arriba (Gabriel, 14-10-2026: "piensa que es fierro, que se vea el fierro con el ancho y todo, pero no el hormigón") ----
@@ -467,31 +471,47 @@ ol.preg li{margin:0 0 8px}
     H.placas.lista.filter(pl => !SUP || loc([pl.centro[0], pl.centro[1]])[1] <= Lp + 5).forEach(pl => { const c = loc([pl.centro[0], pl.centro[1]]), s = pl.lado / 2, g = el('g', {}, capas.fund); el('rect', { x: c[0] - s, y: c[1] - s, width: pl.lado, height: pl.lado, style: 'fill:none;stroke:var(--fig-ink);stroke-width:1.2' }, g); el('line', { x1: c[0] - s, y1: c[1] - s, x2: c[0] + s, y2: c[1] + s, style: 'stroke:var(--fig-ink);stroke-width:.8' }, g); el('line', { x1: c[0] + s, y1: c[1] - s, x2: c[0] - s, y2: c[1] + s, style: 'stroke:var(--fig-ink);stroke-width:.8' }, g); titulo(g, `${pl.id}: placa ${coma(pl.lado, 0)} × ${coma(pl.lado, 0)} × ${coma(pl.espesor * 10, 0)} mm sobre ${pl.sobre} · ${pl.anclajes}`); });
     const lab = (g, x, y, t, rot, fs) => { const size = fs || FSs, w = t.length * size * 0.56 + 16, h = size * 1.5; const gg = el('g', { transform: rot ? `rotate(-90 ${x} ${y})` : '' }, g); el('rect', { x: x - w / 2, y: y - h * 0.72, width: w, height: h, rx: 4, style: 'fill:var(--paper);opacity:.88;stroke:var(--fig-soft);stroke-width:.6' }, gg); return txt(gg, x, y, t, { 'text-anchor': 'middle', 'font-size': size, class: 'txs' }); };
     const zN = ZC.piezas.find(z => z.id === 'ZC-N').pts.map(loc), zO = ZC.piezas.find(z => z.id === 'ZC-O').pts.map(loc), ccE = CI.zapata.piezas.find(z => z.id === 'CC-E').pts.map(loc), cc1 = CI.zapata.piezas.find(z => z.id === 'CC-1').pts.map(loc);
-    const cf4 = CF.piezas.find(z => z.id === 'CF-4').pts.map(loc), cfC = CF.piezas.find(z => z.id === 'CF-C').pts.map(loc), cfC2 = CF.piezas.find(z => z.id === 'CF-C2').pts.map(loc), vha = H.vigas[0].pts.map(loc), bl = H.losa.pts.map(loc);
-    if (!SUP) lab(capas.fund, W / 2, 80, `losa de fundación e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker (sobresale ${coma(H.losa_fundacion.margen, 1)}): ø16@15 en A–E y ø12@15 en 1–5, arriba y abajo`, false, 19);
-    lab(capas.fund, W / 2, 118, `muros e=${coma(H.muros.espesor, 0)}: verticales ø16@15 por fuera y ø12@15 por dentro (puntos) · horizontales ø12@15`, false, 19);
+    const cf4 = CF.piezas.find(z => z.id === 'CF-4').pts.map(loc), vha = H.vigas[0].pts.map(loc), bl = H.losa.pts.map(loc);
+    // rótulos generales en dos renglones cuando no caben con aire entre las caras interiores de los muros (Gabriel, 24-10-2026: "losa e=25" quedaba pegado al borde de la losa);
+    // en la planta 1 los renglones parten bajo el borde interior punteado de la losa de fundación (+57,5) y los tres quedan sobre el rótulo girado del lado del eje 1
+    const yN = [82, 114, 146];
+    if (!SUP) { lab(capas.fund, W / 2, yN[0], `losa de fundación e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker (sobresale ${coma(H.losa_fundacion.margen, 1)}):`, false, 19); lab(capas.fund, W / 2, yN[1], 'ø16@15 en A–E y ø12@15 en 1–5, arriba y abajo', false, 19); }
+    lab(capas.fund, W / 2, yN[2], `muros e=${coma(H.muros.espesor, 0)}: verticales ø16@15 por fuera y ø12@15 por dentro (puntos) · horizontales ø12@15`, false, 19);
     if (!SUP) lab(capas.fund, (zO[0][0] + zO[1][0]) / 2 + 90, (zO[0][1] + zO[2][1]) / 2, 'losa de fundación ø16@15 / ø12@15', true, 17);
-    if (!SUP) lab(capas.fund, W / 2, Lp - 78, `sobrecimiento ${coma(CI.sobrecimiento.ancho, 0)} × ${coma(CI.sobrecimiento.alto, 0)}: 2ø16 + estribos ø10@20 + ø8@20 · cimiento corrido ${coma(CI.zapata.ancho, 0)} × ${coma(CI.zapata.espesor, 0)}: ø12@20 en U + 4ø12`, false, 19);
+    // sobrecimiento y cimiento corrido de la fachada del eje E: dos renglones centrados en el estudio (entre el cimiento del eje 1 y el emplantillado del CF del eje 4), sin pisar el CF
+    const e4n = CF.emplantillado.piezas.find(z => z.id === 'EMP-4').pts.map(loc), xEst = (cc1[1][0] + e4n[0][0]) / 2;
+    if (!SUP) { lab(capas.fund, xEst, Lp - 110, `sobrecimiento ${coma(CI.sobrecimiento.ancho, 0)} × ${coma(CI.sobrecimiento.alto, 0)}: 2ø16 + estribos ø10@20 + ø8@20`, false, 19); lab(capas.fund, xEst, Lp - 78, `cimiento corrido ${coma(CI.zapata.ancho, 0)} × ${coma(CI.zapata.espesor, 0)}: ø12@20 en U + 4ø12`, false, 19); }
     if (!SUP) lab(capas.fund, (cc1[0][0] + cc1[1][0]) / 2 + 85, (cc1[0][1] + cc1[2][1]) / 2, 'cimiento ø12@20 U + 4ø12 · sobrecim. 2ø16 + ø10@20 + ø8@20', true, 17);
     if (!SUP) lab(capas.fund, (cf4[0][0] + cf4[1][0]) / 2 - 320, (cf4[0][1] + cf4[2][1]) / 2 - 200, `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)} (eje 4): 3ø12 + 2ø10 + 3ø12, E ø10@25`, false, 17);   // dentro del estudio, al poniente de la viga del eje 4
-    if (!SUP) lab(capas.fund, (cfC[0][0] + cfC[1][0]) / 2, cfC[0][1] - 30, `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)}: 3ø12 + 2ø10 + 3ø12 · dado bajo 4C`, false, 17);
-    if (!SUP) lab(capas.fund, (cfC2[0][0] + cfC2[1][0]) / 2, cfC2[0][1] - 30, `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)}: igual al del eje C`, false, 17);
-    if (SUP) { lab(capas.fund, (vha[0][0] + vha[1][0]) / 2 + 40, (vha[0][1] + vha[2][1]) / 2 + 5, `${H.vigas[0].nombre}: 3ø12 + 2ø10 + 3ø16, E ø10@15`, true, 17); lab(capas.fund, W / 2, 80, `losa e=${coma(H.losa.espesor, 0)}: ø10@15 abajo · ø12@15 en L arriba sobre los muros · ø10@20 sobre la VHA · suples en el hueco`, false, 19); }   // entre los rótulos de la losa (arriba) y la cota entre muros (abajo)
+    // CF de los ejes C y C2: el rótulo va sobre su dado (sin pisarlo) y termina antes del cimiento del eje 5 (se salía del contorno de la casa); los dos alineados a la derecha
+    const labDer = (xFin, y, t) => lab(capas.fund, xFin - (t.length * 17 * 0.56 + 16) / 2, y, t, false, 17);   // xFin: borde derecho de la placa del rótulo (el ancho es el que usa lab)
+    const xFinCF = CI.zapata.piezas.find(z => z.id === 'CC-5').pts.map(loc)[0][0] - 12, yDado = id => loc(H.dados.piezas.find(z => z.id === id).pts[0])[1];   // la placa (alto 25,5) termina 11 sobre el dado
+    if (!SUP) labDer(xFinCF, yDado('DA-4C') - 18, `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)}: 3ø12 + 2ø10 + 3ø12 · dado bajo 4C`);
+    if (!SUP) labDer(xFinCF, yDado('DA-4C2') - 18, `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)}: igual al del eje C`);
+    if (SUP) { lab(capas.fund, (vha[0][0] + vha[1][0]) / 2 + 40, (vha[0][1] + vha[2][1]) / 2 + 26,   /* centrado entre el rótulo de los muros y la cota del ancho */ `${H.vigas[0].nombre}: 3ø12 + 2ø10 + 3ø16, E ø10@15`, true, 17); lab(capas.fund, W / 2, yN[0], `losa e=${coma(H.losa.espesor, 0)}: ø10@15 abajo · ø12@15 en L arriba sobre los muros`, false, 19); lab(capas.fund, W / 2, yN[1], 'ø10@20 sobre la VHA · suples en el hueco', false, 19); }   // entre los rótulos de la losa (arriba) y la cota entre muros (abajo)
     // (la malla de la losa del cielo no va en este plano: está en el corte A y en la planilla)
     // ---- arranque de los pilares sobre las placas: a escala y con su tipo (la estructura de techo no va en este plano) ----
     const PM = { 'CUAD 150x150x5': 'PM1', 'CUAD 150x150x4': 'PM2', 'RECT 150x100x3': 'PM3' };
     D.miembros.filter(x => x.c === 'pilar' && (!SUP || loc(x.a)[1] <= Lp + 5)).forEach(mb => {
       const a = loc(mb.a), pr = D.perfiles[mb.p] || { h: 15, b: 15 }, wx = pr.forma === 'tubo_rect' && pr.h !== pr.b ? pr.b : pr.h, wy = pr.h;
       const r = el('rect', { x: a[0] - wx / 2, y: a[1] - wy / 2, width: wx, height: wy, style: `fill:${COL.pilar};stroke:var(--fig-ink);stroke-width:1` }, capas.fund); titulo(r, `${mb.id} · ${PM[mb.p] || ''} ${mb.p} sobre placa ${(H.placas.lista.find(q => q.pilar === mb.id) || { tipo: 'PLb' }).tipo}`);
-      const dx = a[0] > W / 2 ? -14 : 14, anchor = a[0] > W / 2 ? 'end' : 'start';
-      txt(capas.fund, a[0] + dx, a[1] - 14, PM[mb.p] || mb.p, { 'text-anchor': anchor, 'font-size': 17, 'font-weight': 600, style: 'fill:var(--fig-pilar)' });
+      // rótulo al lado del pilar, hacia dentro, con placa de papel (Gabriel, 24-10-2026: "arregla ese tipo de cosas"): encima del pilar cruzaba el borde del búnker y se perdía en la malla.
+      // En los muros del búnker (filas A y B) va al centro del muro de 30 (el eje está 2,5 hacia dentro); en A2 sube 8 para no tocar la VHA de borde del hueco (planta 2)
+      const dx = a[0] > W / 2 ? -18 : 18, anchor = a[0] > W / 2 ? 'end' : 'start';
+      const muro = H.muros.piezas.map(z => z.pts.map(loc)).find(q => Math.abs(q[0][1] - q[2][1]) < 40 && a[1] >= q[0][1] && a[1] <= q[2][1] && a[0] >= q[0][0] && a[0] <= q[1][0]);
+      const yL = muro ? (muro[0][1] + muro[2][1]) / 2 : a[1] - (/A2$/.test(mb.id) ? 8 : 0);
+      const tP = txt(capas.fund, a[0] + dx, yL + 17 * 0.36, PM[mb.p] || mb.p, { 'text-anchor': anchor, 'font-size': 17, 'font-weight': 600, style: 'fill:var(--fig-pilar)' });
+      try { const bb = tP.getBBox(); if (bb.width > 0) capas.fund.insertBefore(el('rect', { x: bb.x - 2, y: bb.y - 1, width: bb.width + 4, height: bb.height + 2, rx: 3, style: 'fill:var(--paper);opacity:.9' }), tP); } catch (e) {}
     });
     // ---- línea del corte A–A: entre los ejes 2 y 3, mirando al oriente ----
     const xc = (xs[1] + xs[2]) / 2;
-    el('line', { x1: xc, y1: -mT + 150, x2: xc, y2: Lp + 122, style: 'stroke:var(--fig-ink);stroke-width:1.6;stroke-dasharray:22 7 5 7' }, capas.base);   // la marca de abajo va entre la fila de parciales y la de acumuladas
-    [-mT + 150, Lp + 122].forEach(yy => { el('polygon', { points: `${xc},${yy - 12} ${xc},${yy + 12} ${xc + 22},${yy}`, style: 'fill:var(--fig-ink)' }, capas.base); txt(capas.base, xc - 14, yy + 9, 'A', { 'text-anchor': 'end', 'font-size': 26, 'font-weight': 700 }); });
+    const yA = -mT + 101;   // la marca de arriba, en la línea de "patio" (en -50 tocaba la malla de la losa de fundación, que sobresale hasta −42,5)
+    el('line', { x1: xc, y1: yA, x2: xc, y2: Lp + 122, style: 'stroke:var(--fig-ink);stroke-width:1.6;stroke-dasharray:22 7 5 7' }, capas.base);   // la marca de abajo va entre la fila de parciales y la de acumuladas
+    [yA, Lp + 122].forEach(yy => { el('polygon', { points: `${xc},${yy - 12} ${xc},${yy + 12} ${xc + 22},${yy}`, style: 'fill:var(--fig-ink)' }, capas.base); txt(capas.base, xc - 14, yy + 9, 'A', { 'text-anchor': 'end', 'font-size': 26, 'font-weight': 700 }); });
     // ---- cotas de trazado: parciales, acumuladas y exterior, abajo y a la derecha; fundaciones con sus anchos y lo que sobresale ----
     const C = capas.cotas;
+    // cota cuyo número cae sobre la malla: además del rectángulo de cota (76 % del alto del número), una placa de papel de su alto completo, para que las barras no lo toquen (Gabriel, 24-10-2026)
+    const cotaM = (...a) => { cota(C, ...a); const te = C.lastChild; try { const bb = te.getBBox(); if (te.tagName === 'text' && bb.width > 0) C.insertBefore(el('rect', { x: bb.x - 1, y: bb.y - 1, width: bb.width + 2, height: bb.height + 2, style: 'fill:var(--paper);stroke:none' }), te); } catch (e) {} };
     const acum = (horizontal, fijo, vals, nombres, desde) => {
       const p0 = vals[0], p1 = vals[vals.length - 1];
       el('line', horizontal ? { x1: p0, y1: fijo, x2: p1, y2: fijo, style: 'stroke:var(--fig-ink);stroke-width:1' } : { x1: fijo, y1: p0, x2: fijo, y2: p1, style: 'stroke:var(--fig-ink);stroke-width:1' }, C);
@@ -514,18 +534,21 @@ ol.preg li{margin:0 0 8px}
     if (!SUP) {
     const xq = 150;   // columna de cotas verticales entre los ejes 1 y 2, lejos de los rótulos PM de los pilares del eje 1 (lo que sobresale va en las fichas)
     const mN = H.muros.piezas.find(z => z.id === 'M-N').pts.map(loc), mO = H.muros.piezas.find(z => z.id === 'M-O').pts.map(loc);   // el muro de 30 creció 5 hacia afuera
-    [[zN[0][1], mN[0][1], coma(mN[0][1] - zN[0][1], 1), 30], [mN[0][1], mN[2][1], coma(mN[2][1] - mN[0][1], 0), -30]].forEach(([y0, y1, t, off]) => cota(C, xq, y0, xq, y1, t, off, FSs));
+    [[zN[0][1], mN[0][1], coma(mN[0][1] - zN[0][1], 1), 30], [mN[0][1], mN[2][1], coma(mN[2][1] - mN[0][1], 0), -30]].forEach(([y0, y1, t, off]) => cotaM(xq, y0, xq, y1, t, off, FSs));
     const yq = 330;   // fila de cotas horizontales en el muro poniente del búnker
-    [[zO[0][0], mO[0][0], coma(mO[0][0] - zO[0][0], 1), 30], [mO[0][0], mO[1][0], coma(mO[1][0] - mO[0][0], 0), -30]].forEach(([x0, x1, t, off]) => cota(C, x0, yq, x1, yq, t, off, FSs));   // alternadas arriba y abajo para que no se pisen
+    // cota angosta cuyo número no cabe entre sus líneas: el número va afuera, a continuación de la línea de cota (xt: donde parte; a la derecha si xt > x1)
+    const cotaAfuera = (x0, x1, y, off, t, xt) => { cota(C, x0, y, x1, y, '', off, FSs); const yl = y + off, der = xt > x1; el('line', { x1: der ? x1 : x0, y1: yl, x2: der ? xt - 4 : xt + 4, y2: yl, style: 'stroke:var(--fig-soft);stroke-width:1' }, C); txt(C, xt, yl + FSs * 0.36, t, { 'text-anchor': der ? 'start' : 'end', 'font-size': FSs, class: 'txs' }); };
+    cotaAfuera(zO[0][0], mO[0][0], yq, 30, coma(mO[0][0] - zO[0][0], 1), zO[0][0] - 12);   // 37,5: el número es más ancho que lo que sobresale la losa y cruzaba su borde: va afuera, a la izquierda
+    cotaM(mO[0][0], yq, mO[1][0], yq, coma(mO[1][0] - mO[0][0], 0), -30, FSs);   // 30 del muro, arriba de la del 37,5 (alternadas para que no se pisen)
     const sE = CI.sobrecimiento.piezas.find(z => z.id === 'SC-E').pts.map(loc);
-    [[ccE[0][1], sE[0][1], 30], [sE[0][1], sE[2][1], -30], [sE[2][1], ccE[2][1], 30]].forEach(([y0, y1, off]) => cota(C, xq, y0, xq, y1, coma(y1 - y0, 1).replace(',0', ''), off, FSs));
-    cota(C, xq + 30, ccE[0][1], xq + 30, ccE[2][1], coma(CI.zapata.ancho, 0), -30, FSs);   // a la derecha de la columna de 25 / 30 / 25 (a la izquierda pisaba el PM2 del pilar E1)
-    const e4 = CF.emplantillado.piezas.find(z => z.id === 'EMP-4').pts.map(loc), yc = (D.ejes.y.C + D.ejes.y.C2) / 2;   // a medio camino entre los CF de C y C2 (antes fijo en 1420: con la cabina de 4,15 caía sobre el CF de C2)
-    cota(C, cf4[0][0], yc, cf4[1][0], yc, `${coma(cf4[1][0] - cf4[0][0], 0)} CF`, 30, FSs); cota(C, e4[0][0], yc, e4[1][0], yc, `${coma(e4[1][0] - e4[0][0], 0)} emplantillado`, -30, FSs);
+    [[ccE[0][1], sE[0][1], 30], [sE[0][1], sE[2][1], -30], [sE[2][1], ccE[2][1], 30]].forEach(([y0, y1, off]) => cotaM(xq, y0, xq, y1, coma(y1 - y0, 1).replace(',0', ''), off, FSs));
+    cotaM(405, ccE[0][1], 405, ccE[2][1], coma(CI.zapata.ancho, 0), -30, FSs);   // el ancho del cimiento corrido, aparte entre la línea del corte A y el pilar E3 (junto a la columna de 25 / 30 / 25 se leía "30 80")
+    const yc = D.ejes.y.C + 0.3 * (D.ejes.y.C2 - D.ejes.y.C);   // entre los dados de 4C y 4C2 (V120: C2 en 1457,5), lejos del nombre de la cabina; los números a la derecha del CF, alineados (centrados cruzaban el CF y el dado)
+    cotaAfuera(e4n[0][0], e4n[1][0], yc, -20, `${coma(e4n[1][0] - e4n[0][0], 0)} emplantillado`, e4n[1][0] + 12); cotaAfuera(cf4[0][0], cf4[1][0], yc, 20, `${coma(cf4[1][0] - cf4[0][0], 0)} CF`, e4n[1][0] + 12);
     }
-    cota(C, bl[0][0] + H.muros.espesor, 585, bl[1][0] - H.muros.espesor, 585, `${coma(H.interior.ancho, 0)} entre muros · ${coma(H.interior.terminado.ancho, 0)} terminado`, 0, FSs);
-    cota(C, 330, bl[0][1] + H.muros.espesor, 330, bl[2][1] - H.muros.espesor, `${coma(H.interior.largo, 0)} entre muros · ${coma(H.interior.terminado.largo, 0)} term.`, -20, FSs);   // a la derecha del rótulo de la zapata
-    const hu = H.losa.hueco.map(loc); if (SUP) cota(C, hu[0][0], hu[0][1] - 10, hu[1][0], hu[0][1] - 10, coma(hu[1][0] - hu[0][0], 0), 30, 18); if (SUP) cota(C, hu[0][0] - 10, hu[0][1], hu[0][0] - 10, hu[2][1], coma(hu[2][1] - hu[0][1], 0), 30, 18);
+    cotaM(bl[0][0] + H.muros.espesor, 585, bl[1][0] - H.muros.espesor, 585, `${coma(H.interior.ancho, 0)} entre muros · ${coma(H.interior.terminado.ancho, 0)} terminado`, 0, FSs);
+    cotaM(330, bl[0][1] + H.muros.espesor, 330, bl[2][1] - H.muros.espesor, `${coma(H.interior.largo, 0)} entre muros · ${coma(H.interior.terminado.largo, 0)} term.`, -20, FSs);   // a la derecha del rótulo de la zapata
+    const hu = H.losa.hueco.map(loc); if (SUP) cotaM(hu[0][0], hu[0][1] - 10, hu[1][0], hu[0][1] - 10, coma(hu[1][0] - hu[0][0], 0), 30, 18); if (SUP) cotaM(hu[0][0] - 10, hu[0][1], hu[0][0] - 10, hu[2][1], coma(hu[2][1] - hu[0][1], 0), 30, 18);
     // ---- capas (botones), leyenda y fichas ----
     const def = [['fund', 'Enfierradura y arranque de pilares', true], ['recintos', 'Recintos', false], ['cotas', 'Cotas', true]];
     TZ_CAPAS.push(capas); if (SUP) { def.forEach(([k, t, on]) => { capas[k].style.display = on ? '' : 'none'; }); } else { const bot = $('#tz-capas'); def.forEach(([k, t, on]) => { const lab2 = document.createElement('label'); const ch = document.createElement('input'); ch.type = 'checkbox'; ch.checked = on; capas[k].style.display = on ? '' : 'none'; ch.addEventListener('input', () => { TZ_CAPAS.forEach(c => { c[k].style.display = ch.checked ? '' : 'none'; }); }); lab2.append(ch, ' ' + t); bot.appendChild(lab2); }); }
@@ -630,25 +653,35 @@ ol.preg li{margin:0 0 8px}
     // roturas en los bordes: el patio sigue al norte, el estudio al sur
     [yLo, yHi].forEach(yy => el('path', { d: `M${X(yy)},${Y(zLo)} ` + Array.from({ length: 16 }, (_, k) => `l${k % 2 ? -8 : 8},${-(zHi - zLo + 20) / 16}`).join(' '), style: 'stroke:var(--fig-ink);stroke-width:1;fill:none' }, g));
     // ejes A y B
-    [[yA, 'A'], [yB, 'B']].forEach(([yc, n]) => { const ln = line(yc, zHi + 30, yc, zLo - 60, 'cx-guia', C); ln.style.strokeDasharray = '14 5 3 5'; el('circle', { cx: X(yc), cy: Y(zHi + 50), r: 15, style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.3' }, C); txt(C, X(yc), Y(zHi + 50) + 5.5, n, { 'text-anchor': 'middle', 'font-size': 15, 'font-weight': 700 }); });
+    [[yA, 'A'], [yB, 'B']].forEach(([yc, n]) => { const ln = line(yc, zHi + 30, yc, zLo - 44, 'cx-guia', C); /* llega a la línea de la primera fila de cotas, no a su texto (el 30 del muro queda bajo el eje) */ ln.style.strokeDasharray = '14 5 3 5'; el('circle', { cx: X(yc), cy: Y(zHi + 50), r: 15, style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.3' }, C); txt(C, X(yc), Y(zHi + 50) + 5.5, n, { 'text-anchor': 'middle', 'font-size': 15, 'font-weight': 700 }); });
     // rótulos: con tarjeta de fondo cuando van sobre el dibujo
     const labD = (x, zz, t, fs, anchor, fondo) => { const size = fs || FSs; if (fondo) { const w = t.length * size * 0.56 + 12, h = size * 1.45, x0 = anchor === 'start' ? x - 6 : anchor === 'end' ? x - w + 6 : x - w / 2; el('rect', { x: x0, y: Y(zz) - h * 0.72, width: w, height: h, rx: 4, style: 'fill:var(--paper);opacity:.9' }, C); } return txt(C, x, Y(zz), t, { 'text-anchor': anchor || 'middle', 'font-size': size, class: 'txs' }); };
     const lab = (y, zz, t, fs, anchor, fondo) => labD(X(y), zz, t, fs, anchor, fondo);
+    // placa del color del fondo detrás de un rótulo, medida sobre el texto ya dibujado y medida otra vez después de letraMinima y cuando carga la letra
+    // (Gabriel, 24-10-2026: "arregla ese tipo de cosas"): tapa la línea que pasa por detrás (el corte al medio) sin pisar las piezas
+    // (3 de aire arriba y abajo: las placas de las líneas vecinas se tocan y no asoman pedacitos del corte entre ellas)
+    const placa = t => { const r = el('rect', { rx: 3, style: 'fill:var(--paper);stroke:none' }); t.parentNode.insertBefore(r, t);
+      const fit = () => { try { const b = t.getBBox(); if (b.width > 0) { r.setAttribute('x', b.x - 3); r.setAttribute('y', b.y - 3); r.setAttribute('width', b.width + 6); r.setAttribute('height', b.height + 6); } } catch (er) {} };
+      fit(); Promise.resolve().then(fit); if (document.fonts) document.fonts.ready.then(fit); return t; };
     const xm = (X(y0 + e) + X(y1 - e)) / 2, zm = (N.piso_bunker + N.losa_inf) / 2;
-    lab(yLo + 10, N.ntn + 12, '← patio', FSs, 'start'); lab(yLo + 10, N.ntn - 16, 'terreno natural −50', 12, 'start'); lab(yHi - 10, TP + 14, 'estudio →', FSs, 'end');
-    labD(xm, zm + 44, 'búnker', FS, 'middle', true);
-    labD(xm, zm + 24, `${coma(H.interior.alto, 0)} de obra gruesa · ${coma((N.losa_inf - TC) - (N.piso_bunker + TP), 0)} libres terminados · ${coma(y1 - y0 - 2 * e - 2 * (D.parametros.tabique || 0), 0)} entre tabiques`, FSs, 'middle', true);
-    labD(xm, zm + 6, `bajo la VHA (eje 3): ${coma((zv - TC) - (N.piso_bunker + TP), 0)} libres`, FSs, 'middle', true);
-    labD(xm, N.losa_inf - 46, `${vha.nombre} (eje 3), detrás del corte`, 12, 'middle', true);
-    labD(xm, N.piso_bunker + TP + 22, 'sobrelosa 4 sobre la losa de fundación', 12, 'middle', true);
-    labD(xm, zTopCut - 12, `se omiten ${coma(CUT, 0)} del largo (ahí todo es igual)`, 12, 'middle', true);
-    lab(yA - 20, zHi - 50, 'PLb 200×200×8 · anclaje 1+1 ø3/4', 12, 'end'); lab(yB + 20, zHi - 50, 'PLb 200×200×8 · anclaje 1+1 ø3/4', 12, 'start');
-    // cotas horizontales (abajo): zapata, interior, entre ejes, exterior, zapatas
+    // el terreno natural se rotula sobre su línea (antes quedaba dentro del achurado del suelo) y el patio encima; los dos lejos de la rotura
+    lab(yLo + 16, N.ntn + 26, '← patio', FSs, 'start'); lab(yLo + 16, N.ntn + 7, 'terreno natural −50', 12, 'start'); lab(yHi - 10, TP + 14, 'estudio →', FSs, 'end');
+    // al centro del búnker, entre los tabiques: el rótulo largo va en dos líneas (antes pisaba los muros)
+    placa(labD(xm, zm + 38, 'búnker', FS, 'middle'));
+    placa(labD(xm, zm + 18, `${coma(H.interior.alto, 0)} de obra gruesa · ${coma((N.losa_inf - TC) - (N.piso_bunker + TP), 0)} libres terminados`, FSs, 'middle'));
+    placa(labD(xm, zm, `${coma(y1 - y0 - 2 * e - 2 * (D.parametros.tabique || 0), 0)} entre tabiques`, FSs, 'middle'));
+    placa(labD(xm, zm - 18, `bajo la VHA (eje 3): ${coma((zv - TC) - (N.piso_bunker + TP), 0)} libres`, FSs, 'middle'));
+    placa(labD(xm, N.losa_inf - 46, `${vha.nombre} (eje 3), detrás del corte`, 12, 'middle'));
+    placa(labD(xm, N.piso_bunker + TP + 22, 'sobrelosa 4 sobre la losa de fundación', 12, 'middle'));
+    labD(xm, zTopCut + 7, `se omiten ${coma(CUT, 0)} del largo (ahí todo es igual)`, 12, 'middle');   // encima del corte, no sobre él
+    // placa de los pilares: en dos líneas, entre el muro del estudio y la rotura (antes la rotura cruzaba el texto)
+    [[yA - 20, 'end'], [yB + 20, 'start']].forEach(([yy, an]) => { lab(yy, zHi - 42, 'PLb 200×200×8', 12, an); lab(yy, zHi - 59, 'anclaje 1+1 ø3/4', 12, an); });
+    // cotas horizontales (abajo), de lo particular a lo general: cadena losa de fundación · muro · tabique · interior terminado (= 755), entre muros, entre ejes, exterior y losa de fundación;
+    // todas bajo el achurado del suelo (antes el 30 y el 10 iban dentro de él)
     const rb = Y(zLo) + 22;
-    [[yN[0], y0, 26], [y0, y0 + e, -26], [y1 - e, y1, -26], [y1, yS[1], 26]].forEach(([a, b, off]) => cota(C, X(a), rb, X(b), rb, coma(b - a, 1).replace(',0', ''), off, FSs));
-    if (TB) [[y0 + e, y0 + e + TB], [y1 - e - TB, y1 - e]].forEach(([a, b]) => cota(C, X(a), rb, X(b), rb, '10', -26, FSs));
-    cota(C, X(y0 + e), rb, X(y1 - e), rb, `${coma(y1 - y0 - 2 * e, 0)} entre muros`, 26, FSs);
-    if (TB) cota(C, X(y0 + e + TB), rb + 50, X(y1 - e - TB), rb + 50, `${coma(y1 - y0 - 2 * e - 2 * TB, 0)} terminado, entre tabiques`, 26, FSs);
+    const cad = [yN[0], y0, y0 + e].concat(TB ? [y0 + e + TB, y1 - e - TB] : [], [y1 - e, y1, yS[1]]);
+    cad.slice(1).forEach((b, i) => { const a = cad[i], d = b - a; cota(C, X(a), rb, X(b), rb, TB && i === 3 ? `${coma(d, 0)} terminado, entre tabiques` : coma(d, 1).replace(',0', ''), 26, FSs); });
+    cota(C, X(y0 + e), rb + 50, X(y1 - e), rb + 50, `${coma(y1 - y0 - 2 * e, 0)} entre muros`, 26, FSs);
     cota(C, X(yA), rb + 98, X(yB), rb + 98, `${coma(yB - yA, 0)} entre ejes A y B`, 26, FS);
     cota(C, X(y0), rb + 146, X(y1), rb + 146, `${coma(y1 - y0, 0)} exterior de muros`, 26, FS);
     cota(C, X(yN[0]), rb + 194, X(yS[1]), rb + 194, `${coma(yS[1] - yN[0], 0)} losa de fundación (excavación mínima)`, 26, FS);
@@ -677,24 +710,34 @@ ol.preg li{margin:0 0 8px}
   (function bunker() {
     const svg = $('#svg-bunker'); const bl = H.losa.pts.map(loc); const bx0 = bl[0][0], by0 = bl[0][1], bx1 = bl[2][0], by1 = bl[2][1];
     const mg = 150; svg.setAttribute('viewBox', `${bx0 - mg} ${by0 - mg} ${bx1 - bx0 + 2 * mg} ${by1 - by0 + 2 * mg + 40}`);
+    // placa del color de la losa detrás de un rótulo que cae sobre una línea (eje, borde punteado de la viga); medida otra vez después de letraMinima y al cargar la letra (Gabriel, 24-10-2026)
+    const placa = (t, py) => { const r = el('rect', { rx: 3, style: 'fill:var(--fig-fill);stroke:none' }); if (t.getAttribute('transform')) r.setAttribute('transform', t.getAttribute('transform')); t.parentNode.insertBefore(r, t);   // py: aire arriba y abajo
+      const fit = () => { try { const b = t.getBBox(), p = py == null ? 0.5 : py; if (b.width > 0) { r.setAttribute('x', b.x - 3); r.setAttribute('y', b.y - p); r.setAttribute('width', b.width + 6); r.setAttribute('height', b.height + 2 * p); } } catch (er) {} };
+      fit(); Promise.resolve().then(fit); if (document.fonts) document.fonts.ready.then(fit); return t; };
+    const fsFin = f => Math.max(f, 14 * svg.viewBox.baseVal.width / (parseFloat(getComputedStyle(svg).minWidth) || svg.getBoundingClientRect().width || 1e9));   // la letra que deja letraMinima
     el('rect', { x: bx0, y: by0, width: bx1 - bx0, height: by1 - by0, style: 'fill:var(--fig-fill);stroke:none' }, svg);
     H.muros.piezas.forEach(mu => { const p = mu.pts.map(loc); el('polygon', { points: p.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:1.2' }, svg); });
-    H.vigas.forEach(v => { const p = v.pts.map(loc); el('polygon', { points: p.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:none;stroke:var(--fig-ink);stroke-width:1.5;stroke-dasharray:10 5' }, svg); if (v.id === 'VB-N' || v.id === 'VB-S') return; const c = p.reduce((s, q) => [s[0] + q[0] / 4, s[1] + q[1] / 4], [0, 0]); const cy = v.id === 'VHA-3' ? c[1] - 170 : c[1]; txt(svg, v.id === 'VHA-esc' ? Math.min(...p.map(q => q[0])) - 10 : c[0], cy + 6, v.nombre, { 'text-anchor': v.id === 'VHA-esc' ? 'end' : 'middle', 'font-size': 15, transform: v.id === 'VHA-3' ? `rotate(-90 ${c[0]} ${cy})` : '' }); /* la del hueco, a su izquierda: el hueco la tapaba */ /* la VHA-3 se rotula más al norte: al centro va el rótulo de la losa */ });
+    const encima = [];   // rótulos de vigas con su placa: van encima de las líneas de los ejes, que se dibujan después
+    H.vigas.forEach(v => { const p = v.pts.map(loc); el('polygon', { points: p.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:none;stroke:var(--fig-ink);stroke-width:1.5;stroke-dasharray:10 5' }, svg); if (v.id === 'VB-N' || v.id === 'VB-S') return; const c = p.reduce((s, q) => [s[0] + q[0] / 4, s[1] + q[1] / 4], [0, 0]); const cy = v.id === 'VHA-3' ? c[1] - 170 : c[1]; const tv = txt(svg, v.id === 'VHA-esc' ? Math.min(...p.map(q => q[0])) - 10 : c[0], cy + 6, v.nombre, { 'text-anchor': v.id === 'VHA-esc' ? 'end' : 'middle', 'font-size': 15, transform: v.id === 'VHA-3' ? `rotate(-90 ${c[0]} ${cy})` : '' }); encima.push(placa(tv)); /* la del hueco, a su izquierda: el hueco la tapaba */ /* la VHA-3 se rotula más al norte: al centro va el rótulo de la losa */ /* placas: tapan el eje 3 y el eje 4, que cruzaban los rótulos, sin tocar los bordes punteados */ });
     const hu = H.losa.hueco.map(loc); el('polygon', { points: hu.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.2' }, svg);
     flechaNorte(svg, bx0 - 95, by0 - 88, 24);
     const nPel = Math.round((hu[2][1] - hu[0][1]) / ((H.escalera.tramo || {}).largo / (H.escalera.tramo || {}).peldanos || 22.1));   // pedada real (22,1)
     for (let i = 1; i < nPel; i++) { const y = hu[0][1] + (hu[2][1] - hu[0][1]) * i / nPel; el('line', { x1: hu[0][0], y1: y, x2: hu[1][0], y2: y, style: 'stroke:var(--fig-soft);stroke-width:.8' }, svg); }
-    txt(svg, (hu[0][0] + hu[1][0]) / 2, hu[0][1] - 10, 'escalera', { 'text-anchor': 'middle', 'font-size': 15, class: 'txs' });
+    // rótulo dentro del hueco, en el espacio entre las dos huellas del medio (antes iba dentro del borde punteado de la viga de borde del lado A)
+    const pas = (hu[2][1] - hu[0][1]) / nPel, yEsc = hu[0][1] + (Math.floor((nPel - 1) / 2) + 0.5) * pas, fE = fsFin(15);
+    txt(svg, (hu[0][0] + hu[1][0]) / 2, yEsc + 0.365 * fE, 'escalera', { 'text-anchor': 'middle', 'font-size': fE, class: 'txs' });   // 0,365: del centro de la caja de la letra a su línea base
     // pilares que apoyan en los muros N y S
     D.miembros.filter(x => x.c === 'pilar').map(x => loc(x.a)).filter(p => p[1] < by1 + 20).forEach(p => el('rect', { x: p[0] - 8, y: p[1] - 8, width: 16, height: 16, style: 'fill:var(--fig-pilar);stroke:var(--fig-ink);stroke-width:1' }, svg));
     // ejes
     Object.entries(D.ejes.x).forEach(([n, x]) => { el('line', { x1: x, y1: by0 - 60, x2: x, y2: by1 + 40, style: 'stroke:var(--fig-soft);stroke-width:.8;stroke-dasharray:14 5 3 5' }, svg); burbuja(svg, x, by0 - 95, n); });
     [['A', D.ejes.y.A], ['B', D.ejes.y.B]].forEach(([n, y]) => { el('line', { x1: bx0 - 60, y1: y, x2: bx1 + 40, y2: y, style: 'stroke:var(--fig-soft);stroke-width:.8;stroke-dasharray:14 5 3 5' }, svg); burbuja(svg, bx0 - 95, y, n); });
+    encima.forEach(t => { svg.appendChild(t.previousSibling); svg.appendChild(t); });   // la placa y su rótulo, encima de los ejes
     cota(svg, bx0 + H.muros.espesor, by1 + 20, bx1 - H.muros.espesor, by1 + 20, coma(H.interior.ancho, 0) + ' entre muros · ' + coma(H.interior.terminado.ancho, 0) + ' terminado', 40, 16);
     cota(svg, bx1 + 20, by0 + H.muros.espesor, bx1 + 20, by1 - H.muros.espesor, coma(H.interior.largo, 0) + ' · ' + coma(H.interior.terminado.largo, 0) + ' term.', -45, 16);
     cota(svg, bx0, by1 + 20, bx1, by1 + 20, coma(bx1 - bx0, 0) + ' exterior', 85, 16);
-    txt(svg, (bx0 + bx1) / 2, (by0 + by1) / 2 - 30, 'losa e=' + H.losa.espesor, { 'text-anchor': 'middle', 'font-size': 17 });
-    txt(svg, (bx0 + bx1) / 2, (by0 + by1) / 2 - 6, H.losa.armadura.split(' (')[0], { 'text-anchor': 'middle', 'font-size': 13, class: 'txs' });
+    // al centro de la losa caen el eje 3 y la VHA del eje 3: los dos rótulos con su placa del color de la losa (antes las líneas los cruzaban)
+    placa(txt(svg, (bx0 + bx1) / 2, (by0 + by1) / 2 - 30, 'losa e=' + H.losa.espesor, { 'text-anchor': 'middle', 'font-size': 17 }), 3);   // 3 de aire: las dos placas se tocan
+    placa(txt(svg, (bx0 + bx1) / 2, (by0 + by1) / 2 - 6, H.losa.armadura.split(' (')[0], { 'text-anchor': 'middle', 'font-size': 13, class: 'txs' }), 3);
     $('#txt-bunker').innerHTML = [
       ['Interior', `<b>${coma(H.interior.terminado.ancho / 100, 2)} × ${coma(H.interior.terminado.largo / 100, 2)} m terminados</b> entre tabiques de ${coma(H.interior.terminado.tabique, 0)} (${coma(H.interior.ancho / 100, 2)} × ${coma(H.interior.largo / 100, 2)} entre muros) · ${coma(E.bunker.interior_cm / 100, 2)} libres terminados (${coma(H.interior.alto / 100, 2)} de obra gruesa) · original 10,80 × 5,00 × 2,72`],
       ['Muros', `e=${H.muros.espesor} (5 más hacia afuera) · verticales ø16@15 por fuera y ø12@15 por dentro (bajan a la losa de fundación con patas de 60 y 30) · horizontales ø12@15 · 2ø12 de coronamiento · recubrimiento 4 por fuera, 3 por dentro · G30 con cristalizante <span class="fuente med">revisión</span>`],
@@ -748,14 +791,24 @@ ol.preg li{margin:0 0 8px}
     if (H.zapata_corrida && horiz === 'y' && Math.abs(valor - D.ejes.y.B) < 6) { const Zc = H.zapata_corrida, zs = Zc.piezas.find(z => z.id === 'ZC-S'); cajaF(zs.pts, zl(Zc.z_sup), zl(Zc.z_inf), estH); cajaF(zs.pts, zl(Zc.emplantillado.z_sup), zl(Zc.emplantillado.z_inf), estE); }
     // ventanas y puertas propuestas en este eje (sección 04)
     const kE = horiz === 'x' ? 0 : 1;   // los vanos de este eje, por su posición (no por el nombre del muro)
-    let finRot = -1e9, altoRot = 0;   // dos vanos vecinos (p. ej. las puertas del distribuidor y de la escalera en B 4–5): el segundo rótulo sube una línea
+    // rótulo de cada vano (Gabriel, 24-10-2026: "arregla ese tipo de cosas", los nombres de las puertas se salían de su rectángulo): adentro, al pie, si cabe con aire (ventanas);
+    // si no, encima del dintel, dentro del tramo entre los pilares vecinos; si choca con el del vano vecino (P-B-dist y P-esc-puerta en B 4–5) sube una línea con una línea de llamada a su dintel
+    const FSV = Math.max(13 * FE, 14 / KE), AIRE = 3 / KE, ejesV = Object.values(horiz === 'x' ? D.ejes.y : D.ejes.x), PIL2 = 4.5;   // letra ya en el mínimo de 14 px (letraMinima no la cambia: el ancho medido vale), 3 px de aire, medio pilar
+    const encima = [];   // rótulos puestos sobre los dinteles: [desde, hasta, línea]
     D.vanos.filter(v => v.tipo !== 'escalera' && Math.abs(loc(v.a)[kE] - valor) < 20 && Math.abs(loc(v.b)[kE] - valor) < 20)
       .sort((p, q) => Math.min(u(loc(p.a)), u(loc(p.b))) - Math.min(u(loc(q.a)), u(loc(q.b)))).forEach(v => {
       const a = loc([v.a[0], v.a[1], v.z0]), b = loc([v.b[0], v.b[1], v.z1]), esPuerta = v.tipo === 'puerta';
       el('rect', { x: Math.min(u(a), u(b)), y: Y(b[2]), width: Math.abs(u(b) - u(a)), height: b[2] - a[2], style: `fill:${esPuerta ? 'var(--fig-pilar)' : 'var(--fig-viga)'};opacity:.35;stroke:var(--fig-ink);stroke-width:1` }, svg);
-      const xm = (u(a) + u(b)) / 2, w2 = v.id.length * 13 * FE * 0.3;
-      altoRot = xm - w2 < finRot + 6 * FE && altoRot === 0 ? 17 * FE : 0; finRot = xm + w2;
-      txt(svg, xm, Y(a[2]) - 10 - altoRot, v.id, { 'text-anchor': 'middle', 'font-size': 13 * FE, class: 'txs' });
+      const u0 = Math.min(u(a), u(b)), u1 = Math.max(u(a), u(b)), xm = (u0 + u1) / 2;
+      const t = txt(svg, xm, Y(a[2]) - 10, v.id, { 'text-anchor': 'middle', 'font-size': FSV, class: 'txs' }), w = t.getBBox().width;
+      if (w + 2 * AIRE <= u1 - u0) return;   // cabe adentro, al pie
+      const izq = Math.max(-1e9, ...ejesV.filter(e => e <= u0 + 1)) + PIL2 + 2 * AIRE, der = Math.min(1e9, ...ejesV.filter(e => e >= u1 - 1)) - PIL2 - 2 * AIRE;   // 6 px de los pilares
+      const xc = Math.max(izq + w / 2, Math.min(xm, der - w / 2));
+      let n = 0; while (encima.some(([p, q, k]) => k === n && xc - w / 2 < q + AIRE && xc + w / 2 > p - AIRE)) n++;
+      encima.push([xc - w / 2, xc + w / 2, n]);
+      const yb = Y(b[2]) - 0.25 * FSV - AIRE - 4 - n * 1.7 * FSV;   // base del texto: su caja queda ≥ 3 px sobre el dintel; cada línea de más, con aire para que no se lea como un solo rótulo de dos líneas
+      t.setAttribute('x', xc); t.setAttribute('y', yb);
+      if (n) el('line', { x1: xm, y1: Y(b[2]) - 1, x2: xm, y2: yb + 0.25 * FSV + AIRE, style: 'stroke:var(--fig-soft);stroke-width:1.5' }, svg);
     });
     // pilares del plano de fondo (tenues) no se dibujan: solo las piezas del eje
     const orden = ['costanera', 'otro', 'tensor', 'viga', 'cabio', 'puntal', 'pilar', 'diagonal'];
@@ -870,7 +923,7 @@ ol.preg li{margin:0 0 8px}
     }
     // lámina: corte chico de referencia a la izquierda, tres detalles a la derecha
     const W = 1320, sc0 = 0.42, oxk = 330, oyk = 70 + (ZTOP + 10) * sc0, ox2 = 720, sc2 = 1.6;
-    corte(svg, sc0, oxk, oyk, nv.sello - 10, ZTOP + 5, -120, 160);
+    const xhi0 = 160; corte(svg, sc0, oxk, oyk, nv.sello - 10, ZTOP + 5, -120, xhi0);
     cadena(sc0, 200, oyk, [[nv.sello, 'sello'], [-50, 'terreno natural'], [0, 'losa'], [Z_VIGA_INF, 'viga 1–5'], [ZTOP, 'techo (eje E)']], -1, 15);
     txt(svg, 330, 40, 'Corte por el muro del eje A del búnker', { class: 'cx-h', 'text-anchor': 'middle' });
     let top = 80;
@@ -880,9 +933,9 @@ ol.preg li{margin:0 0 8px}
       const g = el('g', { 'clip-path': `url(#${id})` }, svg); corte(g, sc2, ox2, oy2, zlo, zhi, xlo, xhi);
       el('rect', { x: ox2 + xlo * sc2, y: top, width: (xhi - xlo) * sc2, height: (zhi - zlo) * sc2, class: 'cx-marco' }, svg);
       txt(svg, ox2 + xlo * sc2, top - 10, `Detalle ${letra} · ${titulo}`, { class: 'cx-h' });
-      cadena(sc2, ox2 + xhi * sc2 + 30, oy2, cotas, 1, 16);
+      cadena(sc2, ox2 + xhi * sc2 + 50, oy2, cotas, 1, 16);   // a 50 del marco: las cotas entre marcas (19,5) caben entre el marco y la cadena (Gabriel, 24-10-2026)
       el('rect', { x: oxk + xlo * sc0, y: oyk - zhi * sc0, width: (xhi - xlo) * sc0, height: (zhi - zlo) * sc0, class: 'cx-rec' }, svg);
-      txt(svg, oxk + xhi * sc0 + 8, oyk - (zhi + zlo) / 2 * sc0 + 6, letra, { 'font-size': 18, 'font-weight': 700, style: 'fill:#C2410C' });
+      txt(svg, oxk + xhi0 * sc0 + 10, oyk - (zhi + zlo) / 2 * sc0 + 6, letra, { 'font-size': 18, 'font-weight': 700, style: 'fill:#C2410C' });   // la letra del detalle, a la derecha del corte chico, no encima de él
       top += (zhi - zlo) * sc2 + 95;   // más aire entre detalles
     };
     detalle(Z_VIGA_INF - 30, zTecho(0) + TECHO + 15, -130, 100, 'techo y cielo', [[Z_VIGA_INF - TC, 'cielo terminado'], [Z_VIGA_INF, 'viga 1–5 inf'], [Z_VIGA_INF + VT, 'viga 1–5 sup'], [zVi(0) + VI_H, 'viga inclinada sup'], [zTecho(0), 'plancha inf'], [zTecho(0) + TECHO, 'techo en el muro']], 'C');
@@ -921,15 +974,46 @@ ol.preg li{margin:0 0 8px}
     const M = 25;
     // muros: exterior y tabiques, en gris; recintos rotulados
     el('rect', { x: 0, y: 0, width: W, height: L, style: 'fill:var(--fig-horm2);stroke:none' }, svg);
-    E.recintos.forEach(r => { const pts = r.pts.map(loc); el('polygon', { points: pts.map(p => p.slice(0, 2).join(',')).join(' '), style: 'fill:var(--paper);stroke:none' }, svg); const c = pts.reduce((s, p) => [s[0] + p[0] / pts.length, s[1] + p[1] / pts.length], [0, 0]); if (r.id === 'escalera') { const xe = c[0] + 33, ye = c[1] - 40; txt(svg, xe, ye, r.nombre, { 'text-anchor': 'middle', 'font-size': 17, class: 'txs', transform: `rotate(-90 ${xe} ${ye})` }); return; }   // la caja mide 1,20: el rótulo va a lo largo, al lado de la flecha
+    // placa del color del papel detrás de un texto que cae sobre líneas (peldaños, flecha); con su mismo giro
+    const placa = (t, pad) => { const bb = t.getBBox(); t.parentNode.insertBefore(el('rect', { x: bb.x - pad, y: bb.y - pad / 2, width: bb.width + 2 * pad, height: bb.height + pad, style: 'fill:var(--paper);stroke:none', transform: t.getAttribute('transform') || '' }), t); };
+    E.recintos.forEach(r => { const pts = r.pts.map(loc); el('polygon', { points: pts.map(p => p.slice(0, 2).join(',')).join(' '), style: 'fill:var(--paper);stroke:none' }, svg); const c = pts.reduce((s, p) => [s[0] + p[0] / pts.length, s[1] + p[1] / pts.length], [0, 0]); if (r.id === 'escalera' && D.vanos.some(v => v.tipo === 'escalera')) return;   // la escalera se rotula después de sus peldaños
       txt(svg, c[0], c[1] + (r.id === 'estudio' ? -100 : r.id === 'cafeteria' ? -120 : r.id === 'cabina' ? -130 : 0), r.nombre.replace(' (cowork y sala de grabación)', ''), { 'text-anchor': 'middle', 'font-size': 17, class: 'txs' }); });
-    // esquema interior (idea)
-    D.interior.forEach(it => { const p = it.pts.map(loc); el('polygon', { points: p.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:var(--fig-fill);stroke:var(--fig-soft);stroke-width:1.2;stroke-dasharray:5 3' }, svg); if (it.nombre && !it.id.endsWith('2')) { const c = p.reduce((s, q) => [s[0] + q[0] / 4, s[1] + q[1] / 4], [0, 0]); const w = Math.max(...p.map(q => q[0])) - Math.min(...p.map(q => q[0])), h = Math.max(...p.map(q => q[1])) - Math.min(...p.map(q => q[1]));
-      // los nombres no se pisan (Gabriel, 20-10-2026): las alfombras se rotulan en su borde de arriba; las lámparas, que cuelgan sobre la mesa o la barra, abajo de ellas; sillas, taburetes y paneles solo una vez
+    // esquema interior (idea): las alfombras abajo de todo (tapaban la consola, su silla y medio rack) y los nombres después de todos los muebles (las lámparas tapaban los de la mesa y la barra)
+    const caja = pts => { const xs = pts.map(q => q[0]), ys = pts.map(q => q[1]); return { x0: Math.min(...xs), x1: Math.max(...xs), y0: Math.min(...ys), y1: Math.max(...ys) }; };
+    const esAlf = it => it.id.startsWith('alfombra');
+    const MUE = [...D.interior.filter(esAlf), ...D.interior.filter(it => !esAlf(it))].map(it => { const p = it.pts.map(loc); el('polygon', { points: p.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:var(--fig-fill);stroke:var(--fig-soft);stroke-width:1.2;stroke-dasharray:5 3' }, svg); return { it, b: caja(p) }; });
+    const RECS = E.recintos.map(r => caja(r.pts.map(loc)));
+    // nombres: los nombres no se pisan (Gabriel, 20-10-2026) ni se salen de su mueble (24-10-2026: "arregla ese tipo de cosas"): adentro si caben con aire; si no, girados a lo largo del mueble;
+    // si tampoco, afuera, al lado que dice FUERA. Las alfombras se rotulan en su borde de arriba; las lámparas, que cuelgan sobre la mesa o la barra, abajo de ellas, y el nombre de la mesa o la barra va al lado de la lámpara; sillas, taburetes y paneles solo una vez
+    const vbV = svg.viewBox.baseVal, refV = parseFloat(getComputedStyle(svg).minWidth) || svg.getBoundingClientRect().width || vbV.width;
+    const FSM = Math.max(13, 14 * vbV.width / refV + 0.05);   // la letra que dejará letraMinima (14 px en el ancho de diseño): se mide con ella, si no el nombre crece después y se sale
+    const AI = 4, FUERA = { taburete1: 'arriba', panel_o1: 'arriba', panel_cab_o1: 'arriba', lavamanos: 'arriba', minibar: 'izq' };   // AI: aire mínimo (≈ 4,5 px a 1472 de ancho)
+    const cruza = (r, s, m) => r.x0 < s.x1 + m && r.x1 > s.x0 - m && r.y0 < s.y1 + m && r.y1 > s.y0 - m, area = r => (r.x1 - r.x0) * (r.y1 - r.y0);
+    MUE.forEach(({ it, b }) => {
+      if (!it.nombre || it.id.endsWith('2')) return;
       if (/^(silla|taburete|panel)/.test(it.id) && !/^(silla11n|taburete1|panel_o1|panel_cab_o1|silla_cab|silla_consola)$/.test(it.id)) return;
       if (it.id.startsWith('estante')) return;   // las estanterías de la bodega llevan un solo rótulo, al centro (abajo)
-      const nom = w < 200 ? it.nombre.split(' ')[0] : it.nombre.split(' (')[0], alf = it.id.startsWith('alfombra'), lamp = it.id.startsWith('lampara');
-      txt(svg, c[0], alf ? c[1] - h / 2 + 16 : lamp ? c[1] + h / 2 + 14 : c[1] + 5, nom, { 'text-anchor': 'middle', 'font-size': 13, class: 'txs' }); } });
+      const nom = b.x1 - b.x0 < 200 ? it.nombre.split(' ')[0] : it.nombre.split(' (')[0], cx = (b.x0 + b.x1) / 2, cy = (b.y0 + b.y1) / 2;
+      const t = txt(svg, cx, cy, nom, { 'text-anchor': 'middle', 'font-size': FSM, class: 'txs' });
+      if (t.getBBox().width + 2 * AI > b.x1 - b.x0 && t.getBBox().width + 2 * AI > b.y1 - b.y0 && nom.includes(' ')) t.textContent = nom.split(' ')[0];   // si el nombre largo no cabe ni a lo largo, va solo la primera palabra (p. ej. "Consola")
+      const tb = t.getBBox(), tw = tb.width, th = tb.height, dy = cy - (tb.y + th / 2);   // dy: del centro del texto a su base
+      const pon = (x, y, ancla, giro) => { t.setAttribute('x', x); t.setAttribute('y', y + dy); t.setAttribute('text-anchor', ancla || 'middle'); if (giro) t.setAttribute('transform', `rotate(-90 ${x} ${y})`); };   // (x, y) = centro del texto (con ancla 'end', su borde derecho)
+      if (esAlf(it)) return pon(cx, b.y0 + AI + th / 2);
+      if (it.id.startsWith('lampara')) return pon(cx, b.y1 + AI + th / 2);
+      // lo libre del mueble: si le cuelga una lámpara encima (mesa, barra), el lado con más aire
+      let f = b; const o = MUE.find(q => q.it.id.startsWith('lampara') && q.it !== it && area(q.b) < area(b) && cruza(q.b, b, 0));
+      if (o) { const q = o.b, aire = s => Math.min(s.x1 - s.x0 - tw, s.y1 - s.y0 - th) / 2;
+        f = [{ ...b, y1: q.y0 }, { ...b, x1: q.x0 }, { ...b, x0: q.x1 }, { ...b, y0: q.y1 }].reduce((m, s) => aire(s) > aire(m) ? s : m); }
+      const fx = (f.x0 + f.x1) / 2, fy = (f.y0 + f.y1) / 2, fw = f.x1 - f.x0, fh = f.y1 - f.y0;
+      if (tw + 2 * AI <= fw && th + 2 * AI <= fh) return pon(fx, fy);
+      if (th + 2 * AI <= fw && tw + 2 * AI <= fh) return pon(fx, fy, null, true);   // a lo largo
+      const lado = FUERA[it.id]; if (!lado) return pon(fx, fy);
+      const rc = RECS.find(r => r.x0 <= cx && cx <= r.x1 && r.y0 <= cy && cy <= r.y1) || { x0: -1e9, x1: 1e9 };
+      if (lado === 'izq') return pon(b.x0 - AI - 2, cy, 'end');
+      let x = Math.min(Math.max(cx, rc.x0 + AI + tw / 2), rc.x1 - AI - tw / 2), y = b.y0 - AI - th / 2, q;   // arriba: dentro del recinto y sobre lo que haya encima
+      while ((q = MUE.find(m => m.it !== it && cruza(m.b, { x0: x - tw / 2, x1: x + tw / 2, y0: y - th / 2, y1: y + th / 2 }, AI)))) y = q.b.y0 - AI - th / 2;
+      pon(x, y);
+    });
     const rBod = E.recintos.find(r => r.id === 'bodega');
     if (rBod && D.interior.some(it => it.id.startsWith('estante'))) { const p = rBod.pts.map(loc), cx = p.reduce((s, q) => s + q[0] / p.length, 0), cy = p.reduce((s, q) => s + q[1] / p.length, 0); txt(svg, cx, cy + 34, 'estanterías en U', { 'text-anchor': 'middle', 'font-size': 13, class: 'txs' }); }
     // pilares y ejes
@@ -940,7 +1024,14 @@ ol.preg li{margin:0 0 8px}
     // vanos: vidrio en azul, puertas en café, escalera
     D.vanos.forEach(v => {
       const a = loc(v.a), b = loc(v.b);
-      if (v.tipo === 'escalera') { const p = H.escalera.pts.map(loc), tr = H.escalera.tramo, yA = tr ? loc([0, tr.y_arriba])[1] : p[2][1], yB = tr ? loc([0, tr.y_abajo])[1] : p[0][1], nP = tr ? tr.peldanos : 16; for (let i = 1; i < nP; i++) { const y = yA + (yB - yA) * i / nP; el('line', { x1: p[0][0], y1: y, x2: p[1][0], y2: y, style: `stroke:var(--fig-soft);stroke-width:.8;${y < p[0][1] ? 'stroke-dasharray:3 3' : ''}` }, svg); } const xm = (p[0][0] + p[1][0]) / 2; el('line', { x1: xm, y1: p[2][1] - 15, x2: xm, y2: p[0][1] + 40, style: 'stroke:var(--fig-ink);stroke-width:1.5' }, svg); el('polygon', { points: `${xm - 7},${p[0][1] + 44} ${xm + 7},${p[0][1] + 44} ${xm},${p[0][1] + 28}`, style: 'fill:var(--fig-ink)' }, svg); txt(svg, xm, p[2][1] - 22, 'baja', { 'text-anchor': 'middle', 'font-size': 12, class: 'txs' }); return; }
+      if (v.tipo === 'escalera') { const p = H.escalera.pts.map(loc), tr = H.escalera.tramo, yA = tr ? loc([0, tr.y_arriba])[1] : p[2][1], yB = tr ? loc([0, tr.y_abajo])[1] : p[0][1], nP = tr ? tr.peldanos : 16; for (let i = 1; i < nP; i++) { const y = yA + (yB - yA) * i / nP; el('line', { x1: p[0][0], y1: y, x2: p[1][0], y2: y, style: `stroke:var(--fig-soft);stroke-width:.8;${y < p[0][1] ? 'stroke-dasharray:3 3' : ''}` }, svg); } const xm = (p[0][0] + p[1][0]) / 2;
+        // "baja" al pie de la flecha, entre la entrada y el primer peldaño (la flecha parte sobre el texto: ya no lo atraviesan ni ella ni un peldaño);
+        // el nombre va a lo largo, al lado de la flecha (la caja mide 1,20), sobre una placa para que los peldaños no lo crucen
+        const yP = Math.max(p[2][1] - 30, ...Array.from({ length: nP - 1 }, (_, k) => yA + (yB - yA) * (k + 1) / nP).filter(y => y < p[2][1] - 1));
+        const tB = txt(svg, xm, 0, 'baja', { 'text-anchor': 'middle', 'font-size': 13, class: 'txs' }), bB = tB.getBBox(); tB.setAttribute('y', (yP + p[2][1]) / 2 - (bB.y + bB.height / 2));
+        el('line', { x1: xm, y1: (yP + p[2][1]) / 2 - bB.height / 2 - 4, x2: xm, y2: p[0][1] + 40, style: 'stroke:var(--fig-ink);stroke-width:1.5' }, svg); el('polygon', { points: `${xm - 7},${p[0][1] + 44} ${xm + 7},${p[0][1] + 44} ${xm},${p[0][1] + 28}`, style: 'fill:var(--fig-ink)' }, svg);
+        const re = E.recintos.find(r => r.id === 'escalera'); if (re) { const pe = re.pts.map(loc), c = pe.reduce((s, q) => [s[0] + q[0] / pe.length, s[1] + q[1] / pe.length], [0, 0]), xe = c[0] + 33, ye = c[1] - 40; placa(txt(svg, xe, ye, re.nombre, { 'text-anchor': 'middle', 'font-size': 17, class: 'txs', transform: `rotate(-90 ${xe} ${ye})` }), 3); }
+        return; }
       const esVidrio = v.tipo.includes('ventana') || v.tipo.includes('vidri') || v.tipo.includes('corredera');
       el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], style: `stroke:${esVidrio ? 'var(--fig-viga)' : 'var(--fig-pilar)'};stroke-width:${esVidrio ? 10 : 12};stroke-linecap:butt` }, svg);
       if (v.tipo.includes('corredera')) el('line', { x1: a[0], y1: a[1], x2: (a[0] + b[0]) / 2, y2: (a[1] + b[1]) / 2, style: 'stroke:var(--paper);stroke-width:3' }, svg);
@@ -980,48 +1071,64 @@ ol.preg li{margin:0 0 8px}
       const tope = S.Y(S.zmin) + gap * 1.5;   // los rótulos pueden bajar un poco más que el corte for (let i = ys.length - 1; i >= 0; i--) { const lim = i === ys.length - 1 ? tope : ys[i + 1] - gap; if (ys[i] > lim) ys[i] = lim; }
       pos.forEach((p, i) => S.llamada(p.it[0], xCol, -ys[i], p.it[1]));
     };
+    // Textos de los cortes A–D sin tocar ni cruzar el borde de las piezas ni el marco de la ventana (Gabriel, 24-10-2026: "arregla ese tipo de cosas… revisa todo eso"):
+    // - fs de cada corte = letra mínima / 0,92: así el número de cada marca (0,92 fs) ya nace en la letra mínima, letraMinima no lo sube y su círculo (0,82 fs) le queda holgado;
+    // - recubrimiento de una cara inferior apoyada en el emplantillado: su número va adentro de la pieza, sobre la raya (afuera caía encima del emplantillado);
+    // - cotas de espesor fuera de la ventana o junto a la cara de la pieza, nunca sobre la línea punteada del marco.
+    const mueve = (t, x, y, ancla) => { t.setAttribute('x', x); t.setAttribute('y', y); if (ancla) t.setAttribute('text-anchor', ancla); };   // reubica el texto que acaba de dejar un ayudante de AR.seccion (el último del dibujo)
+    const deslizaV = (t, y) => { const x = t.getAttribute('x'); t.setAttribute('y', y); t.setAttribute('transform', `rotate(-90 ${x} ${y})`); };   // corre a lo largo de su línea el número de una cota vertical
     // A) búnker: muro norte, losa de techo y losa de fundación (corte N-S entre los ejes 1 y 2)
     corte('Corte A · muro, losa de techo y losa de fundación del búnker', [-118, -24, 480, 452], sv => {
-      const S = AR.seccion(sv, D, H, PL, { eje: 'x', c: AX(140), u0: AY(-56), u1: AY(180), zmin: -395, zmax: 12, fs: 9, ntn: [0, 56] });
+      const S = AR.seccion(sv, D, H, PL, { eje: 'x', c: AX(140), u0: AY(-56), u1: AY(180), zmin: -395, zmax: 12, fs: 10.2, ntn: [0, 56] });
       columna(S, [['LT-NS', null, -2], ['LT-EO', null, -8], ['MC-N-ext'], ['LN', null, -20], ['LE', null, -28], ['MV-N-ext', null, -100], ['MV-N-int', null, -150], ['MH-N-int'], ['LF-sup-EO', null, -345], ['LF-sup-NS', null, -352], ['LF-inf-EO', null, -360], ['LF-inf-NS', null, -368]], S.W + 22, 21);
       S.recubrimiento('LN', 'z', N.losa_inf, S.U(AY(150))); S.recubrimiento('MV-N-ext', 'u', S.U(AY(-5)), -200);
-      S.recubrimiento('LF-inf-NS', 'z', N.zapata_inf, S.U(AY(150))); S.recubrimiento('LF-sup-NS', 'z', N.zapata_sup, S.U(AY(150)));
+      if (S.recubrimiento('LF-inf-NS', 'z', N.zapata_inf, S.U(AY(120))) != null) mueve(sv.lastElementChild, S.U(AY(120)), S.Y((N.zapata_inf + N.zapata_sup) / 2) + S.fs * 0.34);   // r de abajo: al medio de la losa, entre las dos capas, y 30 a la izquierda del de arriba para no apilar los dos números
+      S.recubrimiento('LF-sup-NS', 'z', N.zapata_sup, S.U(AY(150)));
       const xm0 = S.U(AY(-5)), xm1 = S.U(AY(25)), xl0 = S.U(AY(-5 - H.losa_fundacion.margen));   // muro de 30: de −5 a 25 (creció 5 hacia afuera)
-      S.cotaH(xl0, xm0, N.emplantillado_inf, coma(H.losa_fundacion.margen, 1), 12); S.cotaH(xm0, xm1, N.emplantillado_inf, coma(H.muros.espesor, 0), 12); S.cotaV(S.W, N.losa_inf, 0, coma(-N.losa_inf, 0), 8); S.cotaV(S.W, N.zapata_inf, N.zapata_sup, coma(N.zapata_sup - N.zapata_inf, 0), 8);
-      S.cotaV(xm1 + 30, N.losa_inf, N.zapata_sup, coma(N.losa_inf - N.zapata_sup, 0) + ' libres (OG)', 0);
-      S.nivel(-30, 0, 'NPOG 0,00'); S.nivel(-30, -50, 'terreno −50'); S.nivel(-30, N.zapata_sup, `−${coma(-N.zapata_sup, 0)}`); S.nivel(-30, N.zapata_inf, `−${coma(-N.zapata_inf, 0)}`); S.nivel(-30, N.emplantillado_inf, ''); nota(sv, -41, S.Y(N.emplantillado_inf) + 9.5, `−${coma(-N.emplantillado_inf, 0)} sello`, 9 * 0.92, { 'text-anchor': 'end' });   // bajo su raya: a 10 de la de −381   // 9 más abajo para que no choque (la marca queda en su nivel con la línea de cota)
+      S.cotaH(xl0, xm0, N.emplantillado_inf, coma(H.losa_fundacion.margen, 1), 21); S.cotaH(xm0, xm1, N.emplantillado_inf, coma(H.muros.espesor, 0), 21);   // bajo el marco (antes lo pisaban)
+      S.cotaV(xm0, N.losa_inf, 0, coma(-N.losa_inf, 0), -14); S.cotaV(xl0, N.zapata_inf, N.zapata_sup, coma(N.zapata_sup - N.zapata_inf, 0), -19.5);   // espesores de las losas por el lado del terreno (a la derecha caían sobre el marco y entre las llamadas)
+      S.cotaV(xm1 + 30, N.losa_inf, N.zapata_sup, coma(N.losa_inf - N.zapata_sup, 0) + ' libres (OG)', 0); deslizaV(sv.lastElementChild, S.Y(N.zapata_sup) - 85);   // su número, bajo las llamadas del muro que cruzan la pieza
+      S.nivel(-30, 0, 'NPOG 0,00'); S.nivel(-30, -50, 'terreno −50'); S.nivel(-30, N.zapata_sup, `−${coma(-N.zapata_sup, 0)}`); S.nivel(-30, N.zapata_inf, `−${coma(-N.zapata_inf, 0)}`); S.nivel(-30, N.emplantillado_inf, ''); nota(sv, -41, S.Y(N.emplantillado_inf) + 9.5, `−${coma(-N.emplantillado_inf, 0)} sello`, S.fs * 0.92, { 'text-anchor': 'end' });   // bajo su raya: a 10 de la de −381   // 9 más abajo para que no choque (la marca queda en su nivel con la línea de cota)
     }, `ejes 1–2, muro del eje A (los cuatro iguales) · medidas en cm`);
     // B) fachadas fuera del búnker: sobrecimiento y cimiento corrido del eje 1, por el pilar 1-D (con su placa y anclajes)
-    corte('Corte B · sobrecimiento, cimiento corrido y placa base (fachadas)', [-112, -72, 470, 200], sv => {
-      const xP = AX(12.5), S = AR.seccion(sv, D, H, PL, { eje: 'y', c: AY(D.ejes.y.D) + 1, u0: AX(-60), u1: AX(120), zmin: -90, zmax: 52, fs: 8.5, ntn: [0, 60] });
+    //    La ventana parte 15 más a la izquierda (AX(−75)) para que los rótulos del pilar y de la placa quepan sin tocar el marco; el pilar y la placa no cambian.
+    corte('Corte B · sobrecimiento, cimiento corrido y placa base (fachadas)', [-112, -72, 470, 208], sv => {   // 8 más alto: la marca de abajo (52) tocaba el borde
+      const xP = AX(12.5), S = AR.seccion(sv, D, H, PL, { eje: 'y', c: AY(D.ejes.y.D) + 1, u0: AX(-75), u1: AX(120), zmin: -90, zmax: 52, fs: 10, ntn: [0, 75] });
       // pilar y placa (no son de hormigón: se dibujan aparte)
       el('rect', { x: S.U(xP) - 7.5, y: S.Y(52), width: 15, height: 51.2, style: 'fill:none;stroke:var(--fig-ink);stroke-width:1;stroke-dasharray:5 3' }, sv); el('rect', { x: S.U(xP) - 12.5, y: S.Y(1.2), width: 25, height: 1.2, style: 'fill:var(--fig-ink)' }, sv);
-      nota(sv, S.U(xP) - 10, S.Y(40), 'pilar 150 × 100', 8, { 'text-anchor': 'end' }); nota(sv, S.U(xP) - 14, S.Y(5), 'PLc 250 × 250 × 12', 8, { 'text-anchor': 'end' });
-      columna(S, [['AP', 'pernos ø3/4" (hef 45)', 30], ['S16-1'], ['SU-1'], ['AX'], ['S8-1'], ['CL-1'], ['CU-1']], S.W + 20, 19);
-      S.recubrimiento('SU-1', 'z', 0, S.U(xP) + 4); S.recubrimiento('CU-1', 'z', N.cimiento_inf, S.U(AX(40))); S.recubrimiento('SU-1', 'u', S.U(AX(12.5 - H.cimiento.sobrecimiento.ancho / 2)), -25);
+      nota(sv, S.U(xP) - 11, S.Y(40), 'pilar 150 × 100', 8, { 'text-anchor': 'end' });
+      nota(sv, S.U(xP) - 15.5, S.Y(16.6), 'PLc', 8, { 'text-anchor': 'end' }); nota(sv, S.U(xP) - 15.5, S.Y(5.2), '250 × 250 × 12', 8, { 'text-anchor': 'end' });   // en dos líneas, a 3 del extremo de la placa y sobre el terreno
+      columna(S, [['AP', 'pernos ø3/4" (hef 45)', -40], ['S16-1'], ['SU-1'], ['AX'], ['S8-1'], ['CL-1'], ['CU-1']], S.W + 20, 19);   // pernos: llamada por su parte empotrada, bajo las capas del radier (arriba cruzaba la placa, el r=3 y las capas)
+      if (S.recubrimiento('SU-1', 'z', 0, S.U(xP) + 10) != null) mueve(sv.lastElementChild, S.U(xP) + 18, S.Y(4.8), 'start');   // r de arriba: bajo la placa, con su número al lado del extremo de la placa (encima tocaba el pilar y la placa)
+      if (S.recubrimiento('CU-1', 'z', N.cimiento_inf, S.U(xP)) != null) mueve(sv.lastElementChild, S.U(xP), S.Y(N.cimiento_inf + 11));   // r de abajo: adentro del cimiento, sobre la barra (afuera caía en el emplantillado)
+      S.recubrimiento('SU-1', 'u', S.U(AX(12.5 - H.cimiento.sobrecimiento.ancho / 2)), -25);
       const hs_ = H.cimiento.sobrecimiento.ancho / 2, hc_ = H.cimiento.zapata.ancho / 2, c0 = S.U(AX(12.5 - hc_)), c1 = S.U(AX(12.5 + hc_)), s0 = S.U(AX(12.5 - hs_)), s1 = S.U(AX(12.5 + hs_));   // centrados en el eje 1 (12,5)
-      S.cotaH(c0, s0, N.cimiento_inf - 10, coma(hc_ - hs_, 1).replace(',0', ''), 15); S.cotaH(s0, s1, N.cimiento_inf - 10, coma(2 * hs_, 0), 15); S.cotaH(s1, c1, N.cimiento_inf - 10, coma(hc_ - hs_, 1).replace(',0', ''), 15);
+      S.cotaH(c0, s0, N.cimiento_inf - 10, coma(hc_ - hs_, 1).replace(',0', ''), 22); S.cotaH(s0, s1, N.cimiento_inf - 10, coma(2 * hs_, 0), 22); S.cotaH(s1, c1, N.cimiento_inf - 10, coma(hc_ - hs_, 1).replace(',0', ''), 22);   // bajo el marco
       S.cotaV(c0, N.sobrecimiento_inf, 0, '50', -10); S.cotaV(c0, N.cimiento_inf, N.sobrecimiento_inf, '25', -10); S.cotaV(c0, N.cimiento_inf - 10, N.cimiento_inf, '10', -10);
-      S.nivel(-32, 0, 'NPOG 0,00'); S.nivel(-32, -50, '−50'); S.nivel(-32, N.cimiento_inf, `−${coma(-N.cimiento_inf, 0)}`); S.nivel(-32, N.cimiento_inf - 10, ''); nota(sv, -43, S.Y(N.cimiento_inf - 10) + 9, `−${coma(-N.cimiento_inf + 10, 0)}`, 8.5 * 0.92, { 'text-anchor': 'end' });
-      nota(sv, S.U(AX(70)), S.Y(-5) + 2.6, 'radier 10', 7, { 'text-anchor': 'middle' }); nota(sv, S.U(AX(86)), S.Y(-17) + 2.6, 'poliestireno 10', 7, { 'text-anchor': 'middle' }); nota(sv, S.U(AX(86)), S.Y(-30) + 2.6, 'relleno 15', 7, { 'text-anchor': 'middle' });
+      S.nivel(-32, 0, 'NPOG 0,00'); S.nivel(-32, -50, '−50'); S.nivel(-32, N.cimiento_inf, `−${coma(-N.cimiento_inf, 0)}`); S.nivel(-32, N.cimiento_inf - 10, ''); nota(sv, -43, S.Y(N.cimiento_inf - 10) + 9, `−${coma(-N.cimiento_inf + 10, 0)}`, S.fs * 0.92, { 'text-anchor': 'end' });
+      // capas bajo el piso: una sola llamada que las cruza, con un punto en cada capa y sus nombres en el mismo orden (adentro no cabían: son de 10 y la letra mínima mide 11)
+      const vC = S.U(AX(50));
+      el('line', { x1: vC, y1: S.Y(-27.75), x2: vC, y2: S.Y(42), class: 'ad-ll' }, sv);
+      [['radier 10', -7.5], ['poliestireno 10', -13], ['relleno 15', -27.75]].forEach(([t, z], i) => { el('circle', { cx: vC, cy: S.Y(z), r: 1.1, class: 'ad-lp' }, sv); nota(sv, vC + 3, S.Y(39.4 - 11.2 * i), t, 7); });
     }, `eje 1 por el pilar D (ejes 5 y E iguales) · bajo el emplantillado, hormigón pobre hasta el sello (−140) · medidas en cm`);
     // C) CF (eje C; los de C2 y 4 son iguales) con el radier a los dos lados
-    corte(`Corte C · cadena de fundación CF ${coma(H.cf.ancho, 0)}/${coma(H.cf.alto, 0)}`, [-72, -16, 330, 108], sv => {
-      const yC = AY(D.ejes.y.C), S = AR.seccion(sv, D, H, PL, { eje: 'x', c: AX(925), u0: yC - 45, u1: yC + 45, zmin: -66, zmax: 8, fs: 7 });
+    corte(`Corte C · cadena de fundación CF ${coma(H.cf.ancho, 0)}/${coma(H.cf.alto, 0)}`, [-72, -22, 330, 114], sv => {
+      const yC = AY(D.ejes.y.C), S = AR.seccion(sv, D, H, PL, { eje: 'x', c: AX(925), u0: yC - 45, u1: yC + 45, zmin: -66, zmax: 14, fs: 7 });   // ventana 6 más alta: el r de arriba cabe sin pisar el marco
       columna(S, [['CF-C-sup'], ['CF-C-est'], ['CF-C-med'], ['CF-C-inf']], S.W + 14, 15);
-      S.recubrimiento('CF-C-est', 'z', -50, S.U(yC) - 3); S.recubrimiento('CF-C-est', 'z', 0, S.U(yC) + 3); S.recubrimiento('CF-C-est', 'u', S.U(yC - H.cf.ancho / 2), -30);
-      S.cotaH(S.U(yC - H.cf.ancho / 2), S.U(yC + H.cf.ancho / 2), -60, coma(H.cf.ancho, 0), 9); S.cotaV(S.U(yC - H.cf.ancho / 2), -50, 0, '50', -14); S.cotaV(S.U(yC - H.cf.ancho / 2 - 7.5), -60, -50, '10', -8);
+      if (S.recubrimiento('CF-C-est', 'z', -50, S.U(yC) - 3) != null) mueve(sv.lastElementChild, S.U(yC), S.Y(-36));   // r de abajo: adentro, entre las barras de abajo y las del medio (afuera caía en el emplantillado)
+      S.recubrimiento('CF-C-est', 'z', 0, S.U(yC) + 3); S.recubrimiento('CF-C-est', 'u', S.U(yC - H.cf.ancho / 2), -30);
+      S.cotaH(S.U(yC - H.cf.ancho / 2), S.U(yC + H.cf.ancho / 2), -60, coma(H.cf.ancho, 0), 17); S.cotaV(S.U(yC - H.cf.ancho / 2), -50, 0, '50', -34); S.cotaV(S.U(yC - H.cf.ancho / 2 - 7.5), -60, -50, '10', -26.5);   // alineadas fuera de la ventana (adentro la del 50 cruzaba el radier y su rótulo)
       S.nivel(-26, 0, 'NPOG 0,00'); S.nivel(-26, -50, '−50'); S.nivel(-26, -60, '−60');
-      nota(sv, S.U(yC - 27), S.Y(-5) + 2.3, 'radier 10', 6, { 'text-anchor': 'middle' }); nota(sv, S.U(yC + 27), S.Y(-5) + 2.3, 'radier 10', 6, { 'text-anchor': 'middle' });
+      nota(sv, S.U(yC - 30.25), S.Y(-5) + 2.3, 'radier 10', 6, { 'text-anchor': 'middle' }); nota(sv, S.U(yC + 30.25), S.Y(-5) + 2.3, 'radier 10', 6, { 'text-anchor': 'middle' });   // al medio de cada tramo de radier (entre el marco y el CF)
     }, `eje C entre 4 y 5 (C2 y eje 4 iguales) · ingeniero: 25/40 bajo el radier · hormigón pobre hasta −140 · medidas en cm`);
     // D) VHA del eje 3, bajo la losa del búnker
-    corte(`Corte D · viga ${H.vigas[0].nombre} bajo la losa del búnker`, [-112, -26, 390, 118], sv => {
-      const x3 = AX(D.ejes.x['3']), S = AR.seccion(sv, D, H, PL, { eje: 'y', c: AY(390), u0: x3 - 75, u1: x3 + 75, zmin: -52, zmax: 6, fs: 7, ntn: false });
-      columna(S, [['LS'], ['VHA-3-sup'], ['LE', null, -19], ['LN', null, -23], ['VHA-3-est'], ['VHA-3-med'], ['VHA-3-inf']], S.W + 14, 12.5);
-      const uLN = S.puntos.filter(p => p.f.id === 'LN').map(p => p.u).sort((a, b) => Math.abs(a - S.U(x3 + 50)) - Math.abs(b - S.U(x3 + 50)))[0];
+    corte(`Corte D · viga ${H.vigas[0].nombre} bajo la losa del búnker`, [-112, -26, 390, 132], sv => {
+      const x3 = AX(D.ejes.x['3']), S = AR.seccion(sv, D, H, PL, { eje: 'y', c: AY(390), u0: x3 - 75, u1: x3 + 75, zmin: -60, zmax: 6, fs: 8.3, ntn: false });   // ventana 8 más baja: el r bajo la viga cabe sin pisar el marco
+      columna(S, [['LS'], ['VHA-3-sup'], ['LE', null, -19], ['LN', null, -23], ['VHA-3-est'], ['VHA-3-med'], ['VHA-3-inf']], S.W + 14, 15.5);
+      const uLN = S.puntos.filter(p => p.f.id === 'LN').map(p => p.u).sort((a, b) => Math.abs(a - S.U(x3 - 55)) - Math.abs(b - S.U(x3 - 55)))[0];   // a la izquierda de la viga (a la derecha lo cruzaba la llamada del estribo)
       const zVi = H.vigas[0].z_inf - D.z_piso, zLi = N.losa_inf, bV = 25;   // fondo de la VHA y de la losa (NPOG)
-      S.recubrimiento('VHA-3-est', 'z', zVi, S.U(x3) + 3); S.recubrimiento('VHA-3-est', 'u', S.U(x3 - bV / 2), -30); if (uLN != null) S.recubrimiento('LN', 'z', zLi, uLN);
-      S.cotaH(S.U(x3 - bV / 2), S.U(x3 + bV / 2), zVi, coma(bV, 0), 22); S.cotaV(S.U(x3 + bV / 2), zVi, zLi, coma(zLi - zVi, 0), 12); S.cotaV(S.U(x3 - 60), zLi, 0, coma(-zLi, 0), -8);
+      S.recubrimiento('VHA-3-est', 'z', zVi, S.U(x3) + 3); S.recubrimiento('VHA-3-est', 'u', S.U(x3 - bV / 2), -38); if (uLN != null) S.recubrimiento('LN', 'z', zLi, uLN);
+      S.cotaH(S.U(x3 - bV / 2), S.U(x3 + bV / 2), zVi, coma(bV, 0), 30); S.cotaV(S.U(x3 - bV / 2), zVi, zLi, coma(zLi - zVi, 0), -20.5); S.cotaV(0, zLi, 0, coma(-zLi, 0), -9);   // alto de la viga a su izquierda (a la derecha lo cruzaban las llamadas) y espesor de la losa fuera de la ventana
       S.nivel(-26, 0, 'NPOG 0,00'); S.nivel(-26, zLi, `−${coma(-zLi, 0)} losa inf.`); S.nivel(-26, zVi, `−${coma(-zVi, 0)} VHA inf.`);
     }, `eje 3 (la del borde de la escalera tiene la misma armadura y 23,3 de ancho) · medidas en cm`);
 
@@ -1052,18 +1159,22 @@ ol.preg li{margin:0 0 8px}
       corte('Corte transversal por los CF de los ejes C y C2', [XL, -ZT - 34, XR - XL, YB + ZT + 34], sv => {
         sv.parentNode.style.gridColumn = '1 / -1'; sv.style.minWidth = '1472px';   // este corte no se achica con los planos (24-10-2026): son 3 dibujos en uno y a 1240 su letra de 14 px ya no cabe
         // ---- corte general ----
-        [['B', yB, -104], ['C', yC, -58], ['C2', yC2, -58], ['E', yE, -92]].forEach(([n, y, zf]) => { const x = U(y); el('line', { x1: x, y1: Y(ZT - 12), x2: x, y2: Y(zf), style: ejeS }, sv); el('circle', { cx: x, cy: Y(ZT - 4), r: 7, style: 'fill:var(--paper);' + ink + ';stroke-width:.9' }, sv); T(sv, x, ZT - 4, n, { 'font-weight': 700, class: 'tx' }); });
-        [[yB, yC], [yC, yC2], [yC2, yE]].forEach(([a, b]) => cota(sv, U(a), Y(ZT - 22), U(b), Y(ZT - 22), coma(b - a, 0), 0, 8.5));
+        // rótulos con su letra final de 14 px (a 1472 px de ancho, el minWidth de arriba; letraMinima ya no la cambia): con ella se mide el aire de cada rótulo y la placa de las cotas
+        // (Gabriel, 24-10-2026: "arregla ese tipo de cosas", textos que se salían de su pieza); CAP = media altura de mayúscula de Inter, para centrar un texto en un punto o una línea
+        const F14 = 14 * (XR - XL) / 1472, CAP = 0.364 * F14;
+        [['B', yB, -104], ['C', yC, -58], ['C2', yC2, -58], ['E', yE, -92]].forEach(([n, y, zf]) => { const x = U(y); el('line', { x1: x, y1: Y(ZT - 12), x2: x, y2: Y(zf), style: ejeS }, sv); el('circle', { cx: x, cy: Y(ZT - 2), r: 12, style: 'fill:var(--paper);' + ink + ';stroke-width:.9' }, sv); txt(sv, x, Y(ZT - 2) + CAP, n, { 'text-anchor': 'middle', 'font-size': F14, 'font-weight': 700, class: 'tx' }); });   // burbuja de r=12: "C2" cabe con aire
+        [[yB, yC], [yC, yC2], [yC2, yE]].forEach(([a, b]) => cota(sv, U(a), Y(ZT - 22), U(b), Y(ZT - 22), coma(b - a, 0), 0, F14));
         // búnker: losa de techo y muro sur, que sigue hacia abajo (quiebre)
         rectY(sv, VEN[0][0], by1, ZL, 0, horm); rectY(sv, by1 - MU, by1, ZF + 4, ZL, horm);
         el('rect', { x: U(by1 - MU) - 1, y: Y(ZF + 4) - 1, width: MU + 2, height: 6, style: 'fill:var(--paper);stroke:none' }, sv); zig(sv, U(by1 - MU) - 3, Y(ZF + 4), U(by1) + 3, Y(ZF + 4));
-        T(sv, U(yB - 40), -48, 'búnker', { 'font-size': 9 }); T(sv, U(yB - 36), -10, `losa e=${coma(H.losa.espesor, 0)}`, { 'font-size': 7.5 });
-        txt(sv, U(by1 - MU / 2) + 2.5, Y(-70), `muro eje B e=${coma(MU, 0)}`, { 'text-anchor': 'middle', 'font-size': 7.5, class: 'txs', transform: `rotate(-90 ${U(by1 - MU / 2) + 2.5} ${Y(-70)})` });
+        T(sv, U(yB - 40), -48, 'búnker', { 'font-size': 9 });
+        txt(sv, U(by1) / 2, Y(ZL / 2) + CAP, `losa e=${coma(H.losa.espesor, 0)}`, { 'text-anchor': 'middle', 'font-size': F14, class: 'txs' });   // al centro de la losa (iba pegado a su borde de arriba)
+        txt(sv, U(by1) + 4, Y((-50 + ZF + 4) / 2) + CAP, `muro eje B e=${coma(MU, 0)}`, { 'font-size': F14, class: 'txs' });   // junto a la cara del muro, a media altura bajo el terreno: a lo largo del muro no cabía (se salía arriba y abajo)
         // radier e=10 sobre poliestireno 10 y relleno 15 en los tres recintos; terreno natural bajo la sub base
         [[by1 + .5, yC - hcf - .5], [yC + hcf + .5, yC2 - hcf - .5], [yC2 + hcf + .5, yE - hs - .5]].forEach(([a, b]) => { rectY(sv, a, b, -10, 0, radier); rectY(sv, a, b, -20, -10, capa); rectY(sv, a, b, -35, -20, capa); });
         lineY(sv, by1, yE - hs, -50, 'stroke:var(--fig-soft);stroke-width:.6;stroke-dasharray:2 3');
-        T(sv, U(by1 + 50), -5, 'radier e=10', { 'font-size': 7.5 });   // las otras capas van rotuladas en las secciones 1 y 2 (aquí no caben con letra de 13 px)
-        [['distribuidor', by1 + 58], ['baño', yC - 50], ['cabina', yC2 - 50], ['bodega', yE - 55]].forEach(([t, y]) => T(sv, U(y), 12, t, { 'font-size': 9.5, 'font-weight': 600 }));
+        txt(sv, U(by1 + 58), Y(0) - 3.5, 'radier e=10', { 'text-anchor': 'middle', 'font-size': F14, class: 'txs' });   // encima del radier, bajo el nombre del recinto (dentro no cabe: sus 10 cm son 11 px); las otras capas van rotuladas en las secciones 1 y 2
+        [['distribuidor', by1 + 58], ['baño', yC - 50], ['cabina', yC2 - 50], ['bodega', yE - 55]].forEach(([t, y]) => T(sv, U(y), 23.5, t, { 'font-size': F14, 'font-weight': 600 }));   // más arriba, para dejarle lugar al rótulo del radier
         const rDi = E.recintos.find(r => r.id === 'distribuidor'), rBa = E.recintos.find(r => r.id === 'bano');
         if (rDi && rBa) { const xt = U((Math.max(...rDi.pts.map(p => loc(p)[1])) + Math.min(...rBa.pts.map(p => loc(p)[1]))) / 2); el('rect', { x: xt - 12.5, y: Y(30), width: 25, height: 30, style: tab }, sv); }   // tabique distribuidor/baño (sin pilares: sobre el radier)
         // los dos CF, iguales: de 0 a −50 (hasta la cara del radier, fondo en el NTN), emplantillado y hormigón pobre, 3ø12 + 2ø10 + 3ø12 y E ø10@25; tabique de 25 encima
@@ -1073,8 +1184,8 @@ ol.preg li{margin:0 0 8px}
           el('polyline', { points: yzPoli(id + '-est', yc, 3).map(([dy, z]) => `${x + dy},${Y(z)}`).join(' '), style: 'fill:none;stroke:var(--fig-pilar);stroke-width:1' }, sv);
           [[id + '-sup', 1.8], [id + '-inf', 1.8], [id + '-med', 1.4]].forEach(([f, r]) => yzBarras(f, yc).forEach(([dy, z]) => barra(sv, x + dy, z, r)));
           el('rect', { x: x - 12.5, y: Y(30), width: 25, height: 30, style: tab }, sv);   // tabique de 25, centrado en el CF
-          T(sv, x, -86, `${id} ${coma(H.cf.ancho, 0)}/${coma(H.cf.alto, 0)}`, { 'font-size': 9, 'font-weight': 700, class: 'tx' }); cota(sv, x - hcf, Y(-50), x + hcf, Y(-50), coma(2 * hcf, 0), 14, 7.5);
-          el('circle', { cx: x + 30, cy: Y(22), r: 6, style: 'fill:var(--paper);' + ink + ';stroke-width:.9' }, sv); T(sv, x + 30, 22, nm, { 'font-size': 8, 'font-weight': 700, class: 'tx' });
+          T(sv, x, -92, `${id} ${coma(H.cf.ancho, 0)}/${coma(H.cf.alto, 0)}`, { 'font-size': F14, 'font-weight': 700, class: 'tx' }); cota(sv, x - hcf, Y(-50), x + hcf, Y(-50), coma(2 * hcf, 0), 16, F14);   // el 30 a 3 px de su línea (la tocaba)
+          el('circle', { cx: x + 30, cy: Y(22), r: 4.5 * S, style: 'fill:var(--paper);' + ink + ';stroke-width:.9' }, sv); txt(sv, x + 30, Y(22) + CAP, nm, { 'text-anchor': 'middle', 'font-size': F14, 'font-weight': 700, class: 'tx' });   // del tamaño de la burbuja de su sección ampliada (el número llenaba el círculo)
         });
         // fachada sur: sobrecimiento 25 × 50 sobre cimiento corrido 80 × 25 y emplantillado; terreno natural afuera a −50
         const xe = U(yE);
@@ -1086,7 +1197,7 @@ ol.preg li{margin:0 0 8px}
         yzBarras('S16-E', yE).forEach(([dy, z]) => barra(sv, xe + dy, z, 1.8)); yzBarras('S8-E', yE).forEach(([dy, z]) => barra(sv, xe + dy, z, 1.3));
         el('polyline', { points: yzPoli('CU-E', yE, 20).map(([dy, z]) => `${xe + dy},${Y(z)}`).join(' '), style: 'fill:none;stroke:var(--fig-pilar);stroke-width:1.1' }, sv);
         yzBarras('CL-E', yE).forEach(([dy, z]) => barra(sv, xe + dy, z, 1.8));
-        T(sv, xe + hs + 3, -25, `sobrecimiento ${coma(sc.ancho, 0)} × ${coma(sc.alto, 0)}`, { 'text-anchor': 'start', 'font-size': 7.5 }); T(sv, xe + hs + 3, -44, 'terreno −50', { 'text-anchor': 'start', 'font-size': 7.5 }); T(sv, xe + hc + 3, -61, `cimiento ${coma(ci.ancho, 0)} × ${coma(ci.espesor, 0)}`, { 'text-anchor': 'start', 'font-size': 7.5 });
+        T(sv, xe + hs + 3, -25, `sobrecimiento ${coma(sc.ancho, 0)} × ${coma(sc.alto, 0)}`, { 'text-anchor': 'start', 'font-size': 7.5 }); T(sv, xe + hs + 3, -43, 'terreno −50', { 'text-anchor': 'start', 'font-size': 7.5 }); T(sv, xe + hc + 3, -61, `cimiento ${coma(ci.ancho, 0)} × ${coma(ci.espesor, 0)}`, { 'text-anchor': 'start', 'font-size': 7.5 });
         // quiebres entre ventanas
         for (let i = 0; i + 1 < VEN.length; i++) { zig(sv, X0[i] + VEN[i][1] - VEN[i][0], Y(6), X0[i] + VEN[i][1] - VEN[i][0], Y(-58)); zig(sv, X0[i + 1], Y(6), X0[i + 1], Y(-58)); }
         // niveles
@@ -1105,15 +1216,19 @@ ol.preg li{margin:0 0 8px}
           el('line', { x1: 0, y1: Y(54), x2: 0, y2: Y(-66), style: ejeS.replace('.8', '.35') }, g);
           [[-76, -hcf - .3], [hcf + .3, 76]].forEach(([a, b]) => { el('rect', { x: a, y: Y(0), width: b - a, height: 10, style: 'fill:var(--fig-fill);' + ink + ';stroke-width:.35' }, g); el('rect', { x: a, y: Y(-10), width: b - a, height: 10, style: dash }, g); el('rect', { x: a, y: Y(-20), width: b - a, height: 15, style: dash }, g); });
           el('line', { x1: -76, y1: Y(-50), x2: 76, y2: Y(-50), style: 'stroke:var(--fig-soft);stroke-width:.3;stroke-dasharray:1 1.5' }, g);
-          [['radier e=10', -5], ['poliestireno e=10', -15], ['relleno granular 15', -27.5], ['sub base compactada', -42]].forEach(([s, z]) => t(-44, z, s, { 'font-size': 3.4 }));
-          t(-44, 8, izq, { 'font-size': F + .6, 'font-weight': 600, class: 'tx' }); t(44, 8, der, { 'font-size': F + .6, 'font-weight': 600, class: 'tx' });
+          const xc = (-76 - hcf - .3) / 2, Fs = F14 / S;   // centro de la franja de la izquierda; letra de 14 px dentro de la ampliación
+          [['radier e=10', -5], ['poliestireno e=10', -15], ['relleno granular 15', -27.5]].forEach(([s, z]) => t(xc, z, s, { 'font-size': 3.4 }));
+          // "sub base compactada" en una línea ocupaba toda la franja y entraba en el CF: en dos líneas, centradas entre −35 y −50 (≈ 4 px de aire arriba y abajo)
+          const sb = txt(g, xc, Y(-42.5) - .265 * Fs, '', { 'text-anchor': 'middle', 'font-size': Fs, class: 'txs' });
+          ['sub base', 'compactada'].forEach((s, i) => { el('tspan', { x: xc, dy: i ? '1.08em' : 0 }, sb).textContent = s; });
+          t(xc, 8, izq, { 'font-size': F + .6, 'font-weight': 600, class: 'tx' }); t(-xc, 8, der, { 'font-size': F + .6, 'font-weight': 600, class: 'tx' });
           el('rect', { x: -12.5, y: Y(50), width: 25, height: 50, style: tab.replace('.7', '.35').replace('4 3', '2 1.5') }, g);   // tabique de 25, centrado en el CF
           t(12.5 + 3, 30, 'tabique', { 'text-anchor': 'start', 'font-size': 3.6 });
           el('rect', { x: -hcf, y: Y(0), width: 2 * hcf, height: 50, style: horm.replace('1.2', '.5') }, g); el('rect', { x: -eW / 2, y: Y(-50), width: eW, height: 10, style: emp.replace('.8', '.4') }, g);
           const yc_ = D.ejes.y[eje]; el('polyline', { points: yzPoli(id + '-est', yc_, 3).map(([dy, z]) => `${dy},${Y(z)}`).join(' '), style: 'fill:none;stroke:var(--fig-pilar);stroke-width:.6' }, g);
           [[id + '-sup', 1.1], [id + '-inf', 1.1], [id + '-med', .9]].forEach(([f, r]) => yzBarras(f, yc_).forEach(([dy, z]) => barra(g, dy, z, r)));
-          cota(g, -hcf, Y(-50), hcf, Y(-50), coma(2 * hcf, 0), 14, 3.6); cota(g, 90, Y(0), 90, Y(-50), '50', -4, 3.6);   // el 50 fuera de las capas, junto a las cotas 10/10/15
-          cota(g, 78, Y(0), 78, Y(-10), '10', -4, 3.2); cota(g, 78, Y(-10), 78, Y(-20), '10', -4, 3.2); cota(g, 78, Y(-20), 78, Y(-35), '15', -4, 3.2);
+          cota(g, -hcf, Y(-50), hcf, Y(-50), coma(2 * hcf, 0), 14, Fs); cota(g, 90, Y(0), 90, Y(-50), '50', -4, Fs);   // el 50 fuera de las capas, junto a las cotas 10/10/15; con la letra final, la placa de la cota tapa la línea detrás de todo el número
+          cota(g, 78, Y(0), 78, Y(-10), '10', -4, Fs); cota(g, 78, Y(-10), 78, Y(-20), '10', -4, Fs); cota(g, 78, Y(-20), 78, Y(-35), '15', -4, Fs);
           t(eW / 2 + 2, -55, `emplantillado ${coma(eW, 0)} × 10`, { 'text-anchor': 'start', 'font-size': 3.4 });
           [[0, 'NPOG 0,00'], [-50, '−50 terreno'], [-60, '−60']].forEach(([z, s]) => { el('line', { x1: -80, y1: Y(z), x2: -77, y2: Y(z), style: ink + ';stroke-width:.4' }, g); t(-81.5, z, s, { 'text-anchor': 'end', 'font-size': 3.2 }); });
           t(0, -80, '3ø12 + 2ø10 + 3ø12 · E ø10@25' + (id => { const m = [id + '-sup', id + '-med', id + '-est'].map(k => PL.marcasDe(k)[0]); return ` · marcas ${m[0]}, ${m[1]}, ${m[2]}`; })(id), { 'font-size': 4.2 });
