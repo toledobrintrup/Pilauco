@@ -168,7 +168,7 @@ def armar(c):
     # dados bajo los pilares 4C y 4C2 (revisión 23-10-2026): bajo el radier, unidos al CF que pasa por encima; hormigón pobre hasta el sello
     z_da_sup, z_da_inf = -RADIER_EST - GAP, -RADIER_EST - GAP - DADO[2]
     da_piezas = [pieza(f'DA-{n}', xA[3] - DADO[0] / 2, yy - DADO[1] / 2, xA[3] + DADO[0] / 2, yy + DADO[1] / 2, z_da_inf, z_da_sup,
-                       f'Dado {DADO[0] / 100:.2f} × {DADO[1] / 100:.2f} × {DADO[2] / 100:.2f}'.replace('.', ','), f'bajo el pilar P-{n}: le da peso al arranque de la cruz del eje {n[1:]}; el CF pasa por encima y lo amarra')
+                       f'Dado {DADO[0] / 100:.2f} × {DADO[1] / 100:.2f} × {DADO[2] / 100:.2f}'.replace('.', ','), f'bajo el pilar P-{n}: le da peso al arranque del arriostre del eje {n[1:]}; el CF pasa por encima y lo amarra')
                  for n, yy in (('4C', yC), ('4C2', yC2))]
     dados = dict(lado=DADO[0], alto=DADO[2], z_sup=Z(z_da_sup), z_inf=Z(z_da_inf), piezas=da_piezas,
                  armadura='malla inferior ø12@15 en los dos sentidos y estribos perimetrales ø10; los 4 pernos de la placa PLc y su armadura de anclaje quedan dentro',
@@ -195,7 +195,7 @@ def armar(c):
 
     # ---------- placas base PLb en todos los pilares ----------
     placas = []
-    cruz = set(c.get('pilares_cruz', ()))
+    cruz = set(c.get('pilares_cruz', ())); pie = set(c.get('pilares_pie', cruz))
     for mb in c['pilares']:
         x, y = mb['a'][0], mb['a'][1]
         yl = y - c['oy']
@@ -212,7 +212,7 @@ def armar(c):
             placas.append(dict(id='PLc-' + mb['id'][2:], tipo='PLc', desfase=r1(desf), pilar=mb['id'], perfil=mb['p'], centro=[r1(x), r1(y)], z=Z(0), lado=PLACA_C[0], espesor=PLACA_C[2], sobre=sobre, muro_dir=muro_dir,
                                anclajes=f'4 pernos ø3/4" A36 con tuerca y golilla 50 × 50 × 10 abajo (hef {ANCLAJE_C["largo"]:.0f}), bajo las paredes del tubo; armadura de anclaje: '
                                         + ('las verticales del muro (ø16@15 y ø12@15)' if sobre == 'muro del búnker' else ('4ø16 verticales a 20 de los pernos' if sobre.startswith('dado') else 'estribos extra ø10 (quedan @10 en ±25)'))
-                                        + '; llave de corte bajo la placa; cartela de la cruz soldada a la placa'))
+                                        + '; llave de corte bajo la placa; ' + ('cartela de la diagonal soldada a la placa' if mb['id'] in pie else 'sin cartela: la diagonal llega a la cabeza de este pilar, no a su pie')))
         else:
             placas.append(dict(id='PLb-' + mb['id'][2:], tipo='PLb', desfase=r1(desf), pilar=mb['id'], perfil=mb['p'], centro=[r1(x), r1(y)], z=Z(0), lado=PLACA[0], espesor=PLACA[2], sobre=sobre, muro_dir=muro_dir,
                                anclajes=(f'1+1 ø3/4" en horquilla, paralelas y angostas sobre la VHA del eje 3 (L=114: 7,7 bajo la placa, entre las barras de la viga, ramas de {ANCLAJE["largo"]:.0f} y ganchos de {ANCLAJE["gancho"]:.0f} hacia afuera)'

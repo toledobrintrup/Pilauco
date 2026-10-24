@@ -43,7 +43,7 @@ def armar_estudio(E, origen, pendiente, sube_hacia):
         # arriba muros y tabiques de 25 terminado, sin tabique extra (Gabriel, 14-10-2026, opción 1): los recintos se miden entre caras de muro
         recintos.append(dict(id=rc['id'], nombre=rc['nombre'], tipo=rc['tipo'], pts=desplazar(rc['pts'], ox, oy),
                              area_m2=round(area(rc['pts']) / 1e4, 2), dato=rc.get('dato', ''),
-                             **({'cielo_cm': rc['cielo_cm'], 'cielo_z': r1(z0 + t_piso + rc['cielo_cm'])} if rc.get('cielo_cm') else {})))   # cielo propio (la cabina baja a 3,00)
+                             **({'cielo_cm': rc['cielo_cm'], 'cielo_z': r1(z0 + t_piso + rc['cielo_cm'])} if rc.get('cielo_cm') else {})))   # cielo propio (la cabina baja a 3,35)
     B = E['bunker']
     z_losa = z0 - A['losa_piso_cm']           # cara inferior de la losa de piso del estudio = cielo del búnker
     h_bk = B['interior_cm'] + t_piso + t_cielo   # obra gruesa del búnker: 2,80 libres terminados + piso + cielo = 2,87

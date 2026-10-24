@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 <style>
+:root{--ancho-fig:1240px;}   /* ancho de diseño de los planos grandes (antes 1480; Gabriel, 24-10-2026: "los esquemas quedaron demasiado grandes"); la letra mínima de 14 px se mide en este ancho */
 :root{
   --paper:#FFFFFF; --panel:#F7F8FA; --ink:#16181D; --muted:#6B7280; --line:#E3E6EB; --line2:#EFF1F4;
   --accent:#3D5A73; --hi:#D9731A; --hi-soft:rgba(217,115,26,.10); --hi-borde:rgba(217,115,26,.38);
@@ -89,8 +90,8 @@ td.med{color:var(--med);font-weight:600}
 .sw{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:6px;border:1px solid rgba(0,0,0,.15)}
 figure{margin:14px 0 10px}
 figure svg{display:block;width:100%;height:auto}
-figure.ancho{position:relative;left:50%;transform:translateX(-50%);width:min(100vw - 40px,1480px);overflow-x:auto}
-figure.ancho svg{min-width:1472px}   /* letra mínima (Gabriel, 22-10-2026): los dibujos no se achican; en pantallas chicas se desplazan */   /* se sale de la columna de texto para dibujar más grande (corte del búnker) */
+figure.ancho{position:relative;left:50%;transform:translateX(-50%);width:min(100vw - 40px,var(--ancho-fig));overflow-x:auto}
+figure.ancho svg{min-width:calc(var(--ancho-fig) - 8px)}   /* letra mínima (Gabriel, 22-10-2026): los dibujos no se achican; en pantallas chicas se desplazan */   /* se sale de la columna de texto para dibujar más grande (corte del búnker) */
 figcaption{font-size:14px;color:var(--ink);opacity:.82;margin-top:6px;line-height:1.45}
 svg .tx{font-family:var(--ui);fill:var(--fig-ink)}
 svg .txs{font-family:var(--ui);fill:var(--fig-soft)}
@@ -172,7 +173,7 @@ ol.preg li{margin:0 0 8px}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V119" data-vista="estudio"></script>
+  <script src="menu.js?v=V120" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
   <span class="meta" id="meta">Revisado con cálculo propio · sin firma</span>
 </header>
@@ -190,7 +191,7 @@ ol.preg li{margin:0 0 8px}
 
 <section id="revision">
   <h2>Revisión estructural</h2>
-  <p class="small sub">23-10-2026, con la escalera de 1,20 y el distribuidor del 24-10-2026 · agua a 1,50 m sobre el piso del búnker · cálculo propio (modelo 3D de todo) y revisores independientes · cambios aprobados por Gabriel y ya aplicados en el modelo, los planos y el 3D.</p>
+  <p class="small sub">23-10-2026, con la escalera de 1,20 y el distribuidor (23-10) y la cabina de 4,15 con la bodega desde ella (24-10) · agua a 1,50 m sobre el piso del búnker · cálculo propio (modelo 3D de todo) y revisores independientes · cambios aprobados por Gabriel y ya aplicados en el modelo, los planos y el 3D.</p>
   <div class="rv-cuenta" id="rv-cuenta"></div>
 
   <h3>Búnker</h3>
@@ -213,12 +214,13 @@ ol.preg li{margin:0 0 8px}
   <h3>Estructura del estudio</h3>
   <div class="rv-lista">
     <div class="rv-cab"><span>Elemento</span><span>Antes → ahora</span><span style="text-align:right">D/C</span><span style="text-align:right">Estado</span></div>
-    <div class="rv-fila"><span class="el">Marcos de 10,75 m</span><span class="qp">Puntales y soldaduras no aguantaban → <b>viga 200×150×6</b> y puntales 150×150×5 con planchas.</span><span class="dc">0,84</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Sismo y viento en 1–5</span><span class="qp">El techo se movía 2 a 4 cm → <b>cruz nueva</b> en el muro ciego del eje A (tramo 4–5). El tabique B 4–5 queda sin diagonal por las puertas del distribuidor y de la escalera.</span><span class="dc">0,93</span><span class="es"><span class="est ju">Justo</span></span></div>
-    <div class="rv-fila"><span class="el">Cruces</span><span class="qp">Terminaban bajo el techo → <b>llegan a la viga</b>, con cartela de 8 mm y 4 pernos M16.</span><span class="dc">0,63</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Pilares</span><span class="qp">Los 150×100 de fachada, girados: lado de 150 contra el viento.</span><span class="dc">0,93</span><span class="es"><span class="est ju">Justo</span></span></div>
-    <div class="rv-fila"><span class="el">Anclajes</span><span class="qp">Fallaban 14 de 25 → <b>PLc con 4 pernos</b> y armadura de anclaje en los 17 con cruz.</span><span class="dc">0,92</span><span class="es"><span class="est ju">Justo</span></span></div>
-    <div class="rv-fila"><span class="el">Fundaciones</span><span class="qp">El sismo levantaba el CF → <b>dado hasta el sello</b> (10 de emplantillado) bajo 4C y 4C2 y 4ø12 en el cimiento.</span><span class="dc">0,84</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Marcos de 10,75 m</span><span class="qp">Puntales y soldaduras no aguantaban → <b>viga 200×150×6</b> y puntales 150×150×5 con planchas.</span><span class="dc">0,86</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Sismo y viento en 1–5</span><span class="qp">El techo se movía 2 a 4 cm → <b>cruz nueva</b> en el muro ciego del eje A (tramo 4–5). El tabique B 4–5 queda sin diagonal (puertas del distribuidor y de la escalera) y el C2 4–5 con una sola (puerta de la bodega).</span><span class="dc">0,94</span><span class="es"><span class="est ju">Justo</span></span></div>
+    <div class="rv-fila"><span class="el">Cruces</span><span class="qp">Terminaban bajo el techo → <b>llegan a la viga</b>, con cartela de 8 mm y 4 pernos M16.</span><span class="dc">0,64</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Pilares</span><span class="qp">Los 150×100 de fachada, girados: lado de 150 contra el viento. El 1C pasa a 150×150×4 por la cabina de 4,15. Con viento en las 4 fachadas el que manda es el 5C.</span><span class="dc">0,85</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Anclajes</span><span class="qp">Fallaban 14 de 25 → <b>PLc con 4 pernos</b> y armadura de anclaje en los 15 con cruz.</span><span class="dc">0,94</span><span class="es"><span class="est ju">Justo</span></span></div>
+    <div class="rv-fila"><span class="el">Fundaciones</span><span class="qp">El sismo levantaba el CF → <b>dado hasta el sello</b> (10 de emplantillado) bajo 4C y 4C2 y 4ø12 en el cimiento.</span><span class="dc">0,83</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Choques del acero</span><span class="qp">Revisado perfil por perfil: solo se tocan en sus uniones. En la V119 un puntal se metía en el pilar 4C2; ya no.</span><span class="dc"></span><span class="es"><span class="est ok">Cumple</span></span></div>
     <div class="rv-fila"><span class="el">Vigas, aleros y techo</span><span class="qp">Pasan. Costaneras de 3 mm con silla y 2 pernos.</span><span class="dc">0,75</span><span class="es"><span class="est ok">Pasa</span></span></div>
   </div>
   <p class="rv-cargas">Cargas: viento 40 m/s (0,74 kPa), que levanta el techo · nieve 0,25 kPa · sismo zona 3, suelo E, R&nbsp;=&nbsp;2 · anclajes con Ω<sub>0</sub>&nbsp;=&nbsp;2.</p>
@@ -237,7 +239,8 @@ ol.preg li{margin:0 0 8px}
     <li>Decidir el dren con salida por gravedad o el vuelo de ~80 cm.</li>
     <li>Corte de la losa de techo junto al muro del eje B con la ACI 318-19 (1,07).</li>
     <li>Piezómetro (agua real) y sondaje de 6 m.</li>
-    <li>Pesos reales de cubierta y cielo acústico: la deriva queda en 0,93.</li>
+    <li>Pesos reales de cubierta y cielo acústico: la deriva queda en 0,94.</li>
+    <li>Que el ingeniero acepte la línea C2 4-5 con una sola diagonal a tracción (la deriva de ese sentido es la que manda: 0,94).</li>
     <li>Sin revisar aún: escalera y su caja, uniones soldadas en detalle, pasadas, fuego y corrosión.</li>
     <li>Firma de un ingeniero civil.</li>
   </ol>
@@ -254,7 +257,7 @@ ol.preg li{margin:0 0 8px}
 <section id="vista3d">
   <h2><span class="n">01</span>Vista 3D del estudio</h2>
   <ul class="puntos"><li><b>Capas:</b> estructura de acero y hormigón, búnker bajo tierra, enfierradura, medidas (vienen apagadas).</li><li><b>Girar:</b> arrastrar · <b>acercar:</b> rueda o pellizco · <b>centrar:</b> doble toque · <b>ficha:</b> tocar la pieza.</li></ul>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V119" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V120" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
@@ -297,7 +300,7 @@ ol.preg li{margin:0 0 8px}
 
 <section id="vanos">
   <h2><span class="n">06</span>Ventanas, puertas y esquema interior (propuesta)</h2>
-  <ul class="puntos"><li><b>Módulo:</b> entre pilares (ejes cada 2,58; vanos de 2,18) · marcos de acero negro · de piso a <b>cielo terminado (4,00)</b>; la viga 1–5 +4,11/+4,21 y el cielo quedan encima.</li><li><b>Eje A (patio):</b> vidrio de piso a cielo en 1-2, 2-3 (corredera de 2 hojas) y 3-4; el 4-5 ciego, que es la esquina de la cocina, el minibar y la escalera (Gabriel, 14-10-2026).</li><li><b>Tabique cafetería/estudio:</b> todo de vidrio (tramos 1-2, 2-3 y 3-4), corredera centrada en el estudio, doble vidrio; cortina gruesa atrás para mezclar.</li><li><b>Eje E:</b> ventana de piso a cielo en el tramo 2-3, entre los parlantes, con cortina acústica pesada para mezclar fino; luz pareja, sin sol directo (Gabriel, 14-10-2026).</li><li><b>Puertas:</b> entrada 1,80 en el eje 1 junto al pilar A2 · baño desde la cafetería (eje 4) · cabina (acústica, maciza) y bodega desde el estudio, cada una en el extremo de su recinto hacia el eje A, lejos de la posición de escucha · llave al búnker.</li><li><b>Cabina de grabación:</b> 2,50 × 3,80 ciega (sin ventana), cielo a 3,00, tabiques dobles dentro de los 25.</li><li><b>Cruces</b> solo en muros ciegos (baño/cabina, cabina/bodega, fachada del eje E, ejes 1 y 5); en el tabique del baño cabe una sola diagonal.</li></ul>
+  <ul class="puntos"><li><b>Módulo:</b> entre pilares (ejes cada 2,58; vanos de 2,18) · marcos de acero negro · de piso a <b>cielo terminado (4,00)</b>; la viga 1–5 +4,11/+4,21 y el cielo quedan encima.</li><li><b>Eje A (patio):</b> vidrio de piso a cielo en 1-2, 2-3 (corredera de 2 hojas) y 3-4; el 4-5 ciego, que es la esquina de la cocina, el minibar y la escalera (Gabriel, 14-10-2026).</li><li><b>Tabique cafetería/estudio:</b> todo de vidrio (tramos 1-2, 2-3 y 3-4), corredera centrada en el estudio, doble vidrio; cortina gruesa atrás para mezclar.</li><li><b>Eje E:</b> ventana de piso a cielo en el tramo 2-3, entre los parlantes, con cortina acústica pesada para mezclar fino; luz pareja, sin sol directo (Gabriel, 14-10-2026).</li><li><b>Puertas:</b> entrada 1,80 en el eje 1 junto al pilar A2 · distribuidor desde la cafetería (eje B), y desde él el baño y la escalera al búnker (con llave) · cabina (acústica, maciza) desde el estudio, en su extremo hacia el eje A, lejos de la posición de escucha · bodega desde la cabina, en el tabique C2 junto al eje 5 (24-10-2026).</li><li><b>Cabina de grabación:</b> 2,50 × 4,15 ciega (sin ventana), cielo a 3,35, tabiques dobles dentro de los 25 (24-10-2026, por acústica).</li><li><b>Cruces</b> solo en muros ciegos (baño/cabina, fachada del eje E, ejes 1 y 5 y muro A 4-5); el tabique C2 4-5 lleva una sola diagonal, que pasa sobre la puerta de la bodega, y el B 4-5 ninguna (puertas del distribuidor y de la escalera).</li></ul>
   <figure class="ancho"><svg id="svg-vanos" role="img" aria-label="Planta de ventanas, puertas y esquema interior"></svg>
     <figcaption id="cap-vanos"></figcaption></figure>
   <div class="tw"><table id="tabla-vanos"></table></div>
@@ -347,9 +350,9 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=V119"></script>
-<script src="estudio_estructura.js?v=V119"></script>
-<script src="armaduras_det.js?v=V119"></script>
+<script src="sitio.js?v=V120"></script>
+<script src="estudio_estructura.js?v=V120"></script>
+<script src="armaduras_det.js?v=V120"></script>
 <script>
 (function () {
   const D = DATA_ESTUDIO_EST, E = DATA_SITIO.estudio, ox = E.origen[0], oy = E.origen[1], z0 = D.z_piso;
@@ -364,7 +367,7 @@ ol.preg li{margin:0 0 8px}
   const pil = D.miembros.filter(x => x.c === 'pilar').length, H = D.hormigon;
   $('#specs').innerHTML = [
     ['Planta', `${coma(W / 100, 2)} × ${coma(L / 100, 2)} m`, 'exteriores · arriba muros y tabiques de 25 terminado; el búnker lleva tabique de 10 por dentro de sus muros <span class="fuente man">planta</span>'],
-    ['Pilares', pil, `${D.miembros.filter(x => x.p === 'CUAD 150x150x5').length} PM1 150×150×5, ${D.miembros.filter(x => x.p === 'CUAD 150x150x4').length} PM2 150×150×4, ${D.miembros.filter(x => x.c === 'pilar' && x.p === 'RECT 150x100x3').length} PM3 150×100×3 <span class="fuente med">propuesta</span>`],
+    ['Pilares', pil, `${D.miembros.filter(x => x.c === 'pilar' && x.p === 'CUAD 150x150x5').length} PM1 150×150×5, ${D.miembros.filter(x => x.c === 'pilar' && x.p === 'CUAD 150x150x4').length} PM2 150×150×4, ${D.miembros.filter(x => x.c === 'pilar' && x.p === 'RECT 150x100x3').length} PM3 150×100×3 <span class="fuente med">propuesta</span>`],
     ['Búnker', `${coma(H.interior.terminado.ancho / 100, 2)} × ${coma(H.interior.terminado.largo / 100, 2)} m`, `terminados entre tabiques (${coma(H.interior.ancho / 100, 2)} × ${coma(H.interior.largo / 100, 2)} entre muros); ${coma(E.bunker.interior_cm / 100, 2)} libres; muros ${H.muros.espesor}, losa ${H.losa.espesor}, losa de fundación ${H.losa_fundacion ? H.losa_fundacion.espesor : (H.piso ? (H.piso ? H.piso.espesor : 0) : 0)} <span class="fuente man">dato</span>`],
     ['Acero', `${coma(D.total_kg, 0)} kg`, 'perfiles del modelo, sin placas ni pérdidas <span class="fuente calc">calculado</span>'],
     ['Alturas libres', `${coma(D.parametros.terminaciones.libre / 100, 2)} / ${coma(E.bunker.interior_cm / 100, 2)} m`, `estudio / búnker, terminadas; estructura a +${coma(D.parametros.z_viga_inf, 0)} <span class="fuente med">Gabriel</span>`],
@@ -473,7 +476,7 @@ ol.preg li{margin:0 0 8px}
     if (!SUP) lab(capas.fund, (cf4[0][0] + cf4[1][0]) / 2 - 320, (cf4[0][1] + cf4[2][1]) / 2 - 200, `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)} (eje 4): 3ø12 + 2ø10 + 3ø12, E ø10@25`, false, 17);   // dentro del estudio, al poniente de la viga del eje 4
     if (!SUP) lab(capas.fund, (cfC[0][0] + cfC[1][0]) / 2, cfC[0][1] - 30, `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)}: 3ø12 + 2ø10 + 3ø12 · dado bajo 4C`, false, 17);
     if (!SUP) lab(capas.fund, (cfC2[0][0] + cfC2[1][0]) / 2, cfC2[0][1] - 30, `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)}: igual al del eje C`, false, 17);
-    if (SUP) { lab(capas.fund, (vha[0][0] + vha[1][0]) / 2 + 40, (vha[0][1] + vha[2][1]) / 2 + 45, `${H.vigas[0].nombre}: 3ø12 + 2ø10 + 3ø16, E ø10@15`, true, 17); lab(capas.fund, W / 2, 80, `losa e=${coma(H.losa.espesor, 0)}: ø10@15 abajo · ø12@15 en L arriba sobre los muros · ø10@20 sobre la VHA · suples en el hueco`, false, 19); }   // entre los rótulos de la losa (arriba) y la cota entre muros (abajo)
+    if (SUP) { lab(capas.fund, (vha[0][0] + vha[1][0]) / 2 + 40, (vha[0][1] + vha[2][1]) / 2 + 5, `${H.vigas[0].nombre}: 3ø12 + 2ø10 + 3ø16, E ø10@15`, true, 17); lab(capas.fund, W / 2, 80, `losa e=${coma(H.losa.espesor, 0)}: ø10@15 abajo · ø12@15 en L arriba sobre los muros · ø10@20 sobre la VHA · suples en el hueco`, false, 19); }   // entre los rótulos de la losa (arriba) y la cota entre muros (abajo)
     // (la malla de la losa del cielo no va en este plano: está en el corte A y en la planilla)
     // ---- arranque de los pilares sobre las placas: a escala y con su tipo (la estructura de techo no va en este plano) ----
     const PM = { 'CUAD 150x150x5': 'PM1', 'CUAD 150x150x4': 'PM2', 'RECT 150x100x3': 'PM3' };
@@ -517,7 +520,7 @@ ol.preg li{margin:0 0 8px}
     const sE = CI.sobrecimiento.piezas.find(z => z.id === 'SC-E').pts.map(loc);
     [[ccE[0][1], sE[0][1], 30], [sE[0][1], sE[2][1], -30], [sE[2][1], ccE[2][1], 30]].forEach(([y0, y1, off]) => cota(C, xq, y0, xq, y1, coma(y1 - y0, 1).replace(',0', ''), off, FSs));
     cota(C, xq + 30, ccE[0][1], xq + 30, ccE[2][1], coma(CI.zapata.ancho, 0), -30, FSs);   // a la derecha de la columna de 25 / 30 / 25 (a la izquierda pisaba el PM2 del pilar E1)
-    const e4 = CF.emplantillado.piezas.find(z => z.id === 'EMP-4').pts.map(loc), yc = 1420;   // entre el CF de C2 y la fachada sur, lejos de los rótulos
+    const e4 = CF.emplantillado.piezas.find(z => z.id === 'EMP-4').pts.map(loc), yc = (D.ejes.y.C + D.ejes.y.C2) / 2;   // a medio camino entre los CF de C y C2 (antes fijo en 1420: con la cabina de 4,15 caía sobre el CF de C2)
     cota(C, cf4[0][0], yc, cf4[1][0], yc, `${coma(cf4[1][0] - cf4[0][0], 0)} CF`, 30, FSs); cota(C, e4[0][0], yc, e4[1][0], yc, `${coma(e4[1][0] - e4[0][0], 0)} emplantillado`, -30, FSs);
     }
     cota(C, bl[0][0] + H.muros.espesor, 585, bl[1][0] - H.muros.espesor, 585, `${coma(H.interior.ancho, 0)} entre muros · ${coma(H.interior.terminado.ancho, 0)} terminado`, 0, FSs);
@@ -702,7 +705,7 @@ ol.preg li{margin:0 0 8px}
       ['0,00', 'cara de la losa (NPOG, nivel de piso de obra gruesa del ingeniero) · 50 sobre el terreno · 20 bajo el piso de la casa'],
       ['Cambios', `muro del eje B bajo el tabique cafetería/estudio (recibe sus 5 pilares) · escalera junto al muro del eje 5 con viga de borde <span class="fuente med">propuesta</span>`],
     ].map(([k, v]) => `<div class="k">${k}</div><div class="v">${v}</div>`).join('');
-    $('#cap-bunker').innerHTML = `Planta del búnker con la losa de techo. ${H.vigas[0].d}. El borde del hueco hacia el eje A lleva viga de borde ${H.vigas[0].nombre.replace('VHA ', '')} (en punteado, sin rótulo); el del eje B es el muro. ${H.escalera.nota}.`;
+    $('#cap-bunker').innerHTML = `Planta del búnker con la losa de techo. ${H.vigas[0].d}. El borde del hueco hacia el eje A lleva viga de borde ${H.vigas[0].nombre.replace('VHA ', '')} (en punteado); el del eje B es el muro. ${H.escalera.nota}.`;
   })();
 
   // ---------- elevaciones ----------
@@ -715,7 +718,7 @@ ol.preg li{margin:0 0 8px}
     const u = p => horiz === 'x' ? p[1] : p[0];
     const largoT = horiz === 'x' ? L : W, al = horiz === 'x' ? P.alero_ns : P.alero_eo;
     const zMin = (H.niveles ? H.niveles.emplantillado_inf : -(H.losa.espesor + H.interior.alto + (H.piso ? H.piso.espesor : 0))) - 40, zMax = P.h_pilar + 120;
-    svg.setAttribute('viewBox', `${-al - 260} ${-zMax - 70} ${largoT + 2 * al + 700} ${zMax - zMin + 170}`); fig.style.setProperty('--w', Math.round((largoT + 2 * al + 700) * KE) + 'px');
+    svg.setAttribute('viewBox', `${-al - 260} ${-zMax - 70} ${largoT + 2 * al + 700} ${zMax - zMin + 170 + (Object.values(horiz === 'x' ? D.ejes.y : D.ejes.x).sort((p, q) => p - q).some((v, i, a) => i && v - a[i - 1] < 2 * 22 * FE * 0.8 + 4) ? 2 * 22 * FE * 0.8 + 6 : 0)}`); fig.style.setProperty('--w', Math.round((largoT + 2 * al + 700) * KE) + 'px');   // más alto si hay círculos de ejes en dos filas
     const Y = z => -z;
     // terreno y niveles
     el('line', { x1: -al - 60, y1: Y(-50), x2: largoT + al + 60, y2: Y(-50), style: 'stroke:var(--fig-soft);stroke-width:1' }, svg);
@@ -766,7 +769,9 @@ ol.preg li{margin:0 0 8px}
     // rótulos de perfiles (uno por tipo) y ejes
     const tipos = {}; sel.forEach(x => { tipos[x.p] = (tipos[x.p] || 0) + 1; });
     const ejesOtro = horiz === 'x' ? D.ejes.y : D.ejes.x;
-    Object.entries(ejesOtro).forEach(([n, v]) => { el('line', { x1: v, y1: Y(zMax - 40), x2: v, y2: Y(zMin + 20), style: 'stroke:var(--fig-soft);stroke-width:.7;stroke-dasharray:14 5 3 5' }, svg); el('circle', { cx: v, cy: Y(zMin + 20) + 50, r: 22 * FE * 0.8, style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.5' }, svg); txt(svg, v, Y(zMin + 20) + 50 + 7 * FE * 0.8, n, { 'text-anchor': 'middle', 'font-size': 19 * FE * 0.8, 'font-weight': 600 }); });
+    const rB = 22 * FE * 0.8; let xAnt = -1e9, filaAnt = 0;   // dos ejes a menos de un círculo (C2 y D desde la cabina de 4,15: 0,75 m) van en dos filas
+    Object.entries(ejesOtro).sort((p, q) => p[1] - q[1]).forEach(([n, v]) => { const fila = v - xAnt < 2 * rB + 4 && filaAnt === 0 ? 1 : 0, dyB = fila * (2 * rB + 6); xAnt = v; filaAnt = fila;
+      el('line', { x1: v, y1: Y(zMax - 40), x2: v, y2: Y(zMin + 20) + dyB, style: 'stroke:var(--fig-soft);stroke-width:.7;stroke-dasharray:14 5 3 5' }, svg); el('circle', { cx: v, cy: Y(zMin + 20) + 50 + dyB, r: rB, style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.5' }, svg); txt(svg, v, Y(zMin + 20) + 50 + dyB + 7 * FE * 0.8, n, { 'text-anchor': 'middle', 'font-size': 19 * FE * 0.8, 'font-weight': 600 }); });
     const p0 = sel.filter(x => x.c === 'pilar').sort((a, b) => u(loc(a.a)) - u(loc(b.a)))[0]; const hp = p0 ? loc(p0.b)[2] - loc(p0.a)[2] : P.h_pilar;
     cota(svg, 0, Y(0), 0, Y(hp), coma(hp, 0), -55, 15 * FE);
     const cab = sel.find(x => x.c === 'cabio'); if (cab) { const b = loc(cab.b); txt(svg, u(b) - 10, Y(b[2] + 20) - 14, '+' + coma(b[2], 0), { 'text-anchor': 'end', 'font-size': 14 * FE, class: 'txs' }); const a = loc(cab.a); txt(svg, u(a) + 10, Y(a[2] + 20) - 14, '+' + coma(a[2], 0), { 'font-size': 14 * FE, class: 'txs' }); }   // sobre la línea del techo, no tachados
@@ -922,8 +927,11 @@ ol.preg li{margin:0 0 8px}
     D.interior.forEach(it => { const p = it.pts.map(loc); el('polygon', { points: p.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:var(--fig-fill);stroke:var(--fig-soft);stroke-width:1.2;stroke-dasharray:5 3' }, svg); if (it.nombre && !it.id.endsWith('2')) { const c = p.reduce((s, q) => [s[0] + q[0] / 4, s[1] + q[1] / 4], [0, 0]); const w = Math.max(...p.map(q => q[0])) - Math.min(...p.map(q => q[0])), h = Math.max(...p.map(q => q[1])) - Math.min(...p.map(q => q[1]));
       // los nombres no se pisan (Gabriel, 20-10-2026): las alfombras se rotulan en su borde de arriba; las lámparas, que cuelgan sobre la mesa o la barra, abajo de ellas; sillas, taburetes y paneles solo una vez
       if (/^(silla|taburete|panel)/.test(it.id) && !/^(silla11n|taburete1|panel_o1|panel_cab_o1|silla_cab|silla_consola)$/.test(it.id)) return;
+      if (it.id.startsWith('estante')) return;   // las estanterías de la bodega llevan un solo rótulo, al centro (abajo)
       const nom = w < 200 ? it.nombre.split(' ')[0] : it.nombre.split(' (')[0], alf = it.id.startsWith('alfombra'), lamp = it.id.startsWith('lampara');
       txt(svg, c[0], alf ? c[1] - h / 2 + 16 : lamp ? c[1] + h / 2 + 14 : c[1] + 5, nom, { 'text-anchor': 'middle', 'font-size': 13, class: 'txs' }); } });
+    const rBod = E.recintos.find(r => r.id === 'bodega');
+    if (rBod && D.interior.some(it => it.id.startsWith('estante'))) { const p = rBod.pts.map(loc), cx = p.reduce((s, q) => s + q[0] / p.length, 0), cy = p.reduce((s, q) => s + q[1] / p.length, 0); txt(svg, cx, cy + 34, 'estanterías en U', { 'text-anchor': 'middle', 'font-size': 13, class: 'txs' }); }
     // pilares y ejes
     D.miembros.filter(x => x.c === 'pilar').forEach(mb => { const a = loc(mb.a); el('rect', { x: a[0] - 8, y: a[1] - 8, width: 16, height: 16, style: `fill:${COL.pilar};stroke:var(--fig-ink);stroke-width:1` }, svg); });
     Object.entries(D.ejes.x).forEach(([n, x]) => burbuja(svg, x, -70, n)); Object.entries(D.ejes.y).forEach(([n, y]) => burbuja(svg, -70, y, n));
@@ -939,11 +947,11 @@ ol.preg li{margin:0 0 8px}
     });
     txt(svg, W / 2, -95, 'patio', { 'text-anchor': 'middle', 'font-size': 16, class: 'txs' }); flechaNorte(svg, -82, -60, 20);
     txt(svg, -100, L / 2, 'casa →', { 'text-anchor': 'middle', 'font-size': 15, class: 'txs', transform: `rotate(-90 -100 ${L / 2})` });
-    $('#cap-vanos').innerHTML = 'Planta de ventanas (azul), puertas (naranjo) y cruces (verde) sobre los muros, con un esquema interior de referencia (punteado): parlantes a los lados de la ventana del eje E, consola a 2,5 m mirando hacia ella, sofá junto al vidrio, barra de espaldas al muro de la escalera, mesas de cowork frente al patio y, en la esquina de los ejes A y 5, una cocina chica con lavaplatos y un minibar (la cabina de grabación de la cafetería se sacó por ahora). La escalera al búnker va en hormigón, en su propia caja de muros, con una puerta con llave en el descanso de entrada. Todo es propuesta para conversar.';
+    $('#cap-vanos').innerHTML = 'Planta de ventanas (azul), puertas (naranjo) y cruces (verde) sobre los muros, con un esquema interior de referencia (punteado): parlantes a los lados de la ventana del eje E, consola a 2,5 m mirando hacia ella, sofá junto al vidrio, barra de espaldas al muro de la escalera, mesas de cowork frente al patio y, en la esquina de los ejes A y 5, una cocina chica con lavaplatos y un minibar (la cabina de grabación de la cafetería se sacó por ahora). La escalera al búnker va en hormigón, en su propia caja de muros, y se entra desde el distribuidor por una puerta con llave en el tabique B. Todo es propuesta para conversar.';
     const fmtm = v => (v / 100).toFixed(2).replace('.', ',');
     $('#tabla-vanos').innerHTML = `<thead><tr><th>Vano</th><th>Dónde</th><th>Tipo</th><th class="r">Ancho × alto</th><th>Nota</th></tr></thead><tbody>${D.vanos.filter(v => v.tipo !== 'escalera').map(v => `<tr><td><b>${v.id}</b></td><td>${({ norte: 'fachada eje A', sur: 'fachada eje E', oriente: 'fachada eje 5', poniente: 'fachada eje 1', 'tabique B': 'tabique eje B', 'tabique 4': 'tabique eje 4' })[v.muro] || v.muro}</td><td>${v.tipo}</td><td class="r">${fmtm(v.ancho)} × ${fmtm(v.alto)} m</td><td class="small">${v.d}</td></tr>`).join('')}</tbody>`;
     const vid = D.vanos.filter(v => v.tipo.includes('ventana') || v.tipo.includes('vidri') || v.tipo.includes('corredera')).reduce((s, v) => s + v.ancho * v.alto / 1e4, 0);
-    $('#txt-vanos').textContent = `${vid.toFixed(1).replace('.', ',')} m² de vidrio en total. Las ventanas al patio son de piso a cielo (4,00) en los tramos 1-2, 2-3 y 3-4; el 4-5 es ciego. El baño lleva una ventana alta en el eje 5; la bodega va sin ventana y el eje 1 queda ciego (cruz, entrada y cabina). Pendiente: el detalle acústico del tabique vidriado y la escalera.`;
+    $('#txt-vanos').textContent = `${vid.toFixed(1).replace('.', ',')} m² de vidrio en total. Las ventanas al patio son de piso a cielo (4,00) en los tramos 1-2, 2-3 y 3-4; el 4-5 es ciego. El baño lleva una ventana alta en el eje 5; la cabina y la bodega van sin ventana y el resto del eje 1 queda ciego (cruces y entrada). Pendiente: el detalle acústico del tabique vidriado y la escalera.`;
   })();
 
   // ---------- fundaciones y hormigón armado (sección 07) ----------
@@ -1042,7 +1050,7 @@ ol.preg li{margin:0 0 8px}
       const ZT = 62, ZF = -112, S = 2.2, YZ0 = 134, XL = -235, XR = ANCHO + 320, LX = -110, RX = 104;   // LX/RX: lo que ocupa cada sección ampliada (cm locales)   // alto del corte general; escala y arranque de la fila de secciones ampliadas
       const CX0 = XL + (XR - XL - (2 * (RX - LX) * S + 30)) / 2 - LX * S, CX1 = CX0 + (RX - LX) * S + 30, YB = YZ0 + 10 + 156 * S + 6;
       corte('Corte transversal por los CF de los ejes C y C2', [XL, -ZT - 34, XR - XL, YB + ZT + 34], sv => {
-        sv.parentNode.style.gridColumn = '1 / -1'; sv.style.minWidth = '1472px';
+        sv.parentNode.style.gridColumn = '1 / -1'; sv.style.minWidth = '1472px';   // este corte no se achica con los planos (24-10-2026): son 3 dibujos en uno y a 1240 su letra de 14 px ya no cabe
         // ---- corte general ----
         [['B', yB, -104], ['C', yC, -58], ['C2', yC2, -58], ['E', yE, -92]].forEach(([n, y, zf]) => { const x = U(y); el('line', { x1: x, y1: Y(ZT - 12), x2: x, y2: Y(zf), style: ejeS }, sv); el('circle', { cx: x, cy: Y(ZT - 4), r: 7, style: 'fill:var(--paper);' + ink + ';stroke-width:.9' }, sv); T(sv, x, ZT - 4, n, { 'font-weight': 700, class: 'tx' }); });
         [[yB, yC], [yC, yC2], [yC2, yE]].forEach(([a, b]) => cota(sv, U(a), Y(ZT - 22), U(b), Y(ZT - 22), coma(b - a, 0), 0, 8.5));
@@ -1139,7 +1147,7 @@ ol.preg li{margin:0 0 8px}
     ['Viga inclinada RECT 200×150×3 (fachadas laterales)', 'tramos de 1,25 a 3,43 m entre pilares', `tramos de ${coma(tramoYmin / 100, 2)} (${(i => yn_[i] + '–' + yn_[i + 1])(tramosY.indexOf(tramoYmin))}) a ${coma(tramoYmax / 100, 2)} m (${(i => yn_[i] + '–' + yn_[i + 1])(tramosY.indexOf(tramoYmax))}) entre pilares`, tramoYmax > 343 ? 'calc' : 'menor'],
     ['Vigas 1–5 CUAD 100×100×3 (+4,11/+4,21 en A, B, C y E)', 'tramos de 2,05 a 3,65 m', `tramos de ${coma(Math.min(...xs.slice(1).map((v, i) => v - xs[i])) / 100, 2)} a ${coma(bahiaMax / 100, 2)} m`, 'menor'],
     ['Pilares CUAD 150×150', '4,01 a 4,47 m (F1 a A1, con el 4,5 % dibujado)', `${coma(Math.min(...hP) / 100, 2)} a ${coma(Math.max(...hP) / 100, 2)} m (A a E)`, Math.max(...hP) > 447 ? 'calc' : 'menor'],
-    ['Cruces C 150×50×3', 'tramos de 2,05 y 1,82 m × 4,01 m', 'tramos de 2,00 m en las fachadas laterales; 2,58 y 2,75 m en los muros ciegos en 1–5 (una sola diagonal en B 4-5); de la placa base a la viga (4,16 a 4,81 m)', 'menor'],
+    ['Cruces C 150×50×3', 'tramos de 2,05 y 1,82 m × 4,01 m', 'tramos de 2,00 m en las fachadas laterales; 2,58 y 2,75 m en los muros ciegos en 1–5 (B 4-5 sin diagonal; C2 4-5 con una sola, sobre la puerta de la bodega); de la placa base a la viga (4,16 a 4,81 m)', 'menor'],
     [`Losa del búnker e=${coma(H.losa.espesor, 0)}`, '5,00 m (e=20, ø10@20)', `${coma(H.interior.largo / 100, 2)} m`, 'calc'],
     [`Muros del búnker e=${coma(H.muros.espesor, 0)}`, '2,72 m de altura libre (e=25)', `${coma(H.interior.alto / 100, 2)} m`, 'calc'],
     [`Viga ${H.vigas[0].nombre} bajo la losa`, '5,00 m entre muros (eje 2.a, 25/40)', `${coma(H.interior.largo / 100, 2)} m entre muros (eje 3) y viga de borde de ${coma(H.escalera.largo / 100, 2)} m en la escalera`, 'calc'],
@@ -1172,7 +1180,13 @@ ol.preg li{margin:0 0 8px}
       svg.querySelectorAll('text').forEach(t => {
         const fs = parseFloat(getComputedStyle(t).fontSize); if (!fs || !inv) return;
         const m = inv.multiply(t.getCTM()), k = Math.hypot(m.a, m.b) * kRef;
-        if (fs * k < MIN - 0.05) t.style.fontSize = (MIN / k).toFixed(2) + 'px';
+        if (fs * k >= MIN - 0.05) return;
+        // si el texto tiene su placa de fondo (rect justo antes, que lo contiene), la placa crece con él y conserva su aire (24-10-2026: las letras subidas se salían de su placa)
+        const pl = t.previousElementSibling, b0 = t.getBBox();
+        const placa = pl && pl.tagName === 'rect' && (({ x, y, width: w, height: h }) => x <= b0.x + 0.5 && y <= b0.y + 0.5 && x + w >= b0.x + b0.width - 0.5 && y + h >= b0.y + b0.height - 0.5)(pl.getBBox()) ? pl.getBBox() : null;
+        t.style.fontSize = (MIN / k).toFixed(2) + 'px';
+        if (placa) { const b1 = t.getBBox(), aL = b0.x - placa.x, aR = placa.x + placa.width - b0.x - b0.width, aT = b0.y - placa.y, aB = placa.y + placa.height - b0.y - b0.height;
+          pl.setAttribute('x', b1.x - aL); pl.setAttribute('y', b1.y - aT); pl.setAttribute('width', b1.width + aL + aR); pl.setAttribute('height', b1.height + aT + aB); }
       });
     });
   })(14);

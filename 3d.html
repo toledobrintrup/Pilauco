@@ -102,7 +102,7 @@ body.embed .norte3d{top:52px}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V119" data-vista="3d"></script>
+    <script src="menu.js?v=V120" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -182,17 +182,17 @@ body.embed .norte3d{top:52px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V119"></script>
-<script src="data.js?v=V119"></script>
-<script src="casa_vanos.js?v=V119"></script>
-<script src="estructura.js?v=V119"></script>
-<script src="losa.js?v=V119"></script>
-<script src="sitio.js?v=V119"></script>
-<script src="sitio3d.js?v=V119"></script>
-<script src="estudio_estructura.js?v=V119"></script>
-<script src="mobiliario3d.js?v=V119"></script>
-<script src="cotas3d.js?v=V119"></script>
-<script src="goku3d.js?v=V119"></script>
+<script src="nav3d.js?v=V120"></script>
+<script src="data.js?v=V120"></script>
+<script src="casa_vanos.js?v=V120"></script>
+<script src="estructura.js?v=V120"></script>
+<script src="losa.js?v=V120"></script>
+<script src="sitio.js?v=V120"></script>
+<script src="sitio3d.js?v=V120"></script>
+<script src="estudio_estructura.js?v=V120"></script>
+<script src="mobiliario3d.js?v=V120"></script>
+<script src="cotas3d.js?v=V120"></script>
+<script src="goku3d.js?v=V120"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -896,11 +896,11 @@ body.embed .norte3d{top:52px}
     E.recintos.forEach(rc => {
       if (rc.id === 'escalera') return;
       const ptsC = rc.terminado || rc.pts, v2 = ptsC.map(q => new THREE.Vector2(q[0], q[1])), tris = THREE.ShapeUtils.triangulateShape(v2, []), pos = [];
-      const zC = y => rc.cielo_z !== undefined ? rc.cielo_z : zCielo(y);   // cielo propio del recinto (la cabina baja a 3,00) o el plano general a 4,00
+      const zC = y => rc.cielo_z !== undefined ? rc.cielo_z : zCielo(y);   // cielo propio del recinto (la cabina baja a 3,35 desde el 24-10-2026) o el plano general a 4,00
       tris.forEach(t => t.forEach(i => { const q = ptsC[i]; pos.push(cm(q[0]), cm(zC(q[1]) - 0.5), cm(q[1])); }));
       const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.computeVertexNormals();
       const mesh = new THREE.Mesh(geo, matCielo); mesh.userData.cieloEstudio = true;
-      g.add(ficha(mesh, 'Cielo de ' + rc.nombre.split(' (')[0].toLowerCase(), `plano a ${((zC(rc.pts[0][1]) - z0) / 100).toFixed(2).replace('.', ',')} m${rc.cielo_z !== undefined ? ' (bajado: cabina)' : ' (Gabriel)'}; sobre él, el entretecho con las vigas y la pendiente del techo · bajo las vigas (propuesta)`));
+      g.add(ficha(mesh, 'Cielo de ' + rc.nombre.split(' (')[0].toLowerCase(), `plano a ${((zC(rc.pts[0][1]) - npt) / 100).toFixed(2).replace('.', ',')} m${rc.cielo_z !== undefined ? ' (bajado: cabina)' : ' (Gabriel)'}; sobre él, el entretecho con las vigas y la pendiente del techo · bajo las vigas (propuesta)`));
     });
     // escalera al búnker: peldaños terminados y pasamanos en el muro de la caja
     // tramo real (desde el muro del eje B hacia el eje A; el último metro sigue bajo la losa, dentro del búnker); el hueco en la losa es más corto

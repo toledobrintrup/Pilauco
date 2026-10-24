@@ -125,8 +125,9 @@ for pid, it in piezas.items():
     if t == 'panel_acustico':
         ok(info[pid]['d'] == 6 and info[pid]['w'] == 100, f'{pid}: el panel no es de 6 × 100 en planta ({info[pid]["d"]} × {info[pid]["w"]})')
         ok(it['alto'] - 120 >= 0, f'{pid}: alto {it["alto"]} < 120')
-        lado = est[0] if it['mira'] == 'E' else est[2]
-        ok(abs(info[pid]['espalda'][0] - lado) < 0.6, f'{pid}: la espalda del panel no queda en el muro x={lado}')
+        rr = caja_pts(recintos[it['recinto']])           # muro de su propio recinto (estudio o cabina)
+        k_, lado = {'E': (0, rr[0]), 'O': (0, rr[2]), 'S': (1, rr[1]), 'N': (1, rr[3])}[it['mira']]
+        ok(abs(info[pid]['espalda'][k_] - lado) < 0.6, f'{pid}: la espalda del panel no queda en el muro {"xy"[k_]}={lado}')
     if t == 'cabina':
         ok(info[pid]['f'] == (0, -1), 'cabina: el frente vidriado no da al norte (cafetería)')
         pegado(pid, caf[3], 1)                               # fondo contra el tabique B (y = 635,5)
@@ -142,7 +143,7 @@ for pid, it in piezas.items():
         rb = bod
         lado = {'O': ('x', rb[2]), 'E': ('x', rb[0]), 'N': ('y', rb[3]), 'S': ('y', rb[1])}[it['mira']]
         pegado(pid, lado[1], 0 if lado[0] == 'x' else 1)
-    if t == 'alfombra':
+    if t == 'alfombra' and pid == 'alfombra':   # la del estudio va bajo la consola (la de la cabina no)
         ok(dentro(info['consola']['r'], info[pid]['r']), 'alfombra: la consola no queda sobre ella')
     if t == 'lampara':
         c = E['cielo']; y = info[pid]['c'][1]
