@@ -173,7 +173,7 @@ ol.preg li{margin:0 0 8px}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V121" data-vista="estudio"></script>
+  <script src="menu.js?v=V122" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
   <span class="meta" id="meta">Revisado con cálculo propio · sin firma</span>
 </header>
@@ -257,7 +257,7 @@ ol.preg li{margin:0 0 8px}
 <section id="vista3d">
   <h2><span class="n">01</span>Vista 3D del estudio</h2>
   <ul class="puntos"><li><b>Capas:</b> estructura de acero y hormigón, búnker bajo tierra, enfierradura, medidas (vienen apagadas).</li><li><b>Girar:</b> arrastrar · <b>acercar:</b> rueda o pellizco · <b>centrar:</b> doble toque · <b>ficha:</b> tocar la pieza.</li></ul>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V121" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V122" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
@@ -280,6 +280,8 @@ ol.preg li{margin:0 0 8px}
   <div class="kvs" id="txt-bunker"></div>
   <figure class="ancho"><svg id="svg-bunker" role="img" aria-label="Planta del búnker"></svg>
     <figcaption id="cap-bunker"></figcaption></figure>
+  <figure class="ancho"><svg id="svg-escalera" role="img" aria-label="Corte de la escalera al búnker"></svg>
+    <figcaption id="cap-escalera"></figcaption></figure>
 </section>
 
 <section id="elevaciones">
@@ -350,11 +352,14 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=V121"></script>
-<script src="estudio_estructura.js?v=V121"></script>
-<script src="armaduras_det.js?v=V121"></script>
+<script src="sitio.js?v=V122"></script>
+<script src="estudio_estructura.js?v=V122"></script>
+<script src="armaduras_det.js?v=V122"></script>
 <script>
-(function () {
+// se dibuja cuando la letra Inter ya cargó: los rótulos se miden con getBBox y con la letra de reemplazo quedaban más angostos de lo que son (25-10-2026)
+(function (dibujar) { const f = document.fonts; if (!f || !f.load) return dibujar();
+  let listo = false; const ir = () => { if (!listo) { listo = true; dibujar(); } };
+  Promise.all(['400 15px Inter', '600 15px Inter', '700 15px Inter'].map(x => f.load(x))).then(ir, ir); setTimeout(ir, 2500); })(function () {
   const D = DATA_ESTUDIO_EST, E = DATA_SITIO.estudio, ox = E.origen[0], oy = E.origen[1], z0 = D.z_piso;
   const $ = s => document.querySelector(s);
   const coma = (v, d) => Number(v).toLocaleString('es-CL', { minimumFractionDigits: d, maximumFractionDigits: d });
@@ -749,6 +754,59 @@ ol.preg li{margin:0 0 8px}
       ['Cambios', `muro del eje B bajo el tabique cafetería/estudio (recibe sus 5 pilares) · escalera junto al muro del eje 5 con viga de borde <span class="fuente med">propuesta</span>`],
     ].map(([k, v]) => `<div class="k">${k}</div><div class="v">${v}</div>`).join('');
     $('#cap-bunker').innerHTML = `Planta del búnker con la losa de techo. ${H.vigas[0].d}. El borde del hueco hacia el eje A lleva viga de borde ${H.vigas[0].nombre.replace('VHA ', '')} (en punteado); el del eje B es el muro. ${H.escalera.nota}.`;
+  })();
+
+  // ---------- corte de la escalera al búnker (el ingeniero, vía Gabriel, 25-10-2026: "un detalle de la escalera con un corte que se vea cómo baja") ----------
+  (function corteEscalera() {
+    const svg = $('#svg-escalera'), Es = H.escalera, tr = Es.tramo; if (!svg || !tr) return;
+    const N = tr.peldanos, hu = tr.largo / N, ch = (Es.z_arriba - Es.z_abajo) / N, yT = loc([0, tr.y_arriba])[1], yP = loc([0, tr.y_abajo])[1], zP = H.niveles.piso_bunker;
+    const hue = Es.pts.map(loc), yH0 = Math.min(...hue.map(p => p[1])), yH1 = Math.max(...hue.map(p => p[1]));
+    const ext = id => { const q = H.muros.piezas.find(z => z.id === id).pts.map(loc); return [Math.min(...q.map(p => p[1])), Math.max(...q.map(p => p[1]))]; };
+    const [n0, n1] = ext('M-N'), [s0, s1] = ext('M-S'), eL = H.losa.espesor, zF = H.niveles.losa_fund_inf, zE = H.niveles.emplantillado_inf, mF = H.losa_fundacion.margen;
+    const vb = H.vigas.find(v => v.id === 'VB-N'), vq = vb.pts.map(loc), v0 = Math.min(...vq.map(p => p[1])), v1 = Math.max(...vq.map(p => p[1])), zV = vb.z_inf - D.z_piso;
+    const Z = z => -z, FS = 11, horm = 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1.2', soft = 'stroke:var(--fig-soft);stroke-width:.8';
+    svg.setAttribute('viewBox', '-140 -135 960 580');
+    const rect = (y0, y1, z0, z1, st) => el('rect', { x: y0, y: Z(z1), width: y1 - y0, height: z1 - z0, style: st }, svg);
+    const T = (y, z, t, o) => txt(svg, y, Z(z), t, Object.assign({ 'font-size': FS, class: 'txs' }, o || {}));
+    // ejes A y B
+    [['A', D.ejes.y.A], ['B', D.ejes.y.B]].forEach(([n, y]) => { el('line', { x1: y, y1: Z(92), x2: y, y2: Z(zE - 30), style: soft + ';stroke-dasharray:14 5 3 5' }, svg); el('circle', { cx: y, cy: Z(108), r: 13, style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.2' }, svg); T(y, 104, n, { 'text-anchor': 'middle', 'font-weight': 700 }); });
+    // losa de fundación y emplantillado, muros de los ejes A y B, losa de techo (con su hueco) y viga de borde del lado A
+    rect(n0 - mF, s1 + mF, zE, zF, 'fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:.8'); rect(n0 - mF, s1 + mF, zF, zP, horm);
+    rect(n0, n1, zP, 0, horm); rect(s0, s1, zP, 0, horm); rect(n1, yH0, -eL, 0, horm); rect(v0, v1, zV, -eL, horm);
+    // escalera: peldaños de huella hu y contrahuella ch, sobre una losa inclinada de 15, del muro del eje B al piso del búnker
+    const pts = [[yT, 0]]; for (let i = 0; i < N; i++) { const y = yT - i * hu; pts.push([y - hu, -i * ch], [y - hu, -(i + 1) * ch]); }
+    const k = ch / hu, zU = -ch - 15 * Math.hypot(1, k), yU = yT - (zU - zP) / k;   // cara inferior de la losa de 15, paralela a la línea de las narices
+    pts.push([Math.max(yP, yU), zP], [yT, zU]);
+    el('polygon', { points: pts.map(([y, z]) => `${y},${Z(z)}`).join(' '), style: horm }, svg);
+    // caja de la escalera sobre la losa (muro hacia la minicocina, cortado) y tabique B con la puerta con llave desde el distribuidor
+    const zig = (y0, y1, z) => el('polyline', { points: [0, 1, 2, 3, 4, 5, 6].map(i => `${y0 + (y1 - y0) * i / 6},${Z(z + (i % 2 ? 4 : -4))}`).join(' '), style: 'fill:none;stroke:var(--fig-ink);stroke-width:1' }, svg);
+    rect(v0 + 2, v1, 0, 120, horm); zig(v0 + 2, v1, 120);
+    el('line', { x1: s1, y1: Z(0), x2: 812, y2: Z(0), style: 'stroke:var(--fig-ink);stroke-width:1.5' }, svg);
+    // flecha "baja" sobre la escalera
+    const fy0 = yT - 45, fy1 = yH0 + 85, fz = y => -(yT - y) * k + 58;
+    el('line', { x1: fy0, y1: Z(fz(fy0)), x2: fy1, y2: Z(fz(fy1)), style: 'stroke:var(--fig-ink);stroke-width:1.6' }, svg);
+    el('polygon', { points: [[0, 0], [16, -6], [16, 6]].map(([a, b]) => { const c = Math.cos(Math.atan(k)), s_ = Math.sin(Math.atan(k)); return `${fy1 + a * c - b * s_ * 0},${Z(fz(fy1)) - a * s_ + b}`; }).join(' '), style: 'fill:var(--fig-ink)' }, svg);
+    T((fy0 + fy1) / 2 - 20, fz((fy0 + fy1) / 2) + 34, 'baja', { 'text-anchor': 'middle', 'font-weight': 700 });
+    // cotas
+    cota(svg, yH0, Z(62), yH1, Z(62), `hueco ${coma(yH1 - yH0, 0)}`, 0, FS);
+    cota(svg, yP, Z(zE - 28), yT, Z(zE - 28), `${coma(tr.largo, 0)} = ${N} huellas de ${coma(hu, 1)}`, 0, FS);
+    cota(svg, 760, Z(0), 760, Z(zP), `${coma(-zP, 0)}`, 0, FS);
+    const zN = y => -(yT - y) * k;   // línea de las narices
+    cota(svg, yH0, Z(zV), yH0, Z(zN(yH0)), `${coma((zV - zN(yH0)) / 100, 2)} libres`, 0, FS);   // bajo la cara de la viga de borde, hasta la línea de las narices
+    // niveles
+    [[0, '0,00'], [-eL, coma(-eL, 0)], [zP, `${coma(zP, 0)} piso`], [zF, `${coma(zF, 0)} / ${coma(zE, 0)} sello`]].forEach(([z, t]) => { el('line', { x1: -132, y1: Z(z), x2: n0 - mF - 6, y2: Z(z), style: soft }, svg); T(-130, z + 4, t); });
+    el('line', { x1: -132, y1: Z(zE), x2: n0 - mF - 6, y2: Z(zE), style: soft }, svg);
+    // rótulos
+    T((n1 + v0) / 2, -eL / 2 - 4, `losa e=${coma(eL, 0)}`, { 'text-anchor': 'middle' });
+    T(v0 - 6, zV - 14, 'viga de borde 25/45', { 'text-anchor': 'end' });
+    [[n0, n1, 'muro eje A'], [s0, s1, 'muro eje B']].forEach(([a, b, t]) => { const y = (a + b) / 2 + 4, z = zP / 2; txt(svg, y, Z(z), t, { 'text-anchor': 'middle', 'font-size': FS, class: 'txs', transform: `rotate(-90 ${y} ${Z(z)})` }); });
+    T((n0 + s1) / 2 + 60, (zP + zF) / 2 - 4, `losa de fundación e=${coma(zP - zF, 0)}`, { 'text-anchor': 'middle' });
+    T(yT - 150, zP + 52, 'escalera de hormigón', { 'text-anchor': 'middle', 'font-weight': 600 });
+    T(yT - 150, zP + 34, `${N} peldaños de ${coma(hu, 1)} × ${coma(ch, 1)} · ancho ${coma(Es.ancho / 100, 2)}`, { 'text-anchor': 'middle' });
+    T(yT - 150, zP + 16, 'sobre una losa inclinada de 15', { 'text-anchor': 'middle' });
+    T(s1 + 8, 30, 'distribuidor', {}); T(s1 + 8, 12, 'puerta con llave', {});
+    T(v0 - 8, 92, 'muro de la caja', { 'text-anchor': 'end' });
+    $('#cap-escalera').innerHTML = `<b>Corte de la escalera al búnker</b> · a lo largo de la escalera, mirando hacia el eje 5 · se entra desde el distribuidor por la puerta con llave del tabique B y se baja hacia el eje A: ${N} contrahuellas de ${coma(ch, 1)} (${coma(-zP, 0)} en total) y ${N} huellas de ${coma(hu, 1)}; el último metro va bajo la losa · medidas en cm`;
   })();
 
   // ---------- elevaciones ----------
@@ -1305,7 +1363,7 @@ ol.preg li{margin:0 0 8px}
       });
     });
   })(14);
-})();
+});
 </script>
 </body>
 </html>
