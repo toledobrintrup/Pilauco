@@ -159,6 +159,10 @@ ol.preg li{margin:0 0 8px}
 .rv-agua{grid-template-columns:repeat(2,minmax(0,1fr))}.rv-agua .l{font-size:14px;font-weight:600;letter-spacing:.06em}
 @media (max-width:520px){.rv-agua{grid-template-columns:1fr}}
 .rv-orden{padding-left:22px;margin:6px 0 4px;font-size:15px}.rv-orden li{margin:3px 0}
+.ing-fila,.ing-cab{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.15fr) minmax(0,2.6fr) 118px;gap:4px 14px;padding:9px 12px;align-items:baseline;font-size:14.5px}
+.ing-cab{background:var(--panel);border-bottom:1px solid var(--line);color:var(--muted);font-weight:500;font-size:14px}.ing-fila+.ing-fila{border-top:1px solid var(--line2)}
+.ing-fila .ob{color:var(--muted);font-style:italic}.ing-fila .el{font-weight:600}.ing-fila .es{text-align:right}
+.ing-tab{width:100%;border-collapse:collapse;font-size:14.5px;margin:10px 0 6px}.ing-tab th,.ing-tab td{border-bottom:1px solid var(--line2);padding:7px 8px;text-align:left;vertical-align:baseline}.ing-tab th{color:var(--muted);font-weight:500;background:var(--panel)}.ing-tab tr.tot td{font-weight:600;border-top:1px solid var(--line)}
 .rv-nota{font-size:14px;color:var(--muted);margin-top:10px}
 @media (max-width:640px){
   .rv-cab{display:none}
@@ -167,18 +171,20 @@ ol.preg li{margin:0 0 8px}
   .rv-fila .dc{grid-column:1;grid-row:3;text-align:left;color:var(--muted)}
   .rv-fila .dc:not(:empty)::before{content:"D/C "}
   .rv-fila .es{grid-column:2;grid-row:1}
+  .ing-cab{display:none}.ing-fila{grid-template-columns:minmax(0,1fr) auto;gap:2px 10px}.ing-fila .ob,.ing-fila .re{grid-column:1/-1}.ing-fila .es{grid-column:2;grid-row:1}
+  .ing-tab{display:block;overflow-x:auto}
 }
 </style>
 </head>
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V122" data-vista="estudio"></script>
+  <script src="menu.js?v=V123" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
   <span class="meta" id="meta">Revisado con cálculo propio · sin firma</span>
 </header>
 <nav class="toc" id="toc">
-  <a href="#resumen">Resumen</a><a href="#revision">Revisión</a><a href="#vista3d">3D</a><a href="#planta">Planta</a><a href="#bunker">Búnker</a><a href="#elevaciones">Elevaciones</a><a href="#alturas">Alturas</a><a href="#vanos">Ventanas</a><a href="#fundaciones">Fundaciones</a><a href="#luces">Luces</a><a href="#acero">Acero</a><a href="#preguntas">Falta</a>
+  <a href="#resumen">Resumen</a><a href="#revision">Revisión</a><a href="#ingeniero">Ingeniero</a><a href="#vista3d">3D</a><a href="#planta">Planta</a><a href="#bunker">Búnker</a><a href="#elevaciones">Elevaciones</a><a href="#alturas">Alturas</a><a href="#vanos">Ventanas</a><a href="#fundaciones">Fundaciones</a><a href="#luces">Luces</a><a href="#acero">Acero</a><a href="#preguntas">Falta</a>
 </nav>
 <div class="doc-in">
 
@@ -199,7 +205,7 @@ ol.preg li{margin:0 0 8px}
     <div class="rv-cab"><span>Elemento</span><span>Antes → ahora</span><span style="text-align:right">D/C</span><span style="text-align:right">Estado</span></div>
     <div class="rv-fila"><span class="el">Losa de techo</span><span class="qp">e=20 hecha para 5 m → <b>e=25</b> continua con los muros: ø10@15 abajo y ø12@15 en L arriba (ø16@15 sobre el muro del eje B junto a la viga de borde de la escalera).</span><span class="dc">0,98</span><span class="es"><span class="est ju">Justo</span></span></div>
     <div class="rv-fila"><span class="el">Losa de techo de 20</span><span class="qp">Lo que propone el ingeniero. Con el mismo fierro no pasa arriba junto al muro del eje B (1,54). Con ø10@15 arriba en 1–5 en esa zona da 0,99; el muro del eje 5 llega a 1,00 y el corte a 0,78 (318-08) · 1,39 (318-19).</span><span class="dc">1,00</span><span class="es"><span class="est no">Por decidir</span></span></div>
-    <div class="rv-fila"><span class="el">Corte de la losa de techo</span><span class="qp">Pasa con ACI 318-08 (la de la NCh 430). Con la 318-19, un punto junto al muro del eje B da 1,07: hay que revisarlo.</span><span class="dc">0,55 · 1,07</span><span class="es"><span class="est no">Revisar</span></span></div>
+    <div class="rv-fila"><span class="el">Corte de la losa de techo</span><span class="qp">Pasa con ACI 318-08 (la de la NCh 430); con la 318-19 da 0,79 tomando el fierro en tracción. El ingeniero lo da por bueno con la losa de 25.</span><span class="dc">0,55 · 0,79</span><span class="es"><span class="est ok">Pasa</span></span></div>
     <div class="rv-fila"><span class="el">VHA y escalera</span><span class="qp">VHA 25/40 muy flexible → <b>25/45</b> con estribos @15. Hueco de 1,30 × 2,74 con descanso → <b>1,20 × 3,97</b> hasta el muro del eje B, con vigas de borde en los otros 2 lados (3ø16 arriba).</span><span class="dc">0,82</span><span class="es"><span class="est ok">Pasa</span></span></div>
     <div class="rv-fila"><span class="el">Losa de fundación</span><span class="qp">e=30 con fisuras de 0,5 mm → <b>e=35</b>, ø16@15 y ø12@15 arriba y abajo. Fisura 0,22 mm con suelo rígido (límite 0,20).</span><span class="dc">0,84</span><span class="es"><span class="est ju">Justo</span></span></div>
     <div class="rv-fila"><span class="el">Muros</span><span class="qp">e=25 → <b>e=30</b> hacia afuera (el interior no cambia): ø16@15 por fuera, ø12@15 por dentro.</span><span class="dc">0,82</span><span class="es"><span class="est ok">Pasa</span></span></div>
@@ -218,7 +224,7 @@ ol.preg li{margin:0 0 8px}
     <div class="rv-fila"><span class="el">Sismo y viento en 1–5</span><span class="qp">El techo se movía 2 a 4 cm → <b>cruz nueva</b> en el muro ciego del eje A (tramo 4–5). El tabique B 4–5 queda sin diagonal (puertas del distribuidor y de la escalera) y el C2 4–5 con una sola (puerta de la bodega).</span><span class="dc">0,94</span><span class="es"><span class="est ju">Justo</span></span></div>
     <div class="rv-fila"><span class="el">Cruces</span><span class="qp">Terminaban bajo el techo → <b>llegan a la viga</b>, con cartela de 8 mm y 4 pernos M16.</span><span class="dc">0,64</span><span class="es"><span class="est ok">Pasa</span></span></div>
     <div class="rv-fila"><span class="el">Pilares</span><span class="qp">Los 150×100 de fachada, girados: lado de 150 contra el viento. El 1C pasa a 150×150×4 por la cabina de 4,15. Con viento en las 4 fachadas el que manda es el 5C.</span><span class="dc">0,85</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Anclajes</span><span class="qp">Fallaban 14 de 25 → <b>PLc con 4 pernos</b> y armadura de anclaje en los 15 con cruz.</span><span class="dc">0,94</span><span class="es"><span class="est ju">Justo</span></span></div>
+    <div class="rv-fila"><span class="el">Anclajes</span><span class="qp">Fallaban 14 de 25 → <b>PLc con 4 pernos</b> y armadura de anclaje en los 15 con cruz.</span><span class="dc">0,93</span><span class="es"><span class="est ju">Justo</span></span></div>
     <div class="rv-fila"><span class="el">Fundaciones</span><span class="qp">El sismo levantaba el CF → <b>dado hasta el sello</b> (10 de emplantillado) bajo 4C y 4C2 y 4ø12 en el cimiento.</span><span class="dc">0,83</span><span class="es"><span class="est ok">Pasa</span></span></div>
     <div class="rv-fila"><span class="el">Choques del acero</span><span class="qp">Revisado perfil por perfil: solo se tocan en sus uniones. En la V119 un puntal se metía en el pilar 4C2; ya no.</span><span class="dc"></span><span class="es"><span class="est ok">Cumple</span></span></div>
     <div class="rv-fila"><span class="el">Vigas, aleros y techo</span><span class="qp">Pasan. Costaneras de 3 mm con silla y 2 pernos.</span><span class="dc">0,75</span><span class="es"><span class="est ok">Pasa</span></span></div>
@@ -237,7 +243,6 @@ ol.preg li{margin:0 0 8px}
   <ol class="rv-orden">
     <li>Decidir con el ingeniero la losa de techo: 25 (la del modelo) o 20 con fierro extra.</li>
     <li>Decidir el dren con salida por gravedad o el vuelo de ~80 cm.</li>
-    <li>Corte de la losa de techo junto al muro del eje B con la ACI 318-19 (1,07).</li>
     <li>Piezómetro (agua real) y sondaje de 6 m.</li>
     <li>Pesos reales de cubierta y cielo acústico: la deriva queda en 0,94.</li>
     <li>Que el ingeniero acepte la línea C2 4-5 con una sola diagonal a tracción (la deriva de ese sentido es la que manda: 0,94).</li>
@@ -254,10 +259,57 @@ ol.preg li{margin:0 0 8px}
 })();
 </script>
 
+<section id="ingeniero">
+  <h2>Respuestas al ingeniero</h2>
+  <p class="small sub">Documento V121 de José Torres (25-10-2026) · respuestas con el modelo V122 · NCh 433 + DS 61, NCh 432:2010, NCh 431:2010, NCh 1537:2009, NCh 3171:2010, ACI 318-08 (DS 60), AISC 360-16.</p>
+  <div class="rv-lista">
+    <div class="ing-cab"><span>Tema</span><span>Observación</span><span>Respuesta</span><span style="text-align:right">Estado</span></div>
+    <div class="ing-fila"><span class="el">Losa de techo e=25</span><span class="ob">Verificar carga muerta, luces y efecto</span><span class="re">D 6,38 → 7,63 kPa (peso propio 5,00 → 6,25); qu 14,1 → 15,6 kPa. Luz A–B 6,20 entre caras (6,50 entre ejes). Manda la flexión inferior junto a la VHA de borde: Mu 43,0 / φMn 43,7 kN·m/m = <b>0,98</b>. Flecha de largo plazo 6,3 mm &lt; L/480 = 13,5. Efecto: muros 0,82, vigas ≤ 0,82, losa de fundación 0,84, flotación FS 1,76.</span><span class="es"><span class="est ok">Respondido</span></span></div>
+    <div class="ing-fila"><span class="el">Corte de la losa</span><span class="ob">Con 25 no hay problema</span><span class="re">De acuerdo. VHA-3: Vu 34 / φVn 203 kN = 0,17. Losa en la cara del muro B: 0,55 (ACI 318-08); 0,79 con la 318-19 usando el fierro en tracción (la página decía 1,07 porque usaba el inferior).</span><span class="es"><span class="est ok">Aceptado</span></span></div>
+    <div class="ing-fila"><span class="el">VHA 25/50</span><span class="ob">Dejar 25/50, E ø10@15, rechequear M+</span><span class="re">Con 25/50: Mu+ 50,3 / φMn+ 98,5 kN·m (3ø16, d 45,2) = <b>0,51</b>; M− 0,76; corte 0,41 con E ø10@15 (ya están). Falta pasarlo al modelo. Viga de borde del lado A: 25/45 (escalera con 2,31 libres) o 25/50 (2,26).</span><span class="es"><span class="est ju">Por aplicar</span></span></div>
+    <div class="ing-fila"><span class="el">Losa de fundación e=35</span><span class="ob">Dejar e=35</span><span class="re">De acuerdo. ø16@15 en A–B y ø12@15 en 1–5, arriba y abajo. Flexión 0,84, corte 0,58, contacto 45 &lt; 59,8 kPa.</span><span class="es"><span class="est ok">Aceptado</span></span></div>
+    <div class="ing-fila"><span class="el">Muros e=30</span><span class="ob">Justificar 25 → 30</span><span class="re">El muro de la lámina (e=25, ø12@15 / ø10@20) en el búnker nuevo (3,21 libres, agua a 1,50, sismo) da <b>1,45</b> en la base y fisura 0,33 mm. La flexión la resuelve el ø16@15 exterior. El 30 es por: cabida (entre mallas quedan 12,8 cm con 25; no caben los pernos PLc con golilla más el water-stop), ACI 350 (e ≥ 300 mm en muros de 3 m o más con agua), margen de la caja (losa 1,03 → 0,98) y flotación en obra (FS 0,92 → 1,00). Crece hacia afuera: el interior no cambia.</span><span class="es"><span class="est ok">Respondido</span></span></div>
+    <div class="ing-fila"><span class="el">Dren</span><span class="ob">Drenar a los colectores originales</span><span class="re">De acuerdo. Dren perimetral ø110 en grava con geotextil, radier del tubo a −3,91 (3,41 m bajo el terreno), 40 m. Sale por gravedad si el colector está a 3,51 m + 1 %·L o más bajo el terreno del búnker. Falta la cota de los colectores; si quedan altos, cámara con 2 bombas y alarma.</span><span class="es"><span class="est ju">Falta dato</span></span></div>
+    <div class="ing-fila"><span class="el">Marcos de 10,75 m</span><span class="ob">Justificar cálculo y diseño</span><span class="re">Modelo 3D de barras (1.061 barras), lineal, A270ES; cruces y tensores solo a tracción; 20 combinaciones NCh 3171; AISC 360-16. Barras: puntal 150×150×5 <b>0,86</b>, viga 200×150×6 0,51, cordón 0,58; flecha 17 mm (L/631). Uniones (AISC K4): puntal → viga <b>1,07</b> con el cordón articulado y 0,86 con el cordón soldado a momento a los pilares B y E.</span><span class="es"><span class="est no">Decidir unión</span></span></div>
+    <div class="ing-fila"><span class="el">Pernos</span><span class="ob">¿Qué pernos?</span><span class="re">15 PLc 250×250×12, cada una con 4 pernos ø3/4" A36, L 490, hef 450, tuerca y golilla 50×50×10 abajo, a 76 × 120 mm, con llave de corte. Anclaje: verticales del muro, 4ø16 en los dados o estribos extra en el sobrecimiento. Tracción 0,70, corte 0,93 (Ω0 = 2). 10 PLb 200×200×8 con 2 horquillas ø3/4" L 1.200. Ojo: las tuercas chocan con la pared del tubo; hay que sacar los pernos fuera del tubo (PLc 300×250) y recalcular.</span><span class="es"><span class="est no">Corregir PLc</span></span></div>
+    <div class="ing-fila"><span class="el">Viento y nieve</span><span class="ob">¿Cómo se obtuvieron?</span><span class="re">NCh 432:2010: qh = 0,613·Kz·Kzt·Kd·V²·I = 0,613·0,888·1,0·0,85·40²·1,0 = <b>0,74 kPa</b> (V 40 m/s a 40,6° S; exposición C, h 5,65 m). Succión: techo −0,99 kPa, fachada −1,11 kPa. NCh 431:2010: pg 0,25 kPa (mínimo para techo de baja pendiente); no manda frente a Lr 0,77.</span><span class="es"><span class="est ok">Respondido</span></span></div>
+    <div class="ing-fila"><span class="el">Sismo</span><span class="ob">¿Qué suelo?</span><span class="re">Suelo <b>E</b>: lo asigna el informe de suelos con la regla del DS 61 para obras ≤ 500 m² y ≤ 2 pisos (sin Vs30 ni SPT). Zona 3, A0 0,40 g, S 1,30, T0 1,20 s, T′ 1,35 s, n 1,80, p 1,0, I 1,0. R = 2: arriostramiento solo a tracción y sin diseño por capacidad (NCh 433, tabla 5.1). C = Cmáx = 0,90·S·A0/g = 0,468; P 242 kN; Q0 113 kN. Ω0 = 2 solo en anclajes (supuesto, ACI 318-19 §17.10.5.3).</span><span class="es"><span class="est ok">Respondido</span></span></div>
+    <div class="ing-fila"><span class="el">Piezómetro y sondaje</span><span class="ob">??</span><span class="re">El informe no encontró agua (calicatas de 2,50 y 2,70 m, 14-05-2025): el agua a 1,50 sobre el piso es un supuesto nuestro. El piezómetro (julio–agosto) da el nivel real para la subpresión, el empuje y el caudal del dren. El sello está a 3,41 m, 0,71 m bajo lo explorado: el sondaje de 6 m es para conocer el suelo bajo el sello.</span><span class="es"><span class="est ju">Falta dato</span></span></div>
+    <div class="ing-fila"><span class="el">Pesos de cubierta y cielo</span><span class="ob">??</span><span class="re">Supuestos: techo 0,53 kPa (cubierta 0,10 + cielo de yeso 0,25 + instalaciones 0,10 + costaneras 0,08), aleros 0,18, fachadas 1,6 kN/m. La deriva da 0,94 con poco margen: con un cielo acústico 0,10 kPa más pesado da 1,04, con la masa de los tabiques 1,06 y con la torsión accidental 0,97. Faltan las fichas y sumar tabiques y torsión al modelo.</span><span class="es"><span class="est no">Corregir modelo</span></span></div>
+    <div class="ing-fila"><span class="el">Normas</span><span class="ob">??</span><span class="re">Se usó NCh 432:2010, NCh 433 Of.96 Mod. 2012 + DS 61, NCh 431:2010, NCh 1537:2009, NCh 3171:2010, ACI 318-08 (DS 60) y AISC 360-16. Si la DOM exige la NCh 432:2025, sube la succión del techo (zona 1: −0,87 → −1,39 kPa). Falta saber qué versión exige el permiso.</span><span class="es"><span class="est ju">Falta dato</span></span></div>
+    <div class="ing-fila"><span class="el">Humedad</span><span class="ob">Es constructivo</span><span class="re">De acuerdo: pasa a especificaciones. Lo estructural es la fisura: 0,22 mm en la losa de fundación y 0,24 mm en el muro del eje 5, sobre el límite de 0,20 que pusimos. Si la estanqueidad la da la membrana, proponemos 0,30 mm (EC2, tabla 7.1N): cumplen.</span><span class="es"><span class="est ju">Decidir límite</span></span></div>
+    <div class="ing-fila"><span class="el">Pilares</span><span class="ob">Aceptado</span><span class="re">Desde la V118 el P-1C pasó a 150×150×4 (cabina de 4,15). Son 25: 6 PM1, 10 PM2 y 9 PM3 (el documento dice 14 PM1). Manda el P-5C con 0,85.</span><span class="es"><span class="est ok">Aceptado</span></span></div>
+    <div class="ing-fila"><span class="el">Planos y memoria</span><span class="ob">Datos desordenados; memoria de cálculo</span><span class="re">De acuerdo. Próxima entrega: láminas limpias (fundaciones, estructura, losa del cielo del búnker y elevaciones de ejes) con cuadro de materiales, y una memoria resumida (bases, suelo y agua, cargas, modelos, acero, búnker, fundaciones y anclajes, resumen de D/C).</span><span class="es"><span class="est ju">Pendiente</span></span></div>
+  </div>
+
+  <h3>Material: diseño de las láminas sobre la planta nueva → hoy</h3>
+  <p class="small sub">El búnker pasó de 5,00 m de luz y 2,72 libres a 6,45 m y 3,21 m, con agua a 1,50 m; los marcos, de 10,25 a 10,75 m. La última columna es lo que daba el diseño de las láminas en el edificio nuevo.</p>
+  <table class="ing-tab"><thead><tr><th>Elemento</th><th>Láminas (abril)</th><th>Hoy</th><th>Con lo de las láminas</th></tr></thead><tbody>
+    <tr><td>Losa de techo</td><td>e=20, ø10@20 / ø8@20</td><td>e=25, ø10@15 + ø12@15 en L</td><td>flexión 2,88 · flecha 56 mm (límite 27)</td></tr>
+    <tr><td>Muros del búnker</td><td>e=25, ø12@15 / ø10@20</td><td>e=30, ø16@15 ext. · ø12@15 int.</td><td>1,45 en la base · fisura 0,33 mm</td></tr>
+    <tr><td>Losa de fundación</td><td>e=30, ø12@15</td><td>e=35, ø16@15 / ø12@15</td><td>fisura 0,5 mm</td></tr>
+    <tr><td>Marcos ejes 2 y 3</td><td>viga 200×150×5 · puntal 150×100×3</td><td>viga 200×150×6 · puntal 150×150×5</td><td>puntal 1,50 · uniones 2,4 a 4,0</td></tr>
+    <tr><td>Anclajes</td><td>PLb 200×200×8, 1+1 ø3/4"</td><td>15 PLc 250×250×12, 4 pernos</td><td>fallaban 14 de 25</td></tr>
+    <tr><td>Bajo 4C y 4C2</td><td>CF</td><td>dado 1,40 × 1,40 hasta el sello</td><td>sin dado se levanta 99 mm</td></tr>
+    <tr><td>Fundaciones de fachada</td><td>sello −85</td><td>hormigón pobre hasta −140</td><td>el informe pide el sello a 0,90 bajo el terreno</td></tr>
+    <tr class="tot"><td>Total</td><td>acero 7.766 kg · fierro 5.890 kg · hormigón 108,5 m³</td><td>acero 8.803 kg · fierro 8.999 kg · hormigón 128,7 m³ + 20 m³ pobre</td><td>+13 % · +53 % · +19 %</td></tr>
+  </tbody></table>
+
+  <h3>Cambios que proponemos (falta el visto bueno)</h3>
+  <ol class="rv-orden">
+    <li>VHA 25/50 en el eje 3 y en el borde de la escalera; viga de borde del lado A en 25/45 (escalera con 2,31 libres).</li>
+    <li>Cordón de los marcos 2 y 3 soldado a momento a los pilares B y E (unión 1,07 → 0,86).</li>
+    <li>PLc con los pernos fuera del tubo (300 × 250) y recálculo de cono y placa.</li>
+    <li>ø10@20 superior en 1–5 junto a los muros A y B: hoy esa franja trabaja como hormigón simple (0,97), que la ACI 318-08 §22.2.1 no admite en losas.</li>
+    <li>Sumar al modelo sísmico la masa de los tabiques y la torsión accidental (NCh 433 §6.2.8) y revisar la deriva.</li>
+    <li>Límite de fisura de 0,30 mm si la membrana da la estanqueidad.</li>
+  </ol>
+</section>
+
 <section id="vista3d">
   <h2><span class="n">01</span>Vista 3D del estudio</h2>
   <ul class="puntos"><li><b>Capas:</b> estructura de acero y hormigón, búnker bajo tierra, enfierradura, medidas (vienen apagadas).</li><li><b>Girar:</b> arrastrar · <b>acercar:</b> rueda o pellizco · <b>centrar:</b> doble toque · <b>ficha:</b> tocar la pieza.</li></ul>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V122" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V123" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
@@ -317,7 +369,7 @@ ol.preg li{margin:0 0 8px}
     <div class="k">Búnker</div><div class="v">losa de fundación e=35 (sobresale 37,5) · muros e=30 · losa e=25 + VHA 25/45 · G30 con cristalizante <span class="fuente med">revisión</span></div>
     <div class="k">Fachadas</div><div class="v">sobrecimiento 30 × 50 (2ø16) · cimiento corrido 80 × 25 (U ø12@20 + 4ø12) · hormigón pobre hasta −140 <span class="fuente med">revisión</span></div>
     <div class="k">Tabiques</div><div class="v">CF 30/50 de 0 a −50 en los ejes 4, C y C2 · dados 1,40 × 1,40 bajo 4C y 4C2, hasta 10 sobre el sello <span class="fuente med">revisión · ingeniero: 25/40</span></div>
-    <div class="k">Placas</div><div class="v">PLc 250 × 250 × 12 con 4 pernos ø3/4" en los 17 pilares con cruz · PLb 200 × 200 × 8 con 1+1 ø3/4" en horquilla en los otros 8</div>
+    <div class="k">Placas</div><div class="v">PLc 250 × 250 × 12 con 4 pernos ø3/4" en los 15 pilares con cruz · PLb 200 × 200 × 8 con 1+1 ø3/4" en horquilla en los otros 10</div>
     <div class="k">Niveles</div><div class="v">NPOG 0,00 · NTN −50 · piso búnker −346 · sello búnker −391 · sello fachadas −140</div>
   </div>
   <div class="notas-ing" id="notas-ing"></div>
@@ -352,9 +404,9 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=V122"></script>
-<script src="estudio_estructura.js?v=V122"></script>
-<script src="armaduras_det.js?v=V122"></script>
+<script src="sitio.js?v=V123"></script>
+<script src="estudio_estructura.js?v=V123"></script>
+<script src="armaduras_det.js?v=V123"></script>
 <script>
 // se dibuja cuando la letra Inter ya cargó: los rótulos se miden con getBBox y con la letra de reemplazo quedaban más angostos de lo que son (25-10-2026)
 (function (dibujar) { const f = document.fonts; if (!f || !f.load) return dibujar();
