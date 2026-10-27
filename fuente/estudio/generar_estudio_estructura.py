@@ -27,12 +27,14 @@ PERFILES = {
     'CA 100x50x15x2': dict(forma='CA', h=10, b=5, c=1.5, t=0.2),
     'CUAD 100x100x3': dict(forma='tubo_rect', h=10, b=10, t=0.3),
     'C 150x50x3':     dict(forma='C', h=15, b=5, t=0.3),
+    'C 150x50x4':     dict(forma='C', h=15, b=5, t=0.4),
     'RECT 150x50x3':  dict(forma='tubo_rect', h=15, b=5, t=0.3),
     'CA 100x50x15x3': dict(forma='CA', h=10, b=5, c=1.5, t=0.3),
     'FE 16':          dict(forma='barra', d=1.6),
+    'FE 22':          dict(forma='barra', d=2.2),
     'FE 10':          dict(forma='barra', d=1.0),
 }
-PESO = {'C 150x50x3': 5.65, 'CUAD 100x100x3': 8.94, 'CUAD 150x150x4': 18.0, 'CUAD 150x150x5': 22.2, 'FE 16': 1.58,
+PESO = {'C 150x50x3': 5.65, 'C 150x50x4': 7.47, 'FE 22': 2.98, 'CUAD 100x100x3': 8.94, 'CUAD 150x150x4': 18.0, 'CUAD 150x150x5': 22.2, 'FE 16': 1.58,
         'RECT 150x100x3': 11.3, 'RECT 200x150x3': 16.0, 'RECT 200x150x5': 26.1, 'RECT 200x150x6': 31.0, 'CA 100x50x15x3': 4.95, 'CA 100x50x15x2': 3.38, 'RECT 150x50x3': 9.12, 'FE 10': 0.62}
 
 h2 = lambda p: PERFILES[p]['h'] / 2   # medio alto del perfil: las líneas de los miembros van por el EJE del perfil (como en estructura.js)
@@ -125,13 +127,20 @@ def main(estudio_json, sitio_json, salida):
         for i in tramos:
             zv = Z_CORDON_EJE
             arriba = 'sobre ella apoya la viga inclinada' if abs(z_viga(y) - Z_CORDON[1]) < 0.5 else f'los pilares siguen hasta la viga inclinada (+{z_viga(y):.0f})'
-            m(f'VT-{yn}-{xN[i]}{xN[i+1]}', 'viga', 'CUAD 100x100x3', (xA[i], y, zv), (xA[i + 1], y, zv), f'viga 100x100 a +{(Z_CORDON[0]/100):.2f}/+{(Z_CORDON[1]/100):.2f} entre pilares {xN[i]} y {xN[i+1]} del eje {yn} (lámina 05); {arriba}')
+            # uniones UM (27-10-2026): en los pilares 2 y 3 de los ejes B y E la viga llega a la plancha lateral de la unión del cordón (detalle UM)
+            um = [xN[k] for k in (i, i + 1) if yn in ('B', 'E') and xN[k] in ('2', '3')]
+            um_t = (f'; en el pilar {" y en el ".join(um)}: 8 mm más corta, soldada a la cara exterior de la plancha de la unión UM con filete 3 arriba y en los 2 costados' if um else '')
+            m(f'VT-{yn}-{xN[i]}{xN[i+1]}', 'viga', 'CUAD 100x100x3', (xA[i], y, zv), (xA[i + 1], y, zv), f'viga 100x100 a +{(Z_CORDON[0]/100):.2f}/+{(Z_CORDON[1]/100):.2f} entre pilares {xN[i]} y {xN[i+1]} del eje {yn} (lámina 05); {arriba}{um_t}')
     # ---------- marcos N-S: cordón RECT 150x100x3 + viga inclinada + puntales (como 1.b y 1.c) ----------
     y_ini, y_fin = yA[0] - ALERO_NS, yA[6] + ALERO_NS   # puntas de los aleros (eje del pilar ± alero)
     for xn, x in zip(xN, xA):
         if not lateral(xn):
             for (ya, yb) in ((yA[0], yB), (yB, yA[6])):
-                m(f'VC-{xn}-{int(ya)}', 'viga', 'RECT 150x100x3', (x, ya, Z_CORDON_EJE), (x, yb, Z_CORDON_EJE), f'cordón horizontal RECT 150x100x3 de +{(Z_CORDON[0]/100):.2f} a +{(Z_CORDON[1]/100):.2f} (acostado), eje {xn}, {ya:.0f}..{yb:.0f} (como 1.b y 1.c del original)', acostado=True)   # acostado: el alto de 15 queda horizontal y el cordón va de +4,00 a +4,10 (lámina 04)
+                # ejes 2 y 3 (marcos de 10,75): unión de momento UM con el pilar en B y en E (el ingeniero, V121: «reforzar unión de momento en pilares con plancha
+                # e=8 mm … soldadura AWS 6011»; diseño 27-10-2026); en A y en el eje 4 el cordón queda articulado
+                um_c = '' if xn not in ('2', '3') else (f'; en el pilar B soldado a momento con 2 planchas laterales PL 8×150 (detalle UM-{xn}B); en A, articulado' if ya == yA[0]
+                                                         else f'; en los pilares B y E soldado a momento con 2 planchas laterales PL 8×150 (detalles UM-{xn}B y UM-{xn}E)')
+                m(f'VC-{xn}-{int(ya)}', 'viga', 'RECT 150x100x3', (x, ya, Z_CORDON_EJE), (x, yb, Z_CORDON_EJE), f'cordón horizontal RECT 150x100x3 de +{(Z_CORDON[0]/100):.2f} a +{(Z_CORDON[1]/100):.2f} (acostado), eje {xn}, {ya:.0f}..{yb:.0f} (como 1.b y 1.c del original){um_c}', acostado=True)   # acostado: el alto de 15 queda horizontal y el cordón va de +4,00 a +4,10 (lámina 04)
         perfil = 'RECT 200x150x3' if lateral(xn) else ('RECT 200x150x6' if xn in ('2', '3') else 'RECT 200x150x5')   # ejes 2 y 3: 6 mm desde la revisión del 23-10-2026 (uniones de los puntales dentro de la norma)
         m(f'VI-{xn}', 'cabio', perfil, (x, y_ini, z_viga(y_ini) + h2(perfil)), (x, y_fin, z_viga(y_fin) + h2(perfil)), f'viga inclinada de techo, eje {xn}, 3,5 % subiendo hacia el eje E, aleros de {ALERO_NS:.1f}; cara inferior a +{z_viga(yA[0]):.0f} en A'.replace('.', ','))
         if not lateral(xn):
@@ -162,23 +171,36 @@ def main(estudio_json, sitio_json, salida):
     # arriba, a la viga E-O en las cruces E-O y a la cara inferior de la viga inclinada en las cruces N-S de las fachadas (antes
     # terminaban en +4,03, bajo la viga, y doblaban los pilares como una rodilla).
     UNION_X = '; en cada extremo, cartela de 8 mm soldada a la placa base o a la viga (no a la cara del tubo de 3 mm) con 4 pernos M16 A325 al alma del C'
-    def cruz(id_, a, b, d, ns=False):
+    def cruz(id_, a, b, d, ns=False, perfil='C 150x50x3'):
         (xa, ya), (xb, yb) = a, b; d = d + UNION_X
         za = z_viga(ya) if ns else Z_CORDON_EJE; zb = z_viga(yb) if ns else Z_CORDON_EJE
-        m(f'{id_}a', 'diagonal', 'C 150x50x3', (xa, ya, 0), (xb, yb, zb), d)
-        m(f'{id_}b', 'diagonal', 'C 150x50x3', (xa, ya, za), (xb, yb, 0), d)
+        m(f'{id_}a', 'diagonal', perfil, (xa, ya, 0), (xb, yb, zb), d)
+        m(f'{id_}b', 'diagonal', perfil, (xa, ya, za), (xb, yb, 0), d)
     for xn, x in (('1', xA[0]), ('5', xA[4])):
         cruz(f'X-{xn}-AA2', (x, yA[0]), (x, yA[1]), f'cruz en la fachada del eje {xn}, tramo A-A2 (2,00 m), como F1-E3 del original; de la placa base a la viga inclinada', ns=True)
         cruz(f'X-{xn}-DE', (x, yA[5]), (x, yA[6]), f'cruz en la fachada del eje {xn}, tramo D-E (2,00 m), como A2-A1 del original; de la placa base a la viga inclinada', ns=True)
+        # sismo con la masa de los tabiques y la torsión accidental (ingeniero, 27-10-2026: "HACERLO"): la deriva en A-E daba 1,13 en el centro de masas; con una cruz más
+        # en cada fachada lateral, en el tramo ciego C-C2 (4,40 m: a 45°, rinde mucho más que las de 2,00), queda en 0,59
+        cruz(f'X-{xn}-CC2', (x, yC), (x, yC2), f'cruz en la fachada del eje {xn}, tramo C-C2 (4,40 m, muro ciego {"del estudio" if xn == "1" else "de la cabina"}): sismo con tabiques y torsión accidental (27-10-2026); de la placa base a la viga inclinada', ns=True)
     # en el tabique cafetería/distribuidor (B, 4-5) van la puerta del distribuidor junto al eje 4 y la de la escalera junto al 5 (23-10-2026): no cabe diagonal;
     # la fuerza de esa línea la toman la cruz de A 4-5, la de C 4-5 y la diagonal de C2 4-5 a través de los tensores del techo
-    cruz('X-A-45', (xA[3], yA[0]), (xA[4], yA[0]), 'cruz en la fachada del eje A, tramo 4-5 (muro ciego de la cocina y la escalera, sin vidrio): revisión 23-10-2026, sin ella el techo se movía 2 a 4 cm con sismo en 1–5')
+    cruz('X-A-45', (xA[3], yA[0]), (xA[4], yA[0]), 'cruz en la fachada del eje A, tramo 4-5 (muro ciego de la cocina y la escalera, sin vidrio): revisión 23-10-2026, sin ella el techo se movía 2 a 4 cm con sismo en 1–5; C 150x50x4 desde el 27-10-2026 (es la única cruz 1–5 del lado de la cafetería: con tabiques y torsión llega a 15 t, y en el alma de 3 mm los 4 pernos M16 daban 14 t al aplastamiento)', perfil='C 150x50x4')
     cruz('X-C-45', (xA[3], yC), (xA[4], yC), 'cruz en el tabique baño/cabina (eje C, tramo 4-5, muro ciego)')
     # tabique cabina/bodega (C2, 4-5): desde el 24-10-2026 se entra a la bodega desde la cabina por una puerta de 0,80 junto al eje 5 (Gabriel: "así evitamos esa puerta al lado
-    # de los parlantes"): queda una sola diagonal, de la placa base de 4C2 a la viga en 5C2, que pasa sobre la puerta (trabaja solo a tracción; la deriva en 1–5 queda en 0,94)
+    # de los parlantes"): queda una sola diagonal, de la placa base de 4C2 a la viga en 5C2, que pasa sobre la puerta (trabaja solo a tracción; la deriva en 1–5 quedaba en 0,94; con tabiques y torsión accidental, 0,87 desde el 27-10-2026)
     m('X-C2-45a', 'diagonal', 'C 150x50x3', (xA[3], yC2, 0), (xA[4], yC2, Z_CORDON_EJE), 'diagonal única en el tabique cabina/bodega (eje C2, tramo 4-5): la puerta de la bodega va junto al eje 5, bajo la diagonal' + UNION_X)
     cruz('X-E-12', (xA[0], yA[6]), (xA[1], yA[6]), 'cruz en la fachada del eje E, tramo 1-2 (muro ciego de los parlantes)')
     cruz('X-E-45', (xA[3], yA[6]), (xA[4], yA[6]), 'cruz en la fachada del eje E, tramo 4-5 (bodega, muro ciego)')
+    # faja entre la viga E-O y la viga inclinada en el eje E (27-10-2026, sismo con tabiques y torsión accidental): ahí la viga inclinada va 60 cm sobre la viga E-O y el techo le
+    # pasaba la fuerza a las cruces E 1-2 y E 4-5 a través de esa punta de pilar en flexión (el techo se movía 3 veces lo que la viga E-O); una X de tensores Fe 22 en la faja,
+    # del nudo viga E-O–pilar a la cabeza del otro pilar, se la lleva directo. En C 4-5 (35 cm) no se pone: la cruz C toma más y el dado de 4C se levantaba 7 mm
+    def faja(id_, xa, xb, y, d):
+        za, zb = z_viga(y), Z_CORDON_EJE
+        m(f'{id_}a', 'diagonal', 'FE 22', (xa, y, zb), (xb, y, za), d)
+        m(f'{id_}b', 'diagonal', 'FE 22', (xa, y, za), (xb, y, zb), d)
+    UNION_F = '; tensor Fe 22 con templador, a cartelas de 8 mm soldadas a la cabeza del pilar (bajo la viga inclinada) y al nudo de la viga E-O con el pilar; trabaja solo a tracción'
+    faja('XF-E-12', xA[0], xA[1], yA[6], f'X de tensores en la faja de {z_viga(yA[6]) - Z_CORDON[1]:.0f} cm entre la viga E-O y la viga inclinada, eje E, tramo 1-2 (sobre la cruz X-E-12)' + UNION_F)
+    faja('XF-E-45', xA[3], xA[4], yA[6], f'X de tensores en la faja de {z_viga(yA[6]) - Z_CORDON[1]:.0f} cm entre la viga E-O y la viga inclinada, eje E, tramo 4-5 (sobre la cruz X-E-45)' + UNION_F)
     # ---------- tensores Fe 16 en el plano del techo: X en los paños extremos completos y en los vanos extremos del resto ----------
     panos = [(yA[0], yA[1]), (yA[1], yB), (yB, yC), (yC, yC2), (yC2, yA[5]), (yA[5], yA[6])]
     nudos = set()
@@ -186,8 +208,10 @@ def main(estudio_json, sitio_json, salida):
         vanos = range(4) if pi in (0, len(panos) - 1) else (0, 3)
         for i in vanos:
             xa, xb = xA[i], xA[i + 1]; zt = lambda y: z_viga(y) + 20
-            m(f'T-{xN[i]}{xN[i+1]}-{int(ya)}a', 'tensor', 'FE 16', (xa, ya, zt(ya)), (xb, yb, zt(yb)), f'tensor Fe 16 del techo, vano {xN[i]}-{xN[i+1]}, paño {ya:.0f}..{yb:.0f}')
-            m(f'T-{xN[i]}{xN[i+1]}-{int(ya)}b', 'tensor', 'FE 16', (xb, ya, zt(ya)), (xa, yb, zt(yb)), f'tensor Fe 16 del techo, vano {xN[i]}-{xN[i+1]}, paño {ya:.0f}..{yb:.0f}')
+            # paños A2-B y B-C (la cercha del techo que lleva el sismo 1–5 de la línea B, con el vidrio, a las cruces de A y C): Fe 22 desde el 27-10-2026
+            fe = 'FE 22' if pi in (1, 2) else 'FE 16'; nfe = fe.replace('FE', 'Fe')
+            m(f'T-{xN[i]}{xN[i+1]}-{int(ya)}a', 'tensor', fe, (xa, ya, zt(ya)), (xb, yb, zt(yb)), f'tensor {nfe} del techo, vano {xN[i]}-{xN[i+1]}, paño {ya:.0f}..{yb:.0f}')
+            m(f'T-{xN[i]}{xN[i+1]}-{int(ya)}b', 'tensor', fe, (xb, ya, zt(ya)), (xa, yb, zt(yb)), f'tensor {nfe} del techo, vano {xN[i]}-{xN[i+1]}, paño {ya:.0f}..{yb:.0f}')
             nudos.add((i, ya)); nudos.add((i, yb))
     # puntales de techo CUAD 100x100x3 en cada línea de nudos de los tensores, entre vigas inclinadas, a la altura de su eje (revisión 23-10-2026:
     # las costaneras no caen en esos nudos y la cercha del techo quedaba sin montante; en A la cuerda real era la viga E-O, 20-30 cm más abajo)
@@ -219,15 +243,24 @@ def main(estudio_json, sitio_json, salida):
         muro_norte=dict(pts=rect(ex0, rec['cafeteria'][2][1], ex1, ey0), espesor=ey0 - rec['cafeteria'][2][1]),   # muro hacia la minicocina
         hormigon=True,   # escalera y sus muros en hormigón armado (Gabriel, 2026-10-12)
         descanso=None,
-        nota=f'se entra desde el distribuidor por el eje B (puerta con llave) y baja {-z_piso/100:.2f} m hacia el eje A en {TRAMO_ESC/100:.2f} m: {N_PELD} peldaños de {TRAMO_ESC/N_PELD:.1f} x {-z_piso/N_PELD:.2f}; el hueco en la losa mide {(ex1 - ex_h)/100:.2f} x {(ey1 - ey0)/100:.2f} y el último metro va bajo la losa, dentro del búnker (altura libre bajo la viga de borde del hueco, del lado del eje A ≈ {(-z_piso * (ey1 - ey0) / TRAMO_ESC - 45)/100:.2f} m: la viga 25/45 cuelga 20 bajo la losa; a revisar)'.replace('.', ','))
+        nota=f'se entra desde el distribuidor por el eje B (puerta con llave) y baja {-z_piso/100:.2f} m hacia el eje A en {TRAMO_ESC/100:.2f} m: {N_PELD} peldaños de {TRAMO_ESC/N_PELD:.1f} x {-z_piso/N_PELD:.2f}; el hueco en la losa mide {(ex1 - ex_h)/100:.2f} x {(ey1 - ey0)/100:.2f} y el último metro va bajo la losa, dentro del búnker (altura libre en el borde del hueco del lado del eje A, desde la línea de las narices de obra gruesa: ≈ {(-z_piso * (ey1 - ey0) / TRAMO_ESC - BUNKER_LOSA)/100:.2f} m hasta la losa y {(-z_piso * (ey1 - ey0) / TRAMO_ESC - BUNKER_LOSA - T_CIELO)/100:.2f} m hasta el cielo; las vigas botadas VBL y VBC van dentro de la losa; cada cm de terminación en los peldaños la baja 1 cm)'.replace('.', ','))
     # ---------- hormigón armado, fundaciones, placas base y enfierradura: hormigon.py (láminas 01 rev 1, 02 rev G, 03 rev H, 05 rev H) ----------
     pils = [mb for mb in M if mb['c'] == 'pilar']
     def toca(mb, p):   # el extremo p de una diagonal cae en la línea del pilar
         return abs(mb['a'][0] - p[0]) < 1 and abs(mb['a'][1] - p[1]) < 1
-    pilares_cruz = sorted({mb['id'] for mb in pils for d in M if d['c'] == 'diagonal' for p in (d['a'], d['b']) if toca(mb, p)})   # pilares a los que llega una diagonal (pie o cabeza): placa PLc
+    pilares_cruz = sorted({mb['id'] for mb in pils for d in M if d['c'] == 'diagonal' and not d['id'].startswith('XF-') for p in (d['a'], d['b']) if toca(mb, p)})   # los tensores de faja (XF) no llegan a la placa   # pilares a los que llega una diagonal (pie o cabeza): placa PLc
     pilares_pie = sorted({mb['id'] for mb in pils for d in M if d['c'] == 'diagonal' for p in (d['a'], d['b']) if toca(mb, p) and abs(p[2] - mb['a'][2]) < 5})   # los que la reciben en su pie: cartela en la placa
+    # sentido (en planta) de cada diagonal que llega al pie de un pilar: la placa embebida se alarga de ese lado para la cartela (27-10-2026)
+    diag_pie = {}
+    for mb in pils:
+        for d in M:
+            if d['c'] != 'diagonal': continue
+            for p, o in ((d['a'], d['b']), (d['b'], d['a'])):
+                if toca(mb, p) and abs(p[2] - mb['a'][2]) < 5:
+                    hx, hy = o[0] - p[0], o[1] - p[1]; n_ = math.hypot(hx, hy)
+                    diag_pie.setdefault(mb['id'], []).append((hx / n_, hy / n_))
     hormigon, fierros, cub_hormigon = HORM.armar(dict(ap=ap, rect=rect, r1=r1, z0=z0, ox=ox, oy=oy, xA=xA, yA=yA, yB=yB, yC=yC, yC2=yC2, W=W, L=L, rec=rec, bk=bk, BUNKER_H=BUNKER_H,
-                                                      pilares=pils, pilares_cruz=pilares_cruz, pilares_pie=pilares_pie, escalera=escalera, ex0=ex0, ex_h=ex_h, ex1=ex1, ey0=ey0, ey1=ey1, y_desc=y_desc, x3=xA[2], T=T,
+                                                      pilares=pils, pilares_cruz=pilares_cruz, pilares_pie=pilares_pie, diag_pie=diag_pie, escalera=escalera, ex0=ex0, ex_h=ex_h, ex1=ex1, ey0=ey0, ey1=ey1, y_desc=y_desc, x3=xA[2], T=T,
                                                       h_caja=z_viga(yB)))
     z_piso = hormigon['niveles']['piso_bunker']; z_losa_inf = hormigon['niveles']['losa_inf']
 
@@ -321,10 +354,33 @@ def main(estudio_json, sitio_json, salida):
     mueble('panel_cab_s', 'panel_acustico', 'cabina', 'Panel acústico 100 × 120', cab[0][0] + 20, cab[2][1] - 6, cab[0][0] + 120, cab[2][1], 220, 'N', 'en el tabique del eje C2 de la cabina, al lado de la puerta de la bodega')
     cy_cab = (cab[0][1] + cab[2][1]) / 2
     mueble('silla_cab', 'silla', 'cabina', 'Silla del músico', cx_cab - 22, cy_cab - 22, cx_cab + 23, cy_cab + 23, 85, 'N', 'al centro, mirando a la puerta')
+    # ---------- uniones de momento UM del cordón con los pilares B y E de los ejes 2 y 3 (27-10-2026) ----------
+    # El ingeniero (V121): «Reforzar unión de momento en pilares con plancha e=8 mm. Diseñar y hacer detalle de ese encuentro. Considerar soldadura AWS 6011».
+    # 2 planchas laterales PL 8×150 A270ES (una por costado del cordón y del pilar), de +4,11 (a ras con la cara inferior del cordón) a +4,26, 300 sobre el cordón
+    # desde la cara del pilar: continua de 750 en B (cruz) y de 435 en E (T, termina a 15 de la cara de fachada). Cajas en cm de la app (a = mínimo, b = máximo).
+    # D/C de calculo/union_cordon/union_cordon_pilar.py con los esfuerzos del modelo con UM, tabiques y torsión accidental (extraer_marcos.py planchas)
+    UM_DC = {'2B': (0.54, 0.48, 0.30, 0.20), '2E': (0.49, 0.47, 0.44, 0.33), '3B': (0.54, 0.48, 0.30, 0.19), '3E': (0.48, 0.46, 0.43, 0.32)}  # soldadura al cordón, plancha, soldadura al pilar, pilar en el nudo
+    TPL, HPL, LPL = 0.8, 15.0, 30.0
+    uniones = []
+    for xn in ('2', '3'):
+        x = xA[xN.index(xn)]
+        for yn, y in (('B', yB), ('E', yA[6])):
+            y0, y1 = (y - 7.5 - LPL, y + 7.5 + LPL) if yn == 'B' else (y - 7.5 - LPL, y + 7.5 - 1.5)
+            cajas = [dict(a=ap(xa_, y0, Z_CORDON[0]), b=ap(xa_ + TPL, y1, Z_CORDON[0] + HPL)) for xa_ in (x - 7.5 - TPL, x + 7.5)]   # una plancha a cada costado
+            sc, pl, sp, zp = UM_DC[xn + yn]
+            uniones.append(dict(id=f'UM-{xn}{yn}', pilar=f'P-{xn}{yn}', tipo='cruz' if yn == 'B' else 'T', plancha=f'2 PL 8×150×{(y1 - y0) * 10:.0f} A270ES', largo=r1(y1 - y0), cajas=cajas,
+                                soldadura='SMAW E6011: al cordón, canal de la esquina superior relleno a ras + filete 3 (300) y filete 3 vertical en la punta (88); abajo no se suelda. '
+                                          + ('Al pilar, filete 5 abajo y arriba (130 c/u)' if yn == 'B' else 'Al pilar, filete 5 abajo y arriba (125 c/u) y vertical en el extremo (150)')
+                                          + '. Cordón a la cara del pilar con filete 3 arriba y abajo. Viga VT 8 mm más corta, soldada a la plancha con filete 3 en 3 lados',
+                                dc=dict(soldadura_cordon=sc, plancha=pl, soldadura_pilar=sp, pilar_nudo=zp), dc_max=max(sc, pl, sp, zp),
+                                nota='resiste más que el cordón: con su φMn (1.186 kgf·m, 11,6 kN·m) da 0,87',
+                                fuente='ingeniero V121 (plancha de 8 y E6011); diseño 27-10-2026 (calculo/union_cordon/union_cordon_pilar.py, AISC 360-16 J2, J4, J10, K)'))
     # ---------- techo, cielo, cubicación ----------
     cub = {}
     for mb in M: cub[mb['p']] = cub.get(mb['p'], 0) + math.dist(mb['a'], mb['b']) / 100
     cubicacion = [dict(perfil=p, metros=round(cub[p], 1), kg=round(cub[p] * PESO[p])) for p in PESO if cub.get(p, 0) > 0]
+    m_um = sum(2 * u['largo'] for u in uniones) / 100            # 4 × 0,75 + 4 × 0,435 = 4,74 m de PL 8×150
+    cubicacion.append(dict(perfil='PL 8 uniones UM', metros=round(m_um, 1), kg=round(m_um * 0.15 * 0.008 * 7850), donde='planchas laterales de las uniones UM del cordón con los pilares B y E (ejes 2 y 3)'))
     tot = round(sum(c['kg'] for c in cubicacion))
     techo = dict(contorno=[ap(x_ini, y_ini, 0)[:2], ap(x_fin, y_ini, 0)[:2], ap(x_fin, y_fin, 0)[:2], ap(x_ini, y_fin, 0)[:2]],
                  y0=r1(oy + y_ini), y1=r1(oy + y_fin), z0=r1(z0 + z_viga(y_ini) + 30), z1=r1(z0 + z_viga(y_fin) + 30), espesor=5)
@@ -359,10 +415,10 @@ def main(estudio_json, sitio_json, salida):
         dict(que='Niveles del búnker', original='2,72 libres; radier a −292 por cotas (rótulos −272 / −305 / −342, inconsistentes)', nuevo=f'2,80 libres terminados = {BUNKER_H:.0f} de obra gruesa (piso {T_PISO:.1f} + cielo {T_CIELO:.1f}); losa 0 / −20, piso de obra gruesa −{BUNKER_H + 20:.0f}, radier −{BUNKER_H + 30:.0f}, zapata −{BUNKER_H + 40:.0f} / −{BUNKER_H + 70:.0f}, sello −{BUNKER_H + 80:.0f}'.replace('.', ','), por='Gabriel (13-10-2026): 2,80 terminados; el detalle baja 15 cm respecto del original'),
         dict(que='Costaneras en el alero', original='la primera a 61 del eje: 19 dentro de la punta del alero de 80, con el soporte C 150x50x3 en la punta', nuevo='igual: la primera a 19 de la punta (alero de 100) y luego cada 61', por='dato'),
         dict(que='Enfierradura', original='muros DM ø12@15 / ø10@20, losa ø10@20 + ø8@20, VHA 3ø12+2ø10+3ø16, CF 3ø12+2ø10+3ø12', nuevo='las del ingeniero, reforzadas en la revisión del 23-10-2026 (ver abajo), en el modelo 3D barra por barra (capa Enfierradura)', por='dato y revisión; largos y cantidades del modelo'),
-        dict(que='Acero', original='—', nuevo=f'{tot} kg de perfiles en el modelo (sin placas ni pérdidas)', por='cubicación del modelo'),
+        dict(que='Acero', original='—', nuevo=f'{tot} kg de perfiles y planchas de las uniones UM en el modelo (sin placas base ni pérdidas)', por='cubicación del modelo'),
         # ---- revisión estructural (Gabriel, 23-10-2026: "haz los cambios. me cuadra todo"); detalle en la pestaña Revisión ----
         dict(que='Revisión: losa de techo del búnker', original='e=20, ø10@20 en A–B y ø8@20 en 1–5, sin fierro arriba en los muros (diseñada para 5,00 m)', nuevo=f'e={BUNKER_LOSA:.0f} continua con los muros: abajo ø10@15 en los dos sentidos; arriba ø12@15 en L sobre los 4 muros (180 dentro de la losa) y ø10@20 sobre la VHA', por='revisión 23-10-2026: no pasaba (colapso ≈ 11 kPa contra 14)'),
-        dict(que='Revisión: VHA y hueco de la escalera', original='VHA 25/40 con estribos @20; 2ø12 de borde en el hueco', nuevo='VHA 25/45 con estribos ø10@15 y vigas de borde 25/45 en los lados del hueco hacia el eje 4 y hacia el eje A; desde el 23-10-2026 el hueco llega al muro del eje B, que hace de borde', por='revisión 23-10-2026'),
+        dict(que='Revisión: VHA y hueco de la escalera', original='VHA 25/40 con estribos @20; 2ø12 de borde en el hueco', nuevo='VHA-3 25/50 (3ø16 abajo, 3ø12 arriba, E ø10@15); el hueco llega al muro del eje B, que hace de borde, y en los otros 2 lados lleva vigas botadas VBL y VBC 40/25 dentro de la losa, con un pilar CUAD 100x100x4 en la esquina libre (placas 250x250x16 arriba y abajo) y suple ø12@15 bajo él en la losa de fundación; ø10@20 arriba en 1–5 junto a los muros A y B; altura libre de la escalera 2,45 hasta el cielo (antes 2,31 bajo las vigas de borde 25/45)', por='revisión 23-10-2026; ingeniero (V121, 25/26-10-2026, y 27-10-2026): VHA 25/50, pilar en la esquina y vigas botadas en la losa de 25; medidas, armaduras y suples: propuesta 27-10-2026 por aprobar'),
         dict(que='Escalera al búnker', original='hueco 1,30 × 2,74 con descanso de 1,23 del lado del eje B y puerta con llave en el muro de la caja; 17 peldaños de 22,1 × 20,35', nuevo=f'hueco {(ex1 - ex_h) / 100:.2f} × {(ey1 - ey0) / 100:.2f} hasta el muro del eje B, sin descanso: se entra desde el distribuidor por una puerta con llave en el tabique B; {N_PELD} peldaños de {TRAMO_ESC / N_PELD:.1f} × {-z_piso / N_PELD:.1f}; el pie queda donde estaba'.replace('.', ','), por='Gabriel con el ingeniero (23-10-2026): "dejar la escalera con el vano más largo, con eso ganamos una huella mejor"'),
         dict(que='Revisión: losa de fundación', original='e=30, doble malla ø12@15 (propuesta)', nuevo=f'e={BUNKER_FUND:.0f}, ø16@15 en A–B y ø12@15 en 1–5, abajo y arriba; los 3,10 libres se mantienen y el sello baja 10 cm', por='revisión 23-10-2026'),
         dict(que='Revisión: muros del búnker', original='e=25, ø12@15 vertical y ø10@20 horizontal, recubrimiento 3', nuevo='e=30 hacia afuera (el interior no cambia; queda un zócalo de 5 bajo la fachada): ø16@15 vertical por fuera (pata de 60 traslapada en la losa de fundación) y ø12@15 por dentro; ø12@15 horizontal; recubrimiento 4 por fuera', por='revisión 23-10-2026; e=30 por Gabriel ("había un tema con el ancho del muro y los fierros"): con 25 no cabían el water-stop ni los pernos, y ACI 350 pide 30'),
@@ -370,10 +426,14 @@ def main(estudio_json, sitio_json, salida):
         dict(que='Revisión: marcos de 10,75 m (ejes 2 y 3)', original='viga 200x150x5 y puntales 150x100x3', nuevo='viga 200x150x6 y los 4 puntales del tramo B-E que no son el central en CUAD 150x150x5', por='revisión 23-10-2026'),
         dict(que='Revisión: arriostramiento', original='sin cruz en la fachada del eje A; cruces hasta +4,03; tensores sin montante', nuevo='cruz en el muro ciego A 4-5; cruces de la placa base a la viga; puntales de techo CUAD 100x100x3 en cada línea de nudos de los tensores', por='revisión 23-10-2026'),
         dict(que='Revisión: placas y anclajes', original='PLb 200x200x8 con 1+1 ø3/4" en horquilla cruzada en los 25 pilares', nuevo='PLc 250x250x12 con 4 pernos ø3/4" con golilla en los 15 pilares con cruz, con armadura de anclaje (verticales del muro, estribos extra del sobrecimiento o 4ø16 en los dados); horquillas paralelas en el resto; dados de 1,40 x 1,40 bajo 4C y 4C2, hasta 10 sobre el sello', por='revisión 23-10-2026'),
+        dict(que='Placas embebidas con anclajes soldados', original='PLc 250x250x12 con 4 pernos ø3/4" con hilo, tuerca arriba (chocaba con el tubo) y llave de corte; PLb 200x200x8 con horquillas ø3/4" A630 soldadas', nuevo='insertos: 17 PLc A36 e=16 (250 a 400) con 4 barras lisas A36 ø22 soldadas bajo las paredes del tubo (hef 1000 en los muros del búnker, 450 en el resto), cabeza 60x45x12, filete 12 E7018, y horquillas de corte ø16 en 11 placas; PLc-4A de 550x250x30 con 8 barras (hef 1200, cabeza 100x45x12); 8 PLb A36 200x200x12 con 4 barras ø3/4" a 80x80 (hef 450; 500 en 3A y 3B); sin tuercas ni llave de corte; cartela soldada a la placa y a la cara del tubo', por='ingeniero (V121, 25-10-2026): "insertos con anclajes soldados ... ACEPTADO"; dimensiones: propuesta 27-10-2026 por aprobar (con las reacciones del sismo con tabiques y torsión y la unión UM: máx. 0,96)'),
         dict(que='Revisión: pilares y techo', original='RECT 150x100 de fachada con el lado de 150 a lo largo; 1A y 5A bajo la viga 100x100; aleros de los ejes 1 y 5 sin remate', nuevo='RECT de fachada girados (150 contra el viento); 1A y 5A hasta la viga inclinada; remate CA 100x50x15x2 en los aleros de los ejes 1 y 5; costaneras de 3 mm con silla y 2 pernos M12', por='revisión 23-10-2026'),
         dict(que='Revisión: fundaciones del estudio', original='sello a −0,85 (−0,60 en los CF); anclados al muro del búnker; radier sin malla', nuevo='hormigón pobre hasta −1,40 (0,90 bajo el terreno); junta de 2 con el búnker y 2ø16 arriba en los sobrecimientos; relleno granular al 95 % junto al búnker; radier con malla C139 y juntas cada 3 m', por='revisión 23-10-2026'),
         dict(que='Revisión: fierro armable', original='barras que se cruzaban en las esquinas y nudos, y recubrimientos cortos en bordes y esquinas', nuevo='0 choques y todos los recubrimientos (revisión barra por barra): esquinas en L de cara exterior a exterior, CF con gancho de 90° en lo que los recibe, ganchos de los estribos por fuera de la barra de esquina, verticales y estribos corridos unos cm donde topaban', por='revisión 23-10-2026 (Gabriel: "¿qué más no has revisado?")'),
         dict(que='Revisión: fundaciones como vigas', original='cimiento corrido con 4ø10; dado de 0,80 sobre hormigón pobre', nuevo='4ø12 en el cimiento corrido (el sismo en A–E le pide 86 kN·m; con 4ø10 aguantaba 80) y el dado baja hasta 10 sobre el sello (con 0,80 el sismo lo levantaba ~5 mm)', por='revisión 23-10-2026: emparrillado sobre el suelo'),
+        # ---- respuestas al ingeniero (V121, 25/26-10-2026, y 27-10-2026; Gabriel: "aplica nomás") ----
+        dict(que='Revisión: sismo con tabiques y torsión accidental', original='sismo sin la masa de los tabiques ni la torsión accidental: deriva 0,94 en el centro de masas', nuevo='masa de los tabiques y del cielo de la cabina (4,4 t al techo: P de 24,7 a 29,4 t) y torsión accidental ±0,10·b (NCh 433 §6.2.8: 23.990 kgf·m en 1–5 y 14.780 kgf·m en A–E); sin arreglo la deriva daba 1,09 y 1,13. Arreglo (+249 kg): cruz C 150x50x3 nueva en el tramo C–C2 de las fachadas 1 y 5 (PLc en 1C y 1C2), X de tensores Fe 22 en la faja de 60 cm entre la viga E-O y la viga inclinada del eje E (1-2 y 4-5), cruz A 4-5 en C 150x50x4 y los 8 tensores de techo de los paños A2–B y B–C de los vanos 1-2 y 4-5 en Fe 22. Deriva en el centro de masas 0,87 en 1–5 y 0,59 en A–E', por='ingeniero (27-10-2026): sumar al modelo sísmico la masa de los tabiques y la torsión accidental; pesos de los tabiques supuestos (falta su ficha)'),
+        dict(que='Unión cordón–pilar (marcos 2 y 3)', original='cordón soldado directo a los pilares, articulado en el cálculo (puntal→viga 1,07)', nuevo='unión de momento UM en los pilares B y E de los ejes 2 y 3: 2 planchas laterales PL 8×150 A270ES (750 en B, 435 en E) de +4,11 a +4,26, soldadura E6011 (filete 3 al cordón, 5 al pilar); plancha 0,48, soldadura al cordón 0,54, al pilar 0,44, pilar en el nudo 0,33; puntal→viga 0,80, puntal→cordón 0,87, cordón 0,81. En A y en el eje 4 sigue articulado. Las vigas VT de B y E quedan 8 mm más cortas y se sueldan a la plancha', por='ingeniero V121 (25-10-2026): «reforzar unión de momento en pilares con plancha e=8 mm … considerar soldadura AWS 6011»; diseño 27-10-2026'),
     ]
     # Gabriel, 22-10-2026: "en las preguntas al ingeniero al final, reduce el texto al 30 %, demasiado texto" (2.520 → ~750 caracteres)
     # Desde la revisión del 23-10-2026 ya no son preguntas al ingeniero: son los datos que faltan para cerrar el cálculo y firmarlo
@@ -381,7 +441,7 @@ def main(estudio_json, sitio_json, salida):
         'Nivel real del agua: piezómetro leído en julio y agosto.',
         'Sondaje de 6 m: el estudio de suelos no llega al sello del búnker (3,41 m bajo el terreno).',
         '¿El dren puede salir por gravedad? Si no, ensanchar el vuelo de la losa de fundación a ~80 cm (no flota con agua hasta el terreno).',
-        'Peso real de la cubierta y del cielo acústico.',
+        'Peso real de la cubierta, del cielo acústico y de los tabiques (con +10 kgf/m² de cielo la deriva llega a 0,95).',
         'Viento de Osorno en la NCh 432:2025 y versión de la NCh 433 que rige el permiso.',
         'Confirmar que existe el tubo RECT 200x150x6 (si no, 200x150x5 con planchas en los puntales).',
         'Revisión y firma de un ingeniero civil.',
@@ -391,7 +451,7 @@ def main(estudio_json, sitio_json, salida):
         marco='cm del marco de la app; z = 0 en el piso del nivel 1 de la casa; el piso del estudio (NPOG 0,00 del ingeniero) está en z = %s' % z0,
         z_piso=z0, ejes=ejes, perfiles={k: PERFILES[k] for k in sorted(set(mb['p'] for mb in M))}, miembros=M,
         hormigon=hormigon, fierros=fierros, cubicacion_hormigon=cub_hormigon, vanos=V, interior=interior, techo=techo, cielo=cielo,
-        cubicacion=cubicacion, total_kg=tot, cambios=cambios, preguntas=preguntas,
+        cubicacion=cubicacion, total_kg=tot, uniones=uniones, cambios=cambios, preguntas=preguntas,
         parametros=dict(muro=MURO, tabique=T, h_pilar=H_PILAR, z_viga_inf=Z_CORDON[0], terminaciones=dict(piso=T_PISO, cielo=T_CIELO, libre=LIBRE, capas=E['alturas'].get('capas', {}), dato=E['alturas'].get('dato_terminaciones', '')), pendiente=PEND, alero_ns=ALERO_NS, alero_eo=ALERO_EO, paso_costanera=PASO_COST, paso_puntal=PASO_PUNTAL, h_ventana=H_VENTANA,
                         bunker=dict(losa=BUNKER_LOSA, muro=BUNKER_MURO, radier=BUNKER_RADIER, fundacion=BUNKER_FUND, alto=BUNKER_H)),
     )

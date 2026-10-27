@@ -19,7 +19,7 @@
   --mal:#B42318; --mal-soft:rgba(180,35,24,.08);
   --shadow:0 1px 2px rgba(16,18,22,.06),0 10px 28px rgba(16,18,22,.10);
   --chrome:#1B1E24; --chrome-ink:#F0F2F5; --chrome-muted:#9AA0AC; --chrome-line:#343943; --chrome-hi:rgba(255,255,255,.10);
-  --fig-ink:#2B2F36; --fig-soft:#8B929C; --fig-fill:#F1F2F4; --fig-horm:#DCDDDF; --fig-pilar:#C2410C; --fig-viga:#1D63B8; --fig-diag:#2B8A3E; --fig-techo:#8E44AD; --fig-horm2:#B4B3AA;
+  --fig-ink:#2B2F36; --fig-soft:#8B929C; --fig-fill:#F1F2F4; --fig-horm:#DCDDDF; --fig-pilar:#C2410C; --fig-viga:#1D63B8; --fig-diag:#2B8A3E; --fig-techo:#8E44AD; --fig-horm2:#B4B3AA; --fig-sold:#B4232A;
   --ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme: dark){
@@ -30,7 +30,7 @@
   --mal:#F08A80; --mal-soft:rgba(240,138,128,.10);
   --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
   --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
-  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-horm:#30333A; --fig-pilar:#F08C4A; --fig-viga:#5AA9F0; --fig-diag:#63C27A; --fig-techo:#C58AE6; --fig-horm2:#8A8D93;
+  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-horm:#30333A; --fig-pilar:#F08C4A; --fig-viga:#5AA9F0; --fig-diag:#63C27A; --fig-techo:#C58AE6; --fig-horm2:#8A8D93; --fig-sold:#FF6B7A;
   }
 }
 :root[data-theme="dark"]{
@@ -40,7 +40,7 @@
   --mal:#F08A80; --mal-soft:rgba(240,138,128,.10);
   --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
   --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
-  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-horm:#30333A; --fig-pilar:#F08C4A; --fig-viga:#5AA9F0; --fig-diag:#63C27A; --fig-techo:#C58AE6; --fig-horm2:#8A8D93;
+  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-horm:#30333A; --fig-pilar:#F08C4A; --fig-viga:#5AA9F0; --fig-diag:#63C27A; --fig-techo:#C58AE6; --fig-horm2:#8A8D93; --fig-sold:#FF6B7A;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -179,7 +179,7 @@ ol.preg li{margin:0 0 8px}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V123" data-vista="estudio"></script>
+  <script src="menu.js?v=V124" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
   <span class="meta" id="meta">Revisado con cálculo propio · sin firma</span>
 </header>
@@ -190,28 +190,29 @@ ol.preg li{margin:0 0 8px}
 
 <section id="resumen" style="padding-top:14px">
   <p class="lead">Estudio con búnker, con el <b>sistema estructural del ingeniero</b> (abril 2026) acomodado a la planta nueva. Cada pieza dice si es <span class="fuente man">dato</span> de sus láminas o <span class="fuente med">propuesta</span>.</p>
-  <div class="aviso"><b>Revisado con cálculo propio</b> (pestaña Revisión, 23-10-2026), con los cambios ya aplicados. Falta la firma de un ingeniero civil.</div>
+  <div class="aviso"><b>Revisado con cálculo propio</b> (pestaña Revisión, 23-10-2026), con los cambios ya aplicados. Al 27-10-2026 lleva también lo que pidió el ingeniero (escalera con pilar y vigas botadas, VHA 25/50, unión de momento UM, insertos y sismo con tabiques y torsión); las medidas de eso esperan su visto bueno. Falta la firma de un ingeniero civil.</div>
   <div class="specs" id="specs"></div>
   <p style="margin-top:12px"><a class="btn p" href="3d.html?estudio=1">Ver en 3D →</a> <span class="small sub">con la sección real de cada perfil; toca una pieza para ver qué es</span></p>
 </section>
 
 <section id="revision">
   <h2>Revisión estructural</h2>
-  <p class="small sub">23-10-2026, con la escalera de 1,20 y el distribuidor (23-10) y la cabina de 4,15 con la bodega desde ella (24-10) · agua a 1,50 m sobre el piso del búnker · cálculo propio (modelo 3D de todo) y revisores independientes · cambios aprobados por Gabriel y ya aplicados en el modelo, los planos y el 3D.</p>
+  <p class="small sub">23-10-2026, con la escalera de 1,20 y el distribuidor (23-10) y la cabina de 4,15 con la bodega desde ella (24-10) · al día al 27-10-2026 con lo que pidió el ingeniero (V121 y 27-10): escalera con pilar y vigas botadas, VHA 25/50, fisura 0,30 mm, unión de momento UM, insertos y sismo con tabiques y torsión · agua a 1,50 m sobre el piso del búnker · cálculo propio (modelo 3D de todo) · todo aplicado en el modelo, los planos y el 3D; las medidas del 27-10 son propuesta para el visto bueno del ingeniero.</p>
   <div class="rv-cuenta" id="rv-cuenta"></div>
 
   <h3>Búnker</h3>
   <div class="rv-lista">
     <div class="rv-cab"><span>Elemento</span><span>Antes → ahora</span><span style="text-align:right">D/C</span><span style="text-align:right">Estado</span></div>
-    <div class="rv-fila"><span class="el">Losa de techo</span><span class="qp">e=20 hecha para 5 m → <b>e=25</b> continua con los muros: ø10@15 abajo y ø12@15 en L arriba (ø16@15 sobre el muro del eje B junto a la viga de borde de la escalera).</span><span class="dc">0,98</span><span class="es"><span class="est ju">Justo</span></span></div>
-    <div class="rv-fila"><span class="el">Losa de techo de 20</span><span class="qp">Lo que propone el ingeniero. Con el mismo fierro no pasa arriba junto al muro del eje B (1,54). Con ø10@15 arriba en 1–5 en esa zona da 0,99; el muro del eje 5 llega a 1,00 y el corte a 0,78 (318-08) · 1,39 (318-19).</span><span class="dc">1,00</span><span class="es"><span class="est no">Por decidir</span></span></div>
-    <div class="rv-fila"><span class="el">Corte de la losa de techo</span><span class="qp">Pasa con ACI 318-08 (la de la NCh 430); con la 318-19 da 0,79 tomando el fierro en tracción. El ingeniero lo da por bueno con la losa de 25.</span><span class="dc">0,55 · 0,79</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">VHA y escalera</span><span class="qp">VHA 25/40 muy flexible → <b>25/45</b> con estribos @15. Hueco de 1,30 × 2,74 con descanso → <b>1,20 × 3,97</b> hasta el muro del eje B, con vigas de borde en los otros 2 lados (3ø16 arriba).</span><span class="dc">0,82</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Losa de fundación</span><span class="qp">e=30 con fisuras de 0,5 mm → <b>e=35</b>, ø16@15 y ø12@15 arriba y abajo. Fisura 0,22 mm con suelo rígido (límite 0,20).</span><span class="dc">0,84</span><span class="es"><span class="est ju">Justo</span></span></div>
-    <div class="rv-fila"><span class="el">Muros</span><span class="qp">e=25 → <b>e=30</b> hacia afuera (el interior no cambia): ø16@15 por fuera, ø12@15 por dentro.</span><span class="dc">0,82</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Losa de techo</span><span class="qp">e=20 hecha para 5 m → <b>e=25</b> continua con los muros: ø10@15 abajo, ø12@15 en L arriba y <b>ø10@20 arriba en 1–5 junto a los muros A y B</b> (esa franja trabajaba en hormigón simple: 0,97 → 0,40). Manda la flexión inferior junto a la VBL: 3.590 / 4.450 kgf·m/m (35,2 / 43,7 kN·m/m); antes 0,98. Flecha de largo plazo 5,2 mm (L/480 = 13,5).</span><span class="dc">0,81</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Corte de la losa de techo</span><span class="qp">5.925 kgf/m (58,1 kN/m): pasa con ACI 318-08 (la de la NCh 430) y con la 318-19 tomando el fierro en tracción. El ingeniero lo da por bueno con la losa de 25.</span><span class="dc">0,37 · 0,72</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">VHA-3</span><span class="qp">25/40 muy flexible → <b>25/50</b> (lo pidió el ingeniero) con 3ø16 abajo, 3ø12 arriba y E ø10@15: M+ 4.740 / 10.440 kgf·m (46,5 / 102,4 kN·m) = 0,45; corte 0,17.</span><span class="dc">0,59</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Hueco de la escalera</span><span class="qp">1,20 × 3,97 hasta el muro del eje B. Vigas de borde 25/45 colgadas (2,31 libres) → <b>vigas botadas VBL y VBC 40/25</b> dentro de la losa y <b>pilar CUAD 100x100x4</b> en la esquina (lo pidió el ingeniero; medidas: propuesta). VBL 0,97 (fierro superior con torsión), VBC 0,88; pilar 16,4 t (160,8 kN): 0,63, o 0,90 con 25 mm de excentricidad; punzonamiento 0,67 arriba y 0,23 abajo; flecha de la VBL 4,9 mm (L/811). Altura libre 2,45 hasta el cielo.</span><span class="dc">0,97</span><span class="es"><span class="est ju">Justo</span></span></div>
+    <div class="rv-fila"><span class="el">Losa de fundación</span><span class="qp">e=30 con fisuras de 0,5 mm → <b>e=35</b>, ø16@15 y ø12@15 arriba y abajo, con suple ø12@15 bajo el pilar de la escalera (sin él daba 1,01; con él 0,52). Corte 0,55.</span><span class="dc">0,80</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Muros</span><span class="qp">e=25 → <b>e=30</b> hacia afuera (el interior no cambia): ø16@15 por fuera, ø12@15 por dentro. Corte 0,48.</span><span class="dc">0,78</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Fisura</span><span class="qp">Límite 0,20 → <b>0,30 mm</b> (lo pidió el ingeniero: EC2, tabla 7.1N; la estanqueidad la da la membrana). Máx. 0,21 mm en la losa de fundación (antes 0,24 en el muro del eje 5) y 0,16 en las vigas botadas.</span><span class="dc">0,71</span><span class="es"><span class="est ok">Pasa</span></span></div>
     <div class="rv-fila"><span class="el">Hormigón</span><span class="qp">G25 con 2,9 cm → <b>G30 con cristalizante</b>, recubrimiento 4 por fuera y 5 en fundaciones.</span><span class="dc"></span><span class="es"><span class="est ok">Cumple</span></span></div>
-    <div class="rv-fila"><span class="el">Fierro armable</span><span class="qp">Revisado barra por barra: <b>0 choques</b> y todos con su recubrimiento.</span><span class="dc"></span><span class="es"><span class="est ok">Cumple</span></span></div>
-    <div class="rv-fila"><span class="el">Flotación terminado</span><span class="qp">FS 1,76 con el relleno puesto (piden 1,20).</span><span class="dc">0,68</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Fierro armable</span><span class="qp">Revisado barra por barra con la escalera y los insertos: <b>0 choques</b> entre barras (85 familias) y con las placas, todas con su recubrimiento y las cabezas de los insertos libres. Bajo la placa de 30 de PLc-4A, 4 superiores LT-NS bajan 1,4 cm con quiebre 1:6 y la primera ø10@20 de la franja A parte pasado el quiebre.</span><span class="dc"></span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Flotación terminado</span><span class="qp">FS 1,76 con el relleno puesto (piden 1,20); no cambia con la escalera nueva.</span><span class="dc">0,68</span><span class="es"><span class="est ok">Pasa</span></span></div>
     <div class="rv-fila"><span class="el">Flotación en obra</span><span class="qp">Con losa y muros, FS 1,0: hay que bombear hasta tener techo y relleno.</span><span class="dc">1,20</span><span class="es"><span class="est ju">Con bomba</span></span></div>
     <div class="rv-fila"><span class="el">Agua hasta el terreno</span><span class="qp">Si el relleno se llena de lluvia, FS 0,99: flota. Falta el dren con salida o el vuelo de ~80 cm.</span><span class="dc">1,21</span><span class="es"><span class="est no">Falta decidir</span></span></div>
     <div class="rv-fila"><span class="el">Suelo bajo el búnker</span><span class="qp">Pesa menos que la tierra que se saca: no se hunde.</span><span class="dc">0,75</span><span class="es"><span class="est ok">Pasa</span></span></div>
@@ -220,16 +221,18 @@ ol.preg li{margin:0 0 8px}
   <h3>Estructura del estudio</h3>
   <div class="rv-lista">
     <div class="rv-cab"><span>Elemento</span><span>Antes → ahora</span><span style="text-align:right">D/C</span><span style="text-align:right">Estado</span></div>
-    <div class="rv-fila"><span class="el">Marcos de 10,75 m</span><span class="qp">Puntales y soldaduras no aguantaban → <b>viga 200×150×6</b> y puntales 150×150×5 con planchas.</span><span class="dc">0,86</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Sismo y viento en 1–5</span><span class="qp">El techo se movía 2 a 4 cm → <b>cruz nueva</b> en el muro ciego del eje A (tramo 4–5). El tabique B 4–5 queda sin diagonal (puertas del distribuidor y de la escalera) y el C2 4–5 con una sola (puerta de la bodega).</span><span class="dc">0,94</span><span class="es"><span class="est ju">Justo</span></span></div>
-    <div class="rv-fila"><span class="el">Cruces</span><span class="qp">Terminaban bajo el techo → <b>llegan a la viga</b>, con cartela de 8 mm y 4 pernos M16.</span><span class="dc">0,64</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Pilares</span><span class="qp">Los 150×100 de fachada, girados: lado de 150 contra el viento. El 1C pasa a 150×150×4 por la cabina de 4,15. Con viento en las 4 fachadas el que manda es el 5C.</span><span class="dc">0,85</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Anclajes</span><span class="qp">Fallaban 14 de 25 → <b>PLc con 4 pernos</b> y armadura de anclaje en los 15 con cruz.</span><span class="dc">0,93</span><span class="es"><span class="est ju">Justo</span></span></div>
-    <div class="rv-fila"><span class="el">Fundaciones</span><span class="qp">El sismo levantaba el CF → <b>dado hasta el sello</b> (10 de emplantillado) bajo 4C y 4C2 y 4ø12 en el cimiento.</span><span class="dc">0,83</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Choques del acero</span><span class="qp">Revisado perfil por perfil: solo se tocan en sus uniones. En la V119 un puntal se metía en el pilar 4C2; ya no.</span><span class="dc"></span><span class="es"><span class="est ok">Cumple</span></span></div>
+    <div class="rv-fila"><span class="el">Marcos de 10,75 m</span><span class="qp">Puntales y soldaduras no aguantaban → <b>viga 200×150×6</b>, puntales 150×150×5 con planchas y <b>cordón soldado a momento (UM)</b> a los pilares B y E de los ejes 2 y 3 (en A y en el eje 4 sigue articulado): puntal→viga 1,07 → 0,80, puntal→cordón 0,87, cordón 0,81, puntal 0,71; flecha 13,8 mm (L/782).</span><span class="dc">0,87</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Unión UM</span><span class="qp">Plancha de 8 y E6011 (lo pidió el ingeniero) → <b>2 planchas laterales PL 8×150</b> por nudo, de +4,11 a +4,26 (propuesta: las platabandas arriba y abajo daban 1,51): plancha 0,48, soldadura al cordón 0,54, al pilar 0,44, pilar en el nudo 0,33. 8 planchas, 45 kg.</span><span class="dc">0,54</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Sismo (deriva)</span><span class="qp">Con la masa de los tabiques (+4,4 t: P 24,7 → 29,4 t) y la torsión accidental (NCh 433 §6.2.8) daba 1,09 en 1–5 y 1,13 en A–E → <b>cruz C 150x50x3 en C–C2 de los ejes 1 y 5</b>, X de Fe 22 en la faja del eje E, cruz A 4-5 en C 150x50x4 y 8 tensores de techo en Fe 22 (+249 kg, propuesta). Deriva en el CM 7,87 / 9,0 mm en 1–5 y 5,31 / 9,0 en A–E (0,59); exceso de un punto 0,78. El tabique B 4–5 sigue sin diagonal y el C2 4–5 con una sola.</span><span class="dc">0,87</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Cruces</span><span class="qp">Terminaban bajo el techo → <b>llegan a la viga</b>, con cartela de 8 mm y 4 pernos M16. La de A 4-5 pasa a C 150x50x4: 15,7 t (153,6 kN); con 3 mm el aplastamiento de los M16 daba 1,06. Las nuevas de C–C2: 0,46.</span><span class="dc">0,66</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Pilares</span><span class="qp">Los 150×100 de fachada, girados: lado de 150 contra el viento. El 1C pasa a 150×150×4 por la cabina de 4,15. Manda el 5C con viento del eje 5: N 5,58 t (54,7 kN) + M 1.091 kgf·m (10,7 kN·m).</span><span class="dc">0,84</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Placas (insertos)</span><span class="qp">Fallaban 14 de 25 → PLc con 4 pernos (las tuercas chocaban con el tubo) → <b>insertos embebidos con barras A36 soldadas</b> (los aceptó el ingeniero; medidas: propuesta): 17 PLc e=16 con 4 ø22 y 8 PLb 200×200×12 con 4 ø3/4"; PLc-4A de 550×250×30 con 8 ø22 y hef 1.200 (Nua 25,4 t = 249,5 kN, Vua 17,2 t = 169,1 kN: 0,93); horquillas de corte ø16 en 11. Ω<sub>0</sub> = 2 solo en la parte sísmica. Mandan PLc-1C y 1E.</span><span class="dc">0,96</span><span class="es"><span class="est ju">Justo</span></span></div>
+    <div class="rv-fila"><span class="el">Fundaciones</span><span class="qp">El sismo levantaba el CF → <b>dado hasta el sello</b> (10 de emplantillado) bajo 4C y 4C2 y 4ø12 en el cimiento. Con tabiques y torsión manda el sobrecimiento del eje E: 9.770 / 10.800 kgf·m (95,8 / 105,9 kN·m) con 0,9D+1,4E; se levanta 1,4 mm en 12 de 199 nudos.</span><span class="dc">0,91</span><span class="es"><span class="est ju">Justo</span></span></div>
+    <div class="rv-fila"><span class="el">Suelo del estudio</span><span class="qp">Presión en el sello: gravitacional 0,44 / 0,61 kgf/cm² (43 / 59,8 kPa); sísmica 0,53 / 0,92 kgf/cm² (52 / 90,2 kPa) = 0,57.</span><span class="dc">0,72</span><span class="es"><span class="est ok">Pasa</span></span></div>
+    <div class="rv-fila"><span class="el">Choques del acero</span><span class="qp">Revisado perfil por perfil, con las planchas UM y las cruces nuevas: solo se tocan en sus uniones. En la V119 un puntal se metía en el pilar 4C2; ya no.</span><span class="dc"></span><span class="es"><span class="est ok">Cumple</span></span></div>
     <div class="rv-fila"><span class="el">Vigas, aleros y techo</span><span class="qp">Pasan. Costaneras de 3 mm con silla y 2 pernos.</span><span class="dc">0,75</span><span class="es"><span class="est ok">Pasa</span></span></div>
   </div>
-  <p class="rv-cargas">Cargas: viento 40 m/s (0,74 kPa), que levanta el techo · nieve 0,25 kPa · sismo zona 3, suelo E, R&nbsp;=&nbsp;2 · anclajes con Ω<sub>0</sub>&nbsp;=&nbsp;2.</p>
+  <p class="rv-cargas">Cargas: viento 40 m/s (75 kgf/m² = 0,74 kPa, NCh 432:2010), que levanta el techo · nieve 25 kgf/m² (0,25 kPa) · sismo zona 3, suelo E, R&nbsp;=&nbsp;2, P 29,4 t (288 kN) con los tabiques y torsión accidental ±0,10·b · insertos con Ω<sub>0</sub>&nbsp;=&nbsp;2 en la parte sísmica.</p>
 
   <h3>Humedad y filtraciones del búnker</h3>
   <div class="specs rv-agua">
@@ -241,15 +244,14 @@ ol.preg li{margin:0 0 8px}
 
   <h3>Lo que falta</h3>
   <ol class="rv-orden">
-    <li>Decidir con el ingeniero la losa de techo: 25 (la del modelo) o 20 con fierro extra.</li>
-    <li>Decidir el dren con salida por gravedad o el vuelo de ~80 cm.</li>
+    <li>Visto bueno del ingeniero a las medidas del 27-10: insertos (sobre todo PLc-4A de 550×250×30), planchas laterales UM, pilar y vigas botadas de la escalera, arreglo del sismo (cruces C–C2, Fe 22, cruz A 4-5 de 4 mm) y la línea C2 4-5 con una sola diagonal (pestaña Ingeniero).</li>
+    <li>Decidir el dren con salida por gravedad o el vuelo de ~80 cm (falta la cota de los colectores).</li>
     <li>Piezómetro (agua real) y sondaje de 6 m.</li>
-    <li>Pesos reales de cubierta y cielo acústico: la deriva queda en 0,94.</li>
-    <li>Que el ingeniero acepte la línea C2 4-5 con una sola diagonal a tracción (la deriva de ese sentido es la que manda: 0,94).</li>
-    <li>Sin revisar aún: escalera y su caja, uniones soldadas en detalle, pasadas, fuego y corrosión.</li>
+    <li>Pesos reales de cubierta, cielo acústico y tabiques: con +10 kgf/m² (0,10 kPa) de cielo la deriva llega a 0,95 y el sobrecimiento del eje E a 0,99.</li>
+    <li>Sin revisar aún: la caja de la escalera (se supuso separada del techo con una junta), pasadas, fuego y corrosión.</li>
     <li>Firma de un ingeniero civil.</li>
   </ol>
-  <p class="rv-nota">D/C = lo que se pide dividido por lo que aguanta: sobre 1 no pasa; justo = 0,9 a 1, o fisura en el límite. Normas: NCh 433, 432, 431 y 1537, ACI 318 y AISC 360. No reemplaza la firma de un ingeniero.</p>
+  <p class="rv-nota">D/C = lo que se pide dividido por lo que aguanta: sobre 1 no pasa; justo = 0,9 a 1, o fisura en el límite (0,30 mm). Normas: NCh 433, 432, 431 y 1537, ACI 318 y AISC 360. No reemplaza la firma de un ingeniero.</p>
 </section>
 <script>
 (function () {
@@ -261,55 +263,75 @@ ol.preg li{margin:0 0 8px}
 
 <section id="ingeniero">
   <h2>Respuestas al ingeniero</h2>
-  <p class="small sub">Documento V121 de José Torres (25-10-2026) · respuestas con el modelo V122 · NCh 433 + DS 61, NCh 432:2010, NCh 431:2010, NCh 1537:2009, NCh 3171:2010, ACI 318-08 (DS 60), AISC 360-16.</p>
+  <p class="small sub">Documento V121 de José Torres (25-10-2026) y sus indicaciones del 26 y 27-10 · respuestas al día con el modelo del 27-10-2026 (V124) · fuerzas en kgf y t, kN entre paréntesis · NCh 433 + DS 61, NCh 432:2010, NCh 431:2010, NCh 1537:2009, NCh 3171:2010, ACI 318-08 (DS 60), AISC 360-16.</p>
   <div class="rv-lista">
     <div class="ing-cab"><span>Tema</span><span>Observación</span><span>Respuesta</span><span style="text-align:right">Estado</span></div>
-    <div class="ing-fila"><span class="el">Losa de techo e=25</span><span class="ob">Verificar carga muerta, luces y efecto</span><span class="re">D 6,38 → 7,63 kPa (peso propio 5,00 → 6,25); qu 14,1 → 15,6 kPa. Luz A–B 6,20 entre caras (6,50 entre ejes). Manda la flexión inferior junto a la VHA de borde: Mu 43,0 / φMn 43,7 kN·m/m = <b>0,98</b>. Flecha de largo plazo 6,3 mm &lt; L/480 = 13,5. Efecto: muros 0,82, vigas ≤ 0,82, losa de fundación 0,84, flotación FS 1,76.</span><span class="es"><span class="est ok">Respondido</span></span></div>
-    <div class="ing-fila"><span class="el">Corte de la losa</span><span class="ob">Con 25 no hay problema</span><span class="re">De acuerdo. VHA-3: Vu 34 / φVn 203 kN = 0,17. Losa en la cara del muro B: 0,55 (ACI 318-08); 0,79 con la 318-19 usando el fierro en tracción (la página decía 1,07 porque usaba el inferior).</span><span class="es"><span class="est ok">Aceptado</span></span></div>
-    <div class="ing-fila"><span class="el">VHA 25/50</span><span class="ob">Dejar 25/50, E ø10@15, rechequear M+</span><span class="re">Con 25/50: Mu+ 50,3 / φMn+ 98,5 kN·m (3ø16, d 45,2) = <b>0,51</b>; M− 0,76; corte 0,41 con E ø10@15 (ya están). Falta pasarlo al modelo. Viga de borde del lado A: 25/45 (escalera con 2,31 libres) o 25/50 (2,26).</span><span class="es"><span class="est ju">Por aplicar</span></span></div>
-    <div class="ing-fila"><span class="el">Losa de fundación e=35</span><span class="ob">Dejar e=35</span><span class="re">De acuerdo. ø16@15 en A–B y ø12@15 en 1–5, arriba y abajo. Flexión 0,84, corte 0,58, contacto 45 &lt; 59,8 kPa.</span><span class="es"><span class="est ok">Aceptado</span></span></div>
-    <div class="ing-fila"><span class="el">Muros e=30</span><span class="ob">Justificar 25 → 30</span><span class="re">El muro de la lámina (e=25, ø12@15 / ø10@20) en el búnker nuevo (3,21 libres, agua a 1,50, sismo) da <b>1,45</b> en la base y fisura 0,33 mm. La flexión la resuelve el ø16@15 exterior. El 30 es por: cabida (entre mallas quedan 12,8 cm con 25; no caben los pernos PLc con golilla más el water-stop), ACI 350 (e ≥ 300 mm en muros de 3 m o más con agua), margen de la caja (losa 1,03 → 0,98) y flotación en obra (FS 0,92 → 1,00). Crece hacia afuera: el interior no cambia.</span><span class="es"><span class="est ok">Respondido</span></span></div>
+    <div class="ing-fila"><span class="el">Losa de techo e=25</span><span class="ob">Verificar carga muerta, luces y efecto</span><span class="re">D 651 → 778 kgf/m² (6,38 → 7,63 kPa; peso propio 510 → 637); qu 1.438 → 1.591 kgf/m² (14,1 → 15,6 kPa). Luz A–B 6,20 entre caras (6,50 entre ejes). Con el pilar, las vigas botadas y ø10@20 arriba en 1–5 junto a los muros A y B (esa franja daba 0,97 en hormigón simple; ahora 0,40), manda la flexión inferior junto a la VBL: Mu 3.590 / φMn 4.450 kgf·m/m (35,2 / 43,7 kN·m/m) = <b>0,81</b> (antes 0,98). Flecha de largo plazo 5,2 mm &lt; L/480 = 13,5. Efecto: muros 0,78, VHA-3 0,59, losa de fundación 0,80, flotación FS 1,76.</span><span class="es"><span class="est ok">Aplicado</span></span></div>
+    <div class="ing-fila"><span class="el">Corte de la losa</span><span class="ob">Con 25 no hay problema</span><span class="re">De acuerdo. Losa en la cara del muro B: Vu 5.925 kgf/m (58,1 kN/m) / φVc 16.020 kgf/m (157,1 kN/m) = <b>0,37</b> (ACI 318-08); 0,72 con la 318-19 usando el fierro en tracción. VHA-3: Vu 3.940 / φVn 23.240 kgf (38,6 / 227,9 kN) = 0,17.</span><span class="es"><span class="est ok">Aceptado</span></span></div>
+    <div class="ing-fila"><span class="el">VHA 25/50</span><span class="ob">Dejar 25/50, E ø10@15, rechequear M+</span><span class="re">En el modelo: VHA-3 25/50 con 3ø16 abajo (d 45,2), 3ø12 arriba y E ø10@15. Mu+ 4.740 / φMn+ 10.440 kgf·m (46,5 / 102,4 kN·m) = <b>0,45</b>; Mu− 3.430 / 5.770 kgf·m (33,6 / 56,5 kN·m) = 0,59; corte 0,17. Las vigas de borde 25/45 de la escalera ya no van (fila siguiente).</span><span class="es"><span class="est ok">Aplicado</span></span></div>
+    <div class="ing-fila"><span class="el">Hueco de la escalera</span><span class="ob">Pilar en la esquina del hueco y vigas botadas en la losa de 25 (L/300)</span><span class="re">Pilar <b>CUAD 100x100x4</b> A270ES (L 3,21, K 1) con su centro a 12,5 de los dos bordes del hueco y placas PL 250×250×16 arriba (embebida) y abajo (grout de 25 mm): 16,4 t / 25,9 t (160,8 / 254,4 kN) = <b>0,63</b>; 0,90 con 25 mm de excentricidad. Vigas botadas 40/25 dentro de la losa: VBL de muro A a muro B sobre el pilar (4ø12 abajo, 5ø12 arriba, E ø8@10) = <b>0,97</b> (fierro superior con torsión) y VBC del pilar al muro del eje 5 = 0,88. Punzonamiento 0,67 en el techo (0,85 con γv 1) y 0,23 en la losa de fundación, con suple ø12@15 bajo el pilar (sin él 1,01). Flecha de la VBL 4,9 mm &lt; L/300 = 13,2. Altura libre de la escalera 2,45 hasta el cielo (antes 2,31).</span><span class="es"><span class="est ju">Por aprobar</span></span></div>
+    <div class="ing-fila"><span class="el">Losa de fundación e=35</span><span class="ob">Dejar e=35</span><span class="re">De acuerdo. ø16@15 en A–B y ø12@15 en 1–5, arriba y abajo, más el suple ø12@15 bajo el pilar de la escalera. Flexión 0,80, corte 0,55, contacto 0,46 &lt; 0,61 kgf/cm² (45 &lt; 59,8 kPa).</span><span class="es"><span class="est ok">Aceptado</span></span></div>
+    <div class="ing-fila"><span class="el">Muros e=30</span><span class="ob">Justificar 25 → 30</span><span class="re">El muro de la lámina (e=25, ø12@15 / ø10@20) en el búnker nuevo (3,21 libres, agua a 1,50, sismo) da <b>1,45</b> en la base y fisura 0,33 mm. La flexión la resuelve el ø16@15 exterior. El 30 es por: cabida (entre mallas quedan 12,8 cm con 25; no cabían los anclajes de las PLc más el water-stop), ACI 350 (e ≥ 300 mm en muros de 3 m o más con agua), margen de la caja (losa 1,03 → 0,98) y flotación en obra (FS 0,92 → 1,00). Crece hacia afuera: el interior no cambia. Hoy: flexión 0,78, corte 0,48.</span><span class="es"><span class="est ok">Respondido</span></span></div>
     <div class="ing-fila"><span class="el">Dren</span><span class="ob">Drenar a los colectores originales</span><span class="re">De acuerdo. Dren perimetral ø110 en grava con geotextil, radier del tubo a −3,91 (3,41 m bajo el terreno), 40 m. Sale por gravedad si el colector está a 3,51 m + 1 %·L o más bajo el terreno del búnker. Falta la cota de los colectores; si quedan altos, cámara con 2 bombas y alarma.</span><span class="es"><span class="est ju">Falta dato</span></span></div>
-    <div class="ing-fila"><span class="el">Marcos de 10,75 m</span><span class="ob">Justificar cálculo y diseño</span><span class="re">Modelo 3D de barras (1.061 barras), lineal, A270ES; cruces y tensores solo a tracción; 20 combinaciones NCh 3171; AISC 360-16. Barras: puntal 150×150×5 <b>0,86</b>, viga 200×150×6 0,51, cordón 0,58; flecha 17 mm (L/631). Uniones (AISC K4): puntal → viga <b>1,07</b> con el cordón articulado y 0,86 con el cordón soldado a momento a los pilares B y E.</span><span class="es"><span class="est no">Decidir unión</span></span></div>
-    <div class="ing-fila"><span class="el">Pernos</span><span class="ob">¿Qué pernos?</span><span class="re">15 PLc 250×250×12, cada una con 4 pernos ø3/4" A36, L 490, hef 450, tuerca y golilla 50×50×10 abajo, a 76 × 120 mm, con llave de corte. Anclaje: verticales del muro, 4ø16 en los dados o estribos extra en el sobrecimiento. Tracción 0,70, corte 0,93 (Ω0 = 2). 10 PLb 200×200×8 con 2 horquillas ø3/4" L 1.200. Ojo: las tuercas chocan con la pared del tubo; hay que sacar los pernos fuera del tubo (PLc 300×250) y recalcular.</span><span class="es"><span class="est no">Corregir PLc</span></span></div>
-    <div class="ing-fila"><span class="el">Viento y nieve</span><span class="ob">¿Cómo se obtuvieron?</span><span class="re">NCh 432:2010: qh = 0,613·Kz·Kzt·Kd·V²·I = 0,613·0,888·1,0·0,85·40²·1,0 = <b>0,74 kPa</b> (V 40 m/s a 40,6° S; exposición C, h 5,65 m). Succión: techo −0,99 kPa, fachada −1,11 kPa. NCh 431:2010: pg 0,25 kPa (mínimo para techo de baja pendiente); no manda frente a Lr 0,77.</span><span class="es"><span class="est ok">Respondido</span></span></div>
-    <div class="ing-fila"><span class="el">Sismo</span><span class="ob">¿Qué suelo?</span><span class="re">Suelo <b>E</b>: lo asigna el informe de suelos con la regla del DS 61 para obras ≤ 500 m² y ≤ 2 pisos (sin Vs30 ni SPT). Zona 3, A0 0,40 g, S 1,30, T0 1,20 s, T′ 1,35 s, n 1,80, p 1,0, I 1,0. R = 2: arriostramiento solo a tracción y sin diseño por capacidad (NCh 433, tabla 5.1). C = Cmáx = 0,90·S·A0/g = 0,468; P 242 kN; Q0 113 kN. Ω0 = 2 solo en anclajes (supuesto, ACI 318-19 §17.10.5.3).</span><span class="es"><span class="est ok">Respondido</span></span></div>
+    <div class="ing-fila"><span class="el">Marcos de 10,75 m</span><span class="ob">Justificar cálculo y diseño</span><span class="re">Modelo 3D de barras, lineal, A270ES; cruces y tensores solo a tracción; combinaciones NCh 3171 con ± y torsión accidental; AISC 360-16. Con el cordón soldado a momento (UM) en B y E de los ejes 2 y 3 y articulado en A y en el eje 4: puntal 150×150×5 0,71, viga 200×150×6 0,40, cordón <b>0,81</b>; flecha 13,8 mm (L/782). Uniones (AISC K4): puntal → viga 1,07 → <b>0,80</b> (Mu 1.948 / 2.472 kgf·m = 19,1 / 24,2 kN·m); puntal → cordón 0,87 (fuera del rango de K4: cordón de 3 mm, B/t 50).</span><span class="es"><span class="est ok">Aplicado</span></span></div>
+    <div class="ing-fila"><span class="el">Unión de momento UM</span><span class="ob">Plancha e=8 en los pilares; soldadura E6011</span><span class="re">En B y E de los ejes 2 y 3: <b>2 planchas laterales PL 8×150</b> A270ES por nudo (750 en B, 435 en E), de +4,11 a +4,26, sobre los costados del cordón y del pilar; E6011 con filete 3 al cordón y 5 al pilar (las platabandas arriba y abajo en la cara de 5 mm del pilar daban 1,51, AISC K2.2). Por plancha M 476 kgf·m (4,67 kN·m) + N −3,04 t (−29,8 kN) / φMn 1.116 kgf·m (10,94 kN·m) = 0,48; soldadura al cordón <b>0,54</b>, al pilar 0,44; corte del pilar en el nudo 0,33; con el φMn del cordón (1.186 kgf·m = 11,6 kN·m) 0,87. Las VT de B y E quedan 8 mm más cortas, soldadas a la plancha. 8 planchas, 45 kg.</span><span class="es"><span class="est ju">Por aprobar</span></span></div>
+    <div class="ing-fila"><span class="el">Placas (insertos)</span><span class="ob">¿Qué pernos? → insertos con anclajes soldados (aceptado)</span><span class="re">Insertos embebidos a ras, sin pernos ni tuercas: <b>17 PLc</b> A36 e=16 con 4 barras lisas A36 ø22 soldadas bajo las paredes del tubo (hef 1.000 en los muros del búnker, 450 en el resto), cabeza 60×45×12, filete 12 E7018; <b>PLc-4A</b> de 550×250×30 con 8 ø22 y hef 1.200 (manda el pry-out en el muro de 30); <b>8 PLb</b> 200×200×12 con 4 ø3/4" (hef 450; 500 en 3A y 3B). Horquillas de corte ø16 amarradas en 11 placas. Ω<sub>0</sub> = 2 solo en la parte sísmica. PLc-4A: Nua 25,4 t (249,5 kN), Vua 17,2 t (169,1 kN) = 0,93; mandan PLc-1C y 1E con <b>0,96</b>; PLb 0,39. 446 kg de acero.</span><span class="es"><span class="est ju">Por aprobar</span></span></div>
+    <div class="ing-fila"><span class="el">Viento y nieve</span><span class="ob">¿Cómo se obtuvieron?</span><span class="re">NCh 432:2010: qh = 0,613·Kz·Kzt·Kd·V²·I = 0,613·0,888·1,0·0,85·40²·1,0 = <b>0,74 kPa</b> = 75 kgf/m² (V 40 m/s a 40,6° S; exposición C, h 5,65 m). Succión: techo −101 kgf/m² (−0,99 kPa), fachada −113 kgf/m² (−1,11 kPa). NCh 431:2010: pg 25 kgf/m² (0,25 kPa; mínimo para techo de baja pendiente); no manda frente a Lr 79 kgf/m² (0,77 kPa). Sigue con la NCh 432:2010.</span><span class="es"><span class="est ok">Respondido</span></span></div>
+    <div class="ing-fila"><span class="el">Sismo</span><span class="ob">¿Qué suelo?</span><span class="re">Suelo <b>E</b>: lo asigna el informe de suelos con la regla del DS 61 para obras ≤ 500 m² y ≤ 2 pisos (sin Vs30 ni SPT). Zona 3, A0 0,40 g, S 1,30, T0 1,20 s, T′ 1,35 s, n 1,80, p 1,0, I 1,0. R = 2: arriostramiento solo a tracción y sin diseño por capacidad (NCh 433, tabla 5.1). C = Cmáx = 0,90·S·A0/g = 0,468. Desde el 27-10 con la masa de los tabiques y del cielo de la cabina (+4,4 t = 43,2 kN): P 24,7 → <b>29,4 t</b> (288 kN); Q0 11,6 → 13,7 t (135 kN); y torsión accidental ±0,10·b (§6.2.8): 23.990 kgf·m (235 kN·m) en 1–5 y 14.780 kgf·m (145 kN·m) en A–E. Deriva en el CM 0,87 en 1–5 y 0,59 en A–E, con cruz nueva en C–C2 de los ejes 1 y 5, X de Fe 22 en la faja del eje E, cruz A 4-5 en C 150x50x4 y 8 tensores de techo en Fe 22 (+249 kg, propuesta). Ω0 = 2 solo en los insertos (supuesto, ACI 318-19 §17.10.5.3).</span><span class="es"><span class="est ok">Aplicado</span></span></div>
     <div class="ing-fila"><span class="el">Piezómetro y sondaje</span><span class="ob">??</span><span class="re">El informe no encontró agua (calicatas de 2,50 y 2,70 m, 14-05-2025): el agua a 1,50 sobre el piso es un supuesto nuestro. El piezómetro (julio–agosto) da el nivel real para la subpresión, el empuje y el caudal del dren. El sello está a 3,41 m, 0,71 m bajo lo explorado: el sondaje de 6 m es para conocer el suelo bajo el sello.</span><span class="es"><span class="est ju">Falta dato</span></span></div>
-    <div class="ing-fila"><span class="el">Pesos de cubierta y cielo</span><span class="ob">??</span><span class="re">Supuestos: techo 0,53 kPa (cubierta 0,10 + cielo de yeso 0,25 + instalaciones 0,10 + costaneras 0,08), aleros 0,18, fachadas 1,6 kN/m. La deriva da 0,94 con poco margen: con un cielo acústico 0,10 kPa más pesado da 1,04, con la masa de los tabiques 1,06 y con la torsión accidental 0,97. Faltan las fichas y sumar tabiques y torsión al modelo.</span><span class="es"><span class="est no">Corregir modelo</span></span></div>
-    <div class="ing-fila"><span class="el">Normas</span><span class="ob">??</span><span class="re">Se usó NCh 432:2010, NCh 433 Of.96 Mod. 2012 + DS 61, NCh 431:2010, NCh 1537:2009, NCh 3171:2010, ACI 318-08 (DS 60) y AISC 360-16. Si la DOM exige la NCh 432:2025, sube la succión del techo (zona 1: −0,87 → −1,39 kPa). Falta saber qué versión exige el permiso.</span><span class="es"><span class="est ju">Falta dato</span></span></div>
-    <div class="ing-fila"><span class="el">Humedad</span><span class="ob">Es constructivo</span><span class="re">De acuerdo: pasa a especificaciones. Lo estructural es la fisura: 0,22 mm en la losa de fundación y 0,24 mm en el muro del eje 5, sobre el límite de 0,20 que pusimos. Si la estanqueidad la da la membrana, proponemos 0,30 mm (EC2, tabla 7.1N): cumplen.</span><span class="es"><span class="est ju">Decidir límite</span></span></div>
-    <div class="ing-fila"><span class="el">Pilares</span><span class="ob">Aceptado</span><span class="re">Desde la V118 el P-1C pasó a 150×150×4 (cabina de 4,15). Son 25: 6 PM1, 10 PM2 y 9 PM3 (el documento dice 14 PM1). Manda el P-5C con 0,85.</span><span class="es"><span class="est ok">Aceptado</span></span></div>
+    <div class="ing-fila"><span class="el">Pesos de cubierta y cielo</span><span class="ob">??</span><span class="re">Supuestos: techo 54 kgf/m² = 0,53 kPa (cubierta 10 + cielo de yeso 25 + instalaciones 10 + costaneras 8), aleros 18 kgf/m², fachadas 163 kgf/m (1,6 kN/m); tabiques de 25 con 2 placas de 15 por cara y lana de 100: 56 kgf/m² (76 con cerámica), cabina doble 60, cielo de la cabina 35 kgf/m². Tabiques y torsión ya están en el modelo (fila Sismo). Con +10 kgf/m² (0,10 kPa) de cielo la deriva llega a 0,95 y el sobrecimiento del eje E a 0,99: faltan las fichas.</span><span class="es"><span class="est ju">Falta dato</span></span></div>
+    <div class="ing-fila"><span class="el">Normas</span><span class="ob">??</span><span class="re">Se usó NCh 432:2010, NCh 433 Of.96 Mod. 2012 + DS 61, NCh 431:2010, NCh 1537:2009, NCh 3171:2010, ACI 318-08 (DS 60) y AISC 360-16. Si la DOM exige la NCh 432:2025, sube la succión del techo (zona 1: −89 → −142 kgf/m² = −0,87 → −1,39 kPa). Falta saber qué versión exige el permiso.</span><span class="es"><span class="est ju">Falta dato</span></span></div>
+    <div class="ing-fila"><span class="el">Humedad</span><span class="ob">Es constructivo</span><span class="re">De acuerdo: pasa a especificaciones. Lo estructural es la fisura: límite <b>0,30 mm</b> (EC2, tabla 7.1N; la estanqueidad la da la membrana). Máx. 0,21 mm en la losa de fundación (0,71) y 0,16 mm en las vigas botadas; antes 0,24 en el muro del eje 5 contra 0,20.</span><span class="es"><span class="est ok">Aplicado</span></span></div>
+    <div class="ing-fila"><span class="el">Pilares</span><span class="ob">Aceptado</span><span class="re">Desde la V120 el P-1C pasó a 150×150×4 (cabina de 4,15). Son 25: 6 PM1, 10 PM2 y 9 PM3 (el documento dice 14 PM1). Manda el P-5C con 0,84.</span><span class="es"><span class="est ok">Aceptado</span></span></div>
     <div class="ing-fila"><span class="el">Planos y memoria</span><span class="ob">Datos desordenados; memoria de cálculo</span><span class="re">De acuerdo. Próxima entrega: láminas limpias (fundaciones, estructura, losa del cielo del búnker y elevaciones de ejes) con cuadro de materiales, y una memoria resumida (bases, suelo y agua, cargas, modelos, acero, búnker, fundaciones y anclajes, resumen de D/C).</span><span class="es"><span class="est ju">Pendiente</span></span></div>
   </div>
 
   <h3>Material: diseño de las láminas sobre la planta nueva → hoy</h3>
   <p class="small sub">El búnker pasó de 5,00 m de luz y 2,72 libres a 6,45 m y 3,21 m, con agua a 1,50 m; los marcos, de 10,25 a 10,75 m. La última columna es lo que daba el diseño de las láminas en el edificio nuevo.</p>
   <table class="ing-tab"><thead><tr><th>Elemento</th><th>Láminas (abril)</th><th>Hoy</th><th>Con lo de las láminas</th></tr></thead><tbody>
-    <tr><td>Losa de techo</td><td>e=20, ø10@20 / ø8@20</td><td>e=25, ø10@15 + ø12@15 en L</td><td>flexión 2,88 · flecha 56 mm (límite 27)</td></tr>
+    <tr><td>Losa de techo</td><td>e=20, ø10@20 / ø8@20</td><td>e=25, ø10@15 + ø12@15 en L + ø10@20 junto a A y B</td><td>flexión 2,88 · flecha 56 mm (límite 27)</td></tr>
     <tr><td>Muros del búnker</td><td>e=25, ø12@15 / ø10@20</td><td>e=30, ø16@15 ext. · ø12@15 int.</td><td>1,45 en la base · fisura 0,33 mm</td></tr>
     <tr><td>Losa de fundación</td><td>e=30, ø12@15</td><td>e=35, ø16@15 / ø12@15</td><td>fisura 0,5 mm</td></tr>
-    <tr><td>Marcos ejes 2 y 3</td><td>viga 200×150×5 · puntal 150×100×3</td><td>viga 200×150×6 · puntal 150×150×5</td><td>puntal 1,50 · uniones 2,4 a 4,0</td></tr>
-    <tr><td>Anclajes</td><td>PLb 200×200×8, 1+1 ø3/4"</td><td>15 PLc 250×250×12, 4 pernos</td><td>fallaban 14 de 25</td></tr>
+    <tr><td>Marcos ejes 2 y 3</td><td>viga 200×150×5 · puntal 150×100×3</td><td>viga 200×150×6 · puntal 150×150×5 · UM en B y E</td><td>puntal 1,50 · uniones 2,4 a 4,0</td></tr>
+    <tr><td>Placas</td><td>PLb 200×200×8, 1+1 ø3/4"</td><td>insertos: 17 PLc e=16 con 4 ø22 · 8 PLb 200×200×12 con 4 ø3/4"</td><td>fallaban 14 de 25</td></tr>
     <tr><td>Bajo 4C y 4C2</td><td>CF</td><td>dado 1,40 × 1,40 hasta el sello</td><td>sin dado se levanta 99 mm</td></tr>
     <tr><td>Fundaciones de fachada</td><td>sello −85</td><td>hormigón pobre hasta −140</td><td>el informe pide el sello a 0,90 bajo el terreno</td></tr>
-    <tr class="tot"><td>Total</td><td>acero 7.766 kg · fierro 5.890 kg · hormigón 108,5 m³</td><td>acero 8.803 kg · fierro 8.999 kg · hormigón 128,7 m³ + 20 m³ pobre</td><td>+13 % · +53 % · +19 %</td></tr>
+    <tr class="tot"><td>Total</td><td>acero 7.766 kg · fierro 5.890 kg · hormigón 108,5 m³</td><td>acero 9.097 kg (sin placas ni el pilar de la escalera) · fierro 9.250 kg (con las barras de los insertos) · hormigón 128,5 m³ + 20 m³ pobre</td><td>+17 % · +57 % · +18 %</td></tr>
   </tbody></table>
 
-  <h3>Cambios que proponemos (falta el visto bueno)</h3>
+  <h3>Cambios propuestos: todos aplicados el 27-10-2026</h3>
   <ol class="rv-orden">
-    <li>VHA 25/50 en el eje 3 y en el borde de la escalera; viga de borde del lado A en 25/45 (escalera con 2,31 libres).</li>
-    <li>Cordón de los marcos 2 y 3 soldado a momento a los pilares B y E (unión 1,07 → 0,86).</li>
-    <li>PLc con los pernos fuera del tubo (300 × 250) y recálculo de cono y placa.</li>
-    <li>ø10@20 superior en 1–5 junto a los muros A y B: hoy esa franja trabaja como hormigón simple (0,97), que la ACI 318-08 §22.2.1 no admite en losas.</li>
-    <li>Sumar al modelo sísmico la masa de los tabiques y la torsión accidental (NCh 433 §6.2.8) y revisar la deriva.</li>
-    <li>Límite de fisura de 0,30 mm si la membrana da la estanqueidad.</li>
+    <li><span class="est ok">Aplicado</span> VHA-3 25/50 en el eje 3 (0,59).</li>
+    <li><span class="est ju">Por aprobar</span> Escalera: pilar CUAD 100x100x4 en la esquina y vigas botadas VBL y VBC 40/25 dentro de la losa, en vez de las vigas de borde 25/45 (2,31 → 2,45 libres; VBL 0,97).</li>
+    <li><span class="est ju">Por aprobar</span> Cordón de los marcos 2 y 3 soldado a momento a los pilares B y E con 2 planchas laterales PL 8 y E6011 (puntal → viga 1,07 → 0,80; unión 0,54).</li>
+    <li><span class="est ju">Por aprobar</span> Insertos embebidos con anclajes soldados en vez de pernos con tuerca: 17 PLc + 8 PLb (máx. 0,96).</li>
+    <li><span class="est ok">Aplicado</span> ø10@20 superior en 1–5 junto a los muros A y B (la franja en hormigón simple daba 0,97, que la ACI 318-08 §22.2.1 no admite en losas; ahora 0,40).</li>
+    <li><span class="est ok">Aplicado</span> Masa de los tabiques y torsión accidental en el sismo (NCh 433 §6.2.8): deriva 0,87 / 0,59; el arreglo (cruces C–C2, Fe 22, cruz A 4-5 de 4 mm, +249 kg) <span class="est ju">Por aprobar</span>.</li>
+    <li><span class="est ok">Aplicado</span> Límite de fisura de 0,30 mm (máx. 0,21 mm).</li>
+  </ol>
+
+  <h3>Preguntas nuevas al ingeniero (27-10-2026)</h3>
+  <ol class="rv-orden">
+    <li>Pilar de la escalera: ¿centro a 12,5 de los dos bordes del hueco (caras a 7,5) con la placa de 250 al ras, o al ras exacto de la esquina?</li>
+    <li>Vigas botadas: ¿40 de ancho (propuesta) o 30 (también pasa)?</li>
+    <li>Pilar: ¿acepta 25 mm de excentricidad accidental? (CUAD 100x100x4: 0,90; 100x100x5: 0,72)</li>
+    <li>Unión UM: ¿planchas laterales PL 8×150 en vez de platabandas? (las platabandas en la cara de 5 mm del pilar dan 1,51)</li>
+    <li>Cartela de la diagonal: ¿soldada a la placa y a la cara del tubo (pared 0,83, AISC K1) o pasante?</li>
+    <li>Horquillas de corte ø16 amarradas, sin soldar, como armadura de anclaje (ACI 318-19 §17.5.2.1b) en 11 placas: ¿le sirven?</li>
+    <li>PLc-4A: ¿inserto grande (550×250×30, 8 ø22, hef 1.200) o el tipo de 4 barras contando la losa en el pry-out?</li>
+    <li>f'c: ¿30 MPa (G30) en el búnker y 25 MPa en el resto?</li>
+    <li>Etapas de hormigonado: ¿muro y losa de techo en una o en dos? (los insertos de 1 m de los muros van colgados antes)</li>
+    <li>Tabiques de 25: ¿2 placas de 15 por cara (56 kgf/m², supuesto) o 1 (32 kgf/m²)?</li>
+    <li>Caja de la escalera (e=23, unas 13 t): ¿separada del techo con una junta, como se supuso?</li>
+    <li>¿Acepta un levantamiento de 1,4 mm en 12 de 199 nudos de la fundación con 0,9D+1,4E?</li>
+    <li>Fichas de la cubierta y del cielo acústico: con +10 kgf/m² la deriva llega a 0,95 y el sobrecimiento del eje E a 0,99.</li>
   </ol>
 </section>
 
 <section id="vista3d">
   <h2><span class="n">01</span>Vista 3D del estudio</h2>
   <ul class="puntos"><li><b>Capas:</b> estructura de acero y hormigón, búnker bajo tierra, enfierradura, medidas (vienen apagadas).</li><li><b>Girar:</b> arrastrar · <b>acercar:</b> rueda o pellizco · <b>centrar:</b> doble toque · <b>ficha:</b> tocar la pieza.</li></ul>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V123" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V124" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
@@ -338,7 +360,7 @@ ol.preg li{margin:0 0 8px}
 
 <section id="elevaciones">
   <h2><span class="n">04</span>Elevaciones</h2>
-  <ul class="puntos"><li><b>Pilares</b> 4,11 (eje A) a 4,81 m (eje E) · <b>viga 1–5</b> 100×100 encima · <b>viga inclinada</b> al 3,5 % · cordón + puntales en los marcos interiores · cruces en los tramos extremos.</li><li><b>Colores:</b> naranjo pilares · azul vigas · morado techo · verde diagonales · gris hormigón · azul/naranjo ventanas y puertas.</li></ul>
+  <ul class="puntos"><li><b>Pilares</b> 4,11 (eje A) a 4,81 m (eje E) · <b>viga 1–5</b> 100×100 encima · <b>viga inclinada</b> al 3,5 % · cordón + puntales en los marcos interiores, soldado a momento en B y E de los ejes 2 y 3 (<b>UM</b>, detalle abajo) · cruces C 150x50x3 en los muros ciegos (C–C2 de los ejes 1 y 5 desde el 27-10-2026; la del eje A 4-5 en C 150x50x4) · faja de tensores Fe 22 sobre las cruces del eje E · el perfil va escrito en cada cruz.</li><li><b>Colores:</b> naranjo pilares · azul vigas · morado techo · verde diagonales · gris hormigón · azul/naranjo ventanas y puertas.</li></ul>
   <div class="elevs" id="elevs"></div>
 </section>
 
@@ -354,7 +376,7 @@ ol.preg li{margin:0 0 8px}
 
 <section id="vanos">
   <h2><span class="n">06</span>Ventanas, puertas y esquema interior (propuesta)</h2>
-  <ul class="puntos"><li><b>Módulo:</b> entre pilares (ejes cada 2,58; vanos de 2,18) · marcos de acero negro · de piso a <b>cielo terminado (4,00)</b>; la viga 1–5 +4,11/+4,21 y el cielo quedan encima.</li><li><b>Eje A (patio):</b> vidrio de piso a cielo en 1-2, 2-3 (corredera de 2 hojas) y 3-4; el 4-5 ciego, que es la esquina de la cocina, el minibar y la escalera (Gabriel, 14-10-2026).</li><li><b>Tabique cafetería/estudio:</b> todo de vidrio (tramos 1-2, 2-3 y 3-4), corredera centrada en el estudio, doble vidrio; cortina gruesa atrás para mezclar.</li><li><b>Eje E:</b> ventana de piso a cielo en el tramo 2-3, entre los parlantes, con cortina acústica pesada para mezclar fino; luz pareja, sin sol directo (Gabriel, 14-10-2026).</li><li><b>Puertas:</b> entrada 1,80 en el eje 1 junto al pilar A2 · distribuidor desde la cafetería (eje B), y desde él el baño y la escalera al búnker (con llave) · cabina (acústica, maciza) desde el estudio, en su extremo hacia el eje A, lejos de la posición de escucha · bodega desde la cabina, en el tabique C2 junto al eje 5 (24-10-2026).</li><li><b>Cabina de grabación:</b> 2,50 × 4,15 ciega (sin ventana), cielo a 3,35, tabiques dobles dentro de los 25 (24-10-2026, por acústica).</li><li><b>Cruces</b> solo en muros ciegos (baño/cabina, fachada del eje E, ejes 1 y 5 y muro A 4-5); el tabique C2 4-5 lleva una sola diagonal, que pasa sobre la puerta de la bodega, y el B 4-5 ninguna (puertas del distribuidor y de la escalera).</li></ul>
+  <ul class="puntos"><li><b>Módulo:</b> entre pilares (ejes cada 2,58; vanos de 2,18) · marcos de acero negro · de piso a <b>cielo terminado (4,00)</b>; la viga 1–5 +4,11/+4,21 y el cielo quedan encima.</li><li><b>Eje A (patio):</b> vidrio de piso a cielo en 1-2, 2-3 (corredera de 2 hojas) y 3-4; el 4-5 ciego, que es la esquina de la cocina, el minibar y la escalera (Gabriel, 14-10-2026).</li><li><b>Tabique cafetería/estudio:</b> todo de vidrio (tramos 1-2, 2-3 y 3-4), corredera centrada en el estudio, doble vidrio; cortina gruesa atrás para mezclar.</li><li><b>Eje E:</b> ventana de piso a cielo en el tramo 2-3, entre los parlantes, con cortina acústica pesada para mezclar fino; luz pareja, sin sol directo (Gabriel, 14-10-2026).</li><li><b>Puertas:</b> entrada 1,80 en el eje 1 junto al pilar A2 · distribuidor desde la cafetería (eje B), y desde él el baño y la escalera al búnker (con llave) · cabina (acústica, maciza) desde el estudio, en su extremo hacia el eje A, lejos de la posición de escucha · bodega desde la cabina, en el tabique C2 junto al eje 5 (24-10-2026).</li><li><b>Cabina de grabación:</b> 2,50 × 4,15 ciega (sin ventana), cielo a 3,35, tabiques dobles dentro de los 25 (24-10-2026, por acústica).</li><li><b>Cruces</b> solo en muros ciegos (baño/cabina, fachada del eje E, ejes 1 y 5 en A–A2, C–C2 y D–E, y muro A 4-5); el tabique C2 4-5 lleva una sola diagonal, que pasa sobre la puerta de la bodega, y el B 4-5 ninguna (puertas del distribuidor y de la escalera).</li></ul>
   <figure class="ancho"><svg id="svg-vanos" role="img" aria-label="Planta de ventanas, puertas y esquema interior"></svg>
     <figcaption id="cap-vanos"></figcaption></figure>
   <div class="tw"><table id="tabla-vanos"></table></div>
@@ -366,10 +388,10 @@ ol.preg li{margin:0 0 8px}
   <h2><span class="n">07</span>Fundaciones y hormigón armado</h2>
   <div class="kvs">
     <div class="k">Fuente</div><div class="v">láminas 01 rev 1, 02 rev G, 03 rev H y 05 rev H, adaptadas a la planta nueva <span class="fuente man">dato</span></div>
-    <div class="k">Búnker</div><div class="v">losa de fundación e=35 (sobresale 37,5) · muros e=30 · losa e=25 + VHA 25/45 · G30 con cristalizante <span class="fuente med">revisión</span></div>
+    <div class="k">Búnker</div><div class="v">losa de fundación e=35 (sobresale 37,5) · muros e=30 · losa e=25 + VHA 25/50 · vigas botadas 40/25 y pilar en el hueco de la escalera · G30 con cristalizante <span class="fuente med">revisión</span></div>
     <div class="k">Fachadas</div><div class="v">sobrecimiento 30 × 50 (2ø16) · cimiento corrido 80 × 25 (U ø12@20 + 4ø12) · hormigón pobre hasta −140 <span class="fuente med">revisión</span></div>
     <div class="k">Tabiques</div><div class="v">CF 30/50 de 0 a −50 en los ejes 4, C y C2 · dados 1,40 × 1,40 bajo 4C y 4C2, hasta 10 sobre el sello <span class="fuente med">revisión · ingeniero: 25/40</span></div>
-    <div class="k">Placas</div><div class="v">PLc 250 × 250 × 12 con 4 pernos ø3/4" en los 15 pilares con cruz · PLb 200 × 200 × 8 con 1+1 ø3/4" en horquilla en los otros 10</div>
+    <div class="k">Placas</div><div class="v">insertos embebidos con anclajes A36 soldados, sin pernos ni tuercas: PLc e=16 con 4 barras ø22 en los 17 pilares con cruz (4A: e=30 con 8) · PLb 200 × 200 × 12 con 4 ø3/4" en los otros 8 <span class="fuente med">propuesta · VºBº del ingeniero</span></div>
     <div class="k">Niveles</div><div class="v">NPOG 0,00 · NTN −50 · piso búnker −346 · sello búnker −391 · sello fachadas −140</div>
   </div>
   <div class="notas-ing" id="notas-ing"></div>
@@ -384,14 +406,16 @@ ol.preg li{margin:0 0 8px}
 
 <section id="luces">
   <h2><span class="n">08</span>Luces y perfiles: qué se mantiene y qué se recalculó</h2>
-  <ul class="puntos"><li>Luz nueva ≤ original con el mismo perfil → <b>cubierto</b> por el diseño del ingeniero · luz mayor → <b>recalculado</b> en la revisión del 23-10-2026 (pestaña Revisión).</li></ul>
+  <ul class="puntos"><li>Luz nueva ≤ original con el mismo perfil → <b>cubierto</b> por el diseño del ingeniero · luz mayor → <b>recalculado</b> en la revisión del 23-10-2026 y al día al 27-10-2026 (pestaña Revisión).</li></ul>
   <div class="tw"><table id="tabla-luces"></table></div>
 </section>
 
 <section id="acero">
   <h2><span class="n">09</span>Acero del modelo</h2>
+  <figure class="ancho" style="--ancho-fig:840px"><svg id="svg-techo" role="img" aria-label="Planta de techo: estructura de acero"></svg>
+    <figcaption id="cap-techo"></figcaption></figure>
   <div class="tw"><table id="tabla-acero"></table></div>
-  <p class="small sub">Largos de las piezas del modelo, sin pérdidas, placas ni anclajes.</p>
+  <p class="small sub">Largos de las piezas del modelo y de las planchas de las uniones UM, sin pérdidas, placas base ni anclajes (los insertos y el pilar de la escalera van en la sección 07).</p>
 </section>
 
 <section id="preguntas">
@@ -404,9 +428,9 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=V123"></script>
-<script src="estudio_estructura.js?v=V123"></script>
-<script src="armaduras_det.js?v=V123"></script>
+<script src="sitio.js?v=V124"></script>
+<script src="estudio_estructura.js?v=V124"></script>
+<script src="armaduras_det.js?v=V124"></script>
 <script>
 // se dibuja cuando la letra Inter ya cargó: los rótulos se miden con getBBox y con la letra de reemplazo quedaban más angostos de lo que son (25-10-2026)
 (function (dibujar) { const f = document.fonts; if (!f || !f.load) return dibujar();
@@ -426,7 +450,7 @@ ol.preg li{margin:0 0 8px}
     ['Planta', `${coma(W / 100, 2)} × ${coma(L / 100, 2)} m`, 'exteriores · arriba muros y tabiques de 25 terminado; el búnker lleva tabique de 10 por dentro de sus muros <span class="fuente man">planta</span>'],
     ['Pilares', pil, `${D.miembros.filter(x => x.c === 'pilar' && x.p === 'CUAD 150x150x5').length} PM1 150×150×5, ${D.miembros.filter(x => x.c === 'pilar' && x.p === 'CUAD 150x150x4').length} PM2 150×150×4, ${D.miembros.filter(x => x.c === 'pilar' && x.p === 'RECT 150x100x3').length} PM3 150×100×3 <span class="fuente med">propuesta</span>`],
     ['Búnker', `${coma(H.interior.terminado.ancho / 100, 2)} × ${coma(H.interior.terminado.largo / 100, 2)} m`, `terminados entre tabiques (${coma(H.interior.ancho / 100, 2)} × ${coma(H.interior.largo / 100, 2)} entre muros); ${coma(E.bunker.interior_cm / 100, 2)} libres; muros ${H.muros.espesor}, losa ${H.losa.espesor}, losa de fundación ${H.losa_fundacion ? H.losa_fundacion.espesor : (H.piso ? (H.piso ? H.piso.espesor : 0) : 0)} <span class="fuente man">dato</span>`],
-    ['Acero', `${coma(D.total_kg, 0)} kg`, 'perfiles del modelo, sin placas ni pérdidas <span class="fuente calc">calculado</span>'],
+    ['Acero', `${coma(D.total_kg, 0)} kg`, 'perfiles del modelo y planchas de las uniones UM, sin placas base ni pérdidas <span class="fuente calc">calculado</span>'],
     ['Alturas libres', `${coma(D.parametros.terminaciones.libre / 100, 2)} / ${coma(E.bunker.interior_cm / 100, 2)} m`, `estudio / búnker, terminadas; estructura a +${coma(D.parametros.z_viga_inf, 0)} <span class="fuente med">Gabriel</span>`],
     ['Techo', `${(P.pendiente * 100).toLocaleString('es-CL')} % hacia E`, `viga 200×150, costaneras CA 100×50 @${P.paso_costanera}, aleros 1,00 <span class="fuente man">dato</span>`],
     ['Fundación', `losa ${coma(H.losa_fundacion.espesor, 0)}`, `bajo el búnker; sobrecimiento ${coma(H.cimiento.sobrecimiento.ancho, 0)}×${coma(H.cimiento.sobrecimiento.alto, 0)} + cimiento ${coma(H.cimiento.zapata.ancho, 0)}×${coma(H.cimiento.zapata.espesor, 0)} en fachadas; CF ${coma(H.cf.ancho, 0)}/${coma(H.cf.alto, 0)} en tabiques; dados bajo 4C y 4C2 <span class="fuente med">revisión</span>`],
@@ -495,13 +519,13 @@ ol.preg li{margin:0 0 8px}
     // ---- enfierradura vista desde arriba (Gabriel, 14-10-2026: "piensa que es fierro, que se vea el fierro con el ancho y todo, pero no el hormigón") ----
     // Cada familia de barras viene como polilínea + paso + cantidad (lo mismo que dibuja el 3D); aquí se proyecta en planta, con un color por
     // diámetro y el ancho real de la barra. El hormigón queda solo como contorno punteado para ubicar.
-    const COLF = { 8: 'var(--fig-diag)', 10: '#4FA3E0', 12: 'var(--fig-pilar)', 16: '#D94A4A', 19: '#B07CF0' };
+    const COLF = { 8: 'var(--fig-diag)', 10: '#4FA3E0', 12: 'var(--fig-pilar)', 16: '#D94A4A', 19: '#B07CF0', 22: '#E0609E' };   // 19 y 22: barras A36 de los insertos (V124)
     const Z_LOSA_INF = H.niveles.losa_inf;   // los verticales de los muros se ven como puntos; las barras de la losa quedan arriba de todo
     const ptsDe = f => { const out = []; if (f.polilineas) f.polilineas.forEach(p => out.push(p)); else for (let k = 0; k < f.n; k++) out.push(f.polilinea.map(p => [p[0] + f.paso[0] * k, p[1] + f.paso[1] * k, p[2] + f.paso[2] * k])); return out; };
     const gF = {}; ['abajo', 'medio', 'arriba', 'puntos'].forEach(k => { gF[k] = el('g', { 'data-fe': k }, capas.fund); });
     const fichaF = f => `${f.elemento}: ø${f.diam === 19 ? '3/4"' : f.diam}${f.n ? ' × ' + f.n : ''} · ${f.d}`;
     // sin la malla de relleno de la losa del cielo del búnker (Gabriel, 22-10-2026: "quítale la enfierradura del cielo del búnker… solo el entramado de relleno"); quedan muros, escalera, VHA y fundaciones
-    const DE_LA_LOSA_SUP = f => /^(LN|LE|LS|LT-|LR-|LH-|VHA-|VB-|MC-)/.test(f.id), DE_LOS_MUROS = f => /^M[VH]-/.test(f.id);
+    const DE_LA_LOSA_SUP = f => /^(LN|LE|LS|LT-|LR-|LH-|VHA-|VB-|VBL-|VBC-|MC-)/.test(f.id), DE_LOS_MUROS = f => /^M[VH]-/.test(f.id);
     D.fierros.filter(f => SUP ? (DE_LA_LOSA_SUP(f) || DE_LOS_MUROS(f)) : !DE_LA_LOSA_SUP(f)).forEach(f => {
       const w = Math.max(1.6, f.diam / 10 * 1.6), col = COLF[f.diam] || 'var(--fig-ink)';
       ptsDe(f).forEach(pl => {
@@ -524,8 +548,17 @@ ol.preg li{margin:0 0 8px}
     const estC = 'fill:none;stroke:var(--fig-soft);stroke-width:.9;stroke-dasharray:6 4';
     (SUP ? [...H.muros.piezas, { pts: H.losa.pts }] : [...ZC.piezas, ...CI.zapata.piezas, ...H.muros.piezas, ...CI.sobrecimiento.piezas, ...CF.piezas]).forEach(z => poly(capas.base, z.pts, estC));
     if (SUP) poly(capas.base, H.losa.hueco, 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1', 'hueco de la escalera en la losa');
-    if (SUP) H.vigas.forEach(v => poly(capas.base, v.pts, estC, `${v.nombre} bajo la losa`));
-    H.placas.lista.filter(pl => !SUP || loc([pl.centro[0], pl.centro[1]])[1] <= Lp + 5).forEach(pl => { const c = loc([pl.centro[0], pl.centro[1]]), s = pl.lado / 2, g = el('g', {}, capas.fund); el('rect', { x: c[0] - s, y: c[1] - s, width: pl.lado, height: pl.lado, style: 'fill:none;stroke:var(--fig-ink);stroke-width:1.2' }, g); el('line', { x1: c[0] - s, y1: c[1] - s, x2: c[0] + s, y2: c[1] + s, style: 'stroke:var(--fig-ink);stroke-width:.8' }, g); el('line', { x1: c[0] + s, y1: c[1] - s, x2: c[0] - s, y2: c[1] + s, style: 'stroke:var(--fig-ink);stroke-width:.8' }, g); titulo(g, `${pl.id}: placa ${coma(pl.lado, 0)} × ${coma(pl.lado, 0)} × ${coma(pl.espesor * 10, 0)} mm sobre ${pl.sobre} · ${pl.anclajes}`); });
+    if (SUP) H.vigas.forEach(v => poly(capas.base, v.pts, estC, `${v.id} ${v.nombre} ${v.botada ? 'dentro de la losa (botada)' : 'bajo la losa'}`));
+    H.placas.lista.filter(pl => !SUP || loc([pl.centro[0], pl.centro[1]])[1] <= Lp + 5).forEach(pl => {   // V124: insertos con su contorno real (pl.pts: más largos hacia las diagonales, esquina recortada en 1E, 5E y 5C), no un cuadrado en el centro del pilar
+      const g = el('g', {}, capas.fund), q = (pl.pts || []).map(p => loc([p[0], p[1]])), c = loc([pl.centro[0], pl.centro[1]]), s = pl.lado / 2;
+      const P_ = q.length ? q : [[c[0] - s, c[1] - s], [c[0] + s, c[1] - s], [c[0] + s, c[1] + s], [c[0] - s, c[1] + s]], x0 = Math.min(...P_.map(p => p[0])), x1 = Math.max(...P_.map(p => p[0])), y0 = Math.min(...P_.map(p => p[1])), y1 = Math.max(...P_.map(p => p[1]));
+      el('polygon', { points: P_.map(p => `${p[0]},${p[1]}`).join(' '), style: 'fill:none;stroke:var(--fig-ink);stroke-width:1.2' }, g);
+      el('line', { x1: x0, y1: y0, x2: x1, y2: y1, style: 'stroke:var(--fig-ink);stroke-width:.8' }, g); el('line', { x1: x1, y1: y0, x2: x0, y2: y1, style: 'stroke:var(--fig-ink);stroke-width:.8' }, g);
+      titulo(g, `${pl.id}: inserto ${coma((x1 - x0) * 10, 0)} × ${coma((y1 - y0) * 10, 0)} × ${coma(pl.espesor * 10, 0)} mm sobre ${pl.sobre} · ${pl.anclajes}`); });
+    // pilar de la escalera (V124), dentro del búnker: tubo y placa (de base en la planta 1, de cabeza en la 2)
+    const PEt = H.pilar_escalera; if (PEt) { const pq = (SUP ? PEt.placa_cabeza : PEt.placa_base).pts.map(p => loc([p[0], p[1]])), tq = PEt.pts.map(p => loc([p[0], p[1]])), g = el('g', {}, capas.fund);
+      el('polygon', { points: pq.map(p => `${p[0]},${p[1]}`).join(' '), style: 'fill:none;stroke:var(--fig-ink);stroke-width:1.2' }, g); el('polygon', { points: tq.map(p => `${p[0]},${p[1]}`).join(' '), style: `fill:${COL.pilar};stroke:var(--fig-ink);stroke-width:1` }, g);
+      titulo(g, `${PEt.id}: pilar ${PEt.perfil} ${PEt.acero} en la esquina del hueco de la escalera · ${(SUP ? PEt.placa_cabeza : PEt.placa_base).detalle}`); }
     const lab = (g, x, y, t, rot, fs) => { const size = fs || FSs, w = t.length * size * 0.56 + 16, h = size * 1.5; const gg = el('g', { transform: rot ? `rotate(-90 ${x} ${y})` : '' }, g); el('rect', { x: x - w / 2, y: y - h * 0.72, width: w, height: h, rx: 4, style: 'fill:var(--paper);opacity:.88;stroke:var(--fig-soft);stroke-width:.6' }, gg); return txt(gg, x, y, t, { 'text-anchor': 'middle', 'font-size': size, class: 'txs' }); };
     const zN = ZC.piezas.find(z => z.id === 'ZC-N').pts.map(loc), zO = ZC.piezas.find(z => z.id === 'ZC-O').pts.map(loc), ccE = CI.zapata.piezas.find(z => z.id === 'CC-E').pts.map(loc), cc1 = CI.zapata.piezas.find(z => z.id === 'CC-1').pts.map(loc);
     const cf4 = CF.piezas.find(z => z.id === 'CF-4').pts.map(loc), vha = H.vigas[0].pts.map(loc), bl = H.losa.pts.map(loc);
@@ -545,7 +578,7 @@ ol.preg li{margin:0 0 8px}
     const xFinCF = CI.zapata.piezas.find(z => z.id === 'CC-5').pts.map(loc)[0][0] - 12, yDado = id => loc(H.dados.piezas.find(z => z.id === id).pts[0])[1];   // la placa (alto 25,5) termina 11 sobre el dado
     if (!SUP) labDer(xFinCF, yDado('DA-4C') - 18, `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)}: 3ø12 + 2ø10 + 3ø12 · dado bajo 4C`);
     if (!SUP) labDer(xFinCF, yDado('DA-4C2') - 18, `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)}: igual al del eje C`);
-    if (SUP) { lab(capas.fund, (vha[0][0] + vha[1][0]) / 2 + 40, (vha[0][1] + vha[2][1]) / 2 + 26,   /* centrado entre el rótulo de los muros y la cota del ancho */ `${H.vigas[0].nombre}: 3ø12 + 2ø10 + 3ø16, E ø10@15`, true, 17); lab(capas.fund, W / 2, yN[0], `losa e=${coma(H.losa.espesor, 0)}: ø10@15 abajo · ø12@15 en L arriba sobre los muros`, false, 19); lab(capas.fund, W / 2, yN[1], 'ø10@20 sobre la VHA · suples en el hueco', false, 19); }   // entre los rótulos de la losa (arriba) y la cota entre muros (abajo)
+    if (SUP) { lab(capas.fund, (vha[0][0] + vha[1][0]) / 2 + 40, (vha[0][1] + vha[2][1]) / 2 + 26,   /* centrado entre el rótulo de los muros y la cota del ancho */ `${H.vigas[0].nombre}: 3ø12 + 2ø10 + 3ø16, E ø10@15`, true, 17); lab(capas.fund, W / 2, yN[0], `losa e=${coma(H.losa.espesor, 0)}: ø10@15 abajo · ø12@15 en L arriba sobre los muros`, false, 19); lab(capas.fund, W / 2, yN[1], 'ø10@20 sobre la VHA y junto a los muros A y B · suples en el hueco', false, 19); }   // entre los rótulos de la losa (arriba) y la cota entre muros (abajo)
     // (la malla de la losa del cielo no va en este plano: está en el corte A y en la planilla)
     // ---- arranque de los pilares sobre las placas: a escala y con su tipo (la estructura de techo no va en este plano) ----
     const PM = { 'CUAD 150x150x5': 'PM1', 'CUAD 150x150x4': 'PM2', 'RECT 150x100x3': 'PM3' };
@@ -554,7 +587,9 @@ ol.preg li{margin:0 0 8px}
       const r = el('rect', { x: a[0] - wx / 2, y: a[1] - wy / 2, width: wx, height: wy, style: `fill:${COL.pilar};stroke:var(--fig-ink);stroke-width:1` }, capas.fund); titulo(r, `${mb.id} · ${PM[mb.p] || ''} ${mb.p} sobre placa ${(H.placas.lista.find(q => q.pilar === mb.id) || { tipo: 'PLb' }).tipo}`);
       // rótulo al lado del pilar, hacia dentro, con placa de papel (Gabriel, 24-10-2026: "arregla ese tipo de cosas"): encima del pilar cruzaba el borde del búnker y se perdía en la malla.
       // En los muros del búnker (filas A y B) va al centro del muro de 30 (el eje está 2,5 hacia dentro); en A2 sube 8 para no tocar la VHA de borde del hueco (planta 2)
-      const dx = a[0] > W / 2 ? -18 : 18, anchor = a[0] > W / 2 ? 'end' : 'start';
+      // V124: el rótulo parte fuera del inserto (las PLc crecen hacia las diagonales: 4A llega a 27,5 del eje del pilar)
+      const plq = H.placas.lista.find(q => q.pilar === mb.id), lado_ = a[0] > W / 2 ? -1 : 1, salto = plq && plq.pts ? Math.max(18, ...plq.pts.map(p => lado_ * (loc([p[0], p[1]])[0] - a[0]) + 4)) : 18;
+      const dx = lado_ * salto, anchor = a[0] > W / 2 ? 'end' : 'start';
       const muro = H.muros.piezas.map(z => z.pts.map(loc)).find(q => Math.abs(q[0][1] - q[2][1]) < 40 && a[1] >= q[0][1] && a[1] <= q[2][1] && a[0] >= q[0][0] && a[0] <= q[1][0]);
       const yL = muro ? (muro[0][1] + muro[2][1]) / 2 : a[1] - (/A2$/.test(mb.id) ? 8 : 0);
       const tP = txt(capas.fund, a[0] + dx, yL + 17 * 0.36, PM[mb.p] || mb.p, { 'text-anchor': anchor, 'font-size': 17, 'font-weight': 600, style: 'fill:var(--fig-pilar)' });
@@ -610,9 +645,9 @@ ol.preg li{margin:0 0 8px}
     const def = [['fund', 'Enfierradura y arranque de pilares', true], ['recintos', 'Recintos', false], ['cotas', 'Cotas', true]];
     TZ_CAPAS.push(capas); if (SUP) { def.forEach(([k, t, on]) => { capas[k].style.display = on ? '' : 'none'; }); } else { const bot = $('#tz-capas'); def.forEach(([k, t, on]) => { const lab2 = document.createElement('label'); const ch = document.createElement('input'); ch.type = 'checkbox'; ch.checked = on; capas[k].style.display = on ? '' : 'none'; ch.addEventListener('input', () => { TZ_CAPAS.forEach(c => { c[k].style.display = ch.checked ? '' : 'none'; }); }); lab2.append(ch, ' ' + t); bot.appendChild(lab2); }); }
     const nPM = p => D.miembros.filter(x => x.c === 'pilar' && x.p === p).length;
-    if (SUP) { $('#cap-planta-sup').innerHTML = `<b>Planta 2 · losa superior</b> · cielo del búnker: losa e=${coma(H.losa.espesor, 0)}, VHA del eje 3 y del borde de la escalera, coronamiento y verticales de los muros · color por diámetro`; return; }
+    if (SUP) { $('#cap-planta-sup').innerHTML = `<b>Planta 2 · losa superior</b> · cielo del búnker: losa e=${coma(H.losa.espesor, 0)}, VHA del eje 3, vigas botadas VBL y VBC del hueco de la escalera y pilar de su esquina, coronamiento y verticales de los muros · color por diámetro`; return; }
     $('#cap-planta').innerHTML = `<b>Planta 1 · losa inferior</b> · losa de fundación, muros, sobrecimientos, cimientos, CF y placas · color por diámetro · PM1 = CUAD 150×150×5 · PM2 = CUAD 150×150×4 · PM3 = RECT 150×100×3`;
-    $('#ley-planta').innerHTML = [[COLF[8], 'ø8'], [COLF[10], 'ø10'], [COLF[12], 'ø12 (y arranque de pilares)'], [COLF[16], 'ø16'], [COLF[19], 'ø3/4" anclajes'], ['transparent;border:1px dashed var(--fig-soft)', 'hormigón (solo contorno)'], ['transparent;border:1px solid var(--fig-ink)', 'placa base PLb o PLc (⊠)']].map(([c, t]) => `<span><span class="sw" style="background:${c}"></span>${t}</span>`).join('');
+    $('#ley-planta').innerHTML = [[COLF[8], 'ø8'], [COLF[10], 'ø10'], [COLF[12], 'ø12 (y arranque de pilares)'], [COLF[16], 'ø16'], [COLF[19], 'ø3/4" A36 insertos PLb'], [COLF[22], 'ø22 A36 insertos PLc'], ['transparent;border:1px dashed var(--fig-soft)', 'hormigón (solo contorno)'], ['transparent;border:1px solid var(--fig-ink)', 'placa embebida PLb o PLc (⊠)']].map(([c, t]) => `<span><span class="sw" style="background:${c}"></span>${t}</span>`).join('');
     const NIV = H.niveles;
     const sEf = CI.sobrecimiento.piezas.find(z => z.id === 'SC-E').pts.map(loc), e4f = CF.emplantillado.piezas.find(z => z.id === 'EMP-4').pts.map(loc);   // las de arriba viven dentro del if
     $('#tz-fichas').innerHTML = [
@@ -621,7 +656,7 @@ ol.preg li{margin:0 0 8px}
       ['Búnker', `muros e=${coma(H.muros.espesor, 0)} (crecieron 5 hacia afuera: el interior no cambia) · ${coma(H.interior.ancho, 0)} × ${coma(H.interior.largo, 0)} entre muros · <b>${coma(H.interior.terminado.ancho, 0)} × ${coma(H.interior.terminado.largo, 0)} terminado</b> (tabique de ${coma(H.interior.terminado.tabique, 0)} por dentro) · losa de fundación e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker, unida a los muros (ø16@15 y ø12@15): <b>sobresale ${coma(H.losa_fundacion.margen, 1)}</b> de la cara exterior · escalera ${coma(hu[1][0] - hu[0][0], 0)} × ${coma(hu[2][1] - hu[0][1], 0)} junto al muro del eje 5 <span class="fuente med">revisión</span>`],
       ['Fachadas fuera del búnker', `sobrecimiento ${coma(CI.sobrecimiento.ancho, 0)} × ${coma(CI.sobrecimiento.alto, 0)} centrado en el eje · cimiento corrido ${coma(CI.zapata.ancho, 0)} × ${coma(CI.zapata.espesor, 0)}: <b>sobresale ${coma(ccE[2][1] - sEf[2][1], 1).replace(',0', '')}</b> del sobrecimiento · emplantillado 10 y hormigón pobre hasta 0,90 bajo el terreno <span class="fuente med">revisión</span>`],
       ['Tabiques', `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)} bajo los ejes 4 (del búnker a la fachada del eje E) y C y C2 (del eje 4 al eje 5) · emplantillado de ${coma(e4f[1][0] - e4f[0][0], 0)} · dados de ${coma(H.dados.lado / 100, 2)} × ${coma(H.dados.lado / 100, 2)} bajo 4C y 4C2 <span class="fuente med">revisión</span>`],
-      ['Placas', `PLc 250 × 250 × 12 con 4 pernos ø3/4" en los ${H.placas.lista.filter(q => q.tipo === 'PLc').length} pilares con cruz · PLb 200 × 200 × 8 con 1+1 ø3/4" en horquilla (ganchos hacia afuera) en los otros ${H.placas.lista.filter(q => q.tipo === 'PLb').length} · en los muros del búnker los anclajes van en el eje del muro`],
+      ['Placas', `insertos embebidos a ras del hormigón, sin pernos ni tuercas: PLc A36 e=16 con 4 barras lisas A36 ø22 soldadas (hef 1000 en los muros del búnker, 450 en el resto) en los ${H.placas.lista.filter(q => q.tipo === 'PLc').length} pilares con cruz, más largas hacia las diagonales (PLc-4A: 550 × 250 × 30 con 8 barras, hef 1200) · PLb A36 200 × 200 × 12 con 4 ø3/4" A36 soldadas a 80 × 80 en los otros ${H.placas.lista.filter(q => q.tipo === 'PLb').length} · detalle «Inserto PLc / PLb» en la sección 07 <span class="fuente med">propuesta para el VºBº del ingeniero</span>`],
       ['Niveles (desde la losa, NPOG 0,00)', `terreno natural −50 · búnker: losa de fundación −${coma(-NIV.zapata_sup, 0)} / −${coma(-NIV.zapata_inf, 0)} (su cara superior es el piso del búnker), sello −${coma(-NIV.emplantillado_inf, 0)} · fachadas: sobrecimiento de 0 a −50 y cimiento corrido de −50 a −75 · CF de 0 a −50 · dados de −${coma(-(H.dados.z_sup - D.z_piso), 1)} a −${coma(-(H.dados.z_inf - D.z_piso), 0)} · hormigón pobre hasta el sello de −${coma(-H.niveles.sello_fachadas, 0)}`],
     ].map(([k, v]) => `<div class="k">${k}</div><div class="v">${v}</div>`).join('');
   }
@@ -680,10 +715,12 @@ ol.preg li{margin:0 0 8px}
     // cerramiento encima (propuesta, detrás), placas PLb sobre los muros, pilares (cortados arriba) y anclajes dentro del muro
     [[yA, 'A'], [yB, 'B']].forEach(([yc, n]) => {
       rect(yc - 12.5, yc + 12.5, TP, zHi - 30, 'cx-muro');   // arriba, muros del estudio de 25 terminado
-      rect(yc - 10, yc + 10, 0, 0.8, 'cx-placa', `PLb 200 × 200 × 8 sobre el muro del búnker, eje ${n}`);
-      rect(yc - 7.5, yc + 7.5, 0.8, zHi - 30, 'cx-pil', `pilar CUAD 150 × 150 del eje ${n} (sigue hacia arriba)`);
-      const yw = n === 'A' ? y0 + e / 2 : y1 - e / 2;   // las dos horquillas paralelas van a ±4 del eje del muro (no del pilar)
-      [-4, 4].forEach(sx => pl([[yw + sx, -1], [yw + sx, -44]], 'cx-fe2'));
+      // V124: inserto PLb (placa de 12 a ras de la losa, sin pernos ni tuercas) con 4 barras ø3/4" A36 soldadas a 80 × 80 y su cabeza de 50 × 10 (hef del modelo)
+      const PB = H.placas.lista.find(q => q.id === `PLb-2${n}`) || { espesor: 1.2, hef: 45, cabeza: [5, 5] }, tB = PB.espesor;
+      rect(yc - 10, yc + 10, -tB, 0, 'cx-placa', `inserto PLb 200 × 200 × ${coma(tB * 10, 0)} embebido a ras del muro del búnker, eje ${n}`);
+      rect(yc - 7.5, yc + 7.5, 0, zHi - 30, 'cx-pil', `pilar CUAD 150 × 150 del eje ${n} (sigue hacia arriba)`);
+      const yw = n === 'A' ? y0 + e / 2 : y1 - e / 2;   // las barras van a ±4 del eje del muro (no del pilar)
+      [-4, 4].forEach(sx => { pl([[yw + sx, -tB], [yw + sx, -PB.hef + 1]], 'cx-fe2'); rect(yw + sx - PB.cabeza[0] / 2, yw + sx + PB.cabeza[0] / 2, -PB.hef, -PB.hef + 1, 'cx-placa', `cabeza ${coma(PB.cabeza[0] * 10, 0)} × ${coma(PB.cabeza[1] * 10, 0)} × 10 soldada`); });
       el('path', { d: `M${X(yc) - 14},${Y(zHi - 30)} l7,-6 l7,12 l7,-12 l7,6`, style: 'stroke:var(--fig-ink);stroke-width:1;fill:var(--paper)' }, g);
     });
     // enfierradura (revisión 23-10-2026): verticales ø16@15 por fuera (a 4,8 de la cara, pata de 60) y ø12@15 por dentro (a 3,6, pata de 30), las dos
@@ -732,7 +769,7 @@ ol.preg li{margin:0 0 8px}
     placa(labD(xm, N.piso_bunker + TP + 22, 'sobrelosa 4 sobre la losa de fundación', 12, 'middle'));
     labD(xm, zTopCut + 7, `se omiten ${coma(CUT, 0)} del largo (ahí todo es igual)`, 12, 'middle');   // encima del corte, no sobre él
     // placa de los pilares: en dos líneas, entre el muro del estudio y la rotura (antes la rotura cruzaba el texto)
-    [[yA - 20, 'end'], [yB + 20, 'start']].forEach(([yy, an]) => { lab(yy, zHi - 42, 'PLb 200×200×8', 12, an); lab(yy, zHi - 59, 'anclaje 1+1 ø3/4', 12, an); });
+    [[yA - 20, 'end'], [yB + 20, 'start']].forEach(([yy, an]) => { lab(yy, zHi - 42, 'PLb 200×200×12', 12, an); lab(yy, zHi - 59, '4 ø3/4" soldadas', 12, an); });
     // cotas horizontales (abajo), de lo particular a lo general: cadena losa de fundación · muro · tabique · interior terminado (= 755), entre muros, entre ejes, exterior y losa de fundación;
     // todas bajo el achurado del suelo (antes el 30 y el 10 iban dentro de él)
     const rb = Y(zLo) + 22;
@@ -775,9 +812,19 @@ ol.preg li{margin:0 0 8px}
     el('rect', { x: bx0, y: by0, width: bx1 - bx0, height: by1 - by0, style: 'fill:var(--fig-fill);stroke:none' }, svg);
     H.muros.piezas.forEach(mu => { const p = mu.pts.map(loc); el('polygon', { points: p.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:1.2' }, svg); });
     const encima = [];   // rótulos de vigas con su placa: van encima de las líneas de los ejes, que se dibujan después
-    H.vigas.forEach(v => { const p = v.pts.map(loc); el('polygon', { points: p.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:none;stroke:var(--fig-ink);stroke-width:1.5;stroke-dasharray:10 5' }, svg); if (v.id === 'VB-N' || v.id === 'VB-S') return; const c = p.reduce((s, q) => [s[0] + q[0] / 4, s[1] + q[1] / 4], [0, 0]); const cy = v.id === 'VHA-3' ? c[1] - 170 : c[1]; const tv = txt(svg, v.id === 'VHA-esc' ? Math.min(...p.map(q => q[0])) - 10 : c[0], cy + 6, v.nombre, { 'text-anchor': v.id === 'VHA-esc' ? 'end' : 'middle', 'font-size': 15, transform: v.id === 'VHA-3' ? `rotate(-90 ${c[0]} ${cy})` : '' }); encima.push(placa(tv)); /* la del hueco, a su izquierda: el hueco la tapaba */ /* la VHA-3 se rotula más al norte: al centro va el rótulo de la losa */ /* placas: tapan el eje 3 y el eje 4, que cruzaban los rótulos, sin tocar los bordes punteados */ });
+    // V124: las vigas botadas del hueco (VBL y VBC, dentro de la losa, sin caída) con raya más corta que la VHA colgada; rótulo a lo largo de la VBL y dentro de la VBC
+    H.vigas.filter(v => v.botada).forEach(v => { const p = v.pts.map(loc), xs_ = p.map(q => q[0]), ys_ = p.map(q => q[1]), c = [(Math.min(...xs_) + Math.max(...xs_)) / 2, (Math.min(...ys_) + Math.max(...ys_)) / 2], lar = Math.max(...ys_) - Math.min(...ys_) > Math.max(...xs_) - Math.min(...xs_);
+      el('polygon', { points: p.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:none;stroke:var(--fig-ink);stroke-width:1.3;stroke-dasharray:5 3' }, svg);
+      const cy = lar ? c[1] + 100 : c[1]; encima.push(placa(txt(svg, c[0], cy + 5, `${v.id} ${v.nombre.replace(/^Viga botada /, '')}${lar ? ' botada' : ''}`, { 'text-anchor': 'middle', 'font-size': 15, transform: lar ? `rotate(-90 ${c[0]} ${cy})` : '' }))); });
+    H.vigas.filter(v => !v.botada).forEach(v => { const p = v.pts.map(loc); el('polygon', { points: p.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:none;stroke:var(--fig-ink);stroke-width:1.5;stroke-dasharray:10 5' }, svg); if (v.id === 'VB-N' || v.id === 'VB-S') return; const c = p.reduce((s, q) => [s[0] + q[0] / 4, s[1] + q[1] / 4], [0, 0]); const cy = v.id === 'VHA-3' ? c[1] - 170 : c[1]; const tv = txt(svg, v.id === 'VHA-esc' ? Math.min(...p.map(q => q[0])) - 10 : c[0], cy + 6, v.nombre, { 'text-anchor': v.id === 'VHA-esc' ? 'end' : 'middle', 'font-size': 15, transform: v.id === 'VHA-3' ? `rotate(-90 ${c[0]} ${cy})` : '' }); encima.push(placa(tv)); /* la del hueco, a su izquierda: el hueco la tapaba */ /* la VHA-3 se rotula más al norte: al centro va el rótulo de la losa */ /* placas: tapan el eje 3 y el eje 4, que cruzaban los rótulos, sin tocar los bordes punteados */ });
     const hu = H.losa.hueco.map(loc); el('polygon', { points: hu.map(q => q.slice(0, 2).join(',')).join(' '), style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.2' }, svg);
     flechaNorte(svg, bx0 - 95, by0 - 88, 24);
+    // pilar de la esquina del hueco (V124): tubo a escala y su placa de cabeza embebida, con dos bordes al ras del hueco; rótulo al poniente de la VBL
+    const PEb = H.pilar_escalera; if (PEb) { const pp = PEb.pts.map(loc), pc = PEb.placa_cabeza.pts.map(loc), mnx = a => Math.min(...a.map(q => q[0])), mny = a => Math.min(...a.map(q => q[1]));
+      el('rect', { x: mnx(pc), y: mny(pc), width: PEb.placa_cabeza.lado, height: PEb.placa_cabeza.lado, style: 'fill:none;stroke:var(--fig-pilar);stroke-width:1.2' }, svg);
+      el('rect', { x: mnx(pp), y: mny(pp), width: PEb.lado, height: PEb.lado, style: 'fill:var(--fig-pilar);stroke:var(--fig-ink);stroke-width:1' }, svg);
+      const vbl = H.vigas.find(v => v.id === 'VBL'), xT = vbl ? Math.min(...vbl.pts.map(q => loc(q)[0])) - 8 : mnx(pc) - 8;
+      encima.push(placa(txt(svg, xT, mny(pc) + PEb.placa_cabeza.lado / 2 + 5, `pilar ${PEb.perfil.replace('CUAD ', '')} →`, { 'text-anchor': 'end', 'font-size': 15 }))); }
     const nPel = Math.round((hu[2][1] - hu[0][1]) / ((H.escalera.tramo || {}).largo / (H.escalera.tramo || {}).peldanos || 22.1));   // pedada real (22,1)
     for (let i = 1; i < nPel; i++) { const y = hu[0][1] + (hu[2][1] - hu[0][1]) * i / nPel; el('line', { x1: hu[0][0], y1: y, x2: hu[1][0], y2: y, style: 'stroke:var(--fig-soft);stroke-width:.8' }, svg); }
     // rótulo dentro del hueco, en el espacio entre las dos huellas del medio (antes iba dentro del borde punteado de la viga de borde del lado A)
@@ -798,14 +845,16 @@ ol.preg li{margin:0 0 8px}
     $('#txt-bunker').innerHTML = [
       ['Interior', `<b>${coma(H.interior.terminado.ancho / 100, 2)} × ${coma(H.interior.terminado.largo / 100, 2)} m terminados</b> entre tabiques de ${coma(H.interior.terminado.tabique, 0)} (${coma(H.interior.ancho / 100, 2)} × ${coma(H.interior.largo / 100, 2)} entre muros) · ${coma(E.bunker.interior_cm / 100, 2)} libres terminados (${coma(H.interior.alto / 100, 2)} de obra gruesa) · original 10,80 × 5,00 × 2,72`],
       ['Muros', `e=${H.muros.espesor} (5 más hacia afuera) · verticales ø16@15 por fuera y ø12@15 por dentro (bajan a la losa de fundación con patas de 60 y 30) · horizontales ø12@15 · 2ø12 de coronamiento · recubrimiento 4 por fuera, 3 por dentro · G30 con cristalizante <span class="fuente med">revisión</span>`],
-      ['Losa', `e=${H.losa.espesor} · ø10@15 abajo en los dos sentidos · ø12@15 en L arriba sobre los 4 muros (1,80 dentro de la losa) · ø10@20 sobre la VHA · ${H.vigas[0].nombre} en el eje 3 y vigas de borde en el hueco <span class="fuente med">revisión</span>`],
+      ['Losa', `e=${H.losa.espesor} · ø10@15 abajo en los dos sentidos · ø12@15 en L arriba sobre los 4 muros (1,80 dentro de la losa) · ø10@20 sobre la VHA y en 1–5 junto a los muros A y B (1,80 desde su cara) · ${H.vigas[0].nombre} en el eje 3 · hueco de la escalera: vigas botadas VBL y VBC 40/25 dentro de la losa y pilar ${H.pilar_escalera ? H.pilar_escalera.perfil : ''} en su esquina · fisura máx. 0,30 mm <span class="fuente med">ingeniero · medidas: propuesta</span>`],
       ['Piso', `cara superior de la losa de fundación de ${coma(H.losa_fundacion.espesor, 0)} · porcelanato + adhesivo + sobrelosa 4 encima`],
       ['Fundación', `losa armada e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker, unida a los muros, sobresale ${coma(H.losa_fundacion.margen, 1)} · ø16@15 en A–E y ø12@15 en 1–5, arriba y abajo · emplantillado G5 10 <span class="fuente med">revisión</span>`],
       ['Niveles', `desde la losa (NPOG 0,00): terreno natural −50 · piso −${coma(-H.niveles.piso_bunker, 0)} · losa de fundación −${coma(-H.niveles.zapata_sup, 0)} / −${coma(-H.niveles.zapata_inf, 0)} · sello −${coma(-H.niveles.emplantillado_inf, 0)}`],
       ['0,00', 'cara de la losa (NPOG, nivel de piso de obra gruesa del ingeniero) · 50 sobre el terreno · 20 bajo el piso de la casa'],
-      ['Cambios', `muro del eje B bajo el tabique cafetería/estudio (recibe sus 5 pilares) · escalera junto al muro del eje 5 con viga de borde <span class="fuente med">propuesta</span>`],
+      ['Cambios', `muro del eje B bajo el tabique cafetería/estudio (recibe sus 5 pilares) · escalera junto al muro del eje 5 con vigas botadas y un pilar en la esquina del hueco (ingeniero, 25/26-10-2026) <span class="fuente med">propuesta</span>`],
     ].map(([k, v]) => `<div class="k">${k}</div><div class="v">${v}</div>`).join('');
-    $('#cap-bunker').innerHTML = `Planta del búnker con la losa de techo. ${H.vigas[0].d}. El borde del hueco hacia el eje A lleva viga de borde ${H.vigas[0].nombre.replace('VHA ', '')} (en punteado); el del eje B es el muro. ${H.escalera.nota}.`;
+    // V124: la altura libre se mide aquí (igual que la nota del modelo), de la línea de las narices en el borde del hueco a la cara inferior de la losa
+    const Es_ = H.escalera, tr_ = Es_.tramo, kE = ((Es_.z_arriba - Es_.z_abajo) / tr_.peldanos) / (tr_.largo / tr_.peldanos), libE = H.niveles.losa_inf + (tr_.y_arriba - Math.min(...Es_.pts.map(q => q[1]))) * kE;
+    $('#cap-bunker').innerHTML = `Planta del búnker con la losa de techo. ${H.vigas[0].d}. Los bordes del hueco de la escalera hacia el eje 4 y hacia el eje A llevan las vigas botadas VBL y VBC 40/25, dentro de la losa (raya corta); el del eje B y el del eje 5 son los muros; en la esquina libre va el pilar ${H.pilar_escalera ? H.pilar_escalera.perfil : ''} con su placa de cabeza de ${coma(H.pilar_escalera ? H.pilar_escalera.placa_cabeza.lado * 10 : 0, 0)} embebida (ingeniero, 25/26-10-2026; medidas: propuesta). Se entra desde el distribuidor por el eje B (puerta con llave) y se baja ${coma(Es_.baja / 100, 2)} m hacia el eje A en ${coma(tr_.largo / 100, 2)} m: ${tr_.peldanos} peldaños; el hueco mide ${coma(Es_.ancho / 100, 2)} × ${coma(Es_.largo / 100, 2)} y el último metro va bajo la losa, con ${coma(libE / 100, 2)} libres de obra gruesa en el borde del hueco (antes 2,31 bajo la viga de borde 25/45).`;
   })();
 
   // ---------- corte de la escalera al búnker (el ingeniero, vía Gabriel, 25-10-2026: "un detalle de la escalera con un corte que se vea cómo baja") ----------
@@ -815,16 +864,24 @@ ol.preg li{margin:0 0 8px}
     const hue = Es.pts.map(loc), yH0 = Math.min(...hue.map(p => p[1])), yH1 = Math.max(...hue.map(p => p[1]));
     const ext = id => { const q = H.muros.piezas.find(z => z.id === id).pts.map(loc); return [Math.min(...q.map(p => p[1])), Math.max(...q.map(p => p[1]))]; };
     const [n0, n1] = ext('M-N'), [s0, s1] = ext('M-S'), eL = H.losa.espesor, zF = H.niveles.losa_fund_inf, zE = H.niveles.emplantillado_inf, mF = H.losa_fundacion.margen;
-    const vb = H.vigas.find(v => v.id === 'VB-N'), vq = vb.pts.map(loc), v0 = Math.min(...vq.map(p => p[1])), v1 = Math.max(...vq.map(p => p[1])), zV = vb.z_inf - D.z_piso;
+    // V124 (el ingeniero, 25/26-10-2026): sin viga de borde colgada; la VBC 40/25 va botada dentro de la losa (z_inf = cara inferior de la losa) y un pilar en la esquina del hueco
+    const vb = H.vigas.find(v => v.id === 'VBC'), vq = vb.pts.map(loc), v0 = Math.min(...vq.map(p => p[1])), v1 = Math.max(...vq.map(p => p[1])), zV = vb.z_inf - D.z_piso;
+    const cq = (Es.muro_norte || Es.muro).pts.map(loc), c0 = Math.min(...cq.map(p => p[1])), c1 = Math.max(...cq.map(p => p[1]));   // muro de la caja sobre la VBC
     const Z = z => -z, FS = 11, horm = 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1.2', soft = 'stroke:var(--fig-soft);stroke-width:.8';
     svg.setAttribute('viewBox', '-140 -135 960 580');
     const rect = (y0, y1, z0, z1, st) => el('rect', { x: y0, y: Z(z1), width: y1 - y0, height: z1 - z0, style: st }, svg);
     const T = (y, z, t, o) => txt(svg, y, Z(z), t, Object.assign({ 'font-size': FS, class: 'txs' }, o || {}));
     // ejes A y B
     [['A', D.ejes.y.A], ['B', D.ejes.y.B]].forEach(([n, y]) => { el('line', { x1: y, y1: Z(92), x2: y, y2: Z(zE - 30), style: soft + ';stroke-dasharray:14 5 3 5' }, svg); el('circle', { cx: y, cy: Z(108), r: 13, style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.2' }, svg); T(y, 104, n, { 'text-anchor': 'middle', 'font-weight': 700 }); });
-    // losa de fundación y emplantillado, muros de los ejes A y B, losa de techo (con su hueco) y viga de borde del lado A
+    // losa de fundación y emplantillado, muros de los ejes A y B y losa de techo (con su hueco)
     rect(n0 - mF, s1 + mF, zE, zF, 'fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:.8'); rect(n0 - mF, s1 + mF, zF, zP, horm);
-    rect(n0, n1, zP, 0, horm); rect(s0, s1, zP, 0, horm); rect(n1, yH0, -eL, 0, horm); rect(v0, v1, zV, -eL, horm);
+    rect(n0, n1, zP, 0, horm); rect(s0, s1, zP, 0, horm); rect(n1, yH0, -eL, 0, horm);
+    el('rect', { x: v0, y: Z(0) + 1.5, width: v1 - v0 - 1.5, height: eL - 3, style: 'fill:none;stroke:var(--fig-ink);stroke-width:.8;stroke-dasharray:5 3' }, svg);   // VBC botada: el mismo canto de la losa, sin caída
+    // pilar de la esquina del hueco: queda entre el plano del corte y el eje 4 (7,5 al lado del tramo), se dibuja proyectado en punteado, con sus placas de base y de cabeza
+    const PE = H.pilar_escalera, peY = PE ? PE.pts.map(loc).map(p => p[1]) : null;
+    if (PE) { const p0 = Math.min(...peY), p1 = Math.max(...peY), pb = PE.placa_base, zb0 = pb.z_inf - D.z_piso, zb1 = pb.z_sup - D.z_piso, zc1 = PE.placa_cabeza.z_inf - D.z_piso, hb = pb.lado / 2, yc = (p0 + p1) / 2;
+      const dsh = 'fill:none;stroke:var(--fig-pilar);stroke-width:1.2;stroke-dasharray:6 3';
+      el('rect', { x: p0, y: Z(zc1), width: p1 - p0, height: zc1 - zb1, style: dsh }, svg); el('rect', { x: yc - hb, y: Z(zb1), width: 2 * hb, height: zb1 - zb0, style: 'fill:var(--fig-pilar);stroke:none;opacity:.8' }, svg); el('rect', { x: yc - hb, y: Z(zc1 + PE.placa_cabeza.espesor), width: 2 * hb, height: PE.placa_cabeza.espesor, style: 'fill:var(--fig-pilar);stroke:none;opacity:.8' }, svg); }
     // escalera: peldaños de huella hu y contrahuella ch, sobre una losa inclinada de 15, del muro del eje B al piso del búnker
     const pts = [[yT, 0]]; for (let i = 0; i < N; i++) { const y = yT - i * hu; pts.push([y - hu, -i * ch], [y - hu, -(i + 1) * ch]); }
     const k = ch / hu, zU = -ch - 15 * Math.hypot(1, k), yU = yT - (zU - zP) / k;   // cara inferior de la losa de 15, paralela a la línea de las narices
@@ -832,7 +889,7 @@ ol.preg li{margin:0 0 8px}
     el('polygon', { points: pts.map(([y, z]) => `${y},${Z(z)}`).join(' '), style: horm }, svg);
     // caja de la escalera sobre la losa (muro hacia la minicocina, cortado) y tabique B con la puerta con llave desde el distribuidor
     const zig = (y0, y1, z) => el('polyline', { points: [0, 1, 2, 3, 4, 5, 6].map(i => `${y0 + (y1 - y0) * i / 6},${Z(z + (i % 2 ? 4 : -4))}`).join(' '), style: 'fill:none;stroke:var(--fig-ink);stroke-width:1' }, svg);
-    rect(v0 + 2, v1, 0, 120, horm); zig(v0 + 2, v1, 120);
+    rect(c0, c1, 0, 120, horm); zig(c0, c1, 120);
     el('line', { x1: s1, y1: Z(0), x2: 812, y2: Z(0), style: 'stroke:var(--fig-ink);stroke-width:1.5' }, svg);
     // flecha "baja" sobre la escalera
     const fy0 = yT - 45, fy1 = yH0 + 85, fz = y => -(yT - y) * k + 58;
@@ -844,13 +901,17 @@ ol.preg li{margin:0 0 8px}
     cota(svg, yP, Z(zE - 28), yT, Z(zE - 28), `${coma(tr.largo, 0)} = ${N} huellas de ${coma(hu, 1)}`, 0, FS);
     cota(svg, 760, Z(0), 760, Z(zP), `${coma(-zP, 0)}`, 0, FS);
     const zN = y => -(yT - y) * k;   // línea de las narices
-    cota(svg, yH0, Z(zV), yH0, Z(zN(yH0)), `${coma((zV - zN(yH0)) / 100, 2)} libres`, 0, FS);   // bajo la cara de la viga de borde, hasta la línea de las narices
+    // altura libre en el borde del hueco: de la línea de las narices (obra gruesa) a la cara inferior de la losa (la VBC va dentro de ella); el número va al lado, sobre el tramo (en la línea lo cruzaba el pilar proyectado)
+    const TCe = (D.parametros.terminaciones || {}).cielo || 0, libre = zV - zN(yH0);
+    cota(svg, yH0, Z(zV), yH0, Z(zN(yH0)), '', 0, FS);
+    T(yH0 + 8, zV - 20, `${coma(libre / 100, 2)} libres a la losa`, {}); T(yH0 + 8, zV - 36, `${coma((libre - TCe) / 100, 2)} hasta el cielo`, {});   // arriba, junto a la losa: más abajo los cruzaba la flecha
     // niveles
     [[0, '0,00'], [-eL, coma(-eL, 0)], [zP, `${coma(zP, 0)} piso`], [zF, `${coma(zF, 0)} / ${coma(zE, 0)} sello`]].forEach(([z, t]) => { el('line', { x1: -132, y1: Z(z), x2: n0 - mF - 6, y2: Z(z), style: soft }, svg); T(-130, z + 4, t); });
     el('line', { x1: -132, y1: Z(zE), x2: n0 - mF - 6, y2: Z(zE), style: soft }, svg);
     // rótulos
     T((n1 + v0) / 2, -eL / 2 - 4, `losa e=${coma(eL, 0)}`, { 'text-anchor': 'middle' });
-    T(v0 - 6, zV - 14, 'viga de borde 25/45', { 'text-anchor': 'end' });
+    T(v0 - 6, zV - 14, `VBC ${vb.nombre.replace(/^Viga botada /, '')} botada`, { 'text-anchor': 'end' });
+    if (PE) { const yp = Math.min(...peY) - 6; T(yp, -150, `pilar ${PE.perfil.replace('CUAD ', '')}`, { 'text-anchor': 'end' }); T(yp, -166, `proyectado (queda ${coma(Math.min(...Es.pts.map(q => q[0])) - Math.max(...PE.pts.map(q => q[0])), 1)}`, { 'text-anchor': 'end' }); T(yp, -182, 'al lado del tramo)', { 'text-anchor': 'end' }); }
     [[n0, n1, 'muro eje A'], [s0, s1, 'muro eje B']].forEach(([a, b, t]) => { const y = (a + b) / 2 + 4, z = zP / 2; txt(svg, y, Z(z), t, { 'text-anchor': 'middle', 'font-size': FS, class: 'txs', transform: `rotate(-90 ${y} ${Z(z)})` }); });
     T((n0 + s1) / 2 + 60, (zP + zF) / 2 - 4, `losa de fundación e=${coma(zP - zF, 0)}`, { 'text-anchor': 'middle' });
     T(yT - 150, zP + 52, 'escalera de hormigón', { 'text-anchor': 'middle', 'font-weight': 600 });
@@ -858,7 +919,7 @@ ol.preg li{margin:0 0 8px}
     T(yT - 150, zP + 16, 'sobre una losa inclinada de 15', { 'text-anchor': 'middle' });
     T(s1 + 8, 30, 'distribuidor', {}); T(s1 + 8, 12, 'puerta con llave', {});
     T(v0 - 8, 92, 'muro de la caja', { 'text-anchor': 'end' });
-    $('#cap-escalera').innerHTML = `<b>Corte de la escalera al búnker</b> · a lo largo de la escalera, mirando hacia el eje 5 · se entra desde el distribuidor por la puerta con llave del tabique B y se baja hacia el eje A: ${N} contrahuellas de ${coma(ch, 1)} (${coma(-zP, 0)} en total) y ${N} huellas de ${coma(hu, 1)}; el último metro va bajo la losa · medidas en cm`;
+    $('#cap-escalera').innerHTML = `<b>Corte de la escalera al búnker</b> · a lo largo de la escalera, mirando hacia el eje 5 · se entra desde el distribuidor por la puerta con llave del tabique B y se baja hacia el eje A: ${N} contrahuellas de ${coma(ch, 1)} (${coma(-zP, 0)} en total) y ${N} huellas de ${coma(hu, 1)}; el último metro va bajo la losa · el borde del hueco del lado del eje A es la VBC ${vb.nombre.replace(/^Viga botada /, '')}, botada dentro de la losa (sin caída), y en la esquina del hueco va el pilar ${PE ? PE.perfil : ''} (ingeniero, 25/26-10-2026; medidas: propuesta) · altura libre ${coma(libre / 100, 2)} de la línea de las narices de obra gruesa a la losa (antes 2,31 bajo la viga de borde 25/45); cada cm de terminación en los peldaños la baja 1 cm · medidas en cm`;
   })();
 
   // ---------- elevaciones ----------
@@ -884,11 +945,12 @@ ol.preg li{margin:0 0 8px}
       cota(svg, by0 + H.muros.espesor, Y(zp), by0 + H.muros.espesor, Y(zl), coma(H.interior.alto, 0) + ' OG', 90, 15 * FE);
       txt(svg, (by0 + by1) / 2, Y(zp / 2) + 6, 'búnker', { 'text-anchor': 'middle', 'font-size': 17 * FE, class: 'txs' });
       txt(svg, by0 - 8, Y(zp) + 5, '−' + coma(-zp, 0) + ' piso', { 'text-anchor': 'end', 'font-size': 14 * FE, class: 'txs' });
-    } else if (Math.abs(valor - D.ejes.y.B) < 6) {
-      // eje B: el muro sur del búnker en corte, hasta la losa de fundación
+    } else if (Math.abs(valor - D.ejes.y.B) < 6 || Math.abs(valor - D.ejes.y.A) < 6) {
+      // ejes A y B: el muro del búnker en corte, hasta la losa de fundación (el del eje A desde el 27-10-2026, con la elevación del eje A); largo del muro del modelo
+      const eA = Math.abs(valor - D.ejes.y.A) < 6, mu = H.muros.piezas.find(z => z.id === (eA ? 'M-N' : 'M-S')), mx = mu ? mu.pts.map(loc).map(p => p[0]) : [-12.5, largoT + 12.5];
       const zf = H.niveles ? H.niveles.zapata_sup : -(H.losa.espesor + H.interior.alto + (H.piso ? H.piso.espesor : 0));
-      el('rect', { x: -12.5, y: Y(0), width: largoT + 25, height: -zf, style: 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1.2' }, svg);
-      txt(svg, largoT / 2, Y(zf / 2) + 6, 'muro del eje B del búnker (e=' + coma(H.muros.espesor, 0) + ')', { 'text-anchor': 'middle', 'font-size': 15 * FE, class: 'txs' });
+      el('rect', { x: Math.min(...mx), y: Y(0), width: Math.max(...mx) - Math.min(...mx), height: -zf, style: 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1.2' }, svg);
+      txt(svg, largoT / 2, Y(zf / 2) + 6, 'muro del eje ' + (eA ? 'A' : 'B') + ' del búnker (e=' + coma(H.muros.espesor, 0) + ')', { 'text-anchor': 'middle', 'font-size': 15 * FE, class: 'txs' });
     }
     // fundaciones del ingeniero en este eje (lámina 01 rev 1): sobrecimiento + cimiento corrido, CF 25/50, zapata corrida del búnker, emplantillados
     const enEje = pts => pts.map(loc).every(p => Math.abs(p[horiz === 'x' ? 0 : 1] - valor) < 60);
@@ -898,7 +960,7 @@ ol.preg li{margin:0 0 8px}
     if (H.cimiento) { H.cimiento.sobrecimiento.piezas.filter(z => enEje(z.pts)).forEach(z => cajaF(z.pts, zl(z.z_sup), zl(z.z_inf), estH)); H.cimiento.zapata.piezas.filter(z => enEje(z.pts)).forEach(z => cajaF(z.pts, zl(z.z_sup), zl(z.z_inf), estH)); H.cimiento.emplantillado.piezas.filter(z => enEje(z.pts)).forEach(z => cajaF(z.pts, zl(z.z_sup), zl(z.z_inf), estE)); }
     if (H.cf) { H.cf.piezas.filter(z => enEje(z.pts)).forEach(z => cajaF(z.pts, zl(z.z_sup), zl(z.z_inf), estH)); H.cf.emplantillado.piezas.filter(z => enEje(z.pts)).forEach(z => cajaF(z.pts, zl(H.cf.emplantillado.z_sup), zl(H.cf.emplantillado.z_inf), estE)); }
     if (H.zapata_corrida && horiz === 'x') { const Zc = H.zapata_corrida; Zc.piezas.filter(z => z.id === 'ZC-O' || z.id === 'ZC-E').forEach(z => { if (enEje(z.pts)) { cajaF(z.pts, zl(Zc.z_sup), zl(Zc.z_inf), estH); cajaF(z.pts, zl(Zc.emplantillado.z_sup), zl(Zc.emplantillado.z_inf), estE); } }); }
-    if (H.zapata_corrida && horiz === 'y' && Math.abs(valor - D.ejes.y.B) < 6) { const Zc = H.zapata_corrida, zs = Zc.piezas.find(z => z.id === 'ZC-S'); cajaF(zs.pts, zl(Zc.z_sup), zl(Zc.z_inf), estH); cajaF(zs.pts, zl(Zc.emplantillado.z_sup), zl(Zc.emplantillado.z_inf), estE); }
+    if (H.zapata_corrida && horiz === 'y' && (Math.abs(valor - D.ejes.y.B) < 6 || Math.abs(valor - D.ejes.y.A) < 6)) { const Zc = H.zapata_corrida, zs = Zc.piezas.find(z => z.id === (Math.abs(valor - D.ejes.y.A) < 6 ? 'ZC-N' : 'ZC-S')); cajaF(zs.pts, zl(Zc.z_sup), zl(Zc.z_inf), estH); cajaF(zs.pts, zl(Zc.emplantillado.z_sup), zl(Zc.emplantillado.z_inf), estE); }
     // ventanas y puertas propuestas en este eje (sección 04)
     const kE = horiz === 'x' ? 0 : 1;   // los vanos de este eje, por su posición (no por el nombre del muro)
     // rótulo de cada vano (Gabriel, 24-10-2026: "arregla ese tipo de cosas", los nombres de las puertas se salían de su rectángulo): adentro, al pie, si cabe con aire (ventanas);
@@ -929,6 +991,32 @@ ol.preg li{margin:0 0 8px}
     }));
     // costaneras se ven como puntos en las elevaciones N-S: se dibuja la línea de techo
     if (horiz === 'x') { const cab = sel.find(x => x.c === 'cabio'); if (cab) { const a = loc(cab.a), b = loc(cab.b); el('line', { x1: u(a), y1: Y(a[2] + 20), x2: u(b), y2: Y(b[2] + 20), style: 'stroke:var(--fig-techo);stroke-width:2' }, svg); } }
+    // perfil de cada cruz sobre el dibujo (27-10-2026: cruz C–C2 nueva en las fachadas 1 y 5, la del eje A 4-5 en C 150x50x4 y la faja de tensores Fe 22 del eje E):
+    // al centro de la X sobre una placa del color del papel; si no cabe a lo ancho, girado a lo largo del tramo; la faja de tensores (60 cm), encima de lo más alto del tramo
+    const FSX = Math.max(14 * FE, 14 / KE) + 0.5, nomP = p => p.replace(/^FE (\d+)/, 'Fe $1');
+    const grX = {}; sel.filter(x => x.c === 'diagonal').forEach(mb => { const k = mb.id.replace(/[ab]$/, ''); (grX[k] = grX[k] || []).push(mb); });
+    Object.values(grX).forEach(g => {
+      const us = g.flatMap(mb => [u(loc(mb.a)), u(loc(mb.b))]), zs = g.flatMap(mb => [loc(mb.a)[2], loc(mb.b)[2]]), u0 = Math.min(...us), u1 = Math.max(...us), uc = (u0 + u1) / 2;
+      if (g[0].p.startsWith('FE')) {
+        const zt = Math.max(...sel.filter(x => Math.min(u(loc(x.a)), u(loc(x.b))) < u1 - 1 && Math.max(u(loc(x.a)), u(loc(x.b))) > u0 + 1).flatMap(x => [loc(x.a)[2], loc(x.b)[2]]));
+        txt(svg, uc, Y(zt) - 18, `X ${nomP(g[0].p)} con templador`, { 'text-anchor': 'middle', 'font-size': FSX, class: 'tx' });
+        return;
+      }
+      const zc = (Math.min(...zs) + Math.max(...zs)) / 2, t = txt(svg, uc, Y(zc), nomP(g[0].p), { 'text-anchor': 'middle', 'font-size': FSX, class: 'tx' }), bb = t.getBBox();
+      t.setAttribute('y', 2 * Y(zc) - (bb.y + bb.height / 2));   // centrado en la vertical del centro de la X
+      if (bb.width + 24 > u1 - u0 - 15) t.setAttribute('transform', `rotate(-90 ${uc} ${Y(zc)})`);
+      const b2 = t.getBBox(); svg.insertBefore(el('rect', { x: b2.x - 6, y: b2.y - 2, width: b2.width + 12, height: b2.height + 4, style: 'fill:var(--paper);stroke:none', transform: t.getAttribute('transform') || '' }), t);
+    });
+    // nudos con unión de momento UM (cordón soldado a momento al pilar con 2 planchas de 8, ejes 2 y 3 en B y E): círculo en el nudo y su marca (detalle UM)
+    let nUM = 0;
+    if (horiz === 'x') (D.uniones || []).forEach(un => {
+      const pm = D.miembros.find(x => x.id === un.pilar); if (!pm || Math.abs(loc(pm.a)[0] - valor) > 6) return; nUM++;
+      const un0 = u(loc(pm.a)), zn = loc([0, 0, Math.min(un.cajas[0].a[2], un.cajas[0].b[2])])[2] + 7.5, rr = 42, rU = 22 * FE * 0.8, bx = un0 - 135, bz = zn - 125, d = Math.hypot(un0 - bx, zn - bz);
+      el('circle', { cx: un0, cy: Y(zn), r: rr, style: 'fill:none;stroke:var(--fig-ink);stroke-width:2' }, svg);
+      el('line', { x1: bx + (un0 - bx) * rU / d, y1: Y(bz + (zn - bz) * rU / d), x2: un0 - (un0 - bx) * rr / d, y2: Y(zn - (zn - bz) * rr / d), style: 'stroke:var(--fig-ink);stroke-width:1.5' }, svg);
+      el('circle', { cx: bx, cy: Y(bz), r: rU, style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:2' }, svg);
+      txt(svg, bx, Y(bz) + 7 * FE * 0.8, 'UM', { 'text-anchor': 'middle', 'font-size': 19 * FE * 0.8, 'font-weight': 700 });
+    });
     // rótulos de perfiles (uno por tipo) y ejes
     const tipos = {}; sel.forEach(x => { tipos[x.p] = (tipos[x.p] || 0) + 1; });
     const ejesOtro = horiz === 'x' ? D.ejes.y : D.ejes.x;
@@ -938,12 +1026,136 @@ ol.preg li{margin:0 0 8px}
     const p0 = sel.filter(x => x.c === 'pilar').sort((a, b) => u(loc(a.a)) - u(loc(b.a)))[0]; const hp = p0 ? loc(p0.b)[2] - loc(p0.a)[2] : P.h_pilar;
     cota(svg, 0, Y(0), 0, Y(hp), coma(hp, 0), -55, 15 * FE);
     const cab = sel.find(x => x.c === 'cabio'); if (cab) { const b = loc(cab.b); txt(svg, u(b) - 10, Y(b[2] + 20) - 14, '+' + coma(b[2], 0), { 'text-anchor': 'end', 'font-size': 14 * FE, class: 'txs' }); const a = loc(cab.a); txt(svg, u(a) + 10, Y(a[2] + 20) - 14, '+' + coma(a[2], 0), { 'font-size': 14 * FE, class: 'txs' }); }   // sobre la línea del techo, no tachados
-    cap.innerHTML = `<b>${titulo}</b> · ${Object.entries(tipos).map(([p, n]) => `${p} (${n})`).join(', ')}.`;
+    cap.innerHTML = `<b>${titulo}</b> · ${Object.entries(tipos).map(([p, n]) => `${nomP(p)} (${n})`).join(', ')}.${nUM ? ' <b>UM</b>: cordón soldado a momento al pilar con 2 planchas de 8 (detalle UM, más abajo).' : ''}`;
     return fig;
+  }
+  // ---------- detalle UM (27-10-2026): unión de momento del cordón con los pilares B y E de los marcos 2 y 3 ----------
+  // ingeniero V121: «reforzar unión de momento en pilares con plancha e=8 mm … considerar soldadura AWS 6011». Planchas, nudos y D/C del modelo (DATA.uniones);
+  // soldaduras y secuencia del diseño del 27-10-2026 (calculo/union_cordon). Escala 1:5 (corte 1-1 al doble), cotas en mm, niveles desde el NPOG 0,00
+  function detalleUM(cont) {
+    const U = D.uniones || [], uB = U.find(x => x.tipo === 'cruz'), uE = U.find(x => x.tipo === 'T'); if (!uB || !uE) return;
+    const mbr = id => D.miembros.find(x => x.id === id) || {}, dimP = p => D.perfiles[p] || {};
+    const prP = mbr(uB.pilar).p, prC = (D.miembros.find(x => /^VC-2/.test(x.id)) || {}).p, prV = (D.miembros.find(x => /^VT-B/.test(x.id)) || {}).p;
+    const PI = dimP(prP), CO = dimP(prC), VTd = dimP(prV), ap = PI.b * 5, tpi = PI.t * 10, hc = CO.b * 10, tco = CO.t * 10, av = VTd.b * 5;   // mm: pilar ±75 (pared 5), cordón acostado ±75 × 100 (pared 3), VT ±50
+    const plc = (un, eje) => { const c = un.cajas[0], y = [c.a[1], c.b[1]].map(v => (v - oy - eje) * 10); return { y0: Math.min(...y), y1: Math.max(...y), h: Math.abs(c.b[2] - c.a[2]) * 10, t: Math.abs(c.b[0] - c.a[0]) * 10 }; };
+    const gB = plc(uB, D.ejes.y.B), gE = plc(uE, D.ejes.y.E), z0 = P.z_viga_inf * 10, zc1 = z0 + hc, zp1 = z0 + gE.h, ex = ap + gE.t;   // 4110 · 4210 · 4260 · cara de afuera de la plancha (83)
+    const PTU = P.terminaciones || {}, nudos = t => U.filter(x => x.tipo === t).map(x => x.id.replace('UM-', '')).join(' y ');
+    const fig = document.createElement('figure'); fig.id = 'detalle-um'; fig.style.setProperty('--w', '1240px');
+    const VW = 2480, VH = 2010, FS = 28, s = 1.2, sc = 2.6;   // 2480 de ancho a 1240 px: letra de 28 = 14 px; 1,2 por mm (1:5) y 2,6 en el corte
+    const svg = el('svg', { role: 'img', 'aria-label': 'Detalle UM: unión de momento del cordón con los pilares B y E de los marcos 2 y 3', viewBox: `0 0 ${VW} ${VH}` }); fig.appendChild(svg);
+    const cap = document.createElement('figcaption'); fig.appendChild(cap); cont.appendChild(fig);
+    const S = { pil: 'fill:var(--fig-pilar);fill-opacity:.16;stroke:var(--fig-ink);stroke-width:2', cor: 'fill:var(--fig-viga);fill-opacity:.16;stroke:var(--fig-ink);stroke-width:2', pla: 'fill:var(--fig-ink);fill-opacity:.12;stroke:var(--fig-ink);stroke-width:2.6',
+      plaC: 'fill:var(--fig-ink);fill-opacity:.6;stroke:var(--fig-ink);stroke-width:1.2', vt: 'fill:var(--fig-viga);fill-opacity:.32;stroke:var(--fig-ink);stroke-width:1.6', hue: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1',
+      sold: 'stroke:var(--fig-sold);stroke-width:7;fill:none', soldF: 'fill:var(--fig-sold);stroke:none', ocu: 'fill:none;stroke:var(--fig-soft);stroke-width:1.6;stroke-dasharray:10 6', eje: 'stroke:var(--fig-soft);stroke-width:1.2;stroke-dasharray:26 8 4 8', fina: 'stroke:var(--fig-soft);stroke-width:1.2', lid: 'stroke:var(--fig-ink);stroke-width:1.3' };
+    const rc = (xa, ya, xb, yb, st, rx) => el('rect', Object.assign({ x: Math.min(xa, xb), y: Math.min(ya, yb), width: Math.abs(xb - xa), height: Math.abs(yb - ya), style: st }, rx ? { rx } : {}), svg);
+    const ln = (x1, y1, x2, y2, st) => el('line', { x1, y1, x2, y2, style: st }, svg);
+    const T = (x, y, t, o) => txt(svg, x, y, t, Object.assign({ 'font-size': FS }, o || {}));
+    const tit = (x, y, t) => T(x, y, t, { 'font-size': 30, 'font-weight': 700 });
+    const tri = pts => el('polygon', { points: pts.map(q => q.join(',')).join(' '), style: S.soldF }, svg);
+    // quiebre (pieza cortada): en zigzag a lo ancho de la pieza; V = línea vertical en x (piezas horizontales), H = horizontal en y (pilares)
+    const zz = p => el('polyline', { points: p.map(q => q.join(',')).join(' '), style: 'fill:none;stroke:var(--fig-ink);stroke-width:1.6' }, svg);
+    const quiebreV = (x, ya, yb) => { const m = (ya + yb) / 2; zz([[x, Math.min(ya, yb) - 14], [x, m - 12], [x - 12, m - 4], [x + 12, m + 4], [x, m + 12], [x, Math.max(ya, yb) + 14]]); };
+    const quiebreH = (y, xa, xb) => { const m = (xa + xb) / 2; zz([[Math.min(xa, xb) - 14, y], [m - 12, y], [m - 4, y - 12], [m + 4, y + 12], [m + 12, y], [Math.max(xa, xb) + 14, y]]); };
+    // marca numerada (la tabla de abajo dice qué es) con su línea a la pieza
+    const marca = (n, cx, cy, px, py) => { if (px != null) { const d = Math.hypot(px - cx, py - cy); ln(cx + (px - cx) * 22 / d, cy + (py - cy) * 22 / d, px, py, S.lid); el('circle', { cx: px, cy: py, r: 4, style: 'fill:var(--fig-ink)' }, svg); }
+      el('circle', { cx, cy, r: 22, style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.6' }, svg); T(cx, cy + 10, String(n), { 'text-anchor': 'middle', 'font-weight': 700 }); };
+    const ejeB = (x, y, n, r) => { el('circle', { cx: x, cy: y, r: r || 28, style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.6' }, svg); T(x, y + 10, n, { 'text-anchor': 'middle', 'font-weight': 600 }); };
+    const nv = z => '+' + coma(z / 1000, z % 10 ? 3 : 2);
+    const nivel = (xt, y, z, xg, txtExtra, izq) => { ln(izq ? xt + 6 : xg, y, izq ? xg : xt - 6, y, 'stroke:var(--fig-soft);stroke-width:1;stroke-dasharray:6 5'); T(xt, y + 10, nv(z) + (txtExtra || ''), { 'text-anchor': izq ? 'end' : 'start', class: 'txs' }); };
+    // cota horizontal: línea, topes y texto encima; si el texto no cabe, al lado (lado 'izq' o 'der'); yRef: desde dónde suben las líneas de extensión
+    const cotaH = (xa, xb, y, t, yRef, lado) => { ln(xa, y, xb, y, S.fina); [xa, xb].forEach(x => { ln(x - 7, y + 7, x + 7, y - 7, 'stroke:var(--fig-ink);stroke-width:1.6'); if (yRef != null) ln(x, yRef - 6, x, y - 10, 'stroke:var(--fig-soft);stroke-width:.9'); });
+      const te = T((xa + xb) / 2, y - 9, t, { 'text-anchor': 'middle', class: 'txs' }), w = te.getBBox().width;
+      if (w + 12 > Math.abs(xb - xa) || lado) { const der = lado !== 'izq'; te.setAttribute('x', der ? Math.max(xa, xb) + 10 : Math.min(xa, xb) - 10); te.setAttribute('y', y + 10); te.setAttribute('text-anchor', der ? 'start' : 'end'); } };
+    // 1) elevación UM-E (tipo T, pilar de fachada): se mira el marco a lo largo de x, eje E a la derecha; la VT-E en corte
+    { const X = y => 830 + y * s, Z = z => 640 - (z - z0) * s, g = gE;
+      tit(200, 60, `Elevación UM-E · nudos ${nudos('T')} (tipo T)`);
+      ln(X(0), Z(4500), X(0), 870, S.eje); ejeB(X(0), 905, 'E');
+      rc(X(-ap), Z(3950), X(ap), Z(4450), S.pil); quiebreH(Z(4450), X(-ap), X(ap)); quiebreH(Z(3950), X(-ap), X(ap));
+      rc(X(-525), Z(z0), X(-ap), Z(zc1), S.cor); quiebreV(X(-525), Z(zc1), Z(z0));
+      rc(X(g.y0), Z(z0), X(g.y1), Z(z0 + g.h), S.pla);
+      rc(X(-av), Z(z0), X(av), Z(z0 + 2 * av), S.vt); rc(X(-av + tco), Z(z0 + tco), X(av - tco), Z(z0 + 2 * av - tco), S.hue);
+      ln(X(g.y0), Z(zc1), X(-ap), Z(zc1), S.sold); ln(X(g.y0), Z(z0 + 6), X(g.y0), Z(zc1 - 6), S.sold);
+      ln(X(-ap), Z(z0), X(g.y1 - 10), Z(z0), S.sold); ln(X(-ap), Z(z0 + g.h), X(g.y1 - 10), Z(z0 + g.h), S.sold); ln(X(g.y1), Z(z0), X(g.y1), Z(z0 + g.h), S.sold);
+      [[z0, 1], [zc1, -1]].forEach(([z, k]) => tri([[X(-ap) - 11, Z(z)], [X(-ap), Z(z)], [X(-ap), Z(z) + 11 * k]]));
+      cotaH(X(g.y0), X(g.y1), 104, coma(g.y1 - g.y0, 0), Z(zp1)); cotaH(X(g.y0), X(-ap), 150, coma(-ap - g.y0, 0), Z(zp1)); cotaH(X(-ap), X(g.y1), 150, coma(g.y1 + ap, 0), Z(zp1)); cotaH(X(g.y1), X(ap), 150, coma(ap - g.y1, 0), Z(zp1), 'der');
+      nivel(188, Z(zp1), zp1, X(g.y0), '', true); nivel(188, Z(zc1), zc1, X(-525), '', true); nivel(188, Z(z0), z0, X(-525), '', true);
+      // corte 1-1: a 100 de la cara del pilar, mirando hacia él
+      const xs = X(-ap - 100); [[Z(4340), Z(4300)], [Z(4040), Z(4080)]].forEach(([ya, yb]) => { ln(xs, ya, xs, yb, 'stroke:var(--fig-ink);stroke-width:4'); ln(xs, ya, xs + 36, ya, 'stroke:var(--fig-ink);stroke-width:2'); el('polygon', { points: `${xs + 46},${ya} ${xs + 32},${ya - 7} ${xs + 32},${ya + 7}`, style: 'fill:var(--fig-ink)' }, svg); T(xs + 56, ya + 10, '1', { 'font-weight': 700 }); });
+      marca(1, 990, 300, X(40), 300); marca(2, 266, 760, 266, Z(4140)); marca(3, 400, 330, 420, Z(4240)); marca(4, 990, 580, X(30), 580);
+      marca(5, 560, 330, 560, Z(zc1)); marca(6, 340, 760, X(g.y0), Z(4145)); marca(7, 990, 440, X(g.y1), Z(4200)); marca(8, 700, 790, X(-ap), Z(z0)); }
+    // 2) elevación UM-B (tipo cruz): una plancha continua por lado, sin soldadura vertical sobre el pilar
+    { const X = y => 1786 + y * s, Z = z => 640 - (z - z0) * s, g = gB;
+      tit(1180, 60, `Elevación UM-B · nudos ${nudos('cruz')} (tipo cruz)`);
+      ln(X(0), Z(4470), X(0), 870, S.eje); ejeB(X(0), 905, 'B');
+      rc(X(-ap), Z(3950), X(ap), Z(4420), S.pil); quiebreH(Z(4420), X(-ap), X(ap)); quiebreH(Z(3950), X(-ap), X(ap));
+      [-1, 1].forEach(k => { rc(X(-505 * k), Z(z0), X(-ap * k), Z(zc1), S.cor); quiebreV(X(505 * k), Z(zc1), Z(z0)); });
+      rc(X(g.y0), Z(z0), X(g.y1), Z(z0 + g.h), S.pla);
+      rc(X(-av), Z(z0), X(av), Z(z0 + 2 * av), S.vt); rc(X(-av + tco), Z(z0 + tco), X(av - tco), Z(z0 + 2 * av - tco), S.hue);
+      [-1, 1].forEach(k => { ln(X(g.y1 * k), Z(zc1), X(ap * k), Z(zc1), S.sold); ln(X(g.y1 * k), Z(z0 + 6), X(g.y1 * k), Z(zc1 - 6), S.sold);
+        [[z0, 1], [zc1, -1]].forEach(([z, q]) => tri([[X(ap * k) + 11 * k, Z(z)], [X(ap * k), Z(z)], [X(ap * k), Z(z) + 11 * q]])); });
+      ln(X(-ap + 10), Z(z0), X(ap - 10), Z(z0), S.sold); ln(X(-ap + 10), Z(z0 + g.h), X(ap - 10), Z(z0 + g.h), S.sold);
+      cotaH(X(g.y0), X(g.y1), 104, coma(g.y1 - g.y0, 0), Z(zp1)); cotaH(X(g.y0), X(-ap), 150, coma(-ap - g.y0, 0), Z(zp1)); cotaH(X(-ap), X(ap), 150, coma(2 * ap, 0), Z(zp1)); cotaH(X(ap), X(g.y1), 150, coma(g.y1 - ap, 0), Z(zp1));
+      nivel(1168, Z(zp1), zp1, X(g.y0), '', true); nivel(1168, Z(zc1), zc1, X(-505), '', true); nivel(1168, Z(z0), z0, X(-505), '', true);
+      marca(1, 1990, 300, X(40), 300); marca(2, 1230, 760, 1230, Z(4140)); marca(3, 1420, 330, 1440, Z(4240)); marca(4, 1640, 790, X(-35), Z(4130));
+      marca(5, 1560, 330, 1560, Z(zc1)); marca(6, 1310, 790, X(g.y0), Z(4145)); marca(7, 1990, 440, X(60), Z(zp1)); marca(8, 1640, 330, X(-ap), Z(zc1)); }
+    // 3) corte 1-1 (doble escala): cordón con sus esquinas redondeadas, las 2 planchas a ras abajo, el canal de arriba relleno + filete 3; el pilar detrás (oculto); el cielo bajo +4,11
+    { const X = x => 560 + x * sc, Z = z => 1640 - (z - z0) * sc;
+      tit(150, 1010, 'Corte 1-1 · a 100 de la cara del pilar (doble escala)');
+      [-1, 1].forEach(k => ln(X(ap * k), Z(4300), X(ap * k), Z(4030), S.ocu));
+      [-1, 1].forEach(k => { rc(X(ex * k), Z(z0), X((ex + 50) * k), Z(zc1), S.vt); quiebreV(X((ex + 50) * k), Z(zc1), Z(z0)); });
+      el('rect', { x: X(-ap), y: Z(zc1), width: 2 * ap * sc, height: hc * sc, rx: 2 * tco * sc, style: S.cor }, svg);
+      el('rect', { x: X(-ap + tco), y: Z(zc1 - tco), width: (2 * ap - 2 * tco) * sc, height: (hc - 2 * tco) * sc, rx: tco * sc, style: S.hue }, svg);
+      [-1, 1].forEach(k => rc(X(ap * k), Z(z0), X(ex * k), Z(zp1), S.plaC));
+      const r6 = 2 * tco; [-1, 1].forEach(k => el('path', { d: `M${X(k * (ap - r6))},${Z(zc1)} L${X(k * (ap - tco))},${Z(zc1)} L${X(k * ap)},${Z(zc1 + tco)} L${X(k * ap)},${Z(zc1 - r6)} Q${X(k * ap)},${Z(zc1)} ${X(k * (ap - r6))},${Z(zc1)} Z`, style: S.soldF }, svg));
+      const perf = 10 * ((PTU.capas && PTU.capas.cielo) ? PTU.capas.cielo[1][1] : 4), yeso = 10 * ((PTU.capas && PTU.capas.cielo) ? PTU.capas.cielo[0][1] : 1.5);
+      rc(X(-160), Z(z0), X(160), Z(z0 - perf), 'fill:none;stroke:var(--fig-ink);stroke-width:1;stroke-dasharray:6 4'); rc(X(-160), Z(z0 - perf), X(160), Z(z0 - perf - yeso), 'fill:#E8D9B0;stroke:var(--fig-ink);stroke-width:1');
+      cotaH(X(-ex), X(-ap), 1120, coma(gE.t, 0), Z(zp1), 'izq'); cotaH(X(-ap), X(ap), 1120, coma(2 * ap, 0), Z(zp1)); cotaH(X(ap), X(ex), 1120, coma(gE.t, 0), Z(zp1), 'der');
+      nivel(990, Z(zp1), zp1, X(ex) + 6); nivel(990, Z(zc1), zc1, X(ex + 50) + 18); nivel(990, Z(z0), z0, X(160) + 6); nivel(990, Z(z0 - perf - yeso), z0 - perf - yeso, X(160) + 6, ' cielo');
+      marca(1, 250, 1180, X(-ap), 1180); marca(2, 560, 1510); marca(3, 860, 1210, X(ap + 4), Z(4240)); marca(4, 200, 1300, X(-ex - 25), Z(4160));
+      marca(5, 660, 1200, X(ap - 2), Z(zc1 + 1)); ln(660 - 22, 1200, X(-ap + 2), Z(zc1 + 1), S.lid); el('circle', { cx: X(-ap + 2), cy: Z(zc1 + 1), r: 4, style: 'fill:var(--fig-ink)' }, svg);
+      marca(9, 300, 1840, 300, Z(z0 - perf - yeso / 2)); }
+    // 4) planta a +4,16 de la UM-B (alineada bajo su elevación): pilar, cordones y VT cortados; las planchas a ±75…±83; la VT 8 mm más corta, soldada a la plancha
+    { const X = y => 1786 + y * s, Y = x => 1500 + x * s, g = gB;
+      tit(1180, 1010, `Planta a +4,16 · UM-B (en E, un solo cordón y PL de ${coma(gE.y1 - gE.y0, 0)})`);
+      ln(X(0), 1080, X(0), 1925, S.eje); ejeB(X(0), 1960, 'B'); ln(1160, Y(0), 2410, Y(0), S.eje); ejeB(2444, Y(0), '2-3', 32);
+      [-1, 1].forEach(k => { rc(X(-505 * k), Y(-ap), X(-ap * k), Y(ap), S.cor); rc(X(-505 * k), Y(-ap + tco), X(-ap * k), Y(ap - tco), S.hue); quiebreV(X(505 * k), Y(-ap), Y(ap)); });
+      rc(X(-ap), Y(-ap), X(ap), Y(ap), S.pil); rc(X(-ap + tpi), Y(-ap + tpi), X(ap - tpi), Y(ap - tpi), S.hue);
+      [-1, 1].forEach(k => rc(X(g.y0), Y(ap * k), X(g.y1), Y(ex * k), S.plaC));
+      [-1, 1].forEach(k => { rc(X(-av), Y(ex * k), X(av), Y((ex + 250) * k), S.vt); rc(X(-av + tco), Y(ex * k), X(av - tco), Y((ex + 250) * k), S.hue); quiebreH(Y((ex + 250) * k), X(-av), X(av));
+        [-1, 1].forEach(q => tri([[X(av * q), Y(ex * k)], [X(av * q) + 10 * q, Y(ex * k)], [X(av * q), Y(ex * k) + 10 * k]])); });
+      cotaH(X(g.y0), X(-ap), 1066, coma(-ap - g.y0, 0), Y(-ex)); cotaH(X(-ap), X(ap), 1066, coma(2 * ap, 0), Y(-ex)); cotaH(X(ap), X(g.y1), 1066, coma(g.y1 - ap, 0), Y(-ex));
+      marca(1, 1990, 1650, X(37), Y(50)); marca(2, 1260, 1350, 1260, Y(-60)); marca(3, 1486, 1680, 1486, Y(79)); marca(4, 1620, 1200, X(-40), 1200); marca(10, 1990, 1330, X(av + 2), Y(-ex - 3)); }
+    // tabla de marcas, D/C de cada unión (del modelo) y secuencia de obra
+    const pils = U.map(x => x.pilar).join(', '), kgPL = (D.cubicacion.find(c => /uniones UM/.test(c.perfil)) || {}).kg;
+    const MAR = [
+      ['Pilar', `${prP} A270ES (${pils})`, 'caras a ±75 del eje'],
+      ['Cordón', `${prC} acostado, de ${nv(z0)} a ${nv(zc1)}`, 'llega a tope contra la cara del pilar'],
+      ['Planchas', `2 PL 8 × 150 A270ES por nudo, una a cada lado del cordón, a ras abajo con él (${nv(z0)} a ${nv(zp1)})`, `${coma(gB.y1 - gB.y0, 0)} en B (${coma(-ap - gB.y0, 0)} + ${coma(2 * ap, 0)} + ${coma(gB.y1 - ap, 0)}) · ${coma(gE.y1 - gE.y0, 0)} en E (${coma(-ap - gE.y0, 0)} + ${coma(gE.y1 + ap, 0)}, a ${coma(ap - gE.y1, 0)} de la cara de fachada)`],
+      ['Viga VT', `${prV}, cortada 8 mm más corta`, 'llega a la cara de afuera de la plancha (marca 10)'],
+      ['Plancha–cordón, arriba', 'canal de la esquina relleno a ras + filete 3', '300 por lado; abajo no se suelda'],
+      ['Plancha–cordón, en la punta', 'filete 3 vertical', '88, en la parte plana del costado del cordón'],
+      ['Plancha–pilar', 'filete 5 arriba y abajo; en E también el vertical del extremo', '130 c/u en B · 125 + 125 + 150 en E'],
+      ['Cordón–cara del pilar', 'filete 3 arriba y abajo, en el ancho plano', '138; los costados no (quedan bajo las planchas)'],
+      ['Cielo', `perfilería ${coma(PTU.capas ? PTU.capas.cielo[1][1] * 10 : 40, 0)} + yeso ${coma(PTU.capas ? PTU.capas.cielo[0][1] * 10 : 15, 0)} bajo ${nv(z0)}`, `nada baja de ${nv(z0)}; solo asoman ≤ 5 mm los filetes contra la cara del pilar (pregunta al ingeniero)`],
+      ['VT–plancha', 'filete 3 en 3 lados: arriba y los 2 costados', 'abajo no'],
+    ];
+    const f2 = v => coma(v, 2), dcs = U.map(x => x.dc_max);
+    const info = document.createElement('div'); info.style.cssText = 'flex:1 1 100%;max-width:1240px;min-width:0';
+    info.innerHTML = `<div class="tw"><table><thead><tr><th class="c">Marca</th><th>Pieza o soldadura</th><th>Qué</th><th>Medida (mm)</th></tr></thead><tbody>${MAR.map((r, i) => `<tr><td class="c"><b>${i + 1}</b></td><td><b>${r[0]}</b></td><td>${r[1]}</td><td class="small">${r[2]}</td></tr>`).join('')}</tbody></table></div>
+      <div class="tw"><table><thead><tr><th>Unión</th><th>Tipo</th><th>Planchas</th><th class="r">Sold. al cordón</th><th class="r">Plancha</th><th class="r">Sold. al pilar</th><th class="r">Pilar en el nudo</th><th class="r">D/C máx.</th></tr></thead><tbody>${U.map(x => `<tr><td><b>${x.id}</b></td><td>${x.tipo}</td><td>${x.plancha}</td><td class="r">${f2(x.dc.soldadura_cordon)}</td><td class="r">${f2(x.dc.plancha)}</td><td class="r">${f2(x.dc.soldadura_pilar)}</td><td class="r">${f2(x.dc.pilar_nudo)}</td><td class="r"><b>${f2(x.dc_max)}</b></td></tr>`).join('')}
+        <tr><td><b>Total</b></td><td>${U.length} nudos</td><td>${2 * U.length} PL 8 · ${coma(U.reduce((a, x) => a + 2 * x.largo, 0) / 100, 2)} m${kgPL ? ` · ${coma(kgPL, 0)} kg` : ''}</td><td></td><td></td><td></td><td></td><td class="r"><b>${f2(Math.max(...dcs))}</b></td></tr></tbody></table></div>
+      <p class="small sub">Soldadura SMAW E6011 (F<sub>EXX</sub> 4.180 kgf/cm², 410 MPa). ${uB.nota.charAt(0).toUpperCase() + uB.nota.slice(1)}. Fuente: ${uB.fuente}. En A y en el eje 4 el cordón sigue articulado.</p>
+      <h3>Secuencia de obra (propuesta)</h3>
+      <ol class="puntos"><li>Taller: cortar las ${2 * U.length} planchas rectangulares, cantos rectos y limpios.</li><li>Presentar el cordón entre los pilares con la cara inferior a ${nv(z0)} y puntear. Soldar filete 3 arriba y abajo contra la cara del pilar (los costados no: quedan bajo las planchas).</li><li>Presentar las 2 planchas con prensa, a ras abajo con el cordón. Holgura máxima 1,5 mm; si es mayor, el filete crece esa medida (AWS D1.1). Puntear.</li><li>Soldar alternando de un lado al otro para que no se tuerza: canal de la esquina de arriba relleno a ras + filete 3; filete 3 en la punta; filetes 5 al pilar (abajo, arriba y, en E, el vertical).</li><li>Cortar las VT 8 mm más cortas y soldarlas a la plancha (3 lados, filete 3).</li><li>Electrodo ø 2,5 mm sobre el tubo de 3 mm y ø 3,2 mm sobre el pilar y la plancha (sugerencia). Sin precalentar si el acero está sobre 0 °C.</li><li>Inspección visual del 100 % con galga de filete, sin socavación en el tubo de 3 mm. Luego anticorrosivo.</li></ol>`;
+    cont.appendChild(info);
+    cap.innerHTML = '<b>Detalle UM</b> · unión de momento del cordón con los pilares B y E de los ejes 2 y 3 · escala 1:5 (corte 1-1 al doble) · cotas en mm, niveles desde el NPOG 0,00 · <span style="color:var(--fig-sold);font-weight:600">rojo</span>: soldadura · números: marcas de la tabla · propuesta para el VºBº del ingeniero.';
   }
   const cont = $('#elevs');
   elevacion(cont, 'Elevación eje 1 (fachada)', 'x', D.ejes.x['1'], 'x');
-  elevacion(cont, 'Elevación eje 3 (marco interior)', 'x', D.ejes.x['3'], 'x');
+  elevacion(cont, 'Elevación eje 5 (fachada)', 'x', D.ejes.x['5'], 'x');
+  elevacion(cont, 'Elevación ejes 2 y 3 (marcos interiores, iguales)', 'x', D.ejes.x['3'], 'x');
+  detalleUM(cont);
+  elevacion(cont, 'Elevación eje A (fachada del patio)', 'y', D.ejes.y.A, 'y');
   elevacion(cont, 'Elevación eje B (tabique cafetería/estudio)', 'y', D.ejes.y.B, 'y');
   elevacion(cont, 'Elevación eje E (fachada)', 'y', D.ejes.y.E, 'y');
 
@@ -957,7 +1169,7 @@ ol.preg li{margin:0 0 8px}
     const P = D.parametros, capP = TERM.piso, capC = TERM.cielo, TP = T_PISO, TC = T_CIELO;
     const MURO = H.muros.espesor, mE = MURO - 12.5, mI = 12.5, ZAP_W = 2 * (mE + H.losa_fundacion.margen),   // desde el eje A: el muro del búnker va de −17,5 (creció 5 hacia afuera) a +12,5
            ZAP_H = H.losa_fundacion.espesor, LOSA = H.losa.espesor;   // ZAP_W: hasta donde sobresale la losa de fundación por fuera
-    const TECHO = E.techo.espesor, VI_H = 20, COST_H = 10, COST_W = 5, VT = 10, PIL = 15, PLACA = [20, 0.8], PEND = P.pendiente, AL = P.alero_ns, PASO = P.paso_costanera, m = MURO / 2;
+    const TECHO = E.techo.espesor, VI_H = 20, COST_H = 10, COST_W = 5, VT = 10, PIL = 15, PLACA = [20, 1.2], PEND = P.pendiente, AL = P.alero_ns, PASO = P.paso_costanera, m = MURO / 2;
     const nv = { sello: NIV.emplantillado_inf, zapInf: NIV.zapata_inf, zapSup: NIV.zapata_sup, radInf: NIV.radier_bunker_inf, pisoBk: NIV.piso_bunker, losaInf: NIV.losa_inf };
     const zVi = x => Z_VIGA_INF + VT + PEND * x, zTecho = x => zVi(x) + VI_H + COST_H, ZTOP = zTecho(D.ejes.y.E - D.ejes.y.A + AL) + TECHO;
     const LIB_BK = (nv.losaInf - TC) - (nv.pisoBk + TP), LIB_EST = (Z_VIGA_INF - TC) - TP;
@@ -984,9 +1196,9 @@ ol.preg li{margin:0 0 8px}
       rect(-12.5, 12.5, TP, zTecho(0), 'cx-muro');   // muro del estudio de 25 (propuesta) detrás del pilar
       const TB = P.tabique || 0; if (TB) rect(mI, mI + TB, nv.pisoBk + TP, nv.losaInf - TC, 'cx-muro');   // tabique de 10 por dentro del muro del búnker (arriba no hay tabique extra)
       z = Z_VIGA_INF; capC.forEach(([n, e]) => { rect(PIL / 2, xhi, z - e, z, /yeso/i.test(n) ? 'cx-yeso' : 'cx-perf'); z -= e; });
-      rect(-PLACA[0] / 2, PLACA[0] / 2, 0, PLACA[1], 'cx-placa');
-      if (zlo < 0 && zhi > 0) [-4, 4].forEach(sx => pl([[sx + (mI - mE) / 2, -1], [sx + (mI - mE) / 2, Math.max(-44, zlo)]], 'cx-fe2'));   // horquillas ø3/4 paralelas a ±4 del eje del muro (los ganchos van a lo largo del muro)
-      rect(-PIL / 2, PIL / 2, PLACA[1], Z_VIGA_INF, 'cx-pil'); rect(-VT / 2, VT / 2, Z_VIGA_INF, Z_VIGA_INF + VT, 'cx-viga');
+      rect(-PLACA[0] / 2, PLACA[0] / 2, -PLACA[1], 0, 'cx-placa');   // V124: inserto PLb embebido a ras de la losa (placa de 12), el pilar parte en el NPOG
+      if (zlo < 0 && zhi > 0) [-4, 4].forEach(sx => pl([[sx + (mI - mE) / 2, -PLACA[1]], [sx + (mI - mE) / 2, Math.max(-44, zlo)]], 'cx-fe2'));   // barras ø3/4 A36 del inserto a ±4 del eje del muro, soldadas bajo la placa
+      rect(-PIL / 2, PIL / 2, 0, Z_VIGA_INF, 'cx-pil'); rect(-VT / 2, VT / 2, Z_VIGA_INF, Z_VIGA_INF + VT, 'cx-viga');
       if (zhi > Z_VIGA_INF) {
         const xa = -AL, xb = xhi;
         poly([[xa, zVi(xa)], [xb, zVi(xb)], [xb, zVi(xb) + VI_H], [xa, zVi(xa) + VI_H]], 'cx-viga');
@@ -1054,7 +1266,7 @@ ol.preg li{margin:0 0 8px}
     const Hs = Math.max(top - 30, oyk - (nv.sello - 20) * sc0 + 30);
     svg.setAttribute('viewBox', `0 0 ${W} ${Hs}`);
     $('#alturas-cap').innerHTML = [
-      ['Obra gruesa', `sello −${coma(-nv.sello, 0)} · emplantillado G5 10 · losa de fundación e=${coma(ZAP_H, 0)} bajo todo el búnker (sobresale 37,5) · muro e=${coma(MURO, 0)} · losa ${coma(LOSA, 0)} · placa PLb 200×200×8 (PLc 250×250×12 en los pilares con cruz) · pilar 150×150 · viga 1–5 +${coma(Z_VIGA_INF, 0)}/+${coma(Z_VIGA_INF + VT, 0)} · viga inclinada 200×150 al 3,5 % · costaneras @${coma(PASO, 0)} · plancha ${coma(TECHO, 0)} · alero del eje E ${sg(ZTOP)}`],
+      ['Obra gruesa', `sello −${coma(-nv.sello, 0)} · emplantillado G5 10 · losa de fundación e=${coma(ZAP_H, 0)} bajo todo el búnker (sobresale 37,5) · muro e=${coma(MURO, 0)} · losa ${coma(LOSA, 0)} · inserto PLb 200×200×12 a ras (PLc e=16 en los pilares con cruz) · pilar 150×150 · viga 1–5 +${coma(Z_VIGA_INF, 0)}/+${coma(Z_VIGA_INF + VT, 0)} · viga inclinada 200×150 al 3,5 % · costaneras @${coma(PASO, 0)} · plancha ${coma(TECHO, 0)} · alero del eje E ${sg(ZTOP)}`],
       ['Terminado', `piso +${coma(TP, 1)} (${capP.map(c => c[0].toLowerCase().split(' /')[0] + ' ' + coma(c[1], 1)).join(' + ')}) · cielo +${coma(Z_VIGA_INF - TC, 1)} (${capC.map(c => c[0].toLowerCase().split(' /')[0] + ' ' + coma(c[1], 1)).join(' + ')}) → <b>${coma(LIB_EST, 0)} libres</b> · búnker piso −${coma(-(nv.pisoBk + TP), 1)}, cielo −${coma(-(nv.losaInf - TC), 1)} → <b>${coma(LIB_BK, 0)} libres</b>`],
       ['Bajo la losa', `desde la losa (NPOG 0,00): terreno natural −50 · piso terminado del búnker −${coma(-(nv.pisoBk + TP), 1)} · piso del búnker −${coma(-nv.pisoBk, 0)} · losa de fundación −${coma(-nv.zapSup, 0)} / −${coma(-nv.zapInf, 0)} · sello −${coma(-nv.sello, 0)}`],
       ['Siglas', 'NPOG = nivel de piso de obra gruesa (0,00 del ingeniero, cara de la losa) · NPT = nivel de piso terminado · NTN = nivel de terreno natural (−50) · punteado naranjo = niveles terminados · naranjo = fierros'],
@@ -1202,13 +1414,15 @@ ol.preg li{margin:0 0 8px}
     }, `ejes 1–2, muro del eje A (los cuatro iguales) · medidas en cm`);
     // B) fachadas fuera del búnker: sobrecimiento y cimiento corrido del eje 1, por el pilar 1-D (con su placa y anclajes)
     //    La ventana parte 15 más a la izquierda (AX(−75)) para que los rótulos del pilar y de la placa quepan sin tocar el marco; el pilar y la placa no cambian.
-    corte('Corte B · sobrecimiento, cimiento corrido y placa base (fachadas)', [-112, -72, 470, 208], sv => {   // 8 más alto: la marca de abajo (52) tocaba el borde
+    corte('Corte B · sobrecimiento, cimiento corrido e inserto PLc (fachadas)', [-112, -72, 470, 208], sv => {   // 8 más alto: la marca de abajo (52) tocaba el borde
       const xP = AX(12.5), S = AR.seccion(sv, D, H, PL, { eje: 'y', c: AY(D.ejes.y.D) + 1, u0: AX(-75), u1: AX(120), zmin: -90, zmax: 52, fs: 10, ntn: [0, 75] });
       // pilar y placa (no son de hormigón: se dibujan aparte)
-      el('rect', { x: S.U(xP) - 7.5, y: S.Y(52), width: 15, height: 51.2, style: 'fill:none;stroke:var(--fig-ink);stroke-width:1;stroke-dasharray:5 3' }, sv); el('rect', { x: S.U(xP) - 12.5, y: S.Y(1.2), width: 25, height: 1.2, style: 'fill:var(--fig-ink)' }, sv);
+      // V124: inserto PLc-1D embebido a ras (placa de 16, sin pernos ni tuercas), con sus barras ø22 A36 soldadas (las dibuja el modelo, familia AP)
+      const PD = H.placas.lista.find(q => q.id === 'PLc-1D') || { espesor: 1.6, largo: 32.5, ancho: 25, hef: 45 }, tD = PD.espesor;
+      el('rect', { x: S.U(xP) - 7.5, y: S.Y(52), width: 15, height: 52, style: 'fill:none;stroke:var(--fig-ink);stroke-width:1;stroke-dasharray:5 3' }, sv);   // la placa queda a ras: el pilar parte en 0,00 el('rect', { x: S.U(xP) - PD.ancho / 2, y: S.Y(0), width: PD.ancho, height: tD, style: 'fill:var(--fig-ink)' }, sv);
       nota(sv, S.U(xP) - 11, S.Y(40), 'pilar 150 × 100', 8, { 'text-anchor': 'end' });
-      nota(sv, S.U(xP) - 15.5, S.Y(16.6), 'PLc', 8, { 'text-anchor': 'end' }); nota(sv, S.U(xP) - 15.5, S.Y(5.2), '250 × 250 × 12', 8, { 'text-anchor': 'end' });   // en dos líneas, a 3 del extremo de la placa y sobre el terreno
-      columna(S, [['AP', 'pernos ø3/4" (hef 45)', -40], ['S16-1'], ['SU-1'], ['AX'], ['S8-1'], ['CL-1'], ['CU-1']], S.W + 20, 19);   // pernos: llamada por su parte empotrada, bajo las capas del radier (arriba cruzaba la placa, el r=3 y las capas)
+      nota(sv, S.U(xP) - 15.5, S.Y(16.6), 'inserto PLc-1D', 8, { 'text-anchor': 'end' }); nota(sv, S.U(xP) - 15.5, S.Y(5.2), `${coma(PD.largo * 10, 0)} × ${coma(PD.ancho * 10, 0)} × ${coma(tD * 10, 0)}`, 8, { 'text-anchor': 'end' });   // en dos líneas, a 3 del extremo de la placa y sobre el terreno
+      columna(S, [['AP', `barras ø22 A36 (hef ${coma(PD.hef, 0)})`, -40], ['S16-1'], ['SU-1'], ['AX'], ['S8-1'], ['CL-1'], ['CU-1']], S.W + 20, 19);   // pernos: llamada por su parte empotrada, bajo las capas del radier (arriba cruzaba la placa, el r=3 y las capas)
       if (S.recubrimiento('SU-1', 'z', 0, S.U(xP) + 10) != null) mueve(sv.lastElementChild, S.U(xP) + 18, S.Y(4.8), 'start');   // r de arriba: bajo la placa, con su número al lado del extremo de la placa (encima tocaba el pilar y la placa)
       if (S.recubrimiento('CU-1', 'z', N.cimiento_inf, S.U(xP)) != null) mueve(sv.lastElementChild, S.U(xP), S.Y(N.cimiento_inf + 11));   // r de abajo: adentro del cimiento, sobre la barra (afuera caía en el emplantillado)
       S.recubrimiento('SU-1', 'u', S.U(AX(12.5 - H.cimiento.sobrecimiento.ancho / 2)), -25);
@@ -1233,14 +1447,14 @@ ol.preg li{margin:0 0 8px}
     }, `eje C entre 4 y 5 (C2 y eje 4 iguales) · ingeniero: 25/40 bajo el radier · hormigón pobre hasta −140 · medidas en cm`);
     // D) VHA del eje 3, bajo la losa del búnker
     corte(`Corte D · viga ${H.vigas[0].nombre} bajo la losa del búnker`, [-112, -26, 390, 132], sv => {
-      const x3 = AX(D.ejes.x['3']), S = AR.seccion(sv, D, H, PL, { eje: 'y', c: AY(390), u0: x3 - 75, u1: x3 + 75, zmin: -60, zmax: 6, fs: 8.3, ntn: false });   // ventana 8 más baja: el r bajo la viga cabe sin pisar el marco
+      const x3 = AX(D.ejes.x['3']), S = AR.seccion(sv, D, H, PL, { eje: 'y', c: AY(390), u0: x3 - 75, u1: x3 + 75, zmin: -64, zmax: 6, fs: 8.3, ntn: false });   // ventana 8 más baja: el r bajo la viga cabe sin pisar el marco
       columna(S, [['LS'], ['VHA-3-sup'], ['LE', null, -19], ['LN', null, -23], ['VHA-3-est'], ['VHA-3-med'], ['VHA-3-inf']], S.W + 14, 15.5);
       const uLN = S.puntos.filter(p => p.f.id === 'LN').map(p => p.u).sort((a, b) => Math.abs(a - S.U(x3 - 55)) - Math.abs(b - S.U(x3 - 55)))[0];   // a la izquierda de la viga (a la derecha lo cruzaba la llamada del estribo)
       const zVi = H.vigas[0].z_inf - D.z_piso, zLi = N.losa_inf, bV = 25;   // fondo de la VHA y de la losa (NPOG)
       S.recubrimiento('VHA-3-est', 'z', zVi, S.U(x3) + 3); S.recubrimiento('VHA-3-est', 'u', S.U(x3 - bV / 2), -38); if (uLN != null) S.recubrimiento('LN', 'z', zLi, uLN);
       S.cotaH(S.U(x3 - bV / 2), S.U(x3 + bV / 2), zVi, coma(bV, 0), 30); S.cotaV(S.U(x3 - bV / 2), zVi, zLi, coma(zLi - zVi, 0), -20.5); S.cotaV(0, zLi, 0, coma(-zLi, 0), -9);   // alto de la viga a su izquierda (a la derecha lo cruzaban las llamadas) y espesor de la losa fuera de la ventana
       S.nivel(-26, 0, 'NPOG 0,00'); S.nivel(-26, zLi, `−${coma(-zLi, 0)} losa inf.`); S.nivel(-26, zVi, `−${coma(-zVi, 0)} VHA inf.`);
-    }, `eje 3 (la del borde de la escalera tiene la misma armadura y 23,3 de ancho) · medidas en cm`);
+    }, `eje 3, de muro a muro (las vigas botadas del hueco de la escalera van en el detalle de su esquina) · medidas en cm`);
 
     // 4) corte transversal N–S por el baño, la cabina y la bodega (entre los ejes 4 y 5, mirando al oriente): cruza los CF de los ejes C y C2, que son
     //    iguales en todo (Gabriel, 19-10-2026: "deja C2 igual a C… agrega cortes transversales de esas fundaciones en el detalle"). Hasta la V105 la planta
@@ -1348,13 +1562,311 @@ ol.preg li{margin:0 0 8px}
       }, `entre los ejes 4 y 5, mirando hacia el eje 5, con quiebres · secciones 1 y 2 iguales · medidas en cm`);
     })();
 
+
+    // ---- V124: ayudantes de los detalles nuevos (esquina de la escalera e insertos) ----
+    const COLF2 = { 8: 'var(--fig-diag)', 10: '#4FA3E0', 12: 'var(--fig-pilar)', 16: '#D94A4A', 19: '#B07CF0', 22: '#E0609E' };   // los colores por diámetro de la planta de trazado
+    const famE = id => D.fierros.find(f => f.id === id), instE = f => f ? (f.polilineas || Array.from({ length: f.n }, (_, i) => f.polilinea.map(p => p.map((v, j) => v + f.paso[j] * i)))) : [];
+    const cajaE = pts => [Math.min(...pts.map(p => p[0])), Math.max(...pts.map(p => p[0])), Math.min(...pts.map(p => p[1])), Math.max(...pts.map(p => p[1]))];
+    // rótulo con su placa de papel (medida sobre el texto ya dibujado y otra vez al cargar la letra); py: aire arriba y abajo
+    const conPlaca = (t, py) => { const r = el('rect', { rx: 3, style: 'fill:var(--paper);stroke:none' }); if (t.getAttribute('transform')) r.setAttribute('transform', t.getAttribute('transform')); t.parentNode.insertBefore(r, t);
+      const fit = () => { try { const b = t.getBBox(), p = py == null ? 2 : py; if (b.width > 0) { r.setAttribute('x', b.x - 3); r.setAttribute('y', b.y - p); r.setAttribute('width', b.width + 6); r.setAttribute('height', b.height + 2 * p); } } catch (er) {} };
+      fit(); if (document.fonts) document.fonts.ready.then(fit); return t; };
+    const T14 = (g, x, y, t, o) => txt(g, x, y, t, Object.assign({ 'font-size': 14, class: 'tx' }, o || {}));
+    const burbE = (g, x, y, n) => { el('circle', { cx: x, cy: y, r: 15, style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.2' }, g); txt(g, x, y + 5.1, n, { 'text-anchor': 'middle', 'font-size': 14, 'font-weight': 700, class: 'tx' }); };
+    const marcaE = (g, x, y, n) => { el('circle', { cx: x, cy: y, r: 12.5, class: 'ad-mc' }, g); txt(g, x, y + 4.8, n, { 'text-anchor': 'middle', 'font-size': 14, class: 'ad-mt' }); };
+    const ejeE = 'stroke:var(--fig-soft);stroke-width:.8;stroke-dasharray:14 5 3 5';
+
+    // ---------- detalle «Esquina del hueco de la escalera» (V124; el ingeniero, 25/26-10-2026: pilar en la esquina del hueco y vigas botadas dentro de la losa,
+    //      sale la viga de borde 25/45 · medidas, armaduras y suples: propuesta, calculo/diseno.py). Todo sale del modelo: hormigón, barras y pilar. ----------
+    (function esquinaEscalera() {
+      const PE = H.pilar_escalera, VBL = H.vigas.find(v => v.id === 'VBL'), VBC = H.vigas.find(v => v.id === 'VBC'), Es = H.escalera; if (!PE || !VBL || !VBC) return;
+      const nomb = v => v.nombre.replace(/^Viga botada /, ''), zl = z => z - D.z_piso;
+      const [lx0, lx1, ly0, ly1] = cajaE(VBL.pts), [cx0, cx1, cy0, cy1] = cajaE(VBC.pts), [hx0, hx1, hy0, hy1] = cajaE(H.losa.hueco), [px0, px1, py0, py1] = cajaE(PE.pts), PC = PE.placa_cabeza, PB = PE.placa_base, [qx0, qx1, qy0, qy1] = cajaE(PC.pts);
+      const muro = id => cajaE(H.muros.piezas.find(z => z.id === id).pts), mN = muro('M-N'), mS = muro('M-S'), mE = muro('M-E');
+      const caja = Es.muro_norte ? cajaE(Es.muro_norte.pts) : null, cajaL = Es.muro ? cajaE(Es.muro.pts) : null;
+      const mk = id => PL.marcasDe(id);
+      // el modelo lleva la losa entera (sin el hueco): en los cortes por el hueco se tapa con papel de su borde a la ventana y se dibuja la cara del borde
+      const tapaHueco = (S, sv, uH) => { el('rect', { x: uH, y: S.Y(0.8), width: S.W - uH - 0.4, height: -H.niveles.losa_inf + 1.6, style: 'fill:var(--paper);stroke:none' }, sv); el('line', { x1: uH, y1: S.Y(0), x2: uH, y2: S.Y(H.niveles.losa_inf), style: 'stroke:var(--fig-ink);stroke-width:1.1px;vector-effect:non-scaling-stroke' }, sv); };
+      // ===== figura 1: planta de la esquina y corte por el eje del pilar a lo largo de la VBL, a la misma escala (1,2 px por cm al ancho de diseño) =====
+      const k = 1.2, WX0 = 4150, WX1 = mE[1], WY0 = mN[2], WY1 = mS[3], PX0 = 400, PY0 = 92;
+      const X = x => PX0 + (x - WX0) * k, Yq = y => PY0 + (y - WY0) * k, ALTO = Yq(WY1) + 50;
+      const GX = 930, GZ = 150, u0 = mN[2] - 18, u1 = 300, zTop = 40, zBot = -400;   // corte longitudinal: u = y del marco, origen (GX, GZ) en z = 0
+      corte('Detalle · esquina del hueco de la escalera: planta y corte por el pilar', [0, 0, 1472, ALTO], sv => {
+        sv.parentNode.style.gridColumn = '1 / -1'; sv.style.minWidth = '1472px';   // como el corte por los CF: a 1240 su letra de 14 px no cabe
+        // ---------------- planta (losa de techo, vista desde arriba) ----------------
+        T14(sv, 8, 24, 'Planta de la losa de techo en la esquina del hueco', { 'font-weight': 700 });
+        const cid = 'esq-clip-' + Math.random().toString(36).slice(2, 7), cp = el('clipPath', { id: cid }, el('defs', {}, sv)); el('rect', { x: X(WX0), y: Yq(WY0), width: (WX1 - WX0) * k, height: (WY1 - WY0) * k }, cp);
+        const G = el('g', { 'clip-path': `url(#${cid})` }, sv);
+        const R = (x0, x1, y0, y1, st, g) => el('rect', { x: X(x0), y: Yq(y0), width: (x1 - x0) * k, height: (y1 - y0) * k, style: st }, g || G);
+        R(WX0, WX1, WY0, WY1, 'fill:var(--fig-fill);stroke:none');
+        [mN, mS, mE].forEach(m => R(m[0], m[1], m[2], m[3], 'fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:1'));
+        R(hx0, hx1, hy0, hy1, 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.2');
+        const tr = Es.tramo, hu = tr ? tr.largo / tr.peldanos : 26.2, nP = Math.round((hy1 - hy0) / hu);
+        for (let i = 1; i < nP; i++) { const y = hy0 + (hy1 - hy0) * i / nP; el('line', { x1: X(hx0), y1: Yq(y), x2: X(hx1), y2: Yq(y), style: 'stroke:var(--fig-soft);stroke-width:.6' }, G); }
+        // suple de la losa de fundación bajo el pilar: solo su contorno (está 3,5 m más abajo)
+        const lfs = instE(famE('LF-suple')).flat(), [fx0, fx1, fy0, fy1] = lfs.length ? cajaE(lfs) : [0, 0, 0, 0];
+        if (lfs.length) R(fx0, fx1, fy0, fy1, `fill:none;stroke:${COLF2[12]};stroke-width:1.2;stroke-dasharray:12 4 2 4`);
+        // fierro de la esquina, color por diámetro y su ancho: superiores en línea llena, inferiores en raya (la malla general de la losa no va: planta 2)
+        const FAM = ['LR-inf', 'LR-VBL', 'VBL-inf', 'VBC-inf', 'VBL-est', 'VBC-est', 'LS-AB', 'LR-sup', 'LT-NS16', 'VBL-sup', 'VBC-sup'], zMed = (H.losa.z_inf + H.losa.z_sup) / 2;
+        FAM.forEach(id => { const f = famE(id); if (!f) return; const est = /-est$/.test(id), w = est ? 0.9 : Math.max(1.6, f.diam / 10 * 1.6);
+          instE(f).forEach(pl => { let d = ''; for (let i = 0; i + 1 < pl.length; i++) { const a = pl[i], b = pl[i + 1]; if (Math.hypot(b[0] - a[0], b[1] - a[1]) < 0.5) continue; d += `M${X(a[0]).toFixed(1)},${Yq(a[1]).toFixed(1)}L${X(b[0]).toFixed(1)},${Yq(b[1]).toFixed(1)}`; }
+            const inf = Math.max(...pl.map(p => p[2])) < zMed;
+            if (d) el('path', { d, style: `fill:none;stroke:${COLF2[f.diam]};stroke-width:${w};stroke-linecap:round${inf && !est ? ';stroke-dasharray:6 4' : ''}` }, G); }); });
+        R(lx0, lx1, ly0, ly1, 'fill:none;stroke:var(--fig-ink);stroke-width:1.2;stroke-dasharray:6 3'); R(cx0, cx1, cy0, cy1, 'fill:none;stroke:var(--fig-ink);stroke-width:1.2;stroke-dasharray:6 3');
+        R(qx0, qx1, qy0, qy1, 'fill:none;stroke:var(--fig-pilar);stroke-width:1.6'); R(px0, px1, py0, py1, 'fill:var(--fig-pilar);stroke:var(--fig-ink);stroke-width:1');
+        el('rect', { x: X(WX0), y: Yq(WY0), width: (WX1 - WX0) * k, height: (WY1 - WY0) * k, style: 'fill:none;stroke:none' }, sv);
+        // quiebre del lado del eje 3 (la losa sigue)
+        el('path', { d: `M${X(WX0)},${Yq(WY0) - 6} ` + Array.from({ length: 24 }, (_, i) => `l${i % 2 ? -5 : 5},${((WY1 - WY0) * k + 12) / 24}`).join(' '), style: 'fill:none;stroke:var(--fig-ink);stroke-width:1' }, sv);
+        // nombres dentro de las piezas
+        const yVBL = (hy0 + hy1) / 2 + 40;
+        conPlaca(T14(sv, X((lx0 + lx1) / 2) + 5, Yq(yVBL), `VBL ${nomb(VBL)} botada`, { 'text-anchor': 'middle', transform: `rotate(-90 ${X((lx0 + lx1) / 2) + 5} ${Yq(yVBL)})` }), 1);
+        conPlaca(T14(sv, X((cx0 + cx1) / 2 + 12), Yq((cy0 + cy1) / 2) + 5, `VBC ${nomb(VBC)}`, { 'text-anchor': 'middle' }), 1);
+        T14(sv, X((hx0 + hx1) / 2) + 5, Yq(hy0 + 0.62 * (hy1 - hy0)), `hueco ${coma(hx1 - hx0, 0)} × ${coma(hy1 - hy0, 0)}`, { 'text-anchor': 'middle', class: 'txs', transform: `rotate(-90 ${X((hx0 + hx1) / 2) + 5} ${Yq(hy0 + 0.62 * (hy1 - hy0))})` });
+        // ejes y burbujas: 4 y 5 arriba, A y B a la izquierda
+        const e4 = AX(D.ejes.x['4']), e5 = AX(D.ejes.x['5']), eA = AY(D.ejes.y.A), eB = AY(D.ejes.y.B);
+        [[e4, '4'], [e5, '5']].forEach(([x, n]) => { el('line', { x1: X(x), y1: Yq(WY0) - 40, x2: X(x), y2: Yq(WY1) + 10, style: ejeE }, sv); burbE(sv, X(x), Yq(WY0) - 56, n); });
+        [[eA, 'A'], [eB, 'B']].forEach(([y, n]) => { el('line', { x1: PX0 - 10, y1: Yq(y), x2: X(WX1) + 42, y2: Yq(y), style: ejeE }, sv); burbE(sv, X(WX1) + 57, Yq(y), n); });
+        // cotas: arriba, de la VBL al muro del eje 5; a la derecha, del muro A al muro B
+        const cx = [lx0, hx0, hx1, mE[0]], yC = Yq(WY0) - 16;
+        cota(sv, X(cx[0]), yC, X(cx[1]), yC, coma(cx[1] - cx[0], 0), 0, 14); cota(sv, X(cx[1]), yC, X(cx[2]), yC, coma(cx[2] - cx[1], 0), 0, 14); cota(sv, X(cx[2]), yC, X(cx[3]), yC, '', 0, 14);
+        T14(sv, X(cx[3]) + 6, yC + 5, coma(cx[3] - cx[2], 0), { 'text-anchor': 'start' });   // 10: no cabe entre sus líneas
+        const xC = X(WX1) + 20, cy = [mN[3], cy0, hy0, hy1];   // entre el muro del eje 5 y las burbujas A y B (a la izquierda van las llamadas)
+        cy.slice(1).forEach((b, i) => { const a = cy[i]; cota(sv, xC, Yq(a), xC, Yq(b), coma(b - a, 0), 0, 14); });
+        // llamadas a la izquierda, ordenadas de arriba abajo: marca(s) de la planilla y qué es
+        const lsA = instE(famE('LS-AB')).find(q => q[0][1] > 60 && q[0][1] < 90), lsB = instE(famE('LS-AB')).find(q => q[0][1] > 580 && q[0][1] < 600);
+        const LL = [
+          ['LS-AB', lsA && [WX0 + 10, lsA[0][1]], 'ø10@20 arriba en 1–5, junto a los muros A y B (franjas de 1,80)'],
+          ['LF-suple', lfs.length && [fx0, fy0 + 30], 'ø12@15 abajo en la losa de fundación, bajo el pilar (contorno)'],
+          ['pilar', [px0, (py0 + py1) / 2], `pilar ${PE.perfil} ${PE.acero} y su placa de cabeza ${coma(PC.lado * 10, 0)} × ${coma(PC.lado * 10, 0)} × ${coma(PC.espesor * 10, 0)}`],
+          ['LR-sup', [4253.7, 320], 'ø10@15 arriba y abajo, esquinas (1,50 × 1,50)'],
+          ['LR-VBL', [4178.7, 420], 'ø10@15 abajo en A–B junto a la VBL (1,00 × 2,40)'],
+          ['LT-NS16', [4216.2, 560], 'ø16@15 en L sobre el muro B (1,20 junto a la VBL)'],
+          ['LS-AB', lsB && [WX0 + 10, lsB[0][1]], 'franja del muro B (bajo las ø16)'],
+        ].filter(o => o[1]).map(([id, p, t]) => ({ id, p, t }));
+        let yPrev = -1e9;
+        LL.sort((a, b) => a.p[1] - b.p[1]).forEach(o => {
+          const yt = Math.max(Yq(o.p[1]), yPrev + 46); yPrev = yt;
+          const ms = o.id === 'pilar' ? [] : [...new Set(mk(o.id).concat(o.id === 'LR-sup' ? mk('LR-inf') : []))];   // LR-sup y LR-inf tienen las mismas formas: las mismas marcas
+          el('polyline', { points: `${X(o.p[0])},${Yq(o.p[1])} ${PX0 - 34},${yt} ${PX0 - 44},${yt}`, class: 'ad-ll' }, sv); el('circle', { cx: X(o.p[0]), cy: Yq(o.p[1]), r: 2, class: 'ad-lp' }, sv);
+          let x = PX0 - 58; ms.forEach(n => { marcaE(sv, x, yt, n); x -= 28; });
+          const t = (o.id === 'pilar' ? '' : (o.id === 'LR-sup' ? 'LR' : o.id) + ' · ') + o.t, cut = t.length > 38 ? t.lastIndexOf(' ', 38) : -1, lin = cut > 0 ? [t.slice(0, cut), t.slice(cut + 1)] : [t];
+          lin.forEach((s_, i) => T14(sv, x + (ms.length ? 14 : 12), yt + 5 - (lin.length - 1) * 9 + i * 18, s_, { 'text-anchor': 'end' }));
+        });
+        // ---------------- corte por el eje del pilar, a lo largo de la VBL (mirando hacia el eje 5) ----------------
+        T14(sv, GX + (u1 - u0) * k / 2, 24, 'Corte por el pilar, a lo largo de la VBL (mirando hacia el eje 5)', { 'text-anchor': 'middle', 'font-weight': 700 });
+        const gS = el('g', { transform: `translate(${GX} ${GZ}) scale(${k})` }, sv), fs = 14 / k / 0.92;
+        const S = AR.seccion(gS, D, H, PL, { eje: 'x', c: (px0 + px1) / 2, u0, u1, zmin: zBot, zmax: zTop, fs, ntn: [0, mN[2] - u0] });
+        const Ux = y => S.U(y), Zx = z => S.Y(z);
+        // muro de la caja de la escalera sobre la losa (cortado arriba)
+        const cy0_ = Math.min(caja ? caja[2] : hy0, cajaL ? cajaL[2] : hy0), cyF = u1;
+        el('rect', { x: Ux(cy0_), y: Zx(zTop - 6), width: Ux(cyF) - Ux(cy0_), height: zTop - 6, class: 'ad-h' }, gS);
+        el('path', { d: `M${Ux(cy0_)},${Zx(zTop - 6)} ` + Array.from({ length: 8 }, (_, i) => `l${(Ux(cyF) - Ux(cy0_)) / 8},${i % 2 ? 4 : -4}`).join(' '), style: 'fill:none;stroke:var(--fig-ink);stroke-width:.8px;vector-effect:non-scaling-stroke' }, gS);
+        // pilar (cortado por su eje), placas, grout
+        const zb0 = zl(PB.z_inf), zb1 = zl(PB.z_sup), zc0 = zl(PC.z_inf), zc1 = zl(PC.z_sup), [bx0_, bx1_, by0_, by1_] = cajaE(PB.pts);
+        el('rect', { x: Ux(py0), y: Zx(zc0), width: py1 - py0, height: zc0 - zb1, style: 'fill:var(--fig-pilar);fill-opacity:.18;stroke:var(--fig-pilar);stroke-width:1.4px;vector-effect:non-scaling-stroke' }, gS);
+        el('rect', { x: Ux(by0_), y: Zx(zb1), width: by1_ - by0_, height: zb1 - zb0, style: 'fill:var(--fig-pilar)' }, gS);
+        el('rect', { x: Ux(by0_), y: Zx(zb0), width: by1_ - by0_, height: zb0 - H.niveles.piso_bunker, style: 'fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:.6px;vector-effect:non-scaling-stroke' }, gS);
+        el('rect', { x: Ux(qy0), y: Zx(zc1), width: qy1 - qy0, height: zc1 - zc0, style: 'fill:var(--fig-pilar)' }, gS);
+        // llamadas del corte (a la derecha) y cotas
+        columna(S, [['LR-sup'], ['VBC-sup'], ['LS-AB'], ['VBL-sup'], ['VBL-est'], ['VBC-inf'], ['VBL-inf'], ['LR-inf'], ['LF-sup-NS'], ['LF-sup-EO'], ['LF-suple'], ['LF-inf-EO'], ['LF-inf-NS']], S.W + 12, 22 / k);
+        S.cotaV(Ux(hy0) + 22, zc0, H.niveles.piso_bunker, `${coma(zc0 - H.niveles.piso_bunker, 0)} piso a losa`, 0);
+        S.nivel(-14, 0, 'NPOG 0,00'); S.nivel(-14, H.niveles.losa_inf, `${coma(H.niveles.losa_inf, 0)}`); S.nivel(-14, H.niveles.piso_bunker, `${coma(H.niveles.piso_bunker, 0)} piso`); S.nivel(-14, H.niveles.zapata_inf, `${coma(H.niveles.zapata_inf, 0)}`);
+        // rótulos del pilar, a la izquierda de su eje, sobre el aire del búnker
+        const xr = Ux(py0) - 8 / k, zr = (zc0 + zb1) / 2;
+        [[`pilar ${PE.perfil.replace('CUAD ', '')} ${PE.acero}`, 0], [`L = ${coma((zc0 - zb1) / 100, 2)} m · K = ${coma(PE.k, 0)}`, 1]].forEach(([t, i]) => txt(gS, xr, Zx(zr) + i * 18 / k, t, { 'text-anchor': 'end', 'font-size': 14 / k, class: 'tx' }));
+        [[`placa de cabeza ${coma(PC.lado * 10, 0)}×${coma(PC.lado * 10, 0)}×${coma(PC.espesor * 10, 0)}`, zc0 - 16], [`placa base ${coma(PB.lado * 10, 0)}×${coma(PB.lado * 10, 0)}×${coma(PB.espesor * 10, 0)}`, zb1 + 26]].forEach(([t, z]) => txt(gS, xr, Zx(z), t, { 'text-anchor': 'end', 'font-size': 14 / k, class: 'tx' }));
+        txt(gS, Ux(cy0_ + 4), Zx(zTop - 24), 'caja', { 'font-size': 14 / k, class: 'txs' });   // muro de la caja de la escalera
+        // ---------------- notas del pilar, bajo el corte ----------------
+        const notas = [
+          `Pilar ${PE.perfil} ${PE.acero} en la esquina libre del hueco: centro a ${coma(hx0 - (px0 + px1) / 2, 1)} de los dos bordes (caras a ${coma(hx0 - px1, 1)}); recibe la VBL y la VBC.`,
+          `Base: ${PB.detalle}.`, `Cabeza: ${PC.detalle}.`, `Soldadura: ${PE.soldadura}. Montaje: ${PE.montaje}.`,
+          `Losa de fundación bajo el pilar: sin fundación nueva; suple ø12@15 abajo en 1–5, de 1,50 × 1,50, intercalado (queda @7,5).`,
+        ];
+        let yN = GZ - zBot * k + 60;
+        notas.forEach(s => { const pal = s.split(' '); let lin = ''; pal.forEach(p => { if ((lin + ' ' + p).length > 70) { T14(sv, GX - 40, yN, lin.trim(), { class: 'txs' }); yN += 19; lin = ''; } lin += ' ' + p; }); T14(sv, GX - 40, yN, lin.trim(), { class: 'txs' }); yN += 25; });
+      }, `planta (izquierda): losa de techo vista desde arriba, con las vigas botadas VBL y VBC (raya corta), el pilar y su placa de cabeza, los suples de la esquina y las ø16 en L sobre el muro B; fierro con color por diámetro, superiores en línea llena e inferiores en raya; la malla general de la losa está en la planta 2 · corte (derecha): por el eje del pilar, a la misma escala, con las barras del modelo y sus marcas de la planilla · ingeniero (25/26-10-2026): pilar y vigas botadas; medidas, armaduras y suples: propuesta · medidas en cm`);
+
+      // ===== cortes de las vigas botadas, al doble de escala (2,5 px por cm en una columna de 720) =====
+      const VBW = 300, kV = 721 / VBW, fsV = 14 / kV / 0.92;   // columna de 721 px: 2,4 px por cm, el doble que la planta
+      corte(`Corte E1 · VBL ${nomb(VBL)} botada (borde del hueco hacia el eje 4)`, [-72, -40, VBW, 112], sv => {
+        const yc = 420, S = AR.seccion(sv, D, H, PL, { eje: 'y', c: yc, u0: lx0 - 46, u1: hx0 + 30, zmin: -48, zmax: 26, fs: fsV, ntn: false });
+        if (cajaL) { el('rect', { x: S.U(cajaL[0]), y: S.Y(24), width: cajaL[1] - cajaL[0], height: 24, class: 'ad-h' }, sv); el('path', { d: `M${S.U(cajaL[0])},${S.Y(24)} l${(cajaL[1] - cajaL[0]) / 4},-2 l${(cajaL[1] - cajaL[0]) / 4},4 l${(cajaL[1] - cajaL[0]) / 4},-4 l${(cajaL[1] - cajaL[0]) / 4},2`, style: 'fill:none;stroke:var(--fig-ink);stroke-width:.8px;vector-effect:non-scaling-stroke' }, sv); }
+        tapaHueco(S, sv, S.U(hx0));
+        columna(S, [['VBL-sup'], ['LE'], ['VBL-est'], ['LN'], ['LR-VBL'], ['VBL-inf']], S.W + 8, 9);
+        S.recubrimiento('VBL-est', 'z', H.niveles.losa_inf, S.U(lx0) + 6); S.recubrimiento('VBL-est', 'u', S.U(lx1), -12);
+        S.cotaH(S.U(lx0), S.U(lx1), H.niveles.losa_inf, coma(lx1 - lx0, 0), 16); S.cotaV(0, H.niveles.losa_inf, 0, coma(-H.niveles.losa_inf, 0), -8);
+        S.nivel(-26, 0, 'NPOG 0,00'); S.nivel(-26, H.niveles.losa_inf, coma(H.niveles.losa_inf, 0));
+        nota(sv, S.U(hx0) + 4, S.Y(-32), 'hueco', 14 / kV, { class: 'txs' }); if (cajaL) nota(sv, S.U(cajaL[0]) - 30, S.Y(29.5), `muro de la caja e=${coma(cajaL[1] - cajaL[0], 1)}`, 14 / kV, { class: 'txs' });   // sobre el marco de la ventana
+      }, `a ${coma((420 - AY(D.ejes.y.A)) / 100, 2)} m del eje A, mirando hacia el eje A · ${VBL.armadura} · medidas en cm`);
+      corte(`Corte E2 · VBC ${nomb(VBC)} botada (borde del hueco hacia el eje A)`, [-72, -40, VBW, 112], sv => {
+        const xc = 4391.2, S = AR.seccion(sv, D, H, PL, { eje: 'x', c: xc, u0: cy0 - 64, u1: hy0 + 26, zmin: -48, zmax: 26, fs: fsV, ntn: false });
+        if (caja) { el('rect', { x: S.U(caja[2]), y: S.Y(24), width: caja[3] - caja[2], height: 24, class: 'ad-h' }, sv); }
+        tapaHueco(S, sv, S.U(hy0));
+        columna(S, [['VBC-sup'], ['LT-NS'], ['LR-sup'], ['VBC-est'], ['LR-inf'], ['VBC-inf']], S.W + 8, 9);
+        S.recubrimiento('VBC-est', 'z', H.niveles.losa_inf, S.U(cy0) + 6); S.recubrimiento('VBC-est', 'u', S.U(cy1), -12);
+        S.cotaH(S.U(cy0), S.U(cy1), H.niveles.losa_inf, coma(cy1 - cy0, 0), 16); S.cotaV(0, H.niveles.losa_inf, 0, coma(-H.niveles.losa_inf, 0), -8);
+        S.nivel(-26, 0, 'NPOG 0,00'); S.nivel(-26, H.niveles.losa_inf, coma(H.niveles.losa_inf, 0));
+        nota(sv, S.U(hy0) + 4, S.Y(-32), 'hueco', 14 / kV, { class: 'txs' }); if (caja) nota(sv, S.U(caja[2]) - 30, S.Y(29.5), `muro de la caja e=${coma(caja[3] - caja[2], 0)}`, 14 / kV, { class: 'txs' });
+      }, `a ${coma((AX(D.ejes.x['5']) - 4391.2) / 100, 2)} m del eje 5, mirando hacia el eje 5 · ${VBC.armadura} · medidas en cm`);
+    })();
+
+    // ---------- detalle «Inserto PLc / PLb» (V124; el ingeniero, V121 25-10-2026: placas embebidas con anclajes soldados en vez de pernos con tuerca, para su VºBº).
+    //      Se dibuja PLc-4A (la mayor: 8 barras, placa de 30, hef 1200) con los datos del modelo; las demás van en la tabla. Planta y cortes a la misma escala, soldaduras ×4. ----------
+    (function insertoPL() {
+      const pl = H.placas.lista.find(q => q.id === 'PLc-4A'); if (!pl || !pl.pts) return;
+      const c = pl.centro, pr = D.perfiles[pl.perfil] || { h: 15, b: 15, t: 0.4 }, e = pl.espesor, hef = pl.hef, cab = pl.cabeza, kA = 4, mm = v => coma(v * 10, 0);
+      const alx = pl.muro_dir === 'x', AL = p => alx ? p[0] - c[0] : p[1] - c[1], AC = p => alx ? p[1] - c[1] : p[0] - c[0];   // ejes de la placa: al = a lo largo del muro, ac = a través
+      const mN = cajaE(H.muros.piezas.find(z => z.id === 'M-N').pts), acF = mN[2] - c[1], acI = mN[3] - c[1];   // caras exterior e interior del muro A, desde el eje del pilar
+      const q = pl.pts.map(p => [AL(p), AC(p)]), [a0, a1, b0, b1] = cajaE(q), als = [...new Set(pl.anclas.map(a => Math.abs(a[0])))].sort((x, y) => x - y), acs = [...new Set(pl.anclas.map(a => a[1]))].sort((x, y) => x - y);
+      const AHs = instE(famE('AH')).filter(p => Math.abs(p[1][0] - c[0]) < 60 && Math.abs(p[1][1] - c[1]) < 40), APs = instE(famE('AP')).filter(p => Math.abs(p[0][0] - c[0]) < 40 && Math.abs(p[0][1] - c[1]) < 20 && p.length === 2 && Math.abs(p[0][2] - p[1][2]) > 20);
+      const zP = z => z - D.z_piso, zHq = AHs.map(p => zP(p[0][2])).sort((x, y) => y - x), zCab = APs.length ? zP(Math.min(...APs.map(p => Math.min(p[0][2], p[1][2])))) : -hef;
+      const MVe = instE(famE('MV-N-ext')).find(p => Math.abs(p[2][0] - c[0] - 7.5) < 8), MVi = instE(famE('MV-N-int')).find(p => Math.abs(p[2][0] - c[0] - 7.5) < 8);
+      // del cálculo (fuera del repo: calculo/resultados_anclajes_insertos.py, 27-10-2026): Nua y Vua máx. (kN), D/C tracción, modo, D/C corte, modo, interacción y la cartela (base y alto, mm)
+      const RC = {"PLc-1A":[99.6,47.4,0.38,"lateral",0.25,"pryout",0.53,[115,567]],"PLb-2A":[6.8,8.8,0.06,"cono",0.07,"pryout",0.06],"PLb-3A":[6.5,8.8,0.03,"cono",0.05,"pryout",0.03],"PLc-4A":[249.5,169.1,0.33,"lateral",0.78,"pryout",0.93,[190,514]],"PLc-5A":[127.2,170.3,0.0,"lateral",0.91,"pryout",0.91,[115,567]],"PLb-1B":[9.1,12.8,0.1,"cono",0.15,"arranque",0.1],"PLb-2B":[21.3,1.2,0.2,"cono",0.01,"arranque",0.2],"PLb-3B":[22.2,1.5,0.13,"cono",0.01,"arranque",0.13],"PLb-4B":[15.1,1.4,0.11,"cono",0.01,"arranque",0.11],"PLb-5B":[9.4,12.9,0.1,"cono",0.39,"arranque",0.39],"PLc-1E":[138.5,70.5,0.57,"lateral",0.58,"pryout",0.96,[115,628]],"PLc-2E":[12.4,76.7,0.0,"cono",0.72,"arranque",0.72,[115,427]],"PLb-3E":[13.4,7.6,0.14,"cono",0.16,"arranque",0.14],"PLc-4E":[144.5,68.5,0.39,"cono",0.67,"arranque",0.88,[115,401]],"PLc-5E":[0,88.1,0.0,"lateral",0.73,"pryout",0.73,[115,628]],"PLc-1A2":[7.2,46.0,0.0,"lateral",0.36,"arranque",0.36,[140,505]],"PLc-5A2":[13.6,54.0,0.0,"lateral",0.42,"arranque",0.42,[140,505]],"PLc-1C":[102.2,94.8,0.38,"cono",0.77,"pryout",0.96,[115,284]],"PLc-5C":[113.5,110.6,0.45,"cono",0.65,"pryout",0.92,[215,338]],"PLc-1C2":[10.3,102.6,0.0,"cono",0.84,"pryout",0.84,[215,327]],"PLc-5C2":[8.3,114.4,0.0,"cono",0.9,"arranque",0.9,[215,327]],"PLc-1D":[67.3,34.5,0.27,"cono",0.28,"pryout",0.46,[140,577]],"PLc-5D":[78.6,39.9,0.32,"cono",0.32,"arranque",0.53,[140,577]],"PLc-4C":[130.3,82.6,0.59,"cono",0.34,"acero",0.78,[140,363]],"PLc-4C2":[59.5,43.5,0.29,"cono",0.18,"acero",0.29,[140,363]]}, CART = (RC[pl.id] || [])[7] || null;
+      const ink = 'stroke:var(--fig-ink)', horm_ = 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1', acero = 'fill:var(--fig-ink);stroke:none';
+      const barra = col => `fill:${col};stroke:none`, zig = (g, x0, y0, x1, n) => el('path', { d: `M${x0},${y0} ` + Array.from({ length: n }, (_, i) => `l${(x1 - x0) / n},${i % 2 ? 4 : -4}`).join(' '), style: `fill:none;${ink};stroke-width:1` }, g);
+      const llam = (g, x0, y0, x1, y1, t, ancla) => { el('polyline', { points: `${x0},${y0} ${x1},${y1} ${x1 + (ancla === 'end' ? -8 : 8)},${y1}`, class: 'ad-ll' }, g); el('circle', { cx: x0, cy: y0, r: 2, class: 'ad-lp' }, g); return T14(g, x1 + (ancla === 'end' ? -12 : 12), y1 + 5, t, { 'text-anchor': ancla || 'start' }); };
+      corte(`Detalle · inserto ${pl.id} (tipo muro del búnker): planta, cortes y soldaduras`, [0, 0, 1472, 900], sv => {
+        sv.parentNode.style.gridColumn = '1 / -1'; sv.style.minWidth = '1472px';
+        // ================= (A) planta =================
+        const AX0 = 470, AY0 = 190, PA = (al, ac) => [AX0 + al * kA, AY0 + ac * kA];
+        T14(sv, 20, 28, '(A) Planta', { 'font-weight': 700 });
+        const wA = [-40, 40], wC = [acF - 8, acI + 18];
+        el('rect', { x: PA(wA[0], 0)[0], y: PA(0, acF)[1], width: (wA[1] - wA[0]) * kA, height: (wC[1] - acF) * kA, style: 'fill:var(--fig-horm);stroke:none' }, sv);
+        el('line', { x1: PA(wA[0], acF)[0], y1: PA(0, acF)[1], x2: PA(wA[1], acF)[0], y2: PA(0, acF)[1], style: `${ink};stroke-width:1.4` }, sv);   // borde de la losa = cara exterior del muro
+        el('line', { x1: PA(wA[0], acI)[0], y1: PA(0, acI)[1], x2: PA(wA[1], acI)[0], y2: PA(0, acI)[1], style: `${ink};stroke-width:.8;stroke-dasharray:6 4` }, sv);   // cara interior del muro, bajo la losa
+        el('polygon', { points: q.map(p => PA(p[0], p[1]).join(',')).join(' '), style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.6' }, sv);
+        // respiros ø20 (centro, ±100 a través) y barras ocultas bajo la placa
+        [-10, 10].forEach(r => el('circle', { cx: PA(0, r)[0], cy: PA(0, r)[1], r: 1 * kA, style: 'fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1' }, sv));
+        pl.anclas.forEach(([al, ac]) => el('circle', { cx: PA(al, ac)[0], cy: PA(al, ac)[1], r: 1.1 * kA, style: `fill:none;stroke:${COLF2[22]};stroke-width:1.6;stroke-dasharray:3 2` }, sv));
+        // tubo, cartela y horquillas ocultas
+        const hb = pr.h / 2, tt = pr.t || 0.4;
+        el('rect', { x: PA(-hb, 0)[0], y: PA(0, -hb)[1], width: 2 * hb * kA, height: 2 * hb * kA, style: 'fill:var(--fig-pilar);fill-opacity:.22;stroke:var(--fig-pilar);stroke-width:1.6' }, sv);
+        el('rect', { x: PA(-hb + tt, 0)[0], y: PA(0, -hb + tt)[1], width: 2 * (hb - tt) * kA, height: 2 * (hb - tt) * kA, style: 'fill:none;stroke:var(--fig-pilar);stroke-width:.8' }, sv);
+        const dp = (pl.diag_pie || [])[0], sgn = dp ? (alx ? dp[0] : dp[1]) || 1 : 1, cb = CART ? CART[0] / 10 : (sgn > 0 ? b1 : -a0) - hb - 1;
+        if (dp) el('rect', { x: PA(sgn > 0 ? hb + 1 : -hb - 1 - cb, 0)[0], y: PA(0, -0.4)[1], width: cb * kA, height: 0.8 * kA, style: acero }, sv);
+        const ahT = AHs.filter(p => zP(p[0][2]) === zHq[0]);
+        ahT.forEach(p => { const pts = p.map(v => [Math.max(wA[0], AL(v)), AC(v)]); el('polyline', { points: pts.map(v => PA(v[0], v[1]).join(',')).join(' '), style: `fill:none;stroke:${COLF2[16]};stroke-width:2;stroke-dasharray:7 4` }, sv); });
+        // ejes: 4 (al = 0) y A (ac = 0); eje del muro
+        el('line', { x1: PA(0, 0)[0], y1: PA(0, wC[0] - 6)[1], x2: PA(0, 0)[0], y2: PA(0, wC[1] + 4)[1], style: ejeE }, sv); burbE(sv, PA(0, 0)[0], PA(0, wC[0] - 6)[1] - 16, '4');
+        el('line', { x1: PA(wA[0] - 6, 0)[0], y1: PA(0, 0)[1], x2: PA(wA[1] + 4, 0)[0], y2: PA(0, 0)[1], style: ejeE }, sv); burbE(sv, PA(wA[0] - 6, 0)[0] - 16, PA(0, 0)[1], 'A');
+        // cotas en mm: a lo largo (abajo) y a través (a la derecha)
+        const chA = [a0, -als[als.length - 1], ...(als.length > 1 ? [-als[0], als[0]] : []), als[als.length - 1], a1], yCa = PA(0, wC[1])[1] + 22;
+        chA.slice(1).forEach((b, i) => cota(sv, PA(chA[i], 0)[0], yCa, PA(b, 0)[0], yCa, mm(b - chA[i]), 0, 14)); cota(sv, PA(a0, 0)[0], yCa + 30, PA(a1, 0)[0], yCa + 30, mm(a1 - a0), 0, 14);
+        const chC = [b0, acs[0], acs[acs.length - 1], b1], xCa = PA(wA[1], 0)[0] + 26;
+        chC.slice(1).forEach((b, i) => cota(sv, xCa, PA(0, chC[i])[1], xCa, PA(0, b)[1], mm(b - chC[i]), 0, 14)); cota(sv, xCa + 44, PA(0, b0)[1], xCa + 44, PA(0, b1)[1], mm(b1 - b0), 0, 14);
+        // llamadas a la izquierda
+        const xL = PA(wA[0], 0)[0] - 40;
+        llam(sv, PA(a0 + 2, b0 + 2)[0], PA(a0 + 2, b0 + 2)[1], xL, PA(0, b0 - 4)[1] - 16, `${pl.id}: placa A36 ${mm(a1 - a0)} × ${mm(b1 - b0)} × ${mm(e)}`, 'end');
+        llam(sv, PA(-hb, -hb + 3)[0], PA(-hb, -hb + 3)[1], xL, PA(0, -hb)[1] + 4, `pilar ${pl.perfil}`, 'end');
+        llam(sv, PA(-als[als.length - 1], acs[acs.length - 1])[0] - 4, PA(0, acs[acs.length - 1])[1], xL, PA(0, acs[acs.length - 1])[1] + 22, `${pl.anclas.length} barras ø22 A36 (ocultas)`, 'end');
+        llam(sv, PA(wA[0] + 2, AC(ahT[0] ? ahT[0][0] : [0, c[1] + 6.7]))[0], PA(0, AC(ahT[0] ? ahT[0][0] : [0, c[1] + 6.7]))[1], xL, PA(0, acI)[1] + 34, `${AHs.length} horquillas ø16 (ocultas)`, 'end');
+        llam(sv, PA(0, 10)[0] + 4, PA(0, 10)[1] + 2, PA(wA[1], 0)[0] + 10, PA(0, wC[1])[1] + 10, '2 respiros ø20', 'start');
+        if (dp) llam(sv, PA(hb + 1 + cb * 0.6, 0)[0], PA(0, -0.4)[1], PA(wA[1], 0)[0] + 10, PA(0, wC[0])[1] - 36, `cartela 8 de la diagonal${CART ? ` (base ${coma(CART[0], 0)}, alto ${coma(CART[1], 0)})` : ''}`, 'start');
+        T14(sv, PA(wA[0], 0)[0] + 4, PA(0, acF)[1] - 8, 'exterior', { class: 'txs' }); T14(sv, PA(wA[0], 0)[0] + 4, PA(0, wC[1])[1] - 8, 'losa de techo', { class: 'txs' });
+
+        // ================= (B) corte transversal al muro, por un par de barras · (C) corte a lo largo del muro =================
+        const Z0 = 560, GAP = 18, zA = -45, zB = -(Math.abs(zCab) - 14), Zs = z => z >= zA ? Z0 - z * kA : Z0 - zA * kA + GAP + (zB - z) * kA, zFin = zCab - 8;
+        const bloque = (g, x0, x1, zt, st) => { el('rect', { x: x0, y: Zs(zt), width: x1 - x0, height: Zs(zA) - Zs(zt), style: st }, g); el('rect', { x: x0, y: Zs(zB), width: x1 - x0, height: Zs(zFin) - Zs(zB), style: st }, g); zig(g, x0 - 4, Zs(zA) + 2, x1 + 4, 12); zig(g, x0 - 4, Zs(zB) - 2, x1 + 4, 12); };
+        const barraV = (g, x, d, zt, zb, col) => { const w = d / 10 * kA; el('rect', { x: x - w / 2, y: Zs(zt), width: w, height: Zs(zA) - Zs(zt) + 2, style: barra(col) }, g); el('rect', { x: x - w / 2, y: Zs(zB) - 2, width: w, height: Zs(zb) - Zs(zB) + 2, style: barra(col) }, g); };
+        const filete = (g, x, y, s, dx, dy) => el('polygon', { points: `${x},${y} ${x + dx * s},${y} ${x},${y + dy * s}`, style: acero }, g);
+        // ---- (B) ----
+        const BX = 300, PBx = ac => BX + ac * kA, wB = [acF - 10, acI + 30];
+        T14(sv, 20, Zs(22) - 14, '(B) Corte transversal al muro, por un par de barras', { 'font-weight': 700 });
+        bloque(sv, PBx(acF), PBx(acI), 0, horm_); el('rect', { x: PBx(acI) - 0.5, y: Zs(0), width: (wB[1] - acI) * kA, height: -H.niveles.losa_inf * kA, style: horm_ }, sv);
+        zig(sv, PBx(wB[1]), Zs(0) - 2, PBx(wB[1]), 1); el('line', { x1: PBx(wB[1]), y1: Zs(0) - 4, x2: PBx(wB[1]), y2: Zs(H.niveles.losa_inf) + 4, style: `${ink};stroke-width:1;stroke-dasharray:3 3` }, sv);
+        if (MVe) { const ac_ = AC(MVe[2]), hk = AC(MVe[3]); barraV(sv, PBx(ac_), 16, zP(MVe[2][2]), zFin, 'var(--fig-pilar)'); el('rect', { x: PBx(Math.min(ac_, hk)), y: Zs(zP(MVe[2][2])) - 0.8 * kA, width: Math.abs(hk - ac_) * kA, height: 1.6 * kA, style: barra('var(--fig-pilar)') }, sv); }
+        if (MVi) { const ac_ = AC(MVi[2]), hk = AC(MVi[3]); barraV(sv, PBx(ac_), 12, zP(MVi[2][2]), zFin, 'var(--fig-pilar)'); el('rect', { x: PBx(Math.min(ac_, hk)), y: Zs(zP(MVi[2][2])) - 0.6 * kA, width: Math.abs(hk - ac_) * kA, height: 1.2 * kA, style: barra('var(--fig-pilar)') }, sv); }
+        el('rect', { x: PBx(b0), y: Zs(0), width: (b1 - b0) * kA, height: e * kA, style: acero }, sv);   // placa a ras
+        el('rect', { x: PBx(-hb), y: Zs(20), width: 2 * hb * kA, height: 20 * kA, style: 'fill:var(--fig-pilar);fill-opacity:.22;stroke:var(--fig-pilar);stroke-width:1.4' }, sv); zig(sv, PBx(-hb) - 4, Zs(20), PBx(hb) + 4, 6);
+        acs.forEach(ac => { barraV(sv, PBx(ac), 22, -e, zCab, COLF2[22]); el('rect', { x: PBx(ac - cab[1] / 2), y: Zs(zCab), width: cab[1] * kA, height: 1.2 * kA, style: acero }, sv);
+          [-1, 1].forEach(s => { filete(sv, PBx(ac) + s * 1.1 * kA, Zs(-e), 1.2 * kA, s, 1); filete(sv, PBx(ac) + s * 1.1 * kA, Zs(zCab), 1.2 * kA, s, -1); }); });
+        zHq.forEach(z => AHs.filter(p => zP(p[0][2]) === z).forEach(p => [AC(p[0]), AC(p[2])].forEach(ac => el('circle', { cx: PBx(ac), cy: Zs(z), r: 0.8 * kA, style: barra(COLF2[16]) }, sv))));
+        // cotas y niveles de (B)
+        cota(sv, PBx(acF), Zs(zFin) + 22, PBx(acI), Zs(zFin) + 22, mm(acI - acF), 0, 14); cota(sv, PBx(acs[0]), Zs(20) - 10, PBx(acs[acs.length - 1]), Zs(20) - 10, mm(acs[acs.length - 1] - acs[0]), 0, 14);
+        const xh = PBx(acF) - 30; el('line', { x1: xh, y1: Zs(0), x2: xh, y2: Zs(zA), class: 'ad-ct' }, sv); el('line', { x1: xh, y1: Zs(zB), x2: xh, y2: Zs(zCab), class: 'ad-ct' }, sv);
+        [0, zCab].forEach(z => el('line', { x1: xh - 5, y1: Zs(z), x2: PBx(acF) - 2, y2: Zs(z), class: 'ad-ce' }, sv));
+        conPlaca(T14(sv, xh, (Zs(zA) + Zs(zB)) / 2 + 5, `hef ${mm(hef)}`, { 'text-anchor': 'middle', 'font-weight': 700 }));
+        T14(sv, xh - 8, Zs(0) + 5, 'NPOG 0,00', { 'text-anchor': 'end' });
+        // llamadas de (B), a la derecha
+        const xRB = PBx(wB[1]) + 40;
+        llam(sv, PBx(b1) - 6, Zs(-e / 2), xRB, Zs(14), `placa ${mm(e)} a ras · filete 12`);
+        llam(sv, PBx(acs[acs.length - 1]) + 4, Zs(-30), xRB, Zs(-28), `barras ø22 A36 · hef ${mm(hef)}`);
+        if (zHq.length) llam(sv, PBx(AC(AHs[0][2])) + 3, Zs(zHq[0]), xRB, Zs(-8), `${AHs.length} horquillas ø16 A630 a ${zHq.map(mm).join(' y ')}`);
+        if (MVi) llam(sv, PBx(AC(MVi[2])) + 2, Zs(zB - 6), xRB, Zs(zB - 4), 'verticales del muro (anclaje)');
+        llam(sv, PBx(acs[acs.length - 1] + cab[1] / 2), Zs(zCab) + 2, xRB, Zs(zCab) + 6, `cabeza ${mm(cab[0])} × ${mm(cab[1])} × 12`);
+        // ---- (C) ----
+        const CX = 1010, PCx = al => CX + al * kA, wCx = [-42, 38], zCt = CART ? CART[1] / 10 + 6 : 24;
+        T14(sv, 760, Zs(zCt) - 14, '(C) Corte a lo largo del muro, por una fila de barras', { 'font-weight': 700 });
+        bloque(sv, PCx(wCx[0]), PCx(wCx[1]), 0, horm_);
+        el('rect', { x: PCx(a0), y: Zs(0), width: (a1 - a0) * kA, height: e * kA, style: acero }, sv);
+        el('rect', { x: PCx(-hb), y: Zs(zCt), width: 2 * hb * kA, height: zCt * kA, style: 'fill:var(--fig-pilar);fill-opacity:.22;stroke:var(--fig-pilar);stroke-width:1.4' }, sv); zig(sv, PCx(-hb) - 4, Zs(zCt), PCx(hb) + 4, 6);
+        if (dp && CART) { const x0 = sgn > 0 ? hb + 1 : -hb - 1, x1 = x0 + sgn * cb; el('polygon', { points: `${PCx(x0)},${Zs(0)} ${PCx(x1)},${Zs(0)} ${PCx(x0)},${Zs(CART[1] / 10)}`, style: 'fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:1.2' }, sv); }
+        pl.anclas.filter(a => a[1] === acs[0]).forEach(([al]) => { barraV(sv, PCx(al), 22, -e, zCab, COLF2[22]); el('rect', { x: PCx(al - cab[0] / 2), y: Zs(zCab), width: cab[0] * kA, height: 1.2 * kA, style: acero }, sv); [-1, 1].forEach(s => filete(sv, PCx(al) + s * 1.1 * kA, Zs(-e), 1.2 * kA, s, 1)); });
+        zHq.forEach(z => AHs.filter(p => zP(p[0][2]) === z).slice(0, 1).forEach(p => { const xs = p.map(v => AL(v)), lo = Math.max(wCx[0], Math.min(...xs)), hi = Math.max(...xs); el('rect', { x: PCx(lo), y: Zs(z) - 0.8 * kA, width: (hi - lo) * kA, height: 1.6 * kA, style: barra(COLF2[16]) }, sv); }));
+        const chC2 = [a0, -als[als.length - 1], ...(als.length > 1 ? [-als[0], als[0]] : []), als[als.length - 1], a1];
+        chC2.slice(1).forEach((b, i) => cota(sv, PCx(chC2[i]), Zs(zFin) + 22, PCx(b), Zs(zFin) + 22, mm(b - chC2[i]), 0, 14));
+        const xRC = PCx(wCx[1]) + 34;
+        if (dp && CART) { llam(sv, PCx(sgn * (hb + 1 + cb * 0.25)), Zs(CART[1] / 20), xRC, Zs(CART[1] / 20), 'cartela 8 · filete 5 al tubo'); T14(sv, xRC + 12, Zs(CART[1] / 20) + 23, 'y 6 a la placa (los dos lados)', {}); }
+        llam(sv, PCx(-hb) + 2, Zs(zCt - 8), xRC, Zs(zCt - 8), `pilar: filete ${mm(tt)} alrededor`);
+        if (zHq.length) llam(sv, PCx(wCx[0]) + 6, Zs(zHq[0]), PCx(wCx[0]) - 14, Zs(zHq[0]) - 30, `patas de ${mm(Math.abs(Math.min(...AHs[0].map(v => AL(v))) - (-als[als.length - 1] - 1.1)))} más allá de las barras`, 'end');
+        llam(sv, PCx(al1(als)) + 6, Zs(zCab) + 2, xRC, Zs(zCab) + 6, `cabeza ${mm(cab[0])} × ${mm(cab[1])} × 12 soldada`);
+        function al1(a) { return a[a.length - 1] + cab[0] / 2; }
+
+        // ================= (D) soldaduras ×4 =================
+        const kD = 16, DX = 956, DY = 70;
+        T14(sv, DX, 28, '(D) Soldaduras, ampliadas ×4', { 'font-weight': 700 });
+        // 1) barra a tope bajo la placa
+        const s1 = DX + 64; el('rect', { x: s1 - 64, y: DY, width: 128, height: e * kD, style: 'fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:1' }, sv);
+        el('rect', { x: s1 - 1.1 * kD, y: DY + e * kD, width: 2.2 * kD, height: 60, style: barra(COLF2[22]) }, sv); zig(sv, s1 - 1.1 * kD - 4, DY + e * kD + 60, s1 + 1.1 * kD + 4, 6);
+        [-1, 1].forEach(s => filete(sv, s1 + s * 1.1 * kD, DY + e * kD, 1.2 * kD, s, 1));
+        ['a tope, filete 12', 'E7018, 3 pasadas', 'posición 2F'].forEach((t, i) => T14(sv, s1 - 64, DY + e * kD + 100 + i * 18, t, {}));
+        // 2) cabeza al pie de la barra
+        const s2 = DX + 250, xb2 = s2; el('rect', { x: xb2 - 1.1 * kD, y: DY + 40, width: 2.2 * kD, height: 50, style: barra(COLF2[22]) }, sv);
+        el('rect', { x: xb2 - cab[0] / 2 * kD, y: DY + 90, width: cab[0] * kD, height: 1.2 * kD, style: 'fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:1' }, sv); zig(sv, xb2 - 1.1 * kD - 4, DY + 40, xb2 + 1.1 * kD + 4, 6);
+        [-1, 1].forEach(s => filete(sv, xb2 + s * 1.1 * kD, DY + 90, 1.2 * kD, s, -1));
+        [`cabeza ${mm(cab[0])} × ${mm(cab[1])} × 12`, 'filete 12 alrededor', '(60 × 45 en otras PLc)'].forEach((t, i) => T14(sv, s2 - 80, DY + e * kD + 100 + i * 18, t, {}));
+        // 3) pilar a placa
+        const s3 = DX + 400; el('rect', { x: s3 - 40, y: DY + 70, width: 110, height: e * kD * 0.5, style: 'fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:1' }, sv);
+        el('rect', { x: s3, y: DY, width: tt * kD, height: 70, style: 'fill:var(--fig-pilar);stroke:var(--fig-ink);stroke-width:.8' }, sv); zig(sv, s3 - 6, DY, s3 + tt * kD + 6, 2);
+        [-1, 1].forEach(s => filete(sv, s > 0 ? s3 + tt * kD : s3, DY + 70, tt * kD, s, -1));
+        ['pilar a placa:', `filete ${mm(tt)} (= tubo)`, 'todo el contorno'].forEach((t, i) => T14(sv, s3 - 40, DY + e * kD + 100 + i * 18, t, {}));
+      }, `insertos embebidos a ras del hormigón, sin pernos ni tuercas: barras lisas A36 soldadas a la placa y a su cabeza; horquillas de corte ø16 A630 amarradas, nunca soldadas · se dibuja ${pl.id}, la mayor (${pl.anclas.length} barras, placa de ${mm(e)}, hef ${mm(hef)}); las demás en la tabla · planta y cortes a la misma escala, soldaduras ×4 · medidas en mm · propuesta para el VºBº del ingeniero (calculo/anclajes_insertos.py)`);
+
+      // ================= (E) tabla de variantes y (F) notas =================
+      const t = kn => `${coma(kn / 9.80665, 1)} t (${coma(kn, 1)} kN)`, dirE = (p, s) => { const ax = (s[1] === 'a' && s[2] === 'l') === (p.muro_dir === 'x') ? 'x' : 'y', pos = s[0] === '+'; return ax === 'x' ? (pos ? 'eje 5' : 'eje 1') : (pos ? 'eje E' : 'eje A'); };
+      const MODO = { lateral: 'despr. lateral', cono: 'cono', pryout: 'pry-out', arranque: 'borde', acero: 'acero' };
+      const grupo = p => p.tipo === 'PLb' ? 3 : /muro/.test(p.sobre) ? 0 : /dado/.test(p.sobre) ? 2 : 1;
+      const filas = H.placas.lista.slice().sort((a, b) => grupo(a) - grupo(b)).map(p => {
+        const [x0, x1, y0, y1] = cajaE(p.pts), r = RC[p.id] || [], d = p.tipo === 'PLc' ? 'ø22' : 'ø3/4"', ls = [...new Set(p.anclas.map(a => Math.abs(a[0])))].sort((u, v) => u - v);
+        const sep = `${ls.map(v => mm(2 * v)).join(' y ')} × ${mm(Math.max(...p.anclas.map(a => a[1])) - Math.min(...p.anclas.map(a => a[1])))}`;
+        const hq = (p.horquillas || []).length ? `${p.horquillas.length} (corte hacia el ${[...new Set(p.horquillas.map(s => dirE(p, s)))].join(' y el ')})` : '—';
+        const arm = ((p.anclajes || '').match(/armadura de anclaje: ([^;]+)/) || [])[1] || '—';
+        const dc = r.length ? [r[2], r[4], r[6]] : null, b = v => v >= 0.9 ? `<b>${coma(v, 2)}</b>` : coma(v, 2);
+        return `<tr><td style="white-space:nowrap"><b>${p.id}</b></td><td class="small">${p.sobre}<br>${p.perfil}</td><td style="white-space:nowrap">${mm(p.largo || x1 - x0)} × ${mm(p.ancho || y1 - y0)} × ${mm(p.espesor)}${p.recorte_esquina ? ' <span class="small">(esquina −' + mm(p.recorte_esquina) + ')</span>' : ''}</td><td>${p.anclas.length} ${d} a ${sep} · hef ${mm(p.hef)}</td><td>${mm(p.cabeza[0])} × ${mm(p.cabeza[1])}</td><td class="small">${hq}</td><td class="small">${arm}</td>` +
+          `<td class="r small" style="white-space:nowrap">${r.length ? t(r[0]) + '<br>' + t(r[1]) : '—'}</td><td class="r" style="white-space:nowrap">${dc ? `${b(dc[0])} · ${b(dc[1])} · ${b(dc[2])}<br><span class="small">${MODO[r[3]] || r[3]} · ${MODO[r[5]] || r[5]}</span>` : '—'}</td></tr>`;
+      }).join('');
+      const nC = H.placas.lista.filter(p => p.tipo === 'PLc'), nB = H.placas.lista.filter(p => p.tipo === 'PLb');
+      const fig = document.createElement('figure'); fig.style.gridColumn = '1 / -1';
+      fig.innerHTML = `<div class="tw"><table><thead><tr><th>Placa</th><th>Apoyo · pilar</th><th>Placa A36: largo × ancho × e (mm)</th><th>Barras A36 soldadas</th><th>Cabeza (mm)</th><th>Horquillas ø16</th><th>Armadura de anclaje</th><th class="r">Nua / Vua máx.</th><th class="r">D/C tracción · corte · interacción</th></tr></thead><tbody>${filas}` +
+        `<tr><td colspan="3"><b>Total: ${nC.length} PLc + ${nB.length} PLb</b></td><td colspan="6"><b>${nC.reduce((s, p) => s + p.anclas.length, 0)} barras ø22 + ${nB.reduce((s, p) => s + p.anclas.length, 0)} barras ø3/4"</b> · ${(famE('AH') ? instE(famE('AH')).length : 0)} horquillas ø16<br>máximo D/C ${coma(Math.max(...Object.values(RC).map(r => r[6] || 0)), 2)} · acero de los insertos ≈ 446 kg (placas, cabezas y barras; cálculo)</td></tr></tbody></table></div>` +
+        `<figcaption><b>Tabla de variantes de los insertos</b> · del modelo (medidas) y de calculo/anclajes_insertos.py (Nua, Vua y D/C con Ω0 = 2 en sismo, ACI 318-19 cap. 17) · D/C ≥ 0,90 en negrita · debajo de cada D/C, el modo que manda en tracción y en corte</figcaption>` +
+        `<ul class="puntos small"><li><b>Materiales:</b> placas, barras y cabezas A36; horquillas A630-420H, amarradas y nunca soldadas.</li>` +
+        `<li><b>Soldadura:</b> E7018 según AWS D1.1; cada barra a tope bajo la placa y a su cabeza con filete 12 (10 en las PLb) en todo el contorno; pilar a placa con filete igual al espesor del tubo; precalentamiento según AWS D1.1: sin precalentar sobre 0 °C hasta 20 mm de espesor y 10 °C en la placa de 30 de PLc-4A.</li>` +
+        `<li><b>Montaje:</b> inserto colgado de una plantilla fijada al moldaje antes de hormigonar; tolerancias: nivel ±3 mm, planta ±5 mm, horizontalidad ≤ 2 mm.</li>` +
+        `<li><b>Hormigonado:</b> vibrar hasta que salga lechada por los respiros; el pilar se suelda con el hormigón a 7 días.</li>` +
+        `<li><b>Inspección:</b> visual al 100 % y partículas magnéticas en 1 de cada 5 insertos.</li>` +
+        `<li><b>Losa bajo la placa:</b> la placa de 30 de PLc-4A baja hasta −30; las 4 superiores ø12 en L de la losa (LT-NS) que pasan bajo ella bajan 1,4 cm (4 mm libres bajo la placa) y suben a su cota pasado el borde con quiebre 1:6.</li></ul>`;
+      cont.appendChild(fig);
+    })();
     // ---- tablas: armaduras por elemento, cubicación de hormigón y fierro, especificaciones ----
     const C = D.cubicacion_hormigon;
     $('#tabla-hormigon').innerHTML = `<thead><tr><th>Hormigón</th><th class="r">m³</th><th>Tipo</th></tr></thead><tbody>${C.hormigon.map(x => `<tr><td>${x.elemento}</td><td class="r">${coma(x.m3, 2)}</td><td class="small">${x.hormigon}</td></tr>`).join('')}<tr><td><b>Total hormigón</b></td><td class="r"><b>${coma(C.total_m3, 1)}</b></td><td></td></tr></tbody>` +
-      `<thead><tr><th>Fierro A630-420H (y pernos ø3/4" A36)</th><th class="r">kg</th><th>Metros</th></tr></thead><tbody>${C.fierro.map(x => `<tr><td>${x.nombre}</td><td class="r">${coma(x.kg, 0)}</td><td class="small">${coma(x.metros, 0)} m</td></tr>`).join('')}<tr><td><b>Total fierro</b></td><td class="r"><b>${coma(C.total_kg, 0)}</b></td><td class="small">${C.nota}</td></tr></tbody>`;
+      `<thead><tr><th>Fierro A630-420H (y barras A36 de los insertos)</th><th class="r">kg</th><th>Metros</th></tr></thead><tbody>${C.fierro.map(x => `<tr><td>${x.nombre}</td><td class="r">${coma(x.kg, 0)}</td><td class="small">${coma(x.metros, 0)} m</td></tr>`).join('')}<tr><td><b>Total fierro</b></td><td class="r"><b>${coma(C.total_kg, 0)}</b></td><td class="small">${C.nota}</td></tr></tbody>` +
+      (C.acero && C.acero.length ? `<thead><tr><th>Acero (perfiles y placas, aparte del fierro)</th><th class="r">kg</th><th></th></tr></thead><tbody>${C.acero.map(x => `<tr><td>${x.elemento}</td><td class="r">${coma(x.kg, 0)}</td><td></td></tr>`).join('')}<tr><td><b>Total acero</b></td><td class="r"><b>${coma(C.total_acero_kg, 0)}</b></td><td></td></tr></tbody>` : '');   // V124: el pilar de la escalera y sus placas
     const ES = H.especificaciones;
     $('#tabla-planilla').innerHTML = AR.tablaHTML(PL, Object.fromEntries(D.cubicacion_hormigon.fierro.map(x => [x.diam, x.kg])));
-    const tr = [8, 10, 12, 16, 19].map(d => `${AR.nomD(d)} ${coma(d === 19 ? 114 : 60 * d / 10, 0)}`).join(' · ');
+    const tr = [8, 10, 12, 16].map(d => `${AR.nomD(d)} ${coma(60 * d / 10, 0)}`).join(' · ');   // las barras A36 de los insertos no se traslapan: van soldadas
     $('#notas-ing').innerHTML = `<b>Notas</b> <span class="fuente man">dato · L02 y revisión</span> ${ES.hormigon} · emplantillado ${ES.emplantillado.replace('Hormigón ', '')} · acero ${ES.acero.replace('Acero ', '')} · rec.: fundaciones ${ES.recubrimientos.fundaciones}, H.A. ${ES.recubrimientos['elementos de hormigón armado']}, losa ${ES.recubrimientos.losa} · traslapo 60ø: ${tr}<br>
       <b>Propuesta</b> <span class="fuente med">por confirmar</span> ganchos de 135° en estribos · patas de 60ø en esquinas · malla de la losa de fundación`;
     // especificaciones: en las notas de arriba
@@ -1373,17 +1885,61 @@ ol.preg li{margin:0 0 8px}
     ['Vigas 1–5 CUAD 100×100×3 (+4,11/+4,21 en A, B, C y E)', 'tramos de 2,05 a 3,65 m', `tramos de ${coma(Math.min(...xs.slice(1).map((v, i) => v - xs[i])) / 100, 2)} a ${coma(bahiaMax / 100, 2)} m`, 'menor'],
     ['Pilares CUAD 150×150', '4,01 a 4,47 m (F1 a A1, con el 4,5 % dibujado)', `${coma(Math.min(...hP) / 100, 2)} a ${coma(Math.max(...hP) / 100, 2)} m (A a E)`, Math.max(...hP) > 447 ? 'calc' : 'menor'],
     ['Cruces C 150×50×3', 'tramos de 2,05 y 1,82 m × 4,01 m', 'tramos de 2,00 m en las fachadas laterales; 2,58 y 2,75 m en los muros ciegos en 1–5 (B 4-5 sin diagonal; C2 4-5 con una sola, sobre la puerta de la bodega); de la placa base a la viga (4,16 a 4,81 m)', 'menor'],
+    ['Cruces nuevas del sismo con tabiques y torsión (27-10-2026)', '—', `C 150×50×3 en el tramo C–C2 (${coma((D.ejes.y.C2 - D.ejes.y.C) / 100, 2)} m) de las fachadas 1 y 5; la del muro A 4-5 en C 150×50×4; X de Fe 22 con templador en la faja del eje E (1-2 y 4-5)`, 'calc'],
     [`Losa del búnker e=${coma(H.losa.espesor, 0)}`, '5,00 m (e=20, ø10@20)', `${coma(H.interior.largo / 100, 2)} m`, 'calc'],
     [`Muros del búnker e=${coma(H.muros.espesor, 0)}`, '2,72 m de altura libre (e=25)', `${coma(H.interior.alto / 100, 2)} m`, 'calc'],
-    [`Viga ${H.vigas[0].nombre} bajo la losa`, '5,00 m entre muros (eje 2.a, 25/40)', `${coma(H.interior.largo / 100, 2)} m entre muros (eje 3) y viga de borde de ${coma(H.escalera.largo / 100, 2)} m en la escalera`, 'calc'],
-    ['Tensores Fe 16 del techo', 'paños de 2,05 × 3,65 m', `paños de hasta ${coma(bahiaMax / 100, 2)} × ${coma(tramoYmax / 100, 2)} m`, 'calc'],
+    [`Viga ${H.vigas[0].nombre} bajo la losa`, '5,00 m entre muros (eje 2.a, 25/40)', `${coma(H.interior.largo / 100, 2)} m entre muros (eje 3); en la escalera, vigas botadas 40/25 (VBL de muro a muro, sobre el pilar de la esquina, y VBC de ${coma((Math.max(...H.vigas.find(v => v.id === 'VBC').pts.map(p => p[0])) - Math.min(...H.vigas.find(v => v.id === 'VBC').pts.map(p => p[0]))) / 100, 2)} m)`, 'calc'],
+    ['Tensores del techo Fe 16 (Fe 22 en los paños A2–B y B–C de los vanos 1-2 y 4-5)', 'paños de 2,05 × 3,65 m', `paños de hasta ${coma(bahiaMax / 100, 2)} × ${coma(tramoYmax / 100, 2)} m`, 'calc'],
   ];
   const est = { menor: ['okv', 'se mantiene'], igual: ['okv', 'igual'], mayor: ['med', 'recalcular'], calc: ['okv', 'recalculado: pasa'] };
   $('#tabla-luces').innerHTML = `<thead><tr><th>Elemento</th><th>Luz original</th><th>Luz nueva</th><th>Estado</th></tr></thead><tbody>${luces.map(l => `<tr><td><b>${l[0]}</b></td><td>${l[1]}</td><td>${l[2]}</td><td class="${est[l[3]][0]}">${est[l[3]][1]}</td></tr>`).join('')}</tbody>`;
 
+  // ---------- planta de techo (27-10-2026): la estructura de acero vista desde arriba, con los 8 tensores Fe 22 del sismo con tabiques y torsión accidental ----------
+  (function plantaTecho() {
+    const svg = $('#svg-techo'); if (!svg) return;
+    const ms = D.miembros, nomP = p => p.replace(/^FE (\d+)/, 'Fe $1'), ext = ms.filter(x => x.c === 'otro' || x.c === 'cabio').flatMap(x => [loc(x.a), loc(x.b)]);
+    const x0 = Math.min(...ext.map(p => p[0])), x1 = Math.max(...ext.map(p => p[0])), y0 = Math.min(...ext.map(p => p[1])), y1 = Math.max(...ext.map(p => p[1]));   // borde del techo con sus aleros
+    const VX = x0 - 220, VY = y0 - 230, VW = x1 - x0 + 290, VH = y1 - y0 + 330;
+    svg.setAttribute('viewBox', `${VX} ${VY} ${VW} ${VH}`);
+    const ref = parseFloat(getComputedStyle(svg).minWidth) || svg.getBoundingClientRect().width || VW, FSP = Math.max(14, 14 * VW / ref + 0.3);   // la letra que deja letraMinima (14 px en el ancho de diseño)
+    const ln = (a, b, st) => el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], style: st }, svg);
+    const placa = t => { const bb = t.getBBox(); t.parentNode.insertBefore(el('rect', { x: bb.x - 5, y: bb.y - 2, width: bb.width + 10, height: bb.height + 4, style: 'fill:var(--paper);stroke:none' }), t); };
+    el('rect', { x: x0, y: y0, width: x1 - x0, height: y1 - y0, style: 'fill:var(--fig-fill);stroke:var(--fig-techo);stroke-width:2' }, svg);
+    Object.values(D.ejes.x).forEach(x => ln([x, y0 - 40], [x, y1 + 12], 'stroke:var(--fig-soft);stroke-width:1;stroke-dasharray:18 6 3 6'));
+    Object.entries(D.ejes.y).filter(([n]) => n !== 'nota').forEach(([, y]) => ln([x0 - 40, y], [x1 + 12, y], 'stroke:var(--fig-soft);stroke-width:1;stroke-dasharray:18 6 3 6'));
+    // de abajo hacia arriba: vigas y cordones a +4,11 (punteado, bajo el techo), costaneras, vigas inclinadas, puntales de techo, tensores (las cruces de los muros quedan bajo las vigas)
+    ms.filter(x => x.c === 'viga').forEach(mb => ln(loc(mb.a), loc(mb.b), `stroke:${COL.viga};stroke-width:4;stroke-dasharray:12 7`));
+    ms.filter(x => x.c === 'costanera').forEach(mb => ln(loc(mb.a), loc(mb.b), `stroke:${COL.costanera};stroke-width:2.5`));
+    ms.filter(x => x.c === 'cabio').forEach(mb => { const a = loc(mb.a), b = loc(mb.b), bw = (D.perfiles[mb.p] || {}).b || 15; el('rect', { x: a[0] - bw / 2, y: Math.min(a[1], b[1]), width: bw, height: Math.abs(b[1] - a[1]), style: `fill:${COL.cabio};stroke:var(--fig-ink);stroke-width:.8` }, svg); });
+    ms.filter(x => x.c === 'otro').forEach(mb => ln(loc(mb.a), loc(mb.b), `stroke:${COL.otro};stroke-width:4`));
+    ms.filter(x => x.c === 'puntal' && Math.hypot(mb2(x)[0], mb2(x)[1]) > 1).forEach(mb => ln(loc(mb.a), loc(mb.b), `stroke:${COL.puntal};stroke-width:6`));
+    function mb2(x) { const a = loc(x.a), b = loc(x.b); return [b[0] - a[0], b[1] - a[1]]; }
+    const ten = ms.filter(x => x.c === 'tensor');
+    ten.forEach(mb => ln(loc(mb.a), loc(mb.b), `stroke:${COL.tensor};stroke-width:${/22/.test(mb.p) ? 6 : 2.5}`));
+    ms.filter(x => x.c === 'pilar').forEach(mb => { const a = loc(mb.a); el('rect', { x: a[0] - 8, y: a[1] - 8, width: 16, height: 16, style: `fill:${COL.pilar};stroke:var(--fig-ink);stroke-width:1` }, svg); });
+    (D.uniones || []).forEach(un => { const pm = ms.find(x => x.id === un.pilar); if (pm) { const a = loc(pm.a); el('circle', { cx: a[0], cy: a[1], r: 24, style: 'fill:none;stroke:var(--fig-ink);stroke-width:2' }, svg); } });
+    // rótulo de cada X de tensores Fe 22 (al centro, sobre una placa)
+    const grT = {}; ten.filter(x => !/16/.test(x.p)).forEach(mb => { const k = mb.id.replace(/[ab]$/, ''); (grT[k] = grT[k] || []).push(mb); });
+    Object.values(grT).forEach(g => { const ps = g.flatMap(mb => [loc(mb.a), loc(mb.b)]), cx = ps.reduce((a, p) => a + p[0], 0) / ps.length, cy = ps.reduce((a, p) => a + p[1], 0) / ps.length;
+      const t = txt(svg, cx, cy, nomP(g[0].p), { 'text-anchor': 'middle', 'font-size': FSP, 'font-weight': 600 }), bb = t.getBBox(); t.setAttribute('y', 2 * cy - (bb.y + bb.height / 2)); placa(t); });
+    // perfil de cada viga inclinada, bajo el alero
+    ms.filter(x => x.c === 'cabio').forEach(mb => txt(svg, loc(mb.a)[0], y1 + 18 + FSP * 0.8, mb.p, { 'text-anchor': 'middle', 'font-size': FSP, class: 'txs' }));
+    // cotas entre ejes y ejes
+    const ordX = Object.entries(D.ejes.x).sort((p, q) => p[1] - q[1]), ordY = Object.entries(D.ejes.y).filter(([n]) => n !== 'nota').sort((p, q) => p[1] - q[1]);
+    const cm1 = v => coma(v, Math.abs(v - Math.round(v)) > 0.05 ? 1 : 0);
+    ordX.slice(1).forEach(([, v], i) => cota(svg, ordX[i][1], y0, v, y0, cm1(v - ordX[i][1]), -46, FSP));
+    ordY.slice(1).forEach(([, v], i) => cota(svg, x0, ordY[i][1], x0, v, cm1(v - ordY[i][1]), 46, FSP));
+    const rP = Math.max(26, FSP * 0.95), bub = (x, y, n) => { el('circle', { cx: x, cy: y, r: rP, style: 'fill:var(--paper);stroke:var(--fig-ink);stroke-width:1.5' }, svg); txt(svg, x, y + FSP * 0.36, n, { 'text-anchor': 'middle', 'font-size': FSP, 'font-weight': 600 }); };
+    ordX.forEach(([n, x]) => bub(x, y0 - 160, n)); ordY.forEach(([n, y]) => bub(x0 - 160, y, n));
+    const fn = flechaNorte(svg, x0 - 150, y0 - 150, 20), tN = fn.querySelector('text'); if (tN) { tN.setAttribute('font-size', FSP); tN.setAttribute('y', -1.35 * 20 - 6); }
+    txt(svg, (x0 + x1) / 2, y0 - 205, 'patio', { 'text-anchor': 'middle', 'font-size': FSP, class: 'txs' });
+    const n22 = ten.filter(x => /22/.test(x.p)).length, n16 = ten.length - n22;
+    $('#cap-techo').innerHTML = `<b>Planta de techo</b> (estructura de acero, desde arriba) · vigas inclinadas en azul con su perfil bajo el alero · costaneras CA 100x50x15x3 @${coma(P.paso_costanera, 0)} en morado · puntales de techo CUAD 100x100x3 en naranjo (montantes de la cercha de tensores) · vigas y cordones a +${coma(P.z_viga_inf, 0)} bajo el techo en azul punteado · tensores en verde: ${n16} Fe 16 (finos) y <b>${n22} Fe 22 con templador</b> (gruesos y rotulados: paños A2–B y B–C de los vanos 1-2 y 4-5, sismo con tabiques y torsión accidental, 27-10-2026) · círculo: nudo con unión de momento UM · cotas entre ejes en cm.`;
+  })();
+
   // ---------- acero ----------
   $('#tabla-acero').innerHTML = `<thead><tr><th>Perfil</th><th class="r">Metros</th><th class="r">kg</th><th>Dónde</th></tr></thead><tbody>${D.cubicacion.map(c => {
-    const donde = [...new Set(D.miembros.filter(x => x.p === c.perfil).map(x => ({ pilar: 'pilares', viga: 'vigas', cabio: 'vigas inclinadas', puntal: 'puntales', costanera: 'costaneras', diagonal: 'cruces', tensor: 'tensores', otro: 'soportes de alero' })[x.c]))].join(', ');
+    const donde = c.donde || [...new Set(D.miembros.filter(x => x.p === c.perfil).map(x => ({ pilar: 'pilares', viga: 'vigas', cabio: 'vigas inclinadas', puntal: 'puntales', costanera: 'costaneras', diagonal: 'cruces', tensor: 'tensores', otro: 'soportes de alero' })[x.c]))].join(', ');
     return `<tr><td><b>${c.perfil}</b></td><td class="r">${coma(c.metros, 1)}</td><td class="r">${coma(c.kg, 0)}</td><td class="small">${donde}</td></tr>`; }).join('')}<tr><td><b>Total</b></td><td></td><td class="r"><b>${coma(D.total_kg, 0)}</b></td><td></td></tr></tbody>`;
 
   // ---------- preguntas ----------

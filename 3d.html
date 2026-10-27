@@ -102,7 +102,7 @@ body.embed .norte3d{top:52px}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V123" data-vista="3d"></script>
+    <script src="menu.js?v=V124" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -182,17 +182,17 @@ body.embed .norte3d{top:52px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V123"></script>
-<script src="data.js?v=V123"></script>
-<script src="casa_vanos.js?v=V123"></script>
-<script src="estructura.js?v=V123"></script>
-<script src="losa.js?v=V123"></script>
-<script src="sitio.js?v=V123"></script>
-<script src="sitio3d.js?v=V123"></script>
-<script src="estudio_estructura.js?v=V123"></script>
-<script src="mobiliario3d.js?v=V123"></script>
-<script src="cotas3d.js?v=V123"></script>
-<script src="goku3d.js?v=V123"></script>
+<script src="nav3d.js?v=V124"></script>
+<script src="data.js?v=V124"></script>
+<script src="casa_vanos.js?v=V124"></script>
+<script src="estructura.js?v=V124"></script>
+<script src="losa.js?v=V124"></script>
+<script src="sitio.js?v=V124"></script>
+<script src="sitio3d.js?v=V124"></script>
+<script src="estudio_estructura.js?v=V124"></script>
+<script src="mobiliario3d.js?v=V124"></script>
+<script src="cotas3d.js?v=V124"></script>
+<script src="goku3d.js?v=V124"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -574,7 +574,15 @@ body.embed .norte3d{top:52px}
     H.muros.piezas.forEach(mu => addH('muros', ficha(prismaH(mu.pts, H.muros.z_inf, H.muros.z_sup, matH), `Búnker: muro ${mu.lado}`, `${/^e=/.test(H.muros.armadura) ? '' : 'hormigón e=' + H.muros.espesor + ' · '}${H.muros.armadura}${imp}`)));
     addH('losa', ficha(prismaH(H.losa.pts, H.losa.z_inf, H.losa.z_sup, matH, [H.losa.hueco]), 'Búnker: losa de techo', `e=${H.losa.espesor} · ${H.losa.armadura}`));
     if (H.piso) addH('piso', ficha(prismaH(H.piso.pts, H.piso.z_inf, H.piso.z_sup, matH), 'Búnker: radier', `e=${H.piso.espesor} · ${H.piso.armadura}`));
-    H.vigas.forEach(v => addH('losa', ficha(prismaH(v.pts, v.z_inf, v.z_sup, matH), v.nombre, `${v.d} · ${v.armadura}`)));
+    // vigas botadas del hueco de la escalera (27-10-2026): van dentro de la losa, así que se dibujan 4 mm más altas por arriba y por abajo y más oscuras, para que se vean en la losa
+    const matBot = new THREE.MeshLambertMaterial({color: dark ? 0x6E7177 : 0x8F918F, transparent: true, opacity: 0.95, side: THREE.DoubleSide});
+    H.vigas.forEach(v => addH('losa', ficha(v.botada ? prismaH(v.pts, v.z_inf - 0.4, v.z_sup + 0.4, matBot) : prismaH(v.pts, v.z_inf, v.z_sup, matH), v.nombre + (v.botada ? ` (${v.id})` : ''), `${v.d} · ${v.armadura}${v.fuente ? ' · ' + v.fuente : ''}`)));
+    // pilar de acero en la esquina del hueco de la escalera, con su placa base y su placa de cabeza (va con la escalera: se ve también en la vista del hormigón)
+    if (H.pilar_escalera){
+      const pe = H.pilar_escalera, matPE = new THREE.MeshLambertMaterial({color: dark ? 0xF08C4A : 0xC2410C}), matPlE = new THREE.MeshLambertMaterial({color: 0x2B2E34, side: THREE.DoubleSide}), mmE = v => (+v * 10).toLocaleString('es-CL', {maximumFractionDigits: 0});
+      addH('escalera', ficha(prismaH(pe.pts, pe.z_inf, pe.z_sup, matPE), `Pilar de la escalera ${pe.id} (${pe.perfil} ${pe.acero})`, `${pe.d} · ${pe.soldadura} · ${pe.montaje} · ${pe.kg.toLocaleString('es-CL')} kg · ${pe.fuente}`));
+      [[pe.placa_base, 'base'], [pe.placa_cabeza, 'de cabeza']].forEach(([pl, nm]) => { if (pl) addH('escalera', ficha(prismaH(pl.pts, pl.z_inf, pl.z_sup, matPlE), `Placa ${nm} del pilar ${pe.id} (${mmE(pl.lado)} × ${mmE(pl.lado)} × ${mmE(pl.espesor)} mm)`, pl.detalle)); });
+    }
     // fundaciones del ingeniero (lámina 01 rev 1): zapata corrida bajo los muros del búnker, sobrecimiento + cimiento corrido bajo las fachadas,
     // CF bajo los tabiques con pilares (hasta la cara del radier), dados bajo 4C y 4C2, emplantillados y hormigón pobre G5 hasta el sello,
     // dren perimetral del búnker, radieres con sus capas y placas base PLc / PLb (medidas y textos del modelo: estudio_estructura.js)
@@ -624,9 +632,10 @@ body.embed .norte3d{top:52px}
       });
     }
     if (H.radier_estudio) H.radier_estudio.capas.forEach(capa => { const mat = capa.id === 'radier' ? matH : capa.id === 'poliestireno' ? matPoli : matRell; capa.piezas.forEach(z => addH('radier', ficha(prismaH(z.pts, capa.z_inf, capa.z_sup, mat), capa.nombre, `bajo ${z.recinto} · ${H.radier_estudio.fuente}`))); });
-    if (H.placas) H.placas.lista.forEach(pl => { const m = new THREE.Mesh(new THREE.BoxGeometry(cm(pl.lado), cm(pl.espesor), cm(pl.lado)), matPlaca); m.position.set(cm(pl.centro[0]), cm(pl.z - pl.espesor / 2), cm(pl.centro[1]));
+    // placas base: su contorno real (pl.pts: las PLc con cartela o inserto grande no son cuadradas, 27-10-2026), de pl.z − e a pl.z
+    if (H.placas) H.placas.lista.forEach(pl => { const m = pl.pts ? prismaH(pl.pts, pl.z - pl.espesor, pl.z, matPlaca) : new THREE.Mesh(new THREE.BoxGeometry(cm(pl.lado), cm(pl.espesor), cm(pl.lado)), matPlaca); if (!pl.pts) m.position.set(cm(pl.centro[0]), cm(pl.z - pl.espesor / 2), cm(pl.centro[1]));
       const mm = v => coma1(v * 10), corr = pl.corrimiento_anclajes ? ` · anclajes corridos ${coma1(Math.abs(pl.corrimiento_anclajes))} cm a lo largo del ${pl.sobre} para no topar las barras del muro de la esquina` : '';
-      addH('placas', ficha(m, `Placa base ${pl.id} (${pl.tipo} ${mm(pl.lado)} × ${mm(pl.lado)} × ${mm(pl.espesor)} mm)`, `${pl.tipo === 'PLc' ? 'pilar con cruz' : 'pilar sin cruz'} ${pl.pilar} (${pl.perfil}) · sobre ${pl.sobre} · anclajes: ${pl.anclajes}${corr} · ${H.placas.fuente}`)); });
+      addH('placas', ficha(m, `Placa base ${pl.id} (${pl.tipo} ${mm(pl.largo || pl.lado)} × ${mm(pl.ancho || pl.lado)} × ${mm(pl.espesor)} mm)`, `${pl.tipo === 'PLc' ? 'pilar con cruz' : 'pilar sin cruz'} ${pl.pilar} (${pl.perfil}) · sobre ${pl.sobre} · anclajes: ${pl.anclajes}${corr} · ${H.placas.fuente}`)); });
     // escalera esquemática: una rampa de peldaños
     const esc = H.escalera, tr = esc.tramo || {y_arriba: esc.pts[2][1], y_abajo: esc.pts[0][1], largo: esc.largo, peldanos: 16}, n = tr.peldanos, dz = (esc.z_arriba - esc.z_abajo) / n, dy = tr.largo / n, haciaNorte = esc.baja_hacia === 'norte';
     for (let i = 0; i < n; i++){
@@ -644,6 +653,16 @@ body.embed .norte3d{top:52px}
       });
     }
     g.add(hormigon); sub.hormigon = hormigon;
+    // uniones de momento UM del cordón con los pilares B y E de los ejes 2 y 3 (27-10-2026): las 2 planchas de 8 de cada nudo, con su ficha; van con el acero
+    if (D.uniones){
+      const uni = new THREE.Group(), matUM = new THREE.MeshLambertMaterial({color: dark ? 0xA3AAB6 : 0x56606E}), f2 = v => (+v).toLocaleString('es-CL', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      D.uniones.forEach(un => un.cajas.forEach(c => {
+        const lx = Math.abs(c.b[0] - c.a[0]), ly = Math.abs(c.b[1] - c.a[1]), lz = Math.abs(c.b[2] - c.a[2]);
+        const m = new THREE.Mesh(new THREE.BoxGeometry(cm(lx), cm(lz), cm(ly)), matUM); m.position.set(cm((c.a[0] + c.b[0]) / 2), cm((c.a[2] + c.b[2]) / 2), cm((c.a[1] + c.b[1]) / 2));
+        uni.add(ficha(m, `${un.id}: unión de momento, ${un.plancha}`, `cordón soldado a momento al pilar ${un.pilar} (nudo en ${un.tipo}); plancha de ${coma1(Math.max(lx, ly) * 10)} × ${coma1(lz * 10)} × ${coma1(Math.min(lx, ly) * 10)} mm a cada lado del cordón, a ras abajo · ${un.soldadura} · D/C máx. ${f2(un.dc_max)} · ${un.nota} · estudio, propuesta`));
+      }));
+      g.add(uni); sub.uniones = uni;
+    }
     g.userData.sub = sub;
     return g;
   }
@@ -651,7 +670,8 @@ body.embed .norte3d{top:52px}
   grupoEstudioEst.visible = false;
 
   // ---------- enfierradura del estudio: cada familia de barras (estudio_estructura.js → fierros) como líneas, con su color por diámetro ----------
-  const COLOR_FIERRO = {8: 0xE2C044, 10: 0xE8893A, 12: 0xD9534F, 16: 0x8E2A2A, 19: 0x3F8FD6};
+  const COLOR_FIERRO = {8: 0xE2C044, 10: 0xE8893A, 12: 0xD9534F, 16: 0x8E2A2A, 19: 0x3F8FD6, 22: 0x7A55C8};   // 22: barras lisas A36 ø7/8" de los insertos (27-10-2026)
+  const NOM_DIAM = d => ({19: '3/4"', 22: '7/8"'})[d] || d;   // pernos y barras en pulgadas, el resto en mm
   const materialesFierro = [];   // LineMaterial de cada familia: resize() les pone el tamaño real del lienzo (aquí 'stage' aún no existe: se declara más abajo)
   const ANCHO_FIERRO = d => d >= 16 ? 1.5 : d >= 12 ? 1.2 : 0.9;   // px en pantalla por diámetro (V67 iba a 3,6/3/2,4 y V70 a 2,2/1,8/1,4: Gabriel los encontró demasiado gruesos las dos veces)
   let factorGrosor = 1;   // fino 0.7 · medio 1 · grueso 1.5: botones bajo la capa de fierros
@@ -676,7 +696,7 @@ body.embed .norte3d{top:52px}
         const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
         ls = new THREE.LineSegments(geo, new THREE.LineBasicMaterial({color: COLOR_FIERRO[f.diam] || 0x888888}));
       }
-      ls.userData.sitio = `<b>${f.elemento}: ø${f.diam === 19 ? '3/4"' : f.diam}</b><br><span class="sub">${f.d} · ${(f.largo / 100).toFixed(1).replace('.', ',')} m de barra en el modelo</span>`;
+      ls.userData.sitio = `<b>${f.elemento}: ø${NOM_DIAM(f.diam)}</b><br><span class="sub">${f.d} · ${(f.largo / 100).toFixed(1).replace('.', ',')} m de barra en el modelo</span>`;
       ls.userData.fierro = true; ls.userData.elemento = f.elemento; g.add(ls);
     });
     return g;
@@ -1049,7 +1069,7 @@ body.embed .norte3d{top:52px}
     sep(); titulo('Enfierradura');
     const elems = [...new Set(grupoFierros.children.map(ls => ls.userData.elemento))];
     elems.forEach(e => { const c = document.createElement('input'); c.type = 'checkbox'; c.checked = true; chkFElem[e] = c; fila(e.charAt(0).toUpperCase() + e.slice(1), c); c.addEventListener('input', aplica); });
-    const ley = document.createElement('div'); ley.className = 'row'; ley.style.cssText = 'padding-left:22px;gap:6px;flex-wrap:wrap;font-size:11px'; ley.innerHTML = Object.entries(COLOR_FIERRO).map(([d, c]) => `<span><span class="sw" style="display:inline-block;vertical-align:middle;background:#${c.toString(16).padStart(6, '0')}"></span> ø${d === '19' ? '3/4"' : d}</span>`).join(''); panelEl.insertBefore(ley, filaFit);
+    const ley = document.createElement('div'); ley.className = 'row'; ley.style.cssText = 'padding-left:22px;gap:6px;flex-wrap:wrap;font-size:11px'; ley.innerHTML = Object.entries(COLOR_FIERRO).map(([d, c]) => `<span><span class="sw" style="display:inline-block;vertical-align:middle;background:#${c.toString(16).padStart(6, '0')}"></span> ø${NOM_DIAM(d)}</span>`).join(''); panelEl.insertBefore(ley, filaFit);
     const gro = document.getElementById('fierros-grosor'); panelEl.insertBefore(gro, filaFit); gro.hidden = false;
     sep(); fila('Medidas de las fundaciones', chkHCotas); chkHCotas.addEventListener('input', aplica);
   }
@@ -1134,7 +1154,7 @@ body.embed .norte3d{top:52px}
   [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, chkEscalera, explode, chkBajoTierra, chkEstudioEst, chkEstudioHormigon, chkHTransE, chkEstudioFierros, chkEstudioTecho, chkCerramiento, chkMobiliario, chkCotas].concat(Object.values(chkSitio)).forEach(el => el.addEventListener('input', aplica));
   if (!sitio) Object.values(chkSitio).concat([chkBajoTierra, chkEstudioEst, chkEstudioHormigon, chkEstudioFierros, chkEstudioTecho, chkCerramiento, chkMobiliario, chkCotas]).forEach(el => { el.closest('.row').hidden = true; });
   if (!grupoFierros.children.length) chkEstudioFierros.closest('.row').hidden = true;
-  else document.getElementById('fierros-leyenda').innerHTML = Object.entries(COLOR_FIERRO).map(([d, c]) => `<span><span class="sw" style="display:inline-block;vertical-align:middle;background:#${c.toString(16).padStart(6, '0')}"></span> ø${d === '19' ? '3/4"' : d}</span>`).join('');
+  else document.getElementById('fierros-leyenda').innerHTML = Object.entries(COLOR_FIERRO).map(([d, c]) => `<span><span class="sw" style="display:inline-block;vertical-align:middle;background:#${c.toString(16).padStart(6, '0')}"></span> ø${NOM_DIAM(d)}</span>`).join('');
   if (!sitio){ document.getElementById('estudio-cab').hidden = true; document.getElementById('estudio-sep').hidden = true; }
   if (!grupoMobiliario.children.length) chkMobiliario.closest('.row').hidden = true;
   if (!grupoCotas.children.length) chkCotas.closest('.row').hidden = true;

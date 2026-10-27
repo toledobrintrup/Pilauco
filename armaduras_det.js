@@ -7,9 +7,9 @@
 //   Armaduras.seccion(svg, D, H, A, cfg)        → corte vertical del modelo (hormigón + barras) con marcas, recubrimientos y cotas
 (function () {
   const NS = 'http://www.w3.org/2000/svg';
-  const KGM = { 8: 0.395, 10: 0.617, 12: 0.888, 16: 1.578, 19: 2.235 };   // kg/m (los mismos del generador)
+  const KGM = { 8: 0.395, 10: 0.617, 12: 0.888, 16: 1.578, 19: 2.235, 22: 3.04 };   // kg/m (los mismos del generador)
   // orden de la planilla, de abajo hacia arriba y del búnker a las fachadas; por prefijo para que un cambio de sección (VHA 25/45, CF 30/50) no la desordene
-  const ORDEN = ['losa de fundación', 'muro del búnker', 'losa del búnker', 'VHA', 'sobrecimiento', 'cimiento corrido', 'CF', 'dado', 'placa base PLc', 'placa base PLb'];
+  const ORDEN = ['losa de fundación', 'muro del búnker', 'losa del búnker', 'VHA', 'viga botada', 'sobrecimiento', 'cimiento corrido', 'CF', 'dado', 'placa base PLc', 'placa base PLb'];
   const orden = e => { const i = ORDEN.findIndex(o => e.startsWith(o)); return i < 0 ? ORDEN.length : i; };
   const coma = (v, d) => (+v).toLocaleString('es-CL', { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 });
   const cm = v => coma(v, Math.abs(v - Math.round(v)) > 0.01 ? 1 : 0);
@@ -41,15 +41,19 @@
       return `${t} ${mu.length > 1 ? 'de los muros de los ejes' : 'del muro del eje'} ${lista(mu.map(x => EJE_MURO[x]))} · ${ca.length > 1 ? '2 mallas' : 'malla ' + (ca[0] === 'ext' ? 'exterior' : 'interior')}`;
     }
     if (ids.every(id => /^LT-/.test(id)) && ids.length > 1) return 'superiores en L sobre los 4 muros (en A–B y en 1–5)';
-    if (ids.every(id => /^LR-/.test(id))) return `suples ${ids.length > 1 ? 'superiores e inferiores' : ids[0] === 'LR-sup' ? 'superiores' : 'inferiores'} en las esquinas del hueco de la escalera`;
+    if (ids.every(id => /^LR-(sup|inf)$/.test(id))) return `suples ${ids.length > 1 ? 'superiores e inferiores' : ids[0] === 'LR-sup' ? 'superiores' : 'inferiores'} en las esquinas del hueco de la escalera`;
     const lf = { 'LF-inf-NS': 'malla inferior en A–B', 'LF-inf-EO': 'malla inferior en 1–5', 'LF-sup-NS': 'malla superior en A–B', 'LF-sup-EO': 'malla superior en 1–5',
-      LN: 'inferiores en A–B (luz corta)', LE: 'inferiores en 1–5', 'LT-NS': 'superiores en A–B, en L sobre los muros de los ejes A y B', 'LT-EO': 'superiores en 1–5, en L sobre los muros de los ejes 1 y 5', 'LT-NS16': 'superiores ø16 en A–B sobre el muro del eje B, junto a la viga de borde de la escalera',
+      LN: 'inferiores en A–B (luz corta)', LE: 'inferiores en 1–5', 'LT-NS': 'superiores en A–B, en L sobre los muros de los ejes A y B', 'LT-EO': 'superiores en 1–5, en L sobre los muros de los ejes 1 y 5', 'LT-NS16': 'superiores ø16 en A–B sobre el muro del eje B, en los 1,20 junto a la VBL de la escalera',
+      'LS-AB': 'superiores ø10@20 en 1–5 junto a los muros de los ejes A y B (1,80 desde su cara, bajo las L)', 'LR-VBL': 'suple inferior en A–B junto a la VBL, de 1,00 × 2,40 (intercalado: queda @7,5)',
+      'LF-suple': 'suple inferior en 1–5 bajo el pilar de la escalera, de 1,50 × 1,50 (intercalado: queda @7,5)',
+      AH: 'horquillas de corte bajo las PLc (abrazan las barras del inserto; amarradas, nunca soldadas)',
       LS: 'superiores sobre la VHA del eje 3', 'LR-sup': 'suples superiores en las esquinas del hueco', 'LR-inf': 'suples inferiores en las esquinas del hueco',
-      AN: 'horquillas 1+1 de las placas PLb', AP: 'pernos ø3/4" A36 de las placas PLc, con tuerca y golilla (no son A630)', AU: 'armadura de anclaje de los dados (4 verticales por dado)',
+      AN: 'barras lisas A36 de los insertos PLb, soldadas a la placa y a su cabeza (no son A630)', AP: 'barras lisas A36 de los insertos PLc, soldadas a la placa y a su cabeza (no son A630)', AU: 'armadura de anclaje de los dados (4 verticales por dado)',
       AX: 'estribos extra bajo los pilares con cruz del sobrecimiento' };
     if (ids.every(id => lf[id])) return lista(uniq(ids.map(id => lf[id])));
-    const NV = { 'VHA-3': 'VHA del eje 3', 'VHA-esc': 'viga de borde del hueco (lado del eje 4)', 'VB-N': 'viga de borde del hueco (lado del eje A)', 'VB-S': 'viga de borde del hueco (lado del eje B)' };
-    const v = ids.map(id => /^(VHA-3|VHA-esc|VB-N|VB-S)-(sup|med|inf|est)$/.exec(id)).filter(Boolean);
+    const NV = { 'VHA-3': 'VHA del eje 3', 'VHA-esc': 'viga de borde del hueco (lado del eje 4)', 'VB-N': 'viga de borde del hueco (lado del eje A)', 'VB-S': 'viga de borde del hueco (lado del eje B)',
+      VBL: 'VBL (borde del hueco hacia el eje 4, del muro A al muro B)', VBC: 'VBC (borde del hueco hacia el eje A, de la VBL al muro del eje 5)' };
+    const v = ids.map(id => /^(VHA-3|VHA-esc|VB-N|VB-S|VBL|VBC)-(sup|med|inf|est)$/.exec(id)).filter(Boolean);
     if (v.length) return `${lista(uniq(v.map(x => NV[x[1]])))}: ${lista(uniq(v.map(x => PARTE[x[2]])))}`;
     const s = ids.map(id => /^(SU|S16|S8|CU|CL)-(1|5|E)$/.exec(id)).filter(Boolean);
     if (s.length) { const t = { SU: 'estribos', S16: '2ø16 superiores', S8: 'horizontales (2 caras)', CU: 'U transversales', CL: '4ø12 longitudinales' }[s[0][1]]; const e = uniq(s.map(x => x[2])); return `${t} · eje${e.length > 1 ? 's' : ''} ${lista(e)}`; }
@@ -61,7 +65,13 @@
   }
   function fuente(id) {   // [tipo, corto, detalle]: 'dato' = lo dibujó el ingeniero (láminas); 'propuesta' = revisión del 23-10-2026 o supuesto nuestro
     const REV = 'revisión 23-10-2026';
-    if (id === 'LT-NS16') return ['propuesta', 'escalera', 'escalera de 1,20 (24-10-2026): la viga de borde se empotra en el muro del eje B; ø16@15 en vez de ø12@15 en esos 1,20'];
+    const ESC = 'el ingeniero (25/26-10-2026): pilar en la esquina del hueco, vigas botadas dentro de la losa, ø10@20 arriba en 1–5 junto a los muros A y B y fisura 0,30 mm';
+    if (id === 'LT-NS16') return ['propuesta', 'escalera', 'escalera de 1,20 (24-10-2026): la VBL se empotra en el muro del eje B; ø16@15 en vez de ø12@15 en esos 1,20'];
+    if (/^(VBL|VBC)-/.test(id)) return ['propuesta', 'vigas botadas', `${ESC}; ancho 40, armadura y estribos: propuesta (ACI 318-08, con torsión)`];
+    if (id === 'LS-AB') return ['propuesta', 'ingeniero', `${ESC}; largo y cantidad: propuesta`];
+    if (id === 'LR-VBL' || id === 'LF-suple') return ['propuesta', 'escalera', `suple propuesto para la escalera con pilar (${id === 'LF-suple' ? 'losa de fundación bajo el pilar: 1,01 sin suple' : 'losa de techo junto a la VBL'})`];
+    if (/^(AP|AN)$/.test(id)) return ['propuesta', 'insertos', 'insertos con anclajes soldados en vez de pernos con tuerca: sugerido por el ingeniero (V121, 25-10-2026); medidas: propuesta para su VºBº (calculo/anclajes_insertos.py)'];
+    if (id === 'AH') return ['propuesta', 'insertos', 'horquillas de corte ø16 A630 donde el hormigón no alcanza (ACI 318-19 17.5.2.1 b): propuesta para el VºBº del ingeniero'];
     if (/^MV-.*-ext$/.test(id)) return ['propuesta', 'revisión', `${REV}: ø16@15 por fuera (lámina 01: DM ø12@15)`];
     if (/^MV-/.test(id)) return ['dato', 'L01 a-a', 'lámina 01, corte a-a: ø12@15; pata y gancho ajustados a la losa de fundación y a la losa de techo'];
     if (/^MH-/.test(id)) return ['propuesta', 'revisión', `${REV}: ø12@15 en las dos caras (lámina 01: ø10@20, no pasaba fisuras en las esquinas)`];
@@ -79,8 +89,7 @@
     if (/^S8-/.test(id)) return ['dato', 'L01 b-b', 'lámina 01, corte b-b; esquinas en L de 60ø propuestas'];
     if (/^CL-/.test(id)) return ['propuesta', 'revisión', `lámina 01, corte b-b: 4ø10; 4ø12 por el sismo en A–E (${REV}); esquinas en L de 60ø`];
     if (/^CF-/.test(id)) return ['dato', 'L01 CF', `lámina 01, CF 25/40: 3ø12 + 2ø10 + 3ø12; sección 30/50 y ganchos de 90° en los extremos por la ${REV}`];
-    if (id === 'AN') return ['dato', 'L01 PLb', 'lámina 01, detalle PLb; horquillas paralelas y ganchos hacia afuera (revisión 23-10-2026)'];
-    if (/^(AP|AU|AX)$/.test(id)) return ['propuesta', 'revisión', `placa PLc con 4 pernos y armadura de anclaje dimensionada con Ω0 = 2 (${REV})`];
+    if (/^(AU|AX)$/.test(id)) return ['propuesta', 'revisión', `armadura de anclaje de los insertos PLc dimensionada con Ω0 = 2 (${REV}; en 1E un estribo más, 27-10-2026)`];
     if (/^DA-/.test(id)) return ['propuesta', 'revisión', `dados 140 × 140 × 120 bajo 4C y 4C2, hasta 10 sobre el sello (${REV})`];
     return ['propuesta', '', ''];
   }
@@ -101,8 +110,10 @@
     filas.forEach((g, i) => {
       g.marca = i + 1; g.L = Math.round(g.Lx * 10) / 10; g.m = g.Lx * g.n / 100; g.kg = g.m * KGM[g.diam];
       g.donde = donde(g.ids); const fs = g.ids.map(fuente); g.fuente = fs.find(x => x[0] === 'propuesta') || fs[0];
-      if (g.ids.length === 1 && g.ids[0] === 'AP' && g.L < 10) g.donde = 'golillas 50 × 50 × 10 bajo los pernos (el modelo las lleva como un tramo de 5 cm)';
-      if (g.ids.length === 1 && g.ids[0] === 'AN' && g.L < 118) g.donde = 'horquillas 1+1 angostas (ramas a 7,7) de las PLb sobre la VHA del eje 3';
+      // cabezas de las barras de los insertos: pletinas A36 soldadas (el modelo las lleva como un trazo de barra de su largo, así la cubicación las cuenta)
+      if (g.ids.length === 1 && g.ids[0] === 'AP' && g.L < 15) g.donde = `cabezas ${coma(g.L * 10)} × 45 × 12 soldadas al pie de las barras${g.L > 9 ? ' (PLc-4A)' : g.L > 7 ? ' (PLc-1E)' : ''} · pletina A36, el modelo la cuenta como trazo de barra`;
+      if (g.ids.length === 1 && g.ids[0] === 'AN' && g.L < 15) g.donde = 'cabezas 50 × 50 × 10 soldadas al pie de las barras · pletina A36, el modelo la cuenta como trazo de barra';
+      if (g.ids.length === 1 && /^(AP|AN)$/.test(g.ids[0]) && g.L >= 15) { const hef = Math.round((g.L * 10 + 14) / 50) * 50; g.donde += ` · hef ${coma(hef)}${g.diam === 22 ? (hef === 1200 ? ' (PLc-4A, placa de 30)' : hef === 1000 ? ' (en los muros del búnker)' : ' (sobrecimientos y dados)') : hef === 500 ? ' (3A y 3B, sobre la VHA)' : ''}`; }   // hef = barra + placa, en mm
     });
     const totales = {}; filas.forEach(g => { const t = totales[g.diam] = totales[g.diam] || { m: 0, kg: 0 }; t.m += g.m; t.kg += g.kg; });
     const porClave = new Map(filas.map(g => [[g.elemento, g.diam, g.segs.join(',')].join('|'), g]));
@@ -164,7 +175,7 @@
     const tot = ds.map(d => `<tr class="pl-tot"><td></td><td colspan="2">Total ${nomD(d)}</td><td></td><td></td><td></td><td></td><td class="r">${coma(A.totales[d].m, 1)}</td><td class="r">${coma(A.totales[d].kg, 0)}</td><td class="small">${cub && cub[d] != null ? 'cubicación: ' + coma(cub[d], 0) + ' kg' : ''}</td></tr>`).join('');
     const T = ds.reduce((a, d) => a + A.totales[d].kg, 0), M = ds.reduce((a, d) => a + A.totales[d].m, 0);
     return `<thead><tr><th class="c">Marca</th><th>Elemento · dónde</th><th class="c">ø</th><th>Forma y medidas (cm, sin escala)</th><th class="r">L (cm)</th><th class="r">Cant.</th><th class="c">Esp.</th><th class="r">m</th><th class="r">kg</th><th>Fuente</th></tr></thead>
-      <tbody>${filas}${tot}<tr class="pl-tot pl-tt"><td></td><td colspan="2"><b>Total acero A630-420H</b></td><td></td><td></td><td></td><td></td><td class="r"><b>${coma(M, 1)}</b></td><td class="r"><b>${coma(T, 0)}</b></td><td class="small">sin pérdidas ni despuntes</td></tr></tbody>`;
+      <tbody>${filas}${tot}<tr class="pl-tot pl-tt"><td></td><td colspan="2"><b>Total fierro A630-420H y barras A36 de los insertos</b></td><td></td><td></td><td></td><td></td><td class="r"><b>${coma(M, 1)}</b></td><td class="r"><b>${coma(T, 0)}</b></td><td class="small">sin pérdidas ni despuntes</td></tr></tbody>`;
   }
 
   // ---------- corte vertical del modelo: hormigón y barras, con marcas, recubrimientos y cotas ----------
@@ -201,7 +212,10 @@
       const vs = p.pts.map(q => q[k]), us = p.pts.map(q => q[ku]);
       if (c <= Math.min(...vs) + 0.01 || c >= Math.max(...vs) - 0.01) return;
       const a = U(Math.min(...us)), b = U(Math.max(...us)), x = Math.min(a, b), w = Math.abs(b - a);
-      el('rect', { x, y: Y(p.zs), width: w, height: p.zs - p.zi, class: p.cls }, g); cortes.push({ x0: x, x1: x + w, zi: p.zi, zs: p.zs, cls: p.cls });
+      // V124: el rectángulo se recorta a la ventana (con 2 de holgura, que el clip-path esconde): se ve igual, pero ya no queda una pieza invisible bajo las llamadas de la derecha
+      const ra = Math.max(x, -2), rb = Math.min(x + w, W + 2), zs = Math.min(p.zs, cfg.zmax + 2), zi = Math.max(p.zi, cfg.zmin - 2);
+      if (rb > ra && zs > zi) el('rect', { x: ra, y: Y(zs), width: rb - ra, height: zs - zi, class: p.cls }, g);
+      cortes.push({ x0: x, x1: x + w, zi: p.zi, zs: p.zs, cls: p.cls });
     });
     // terreno natural (−50) y quiebres donde el hormigón sigue fuera de la ventana
     if (cfg.ntn !== false) { const [a, b] = Array.isArray(cfg.ntn) ? cfg.ntn : [0, W]; el('line', { x1: a, y1: Y(-50), x2: b, y2: Y(-50), class: 'ad-ntn' }, g); }
