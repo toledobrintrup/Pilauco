@@ -239,7 +239,7 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V128" data-vista="tablero"></script>
+  <script src="menu.js?v=V129" data-vista="tablero"></script>
   <h1>Tablero de básquetbol <small>Aro Dunking · poste empotrado · altura 1,50 a 3,05 m</small></h1>
   <span class="meta">Fuente: manual del fabricante (9 págs.) · medidas en mm salvo indicación</span>
 </header>
@@ -375,8 +375,8 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
     <div class="k">Centro de la placa</div><div class="v"><b>527 mm detrás de la línea de fondo</b> (fuera de la cancha) <span class="fuente man">manual</span></div>
     <div class="k">Detrás</div><div class="v"><b>≥ 500 mm libres</b> hasta muros, rejas u otras construcciones, para subir y bajar el aro <span class="fuente man">manual</span></div>
     <div class="k">Alcance</div><div class="v"><b>1,227 m</b> con el aro a 3,05 m <span class="fuente man">manual</span></div>
-    <div class="k">En la losa 18 × 11</div><div class="v">eje del poste <b>al centro del lado de 18</b> (x = 9,00), <b>a 0,523 del borde</b> <span class="fuente prop">propuesta</span></div>
-    <div class="k">Fundación</div><div class="v"><b>destaje 0,80 × 0,92</b> desde el borde · <b>hoyo de 0,80</b> de hondo, placa de anclaje a ras de piso <span class="fuente prop">propuesta</span><span class="fuente man">manual 80³</span></div>
+    <div class="k">En la losa 18 × 11</div><div class="v">eje del poste <b>al centro del lado de 18</b> (x = 9,00), <b>en el borde</b> de la losa (0,02 adentro) · línea de fondo a 0,50 del borde · cancha de 15,00 × 9,90 · detrás de la placa 0,50 libres sin muro ni reja <span class="fuente prop">propuesta</span></div>
+    <div class="k">Fundación</div><div class="v"><b>hoyo 0,80 × 0,80 × 0,80</b> centrado en el poste: 0,42 dentro de la losa (<b>destaje 0,80 × 0,42</b>) y el resto fuera, con la cara de arriba a nivel de la losa y la placa de anclaje a ras de piso <span class="fuente prop">propuesta</span><span class="fuente man">manual 80³</span></div>
     <div class="k">Líneas</div><div class="v">medidas <b>desde el aro</b>: tiro libre a <b>4,225</b> del centro del aro · triple <b>6,75</b> · la línea de fondo queda a <b>0,80 del tablero</b>, no a 1,20 como FIBA, por el alcance del aro <span class="fuente man">manual</span><span class="fuente norma">FIBA</span></div>
   </div>
   <div class="aviso"><b>Ojo con el 1,20 de FIBA:</b> con este aro, el tablero a 1,20 de la línea de fondo deja el poste prácticamente sobre la línea (su cara a 2,7 cm) y la placa base dentro de la cancha · no recomendado.</div>
@@ -475,7 +475,7 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=V128"></script>
+<script src="nav3d.js?v=V129"></script>
 <script>
 (function () {
 'use strict';
@@ -886,18 +886,18 @@ dibujarPerfil();
   const svg = $('#svg-cancha');
   if (!svg) return;
   const LW = 50, XC = 9000, LX = 18000, LY = 11000;
-  const EJE = 523;                                    // eje del poste: 527 al borde interior de la línea de fondo (manual)
-  const F0 = 1000, F1 = F0 + LW;                      // línea de fondo: borde exterior e interior
+  const F0 = 500, F1 = F0 + LW;                       // línea de fondo: borde exterior e interior (0,50 de losa detrás: Gabriel, 28-10-2026)
+  const EJE = F1 - 527;                               // eje del poste: 527 al borde interior de la línea de fondo (manual) → a 0,023 del borde
   const CARA = F1 + 800;                              // cara del tablero: 1.227 desde la cara del poste (EJE + 100)
   const ARO = CARA + 151 + 225;                       // centro del aro
-  const B0 = 1500, B1 = 16500, C1 = F1 + 9400;        // bordes interiores de las bandas y de la línea de cierre
+  const B0 = 1500, B1 = 16500, C1 = F1 + 9900;        // bordes interiores de las bandas y de la línea de cierre (0,50 de losa al otro extremo)
   const TL = ARO + 4225;                              // borde lejano de la línea de tiro libre (5,40 de la línea de fondo)
   const R3 = 6750, X3 = B0 + 900;                     // triple: radio y rectas, al borde exterior
   const Y3 = ARO + Math.sqrt(R3 * R3 - (XC - X3) ** 2);
   const CIMA = ARO + R3;
   const PK = { x0: XC - 6705, x1: XC + 6705, y0: 5500 - 3050, y1: 5500 + 3050, yc: 5500, coc: 2130, postes: 6710 };
-  const DES = { x0: XC - 400, x1: XC + 400, y1: EJE + 400 };   // destaje de la fundación (propuesta)
-  const DET = [5800, -500, 12200, 2750], KD = 2.5;              // zona del detalle y su escala
+  const DES = { x0: XC - 400, x1: XC + 400, y0: EJE - 400, y1: EJE + 400 };   // hoyo de 80 del manual centrado en el poste: 0,42 dentro de la losa (destaje) y el resto fuera
+  const DET = [5800, -800, 12200, 2450], KD = 2.5;              // zona del detalle y su escala
   const FS = 400, FSL = 360, GAP = 110;
   let modo = null;
 
@@ -989,7 +989,7 @@ dibujarPerfil();
     };
     const equipo = () => {
       const fino = K > 1 ? 30 : 22;
-      R(DES.x0, 0, DES.x1, DES.y1, `fill:var(--fig-fill);stroke:var(--fig-ink);stroke-width:${fino};stroke-dasharray:${K > 1 ? '120 70' : '90 55'}`);
+      R(DES.x0, DES.y0, DES.x1, DES.y1, `fill:var(--fig-fill);stroke:var(--fig-ink);stroke-width:${fino};stroke-dasharray:${K > 1 ? '120 70' : '90 55'}`);
       [-1, 1].forEach(s => R(XC + s * 103, EJE + 100, XC + s * 153, CARA, 'fill:var(--fig-soft);opacity:.45'));   // brazo (proyección)
       R(XC - 175, EJE - 175, XC + 175, EJE + 175, `fill:var(--fig-fill);stroke:var(--fig-ink);stroke-width:${fino}`);   // placa base 350
       if (K > 1) [[-141, -141], [141, -141], [-141, 141], [141, 141]].forEach(([dx, dy]) => { const [a, b] = P(XC + dx, EJE + dy); el('circle', { cx: a, cy: b, r: 16 * K, style: 'fill:var(--fig-ink)' }, G); });
@@ -1008,7 +1008,7 @@ dibujarPerfil();
     basquet(); pickle(); equipo();
     R(DET[0], DET[1], DET[2], DET[3], 'fill:none;stroke:var(--fig-soft);stroke-width:25;stroke-dasharray:110 70');
     T(DET[2] - 100, -130, 'detalle', Object.assign({ anchor: 'end' }, fP));
-    T(1750, 880, 'línea de fondo');
+    T(1750, 420, 'línea de fondo');
     T(1750, 10880, 'línea de cierre');
     T(LX - 150, 10880, 'losa de hormigón', { anchor: 'end' });
     T(XC - 50, 3700, 'red portátil', Object.assign({ eje: 'y' }, fK));
@@ -1019,20 +1019,20 @@ dibujarPerfil();
     cota(B1, 0, LX, 0, '1,50', -700, Object.assign({ e1: F0 }, fP));
     cota(0, LY, LX, LY, '18,00', 700, Object.assign({ lado: 1 }, fP));
     cota(0, 0, 0, LY, '11,00', -700, fP);
-    cota(LX, 0, LX, F0, '1,00', 700, Object.assign({ e2: B1 + LW }, fP));
-    cota(LX, F1, LX, C1, '9,40', 700, Object.assign({ e1: B1 + LW, e2: B1 + LW }, fP));
+    cota(LX, 0, LX, F0, '0,50', 700, Object.assign({ e2: B1 + LW }, fP));
+    cota(LX, F1, LX, C1, '9,90', 700, Object.assign({ e1: B1 + LW, e2: B1 + LW }, fP));
     cota(LX, C1 + LW, LX, LY, '0,50', 700, Object.assign({ lado: 1, e1: B1 + LW }, fP));
     // básquetbol: medido desde el aro
     cota(XC - 2450, F1, XC - 2450, TL, '5,40', -650, { sin1: true });
     radio(XC, ARO, R3, 125);
-    T(4980, 8200, 'r 6,75', { anchor: 'end', fs: FS, peso: 600 });
+    T(4980, 7700, 'r 6,75', { anchor: 'end', fs: FS, peso: 600 });
     // pickleball
     cota(PK.x0, PK.y1, PK.x1, PK.y1, '13,41', 1450, fK);
     cota(PK.x0, PK.y0, PK.x0, PK.y1, '6,10', -355, fK);
     cota(XC, 4600, XC + PK.coc, 4600, '2,13', 0, Object.assign({ sin1: true, sin2: true }, fK));
 
     // ---------- detalle del aro y la fundación ----------
-    if (v) vista(KD, DET[0], 1125, 5500, 20400); else vista(KD, XC, DET[1], XC, 13400);
+    if (v) vista(KD, DET[0], (DET[1] + DET[3]) / 2, 5500, 20400); else vista(KD, XC, DET[1], XC, 13400);
     G = el('g', {}, svg);
     const tt = txt(G, v ? 5500 : XC, v ? 20000 : 13000, 'Detalle del aro y la fundación · 2,5 veces la planta', { 'font-size': 380, 'text-anchor': 'middle', 'font-weight': 600 });
     tt.setAttribute('style', halo('var(--paper)'));
@@ -1046,18 +1046,18 @@ dibujarPerfil();
     G = el('g', {}, svg);
     R(DET[0], DET[1], DET[2], DET[3], 'fill:none;stroke:var(--fig-soft);stroke-width:25');
     Ln(DET[0], 0, DET[2], 0, 'stroke:var(--fig-soft);stroke-width:45');                                       // borde de la losa
-    cota(DES.x0, 0, DES.x1, 0, '0,80', -625, fP);
-    cota(DES.x1, 0, DES.x1, DES.y1, '0,92', (9700 - DES.x1) * KD, { sin1: true, lado: 1 });
-    cota(XC, 0, XC, EJE, '0,523', (7900 - XC) * KD, { sin1: true, e2: XC - 300 });
-    cota(7500, 0, 7500, F0, '1,00', 0, { sin1: true, sin2: true });
-    cota(XC - 900, 0, XC - 900, CARA, '1,85', (7100 - 8100) * KD, { sin1: true, d: (1450 - CARA / 2) * KD });
+    cota(DES.x0, DES.y0, DES.x1, DES.y0, '0,80', -300, fP);
+    cota(DES.x1, 0, DES.x1, DES.y1, '0,42', (9700 - DES.x1) * KD, { sin1: true, lado: 1 });
+    cota(XC, EJE, XC, F1, '0,527', (7900 - XC) * KD, { sin1: true, e1: XC - 300 });
+    cota(7500, 0, 7500, F0, '0,50', 0, { sin1: true, sin2: true });
+    cota(XC - 900, 0, XC - 900, CARA, '1,35', (7100 - 8100) * KD, { sin1: true, d: (1450 - CARA / 2) * KD });
     cota(XC + 900, F1, XC + 900, CARA, '0,80', (10500 - 9900) * KD, { sin1: true });
     cota(XC - 900, CARA - 60, XC + 900, CARA - 60, 'tablero 1,80', (1450 - 1790) * KD, { d: -1700 });
-    T(8400, -260, 'destaje 0,80 × 0,92 · propuesta', Object.assign({ anchor: 'end' }, fP));
-    T(8400, -80, 'hoyo de 0,80 de hondo', Object.assign({ anchor: 'end' }, fP));
+    T(8400, -260, 'hoyo 0,80 × 0,80 × 0,80 · propuesta', Object.assign({ anchor: 'end' }, fP));
+    T(8400, -80, 'destaje en la losa 0,80 × 0,42', Object.assign({ anchor: 'end' }, fP));
     T(DET[2] - 100, -130, 'borde de la losa', Object.assign({ anchor: 'end' }, fP));
-    T(DET[2] - 100, 950, 'línea de fondo', { anchor: 'end' });
-    T(9420, 2330, 'aro Ø 0,45');
+    T(DET[2] - 100, 450, 'línea de fondo', { anchor: 'end' });
+    T(9420, ARO + 104, 'aro Ø 0,45');
   }
   dibujar();
   let tm = 0;

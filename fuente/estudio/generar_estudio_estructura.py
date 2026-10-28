@@ -441,14 +441,13 @@ def main(estudio_json, sitio_json, salida):
     ]
     # Gabriel, 22-10-2026: "en las preguntas al ingeniero al final, reduce el texto al 30 %, demasiado texto" (2.520 → ~750 caracteres)
     # Desde la revisión del 23-10-2026 ya no son preguntas al ingeniero: son los datos que faltan para cerrar el cálculo y firmarlo
+    # Gabriel, 28-10-2026: "dejemos solo las preguntas que faltan responder y lo demás elimínalo todo" (no habrá más mediciones: agua, sondaje,
+    # colectores y pesos quedan con los supuestos del lado seguro de la pestaña Revisión)
     preguntas = [
-        'Nivel real del agua: piezómetro leído en julio y agosto.',
-        'Sondaje de 6 m: el estudio de suelos no llega al sello del búnker (3,41 m bajo el terreno).',
-        '¿El dren puede salir por gravedad? Si no, ensanchar el vuelo de la losa de fundación a ~80 cm (no flota con agua hasta el terreno).',
-        'Peso real de la cubierta, del cielo acústico y de los tabiques (con +10 kgf/m² de cielo la deriva llega a 0,95).',
-        'Viento de Osorno en la NCh 432:2025 y versión de la NCh 433 que rige el permiso.',
-        'Confirmar que existe el tubo RECT 200x150x6 (si no, 200x150x5 con planchas en los puntales).',
-        'Revisión y firma de un ingeniero civil.',
+        'Visto bueno del ingeniero a los cambios «Por aprobar» (pestaña Ingeniero).',
+        'Viento: ¿basta la NCh 432:2010? Con la 2025 (+60 %) el pilar P-5C llega a 1,32.',
+        'Escalera: ¿el 25/40 de la viga central es alto total (10 de losa + 30 colgados)?',
+        'Firma de un ingeniero civil.',
     ]
     out = dict(
         fuente='Adaptación de las láminas 03, 04 y 05 del ingeniero (proyecto del estudio, abril 2026, leídas de sus vectores) a la planta de Gabriel (medidas interiores, 2026-10-12); propuesta para revisión del ingeniero, no es un cálculo',
