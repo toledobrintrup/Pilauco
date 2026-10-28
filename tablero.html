@@ -17,7 +17,7 @@
   --ok:#2F7D4A; --ok-soft:rgba(47,125,74,.10); --med:#9A6A12; --med-soft:rgba(154,106,18,.11); --calc:#3D5A73; --calc-soft:rgba(61,90,115,.10);
   --shadow:0 1px 2px rgba(16,18,22,.06),0 10px 28px rgba(16,18,22,.10);
   --chrome:#1B1E24; --chrome-ink:#F0F2F5; --chrome-muted:#9AA0AC; --chrome-line:#343943; --chrome-hi:rgba(255,255,255,.10);
-  --fig-ink:#2B2F36; --fig-soft:#8B929C; --fig-fill:#F1F2F4; --fig-tierra:#E9E2D6; --fig-horm:#D9DBDE; --fig-cancha:#F3E7D5;
+  --fig-ink:#2B2F36; --fig-soft:#8B929C; --fig-fill:#F1F2F4; --fig-tierra:#E9E2D6; --fig-horm:#D9DBDE; --fig-cancha:#F3E7D5; --fig-pk:#0B7F8C;
   --ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme: dark){
@@ -27,7 +27,7 @@
   --ok:#74C08E; --ok-soft:rgba(116,192,142,.12); --med:#E0B25A; --med-soft:rgba(224,178,90,.12); --calc:#8FB4D4; --calc-soft:rgba(143,180,212,.13);
   --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
   --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
-  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-tierra:#2B2722; --fig-horm:#30333A; --fig-cancha:#2C2620;
+  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-tierra:#2B2722; --fig-horm:#30333A; --fig-cancha:#2C2620; --fig-pk:#4FC3CF;
   }
 }
 :root[data-theme="dark"]{
@@ -36,7 +36,7 @@
   --ok:#74C08E; --ok-soft:rgba(116,192,142,.12); --med:#E0B25A; --med-soft:rgba(224,178,90,.12); --calc:#8FB4D4; --calc-soft:rgba(143,180,212,.13);
   --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
   --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
-  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-tierra:#2B2722; --fig-horm:#30333A; --fig-cancha:#2C2620;
+  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-tierra:#2B2722; --fig-horm:#30333A; --fig-cancha:#2C2620; --fig-pk:#4FC3CF;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -93,6 +93,8 @@ a{color:var(--accent)}
 .fuente.man{color:var(--ok);background:var(--ok-soft)}
 .fuente.med{color:var(--med);background:var(--med-soft)}
 .fuente.calc{color:var(--calc);background:var(--calc-soft)}
+.fuente.prop{color:var(--naranja);background:var(--naranja-soft)}
+.fuente.norma{color:var(--muted);background:var(--line2)}
 .leyenda-fuente{font-size:12px;color:var(--muted);margin-top:8px}
 @media (max-width:420px){.specs{grid-template-columns:1fr}}
 
@@ -115,6 +117,7 @@ tbody tr[data-pieza]:hover td,tbody tr.on td{background:var(--naranja-soft)}
 figure{margin:14px 0 10px}
 figure svg{display:block;width:100%;height:auto}
 figcaption{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45}
+figcaption .sw{display:inline-block;width:16px;height:4px;border-radius:2px;vertical-align:2px;margin-right:5px}
 .fig-perfil svg{max-height:620px}
 svg .tx{font-family:var(--ui);fill:var(--fig-ink)}
 svg .txs{font-family:var(--ui);fill:var(--fig-soft)}
@@ -236,7 +239,7 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V127" data-vista="tablero"></script>
+  <script src="menu.js?v=V128" data-vista="tablero"></script>
   <h1>Tablero de básquetbol <small>Aro Dunking · poste empotrado · altura 1,50 a 3,05 m</small></h1>
   <span class="meta">Fuente: manual del fabricante (9 págs.) · medidas en mm salvo indicación</span>
 </header>
@@ -372,10 +375,22 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
     <div class="k">Centro de la placa</div><div class="v"><b>527 mm detrás de la línea de fondo</b> (fuera de la cancha) <span class="fuente man">manual</span></div>
     <div class="k">Detrás</div><div class="v"><b>≥ 500 mm libres</b> hasta muros, rejas u otras construcciones, para subir y bajar el aro <span class="fuente man">manual</span></div>
     <div class="k">Alcance</div><div class="v"><b>1,227 m</b> con el aro a 3,05 m <span class="fuente man">manual</span></div>
+    <div class="k">En la losa 18 × 11</div><div class="v">eje del poste <b>al centro del lado de 18</b> (x = 9,00), <b>a 0,523 del borde</b> <span class="fuente prop">propuesta</span></div>
+    <div class="k">Fundación</div><div class="v"><b>destaje 0,80 × 0,92</b> desde el borde · <b>hoyo de 0,80</b> de hondo, placa de anclaje a ras de piso <span class="fuente prop">propuesta</span><span class="fuente man">manual 80³</span></div>
+    <div class="k">Líneas</div><div class="v">medidas <b>desde el aro</b>: tiro libre a <b>4,225</b> del centro del aro · triple <b>6,75</b> · la línea de fondo queda a <b>0,80 del tablero</b>, no a 1,20 como FIBA, por el alcance del aro <span class="fuente man">manual</span><span class="fuente norma">FIBA</span></div>
   </div>
+  <div class="aviso"><b>Ojo con el 1,20 de FIBA:</b> con este aro, el tablero a 1,20 de la línea de fondo deja el poste prácticamente sobre la línea (su cara a 2,7 cm) y la placa base dentro de la cancha · no recomendado.</div>
   <figure>
     <svg id="svg-planta" role="img" aria-label="Planta de ubicación del aro respecto de la línea de fondo"></svg>
     <figcaption>Planta, con las medidas del manual: línea de fondo a muro, al menos <b>1,20 m</b> (527 + 175 + 500 mm) · tablero <b>≈ 0,80 m dentro de la cancha</b> (1.227 − 427 mm, con el alcance medido desde la cara del poste, como en el dibujo) · cancha reglamentaria FIBA: tablero a 1,20 m de la línea de fondo.</figcaption>
+  </figure>
+  <h3>Ubicación en la losa de 18 × 11 · básquetbol 3x3 y pickleball</h3>
+  <figure>
+    <svg id="svg-cancha" role="img" aria-label="Planta de la losa de 18 por 11 metros con la cancha de básquetbol 3x3, las líneas de pickleball y el detalle del aro y su fundación"></svg>
+    <figcaption><span class="sw" style="background:var(--fig-ink)"></span>básquetbol 3x3: líneas FIBA medidas desde el aro ·
+    <span class="sw" style="background:var(--fig-pk)"></span>pickleball: cancha USA Pickleball centrada, red portátil ·
+    <span class="sw" style="background:var(--naranja)"></span>aro del manual. <b>Dato:</b> medidas de las líneas, del aro y el hoyo de 80.
+    <b>Propuesta:</b> ubicación en la losa y destaje de la fundación (segmentado). Medidas en metros.</figcaption>
   </figure>
 </section>
 
@@ -460,7 +475,7 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=V127"></script>
+<script src="nav3d.js?v=V128"></script>
 <script>
 (function () {
 'use strict';
@@ -862,6 +877,191 @@ dibujarPerfil();
   c(620, yVid, 620, 0, '≈ 800', 34, 22);
   c(-900, yVid - 130, 900, yVid - 130, 'tablero ≈ 1.800', 0, -30, 'middle');
   txt(svg, 0, yAro - (GEO.aro.rInt + 70), 'aro', { 'font-size': 56, 'text-anchor': 'middle', class: 'txs' });
+})();
+
+// --- ubicación en la losa de 18 × 11 (propuesta): básquetbol 3x3 medido desde el aro y pickleball encima
+//     mm · x a lo largo de los 18 m · y desde el borde de la losa del lado del aro (y = 0) hacia la losa.
+//     En pantallas angostas la planta va parada (los 18 m a lo alto): se traspone x ↔ y y los textos siguen su eje.
+(function () {
+  const svg = $('#svg-cancha');
+  if (!svg) return;
+  const LW = 50, XC = 9000, LX = 18000, LY = 11000;
+  const EJE = 523;                                    // eje del poste: 527 al borde interior de la línea de fondo (manual)
+  const F0 = 1000, F1 = F0 + LW;                      // línea de fondo: borde exterior e interior
+  const CARA = F1 + 800;                              // cara del tablero: 1.227 desde la cara del poste (EJE + 100)
+  const ARO = CARA + 151 + 225;                       // centro del aro
+  const B0 = 1500, B1 = 16500, C1 = F1 + 9400;        // bordes interiores de las bandas y de la línea de cierre
+  const TL = ARO + 4225;                              // borde lejano de la línea de tiro libre (5,40 de la línea de fondo)
+  const R3 = 6750, X3 = B0 + 900;                     // triple: radio y rectas, al borde exterior
+  const Y3 = ARO + Math.sqrt(R3 * R3 - (XC - X3) ** 2);
+  const CIMA = ARO + R3;
+  const PK = { x0: XC - 6705, x1: XC + 6705, y0: 5500 - 3050, y1: 5500 + 3050, yc: 5500, coc: 2130, postes: 6710 };
+  const DES = { x0: XC - 400, x1: XC + 400, y1: EJE + 400 };   // destaje de la fundación (propuesta)
+  const DET = [5800, -500, 12200, 2750], KD = 2.5;              // zona del detalle y su escala
+  const FS = 400, FSL = 360, GAP = 110;
+  let modo = null;
+
+  function dibujar() {
+    const ancho = svg.parentNode.getBoundingClientRect().width;
+    const v = ancho > 0 && ancho < 520;
+    if (v === modo) return;
+    modo = v;
+    svg.innerHTML = '';
+    svg.setAttribute('viewBox', v ? '-1300 -1300 13600 38000' : '-1300 -1300 20600 23125');
+    let P, K, G;
+    const vista = (k, wx, wy, X0, Y0) => { K = k; P = (x, y) => { const a = (x - wx) * k, b = (y - wy) * k; return v ? [X0 + b, Y0 + a] : [X0 + a, Y0 + b]; }; };
+    const R = (x0, y0, x1, y1, style) => { const [a, b] = P(x0, y0), [c, d] = P(x1, y1); return el('rect', { x: Math.min(a, c), y: Math.min(b, d), width: Math.abs(c - a), height: Math.abs(d - b), style }, G); };
+    const Ln = (x0, y0, x1, y1, style) => { const [a, b] = P(x0, y0), [c, d] = P(x1, y1); return el('line', { x1: a, y1: b, x2: c, y2: d, style }, G); };
+    const Arc = (cx, cy, r, a0, a1, style) => {
+      const n = Math.max(16, Math.ceil(Math.abs(a1 - a0) / 1.5));
+      let d = '';
+      for (let i = 0; i <= n; i++) { const t = (a0 + (a1 - a0) * i / n) * Math.PI / 180; const [X, Y] = P(cx + r * Math.cos(t), cy + r * Math.sin(t)); d += (i ? 'L' : 'M') + X.toFixed(1) + ' ' + Y.toFixed(1); }
+      return el('path', { d, style: 'fill:none;' + style }, G);
+    };
+    const halo = f => `paint-order:stroke;stroke:${f || 'var(--fig-horm)'};stroke-width:70;stroke-linejoin:round`;
+    // texto en el mundo: eje 'x' o 'y' = corre a lo largo de ese eje; anchor en el sentido + del eje; los trazos de la letra quedan hacia el − del otro eje
+    const T = (x, y, s, o = {}) => {
+      const [X, Y] = P(x, y);
+      const vert = ((o.eje || 'x') === 'x') === v;
+      let an = o.anchor || 'start';
+      if (vert && an !== 'middle') an = an === 'start' ? 'end' : 'start';
+      const t = txt(G, X, Y, s, { 'font-size': o.fs || FSL, 'text-anchor': an, class: o.peso ? 'tx' : 'txs', 'font-weight': o.peso || 400, style: halo(o.fondo) + (o.color ? ';fill:' + o.color : '') });
+      if (vert) t.setAttribute('transform', `rotate(-90 ${X} ${Y})`);
+      return t;
+    };
+    // cota entre dos puntos del mundo (paralela a x o a y); off = desplazamiento en pantalla hacia el + del eje perpendicular;
+    // e1/e2 = coordenada perpendicular donde parte cada línea de referencia; lado −1/+1 = lado del texto; d = corrimiento del texto
+    const cota = (x1, y1, x2, y2, s, off, o = {}) => {
+      const enX = y1 === y2, n = enX !== v ? [0, 1] : [1, 0];
+      const p1 = P(x1, y1), p2 = P(x2, y2);
+      const q1 = [p1[0] + n[0] * off, p1[1] + n[1] * off], q2 = [p2[0] + n[0] * off, p2[1] + n[1] * off];
+      const g = el('g', { style: `stroke:${o.color || 'var(--fig-ink)'};fill:none` }, G);
+      const ref = (pt, q) => {
+        const t0 = pt[0] * n[0] + pt[1] * n[1], t1 = q[0] * n[0] + q[1] * n[1], sg = Math.sign(t1 - t0);
+        if (Math.abs(t1 - t0) < 120) return;
+        el('line', { x1: pt[0] + n[0] * sg * 60, y1: pt[1] + n[1] * sg * 60, x2: q[0] + n[0] * sg * 100, y2: q[1] + n[1] * sg * 100, style: 'stroke-width:22;opacity:.75' }, g);
+      };
+      if (!o.sin1) ref(o.e1 === undefined ? p1 : (enX ? P(x1, o.e1) : P(o.e1, y1)), q1);
+      if (!o.sin2) ref(o.e2 === undefined ? p2 : (enX ? P(x2, o.e2) : P(o.e2, y2)), q2);
+      el('line', { x1: q1[0], y1: q1[1], x2: q2[0], y2: q2[1], style: 'stroke-width:30' }, g);
+      [q1, q2].forEach(([x, y]) => el('line', { x1: x - 80, y1: y + 80, x2: x + 80, y2: y - 80, style: 'stroke-width:40' }, g));
+      const horiz = n[1] === 1, lado = o.lado || -1, cap = 0.72 * FS;
+      let X = (q1[0] + q2[0]) / 2 + (horiz ? o.d || 0 : 0), Y = (q1[1] + q2[1]) / 2 + (horiz ? 0 : o.d || 0);
+      if (horiz) Y += lado < 0 ? -GAP : GAP + cap; else X += lado < 0 ? -GAP : GAP + cap;
+      const t = txt(G, X, Y, s, { 'font-size': FS, 'text-anchor': 'middle', 'font-weight': 600, style: halo(o.fondo) + (o.color ? ';fill:' + o.color : '') });
+      if (!horiz) t.setAttribute('transform', `rotate(-90 ${X} ${Y})`);
+    };
+    const radio = (cx, cy, r, ang) => {
+      const t = ang * Math.PI / 180, [a, b] = P(cx, cy), [c, d] = P(cx + r * Math.cos(t), cy + r * Math.sin(t));
+      const L = Math.hypot(c - a, d - b), ux = (c - a) / L, uy = (d - b) / L, w = 85, h = 250;
+      el('line', { x1: a, y1: b, x2: c - ux * h, y2: d - uy * h, style: 'stroke:var(--fig-ink);stroke-width:30' }, G);
+      el('path', { d: `M${c} ${d} L${c - ux * h - uy * w} ${d - uy * h + ux * w} L${c - ux * h + uy * w} ${d - uy * h - ux * w} Z`, style: 'fill:var(--fig-ink)' }, G);
+    };
+
+    // --- lo que se dibuja igual en la planta y en el detalle
+    const BK = 'fill:var(--fig-ink)', PKf = 'fill:var(--fig-pk)';
+    const basquet = () => {
+      R(B0 - LW, F0, B1 + LW, F1, BK);                                   // línea de fondo
+      R(B0 - LW, F0, B0, C1 + LW, BK); R(B1, F0, B1 + LW, C1 + LW, BK);  // bandas
+      R(B0 - LW, C1, B1 + LW, C1 + LW, BK);                              // línea de cierre
+      R(XC - 2450, TL - LW, XC + 2450, TL, BK);                          // línea de tiro libre
+      [-1, 1].forEach(s => {
+        R(XC + s * 2450, F1, XC + s * 2400, TL, BK);                     // zona
+        [[1350, 1400], [2250, 2650], [3500, 3550], [4400, 4450]].forEach(([a, b]) => R(XC + s * 2450, F1 + a, XC + s * 2550, F1 + b, BK));   // rebote
+        R(XC + s * 1300, CARA, XC + s * 1250, ARO, BK);                  // rectas de no-carga
+        R(XC + s * (XC - X3), F1, XC + s * (XC - X3 - LW), Y3, BK);      // rectas del triple
+        R(XC + s * (B1 - XC + LW), CIMA - LW, XC + s * (B1 - XC + LW + 150), CIMA, BK);   // saque
+      });
+      const st = `stroke:var(--fig-ink);stroke-width:${LW * K}`;
+      Arc(XC, TL - LW / 2, 1800 - LW / 2, 0, 180, st);                   // semicírculo de tiro libre
+      Arc(XC, ARO, 1300 - LW / 2, 0, 180, st);                           // no-carga
+      const a3 = Math.acos((XC - X3 - LW / 2) / (R3 - LW / 2)) * 180 / Math.PI;
+      Arc(XC, ARO, R3 - LW / 2, a3, 180 - a3, st);                       // triple
+    };
+    const pickle = () => {
+      const { x0, x1, y0, y1, yc, coc } = PK;
+      R(x0, y0, x1, y0 + LW, PKf); R(x0, y1 - LW, x1, y1, PKf);          // laterales
+      R(x0, y0, x0 + LW, y1, PKf); R(x1 - LW, y0, x1, y1, PKf);          // fondos
+      R(XC - coc, y0, XC - coc + LW, y1, PKf); R(XC + coc - LW, y0, XC + coc, y1, PKf);   // cocina
+      R(x0 + LW, yc - LW / 2, XC - coc, yc + LW / 2, PKf); R(XC + coc, yc - LW / 2, x1 - LW, yc + LW / 2, PKf);   // centrales
+      Ln(XC, yc - PK.postes / 2, XC, yc + PK.postes / 2, `stroke:var(--fig-pk);stroke-width:${Math.max(25 * K, 30)};stroke-dasharray:${150 * K} ${90 * K}`);   // red
+      [-1, 1].forEach(s => R(XC - 40, yc + s * PK.postes / 2, XC + 40, yc + s * (PK.postes / 2 + 80), PKf));   // postes de la red
+    };
+    const equipo = () => {
+      const fino = K > 1 ? 30 : 22;
+      R(DES.x0, 0, DES.x1, DES.y1, `fill:var(--fig-fill);stroke:var(--fig-ink);stroke-width:${fino};stroke-dasharray:${K > 1 ? '120 70' : '90 55'}`);
+      [-1, 1].forEach(s => R(XC + s * 103, EJE + 100, XC + s * 153, CARA, 'fill:var(--fig-soft);opacity:.45'));   // brazo (proyección)
+      R(XC - 175, EJE - 175, XC + 175, EJE + 175, `fill:var(--fig-fill);stroke:var(--fig-ink);stroke-width:${fino}`);   // placa base 350
+      if (K > 1) [[-141, -141], [141, -141], [-141, 141], [141, 141]].forEach(([dx, dy]) => { const [a, b] = P(XC + dx, EJE + dy); el('circle', { cx: a, cy: b, r: 16 * K, style: 'fill:var(--fig-ink)' }, G); });
+      R(XC - 100, EJE - 100, XC + 100, EJE + 100, 'fill:var(--fig-ink)');   // poste 200
+      R(XC - 900, CARA - 60, XC + 900, CARA, 'fill:var(--fig-ink)');        // tablero 1,80
+      const [a, b] = P(XC, ARO);
+      el('circle', { cx: a, cy: b, r: 234 * K, style: `fill:none;stroke:var(--naranja);stroke-width:${Math.max(18 * K, 45)}` }, G);
+      el('circle', { cx: a, cy: b, r: Math.max(14 * K, 40), style: 'fill:var(--naranja)' }, G);
+    };
+    const fP = { fondo: 'var(--paper)' }, fK = { color: 'var(--fig-pk)' };
+
+    // ---------- planta ----------
+    vista(1, 0, 0, 0, 0);
+    G = el('g', {}, svg);
+    R(0, 0, LX, LY, 'fill:var(--fig-horm);stroke:var(--fig-soft);stroke-width:30');
+    basquet(); pickle(); equipo();
+    R(DET[0], DET[1], DET[2], DET[3], 'fill:none;stroke:var(--fig-soft);stroke-width:25;stroke-dasharray:110 70');
+    T(DET[2] - 100, -130, 'detalle', Object.assign({ anchor: 'end' }, fP));
+    T(1750, 880, 'línea de fondo');
+    T(1750, 10880, 'línea de cierre');
+    T(LX - 150, 10880, 'losa de hormigón', { anchor: 'end' });
+    T(XC - 50, 3700, 'red portátil', Object.assign({ eje: 'y' }, fK));
+    T(XC + PK.coc / 2, 5800, 'cocina', Object.assign({ anchor: 'middle' }, fK));
+    // cotas generales
+    cota(0, 0, B0, 0, '1,50', -700, Object.assign({ e2: F0 }, fP));
+    cota(B0, 0, B1, 0, '15,00', -700, Object.assign({ e1: F0, e2: F0 }, fP));
+    cota(B1, 0, LX, 0, '1,50', -700, Object.assign({ e1: F0 }, fP));
+    cota(0, LY, LX, LY, '18,00', 700, Object.assign({ lado: 1 }, fP));
+    cota(0, 0, 0, LY, '11,00', -700, fP);
+    cota(LX, 0, LX, F0, '1,00', 700, Object.assign({ e2: B1 + LW }, fP));
+    cota(LX, F1, LX, C1, '9,40', 700, Object.assign({ e1: B1 + LW, e2: B1 + LW }, fP));
+    cota(LX, C1 + LW, LX, LY, '0,50', 700, Object.assign({ lado: 1, e1: B1 + LW }, fP));
+    // básquetbol: medido desde el aro
+    cota(XC - 2450, F1, XC - 2450, TL, '5,40', -650, { sin1: true });
+    radio(XC, ARO, R3, 125);
+    T(4980, 8200, 'r 6,75', { anchor: 'end', fs: FS, peso: 600 });
+    // pickleball
+    cota(PK.x0, PK.y1, PK.x1, PK.y1, '13,41', 1450, fK);
+    cota(PK.x0, PK.y0, PK.x0, PK.y1, '6,10', -355, fK);
+    cota(XC, 4600, XC + PK.coc, 4600, '2,13', 0, Object.assign({ sin1: true, sin2: true }, fK));
+
+    // ---------- detalle del aro y la fundación ----------
+    if (v) vista(KD, DET[0], 1125, 5500, 20400); else vista(KD, XC, DET[1], XC, 13400);
+    G = el('g', {}, svg);
+    const tt = txt(G, v ? 5500 : XC, v ? 20000 : 13000, 'Detalle del aro y la fundación · 2,5 veces la planta', { 'font-size': 380, 'text-anchor': 'middle', 'font-weight': 600 });
+    tt.setAttribute('style', halo('var(--paper)'));
+    const defs = el('defs', {}, svg), cp = el('clipPath', { id: 'cl-cancha-det' }, defs);
+    { const [a, b] = P(DET[0], DET[1]), [c, d] = P(DET[2], DET[3]); el('rect', { x: Math.min(a, c), y: Math.min(b, d), width: Math.abs(c - a), height: Math.abs(d - b) }, cp); }
+    G = el('g', { 'clip-path': 'url(#cl-cancha-det)' }, svg);
+    R(DET[0], 0, DET[2], DET[3], 'fill:var(--fig-horm)');
+    basquet(); pickle(); equipo();
+    Ln(XC, EJE - 300, XC, EJE + 300, 'stroke:var(--fig-soft);stroke-width:20;stroke-dasharray:160 50 20 50');   // ejes del poste
+    Ln(XC - 300, EJE, XC + 300, EJE, 'stroke:var(--fig-soft);stroke-width:20;stroke-dasharray:160 50 20 50');
+    G = el('g', {}, svg);
+    R(DET[0], DET[1], DET[2], DET[3], 'fill:none;stroke:var(--fig-soft);stroke-width:25');
+    Ln(DET[0], 0, DET[2], 0, 'stroke:var(--fig-soft);stroke-width:45');                                       // borde de la losa
+    cota(DES.x0, 0, DES.x1, 0, '0,80', -625, fP);
+    cota(DES.x1, 0, DES.x1, DES.y1, '0,92', (9700 - DES.x1) * KD, { sin1: true, lado: 1 });
+    cota(XC, 0, XC, EJE, '0,523', (7900 - XC) * KD, { sin1: true, e2: XC - 300 });
+    cota(7500, 0, 7500, F0, '1,00', 0, { sin1: true, sin2: true });
+    cota(XC - 900, 0, XC - 900, CARA, '1,85', (7100 - 8100) * KD, { sin1: true, d: (1450 - CARA / 2) * KD });
+    cota(XC + 900, F1, XC + 900, CARA, '0,80', (10500 - 9900) * KD, { sin1: true });
+    cota(XC - 900, CARA - 60, XC + 900, CARA - 60, 'tablero 1,80', (1450 - 1790) * KD, { d: -1700 });
+    T(8400, -260, 'destaje 0,80 × 0,92 · propuesta', Object.assign({ anchor: 'end' }, fP));
+    T(8400, -80, 'hoyo de 0,80 de hondo', Object.assign({ anchor: 'end' }, fP));
+    T(DET[2] - 100, -130, 'borde de la losa', Object.assign({ anchor: 'end' }, fP));
+    T(DET[2] - 100, 950, 'línea de fondo', { anchor: 'end' });
+    T(9420, 2330, 'aro Ø 0,45');
+  }
+  dibujar();
+  let tm = 0;
+  addEventListener('resize', () => { clearTimeout(tm); tm = setTimeout(dibujar, 150); });
 })();
 
 // --- pasos de armado (texto)
