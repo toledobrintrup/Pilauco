@@ -3,15 +3,15 @@
 // y el menú se dibuja ahí mismo, antes del primer pintado (el script es síncrono).
 // Para agregar una vista nueva basta con sumarla a VISTAS.
 // Versión publicada: la escribe fuente/version.py antes de cada commit (V<n> = número de commits del proyecto).
-window.PILAUCO_VERSION = { n: 'V129', fecha: '28-10-2026' };
+window.PILAUCO_VERSION = { n: 'V130', fecha: '28-10-2026' };
 (function () {
-  // Tema claro / oscuro (Gabriel, 14-10-2026: "agrega una versión clara de toda la web"). Sin elección guardada se sigue al sistema;
-  // el botón del menú guarda 'claro' u 'oscuro' en localStorage ('pilauco-tema') y recarga, para que el 3D (three.js) se arme con sus colores.
+  // Tema claro / oscuro (Gabriel, 14-10-2026: "agrega una versión clara de toda la web"). Sin elección guardada va en claro (Gabriel, 28-10-2026: "deja toda la página con modo claro por defecto"; antes seguía al sistema);
+  // el botón del menú guarda 'claro' u 'oscuro' en localStorage ('pilauco-tema-2'; la clave cambió el 28-10-2026 para que todos partan en claro) y recarga, para que el 3D (three.js) se arme con sus colores.
   // ?tema=claro|oscuro manda para esa carga (sirve para compartir un link claro). El CSS de cada página reacciona a <html data-theme="light|dark">.
   const raiz = document.documentElement;
-  const temaElegido = () => { try { const q = new URLSearchParams(location.search).get('tema'); if (q === 'claro' || q === 'oscuro') return q; return localStorage.getItem('pilauco-tema'); } catch (e) { return null; } };
+  const temaElegido = () => { try { const q = new URLSearchParams(location.search).get('tema'); if (q === 'claro' || q === 'oscuro') return q; return localStorage.getItem('pilauco-tema-2'); } catch (e) { return null; } };
   const aplicarTema = t => { if (t === 'claro') raiz.dataset.theme = 'light'; else if (t === 'oscuro') raiz.dataset.theme = 'dark'; else delete raiz.dataset.theme; };
-  aplicarTema(temaElegido());
+  aplicarTema(temaElegido() || 'claro');
   const esOscuro = () => raiz.dataset.theme === 'dark' || (raiz.dataset.theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
   window.PILAUCO_TEMA = { esOscuro, elegido: temaElegido };
   const VISTAS = [
@@ -88,7 +88,7 @@ window.PILAUCO_VERSION = { n: 'V129', fecha: '28-10-2026' };
     botTema.innerHTML = esOscuro() ? SOL : LUNA;   // muestra a lo que se cambia
     botTema.addEventListener('click', () => {
       const nuevo = esOscuro() ? 'claro' : 'oscuro';
-      try { localStorage.setItem('pilauco-tema', nuevo); } catch (e) {}
+      try { localStorage.setItem('pilauco-tema-2', nuevo); } catch (e) {}
       const u = new URL(location.href); u.searchParams.delete('tema'); location.replace(u.href);   // recarga: el 3D arma sus colores al cargar
     });
   }
