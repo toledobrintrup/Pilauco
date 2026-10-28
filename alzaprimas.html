@@ -170,7 +170,7 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V124" data-vista="alzaprimas"></script>
+  <script src="menu.js?v=V125" data-vista="alzaprimas"></script>
   <h1>Alzaprimas <small>puntales arrendados + solera 2x4 doble · borrador para el ingeniero</small></h1>
   <span class="meta" id="meta"></span>
 </header>
@@ -230,8 +230,8 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
 </div>
 </div>
 
-<script src="losa.js?v=V124"></script>
-<script src="alzaprimas.js?v=V124"></script>
+<script src="losa.js?v=V125"></script>
+<script src="alzaprimas.js?v=V125"></script>
 <script>
 (function () {
   const A = DATA_ALZAPRIMAS, L = DATA_LOSA, T = A.totales, PU = A.puntal;
@@ -246,7 +246,7 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
   const NSV = 'http://www.w3.org/2000/svg';
   function el(tag, at, padre) { const e = document.createElementNS(NSV, tag); for (const k in at) e.setAttribute(k, at[k]); if (padre) padre.appendChild(e); return e; }
   function txt(padre, x, y, t, at) { const e = el('text', Object.assign({ x, y, class: 'tx', 'font-size': 15 }, at || {}), padre); e.textContent = t; return e; }
-  // flecha de norte (como estudio.html: Gabriel, por consejo de José, 23-10-2026: en los planos no se escribe la orientación); arriba = norte
+  // flecha de norte (como estudio.html: Gabriel, por consejo del ingeniero, 23-10-2026: en los planos no se escribe la orientación); arriba = norte
   function flechaNorte(svg, x, y, r) {
     const g = el('g', { transform: `translate(${x} ${y})` }, svg);
     el('circle', { r, style: `fill:none;stroke:var(--fig-ink);stroke-width:${(r / 22).toFixed(2)}` }, g);

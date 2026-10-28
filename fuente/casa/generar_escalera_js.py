@@ -61,7 +61,7 @@ dims = [
     ('Baranda', '1,00 m', 'pasamanos a 1,00, barra a 0,50, rodapié de 10 en la plataforma; lado del eje 6 de la escalera y lados de la plataforma hacia los ejes G y 6'),
     ('Hueco en la cubierta del ala', f'1,62 × {fm(HUECO[3] - HUECO[1])} m', 'la cubierta baja del ala va a +2,88 y la escalera la atraviesa: ese tramo queda abierto mientras se use'),
 ]
-# ---------- SVG: planta (arriba = eje G, con la flecha de norte en la esquina; José vía Gabriel, 23-10-2026: sin "norte"
+# ---------- SVG: planta (arriba = eje G, con la flecha de norte en la esquina; el ingeniero vía Gabriel, 23-10-2026: sin "norte"
 # ni "sur" escritos, una flecha de norte y los ejes del ingeniero) ----------
 # Letra de 14 en unidades del dibujo: el SVG no se achica bajo su ancho de diseño (min-width), así que en pantalla no baja de 14 px.
 FS = 14

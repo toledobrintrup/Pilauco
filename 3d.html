@@ -102,7 +102,7 @@ body.embed .norte3d{top:52px}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V124" data-vista="3d"></script>
+    <script src="menu.js?v=V125" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -182,17 +182,17 @@ body.embed .norte3d{top:52px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V124"></script>
-<script src="data.js?v=V124"></script>
-<script src="casa_vanos.js?v=V124"></script>
-<script src="estructura.js?v=V124"></script>
-<script src="losa.js?v=V124"></script>
-<script src="sitio.js?v=V124"></script>
-<script src="sitio3d.js?v=V124"></script>
-<script src="estudio_estructura.js?v=V124"></script>
-<script src="mobiliario3d.js?v=V124"></script>
-<script src="cotas3d.js?v=V124"></script>
-<script src="goku3d.js?v=V124"></script>
+<script src="nav3d.js?v=V125"></script>
+<script src="data.js?v=V125"></script>
+<script src="casa_vanos.js?v=V125"></script>
+<script src="estructura.js?v=V125"></script>
+<script src="losa.js?v=V125"></script>
+<script src="sitio.js?v=V125"></script>
+<script src="sitio3d.js?v=V125"></script>
+<script src="estudio_estructura.js?v=V125"></script>
+<script src="mobiliario3d.js?v=V125"></script>
+<script src="cotas3d.js?v=V125"></script>
+<script src="goku3d.js?v=V125"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -1253,7 +1253,7 @@ body.embed .norte3d{top:52px}
     Nav3D.ayudaLineas.concat(['Seguir acercando atraviesa muros y losas: así se entra a una sala o al búnker', 'Entrar ↘: doble clic (o doble toque) en el piso de una sala para pararse adentro']).forEach((l, i) => { if (i) hint.appendChild(document.createElement('br')); hint.appendChild(document.createTextNode(l)); });
   }
 
-  // ---------- flecha de norte (José, vía Gabriel, 23-10-2026: en vez de escribir la orientación, un indicador con la flecha) ----------
+  // ---------- flecha de norte (el ingeniero, vía Gabriel, 23-10-2026: en vez de escribir la orientación, un indicador con la flecha) ----------
   // el norte del plano (y decreciente) es −Z en el mundo; la flecha apunta hacia donde queda el norte en la pantalla: en planta, arriba
   const norteSvg = document.getElementById('norte3d'), norteGiro = document.getElementById('norte3d-giro'), norteN = document.getElementById('norte3d-n');
   const vAdel = new THREE.Vector3(), vArriba = new THREE.Vector3(), vDer = new THREE.Vector3();

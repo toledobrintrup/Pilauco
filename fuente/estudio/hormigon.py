@@ -76,7 +76,7 @@ IMPERMEABILIZACION = dict(
     interior='opcional: cámara drenada (lámina de nódulos y canaleta a un pozo de achique) detrás de la sala acústica, y deshumidificador',
     fuente='revisión 23-10-2026 (BS 8102, grado 3: recinto habitable seco)')
 KGM = {6: 0.222, 8: 0.395, 10: 0.617, 12: 0.888, 16: 1.578, 19: 2.235, 22: 3.04}   # kg/m por diámetro (ø19 = 3/4")
-EJE_MURO = {'N': 'A', 'S': 'B', 'O': '1', 'E': '5'}   # muros del búnker por su eje: los textos no llevan orientación (Gabriel, por consejo de José, 23-10-2026)
+EJE_MURO = {'N': 'A', 'S': 'B', 'O': '1', 'E': '5'}   # muros del búnker por su eje: los textos no llevan orientación (Gabriel, por consejo del ingeniero, 23-10-2026)
 
 def armar(c):
     """c: dict con ap, rect, r1, z0, ox, oy, xA, yA, yB, yC, W, L, rec, bk (pts del búnker interior, local), BUNKER_H,

@@ -52,7 +52,7 @@
     titulo(el('polyline', { points: P(sv.cierro_exterior), class: 'tr-serv-ext' }, gL), 'Cierro del frente, al otro lado del camino (supuesto: trazo del emplazamiento)');
     txt(gT, 1300, (sv.cierro_exterior[0][1] + sv.cierro_exterior[1][1]) / 2 + 150, 'cierro al otro lado del camino (supuesto)', 'tr-sub');   // textos cortos: con 14 px los largos no cabían en el ancho del teléfono
     lblDes(sv.eje[1], sv.eje[0], `deslinde ${m(des.sur)} · eje del camino`, 1);   // hacia afuera: sobre el camino, entre el eje y el cierro exterior
-    // (la flecha del norte ya no va aquí: la pone la página, fija en una esquina del plano, para la casa y el terreno; Gabriel y José, 23-10-2026)
+    // (la flecha del norte ya no va aquí: la pone la página, fija en una esquina del plano, para la casa y el terreno; Gabriel y el ingeniero, 23-10-2026)
 
     // ---- cierro perimetral (norte, oriente y poniente, sobre el deslinde): pilares de hormigón con reja cada 3 m (foto de dron) ----
     for (let i = 0; i < lot.length; i++) {

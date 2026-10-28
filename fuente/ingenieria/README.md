@@ -1,6 +1,6 @@
 # Ingeniería de estructuras — de los PDF al modelo 3D
 
-Fuente: las láminas de estructura de "José Torres Herrera, Ingeniero Civil": plantas de
+Fuente: las láminas de estructura del ingeniero civil del proyecto: plantas de
 estructura nivel 1 (rev. 08-04-2026) y nivel 2, planta de techumbre, planta de fundaciones,
 y 4 láminas con 25 elevaciones por eje (ejes 1, 1a', 2, 3, 5, 6, K, A, A1, A3, B, C, D, E, E4,
 F, F1, F2, G, G2, G3, H, I, J). **Los PDF no están en el repositorio**: su viñeta lleva el

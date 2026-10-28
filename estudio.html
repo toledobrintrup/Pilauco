@@ -179,7 +179,7 @@ ol.preg li{margin:0 0 8px}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V124" data-vista="estudio"></script>
+  <script src="menu.js?v=V125" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
   <span class="meta" id="meta">Revisado con cálculo propio · sin firma</span>
 </header>
@@ -263,7 +263,7 @@ ol.preg li{margin:0 0 8px}
 
 <section id="ingeniero">
   <h2>Respuestas al ingeniero</h2>
-  <p class="small sub">Documento V121 de José Torres (25-10-2026) y sus indicaciones del 26 y 27-10 · respuestas al día con el modelo del 27-10-2026 (V124) · fuerzas en kgf y t, kN entre paréntesis · NCh 433 + DS 61, NCh 432:2010, NCh 431:2010, NCh 1537:2009, NCh 3171:2010, ACI 318-08 (DS 60), AISC 360-16.</p>
+  <p class="small sub">Documento V121 del ingeniero (25-10-2026) y sus indicaciones del 26 y 27-10 · respuestas al día con el modelo del 27-10-2026 (V124) · fuerzas en kgf y t, kN entre paréntesis · NCh 433 + DS 61, NCh 432:2010, NCh 431:2010, NCh 1537:2009, NCh 3171:2010, ACI 318-08 (DS 60), AISC 360-16.</p>
   <div class="rv-lista">
     <div class="ing-cab"><span>Tema</span><span>Observación</span><span>Respuesta</span><span style="text-align:right">Estado</span></div>
     <div class="ing-fila"><span class="el">Losa de techo e=25</span><span class="ob">Verificar carga muerta, luces y efecto</span><span class="re">D 651 → 778 kgf/m² (6,38 → 7,63 kPa; peso propio 510 → 637); qu 1.438 → 1.591 kgf/m² (14,1 → 15,6 kPa). Luz A–B 6,20 entre caras (6,50 entre ejes). Con el pilar, las vigas botadas y ø10@20 arriba en 1–5 junto a los muros A y B (esa franja daba 0,97 en hormigón simple; ahora 0,40), manda la flexión inferior junto a la VBL: Mu 3.590 / φMn 4.450 kgf·m/m (35,2 / 43,7 kN·m/m) = <b>0,81</b> (antes 0,98). Flecha de largo plazo 5,2 mm &lt; L/480 = 13,5. Efecto: muros 0,78, VHA-3 0,59, losa de fundación 0,80, flotación FS 1,76.</span><span class="es"><span class="est ok">Aplicado</span></span></div>
@@ -331,7 +331,7 @@ ol.preg li{margin:0 0 8px}
 <section id="vista3d">
   <h2><span class="n">01</span>Vista 3D del estudio</h2>
   <ul class="puntos"><li><b>Capas:</b> estructura de acero y hormigón, búnker bajo tierra, enfierradura, medidas (vienen apagadas).</li><li><b>Girar:</b> arrastrar · <b>acercar:</b> rueda o pellizco · <b>centrar:</b> doble toque · <b>ficha:</b> tocar la pieza.</li></ul>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V124" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V125" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
@@ -428,9 +428,9 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=V124"></script>
-<script src="estudio_estructura.js?v=V124"></script>
-<script src="armaduras_det.js?v=V124"></script>
+<script src="sitio.js?v=V125"></script>
+<script src="estudio_estructura.js?v=V125"></script>
+<script src="armaduras_det.js?v=V125"></script>
 <script>
 // se dibuja cuando la letra Inter ya cargó: los rótulos se miden con getBBox y con la letra de reemplazo quedaban más angostos de lo que son (25-10-2026)
 (function (dibujar) { const f = document.fonts; if (!f || !f.load) return dibujar();
@@ -462,7 +462,7 @@ ol.preg li{margin:0 0 8px}
   const NS = 'http://www.w3.org/2000/svg';
   function el(tag, attrs, parent) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); (parent || null) && parent.appendChild(e); return e; }
   function txt(svg, x, y, t, attrs) { const e = el('text', Object.assign({ x, y, class: 'tx', 'font-size': 20 }, attrs || {}), svg); e.textContent = t; return e; }
-  // flecha de norte (Gabriel, por consejo de José, 23-10-2026: en los planos no se escribe la orientación, va este indicador); arriba = norte, como las láminas
+  // flecha de norte (Gabriel, por consejo del ingeniero, 23-10-2026: en los planos no se escribe la orientación, va este indicador); arriba = norte, como las láminas
   function flechaNorte(svg, x, y, r) {
     const g = el('g', { transform: `translate(${x} ${y})` }, svg);
     el('circle', { r, style: `fill:none;stroke:var(--fig-ink);stroke-width:${(r / 22).toFixed(2)}` }, g);
