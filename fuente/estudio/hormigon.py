@@ -35,6 +35,8 @@ RELLENO_EST = 15.0          # relleno granular 15 bajo el poliestireno, sobre su
 VHA = (25.0, 50.0)          # VHA 25/50 del eje 3: 25 dentro de la losa + 25 bajo ella (ingeniero, 25/26-10-2026: "se acepta"; antes 25/45 y el detalle VHA 25/40 colgaba 20 de una losa de 20)
 VIGA_BOTADA = (40.0, 25.0)  # vigas botadas VBL y VBC en los bordes del hueco de la escalera, dentro de la losa de 25, sin caída (ingeniero, 25/26-10-2026; ancho 40: propuesta,
                             # con 30 también pasa); reemplazan a las vigas de borde 25/45 colgadas (VHA-esc y VB-N)
+ESCALERA = dict(losa=10.0, viga=(25.0, 40.0), rec=3.0)   # escalera del búnker: alternativa del croquis del ingeniero (27-10-2026), «viga central de 25/40 … con la losa de e=10 cm
+                            # solamente»; 40 = alto total, perpendicular a la losa (supuesto: el croquis no lo dice). Su solución principal (losa de 15 con ø16@18) no pasa la flecha (calculo/escalera_losa.py)
 PILAR_ESC = dict(perfil='CUAD 100x100x4', acero='A270ES', lado=10.0, area=15.36, retiro=12.5, placa=(25.0, 25.0, 1.6), grout=2.5,
                  pernos='4 ø16 A36 hef 12 (nominales: el pilar nunca tracciona)', conectores='4 ø12 L=10')   # pilar en la esquina del hueco (ingeniero, 25/26-10-2026: "perfil cuadrado de 100");
                             # espesor 4, centro a 12,5 de los dos bordes del hueco (placa de cabeza de 25 al ras del hueco), placas, grout y pernos: propuesta
@@ -761,6 +763,95 @@ def armar(c):
         fam(f'{p["id"]}-est', 'dado', 10, estribo([(X0, Y0, z_da_sup - 6), (X1, Y0, z_da_sup - 6), (X1, Y1, z_da_sup - 6), (X0, Y1, z_da_sup - 6), (X0, Y0, z_da_sup - 6)]),
             n=nE_d, paso=(0, 0, -pE_d), d=f'{nE_d} estribos perimetrales ø10@{pE_d:.1f} del dado {p["id"]}, el último sobre los ganchos de la malla inferior'.replace('.', ','))
 
+    # ---------- escalera del búnker (V126). El ingeniero, croquis del 27-10-2026 («la solución que envié»): losa inclinada e=15 con ø16@18 abajo (ø12@11 como
+    #      alternativa), peldaños ø8@20 en ⌐ con una ø8 en cada nariz, y «como alternativa puede ir una viga central de 25/40 para ser el soporte de losa y
+    #      escalones, con la losa de e=10 cm solamente»; nota: «debe chequearse la deformación». Revisión (calculo/escalera_losa.py, ACI 318-08, NCh 3171,
+    #      L = 4 kPa): la losa de 15 como está dibujada (solo fierro abajo: simplemente apoyada) da flexión 1,13 y flecha de 112 mm contra L/480 = 12,3; va
+    #      su alternativa: viga central VE 25/40 bajo una losa de 10. Fierro de la viga y de la losa: propuesta; peldaños y narices: del croquis.
+    #      Marco: s a lo largo de la bajada desde la arista del muro del eje B (y = ey1, NPOG 0,00); h perpendicular bajo la línea de los rincones de los
+    #      peldaños (la cara superior de la losa: el 15 del croquis se mide desde ahí); x a lo ancho ----------
+    esc0 = c['escalera']; NE = 'escalera del búnker'
+    nPE = esc0['tramo']['peldanos']; huE = esc0['tramo']['largo'] / nPE; chE = -z_piso / nPE      # 19 de 26,2 × 18,2
+    yTE = ey1; kE = chE / huE; thE = math.atan(kE); cE, sE = math.cos(thE), math.sin(thE)
+    QE = lambda s, h, x: (x, yTE - s * cE + h * sE, -s * sE - h * cE)
+    sDe = lambda y, h: (yTE - y + h * sE) / cE                  # s del punto a h bajo los rincones que cae en y
+    zRE = lambda y: -(yTE - y) * kE                             # línea de los rincones
+    RE = ESCALERA['rec']; hLE = ESCALERA['losa']; bVE, hVE = ESCALERA['viga']
+    xE0, xE1 = ex_h, ex1; xcE = (xE0 + xE1) / 2                 # 1,20 de ancho; la viga al centro
+    yR = lambda i: yTE - (i + 1) * huE                          # cara de la contrahuella del peldaño i (0 = el de arriba, a NPOG 0,00)
+    zLim = z_piso + RE + 0.4                                    # el pie es macizo sobre la losa de fundación: nada baja de −342,6 (junta)
+    # viga VE: 3ø16 abajo (el rojo del croquis): gancho de 90° en la losa de fundación hacia el eje B y L dentro del muro del eje B
+    hBi = hVE - RE - 0.8 - 0.8                                  # 35,4: recubrimiento 3 + estribo ø8 + radio
+    sW = hBi * sE / cE; zW = -sW * sE - hBi * cE                # llegan a la cara del muro B a −43,1
+    sF = (-z_piso - hBi * cE) / sE; yF = yTE - sF * cE + hBi * sE   # cortan el piso a 4,36 del muro B
+    zGa = z_zap_inf + 5 + 1.6 + 1.2 + 0.8                       # −372,4: apoyadas sobre las dos capas de la malla inferior de la losa de fundación
+    yMB = yTE + 21.0                                            # 21 dentro del muro B, hasta su malla exterior (ldh 20,6 con 12.5.3 a)
+    xsVi = [xcE - 7.7, xcE, xcE + 7.7]                          # a 7,7: la de afuera pasa a 1,7 de la ø16 superior de la losa de fundación (LF-sup-NS)
+    fam('VE-inf', NE, 16, None, polis=[[(x, yF + 20, zGa), (x, yF, zGa), (x, yF, z_piso), (x, yTE, zW), (x, yMB, zW), (x, yMB, zW - 20)] for x in xsVi],
+        d=f'3ø16 inferiores de la viga central VE {bVE:.0f}/{hVE:.0f}: a lo largo de la bajada, bajan 26 dentro de la losa de fundación con gancho de 90° de 20 hacia el eje B (sobre su malla inferior) y entran 21 al muro del eje B con L de 20 (el ø16 corrido del croquis, como viga)')
+    # 2ø12 superiores (portaestribos y compresión para la flecha): de 3 de la cara del muro B al pie macizo, con ganchos de 90° de 15; no se anclan
+    hBs = RE + 0.8 + 0.6 + 0.3                                  # 4,7: bajo las transversales de la losa y bajo la rama superior de los estribos (a 3,6), con 1 mm de aire
+    yS0 = yTE - 3.6; zS0 = QE(sDe(yS0, hBs), hBs, 0)[2]
+    sS1 = (-zLim - (hBs + 15) * cE) / sE - 2.0
+    fam('VE-sup', NE, 12, None, polis=[[(x, yS0, zS0 - 15), (x, yS0, zS0), QE(sDe(yS0, hBs), hBs, x), QE(sS1, hBs, x), QE(sS1, hBs + 15, x)] for x in (xcE - 8.0, xcE + 8.0)],
+        d=f'2ø12 superiores de la VE {bVE:.0f}/{hVE:.0f} (portaestribos; cuentan como compresión para la flecha): de 3 de la cara del muro B al pie macizo, con ganchos de 90° de 15 en las dos puntas, sin anclar')
+    # losa de 10: transversales ø8 arriba (vuelos de 0,475 desde la viga), dos por peldaño: una junto a la pata de las ⌐ (la abrazan, como en el croquis) y otra a medio camino
+    hT_ = RE + 0.4
+    yLeg = lambda i: yR(i) + RE + 0.4                           # pata de las ⌐ del peldaño i, 3 detrás de la cara de la contrahuella
+    sLeg = [sDe(yLeg(i) + 0.9, hT_) for i in range(nPE)]
+    pE = sLeg[1] - sLeg[0]                                      # 31,9 a lo largo de la bajada por peldaño
+    sT = sorted(s for i in range(nPE) for s in (sLeg[i] - pE / 2, sLeg[i]) if QE(s, hT_, 0)[2] >= zLim and QE(s, hT_, 0)[1] <= yTE - RE - 0.4)
+    xT0, xT1 = xE0 + RE + 0.4, xE1 - RE - 0.4
+    fam('ES-LT', NE, 8, None, polis=[[QE(s, hT_, xT0), QE(s, hT_, xT1)] for s in sT],
+        d=f'transversales ø8@{pE / 2:.0f} superiores de la losa de 10 (dos por peldaño: una junto a la pata de las ⌐, que la abrazan, y otra a medio camino), de borde a borde: vuelos de 0,475 desde la viga'.replace('.', ','))
+    # losa de 10: longitudinales ø8 bajo las transversales, 2 en cada vuelo (entre las ⌐ de los peldaños)
+    xsP = [xT0 + k_ * (xT1 - xT0) / 6 for k_ in range(7)]       # ⌐ de los peldaños: 7 en el ancho (@19)
+    hL_ = hT_ + 0.8
+    sL0, sL1 = sDe(yTE - RE - 0.4, hL_), (-zLim - hL_ * cE) / sE
+    fam('ES-LL', NE, 8, None, polis=[[QE(sL0, hL_, x), QE(sL1, hL_, x)] for x in ((xsP[0] + xsP[1]) / 2, (xsP[1] + xsP[2]) / 2, (xsP[4] + xsP[5]) / 2, (xsP[5] + xsP[6]) / 2)],
+        d='longitudinales ø8 de la losa de 10, bajo las transversales: 2 en cada vuelo (repartición), de la cara del muro B al pie')
+    # peldaños (croquis): ⌐ ø8 cada 19: pata bajo la nariz que entra a la losa y abraza la transversal, tramo bajo la huella y gancho corto hacia abajo
+    polP, polN = [], []
+    for i in range(nPE):
+        yl, zc = yLeg(i), -i * chE - RE - 0.4
+        zEnd = max(zRE(yl) - (hT_ + 1.2) / cE, zLim)           # 1,2 bajo el eje de la transversal (en el peldaño de abajo, hasta la junta)
+        yh = yR(i) + huE - 0.5                                  # el tramo llega hasta 0,5 antes de la contrahuella de arriba (o del muro B)
+        polP += [[(x, yl, zEnd), (x, yl, zc), (x, yh, zc), (x, yh, zc - 4.8)] for x in xsP]
+        polN.append([(xT0, yl + 0.9, zc - 0.9), (xT1, yl + 0.9, zc - 0.9)])   # en el rincón interior de la ⌐
+    fam('ES-P', NE, 8, None, polis=polP, d=f'peldaños: ø8@19 en ⌐ (7 por peldaño, {nPE} peldaños; croquis: ø8@20): pata 3 detrás de la contrahuella, bajo la nariz, que entra a la losa y abraza la transversal; tramo 3 bajo la huella y gancho de 5 hacia abajo')
+    fam('ES-N', NE, 8, None, polis=polN, d=f'1ø8 corrida en cada nariz ({nPE}), en el rincón interior de las ⌐ (croquis)')
+    # estribos de la VE: ø8 cerrados con ganchos de 135°, 2 por peldaño, cada uno entre dos transversales de la losa y lejos de las patas y ganchos de las ⌐ del eje
+    rEx = bVE / 2 - RE - 0.4; hE1 = hVE - RE - 0.4; hE0 = hE1 - 33.0   # ramas de 33,0 exactos (3,6 arriba, 3,4 abajo): si no, el redondeo de los estribos corridos partía la marca en 33 y 33,5
+    obsE = sT + [sDe(yLeg(i), hE0) for i in range(nPE)] + [sDe(yR(i) + huE - 0.5, hE0) for i in range(nPE)]
+    sEmin, sEmax = (hE1 * sE + RE + 0.4) / cE, (-zLim - hE1 * cE) / sE
+    sEst = []
+    for a_, b_ in zip(sT[:-1], sT[1:]):
+        cands = [a_ + 1.5 + 0.1 * j for j in range(int((b_ - a_ - 3.0) / 0.1) + 1)]
+        cands = [s for s in cands if sEmin <= s <= sEmax]
+        libres = [s for s in cands if min(abs(s - o) for o in obsE) >= 1.6]   # lo más cerca del medio con 1,6 libres a cada barra: el paso queda parejo (≤ d/2)
+        if libres: sEst.append(min(libres, key=lambda s: abs(s - (a_ + b_) / 2)))
+        elif cands: sEst.append(max(cands, key=lambda s: min(abs(s - o) for o in obsE)))
+    estE = lambda s: estribo([QE(s, hE0, xcE - rEx), QE(s, hE0, xcE + rEx), QE(s, hE1, xcE + rEx), QE(s, hE1, xcE - rEx), QE(s, hE0, xcE - rEx)])
+    fam('VE-est', NE, 8, None, polis=[estE(s) for s in sEst],
+        d=f'estribos cerrados ø8@{(sEst[-1] - sEst[0]) / (len(sEst) - 1):.0f} de la VE {bVE:.0f}/{hVE:.0f} con ganchos de 135°, {len(sEst)} perpendiculares a la viga, 2 por peldaño (separación máxima {max(b_ - a_ for a_, b_ in zip(sEst[:-1], sEst[1:])):.1f} ≤ d/2 = 17,7), entre las transversales de la losa'.replace('.', ','))
+    # hormigón: peldaños y losa de 10 en todo el ancho, más el alma de la viga (25 × 30 bajo la losa); el pie, macizo sobre la losa de fundación
+    area2 = lambda P: abs(sum(P[i][0] * P[(i + 1) % len(P)][1] - P[(i + 1) % len(P)][0] * P[i][1] for i in range(len(P)))) / 2
+    perfE = [(yTE, 0.0)] + [q for i in range(nPE) for q in ((yR(i), -i * chE), (yR(i), -(i + 1) * chE))]
+    vLE, vVE = hLE / cE, hVE / cE                               # 12,2 y 48,7 en vertical
+    yUL, yUV = yTE - (-z_piso - vLE) / kE, yTE - (-z_piso - vVE) / kE   # donde la cara inferior de la losa y la de la viga tocan el piso
+    v_escE = (area2(perfE + [(yUL, z_piso), (yTE, -vLE)]) * (xE1 - xE0) + area2([(yTE, -vLE), (yTE, -vVE), (yUV, z_piso), (yUL, z_piso)]) * bVE) / 1e6
+    lE = sF - sW                                                # tramo inclinado de las 3ø16
+    esc0.update(
+        estructura=dict(
+            losa=dict(espesor=hLE, nota=f'losa inclinada e={hLE:.0f} medida perpendicular bajo la línea de los rincones de los peldaños ({vLE:.1f} en vertical); toca el piso a {(yUL - (yTE - esc0["tramo"]["largo"])):.0f} de la primera contrahuella'.replace('.', ',')),
+            viga=dict(id='VE', nombre=f'VE {bVE:.0f}/{hVE:.0f}', ancho=bVE, alto=hVE, x=r1(ap(xcE, 0, 0)[0]), pts=rect(xcE - bVE / 2, yUV, xcE + bVE / 2, yTE),
+                      y_toca_piso=r1(ap(0, yUV, 0)[1]), z_en_muro_B=r1(-vVE), d=f'viga central {bVE:.0f}/{hVE:.0f} bajo la losa de 10 (alto total perpendicular: supuesto), del muro del eje B a la losa de fundación; toca el piso a {(yTE - yUV) / 100:.2f} m del muro B ({(yUV - (yTE - esc0["tramo"]["largo"])) / 100:.2f} de la primera contrahuella) y llega al muro B con su cara inferior a −{vVE:.1f}'.replace('.', ',')),
+            geometria=dict(angulo=round(math.degrees(thE), 2), pendiente=round(kE, 5), cos=round(cE, 5), tramo_inclinado_3o16=r1(lE), linea='línea de los rincones de los peldaños: pasa por la arista del muro del eje B a NPOG 0,00 y por el pie de cada contrahuella'),
+            armadura=f'VE: 3ø16 abajo (gancho en la losa de fundación y L en el muro B), 2ø12 arriba, E ø8 cerrados 2 por peldaño (@{(sEst[-1] - sEst[0]) / (len(sEst) - 1):.0f}); losa: ø8 transversal arriba 2 por peldaño (@{pE / 2:.0f}) y 2ø8 longitudinales por vuelo; peldaños: ⌐ ø8@19 y 1ø8 en cada nariz; recubrimiento 3 (5 en la losa de fundación, 4 por fuera del muro B); G25 (G30 si se hormigona con el búnker)'.replace('.', ','),
+            calculo=dict(fuente='calculo/escalera_losa.py (ACI 318-08 con 318-19 de control, NCh 1537, NCh 3171; L = 4 kPa, revisada también con 2 y 5)',
+                         croquis='losa e=15 con ø16@18 simplemente apoyada: flexión 1,13 · flecha 112 mm contra L/480 = 12,3 (9,1) · 4,4 Hz',
+                         viga=f'VE {bVE:.0f}/{hVE:.0f}: flexión 0,71 · torsión 0,80 · flecha 6,4 mm contra L/480 = 11,7 (0,55) · corte 0,30 con E ø8@16 (separación 16 ≤ d/2 = 17,7) · losa de 10 en vuelo 0,18 (ø8@16) · ganchos 0,76 y 0,89 · 12,6 Hz'),
+            fuente='ingeniero (croquis 27-10-2026): losa inclinada, ø16 corrido con gancho en la losa de fundación y L en el muro, peldaños ø8@20 en ⌐ con ø8 en cada nariz y la alternativa de la viga central 25/40 con losa de 10; alto total 40, fierro de la viga y de la losa y estribos: propuesta'))
     # ---------- estribos que topan con barras de otro elemento (esquinas y cruces): se corren hasta ±4 cm ----------
     _resolver_estribos(fierros)
     # ---------- cubicación de hormigón (m³) y de fierro (kg) ----------
@@ -768,9 +859,7 @@ def armar(c):
         return abs(sum(pts[i][0] * pts[(i + 1) % len(pts)][1] - pts[(i + 1) % len(pts)][0] * pts[i][1] for i in range(len(pts)))) / 2
     def vol(piezas, alto): return sum(area(p['pts']) for p in piezas) * alto / 1e6
     esc = c['escalera']
-    # escalera: losa inclinada de 15 más los peldaños (triángulos huella x contrahuella / 2), no el bloque macizo que dibuja el 3D
-    nP = esc['tramo']['peldanos']; dz = (esc['z_arriba'] - esc['z_abajo']) / nP; dy = esc['tramo']['largo'] / nP
-    v_esc = (esc['ancho'] * math.hypot(esc['tramo']['largo'], esc['z_arriba'] - esc['z_abajo']) * 15 + esc['ancho'] * dy * dz / 2 * nP) / 1e6
+    # escalera (V126): peldaños, losa inclinada de 10 y viga central VE 25/40 (v_escE, arriba), no el bloque macizo que dibuja el 3D; antes losa de 15 sin viga
     muro_esc = esc.get('muro'); muro_n = esc.get('muro_norte')
     v_caja = (area(muro_esc['pts']) * (c['h_caja']) + (area(muro_n['pts']) * c['h_caja'] if muro_n else 0)) / 1e6 if muro_esc else 0
     cub_h = [
@@ -783,7 +872,8 @@ def armar(c):
         dict(elemento=NCF, m3=round(vol(cf_piezas, CF[1]), 2), hormigon='G25'),
         dict(elemento=f'Dados bajo 4C y 4C2 ({DADO[0]:.0f} × {DADO[1]:.0f} × {DADO[2]:.0f})', m3=round(vol(da_piezas, DADO[2]), 2), hormigon='G25'),
         dict(elemento='Radier del estudio e=10', m3=round(vol(radier_estudio['capas'][0]['piezas'], RADIER_EST), 2), hormigon='G25'),
-        dict(elemento='Escalera de hormigón y su caja de muros', m3=round(v_esc + v_caja, 2), hormigon='G25'),
+        dict(elemento=f'Escalera del búnker: peldaños, losa inclinada e={hLE:.0f} y viga central VE {bVE:.0f}/{hVE:.0f}', m3=round(v_escE, 2), hormigon='G25 (G30 si va con el búnker)'),
+        dict(elemento='Caja de la escalera: muros e=23 sobre la losa', m3=round(v_caja, 2), hormigon='G25'),
         dict(elemento='Emplantillados (losa de fundación del búnker, cimientos y CF)', m3=round(vol(losa_fundacion['piezas'], EMPLANTILLADO) + vol(cemp_piezas, EMPLANTILLADO) + vol(cf['emplantillado']['piezas'], EMPLANTILLADO), 2), hormigon='G5'),
         dict(elemento='Hormigón pobre hasta el sello de −140 (cimientos, CF y dados)', m3=round(vol(hp_piezas, z_cemp_inf - SELLO_EXT) + vol(cf['hormigon_pobre']['piezas'], z_cfe_inf - SELLO_EXT) + vol(dados['hormigon_pobre']['piezas'], z_da_inf - SELLO_EXT), 2), hormigon='G5'),
     ]

@@ -9,7 +9,7 @@
   const NS = 'http://www.w3.org/2000/svg';
   const KGM = { 8: 0.395, 10: 0.617, 12: 0.888, 16: 1.578, 19: 2.235, 22: 3.04 };   // kg/m (los mismos del generador)
   // orden de la planilla, de abajo hacia arriba y del búnker a las fachadas; por prefijo para que un cambio de sección (VHA 25/45, CF 30/50) no la desordene
-  const ORDEN = ['losa de fundación', 'muro del búnker', 'losa del búnker', 'VHA', 'viga botada', 'sobrecimiento', 'cimiento corrido', 'CF', 'dado', 'placa base PLc', 'placa base PLb'];
+  const ORDEN = ['losa de fundación', 'muro del búnker', 'losa del búnker', 'VHA', 'viga botada', 'escalera del búnker', 'sobrecimiento', 'cimiento corrido', 'CF', 'dado', 'placa base PLc', 'placa base PLb'];
   const orden = e => { const i = ORDEN.findIndex(o => e.startsWith(o)); return i < 0 ? ORDEN.length : i; };
   const coma = (v, d) => (+v).toLocaleString('es-CL', { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 });
   const cm = v => coma(v, Math.abs(v - Math.round(v)) > 0.01 ? 1 : 0);
@@ -49,7 +49,11 @@
       AH: 'horquillas de corte bajo las PLc (abrazan las barras del inserto; amarradas, nunca soldadas)',
       LS: 'superiores sobre la VHA del eje 3', 'LR-sup': 'suples superiores en las esquinas del hueco', 'LR-inf': 'suples inferiores en las esquinas del hueco',
       AN: 'barras lisas A36 de los insertos PLb, soldadas a la placa y a su cabeza (no son A630)', AP: 'barras lisas A36 de los insertos PLc, soldadas a la placa y a su cabeza (no son A630)', AU: 'armadura de anclaje de los dados (4 verticales por dado)',
-      AX: 'estribos extra bajo los pilares con cruz del sobrecimiento' };
+      AX: 'estribos extra bajo los pilares con cruz del sobrecimiento',
+      // escalera del búnker (V126): viga central VE 25/40 bajo la losa de 10 (alternativa del croquis del ingeniero, 27-10-2026)
+      'VE-inf': 'viga central VE: 3ø16 inferiores, con gancho en la losa de fundación y L en el muro del eje B', 'VE-sup': 'viga central VE: 2ø12 superiores (portaestribos), con ganchos de 90°',
+      'VE-est': 'viga central VE: estribos cerrados, 2 por peldaño', 'ES-LT': 'losa de 10: transversales superiores, 2 por peldaño (vuelos desde la viga)', 'ES-LL': 'losa de 10: longitudinales, 2 por vuelo',
+      'ES-P': 'peldaños: ⌐ bajo la nariz y la huella (7 por peldaño)', 'ES-N': 'peldaños: 1 en cada nariz' };
     if (ids.every(id => lf[id])) return lista(uniq(ids.map(id => lf[id])));
     const NV = { 'VHA-3': 'VHA del eje 3', 'VHA-esc': 'viga de borde del hueco (lado del eje 4)', 'VB-N': 'viga de borde del hueco (lado del eje A)', 'VB-S': 'viga de borde del hueco (lado del eje B)',
       VBL: 'VBL (borde del hueco hacia el eje 4, del muro A al muro B)', VBC: 'VBC (borde del hueco hacia el eje A, de la VBL al muro del eje 5)' };
@@ -66,6 +70,9 @@
   function fuente(id) {   // [tipo, corto, detalle]: 'dato' = lo dibujó el ingeniero (láminas); 'propuesta' = revisión del 23-10-2026 o supuesto nuestro
     const REV = 'revisión 23-10-2026';
     const ESC = 'el ingeniero (25/26-10-2026): pilar en la esquina del hueco, vigas botadas dentro de la losa, ø10@20 arriba en 1–5 junto a los muros A y B y fisura 0,30 mm';
+    if (/^(ES-P|ES-N)$/.test(id)) return ['dato', 'croquis', 'ingeniero (croquis 27-10-2026): peldaños ø8@20 en ⌐ con una ø8 en cada nariz; aquí 7 por peldaño (@19 en 1,14) y recubrimiento 3'];
+    if (id === 'VE-inf') return ['propuesta', 'croquis + viga', 'ingeniero (croquis 27-10-2026): ø16 corrido con gancho en la losa de fundación y L en el muro; alternativa con viga central 25/40: 3ø16 propuestos (calculo/escalera_losa.py: flexión 0,71, flecha 0,55)'];
+    if (/^(VE-|ES-)/.test(id)) return ['propuesta', 'escalera', 'viga central 25/40 y losa de 10: alternativa del croquis del ingeniero (27-10-2026); su fierro, propuesta (calculo/escalera_losa.py)'];
     if (id === 'LT-NS16') return ['propuesta', 'escalera', 'escalera de 1,20 (24-10-2026): la VBL se empotra en el muro del eje B; ø16@15 en vez de ø12@15 en esos 1,20'];
     if (/^(VBL|VBC)-/.test(id)) return ['propuesta', 'vigas botadas', `${ESC}; ancho 40, armadura y estribos: propuesta (ACI 318-08, con torsión)`];
     if (id === 'LS-AB') return ['propuesta', 'ingeniero', `${ESC}; largo y cantidad: propuesta`];
