@@ -102,7 +102,7 @@ body.embed .norte3d{top:52px}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V126" data-vista="3d"></script>
+    <script src="menu.js?v=V127" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -182,17 +182,17 @@ body.embed .norte3d{top:52px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V126"></script>
-<script src="data.js?v=V126"></script>
-<script src="casa_vanos.js?v=V126"></script>
-<script src="estructura.js?v=V126"></script>
-<script src="losa.js?v=V126"></script>
-<script src="sitio.js?v=V126"></script>
-<script src="sitio3d.js?v=V126"></script>
-<script src="estudio_estructura.js?v=V126"></script>
-<script src="mobiliario3d.js?v=V126"></script>
-<script src="cotas3d.js?v=V126"></script>
-<script src="goku3d.js?v=V126"></script>
+<script src="nav3d.js?v=V127"></script>
+<script src="data.js?v=V127"></script>
+<script src="casa_vanos.js?v=V127"></script>
+<script src="estructura.js?v=V127"></script>
+<script src="losa.js?v=V127"></script>
+<script src="sitio.js?v=V127"></script>
+<script src="sitio3d.js?v=V127"></script>
+<script src="estudio_estructura.js?v=V127"></script>
+<script src="mobiliario3d.js?v=V127"></script>
+<script src="cotas3d.js?v=V127"></script>
+<script src="goku3d.js?v=V127"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -584,7 +584,7 @@ body.embed .norte3d{top:52px}
       [[pe.placa_base, 'base'], [pe.placa_cabeza, 'de cabeza']].forEach(([pl, nm]) => { if (pl) addH('escalera', ficha(prismaH(pl.pts, pl.z_inf, pl.z_sup, matPlE), `Placa ${nm} del pilar ${pe.id} (${mmE(pl.lado)} × ${mmE(pl.lado)} × ${mmE(pl.espesor)} mm)`, pl.detalle)); });
     }
     // fundaciones del ingeniero (lámina 01 rev 1): zapata corrida bajo los muros del búnker, sobrecimiento + cimiento corrido bajo las fachadas,
-    // CF bajo los tabiques con pilares (hasta la cara del radier), dados bajo 4C y 4C2, emplantillados y hormigón pobre G5 hasta el sello,
+    // CF bajo los tabiques con pilares (hasta la cara del radier), zapata corrida ZC-4 bajo el CF del eje 4, emplantillados y hormigón pobre G5 hasta el sello,
     // dren perimetral del búnker, radieres con sus capas y placas base PLc / PLb (medidas y textos del modelo: estudio_estructura.js)
     const matEmp = new THREE.MeshLambertMaterial({color: dark ? 0x5A5D63 : 0x9A9CA0, transparent: true, opacity: 0.9, side: THREE.DoubleSide});
     const matPoli = new THREE.MeshLambertMaterial({color: dark ? 0xD8DADF : 0xF4F4F1, transparent: true, opacity: 0.9, side: THREE.DoubleSide});
@@ -611,11 +611,13 @@ body.embed .norte3d{top:52px}
       H.cf.piezas.forEach(z => addH('cf', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matH), z.nombre, `${z.d} · ${H.cf.armadura} · ${H.cf.fuente}`)));
       H.cf.emplantillado.piezas.forEach(z => addH('cf', ficha(prismaH(z.pts, H.cf.emplantillado.z_inf, H.cf.emplantillado.z_sup, matEmp), 'Emplantillado G5 del CF', `e=${H.cf.emplantillado.espesor}`)));
     }
-    // dados bajo 4C y 4C2 (revisión 23-10-2026): el CF pasa por encima y los amarra
-    if (H.dados) H.dados.piezas.forEach(z => addH('dados', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matCF), `${z.id} · ${z.nombre}`, `${z.d} · ${H.dados.armadura}`)));
-    // hormigón pobre G5 del emplantillado al sello (cimientos, CF y dados): más claro que el emplantillado
+    // zapata corrida ZC-4 bajo el CF del eje 4, con su emplantillado (V127; Gabriel, 28-10-2026, opción A: en vez de los dados de 4C y 4C2; propuesta, VºBº del ingeniero)
+    const Zcf = H.zapata_cf;
+    if (Zcf && Zcf.piezas) Zcf.piezas.forEach(z => addH('zcf', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matCF), `${z.id} · ${z.nombre}`, `${z.d} · ${Zcf.hormigon} · ${Zcf.armadura} · moldaje: ${Zcf.nota} · ${z.fuente || Zcf.fuente}`)));
+    if (Zcf && Zcf.emplantillado) Zcf.emplantillado.piezas.forEach(z => addH('zcf', ficha(prismaH(z.pts, Zcf.emplantillado.z_inf, Zcf.emplantillado.z_sup, matEmp), 'Emplantillado G5 de la zapata ZC-4', `e=${Zcf.emplantillado.espesor} · ${Zcf.emplantillado.nota}`)));
+    // hormigón pobre G5 del emplantillado al sello (cimientos y CF de los ejes C y C2): más claro que el emplantillado
     const matPobre = new THREE.MeshLambertMaterial({color: dark ? 0x4A4D52 : 0xC4C5C2, transparent: true, opacity: 0.85, side: THREE.DoubleSide});
-    [[H.cimiento, 'cimiento corrido'], [H.cf, 'CF'], [H.dados, 'dado']].forEach(([el, nm]) => {
+    [[H.cimiento, 'cimiento corrido'], [H.cf, 'CF']].forEach(([el, nm]) => {
       const hp = el && el.hormigon_pobre; if (!hp) return;
       hp.piezas.forEach(z => { const zi = z.z_inf != null ? z.z_inf : hp.z_inf, zs = z.z_sup != null ? z.z_sup : hp.z_sup;
         addH('pobre', ficha(prismaH(z.pts, zi, zs, matPobre), `Hormigón pobre G5 bajo el ${nm}`, `${z.id} · de −${coma1(-zs - 20)} a −${coma1(-zi - 20)} bajo el NPOG 0,00${hp.nota ? ' · ' + hp.nota : ''}`)); });
@@ -1064,7 +1066,7 @@ body.embed .norte3d{top:52px}
     const sep = () => { const d = document.createElement('div'); d.className = 'sep'; panelEl.insertBefore(d, filaFit); };
     titulo('Hormigón');
     const hayH = {}; (grupoEstudioEst.userData.sub && grupoEstudioEst.userData.sub.hormigon ? grupoEstudioEst.userData.sub.hormigon : {traverse: () => {}}).traverse(o => { if (o.userData.hgrupo) hayH[o.userData.hgrupo] = true; });
-    [['muros', 'Muros del búnker'], ['losa', 'Losa y vigas VHA'], ['zapata', 'Losa de fundación y emplantillado'], ['piso', 'Radier y relleno del búnker'], ['escalera', 'Escalera y su caja'], ['cimiento', 'Sobrecimiento y cimiento corrido'], ['cf', 'CF bajo los tabiques'], ['dados', 'Dados bajo 4C y 4C2'], ['pobre', 'Hormigón pobre G5 hasta el sello'], ['dren', 'Dren perimetral del búnker'], ['radier', 'Radier del estudio y sus capas'], ['placas', 'Placas base PLc y PLb']].filter(([k]) => hayH[k]).forEach(([k, t]) => { const c = document.createElement('input'); c.type = 'checkbox'; c.checked = true; chkHGrupo[k] = c; fila(t, c); c.addEventListener('input', aplica); });
+    [['muros', 'Muros del búnker'], ['losa', 'Losa y vigas VHA'], ['zapata', 'Losa de fundación y emplantillado'], ['piso', 'Radier y relleno del búnker'], ['escalera', 'Escalera y su caja'], ['cimiento', 'Sobrecimiento y cimiento corrido'], ['cf', 'CF bajo los tabiques'], ['zcf', 'Zapata corrida ZC-4 bajo el CF del eje 4'], ['pobre', 'Hormigón pobre G5 hasta el sello'], ['dren', 'Dren perimetral del búnker'], ['radier', 'Radier del estudio y sus capas'], ['placas', 'Placas base PLc y PLb']].filter(([k]) => hayH[k]).forEach(([k, t]) => { const c = document.createElement('input'); c.type = 'checkbox'; c.checked = true; chkHGrupo[k] = c; fila(t, c); c.addEventListener('input', aplica); });
     fila('Hormigón translúcido', chkHTrans); chkHTrans.addEventListener('input', aplica);
     sep(); titulo('Enfierradura');
     const elems = [...new Set(grupoFierros.children.map(ls => ls.userData.elemento))];

@@ -60,8 +60,9 @@ HORQ = dict(diam=16, z=9.5, dz=2.5, dz_par=4.1, ld=83.2)   # horquillas de corte
 HORQUILLAS = {'P-1A': ['+al', '+al'], 'P-4A': ['+al', '+al'], 'P-5A': ['+al', '+ac', '+al', '+ac'], 'P-1E': ['+al', '+ac'], 'P-5E': ['+al', '+ac'], 'P-5C': ['+al', '+ac', '+al'], 'P-1D': ['+al'], 'P-5D': ['+al'],
               'P-1C': ['+al'], 'P-1C2': ['+al'], 'P-5C2': ['+al']}   # sentidos en que el arranque del hormigón no alcanza (calculo/anclajes_insertos.py)
 ANCLAJE_C = dict(diam=22, ac=4.5, hef=45.0, hef_muro=100.0, cabeza=6.0, cab_ac=4.5, cab_e=1.2)   # PLc: 4 barras lisas A36 ø22 (7/8") bajo las paredes del tubo que cruzan el elemento (±7,5 en CUAD 150, ±5 en RECT 150x100; ±5 en las esquinas del búnker), filas a ±4,5 del eje del pilar (90 ≥ 4·ø, 17.9.2); cabeza 60 x 45 x 12; hef 100 en los muros del búnker (verticales del muro desarrolladas sobre el cono y pry-out) y 45 en el resto
-DADO = (140.0, 140.0, 119.5) # dado 1,40 x 1,40 bajo los pilares 4C y 4C2 (el CF solo no tiene peso para el arranque de las cruces); baja hasta 10 sobre el sello de −140
-                            # (revisión de fundaciones del 23-10-2026: con 0,80 y hormigón pobre debajo, el sismo EX+ lo levantaba ~5 mm; el hormigón pobre no cuenta: no está amarrado)
+ZAPATA_CF4 = (45.0, 80.0)   # zapata corrida ZC-4 bajo el CF-4, en todo el eje 4 (Gabriel, 28-10-2026: opción A, "que todo sea zapata corrida"; propuesta, falta el VºBº del ingeniero):
+                            # la zanja de 45 del CF-4 hasta el sello, que iba con hormigón pobre, se arma y se llena con G25 de −50 a −130 (10 de emplantillado hasta −140), monolítica con el CF.
+                            # Reemplaza a los dados 1,40 × 1,40 × 1,195 de 4C y 4C2 (revisión del 23-10-2026). Cálculo: calculo/fundaciones_lineales.py (ningún nudo del eje 4 se levanta)
 SELLO_EXT = -140.0          # sello de las fundaciones fuera del búnker: 0,90 bajo el NTN (−50), como pide el informe de suelos; hasta ahí hormigón pobre G5
 JUNTA = 2.0                 # junta de 2 cm entre el búnker y los sobrecimientos / CF que nacen en su muro sur (sin barras ancladas al muro)
 GAP = 0.5                   # separación entre piezas apiladas, para que las caras no parpadeen en el 3D
@@ -199,23 +200,41 @@ def armar(c):
     cf_piezas = [pieza('CF-4', xA[3] - hcf, yJ, xA[3] + hcf, yA[6] - hs, z_cf_inf, z_cf_sup, NCF, 'bajo el tabique estudio/baño-bodega (eje 4), del búnker (junta de 2) a la fachada del eje E, hasta la cara del radier'),
                  pieza('CF-C', xA[3] + hcf, yC - hcf, xA[4] - hs, yC + hcf, z_cf_inf, z_cf_sup, NCF, 'bajo el tabique baño/cabina (eje C), del eje 4 a la fachada del eje 5, hasta la cara del radier'),
                  pieza('CF-C2', xA[3] + hcf, yC2 - hcf, xA[4] - hs, yC2 + hcf, z_cf_inf, z_cf_sup, NCF, 'bajo el tabique cabina/bodega (eje C2), del eje 4 a la fachada del eje 5, hasta la cara del radier')]
+    # zapata corrida ZC-4 bajo el CF-4 (Gabriel, 28-10-2026, opción A; propuesta, falta el VºBº del ingeniero): la zanja de 45 hasta el sello que iba con hormigón pobre
+    # se arma y se llena con G25 de −50 a −130, monolítica con el CF (sus estribos bajan hasta el fondo), con 10 de emplantillado hasta −140. Va en todo el eje 4, del búnker
+    # (junta de 2) a la cara interior del cimiento del eje E; ahí el CF-4 sigue sobre el cimiento. Reemplaza a los dados de 4C y 4C2.
+    bz, hz = ZAPATA_CF4
+    z_zc_sup, z_zc_inf = z_cf_inf - GAP, z_cf_inf - hz; z_zce_inf = z_zc_inf - EMPLANTILLADO   # −50,5 (−50 real), −130, −140 (= sello)
+    yZ1 = yA[6] - hc                                                                            # cara interior del cimiento corrido del eje E
+    xZ0, xZ1 = xA[3] - bz / 2, xA[3] + bz / 2
+    fte_zc = 'Gabriel 28-10-2026, opción A; propuesta, VºBº del ingeniero'
+    zc_piezas = [pieza('ZC-4', xZ0, yJ, xZ1, yZ1, z_zc_inf, z_zc_sup, f'Zapata corrida ZC-4 {bz:.0f} × {hz:.0f}',
+                       f'bajo el CF-4, en todo el eje 4: del búnker (junta de 2) a la cara interior del cimiento del eje E ({(yZ1 - yJ) / 100 + 1e-9:.2f} m), de −50 a −130, hormigonada contra la zanja; '
+                       f'monolítica con el CF 30/50 de encima (sus estribos bajan hasta el fondo); reemplaza a los dados de 4C y 4C2'.replace('.', ','), fuente=fte_zc)]
+    zapata_cf = dict(ancho=bz, alto=hz, z_sup=Z(z_zc_sup), z_inf=Z(z_zc_inf), piezas=zc_piezas, hormigon='G25',
+                     armadura=f'los estribos ø10@25 del CF-4 bajan hasta el fondo (19 × 118, salvo el último, sobre el cimiento del eje E); 3ø12 en el fondo con ganchos de 15 en los extremos; '
+                              f'4ø10 de piel en 2 niveles (−75 y −100); en PLc-4C y PLc-4C2, 4ø12 verticales de anclaje por placa (de −10 a −120, ganchos de 15); recubrimiento 5; G25',
+                     emplantillado=dict(espesor=EMPLANTILLADO, z_sup=Z(z_zc_inf - GAP), z_inf=Z(z_zce_inf), hormigon='G5', piezas=[dict(id='EMP-ZC4', pts=rect(xZ0, yJ, xZ1, yZ1))],
+                                        nota=f'10 bajo la zapata, hasta el sello de −{-SELLO_EXT:.0f}'),
+                     calculo='calculo/fundaciones_lineales.py (emparrillado sobre resortes que solo trabajan a compresión, ks 14.000 con 7.000 y 28.000 de control) y calculo/anclajes_insertos.py',
+                     fuente=fte_zc + ' (antes: dados de 1,40 × 1,40 bajo 4C y 4C2, revisión 23-10-2026)',
+                     nota='los tableros del CF 30/50 no cambian (ancho 30, alto 50 de 0 a −50): se paran sobre la cara superior de la zapata, en −50, con un borde de 7,5 por lado; '
+                          'donde estaban los dados se completan con huinchas de 39,5. Bajo −50 se hormigona contra el terreno, sin moldaje. Si zapata y CF van en dos etapas, la junta de −50 se deja rugosa')
+    # el CF-4 ya no lleva emplantillado ni hormigón pobre (va sobre la zapata); los de CF-C y CF-C2 llegan hasta la cara de la zapata (antes hasta el pozo del dado: la zanja se alarga 47,5)
+    def caja_cf(p, x0=None):
+        xs_, ys_ = [q[0] - c['ox'] for q in p['pts']], [q[1] - c['oy'] for q in p['pts']]
+        return rect(min(xs_) - 7.5 if x0 is None else x0, min(ys_) - 7.5, max(xs_) + 7.5, max(ys_) + 7.5)
+    cf_lat = [p for p in cf_piezas if p['id'] != 'CF-4']
     cf = dict(ancho=CF[0], alto=CF[1], z_sup=Z(CF_TOPE), z_inf=Z(z_cf_inf), piezas=cf_piezas,
               emplantillado=dict(espesor=EMPLANTILLADO, z_sup=Z(z_cf_inf - GAP), z_inf=Z(z_cfe_inf), hormigon='G5',
-                                 piezas=[dict(id=p['id'].replace('CF', 'EMP'), pts=rect(min(q[0] for q in p['pts']) - 7.5 - c['ox'], min(q[1] for q in p['pts']) - 7.5 - c['oy'], max(q[0] for q in p['pts']) + 7.5 - c['ox'], max(q[1] for q in p['pts']) + 7.5 - c['oy'])) for p in cf_piezas]),
-              hormigon_pobre=dict(z_sup=Z(z_cfe_inf - GAP), z_inf=Z(SELLO_EXT), hormigon='G5', nota=f'del emplantillado al sello de −{-SELLO_EXT:.0f} (0,90 bajo el NTN)',
-                                  piezas=[dict(id=p['id'].replace('CF', 'HPF'), pts=rect(min(q[0] for q in p['pts']) - 7.5 - c['ox'], min(q[1] for q in p['pts']) - 7.5 - c['oy'], max(q[0] for q in p['pts']) + 7.5 - c['ox'], max(q[1] for q in p['pts']) + 7.5 - c['oy'])) for p in cf_piezas]),
-              armadura='3ø12 arriba, 2ø10 al medio, 3ø12 abajo, Est ø10@25; emplantillado de 45 x 10 y hormigón pobre hasta −140; junta de 2 con el muro del búnker',
-              fuente='lámina 01 rev 1, detalle CF 25/40 y planta (bajo el eje 2.a del original); lámina 04 rev I, elevación 2.a (cadena 10 + 40: el radier de 10 va encima, el fondo del CF en el NTN −50). Aquí 25 × 50 de 0 a −50: llega hasta la cara del radier y hace de perímetro de cada paño del radier (Gabriel, 19-10-2026), con la misma armadura; por confirmar con el ingeniero',
+                                 piezas=[dict(id=p['id'].replace('CF', 'EMP'), pts=caja_cf(p, xZ1 + GAP)) for p in cf_lat]),
+              hormigon_pobre=dict(z_sup=Z(z_cfe_inf - GAP), z_inf=Z(SELLO_EXT), hormigon='G5', nota=f'del emplantillado al sello de −{-SELLO_EXT:.0f} (0,90 bajo el NTN), en CF-C y CF-C2; bajo el CF-4 va la zapata ZC-4',
+                                  piezas=[dict(id=p['id'].replace('CF', 'HPF'), pts=caja_cf(p, xZ1 + GAP)) for p in cf_lat]),
+              armadura=f'3ø12 arriba, 2ø10 al medio, 3ø12 abajo, Est ø10@25; en el eje 4 va sobre la zapata corrida ZC-4 {bz:.0f} × {hz:.0f} (sus estribos bajan hasta el fondo de la zapata); '
+                       'en C y C2, emplantillado de 45 x 10 y hormigón pobre hasta −140, desde la cara de la zapata; junta de 2 con el muro del búnker',
+              fuente='lámina 01 rev 1, detalle CF 25/40 y planta (bajo el eje 2.a del original); lámina 04 rev I, elevación 2.a (cadena 10 + 40: el radier de 10 va encima, el fondo del CF en el NTN −50). Aquí 25 × 50 de 0 a −50: llega hasta la cara del radier y hace de perímetro de cada paño del radier (Gabriel, 19-10-2026), con la misma armadura; por confirmar con el ingeniero; '
+                     f'zapata ZC-4 bajo el CF-4: {fte_zc}',
               nota='el ingeniero lo usa bajo su eje interior 2.a; aquí va bajo los tres tabiques con pilares (ejes 4, C y C2; los de C y C2 son iguales). Con la placa en NPOG 0, el anclaje de 43 termina a −43, dentro del CF (0 a −50) con 7 de recubrimiento')
-    # dados bajo los pilares 4C y 4C2 (revisión 23-10-2026): bajo el radier, unidos al CF que pasa por encima; hormigón pobre hasta el sello
-    z_da_sup, z_da_inf = -RADIER_EST - GAP, -RADIER_EST - GAP - DADO[2]
-    da_piezas = [pieza(f'DA-{n}', xA[3] - DADO[0] / 2, yy - DADO[1] / 2, xA[3] + DADO[0] / 2, yy + DADO[1] / 2, z_da_inf, z_da_sup,
-                       f'Dado {DADO[0] / 100:.2f} × {DADO[1] / 100:.2f} × {DADO[2] / 100:.2f}'.replace('.', ','), f'bajo el pilar P-{n}: le da peso al arranque del arriostre del eje {n[1:]}; el CF pasa por encima y lo amarra')
-                 for n, yy in (('4C', yC), ('4C2', yC2))]
-    dados = dict(lado=DADO[0], alto=DADO[2], z_sup=Z(z_da_sup), z_inf=Z(z_da_inf), piezas=da_piezas,
-                 armadura='malla inferior ø12@15 en los dos sentidos y estribos perimetrales ø10; los 4 pernos de la placa PLc y su armadura de anclaje quedan dentro',
-                 hormigon_pobre=dict(z_sup=Z(z_da_inf - GAP), z_inf=Z(SELLO_EXT), piezas=[dict(id=p['id'].replace('DA', 'HPD'), pts=p['pts']) for p in da_piezas]),
-                 fuente='revisión 23-10-2026: el CF pesa ~4 kN/m y el sismo levanta hasta 55 kN en 4C (0,9D + 1,4E); emparrillado sobre resortes que solo trabajan a compresión (calculo/fundaciones_lineales.py)')
     # dren perimetral ø110 al nivel del sello, a 25 cm del borde de la losa de fundación (revisión 23-10-2026)
     od = 25.0
     dren = dict(diam=11.0, z=Z(z_emp_inf + 5.5), pts=[ap(zx0 - od, zy0 - od, 0)[:2], ap(zx1 + od, zy0 - od, 0)[:2], ap(zx1 + od, zy1 + od, 0)[:2], ap(zx0 - od, zy1 + od, 0)[:2]],
@@ -243,7 +262,7 @@ def armar(c):
         yl = y - c['oy']
         xl = mb['a'][0] - c['ox']
         en_eje4 = abs(xl - xA[3]) < 1
-        sobre = 'muro del búnker' if yl <= by1 + 1 else (f'dado + {NCF}' if en_eje4 and (abs(yl - yC) < 1 or abs(yl - yC2) < 1) else (NCF if en_eje4 and yl < yA[6] - 1 else 'sobrecimiento'))
+        sobre = 'muro del búnker' if yl <= by1 + 1 else (f'{NCF} + zapata ZC-4' if en_eje4 and (abs(yl - yC) < 1 or abs(yl - yC2) < 1) else (NCF if en_eje4 and yl < yA[6] - 1 else 'sobrecimiento'))
         muro_dir0 = None
         muro_dir = 'y' if (abs(xl - xA[0]) < 1 or abs(xl - xA[4]) < 1 or (en_eje4 and yl > by1 + 1 and abs(yl - yC) > 1 and abs(yl - yC2) > 1 and yl < yA[6] - 1)) else 'x'   # sentido del muro bajo el pilar
         desf = 0.0   # eje del muro − eje del pilar, medido a través del muro (el muro de 30 creció 5 hacia afuera)
@@ -316,7 +335,7 @@ def armar(c):
             placas.append(dict(id='PLc-' + mb['id'][2:], tipo='PLc', **P_base,
                                anclajes=f'inserto: placa de {P_esp * 10:.0f}; {len(P_anclas)} barras lisas A36 ø22 (7/8") soldadas bajo la placa (filete 12 E7018 en todo el contorno) con cabeza {P_cab[0] * 10:.0f} × {P_cab[1] * 10:.0f} × 12 soldada (hef {P_hef * 10:.0f} mm), a {2 * P_hs * 10:.0f} × 90 mm bajo las paredes del tubo'
                                         + (f' y un par más a ±{max(abs(t_x) for t_x in ANCLAJE_C_EXTRA[mb["id"]]) * 10:.0f}' if mb['id'] in ANCLAJE_C_EXTRA else '') + '; '
-                                        + 'armadura de anclaje: ' + (f'las verticales del muro, desarrolladas sobre el cono (hef {P_hef * 10:.0f})' if sobre == 'muro del búnker' else ('no la necesita (el dado da el cono); quedan las 4ø16 verticales' if sobre.startswith('dado') else ('estribos extra ø10 (quedan @10 en ±25, y uno más a ' + ', '.join(f'{v_:.1f}'.replace('.', ',') for v_ in AX_EXTRA[mb['id']]) + ' del pilar)' if mb['id'] in AX_EXTRA else 'estribos extra ø10 (quedan @10 en ±25)')))
+                                        + 'armadura de anclaje: ' + (f'las verticales del muro, desarrolladas sobre el cono (hef {P_hef * 10:.0f})' if sobre == 'muro del búnker' else ('4ø12 verticales por placa (a ±13 del pilar a lo largo del CF-4, de −10 a −120 con ganchos de 15) que bajan a la zapata ZC-4, más las ramas de los estribos del CF-4 alargados hasta su fondo' if 'zapata ZC-4' in sobre else ('estribos extra ø10 (quedan @10 en ±25, y uno más a ' + ', '.join(f'{v_:.1f}'.replace('.', ',') for v_ in AX_EXTRA[mb['id']]) + ' del pilar)' if mb['id'] in AX_EXTRA else 'estribos extra ø10 (quedan @10 en ±25)')))
                                         + (f'; horquillas de corte ø16 hacia {", ".join(HORQUILLAS[mb["id"]])}' if mb['id'] in HORQUILLAS else '')
                                         + '; ' + (f'cartela de la diagonal soldada a la placa y a la cara del tubo (placa de {P_lar * 10:.0f} × {P_anc_ * 10:.0f})' if P_dirs else f'sin cartela (placa de {P_lar * 10:.0f} × {P_anc_ * 10:.0f}): la diagonal llega a la cabeza de este pilar')))
         else:
@@ -331,11 +350,11 @@ def armar(c):
                        fuente='lámina 01 rev 1, detalle placa base PLb; insertos con anclajes soldados: ingeniero (V121, 25-10-2026: sugerido y aceptado); dimensiones: propuesta 27-10-2026 (calculo/anclajes_insertos.py)', lista=placas)
 
     hormigon = dict(especificaciones=ESPECIFICACIONES, impermeabilizacion=IMPERMEABILIZACION, muros=muros, losa=losa, piso=piso, relleno=relleno_b, relleno_excavacion=relleno, losa_fundacion=losa_fundacion, zapata_corrida=zapata_corrida, vigas=vigas,
-                    pilar_escalera=pilar_escalera, cimiento=cimiento, cf=cf, dados=dados, dren=dren, radier_estudio=radier_estudio, placas=placas_info, escalera=c['escalera'],
+                    pilar_escalera=pilar_escalera, cimiento=cimiento, cf=cf, zapata_cf=zapata_cf, dren=dren, radier_estudio=radier_estudio, placas=placas_info, escalera=c['escalera'],
                     interior=dict(ancho=r1(bx1 - bx0 - 2 * MURO), largo=r1(by1 - by0 - 2 * MURO), alto=H,
                                   terminado=dict(ancho=r1(bx1 - bx0 - 2 * MURO - 2 * c.get('T', 0)), largo=r1(by1 - by0 - 2 * MURO - 2 * c.get('T', 0)), tabique=c.get('T', 0), nota='entre los tabiques de 10 que van por dentro de los muros (Gabriel, 14-10-2026)')),
                     niveles=dict(npog_0='NPOG 0,00 = cara superior de la losa del búnker y del radier (obra gruesa); el piso terminado va más arriba (sobrelosa + adhesivo + porcelanato)', losa_inf=z_losa_inf, piso_bunker=z_piso, radier_bunker_inf=z_rad_inf, losa_fund_sup=z_zap_sup, losa_fund_inf=z_zap_inf,
-                                 zapata_sup=z_zap_sup, zapata_inf=z_zap_inf, emplantillado_inf=z_emp_inf, ntn=-50, sobrecimiento_inf=z_sc_inf, cimiento_inf=z_ci_inf, cf_sup=CF_TOPE, cf_inf=z_cf_inf, sello_fachadas=SELLO_EXT,
+                                 zapata_sup=z_zap_sup, zapata_inf=z_zap_inf, emplantillado_inf=z_emp_inf, ntn=-50, sobrecimiento_inf=z_sc_inf, cimiento_inf=z_ci_inf, cf_sup=CF_TOPE, cf_inf=z_cf_inf, zapata_cf4_inf=z_zc_inf, sello_fachadas=SELLO_EXT,
                                  nota=f'el original tiene el búnker de 2,72 libres (−272 piso, −292 radier, −312 zapata, −342 sello); con los 2,80 de Gabriel todo bajó 8 cm; desde el 15-10-2026 la losa de fundación ocupa el lugar de la zapata y el piso es su cara superior; '
                                       f'con la revisión del 23-10-2026 (losa de techo {LOSA:.0f} y losa de fundación {LOSA_FUND:.0f}) se mantienen los 3,10 libres y el sello baja a {z_emp_inf:.0f}'))
 
@@ -667,8 +686,24 @@ def armar(c):
         fam(f'{cid}-sup', NCF, 12, None, polis=[barra_g(k, zS, -15.0) for k in (-(rc - 1.1), 0, rc - 1.1)], d=f'3ø12 superiores del {cid}, con gancho de 90° (12ø){anc_}')
         fam(f'{cid}-med', NCF, 10, None, polis=[barra_g(k, zM, 0.0) for k in (-(rc - 1.0), rc - 1.0)], d=f'2ø10 medios (de piel) del {cid}, rectos hasta 9,4 de la cara lejana del elemento que los recibe')
         fam(f'{cid}-inf', NCF, 12, None, polis=[barra_g(k, zI, 15.0) for k in (-(rc - 1.1), 0, rc - 1.1)], d=f'3ø12 inferiores del {cid}, con gancho de 90° (12ø){anc_}')
-        fam(f'{cid}-est', NCF, 10, estribo([(x0 - px * rc, y0 - py * rc, zS + 1.1), (x0 + px * rc, y0 + py * rc, zS + 1.1), (x0 + px * rc, y0 + py * rc, zI - 1.1), (x0 - px * rc, y0 - py * rc, zI - 1.1), (x0 - px * rc, y0 - py * rc, zS + 1.1)]),
-            n=int(ln // 25) + 1, paso=(ux * 25, uy * 25, 0), d=f'estribos ø10@25 del {cid}, con ganchos de 135° (propuesta)')
+        if cid != 'CF-4':
+            fam(f'{cid}-est', NCF, 10, estribo([(x0 - px * rc, y0 - py * rc, zS + 1.1), (x0 + px * rc, y0 + py * rc, zS + 1.1), (x0 + px * rc, y0 + py * rc, zI - 1.1), (x0 - px * rc, y0 - py * rc, zI - 1.1), (x0 - px * rc, y0 - py * rc, zS + 1.1)]),
+                n=int(ln // 25) + 1, paso=(ux * 25, uy * 25, 0), d=f'estribos ø10@25 del {cid}, con ganchos de 135° (propuesta)')
+            continue
+        # CF-4 sobre la zapata ZC-4 (opción A, 28-10-2026): sus estribos bajan hasta el fondo de la zapata (recubrimiento 5), salvo los que caen sobre el cimiento del eje E
+        zbZ = z_zc_inf + 5.5                                         # −124,5
+        def est_cf(t, zb):
+            X_, Y_ = x0 + ux * t, y0 + uy * t
+            return estribo([(X_ - px * rc, Y_ - py * rc, zS + 1.1), (X_ + px * rc, Y_ + py * rc, zS + 1.1), (X_ + px * rc, Y_ + py * rc, zb), (X_ - px * rc, Y_ - py * rc, zb), (X_ - px * rc, Y_ - py * rc, zS + 1.1)])
+        nE4 = int(ln // 25) + 1; largos = [y0 + 25 * k <= yZ1 - 5.5 for k in range(nE4)]
+        fam('CF-4-est', NCF, 10, None, polis=[est_cf(25 * k, zbZ if largos[k] else zI - 1.1) for k in range(nE4)],
+            d=f'estribos ø10@25 del CF-4, con ganchos de 135° (propuesta): {sum(largos)} bajan hasta el fondo de la zapata ZC-4 ({2 * rc:.0f} × {zS + 1.1 - zbZ:.0f}) y ' + ('el último, sobre el cimiento del eje E, queda' if nE4 - sum(largos) == 1 else f'los {nE4 - sum(largos)} sobre el cimiento del eje E quedan') + f' de {2 * rc:.0f} × {zS + 1.1 - (zI - 1.1):.0f}'.replace('.', ','))
+        # zapata ZC-4: 3ø12 en el fondo (sobre la rama inferior de los estribos) con ganchos de 15 hacia arriba en los extremos, y 4ø10 de piel en 2 niveles (−75 y −100), por dentro de los estribos
+        zZb = zbZ + 0.5 + 0.6; yZa, yZb = yJ + 5.6, yZ1 - 5.6
+        fam('ZC-4-inf', 'zapata corrida ZC-4', 12, None, polis=[[(xA[3] + k, yZa, zZb + 15.0), (xA[3] + k, yZa, zZb), (xA[3] + k, yZb, zZb), (xA[3] + k, yZb, zZb + 15.0)] for k in (-(rc - 1.1), 0, rc - 1.1)],
+            d=f'3ø12 en el fondo de la zapata corrida ZC-4, sobre la rama inferior de los estribos del CF-4, con ganchos de 15 hacia arriba en los dos extremos ({(yZb - yZa) / 100:.2f} m)'.replace('.', ','))
+        fam('ZC-4-piel', 'zapata corrida ZC-4', 10, None, polis=[[(xA[3] + k, yJ + 5.5, zz), (xA[3] + k, yZ1 - 5.5, zz)] for zz in (-75.0, -100.0) for k in (-(rc - 1.0), rc - 1.0)],
+            d='4ø10 de piel de la zapata corrida ZC-4, en 2 niveles (−75 y −100), por dentro de los estribos del CF-4, de punta a punta de la zapata')
     # anclajes de las placas embebidas (insertos): barras lisas A36 verticales (ø22 en PLc, ø3/4" en PLb), soldadas bajo la placa, con cabeza soldada abajo
     polisA, polisP, polisU, polisX = [], [], [], []
     for pl in placas:
@@ -685,10 +720,13 @@ def armar(c):
         # armadura de anclaje (ACI 318-19 17.5.2.1, con Ω0 = 2):
         if pl['sobre'] == 'muro del búnker':
             continue   # las verticales del muro (ø16@15 y ø12@15), desarrolladas a ambos lados del cono con hef 75, hacen de armadura de anclaje
-        if 'dado' in pl['sobre']:
-            # 6 verticales ø16 con ganchos de 15 arriba y abajo, a 20 de los pernos, fuera del CF que pasa por el dado
-            for (t, o) in ((-20, -20), (20, -20), (-20, 20), (20, 20)):   # en el dado se cruzan dos CF: en (0, ±20) y (±20, 0) chocaban con sus barras
-                polisU.append([q(t + 15 * (1 if t > 0 else -1), o, z_da_sup - 5.8), q(t, o, z_da_sup - 5.8), q(t, o, z_da_inf + 8.6), q(t + 15 * (1 if t > 0 else -1), o, z_da_inf + 8.6)])
+        if 'zapata ZC-4' in pl['sobre']:
+            # 4ø12 verticales por placa (opción A, 28-10-2026; reemplazan a las 4ø16 de los dados): a ±13 del pilar a lo largo del CF-4 y a −6,8 / −2,2 de su eje, en la mitad
+            # sin los ganchos de 135° de los estribos; de −10 a −120 (en la zapata ZC-4), con ganchos de 15 hacia afuera arriba y abajo
+            for dxa in (-6.8, -2.2):
+                for sg in (-1, 1):
+                    ya_ = y + sg * 13.0
+                    polisU.append([(x + dxa, ya_ + sg * 15.0, -10.0), (x + dxa, ya_, -10.0), (x + dxa, ya_, z_zc_inf + 10.0), (x + dxa, ya_ + sg * 15.0, z_zc_inf + 10.0)])
             continue
         # sobrecimiento: estribos extra (los mismos del sobrecimiento) entre los existentes en ±25 del pilar: quedan @10 bajo la placa
         nS = 'E' if abs(y - yA[6]) < 1 else ('1' if abs(x - xA[0]) < 1 else '5')
@@ -700,7 +738,8 @@ def armar(c):
     nb = sum(1 for p in placas if p['tipo'] == 'PLb'); ncz = len(placas) - nb
     fam('AN', 'placa base PLb', 19, None, polis=polisA, d=f'anclajes del inserto PLb: 4 barras lisas A36 ø3/4" a 80 × 80, soldadas bajo la placa de 12 y a su cabeza 50 × 50 × 10 (filete 10 E7018), hef 450 (500 en 3A y 3B, bajo las 3ø16 de la VHA 25/50), en los {nb} pilares sin cruz')
     fam('AP', 'placa base PLc', ANCLAJE_C['diam'], None, polis=polisP, d=f'anclajes del inserto PLc: 4 barras lisas A36 ø22 (7/8") bajo las paredes del tubo, en dos filas a ±4,5 del eje del pilar, soldadas bajo la placa de 16 y a su cabeza 60 × 45 × 12 (filete 12 E7018); hef 1000 en los muros del búnker y 450 en el resto, en los {ncz} pilares con cruz (PLc-4A: 8 barras bajo una placa de 30, cabeza 100 × 45 × 12, hef 1200; PLc-1E: cabeza 80 × 45 × 12)')
-    fam('AU', 'placa base PLc', 16, None, polis=polisU, d='armadura de anclaje de los dados: 4 verticales ø16 en las esquinas de un cuadrado de 40, con ganchos de 15 hacia afuera (Ω0 = 2)')
+    fam('AU', 'placa base PLc', 12, None, polis=polisU, d='armadura de anclaje de PLc-4C y PLc-4C2 (opción A, 28-10-2026; propuesta): 4 verticales ø12 por placa, a ±13 del pilar a lo largo del CF-4 y a −6,8 y −2,2 de su eje, '
+        'de −10 a −120 (bajan a la zapata ZC-4) con ganchos de 15 hacia afuera arriba y abajo; trabajan con las ramas de los estribos del CF-4 alargados (Ω0 = 2)')
     # horquillas de corte (17.5.2.1 b): U horizontal que abraza los anclajes por el lado hacia donde empuja el corte; sus patas siguen ld hacia atrás
     polisH = []
     for pl in placas:
@@ -751,17 +790,6 @@ def armar(c):
     if polisH:
         fam('AH', 'placa base PLc', HORQ['diam'], None, polis=polisH, d=f'horquillas de corte ø16 A630 (ACI 318-19 17.5.2.1 b) bajo las placas {", ".join(p["id"] for p in placas if p.get("horquillas"))}: abrazan las barras del inserto por el lado hacia donde empuja el corte, amarradas (sin soldar), con patas de {HORQ["ld"] * 10:.0f} (ld, ψt 1,3) hacia atrás')
     fam('AX', 'placa base PLc', 10, None, polis=polisX, d='estribos extra ø10 bajo los pilares con cruz sobre el sobrecimiento (quedan @10 en ±25; en 1E uno más a 13,5 del pilar): armadura de anclaje (Ω0 = 2); en los muros del búnker la dan sus verticales')
-    # dados de 4C y 4C2: malla inferior ø12@15 y estribos perimetrales ø10@20
-    for p in da_piezas:
-        xs_ = [q[0] - c['ox'] for q in p['pts']]; ys_ = [q[1] - c['oy'] for q in p['pts']]
-        X0, X1, Y0, Y1 = min(xs_) + 5.5, max(xs_) - 5.5, min(ys_) + 5.5, max(ys_) - 5.5   # estribos a 5 + radio de las caras
-        zi_d = z_da_inf + 5.8; mi = 1.6   # la malla y sus ganchos por dentro de los estribos perimetrales
-        tramo_e = (z_da_sup - 6) - (zi_d + 1.2 + 15 + 3.7); nE_d = int(tramo_e // 18) + 2; pE_d = round(tramo_e / (nE_d - 1), 1)   # estribos @≤18 hasta sobre los ganchos de la malla
-        fam(f'{p["id"]}-inf', 'dado', 12, None, polis=[[(X0 + mi, yy, zi_d + 15), (X0 + mi, yy, zi_d), (X1 - mi, yy, zi_d), (X1 - mi, yy, zi_d + 15)] for yy in [Y0 + 2.5 + 15 * k for k in range(int((Y1 - Y0) // 15) + 1)]]
-                                                 + [[(xx, Y0 + mi, zi_d + 1.2 + 15), (xx, Y0 + mi, zi_d + 1.2), (xx, Y1 - mi, zi_d + 1.2), (xx, Y1 - mi, zi_d + 1.2 + 15)] for xx in [X0 + 2.5 + 15 * k for k in range(int((X1 - X0) // 15) + 1)]],
-            d=f'malla inferior ø12@15 en los dos sentidos del dado {p["id"]}, con ganchos de 15')
-        fam(f'{p["id"]}-est', 'dado', 10, estribo([(X0, Y0, z_da_sup - 6), (X1, Y0, z_da_sup - 6), (X1, Y1, z_da_sup - 6), (X0, Y1, z_da_sup - 6), (X0, Y0, z_da_sup - 6)]),
-            n=nE_d, paso=(0, 0, -pE_d), d=f'{nE_d} estribos perimetrales ø10@{pE_d:.1f} del dado {p["id"]}, el último sobre los ganchos de la malla inferior'.replace('.', ','))
 
     # ---------- escalera del búnker (V126). El ingeniero, croquis del 27-10-2026 («la solución que envié»): losa inclinada e=15 con ø16@18 abajo (ø12@11 como
     #      alternativa), peldaños ø8@20 en ⌐ con una ø8 en cada nariz, y «como alternativa puede ir una viga central de 25/40 para ser el soporte de losa y
@@ -870,12 +898,12 @@ def armar(c):
         dict(elemento=NSC, m3=round(vol(sc_piezas, SOBRECIM[1]), 2), hormigon='G25'),
         dict(elemento='Cimiento corrido 80 × 25', m3=round(vol(ci_piezas, CIMIENTO[1]), 2), hormigon='G25'),
         dict(elemento=NCF, m3=round(vol(cf_piezas, CF[1]), 2), hormigon='G25'),
-        dict(elemento=f'Dados bajo 4C y 4C2 ({DADO[0]:.0f} × {DADO[1]:.0f} × {DADO[2]:.0f})', m3=round(vol(da_piezas, DADO[2]), 2), hormigon='G25'),
+        dict(elemento=f'Zapata corrida ZC-4 {bz:.0f} × {hz:.0f} bajo el CF-4 (propuesta)', m3=round(vol(zc_piezas, hz), 2), hormigon='G25'),
         dict(elemento='Radier del estudio e=10', m3=round(vol(radier_estudio['capas'][0]['piezas'], RADIER_EST), 2), hormigon='G25'),
         dict(elemento=f'Escalera del búnker: peldaños, losa inclinada e={hLE:.0f} y viga central VE {bVE:.0f}/{hVE:.0f}', m3=round(v_escE, 2), hormigon='G25 (G30 si va con el búnker)'),
         dict(elemento='Caja de la escalera: muros e=23 sobre la losa', m3=round(v_caja, 2), hormigon='G25'),
-        dict(elemento='Emplantillados (losa de fundación del búnker, cimientos y CF)', m3=round(vol(losa_fundacion['piezas'], EMPLANTILLADO) + vol(cemp_piezas, EMPLANTILLADO) + vol(cf['emplantillado']['piezas'], EMPLANTILLADO), 2), hormigon='G5'),
-        dict(elemento='Hormigón pobre hasta el sello de −140 (cimientos, CF y dados)', m3=round(vol(hp_piezas, z_cemp_inf - SELLO_EXT) + vol(cf['hormigon_pobre']['piezas'], z_cfe_inf - SELLO_EXT) + vol(dados['hormigon_pobre']['piezas'], z_da_inf - SELLO_EXT), 2), hormigon='G5'),
+        dict(elemento='Emplantillados (losa de fundación del búnker, cimientos, CF y zapata ZC-4)', m3=round(vol(losa_fundacion['piezas'], EMPLANTILLADO) + vol(cemp_piezas, EMPLANTILLADO) + vol(cf['emplantillado']['piezas'], EMPLANTILLADO) + vol(zapata_cf['emplantillado']['piezas'], EMPLANTILLADO), 2), hormigon='G5'),
+        dict(elemento='Hormigón pobre hasta el sello de −140 (cimientos corridos y CF de los ejes C y C2)', m3=round(vol(hp_piezas, z_cemp_inf - SELLO_EXT) + vol(cf['hormigon_pobre']['piezas'], z_cfe_inf - SELLO_EXT), 2), hormigon='G5'),
     ]
     cub_f = {}
     for f in fierros: cub_f[f['diam']] = cub_f.get(f['diam'], 0) + f['largo']

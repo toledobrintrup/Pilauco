@@ -9,7 +9,7 @@
   const NS = 'http://www.w3.org/2000/svg';
   const KGM = { 8: 0.395, 10: 0.617, 12: 0.888, 16: 1.578, 19: 2.235, 22: 3.04 };   // kg/m (los mismos del generador)
   // orden de la planilla, de abajo hacia arriba y del búnker a las fachadas; por prefijo para que un cambio de sección (VHA 25/45, CF 30/50) no la desordene
-  const ORDEN = ['losa de fundación', 'muro del búnker', 'losa del búnker', 'VHA', 'viga botada', 'escalera del búnker', 'sobrecimiento', 'cimiento corrido', 'CF', 'dado', 'placa base PLc', 'placa base PLb'];
+  const ORDEN = ['losa de fundación', 'muro del búnker', 'losa del búnker', 'VHA', 'viga botada', 'escalera del búnker', 'sobrecimiento', 'cimiento corrido', 'CF', 'zapata corrida ZC-4', 'placa base PLc', 'placa base PLb'];   // V127: la zapata ZC-4 bajo el CF-4 en vez de los dados
   const orden = e => { const i = ORDEN.findIndex(o => e.startsWith(o)); return i < 0 ? ORDEN.length : i; };
   const coma = (v, d) => (+v).toLocaleString('es-CL', { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 });
   const cm = v => coma(v, Math.abs(v - Math.round(v)) > 0.01 ? 1 : 0);
@@ -48,7 +48,8 @@
       'LF-suple': 'suple inferior en 1–5 bajo el pilar de la escalera, de 1,50 × 1,50 (intercalado: queda @7,5)',
       AH: 'horquillas de corte bajo las PLc (abrazan las barras del inserto; amarradas, nunca soldadas)',
       LS: 'superiores sobre la VHA del eje 3', 'LR-sup': 'suples superiores en las esquinas del hueco', 'LR-inf': 'suples inferiores en las esquinas del hueco',
-      AN: 'barras lisas A36 de los insertos PLb, soldadas a la placa y a su cabeza (no son A630)', AP: 'barras lisas A36 de los insertos PLc, soldadas a la placa y a su cabeza (no son A630)', AU: 'armadura de anclaje de los dados (4 verticales por dado)',
+      AN: 'barras lisas A36 de los insertos PLb, soldadas a la placa y a su cabeza (no son A630)', AP: 'barras lisas A36 de los insertos PLc, soldadas a la placa y a su cabeza (no son A630)', AU: 'armadura de anclaje de PLc-4C y PLc-4C2: 4 verticales por placa que bajan a la zapata ZC-4',
+      'ZC-4-inf': 'inferiores, en el fondo, con ganchos de 15 en los dos extremos', 'ZC-4-piel': 'de piel, en 2 niveles (−75 y −100), por dentro de los estribos del CF',
       AX: 'estribos extra bajo los pilares con cruz del sobrecimiento',
       // escalera del búnker (V126): viga central VE 25/40 bajo la losa de 10 (alternativa del croquis del ingeniero, 27-10-2026)
       'VE-inf': 'viga central VE: 3ø16 inferiores, con gancho en la losa de fundación y L en el muro del eje B', 'VE-sup': 'viga central VE: 2ø12 superiores (portaestribos), con ganchos de 90°',
@@ -61,8 +62,6 @@
     if (v.length) return `${lista(uniq(v.map(x => NV[x[1]])))}: ${lista(uniq(v.map(x => PARTE[x[2]])))}`;
     const s = ids.map(id => /^(SU|S16|S8|CU|CL)-(1|5|E)$/.exec(id)).filter(Boolean);
     if (s.length) { const t = { SU: 'estribos', S16: '2ø16 superiores', S8: 'horizontales (2 caras)', CU: 'U transversales', CL: '4ø12 longitudinales' }[s[0][1]]; const e = uniq(s.map(x => x[2])); return `${t} · eje${e.length > 1 ? 's' : ''} ${lista(e)}`; }
-    const da = ids.map(id => /^DA-(4C2?)-(inf|est)$/.exec(id)).filter(Boolean);
-    if (da.length) return `${lista(uniq(da.map(x => x[2] === 'inf' ? 'malla inferior' : 'estribos perimetrales')))} · dado${uniq(da.map(x => x[1])).length > 1 ? 's' : ''} ${lista(uniq(da.map(x => x[1])))}`;
     const c = ids.map(id => /^CF-(4|C|C2)-(sup|med|inf|est)$/.exec(id)).filter(Boolean);
     if (c.length) { const e = uniq(c.map(x => x[1])); return `${lista(uniq(c.map(x => PARTE[x[2]])))} · eje${e.length > 1 ? 's' : ''} ${lista(e)}`; }
     return ids.join(', ');
@@ -87,7 +86,9 @@
     if (/^(LT-|LS$|LR-)/.test(id)) return ['propuesta', 'revisión', `${REV}: superiores en L sobre los muros, sobre la VHA y suples en las esquinas del hueco`];
     if (/^(VB-N|VHA-esc)-sup$/.test(id)) return ['propuesta', 'borde hueco', 'vigas de borde del hueco de la escalera (propuesta); 3ø16 arriba desde la escalera de 1,20 (24-10-2026)'];
     if (/^VB-|^VHA-esc-/.test(id)) return ['propuesta', 'borde hueco', 'vigas de borde del hueco de la escalera (propuesta), con la armadura de la VHA'];
-    if (/^(VHA|CF|DA)-.*-est$/.test(id)) return ['propuesta', 'ganchos 135°', 'diámetro de la lámina; paso y ganchos de 135° propuestos (revisión 23-10-2026)'];
+    if (/^ZC-4-/.test(id)) return ['propuesta', 'opción A', 'zapata corrida ZC-4 45 × 80 bajo el CF-4, en vez de los dados de 4C y 4C2 (Gabriel, 28-10-2026, opción A; propuesta, VºBº del ingeniero; calculo/fundaciones_lineales.py: 0,31)'];
+    if (id === 'AU') return ['propuesta', 'opción A', 'armadura de anclaje de PLc-4C y PLc-4C2 con Ω0 = 2: 4ø12 por placa que bajan a la zapata ZC-4, con las ramas de los estribos del CF-4 (opción A, 28-10-2026; antes 4ø16 en los dados; calculo/anclajes_insertos.py: 0,87 y 0,42)'];
+    if (/^(VHA|CF)-.*-est$/.test(id)) return ['propuesta', 'ganchos 135°', 'diámetro de la lámina; paso y ganchos de 135° propuestos (revisión 23-10-2026)'];
     if (/^VHA-/.test(id)) return ['dato', 'L03', `lámina 03, VHA: 3ø12 + 2ø10 + 3ø16; alto 45 por la ${REV}`];
     if (/^LF-/.test(id)) return ['propuesta', 'losa fund.', `losa de fundación del ingeniero (15-10-2026), e=35 y armadura ø16@15 / ø12@15 de la ${REV}`];
     if (/^SU-/.test(id)) return ['propuesta', 'L01 ajustada', `lámina 01, corte b-b (ø10@20); ramas y patas ajustadas al sobrecimiento de 30 y al recubrimiento 5 del cimiento (${REV})`];
@@ -96,8 +97,7 @@
     if (/^S8-/.test(id)) return ['dato', 'L01 b-b', 'lámina 01, corte b-b; esquinas en L de 60ø propuestas'];
     if (/^CL-/.test(id)) return ['propuesta', 'revisión', `lámina 01, corte b-b: 4ø10; 4ø12 por el sismo en A–E (${REV}); esquinas en L de 60ø`];
     if (/^CF-/.test(id)) return ['dato', 'L01 CF', `lámina 01, CF 25/40: 3ø12 + 2ø10 + 3ø12; sección 30/50 y ganchos de 90° en los extremos por la ${REV}`];
-    if (/^(AU|AX)$/.test(id)) return ['propuesta', 'revisión', `armadura de anclaje de los insertos PLc dimensionada con Ω0 = 2 (${REV}; en 1E un estribo más, 27-10-2026)`];
-    if (/^DA-/.test(id)) return ['propuesta', 'revisión', `dados 140 × 140 × 120 bajo 4C y 4C2, hasta 10 sobre el sello (${REV})`];
+    if (id === 'AX') return ['propuesta', 'revisión', `armadura de anclaje de los insertos PLc dimensionada con Ω0 = 2 (${REV}; en 1E un estribo más, 27-10-2026)`];
     return ['propuesta', '', ''];
   }
 
@@ -117,10 +117,11 @@
     filas.forEach((g, i) => {
       g.marca = i + 1; g.L = Math.round(g.Lx * 10) / 10; g.m = g.Lx * g.n / 100; g.kg = g.m * KGM[g.diam];
       g.donde = donde(g.ids); const fs = g.ids.map(fuente); g.fuente = fs.find(x => x[0] === 'propuesta') || fs[0];
+      if (g.ids.includes('CF-4-est') && Math.max(...g.segs) > 60) { g.donde = 'estribos del eje 4, alargados hasta el fondo de la zapata ZC-4'; g.fuente = ['propuesta', 'opción A', 'estribos ø10@25 del CF con ganchos de 135° (revisión 23-10-2026), alargados hasta el fondo de la zapata ZC-4 (Gabriel, 28-10-2026, opción A; propuesta, VºBº del ingeniero)']; }   // V127: los 41 estribos de 19 × 118 (el último, sobre el cimiento E, queda de 19 × 38)
       // cabezas de las barras de los insertos: pletinas A36 soldadas (el modelo las lleva como un trazo de barra de su largo, así la cubicación las cuenta)
       if (g.ids.length === 1 && g.ids[0] === 'AP' && g.L < 15) g.donde = `cabezas ${coma(g.L * 10)} × 45 × 12 soldadas al pie de las barras${g.L > 9 ? ' (PLc-4A)' : g.L > 7 ? ' (PLc-1E)' : ''} · pletina A36, el modelo la cuenta como trazo de barra`;
       if (g.ids.length === 1 && g.ids[0] === 'AN' && g.L < 15) g.donde = 'cabezas 50 × 50 × 10 soldadas al pie de las barras · pletina A36, el modelo la cuenta como trazo de barra';
-      if (g.ids.length === 1 && /^(AP|AN)$/.test(g.ids[0]) && g.L >= 15) { const hef = Math.round((g.L * 10 + 14) / 50) * 50; g.donde += ` · hef ${coma(hef)}${g.diam === 22 ? (hef === 1200 ? ' (PLc-4A, placa de 30)' : hef === 1000 ? ' (en los muros del búnker)' : ' (sobrecimientos y dados)') : hef === 500 ? ' (3A y 3B, sobre la VHA)' : ''}`; }   // hef = barra + placa, en mm
+      if (g.ids.length === 1 && /^(AP|AN)$/.test(g.ids[0]) && g.L >= 15) { const hef = Math.round((g.L * 10 + 14) / 50) * 50; g.donde += ` · hef ${coma(hef)}${g.diam === 22 ? (hef === 1200 ? ' (PLc-4A, placa de 30)' : hef === 1000 ? ' (en los muros del búnker)' : ' (sobrecimientos y CF del eje 4)') : hef === 500 ? ' (3A y 3B, sobre la VHA)' : ''}`; }   // hef = barra + placa, en mm
     });
     const totales = {}; filas.forEach(g => { const t = totales[g.diam] = totales[g.diam] || { m: 0, kg: 0 }; t.m += g.m; t.kg += g.kg; });
     const porClave = new Map(filas.map(g => [[g.elemento, g.diam, g.segs.join(',')].join('|'), g]));
@@ -194,7 +195,8 @@
     (H.losa_fundacion ? H.losa_fundacion.emplantillado.piezas : []).forEach(p => add(p.pts, H.losa_fundacion.emplantillado.z_inf, H.losa_fundacion.emplantillado.z_sup, 'ad-emp', 'emplantillado G5'));
     if (H.cimiento) { H.cimiento.emplantillado.piezas.forEach(p => add(p.pts, p.z_inf, p.z_sup, 'ad-emp', 'emplantillado G5')); }
     if (H.cf) H.cf.emplantillado.piezas.forEach(p => add(p.pts, H.cf.emplantillado.z_inf, H.cf.emplantillado.z_sup, 'ad-emp', 'emplantillado G5'));
-    [H.cimiento, H.cf, H.dados].forEach(e => { const hp = e && e.hormigon_pobre; if (hp) hp.piezas.forEach(p => add(p.pts, p.z_inf != null ? p.z_inf : hp.z_inf, p.z_sup != null ? p.z_sup : hp.z_sup, 'ad-emp', 'hormigón pobre G5')); });
+    if (H.zapata_cf && H.zapata_cf.emplantillado) H.zapata_cf.emplantillado.piezas.forEach(p => add(p.pts, H.zapata_cf.emplantillado.z_inf, H.zapata_cf.emplantillado.z_sup, 'ad-emp', 'emplantillado G5'));   // V127: bajo la zapata ZC-4
+    [H.cimiento, H.cf].forEach(e => { const hp = e && e.hormigon_pobre; if (hp) hp.piezas.forEach(p => add(p.pts, p.z_inf != null ? p.z_inf : hp.z_inf, p.z_sup != null ? p.z_sup : hp.z_sup, 'ad-emp', 'hormigón pobre G5')); });
     if (H.radier_estudio) H.radier_estudio.capas.forEach(c => c.piezas.forEach(p => add(p.pts, c.z_inf, c.z_sup, c.id === 'radier' ? 'ad-rad' : 'ad-capa', c.nombre)));
     (H.losa_fundacion ? H.losa_fundacion.piezas : []).forEach(p => add(p.pts, p.z_inf, p.z_sup, 'ad-h', 'losa de fundación'));
     H.muros.piezas.forEach(p => add(p.pts, H.muros.z_inf, H.muros.z_sup, 'ad-h', 'muro'));
@@ -202,7 +204,7 @@
     H.vigas.forEach(v => add(v.pts, v.z_inf, v.z_sup, 'ad-h', v.nombre));
     if (H.cimiento) { H.cimiento.zapata.piezas.forEach(p => add(p.pts, p.z_inf, p.z_sup, 'ad-h', 'cimiento corrido')); H.cimiento.sobrecimiento.piezas.forEach(p => add(p.pts, p.z_inf, p.z_sup, 'ad-h', 'sobrecimiento')); }
     if (H.cf) H.cf.piezas.forEach(p => add(p.pts, p.z_inf, p.z_sup, 'ad-h', 'CF'));
-    if (H.dados) H.dados.piezas.forEach(p => add(p.pts, p.z_inf, p.z_sup, 'ad-h', 'dado'));
+    if (H.zapata_cf) H.zapata_cf.piezas.forEach(p => add(p.pts, p.z_inf, p.z_sup, 'ad-h', 'zapata corrida ZC-4'));   // V127 (opción A, 28-10-2026): en vez de los dados de 4C y 4C2
     return out;
   }
   function seccion(sv, D, H, A, cfg) {
