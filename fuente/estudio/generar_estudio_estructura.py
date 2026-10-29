@@ -120,8 +120,8 @@ def main(estudio_json, sitio_json, salida):
             apoyo = 'sobre el muro del búnker' if y < yB else 'sobre el sobrecimiento'
             pp = P_REFUERZO.get(f'P-{xn}{yn}', 'RECT 150x100x3')
             m(f'P-{xn}{yn}', 'pilar', pp, (x, y, 0), (x, y, z_viga(y)), f'PM3 eje {xn} x {yn}, pilar intermedio de la fachada lateral, {apoyo}; el lado de 150 va perpendicular a la fachada (toma el viento por su eje fuerte; revisión 23-10-2026)' + (f'; {pp} desde el 24-10-2026: con la cabina de 4,15 el tramo C–C2 creció a 4,40 y este pilar recibe más viento (con 150x100x3 daba 1,08)' if pp != 'RECT 150x100x3' else ''), alma='X')
-    m('P-4C', 'pilar', 'RECT 150x100x3', (xA[3], yC, 0), (xA[3], yC, z_viga(yC)), 'PM3 eje 4 x C, en el encuentro de los tabiques estudio/baño/cabina (recibe la cruz del eje C), sobre el CF-4 y su zapata corrida ZC-4 de 45 x 80 (opción A, 28-10-2026; antes un dado de 1,40 x 1,40)', alma='Y')
-    m('P-4C2', 'pilar', 'RECT 150x100x3', (xA[3], yC2, 0), (xA[3], yC2, z_viga(yC2)), 'PM3 eje 4 x C2, en el encuentro de los tabiques estudio/cabina/bodega (recibe la diagonal del tabique C2 en su pie), sobre el CF-4 y su zapata corrida ZC-4 de 45 x 80 (opción A, 28-10-2026; antes un dado de 1,40 x 1,40)', alma='Y')
+    m('P-4C', 'pilar', 'RECT 150x100x3', (xA[3], yC, 0), (xA[3], yC, z_viga(yC)), 'PM3 eje 4 x C, en el encuentro de los tabiques estudio/baño/cabina (recibe la cruz del eje C), sobre un dado de 1,40 x 1,40 x 1,195 unido por el CF-4 al dado de 4C2 y al búnker, y por el CF-C al cimiento del eje 5 (solución mixta del ingeniero, 28-10-2026)', alma='Y')
+    m('P-4C2', 'pilar', 'RECT 150x100x3', (xA[3], yC2, 0), (xA[3], yC2, z_viga(yC2)), 'PM3 eje 4 x C2, en el encuentro de los tabiques estudio/cabina/bodega (recibe la diagonal del tabique C2 en su pie), sobre un dado de 1,40 x 1,40 x 1,195 unido por el CF-4 al dado de 4C y a la fachada del eje E, y por el CF-C2 al cimiento del eje 5 (solución mixta del ingeniero, 28-10-2026)', alma='Y')
     # ---------- vigas E-O CUAD 100x100x3: de +400 a +410 en A, B, E y C (4-5), como la lámina 05 (opción A de Gabriel, 12-10-2026) ----------
     for yn, y, tramos in (('A', yA[0], range(4)), ('B', yB, range(4)), ('E', yA[6], range(4)), ('C', yC, [3]), ('C2', yC2, [3])):
         for i in tramos:
@@ -434,19 +434,20 @@ def main(estudio_json, sitio_json, salida):
         # ---- respuestas al ingeniero (V121, 25/26-10-2026, y 27-10-2026; Gabriel: "aplica nomás") ----
         dict(que='Revisión: sismo con tabiques y torsión accidental', original='sismo sin la masa de los tabiques ni la torsión accidental: deriva 0,94 en el centro de masas', nuevo='masa de los tabiques y del cielo de la cabina (4,4 t al techo: P de 24,7 a 29,4 t) y torsión accidental ±0,10·b (NCh 433 §6.2.8: 23.990 kgf·m en 1–5 y 14.780 kgf·m en A–E); sin arreglo la deriva daba 1,09 y 1,13. Arreglo (+249 kg): cruz C 150x50x3 nueva en el tramo C–C2 de las fachadas 1 y 5 (PLc en 1C y 1C2), X de tensores Fe 22 en la faja de 60 cm entre la viga E-O y la viga inclinada del eje E (1-2 y 4-5), cruz A 4-5 en C 150x50x4 y los 8 tensores de techo de los paños A2–B y B–C de los vanos 1-2 y 4-5 en Fe 22. Deriva en el centro de masas 0,87 en 1–5 y 0,59 en A–E', por='ingeniero (27-10-2026): sumar al modelo sísmico la masa de los tabiques y la torsión accidental; pesos de los tabiques supuestos (falta su ficha)'),
         dict(que='Unión cordón–pilar (marcos 2 y 3)', original='cordón soldado directo a los pilares, articulado en el cálculo (puntal→viga 1,07)', nuevo='unión de momento UM en los pilares B y E de los ejes 2 y 3: 2 planchas laterales PL 8×150 A270ES (750 en B, 435 en E) de +4,11 a +4,26, soldadura E6011 (filete 3 al cordón, 5 al pilar); plancha 0,48, soldadura al cordón 0,54, al pilar 0,44, pilar en el nudo 0,33; puntal→viga 0,80, puntal→cordón 0,87, cordón 0,81. En A y en el eje 4 sigue articulado. Las vigas VT de B y E quedan 8 mm más cortas y se sueldan a la plancha', por='ingeniero V121 (25-10-2026): «reforzar unión de momento en pilares con plancha e=8 mm … considerar soldadura AWS 6011»; diseño 27-10-2026'),
-        dict(que='Zapata corrida bajo el CF-4 (opción A)', original='dados de 1,40 × 1,40 bajo 4C y 4C2 (hasta 10 sobre el sello) y hormigón pobre G5 bajo el CF-4 hasta −1,40',
-             nuevo='zapata corrida ZC-4 de 45 × 80 armada en todo el eje 4 (G25, de −0,50 a −1,30, con 10 de emplantillado hasta el sello), monolítica con el CF 30/50, que no cambia: sus estribos ø10@25 bajan '
-                   'hasta el fondo, 3ø12 abajo, 4ø10 de piel y 4ø12 de anclaje bajo PLc-4C y PLc-4C2 (en vez de las 4ø16 de los dados). El eje 4 ya no se levanta (4C y 4C2 siempre apretando el suelo, también con ks 7.000 y 28.000); '
-                   'zapata 0,31, SC-E 0,90, suelo 0,52 / 0,54 kgf/cm², PLc-4C 0,87 y PLc-4C2 0,42', por='Gabriel, 28-10-2026: opción A, «que todo sea zapata corrida»; propuesta, falta el VºBº del ingeniero'),
+        dict(que='Fundación del eje 4: solución mixta del ingeniero', original='V127 (propuesta nuestra, 28-10): zapata corrida ZC-4 de 45 × 80 bajo todo el CF-4, sin los dados de 4C y 4C2',
+             nuevo='vuelven los dados de 1,40 × 1,40 × 1,195 bajo 4C y 4C2 (malla ø12@15, estribos ø10 y 4ø16 de anclaje de la placa), unidos entre sí por el CF-4 y al cimiento corrido del eje 5 por el CF-C y el CF-C2. '
+                   'CF 30/50 por el moldaje existente (el ingeniero pidió 30/30 con 4ø12 y E ø10@20; 30/50 lo cubre): 3ø12 + 2ø10 + 3ø12 con E ø10@20 (antes @25). '
+                   'Los tramos del CF-4 del búnker a 4C y de 4C2 a la fachada E, que podían no ir, se quedan: sin el primero el sismo levanta 4C 2,0 mm (4,2 sin los dos); sin el segundo 4C empieza a despegar (+0,02 mm). '
+                   'Con todo: 4C −0,09 mm y 4C2 −0,63 (siguen apretando el suelo), SC-E 0,91, CF 0,43 en flexión y 0,11 en corte, suelo 0,52 / 0,53 kgf/cm² con cargas mayoradas, PLc-4C 0,78 y PLc-4C2 0,29 (sobre el dado manda el cono: no necesitan armadura de anclaje)',
+             por='el ingeniero 28-10-2026: «NO APROBADO [la zapata corrida]. IMPLEMENTAR SOLUCIÓN MIXTA … se mantienen las 2 fundaciones aisladas que son unidas a las fundaciones corridas con CF 30/30»; CF 30/50: Gabriel, 28-10-2026 («dejémoslo 30/50 nomás»)'),
     ]
     # Gabriel, 22-10-2026: "en las preguntas al ingeniero al final, reduce el texto al 30 %, demasiado texto" (2.520 → ~750 caracteres)
     # Desde la revisión del 23-10-2026 ya no son preguntas al ingeniero: son los datos que faltan para cerrar el cálculo y firmarlo
     # Gabriel, 28-10-2026: "dejemos solo las preguntas que faltan responder y lo demás elimínalo todo" (no habrá más mediciones: agua, sondaje,
     # colectores y pesos quedan con los supuestos del lado seguro de la pestaña Revisión)
+    # el ingeniero, 28-10-2026: visto bueno «RESPONDIDOS», viento «USAR NCh 432:2010», escalera «SÍ» (40 = alto total). Queda lo que no contestó: el arreglo del sismo
     preguntas = [
-        'Visto bueno del ingeniero a los cambios «Por aprobar» (pestaña Ingeniero).',
-        'Viento: ¿basta la NCh 432:2010? Con la 2025 (+60 %) el pilar P-5C llega a 1,32.',
-        'Escalera: ¿el 25/40 de la viga central es alto total (10 de losa + 30 colgados)?',
+        'Sismo con tabiques y torsión accidental: ¿visto bueno al arreglo (cruces C 150x50x3 en el tramo C–C2 de las fachadas 1 y 5, X de Fe 22 en la faja del eje E, cruz A 4-5 en C 150x50x4 y 8 tensores de techo en Fe 22; deriva 0,87 en 1–5 y 0,59 en A–E) y a la línea C2 4-5 con una sola diagonal?',
         'Firma de un ingeniero civil.',
     ]
     out = dict(
