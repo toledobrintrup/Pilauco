@@ -33,14 +33,16 @@ RADIER_EST = 10.0           # radier e=10 del estudio (corte b-b)
 POLIESTIRENO = 10.0         # poliestireno expandido de alta densidad e=100 mm bajo el radier (corte b-b)
 RELLENO_EST = 15.0          # relleno granular 15 bajo el poliestireno, sobre sub base granular compactada (corte b-b)
 VHA = (25.0, 50.0)          # VHA 25/50 del eje 3: 25 dentro de la losa + 25 bajo ella (ingeniero, 25/26-10-2026: "se acepta"; antes 25/45 y el detalle VHA 25/40 colgaba 20 de una losa de 20)
-VIGA_BOTADA = (40.0, 25.0)  # vigas botadas VBL y VBC en los bordes del hueco de la escalera, dentro de la losa de 25, sin caída (ingeniero, 25/26-10-2026; ancho 40: propuesta,
-                            # con 30 también pasa); reemplazan a las vigas de borde 25/45 colgadas (VHA-esc y VB-N)
+VIGA_BOTADA = (40.0, 25.0)  # VBC: viga botada en el borde del hueco de la escalera del lado del eje A, dentro de la losa de 25, sin caída (ingeniero, 25/26-10-2026;
+                            # ancho 40: propuesta); reemplazó a las vigas de borde 25/45 colgadas (VHA-esc y VB-N)
+VIGA_VBL = (25.0, 50.0)     # VBL colgada del muro A al muro B, al costado del hueco (del lado del eje 4), fuera de la huella de la escalera. Gabriel (28-10-2026): "no voy a poner ese
+                            # pilar", opción 2; el ingeniero (28-10-2026): «que la altura supuesta no sobrepase la deformación de 1/300 de la luz y recalcule la armadura».
+                            # Con 6,20 libres la flecha a largo plazo da 5,6 mm (L/1110; L/300 = 20,7) y no manda en ninguna altura (30 a 65): 50 es la más baja en que la VBL
+                            # y la VBC (que ahora apoya en ella) pasan con armadura de una capa y la VBC sin más fierro; queda igual a la VHA-3 25/50 (calculo/diseno.py).
+                            # Hasta la V131: botada 40/25 sobre un pilar CUAD 100x100x4 en la esquina libre del hueco
 ESCALERA = dict(losa=10.0, viga=(25.0, 40.0), rec=3.0)   # escalera del búnker: alternativa del croquis del ingeniero (27-10-2026), «viga central de 25/40 … con la losa de e=10 cm
                             # solamente»; 40 = alto total, perpendicular a la losa (el ingeniero, 28-10-2026: «sí»; la acepta con sus armaduras ancladas en la losa de fundación de 35).
                             # Su solución principal (losa de 15 con ø16@18) no pasa la flecha (calculo/escalera_losa.py)
-PILAR_ESC = dict(perfil='CUAD 100x100x4', acero='A270ES', lado=10.0, area=15.36, retiro=12.5, placa=(25.0, 25.0, 1.6), grout=2.5,
-                 pernos='4 ø16 A36 hef 12 (nominales: el pilar nunca tracciona)', conectores='4 ø12 L=10')   # pilar en la esquina del hueco (ingeniero, 25/26-10-2026: "perfil cuadrado de 100");
-                            # espesor 4, centro a 12,5 de los dos bordes del hueco (placa de cabeza de 25 al ras del hueco), placas, grout y pernos: propuesta
 # Placas base = PLACAS EMBEBIDAS CON ANCLAJES SOLDADOS (ingeniero, V121 25-10-2026: "insertos con anclajes soldados a la placa y embebidos en el hormigón ... verificar
 # soldadura y revisar largos de anclaje"; "ACEPTADO"): sin pernos con hilo ni tuercas arriba. Propuesta 27-10-2026 (cálculo: calculo/anclajes_insertos.py).
 PLACA = dict(borde=10.0, espesor=1.2)          # PLb: inserto 200 x 200 x 12 A36 en los pilares sin cruz (borde a 100 del eje del pilar)
@@ -117,10 +119,11 @@ def armar(c):
                          dict(id='M-E', pts=rect(bx1 - MURO, by0 + MURO, bx1, by1 - MURO), lado='del eje 5')])
     losa = dict(espesor=LOSA, pts=rect(bx0, by0, bx1, by1), hueco=rect(ex_h, ey0, ex1 := c['ex1'], ey1), z_inf=Z(z_losa_inf), z_sup=Z(0),
                 armadura='inferior: ø10@15 en los dos sentidos (ganchos en los muros); superior: ø12@15 en L sobre los 4 muros (pata de 72 por la cara exterior del muro y 180 dentro de la losa), ø10@20 L=160 sobre la VHA '
-                         'y ø10@20 en 1–5 en las franjas junto a los muros de los ejes A y B (1,80 desde su cara, bajo las L); hueco de la escalera: vigas botadas 40/25 dentro de la losa en sus lados hacia el eje 4 (VBL, del muro A al muro B) '
-                         'y hacia el eje A (VBC, de la VBL al muro del eje 5), con un pilar CUAD 100x100x4 en la esquina libre (el borde del eje B es el muro); suples ø10@15 arriba y abajo en 1,50 × 1,50 en sus 2 esquinas libres, '
-                         'suple inferior ø10@15 en A–B de 1,00 × 2,40 junto a la VBL (intercalado: queda ø10@7,5) y ø16@15 en L sobre el muro del eje B en los 1,20 junto a la VBL; fisura máxima 0,30 mm; recubrimiento 2; G30',
-                fuente='revisión 23-10-2026: la losa de 20 de la lámina 03 rev H (L001/L002, diseñada para 5,00 m) no pasaba con 6,45 m; ahora e=25 y continua con los muros. Pilar, vigas botadas, ø10@20 en 1–5 y fisura 0,30 mm: ingeniero (25/26-10-2026); medidas y suples: propuesta')
+                         'y ø10@20 en 1–5 en las franjas junto a los muros de los ejes A y B (1,80 desde su cara, bajo las L); hueco de la escalera, sin pilar: en su lado hacia el eje 4 la VBL 25/50 colgada (del muro A al muro B, al costado del hueco) '
+                         'y en el lado hacia el eje A la VBC 40/25 botada dentro de la losa, apoyada en la VBL y en el muro del eje 5 (el borde del eje B es el muro); suples ø10@15 arriba y abajo en 1,50 × 1,50 en sus 2 esquinas libres '
+                         'y ø16@15 en L sobre el muro del eje B en los 1,20 junto a la VBL; fisura máxima 0,30 mm; recubrimiento 2; G30',
+                fuente='revisión 23-10-2026: la losa de 20 de la lámina 03 rev H (L001/L002, diseñada para 5,00 m) no pasaba con 6,45 m; ahora e=25 y continua con los muros. Vigas del hueco, ø10@20 en 1–5 y fisura 0,30 mm: ingeniero (25/26-10-2026); '
+                       'sin pilar y VBL colgada: Gabriel (28-10-2026, opción 2) y el ingeniero (28-10-2026: flecha ≤ L/300); medidas y suples: propuesta')
     piso = None; relleno_b = None   # sin radier ni relleno desde el 15-10-2026: el piso es la cara superior de la losa de fundación
     # losa de fundación armada e=30 bajo todo el búnker, unida a los muros y sobresaliendo 37,5 (ingeniero vía Gabriel, 15-10-2026).
     # Las cuatro franjas bajo los muros (37,5 + 25 + 37,5 = 100) se mantienen como contornos para las láminas y las elevaciones.
@@ -130,7 +133,7 @@ def armar(c):
     losa_fundacion = dict(espesor=LOSA_FUND, margen=LOSA_FUND_MARGEN, pts=rect(zx0, zy0, zx1, zy1), z_sup=Z(z_zap_sup), z_inf=Z(z_zap_inf),
                           piezas=[pieza('LF', zx0, zy0, zx1, zy1, z_zap_inf, z_zap_sup, 'Losa de fundación del búnker', f'e={LOSA_FUND:.0f} bajo todo el búnker, unida a los muros; sobresale {LOSA_FUND_MARGEN:.1f} de su cara exterior; su cara superior es el piso del búnker'.replace('.', ','))],
                           armadura='doble malla: ø16@15 en A–B (luz corta) y ø12@15 en 1–5, abajo (con ganchos de 15 hacia arriba en los bordes) y arriba; las verticales exteriores de los muros bajan con pata de 60 traslapada sobre la malla inferior; '
-                                   'bajo el pilar de la escalera, suple inferior ø12@15 en 1–5 de 1,50 × 1,50 (intercalado: queda ø12@7,5), sin fundación aparte; recubrimiento 5; G30',
+                                   'recubrimiento 5; G30 (sin pilar en la escalera desde el 28-10-2026: sale el suple que llevaba bajo él)',
                           fuente='ingeniero (vía Gabriel, 15-10-2026): losa armada unida con la zapata de toda la fundación; e=35 y armadura de la revisión del 23-10-2026', emplantillado=emp_lf)
     zap_piezas = [pieza('ZC-N', zx0, zy0, zx1, zy0 + ZAPATA_B[0], z_zap_inf, z_zap_sup, 'Losa de fundación: franja bajo el muro del eje A', 'parte de la losa de fundación'),
                   pieza('ZC-S', zx0, zy1 - ZAPATA_B[0], zx1, zy1, z_zap_inf, z_zap_sup, 'Losa de fundación: franja bajo el muro del eje B', 'parte de la losa de fundación'),
@@ -138,38 +141,27 @@ def armar(c):
                   pieza('ZC-E', zx1 - ZAPATA_B[0], zy0 + ZAPATA_B[0], zx1, zy1 - ZAPATA_B[0], z_zap_inf, z_zap_sup, 'Losa de fundación: franja bajo el muro del eje 5', 'parte de la losa de fundación')]
     zapata_corrida = dict(ancho=ZAPATA_B[0], espesor=LOSA_FUND, z_sup=Z(z_zap_sup), z_inf=Z(z_zap_inf), piezas=zap_piezas, armadura=losa_fundacion['armadura'], emplantillado=emp_lf, fuente=losa_fundacion['fuente'],
                           nota='franjas de 100 (37,5 + 25 + 37,5) de la losa de fundación bajo cada muro, solo para contornos y cotas; el hormigón y la cubicación usan la losa completa (losa_fundacion)')
-    # vigas: la VHA del eje 3 bajo la losa y las vigas botadas del hueco de la escalera dentro de ella (ingeniero, 25/26-10-2026: salen las vigas de borde 25/45 colgadas VHA-esc y VB-N)
+    # vigas: la VHA del eje 3 y la VBL del hueco de la escalera bajo la losa, y la VBC dentro de ella (ingeniero, 25/26-10-2026: salen las vigas de borde 25/45 colgadas VHA-esc y VB-N;
+    # sin pilar desde el 28-10-2026: la VBL cuelga al costado del hueco)
     NV = f'VHA {VHA[0]:.0f}/{VHA[1]:.0f}'
     arm_v = f'3ø12 arriba, 2ø10 al medio, 3ø16 abajo, Est ø10@15 ({LOSA:.0f} dentro de la losa + {VHA[1] - LOSA:.0f} bajo ella)'
     zv_inf, zv_sup = Z(z_losa_inf - (VHA[1] - LOSA)), Z(z_losa_inf)
     bV = VIGA_BOTADA[0]; NVB = f'Viga botada {VIGA_BOTADA[0]:.0f}/{VIGA_BOTADA[1]:.0f}'
-    xv0 = ex_h - bV; yv0 = ey0 - bV   # cara poniente de la VBL y cara de la VBC hacia el eje A
-    fte_vb = 'ingeniero (25-10 y 26-10-2026): pilar en la esquina del hueco y vigas botadas dentro de la losa; ancho 40, extensión y armadura: propuesta (ACI 318-08, con torsión)'
+    bL, hL = VIGA_VBL; NVL = f'Viga colgada {bL:.0f}/{hL:.0f}'
+    xv0 = ex_h - bL; yv0 = ey0 - bV   # cara poniente de la VBL (colgada, 25) y cara de la VBC hacia el eje A (botada, 40)
+    fte_vb = ('ingeniero (25-10 y 26-10-2026): viga en cada borde del hueco; sin pilar (Gabriel, 28-10-2026: opción 2) la VBL va colgada y la VBC botada apoya en ella; '
+              'el ingeniero (28-10-2026): altura con flecha ≤ L/300 y armadura recalculada; ancho, alto y armadura: propuesta (calculo/diseno.py, ACI 318-08 con torsión)')
     vigas = [dict(id='VHA-3', nombre=NV, pts=rect(x3 - 12.5, by0 + MURO, x3 + 12.5, by1 - MURO), z_inf=zv_inf, z_sup=zv_sup, armadura=arm_v,
                   d=f'viga bajo la losa en el eje 3, de muro a muro ({by1 - by0 - 2 * MURO:.0f})', fuente='lámina 03 rev H, detalle VHA 25/40; estribos @15 de la revisión del 23-10-2026; 25/50 del ingeniero (25/26-10-2026)'),
-             dict(id='VBL', nombre=NVB, pts=rect(xv0, by0 + MURO, ex_h, by1 - MURO), z_inf=Z(z_losa_inf), z_sup=Z(0), botada=True,
-                  armadura='4ø12 abajo y 5ø12 arriba (en L de 72 en los muros de los ejes A y B), E ø8@10 cerrados con ganchos de 135° en todo el largo; recubrimiento 3 al estribo',
-                  d=f'viga botada del hueco de la escalera en su lado hacia el eje 4, dentro de la losa (sin caída), del muro del eje A al del eje B ({(by1 - by0 - 2 * MURO) / 100:.2f}); pasa sobre el pilar de la esquina y recibe el muro de la caja'.replace('.', ','), fuente=fte_vb),
+             dict(id='VBL', nombre=NVL, pts=rect(xv0, by0 + MURO, ex_h, by1 - MURO), z_inf=Z(z_losa_inf - (hL - LOSA)), z_sup=Z(z_losa_inf), colgada=True, alto=hL,   # como la VHA-3: la pieza es lo que cuelga bajo la losa
+                  armadura='3ø16 abajo (rectas, 19 dentro de los muros A y B), 5ø12 arriba (en L de 72 en los muros de los ejes A y B) y 2ø12 laterales al medio (torsión), E ø8@10 cerrados con ganchos de 135° en todo el largo; recubrimiento 3 al estribo',
+                  d=f'viga colgada del hueco de la escalera en su lado hacia el eje 4, del muro del eje A al del eje B ({(by1 - by0 - 2 * MURO) / 100:.2f} libres), al costado del hueco: su cara oriente es el borde del hueco y cuelga {hL - LOSA:.0f} bajo la losa, '
+                    f'como la VHA-3, y no queda sobre la escalera; recibe el muro de la caja y la VBC; flecha a largo plazo 5,6 mm (L/1110; L/300 = 20,7)'.replace('.', ','), fuente=fte_vb),
              dict(id='VBC', nombre=NVB, pts=rect(ex_h, yv0, bx1 - MURO, ey0), z_inf=Z(z_losa_inf), z_sup=Z(0), botada=True,
-                  armadura='4ø12 abajo y 4ø12 arriba (las de arriba en L en el muro del eje 5; con gancho pasada la VBL), E ø8@10 cerrados; donde cruza la VBL va una capa más adentro',
-                  d=f'viga botada del hueco de la escalera en su lado hacia el eje A, dentro de la losa, de la VBL (sobre el pilar) al muro del eje 5 ({(bx1 - MURO - ex_h) / 100:.2f} libres); recibe el muro de la caja de ese lado'.replace('.', ','), fuente=fte_vb)]
+                  armadura='4ø12 abajo y 4ø12 arriba (las de arriba en L en el muro del eje 5; las dos con gancho dentro de la VBL), E ø8@9 cerrados; donde cruza la VBL va una capa más adentro',
+                  d=f'viga botada del hueco de la escalera en su lado hacia el eje A, dentro de la losa, de la VBL (apoyada en ella) al muro del eje 5 ({(bx1 - MURO - ex_h) / 100:.2f} libres); recibe el muro de la caja de ese lado'.replace('.', ','), fuente=fte_vb)]
     hueco_al_muro = ey1 >= by1 - MURO - 1   # el hueco llega a la cara del muro del eje B: ese muro hace de borde (23-10-2026)
-    # pilar de acero en la esquina libre del hueco (ingeniero, 25/26-10-2026): de la losa de fundación a la cara inferior de la losa de techo, rotulado en los dos extremos
-    pe = PILAR_ESC; xpe, ype = ex_h - pe['retiro'], ey0 - pe['retiro']   # (907,5; 235,5): bajo una placa de cabeza de 25 con dos bordes al ras del hueco
-    lpe, tpe = pe['placa'][0], pe['placa'][2]
-    z_pbase = z_piso + pe['grout']                                     # cara inferior de la placa base, sobre el grout (dentro del piso de 5,5)
-    l_tubo = z_losa_inf - (z_pbase + tpe)                             # la placa de cabeza va embebida en la losa: el tubo llega a su cara inferior
-    kg_pe = l_tubo / 100 * pe['area'] * 1e-4 * 7850 + 2 * (lpe / 100) ** 2 * (tpe / 100) * 7850
-    pilar_escalera = dict(id='P-esc', perfil=pe['perfil'], acero=pe['acero'], lado=pe['lado'], centro=[r1(v) for v in ap(xpe, ype, 0)[:2]], centro_local=[r1(xpe), r1(ype)],
-                          pts=rect(xpe - pe['lado'] / 2, ype - pe['lado'] / 2, xpe + pe['lado'] / 2, ype + pe['lado'] / 2), z_inf=Z(z_pbase + tpe), z_sup=Z(z_losa_inf),
-                          largo_tubo=r1(l_tubo), largo_calculo=r1(z_losa_inf - z_piso), k=1.0, kg=r1(kg_pe),
-                          placa_base=dict(pts=rect(xpe - lpe / 2, ype - lpe / 2, xpe + lpe / 2, ype + lpe / 2), z_inf=Z(z_pbase), z_sup=Z(z_pbase + tpe), lado=lpe, espesor=tpe,
-                                          detalle=f'PL 250×250×16 A36 sobre grout sin retracción de {pe["grout"] * 10:.0f} mm (queda dentro del piso de 5,5), con {pe["pernos"]}'.replace('.', ',')),
-                          placa_cabeza=dict(pts=rect(xpe - lpe / 2, ype - lpe / 2, xpe + lpe / 2, ype + lpe / 2), z_inf=Z(z_losa_inf), z_sup=Z(z_losa_inf + tpe), lado=lpe, espesor=tpe,
-                                            detalle=f'PL 250×250×16 A36 embebida al ras de la cara inferior de la losa, con {pe["conectores"]}; dos bordes al ras del hueco'),
-                          soldadura='filete de 4 mm en todo el contorno del tubo, arriba y abajo', montaje='se instala y se suelda antes de desalzaprimar la losa de techo',
-                          d=f'pilar {pe["perfil"]} {pe["acero"]} en la esquina libre del hueco de la escalera, con su centro a {pe["retiro"]:.1f} de los dos bordes (caras a 7,5); recibe la VBL y la VBC; L = {(z_losa_inf - z_piso) / 100:.2f} m, K = 1'.replace('.', ','),
-                          fuente='ingeniero (25-10 y 26-10-2026): pilar de 100 en la esquina del hueco; espesor, posición, placas y pernos: propuesta')
+    # sin pilar en la esquina del hueco desde el 28-10-2026 (Gabriel: "no voy a poner ese pilar"; hasta la V131: CUAD 100x100x4 con placas 250 × 250 × 16)
 
     # ---------- fuera del búnker: sobrecimiento + cimiento corrido bajo las fachadas; CF 25/50 bajo los tabiques con pilares, hasta la cara del radier ----------
     z_sc_inf = -SOBRECIM[1]; z_ci_inf = z_sc_inf - CIMIENTO[1]; z_cemp_inf = z_ci_inf - EMPLANTILLADO   # −75, −100, −110
@@ -353,7 +345,7 @@ def armar(c):
                        fuente='lámina 01 rev 1, detalle placa base PLb; insertos con anclajes soldados: ingeniero (V121, 25-10-2026: sugerido y aceptado); dimensiones: propuesta 27-10-2026 (calculo/anclajes_insertos.py)', lista=placas)
 
     hormigon = dict(especificaciones=ESPECIFICACIONES, impermeabilizacion=IMPERMEABILIZACION, muros=muros, losa=losa, piso=piso, relleno=relleno_b, relleno_excavacion=relleno, losa_fundacion=losa_fundacion, zapata_corrida=zapata_corrida, vigas=vigas,
-                    pilar_escalera=pilar_escalera, cimiento=cimiento, cf=cf, dados=dados, dren=dren, radier_estudio=radier_estudio, placas=placas_info, escalera=c['escalera'],
+                    cimiento=cimiento, cf=cf, dados=dados, dren=dren, radier_estudio=radier_estudio, placas=placas_info, escalera=c['escalera'],
                     interior=dict(ancho=r1(bx1 - bx0 - 2 * MURO), largo=r1(by1 - by0 - 2 * MURO), alto=H,
                                   terminado=dict(ancho=r1(bx1 - bx0 - 2 * MURO - 2 * c.get('T', 0)), largo=r1(by1 - by0 - 2 * MURO - 2 * c.get('T', 0)), tabique=c.get('T', 0), nota='entre los tabiques de 10 que van por dentro de los muros (Gabriel, 14-10-2026)')),
                     niveles=dict(npog_0='NPOG 0,00 = cara superior de la losa del búnker y del radier (obra gruesa); el piso terminado va más arriba (sobrelosa + adhesivo + porcelanato)', losa_inf=z_losa_inf, piso_bunker=z_piso, radier_bunker_inf=z_rad_inf, losa_fund_sup=z_zap_sup, losa_fund_inf=z_zap_inf,
@@ -394,12 +386,13 @@ def armar(c):
         b = [u[i] + v[i] for i in range(3)]; lb = math.sqrt(sum(c * c for c in b)); b = [c / lb for c in b]
         S1 = tuple(A[i] + s_ * u[i] for i in range(3)); S2 = tuple(A[i] + s_ * v[i] for i in range(3))
         return [tuple(S1[i] + g * b[i] for i in range(3)), S1] + [tuple(q) for q in pts[1:4]] + [S2, tuple(S2[i] + g * b[i] for i in range(3))]
-    # vigas botadas del hueco (dentro de la losa de 25): arriba van bajo las dos capas superiores de la losa (ø12 N-S a −2,6 y E-O a −3,8) y bajo las ø10@20 en 1–5
-    # que junto al muro B pasan bajo las ø16 en L (−4,1); abajo, sobre la capa E-O inferior (−21,5) que cruza la VBL. La VBC va una capa más adentro (cruza la VBL)
+    # vigas del hueco (VBL colgada 25/50 y VBC botada 40/25): arriba van bajo las dos capas superiores de la losa (ø12 N-S a −2,6 y E-O a −3,8) y bajo las ø10@20 en 1–5
+    # que junto al muro B pasan bajo las ø16 en L (−4,1); la VBC, abajo, sobre la capa E-O inferior de la losa (−21,5). La VBC va una capa más adentro que la VBL (la cruza)
     zAB_B = -2.0 - 1.2 - 0.6 - 0.3                 # −4,1: ø10@20 en 1–5 junto al muro B (bajo las ø16 en L de −2,8)
-    zBLs = zAB_B - 0.5 - 0.6                       # −5,2: 5ø12 superiores de la VBL (d = 19,8)
-    zBLi = z_losa_inf + 2 + 1.0 + 0.5 + 0.5 + 0.6  # −20,4: 4ø12 inferiores de la VBL, sobre las LE (−21,5) (d = 20,4)
-    zBCs, zBCi = zBLs - 1.2, zBLi + 1.2            # −6,4 / −19,2: VBC (d = 18,6 / 19,2)
+    zBLs = zAB_B - 0.5 - 0.6                       # −5,2: 5ø12 superiores de la VBL (d = 44,8)
+    zBLi = -VIGA_VBL[1] + 3.0 + 0.8 + 0.8          # −45,4: 3ø16 inferiores de la VBL colgada (recubrimiento 3 + estribo ø8; d = 45,4)
+    zBLm = (zBLs + zBLi) / 2                       # −25,3: 2ø12 laterales (torsión: barras longitudinales a ≤ 30 en el perímetro, ACI 318-08 11.5.6.2)
+    zBCs, zBCi = zBLs - 1.2, z_losa_inf + 2 + 1.0 + 0.5 + 0.5 + 0.6 + 1.2   # −6,4 / −19,2: VBC (d = 18,6 / 19,2), una capa más adentro que la VBL donde la cruza
     # muros del búnker: por muro, eje y normal hacia adentro
     murosL = [('N', (bx0, by0 + MURO / 2), (bx1, by0 + MURO / 2), (0, 1)), ('S', (bx0, by1 - MURO / 2), (bx1, by1 - MURO / 2), (0, -1)),
               ('O', (bx0 + MURO / 2, by0 + MURO), (bx0 + MURO / 2, by1 - MURO), (1, 0)), ('E', (bx1 - MURO / 2, by0 + MURO), (bx1 - MURO / 2, by1 - MURO), (-1, 0))]   # O/E entre los muros N y S (sus verticales se alargan a las esquinas abajo)
@@ -578,34 +571,33 @@ def armar(c):
             polAB.append([(xAB0, yy + dy_, zAB), (xAB1, yy + dy_, zAB)])
             yy += paso_
     fam('LS-AB', 'losa del búnker', 10, None, polis=polAB, d=f'superiores ø10@20 en 1–5 en las franjas junto a los muros de los ejes A y B (1,80 desde su cara, como las L), de las L del muro del eje 1 a la VBL; junto al muro B pasan bajo las ø16 en L (ingeniero, 25-10-2026)')
-    # suple inferior ø10@15 en A–B junto a la VBL (la losa vecina daba 1,04): 1,00 al poniente de la viga, de 2,80 a 5,20 desde el eje A, intercalado con las LN (queda ø10@7,5);
-    # los que caen sobre los suples de la esquina del hueco se corren 2,5
-    yR0, yR1 = by0 + MURO / 2 + 280.0, by0 + MURO / 2 + 520.0
-    nsI = [(pl[0][0], min(q_[1] for q_ in pl), max(q_[1] for q_ in pl)) for pl in polI if abs(pl[0][0] - pl[-1][0]) < 0.1]   # suples inferiores N-S de las esquinas
-    xsR = [pl[0][0] + 7.5 for pl in polisNS if ex_h - 140 - 7.5 <= pl[0][0] <= xv0 - 8.0]
-    xsR = [xr - (2.5 if any(abs(xr - xi) < 2 and yi1 > yR0 and yi0 < yR1 for xi, yi0, yi1 in nsI) else 0.0) for xr in xsR]
-    fam('LR-VBL', 'losa del búnker', 10, None, polis=[[(xr, yR0, zLN), (xr, yR1, zLN)] for xr in xsR], d='suple inferior ø10@15 en A–B de 1,00 × 2,40 junto a la VBL, intercalado con las inferiores (queda ø10@7,5)')
-    # vigas botadas del hueco de la escalera, 40/25 dentro de la losa (ingeniero, 25/26-10-2026; armadura: propuesta, ACI 318-08 con torsión): recubrimiento 3 al estribo ø8.
-    # VBL: 4ø12 abajo y 5ø12 arriba en L de 72 en los muros A y B (las patas, una capa por dentro de las de la losa), E ø8@10 de cara a cara de los muros.
-    # VBC: 4ø12 abajo y 4ø12 arriba, una capa más adentro que la VBL; parten con gancho pasada la VBL y las de arriba bajan en L de 72 en el muro del eje 5; E ø8@10
-    NVBf = 'viga botada'; rE = 3.0 + 0.4; bI = bV - 2 * rE - 2.0       # eje de las ramas del estribo; ancho entre ejes de las barras de esquina (31,2)
+    # sin el suple inferior ø10@15 junto a la VBL (LR-VBL, V127–V131): con la VBL colgada la losa vecina da 0,74 sin él (calculo/verificar_bunker.py)
+    # vigas del hueco de la escalera (sin pilar desde el 28-10-2026; armadura: calculo/diseno.py, ACI 318-08 con torsión): recubrimiento 3 al estribo ø8.
+    # VBL colgada 25/50: 5ø12 arriba en L de 72 en los muros A y B (las patas, una capa por dentro de las de la losa), 3ø16 abajo y 2ø12 laterales rectas de muro a muro
+    # (19 dentro de cada muro, ACI 318-08 12.11.1), E ø8@10 de cara a cara de los muros. VBC botada 40/25: 4ø12 abajo y 4ø12 arriba, una capa más adentro que la VBL;
+    # parten con gancho dentro de la VBL y las de arriba bajan en L de 72 en el muro del eje 5; E ø8@9
+    NVBf = 'viga botada'; rE = 3.0 + 0.4; bI = bV - 2 * rE - 2.0       # eje de las ramas del estribo; ancho entre ejes de las barras de esquina de la VBC (31,2)
     pLv = L60(12); fLv = fL + 1.2; yLa, yLb = by0 + fLv, by1 - (fL16 + 0.8 + 0.6)   # patas de las L: por dentro de las ø12 (muro A) y de las ø16 (muro B) de la losa
-    xsV = lambda n: [xv0 + rE + 1.0 + k * bI / (n - 1) for k in range(n)]
+    xsV = lambda n, ph=12: [xv0 + rE + 0.4 + ph / 20 + k * (bL - 2 * (rE + 0.4 + ph / 20)) / (n - 1) for k in range(n)]   # barras de la VBL (25), de esquina a esquina del estribo
     ysV = lambda n: [yv0 + rE + 1.0 + k * bI / (n - 1) for k in range(n)]
-    fam('VBL-sup', NVBf, 12, None, polis=[[(x_, yLa, zBLs - pLv), (x_, yLa, zBLs), (x_, yLb, zBLs), (x_, yLb, zBLs - pLv)] for x_ in xsV(5)],
-        d=f'5ø12 superiores de la VBL, en L de {pLv:.0f} (60ø) en los muros de los ejes A y B')
-    fam('VBL-inf', NVBf, 12, None, polis=[[(x_, yLa + 1.2, zBLi), (x_, yLb - 1.2, zBLi)] for x_ in xsV(4)], d='4ø12 inferiores de la VBL, de muro a muro')
+    NVLf = 'viga colgada'
+    fam('VBL-sup', NVLf, 12, None, polis=[[(x_, yLa, zBLs - pLv), (x_, yLa, zBLs), (x_, yLb, zBLs), (x_, yLb, zBLs - pLv)] for x_ in xsV(5)],
+        d=f'5ø12 superiores de la VBL colgada, en L de {pLv:.0f} (60ø) en los muros de los ejes A y B')
+    fam('VBL-inf', NVLf, 16, None, polis=[[(x_, yLa + 2.0, zBLi), (x_, yLb - 2.0, zBLi)] for x_ in xsV(3, 16)],   # a 2,0 de las patas de las de arriba (ø16 con ø12: 0,6 libres)
+        d='3ø16 inferiores de la VBL colgada, rectas de muro a muro (19 dentro de cada muro, ACI 318-08 12.11.1: ≥ 15)')
+    fam('VBL-lat', NVLf, 12, None, polis=[[(x_, yLa + 2.0, zBLm), (x_, yLb - 2.0, zBLm)] for x_ in (xv0 + rE + 1.0, ex_h - rE - 1.0)],
+        d='2ø12 laterales de la VBL colgada, al medio de su alto, rectas de muro a muro: con las de arriba y las de abajo dejan barras longitudinales a ≤ 30 en todo el perímetro (torsión, ACI 318-08 11.5.6.2)')
     t0, t1 = by0 + MURO + 5, by1 - MURO - 5
-    q = [(xv0 + rE, t0, zBLs + 1.0), (ex_h - rE, t0, zBLs + 1.0), (ex_h - rE, t0, zBLi - 1.0), (xv0 + rE, t0, zBLi - 1.0), (xv0 + rE, t0, zBLs + 1.0)]
-    fam('VBL-est', NVBf, 8, estribo(q), n=int((t1 - t0) // 10) + 1, paso=(0, 10, 0), d='estribos cerrados E ø8@10 de la VBL en todo su largo, con ganchos de 135°')
+    q = [(xv0 + rE, t0, zBLs + 1.0), (ex_h - rE, t0, zBLs + 1.0), (ex_h - rE, t0, zBLi - 1.2), (xv0 + rE, t0, zBLi - 1.2), (xv0 + rE, t0, zBLs + 1.0)]
+    fam('VBL-est', NVLf, 8, estribo(q), n=int((t1 - t0) // 10) + 1, paso=(0, 10, 0), d=f'estribos cerrados E ø8@10 de la VBL colgada ({bL:.0f}/{hL:.0f}) en todo su largo, con ganchos de 135°')
     xBC1 = bx1 - fLv   # patas de las L de la VBC en el muro del eje 5, por dentro de las de la losa
     fam('VBC-sup', NVBf, 12, None, polis=[[(xv0 + rE + 1.0, y_, zBCi + 1.2), (xv0 + rE + 1.0, y_, zBCs), (xBC1, y_, zBCs), (xBC1, y_, zBCs - pLv)] for y_ in ysV(4)],
-        d=f'4ø12 superiores de la VBC: gancho dentro de la VBL, pasada su cara poniente, y L de {pLv:.0f} (60ø) en el muro del eje 5')
+        d=f'4ø12 superiores de la VBC: gancho dentro de la VBL, junto a su cara poniente, y L de {pLv:.0f} (60ø) en el muro del eje 5')
     fam('VBC-inf', NVBf, 12, None, polis=[[(xv0 + rE + 2.6, y_, zBCs - 1.2), (xv0 + rE + 2.6, y_, zBCi), (xBC1 - 1.2, y_, zBCi)] for y_ in ysV(4)],
-        d='4ø12 inferiores de la VBC: gancho dentro de la VBL, pasada su cara poniente, y rectas hasta el muro del eje 5')
+        d='4ø12 inferiores de la VBC: gancho dentro de la VBL, junto a su cara poniente, y rectas hasta el muro del eje 5')
     t0, t1 = ex_h + 5, bx1 - MURO - 5
     q = [(t0, yv0 + rE, zBCs + 1.0), (t0, ey0 - rE, zBCs + 1.0), (t0, ey0 - rE, zBCi - 1.0), (t0, yv0 + rE, zBCi - 1.0), (t0, yv0 + rE, zBCs + 1.0)]
-    fam('VBC-est', NVBf, 8, estribo(q), n=int((t1 - t0) // 10) + 1, paso=(10, 0, 0), d='estribos cerrados E ø8@10 de la VBC, de la VBL al muro del eje 5, con ganchos de 135°')
+    fam('VBC-est', NVBf, 8, estribo(q), n=int((t1 - t0) // 9) + 1, paso=(9, 0, 0), d='estribos cerrados E ø8@9 de la VBC (s ≤ d/2 = 9,3), de la VBL al muro del eje 5, con ganchos de 135°')
     # losa de fundación e=35: ø16@15 N-S (luz corta) y ø12@15 E-O, abajo y arriba; la inferior con ganchos de 20 hacia arriba en los bordes; recubrimiento 5
     zi, zs = z_zap_inf + 5 + 0.8, z_zap_sup - 5 - 0.8
     def posiciones(a0, a1, evitar):
@@ -624,9 +616,7 @@ def armar(c):
         d='malla inferior ø12@15 en 1–5 de la losa de fundación, sobre la de A–B, con ganchos de 15 en los bordes')
     fam('LF-sup-NS', 'losa de fundación', 16, None, polis=[[(xx, zy0 + 5.8, zs), (xx, zy1 - 5.8, zs)] for xx in XS], d='malla superior ø16@15 en A–B de la losa de fundación')
     fam('LF-sup-EO', 'losa de fundación', 12, None, polis=[[(zx0 + 5.6, yy, zs - 1.4), (zx1 - 5.6, yy, zs - 1.4)] for yy in YS], d='malla superior ø12@15 en 1–5 de la losa de fundación, bajo la de A–B')
-    # suple inferior ø12@15 en 1–5 bajo el pilar de la escalera, de 1,50 × 1,50 e intercalado con la malla (queda ø12@7,5): sin él, la flexión local daba 1,01
-    fam('LF-suple', 'losa de fundación', 12, None, polis=[[(xpe - 75, yy + 7.5, zi + 1.4), (xpe + 75, yy + 7.5, zi + 1.4)] for yy in YS if abs(yy + 7.5 - ype) <= 75],
-        d='suple inferior ø12@15 en 1–5 de la losa de fundación bajo el pilar de la escalera, de 1,50 × 1,50, intercalado con la malla (queda ø12@7,5)')
+    # sin el suple inferior bajo el pilar de la escalera (LF-suple, V127–V131): sin pilar no hay carga concentrada (calculo/verificar_bunker.py: 0,86 como máximo, en el borde del eje 5)
     # sobrecimiento y cimiento corrido fuera del búnker
     yE = yA[6]                                   # eje de la fachada sur; su sobrecimiento va de yE−12,5 a yE+12,5 y su cimiento de yE−40 a yE+40
     def extremos(n, diam, k):
@@ -923,7 +913,7 @@ def armar(c):
     cub_h = [
         dict(elemento=f'Muros del búnker e={MURO:.0f} (DM)', m3=round(vol(muros['piezas'], z_losa_inf - z_zap_sup), 2), hormigon='G30'),
         dict(elemento=f'Losa del búnker e={LOSA:.0f}', m3=round((area(losa['pts']) - area(losa['hueco'])) * LOSA / 1e6, 2), hormigon='G30'),
-        dict(elemento=f'VHA {VHA[0]:.0f}/{VHA[1]:.0f} del eje 3 (bajo la losa; las vigas botadas del hueco van dentro de ella)', m3=round(sum(area(v['pts']) for v in vigas if not v.get('botada')) * (VHA[1] - LOSA) / 1e6, 2), hormigon='G30'),
+        dict(elemento=f'VHA {VHA[0]:.0f}/{VHA[1]:.0f} del eje 3 y VBL {VIGA_VBL[0]:.0f}/{VIGA_VBL[1]:.0f} del hueco de la escalera (lo que cuelga bajo la losa; la VBC va dentro de ella)', m3=round(sum(area(v['pts']) * ((v.get('alto') or VHA[1]) - LOSA) for v in vigas if not v.get('botada')) / 1e6, 2), hormigon='G30'),
         dict(elemento=f'Losa de fundación del búnker e={LOSA_FUND:.0f}', m3=round(vol(losa_fundacion['piezas'], LOSA_FUND), 2), hormigon='G30'),
         dict(elemento=NSC, m3=round(vol(sc_piezas, SOBRECIM[1]), 2), hormigon='G25'),
         dict(elemento='Cimiento corrido 80 × 25', m3=round(vol(ci_piezas, CIMIENTO[1]), 2), hormigon='G25'),
@@ -940,10 +930,10 @@ def armar(c):
     cub_f = {}
     for f in fierros: cub_f[f['diam']] = cub_f.get(f['diam'], 0) + f['largo']
     cub_fierro = [dict(diam=d, nombre=('ø3/4" A36' if d == 19 else ('ø7/8" A36' if d == 22 else f'ø{d}')), metros=round(cub_f[d] / 100, 1), kg=round(cub_f[d] / 100 * KGM[d])) for d in sorted(cub_f)]
-    cub_acero = [dict(elemento=f'Pilar de la escalera {PILAR_ESC["perfil"]} {PILAR_ESC["acero"]} ({l_tubo / 100:.2f} m) y sus 2 placas PL 250×250×16 A36'.replace('.', ','), kg=round(kg_pe))]
+    cub_acero = []   # sin el pilar de la escalera desde el 28-10-2026 (hasta la V131: CUAD 100x100x4 y sus 2 placas, 54 kg)
     cubicacion = dict(hormigon=cub_h, total_m3=round(sum(x['m3'] for x in cub_h), 2), fierro=cub_fierro, total_kg=round(sum(x['kg'] for x in cub_fierro)),
                       acero=cub_acero, total_acero_kg=round(sum(x['kg'] for x in cub_acero)),
-                      nota='volúmenes del modelo (sin pérdidas ni traslapos); fierro por largo de barras del modelo, sin traslapos ni ganchos adicionales; el acero del pilar de la escalera va aparte (acero)')
+                      nota='volúmenes del modelo (sin pérdidas ni traslapos); fierro por largo de barras del modelo, sin traslapos ni ganchos adicionales')
     return hormigon, fierros, cubicacion
 
 ESTRIBOS = lambda f: f['id'].endswith('-est') or f['id'].split('-')[0] in ('SU', 'CU', 'AX')

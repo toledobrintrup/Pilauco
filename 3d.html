@@ -102,7 +102,7 @@ body.embed .norte3d{top:52px}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V131" data-vista="3d"></script>
+    <script src="menu.js?v=V132" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -182,17 +182,17 @@ body.embed .norte3d{top:52px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V131"></script>
-<script src="data.js?v=V131"></script>
-<script src="casa_vanos.js?v=V131"></script>
-<script src="estructura.js?v=V131"></script>
-<script src="losa.js?v=V131"></script>
-<script src="sitio.js?v=V131"></script>
-<script src="sitio3d.js?v=V131"></script>
-<script src="estudio_estructura.js?v=V131"></script>
-<script src="mobiliario3d.js?v=V131"></script>
-<script src="cotas3d.js?v=V131"></script>
-<script src="goku3d.js?v=V131"></script>
+<script src="nav3d.js?v=V132"></script>
+<script src="data.js?v=V132"></script>
+<script src="casa_vanos.js?v=V132"></script>
+<script src="estructura.js?v=V132"></script>
+<script src="losa.js?v=V132"></script>
+<script src="sitio.js?v=V132"></script>
+<script src="sitio3d.js?v=V132"></script>
+<script src="estudio_estructura.js?v=V132"></script>
+<script src="mobiliario3d.js?v=V132"></script>
+<script src="cotas3d.js?v=V132"></script>
+<script src="goku3d.js?v=V132"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -576,8 +576,9 @@ body.embed .norte3d{top:52px}
     if (H.piso) addH('piso', ficha(prismaH(H.piso.pts, H.piso.z_inf, H.piso.z_sup, matH), 'Búnker: radier', `e=${H.piso.espesor} · ${H.piso.armadura}`));
     // vigas botadas del hueco de la escalera (27-10-2026): van dentro de la losa, así que se dibujan 4 mm más altas por arriba y por abajo y más oscuras, para que se vean en la losa
     const matBot = new THREE.MeshLambertMaterial({color: dark ? 0x6E7177 : 0x8F918F, transparent: true, opacity: 0.95, side: THREE.DoubleSide});
-    H.vigas.forEach(v => addH('losa', ficha(v.botada ? prismaH(v.pts, v.z_inf - 0.4, v.z_sup + 0.4, matBot) : prismaH(v.pts, v.z_inf, v.z_sup, matH), v.nombre + (v.botada ? ` (${v.id})` : ''), `${v.d} · ${v.armadura}${v.fuente ? ' · ' + v.fuente : ''}`)));
-    // pilar de acero en la esquina del hueco de la escalera, con su placa base y su placa de cabeza (va con la escalera: se ve también en la vista del hormigón)
+    // V132 (sin pilar, Gabriel 28-10-2026): la VBL va colgada bajo la losa (z_inf / z_sup: lo que cuelga, como la VHA-3) y la VBC sigue botada
+    H.vigas.forEach(v => addH('losa', ficha(v.botada ? prismaH(v.pts, v.z_inf - 0.4, v.z_sup + 0.4, matBot) : prismaH(v.pts, v.z_inf, v.z_sup, matH), v.nombre + (v.botada || v.colgada ? ` (${v.id})` : ''), `${v.d} · ${v.armadura}${v.fuente ? ' · ' + v.fuente : ''}`)));
+    // pilar de acero en la esquina del hueco de la escalera (V124–V131; desde la V132 no va: el modelo ya no trae pilar_escalera), con su placa base y su placa de cabeza
     if (H.pilar_escalera){
       const pe = H.pilar_escalera, matPE = new THREE.MeshLambertMaterial({color: dark ? 0xF08C4A : 0xC2410C}), matPlE = new THREE.MeshLambertMaterial({color: 0x2B2E34, side: THREE.DoubleSide}), mmE = v => (+v * 10).toLocaleString('es-CL', {maximumFractionDigits: 0});
       addH('escalera', ficha(prismaH(pe.pts, pe.z_inf, pe.z_sup, matPE), `Pilar de la escalera ${pe.id} (${pe.perfil} ${pe.acero})`, `${pe.d} · ${pe.soldadura} · ${pe.montaje} · ${pe.kg.toLocaleString('es-CL')} kg · ${pe.fuente}`));
