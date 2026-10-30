@@ -102,7 +102,7 @@ body.embed .norte3d{top:52px}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V132" data-vista="3d"></script>
+    <script src="menu.js?v=V133" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -182,17 +182,17 @@ body.embed .norte3d{top:52px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V132"></script>
-<script src="data.js?v=V132"></script>
-<script src="casa_vanos.js?v=V132"></script>
-<script src="estructura.js?v=V132"></script>
-<script src="losa.js?v=V132"></script>
-<script src="sitio.js?v=V132"></script>
-<script src="sitio3d.js?v=V132"></script>
-<script src="estudio_estructura.js?v=V132"></script>
-<script src="mobiliario3d.js?v=V132"></script>
-<script src="cotas3d.js?v=V132"></script>
-<script src="goku3d.js?v=V132"></script>
+<script src="nav3d.js?v=V133"></script>
+<script src="data.js?v=V133"></script>
+<script src="casa_vanos.js?v=V133"></script>
+<script src="estructura.js?v=V133"></script>
+<script src="losa.js?v=V133"></script>
+<script src="sitio.js?v=V133"></script>
+<script src="sitio3d.js?v=V133"></script>
+<script src="estudio_estructura.js?v=V133"></script>
+<script src="mobiliario3d.js?v=V133"></script>
+<script src="cotas3d.js?v=V133"></script>
+<script src="goku3d.js?v=V133"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -548,6 +548,11 @@ body.embed .norte3d{top:52px}
       y.addScaledVector(z, -y.dot(z)).normalize();
       let x = new THREE.Vector3().crossVectors(y, z).normalize();
       if (mb.acostado){ y = x; x = new THREE.Vector3().crossVectors(y, z).normalize(); }   // perfil acostado: su alto (h) queda horizontal (cordones de +4,00 a +4,10)
+      // riostras de perfil C (29-10-2026, a tracción y compresión): las dos diagonales de cada X van una a cada lado de la cartela de 8 (en el plano del muro),
+      // con el alma contra ella y las alas hacia afuera; la «b» va girada 180° al otro lado. Así se ve que pasan continuas por el cruce (1 M16 + suple de 8)
+      const prC = mb.c === 'diagonal' ? (DATA_ESTRUCTURA.perfiles[mb.p] || {}) : {};
+      let desp = null;
+      if (prC.forma === 'C' && prC.b){ if (/b$/.test(mb.id)){ x.negate(); y.negate(); } desp = x.clone().multiplyScalar(cm(0.4 + prC.b / 2)); }
       const clave = grupoDeClase[mb.c] || 'arriostre';
       const mesh = new THREE.Mesh(geometriaDe(mb.p), sub[clave].userData.material);
       mesh.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(x, y, z));
@@ -555,6 +560,7 @@ body.embed .norte3d{top:52px}
       // si el tope queda en el mismo plano que la cara de la viga, las dos caras titilan y la terminación se ve mal hecha
       const emb = (mb.c === 'pilar' || mb.c === 'puntal') ? 0.01 : 0, embAbajo = mb.c === 'puntal' ? emb : 0;
       mesh.position.copy(a).addScaledVector(z, -embAbajo); mesh.scale.set(1, 1, largo + emb + embAbajo);
+      if (desp) mesh.position.add(desp);
       mesh.userData.miembro = mb; mesh.userData.largo = largo; mesh.userData.estudio = true;
       sub[clave].add(mesh);
     });

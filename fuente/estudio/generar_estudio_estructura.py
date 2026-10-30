@@ -170,9 +170,12 @@ def main(estudio_json, sitio_json, salida):
     # Revisión 23-10-2026: el punto de trabajo de cada diagonal va a los nudos: abajo, a la placa base (cartela soldada a la placa);
     # arriba, a la viga E-O en las cruces E-O y a la cara inferior de la viga inclinada en las cruces N-S de las fachadas (antes
     # terminaban en +4,03, bajo la viga, y doblaban los pilares como una rodilla).
-    UNION_X = '; en cada extremo, cartela de 8 mm soldada a la placa base o a la viga (no a la cara del tubo de 3 mm) con 4 pernos M16 A325 al alma del C'
+    # Riostras verticales a tracción y compresión (el ingeniero, 29-10-2026: "no permito riostras verticales que no soporten tracción y también compresión";
+    # "que mantenga la posición de todas las riostras y, en principio, que las diseñe en la C150x50x3; si alguna le falla, que la cambie a 4 mm"): todas en su
+    # lugar, en C 150x50x3, y en C 150x50x4 las 5 que no pasan a compresión en 3 mm (X-A-45, X-C-45, X-1-CC2, X-5-CC2 y X-C2-45a; calculo/verificar_acero.py)
+    UNION_X = '; en cada extremo, cartela de 8 mm soldada a la placa base o a la viga (no a la cara del tubo de 3 mm) con 4 pernos M16 A325 al alma del C; trabaja a tracción y compresión'
     def cruz(id_, a, b, d, ns=False, perfil='C 150x50x3'):
-        (xa, ya), (xb, yb) = a, b; d = d + UNION_X
+        (xa, ya), (xb, yb) = a, b; d = d + UNION_X + '; en el cruce, las dos diagonales (una a cada lado del plano de las cartelas) unidas con 1 perno M16 y un suple de 8'
         za = z_viga(ya) if ns else Z_CORDON_EJE; zb = z_viga(yb) if ns else Z_CORDON_EJE
         m(f'{id_}a', 'diagonal', perfil, (xa, ya, 0), (xb, yb, zb), d)
         m(f'{id_}b', 'diagonal', perfil, (xa, ya, za), (xb, yb, 0), d)
@@ -181,26 +184,27 @@ def main(estudio_json, sitio_json, salida):
         cruz(f'X-{xn}-DE', (x, yA[5]), (x, yA[6]), f'cruz en la fachada del eje {xn}, tramo D-E (2,00 m), como A2-A1 del original; de la placa base a la viga inclinada', ns=True)
         # sismo con la masa de los tabiques y la torsión accidental (ingeniero, 27-10-2026: "HACERLO"): la deriva en A-E daba 1,13 en el centro de masas; con una cruz más
         # en cada fachada lateral, en el tramo ciego C-C2 (4,40 m: a 45°, rinde mucho más que las de 2,00), queda en 0,59
-        cruz(f'X-{xn}-CC2', (x, yC), (x, yC2), f'cruz en la fachada del eje {xn}, tramo C-C2 (4,40 m, muro ciego {"del estudio" if xn == "1" else "de la cabina"}): sismo con tabiques y torsión accidental (27-10-2026); de la placa base a la viga inclinada', ns=True)
+        cruz(f'X-{xn}-CC2', (x, yC), (x, yC2), f'cruz en la fachada del eje {xn}, tramo C-C2 (4,40 m, muro ciego {"del estudio" if xn == "1" else "de la cabina"}): sismo con tabiques y torsión accidental (27-10-2026); de la placa base a la viga inclinada; C 150x50x4 desde el 29-10-2026 (a compresión no pasa en 3 mm)', ns=True, perfil='C 150x50x4')
     # en el tabique cafetería/distribuidor (B, 4-5) van la puerta del distribuidor junto al eje 4 y la de la escalera junto al 5 (23-10-2026): no cabe diagonal;
     # la fuerza de esa línea la toman la cruz de A 4-5, la de C 4-5 y la diagonal de C2 4-5 a través de los tensores del techo
-    cruz('X-A-45', (xA[3], yA[0]), (xA[4], yA[0]), 'cruz en la fachada del eje A, tramo 4-5 (muro ciego de la cocina y la escalera, sin vidrio): revisión 23-10-2026, sin ella el techo se movía 2 a 4 cm con sismo en 1–5; C 150x50x4 desde el 27-10-2026 (es la única cruz 1–5 del lado de la cafetería: con tabiques y torsión llega a 15 t, y en el alma de 3 mm los 4 pernos M16 daban 14 t al aplastamiento)', perfil='C 150x50x4')
-    cruz('X-C-45', (xA[3], yC), (xA[4], yC), 'cruz en el tabique baño/cabina (eje C, tramo 4-5, muro ciego)')
+    cruz('X-A-45', (xA[3], yA[0]), (xA[4], yA[0]), 'cruz en la fachada del eje A, tramo 4-5 (muro ciego de la cocina y la escalera, sin vidrio): revisión 23-10-2026, sin ella el techo se movía 2 a 4 cm con sismo en 1–5; C 150x50x4 desde el 27-10-2026 (es la única cruz 1–5 del lado de la cafetería; a tracción y compresión cada diagonal llega a 7,9 t)', perfil='C 150x50x4')
+    cruz('X-C-45', (xA[3], yC), (xA[4], yC), 'cruz en el tabique baño/cabina (eje C, tramo 4-5, muro ciego); C 150x50x4 desde el 29-10-2026 (a compresión no pasa en 3 mm)', perfil='C 150x50x4')
     # tabique cabina/bodega (C2, 4-5): desde el 24-10-2026 se entra a la bodega desde la cabina por una puerta de 0,80 junto al eje 5 (Gabriel: "así evitamos esa puerta al lado
-    # de los parlantes"): queda una sola diagonal, de la placa base de 4C2 a la viga en 5C2, que pasa sobre la puerta (trabaja solo a tracción; la deriva en 1–5 quedaba en 0,94; con tabiques y torsión accidental, 0,87 desde el 27-10-2026)
-    m('X-C2-45a', 'diagonal', 'C 150x50x3', (xA[3], yC2, 0), (xA[4], yC2, Z_CORDON_EJE), 'diagonal única en el tabique cabina/bodega (eje C2, tramo 4-5): la puerta de la bodega va junto al eje 5, bajo la diagonal' + UNION_X)
+    # de los parlantes"): queda una sola diagonal, de la placa base de 4C2 a la viga en 5C2, que pasa sobre la puerta (hasta la V132 solo a tracción; desde el 29-10-2026 a tracción y compresión, en C 150x50x4)
+    m('X-C2-45a', 'diagonal', 'C 150x50x4', (xA[3], yC2, 0), (xA[4], yC2, Z_CORDON_EJE), 'diagonal única en el tabique cabina/bodega (eje C2, tramo 4-5): la puerta de la bodega va junto al eje 5, bajo la diagonal; C 150x50x4 desde el 29-10-2026 (a compresión no pasa en 3 mm)' + UNION_X)
     cruz('X-E-12', (xA[0], yA[6]), (xA[1], yA[6]), 'cruz en la fachada del eje E, tramo 1-2 (muro ciego de los parlantes)')
     cruz('X-E-45', (xA[3], yA[6]), (xA[4], yA[6]), 'cruz en la fachada del eje E, tramo 4-5 (bodega, muro ciego)')
     # faja entre la viga E-O y la viga inclinada en el eje E (27-10-2026, sismo con tabiques y torsión accidental): ahí la viga inclinada va 60 cm sobre la viga E-O y el techo le
-    # pasaba la fuerza a las cruces E 1-2 y E 4-5 a través de esa punta de pilar en flexión (el techo se movía 3 veces lo que la viga E-O); una X de tensores Fe 22 en la faja,
-    # del nudo viga E-O–pilar a la cabeza del otro pilar, se la lleva directo. En C 4-5 (35 cm) no se pone: la cruz C toma más y el dado de 4C se levantaba 7 mm
+    # pasaba la fuerza a las cruces E 1-2 y E 4-5 a través de esa punta de pilar en flexión (el techo se movía 3 veces lo que la viga E-O); una X en la faja,
+    # del nudo viga E-O–pilar a la cabeza del otro pilar, se la lleva directo. En C 4-5 (35 cm) no se pone: la cruz C toma más y el dado de 4C se levantaba 7 mm.
+    # Hasta la V132 era una X de tensores Fe 22 con templador (solo tracción); desde el 29-10-2026, X de C 150x50x3 a tracción y compresión (el ingeniero)
     def faja(id_, xa, xb, y, d):
         za, zb = z_viga(y), Z_CORDON_EJE
-        m(f'{id_}a', 'diagonal', 'FE 22', (xa, y, zb), (xb, y, za), d)
-        m(f'{id_}b', 'diagonal', 'FE 22', (xa, y, za), (xb, y, zb), d)
-    UNION_F = '; tensor Fe 22 con templador, a cartelas de 8 mm soldadas a la cabeza del pilar (bajo la viga inclinada) y al nudo de la viga E-O con el pilar; trabaja solo a tracción'
-    faja('XF-E-12', xA[0], xA[1], yA[6], f'X de tensores en la faja de {z_viga(yA[6]) - Z_CORDON[1]:.0f} cm entre la viga E-O y la viga inclinada, eje E, tramo 1-2 (sobre la cruz X-E-12)' + UNION_F)
-    faja('XF-E-45', xA[3], xA[4], yA[6], f'X de tensores en la faja de {z_viga(yA[6]) - Z_CORDON[1]:.0f} cm entre la viga E-O y la viga inclinada, eje E, tramo 4-5 (sobre la cruz X-E-45)' + UNION_F)
+        m(f'{id_}a', 'diagonal', 'C 150x50x3', (xa, y, zb), (xb, y, za), d)
+        m(f'{id_}b', 'diagonal', 'C 150x50x3', (xa, y, za), (xb, y, zb), d)
+    UNION_F = '; a cartelas de 8 mm soldadas a la cabeza del pilar (bajo la viga inclinada) y al nudo de la viga E-O con el pilar, con 4 pernos M16 A325 al alma del C; trabaja a tracción y compresión; en el cruce, 1 perno M16 y un suple de 8'
+    faja('XF-E-12', xA[0], xA[1], yA[6], f'X de C 150x50x3 en la faja de {z_viga(yA[6]) - Z_CORDON[1]:.0f} cm entre la viga E-O y la viga inclinada, eje E, tramo 1-2 (sobre la cruz X-E-12)' + UNION_F)
+    faja('XF-E-45', xA[3], xA[4], yA[6], f'X de C 150x50x3 en la faja de {z_viga(yA[6]) - Z_CORDON[1]:.0f} cm entre la viga E-O y la viga inclinada, eje E, tramo 4-5 (sobre la cruz X-E-45)' + UNION_F)
     # ---------- tensores Fe 16 en el plano del techo: X en los paños extremos completos y en los vanos extremos del resto ----------
     panos = [(yA[0], yA[1]), (yA[1], yB), (yB, yC), (yC, yC2), (yC2, yA[5]), (yA[5], yA[6])]
     nudos = set()
@@ -208,8 +212,9 @@ def main(estudio_json, sitio_json, salida):
         vanos = range(4) if pi in (0, len(panos) - 1) else (0, 3)
         for i in vanos:
             xa, xb = xA[i], xA[i + 1]; zt = lambda y: z_viga(y) + 20
-            # paños A2-B y B-C (la cercha del techo que lleva el sismo 1–5 de la línea B, con el vidrio, a las cruces de A y C): Fe 22 desde el 27-10-2026
-            fe = 'FE 22' if pi in (1, 2) else 'FE 16'; nfe = fe.replace('FE', 'Fe')
+            # paños A2-B y B-C (la cercha del techo que lleva el sismo 1–5 de la línea B, con el vidrio, a las cruces de A y C): Fe 22 del 27-10-2026 a la V132;
+            # vuelven a Fe 16 el 29-10-2026 (el ingeniero: los Fe 22 «una exageración»; con las riostras a tracción y compresión el Fe 16 queda en 0,48)
+            fe = 'FE 16'; nfe = fe.replace('FE', 'Fe')
             m(f'T-{xN[i]}{xN[i+1]}-{int(ya)}a', 'tensor', fe, (xa, ya, zt(ya)), (xb, yb, zt(yb)), f'tensor {nfe} del techo, vano {xN[i]}-{xN[i+1]}, paño {ya:.0f}..{yb:.0f}')
             m(f'T-{xN[i]}{xN[i+1]}-{int(ya)}b', 'tensor', fe, (xb, ya, zt(ya)), (xa, yb, zt(yb)), f'tensor {nfe} del techo, vano {xN[i]}-{xN[i+1]}, paño {ya:.0f}..{yb:.0f}')
             nudos.add((i, ya)); nudos.add((i, yb))
@@ -248,7 +253,7 @@ def main(estudio_json, sitio_json, salida):
     pils = [mb for mb in M if mb['c'] == 'pilar']
     def toca(mb, p):   # el extremo p de una diagonal cae en la línea del pilar
         return abs(mb['a'][0] - p[0]) < 1 and abs(mb['a'][1] - p[1]) < 1
-    pilares_cruz = sorted({mb['id'] for mb in pils for d in M if d['c'] == 'diagonal' and not d['id'].startswith('XF-') for p in (d['a'], d['b']) if toca(mb, p)})   # los tensores de faja (XF) no llegan a la placa   # pilares a los que llega una diagonal (pie o cabeza): placa PLc
+    pilares_cruz = sorted({mb['id'] for mb in pils for d in M if d['c'] == 'diagonal' and not d['id'].startswith('XF-') for p in (d['a'], d['b']) if toca(mb, p)})   # las X de la faja (XF) no llegan a la placa   # pilares a los que llega una diagonal (pie o cabeza): placa PLc
     pilares_pie = sorted({mb['id'] for mb in pils for d in M if d['c'] == 'diagonal' for p in (d['a'], d['b']) if toca(mb, p) and abs(p[2] - mb['a'][2]) < 5})   # los que la reciben en su pie: cartela en la placa
     # sentido (en planta) de cada diagonal que llega al pie de un pilar: la placa embebida se alarga de ese lado para la cartela (27-10-2026)
     diag_pie = {}
@@ -360,6 +365,41 @@ def main(estudio_json, sitio_json, salida):
     # desde la cara del pilar: continua de 750 en B (cruz) y de 435 en E (T, termina a 15 de la cara de fachada). Cajas en cm de la app (a = mínimo, b = máximo).
     # D/C de calculo/union_cordon/union_cordon_pilar.py con los esfuerzos del modelo con UM, tabiques y torsión accidental (extraer_marcos.py planchas)
     UM_DC = {'2B': (0.54, 0.48, 0.30, 0.20), '2E': (0.49, 0.47, 0.44, 0.33), '3B': (0.54, 0.48, 0.30, 0.19), '3E': (0.48, 0.46, 0.43, 0.32)}  # soldadura al cordón, plancha, soldadura al pilar, pilar en el nudo
+    # ---------- riostras verticales a tracción y compresión (29-10-2026): D/C por diagonal de calculo/verificar_acero.py ----------
+    # (T, C en kN mayorados; D/C a tracción (AISC 360-16 D), a compresión (E3/E4/E7), KL/r, unión (J3/J4: 4 pernos M16 A325, alma, cartela de 8),
+    #  D/C a compresión y KL/r con los amarres fuera del plano PROPUESTOS (sin visto bueno), largo entre puntos de trabajo y hasta el cruce, m)
+    # Pandeo: en una X las dos diagonales van unidas en el cruce (1 perno M16 + suple de 8) y cada mitad pandea entre su extremo y el cruce (K = 1), en el
+    # plano (eje fuerte) y fuera de él (eje débil, r = 1,4 cm en 3 y 4 mm: manda); torsión con el largo completo. La diagonal única X-C2-45a pandea en todo su largo.
+    RIOSTRAS_DC = {
+    'X-1-AA2a': (22.6, 24.5, 0.16, 0.65, 173, 0.21, 0.36, 87, 4.82, 2.47),
+    'X-1-AA2b': (23.2, 26.9, 0.16, 0.66, 166, 0.22, 0.38, 83, 4.62, 2.37),
+    'X-1-CC2a': (34.6, 39.9, 0.18, 1.52, 238, 0.24, 0.40, 119, 6.52, 3.31),
+    'X-1-CC2b': (39.7, 43.3, 0.21, 1.60, 234, 0.28, 0.43, 117, 6.41, 3.26),
+    'X-1-DEa': (18.9, 20.9, 0.13, 0.65, 187, 0.18, 0.33, 94, 5.30, 2.67),
+    'X-1-DEb': (19.0, 18.8, 0.13, 0.57, 185, 0.18, 0.30, 93, 5.24, 2.64),
+    'X-5-AA2a': (26.5, 29.1, 0.18, 0.77, 173, 0.25, 0.43, 87, 4.82, 2.47),
+    'X-5-AA2b': (29.3, 32.4, 0.20, 0.79, 166, 0.27, 0.46, 83, 4.62, 2.37),
+    'X-5-CC2a': (42.2, 47.9, 0.22, 1.83, 238, 0.30, 0.48, 119, 6.52, 3.31),
+    'X-5-CC2b': (45.2, 48.4, 0.24, 1.79, 234, 0.32, 0.48, 117, 6.41, 3.26),
+    'X-5-DEa': (21.7, 24.8, 0.15, 0.77, 187, 0.20, 0.40, 94, 5.30, 2.67),
+    'X-5-DEb': (22.6, 21.8, 0.16, 0.66, 185, 0.21, 0.35, 93, 5.24, 2.64),
+    'X-A-45a': (73.9, 76.0, 0.39, 1.65, 179, 0.52, 0.66, 90, 4.99, 2.49),
+    'X-A-45b': (74.7, 77.3, 0.39, 1.67, 179, 0.52, 0.67, 90, 4.99, 2.49),
+    'X-C-45a': (41.5, 46.5, 0.22, 1.01, 179, 0.29, 0.41, 90, 4.99, 2.49),
+    'X-C-45b': (41.3, 45.7, 0.22, 0.99, 179, 0.29, 0.40, 90, 4.99, 2.49),
+    'X-C2-45a': (34.5, 35.3, 0.18, 3.06, 358, 0.24, 0.35, 119, 4.99, 4.99),
+    'X-E-12a': (30.9, 34.1, 0.21, 0.89, 172, 0.29, 0.50, 86, 4.90, 2.45),
+    'X-E-12b': (31.1, 33.2, 0.21, 0.87, 172, 0.29, 0.48, 86, 4.90, 2.45),
+    'X-E-45a': (32.8, 33.6, 0.22, 0.91, 175, 0.31, 0.50, 87, 4.99, 2.49),
+    'X-E-45b': (31.1, 33.1, 0.21, 0.90, 175, 0.29, 0.49, 87, 4.99, 2.49),
+    'XF-E-12a': (17.7, 17.4, 0.12, 0.28, 94, 0.17, 0.15, 47, 2.69, 1.35),
+    'XF-E-12b': (14.6, 16.8, 0.10, 0.27, 94, 0.14, 0.15, 47, 2.69, 1.35),
+    'XF-E-45a': (15.0, 16.9, 0.10, 0.28, 100, 0.14, 0.15, 50, 2.85, 1.43),
+    'XF-E-45b': (18.0, 17.9, 0.12, 0.30, 100, 0.17, 0.16, 50, 2.85, 1.43),
+    }
+    riostras = [dict(id=k, perfil=next(mb['p'] for mb in M if mb['id'] == k), T_kN=v[0], C_kN=v[1], T_t=round(v[0] * 0.10197, 2), C_t=round(v[1] * 0.10197, 2),
+                     dc_traccion=v[2], dc_compresion=v[3], KL_r=v[4], dc_union=v[5], dc_compresion_amarres=v[6], KL_r_amarres=v[7], L=v[8], L_pandeo=v[9],
+                     cumple=max(v[2], v[3], v[5]) <= 1.0 and v[4] <= 200) for k, v in RIOSTRAS_DC.items()]
     TPL, HPL, LPL = 0.8, 15.0, 30.0
     uniones = []
     for xn in ('2', '3'):
@@ -440,14 +480,24 @@ def main(estudio_json, sitio_json, salida):
                    'Los tramos del CF-4 del búnker a 4C y de 4C2 a la fachada E, que podían no ir, se quedan: sin el primero el sismo levanta 4C 2,0 mm (4,2 sin los dos); sin el segundo 4C empieza a despegar (+0,02 mm). '
                    'Con todo: 4C −0,09 mm y 4C2 −0,63 (siguen apretando el suelo), SC-E 0,91, CF 0,43 en flexión y 0,11 en corte, suelo 0,52 / 0,53 kgf/cm² con cargas mayoradas, PLc-4C 0,78 y PLc-4C2 0,29 (sobre el dado manda el cono: no necesitan armadura de anclaje)',
              por='el ingeniero 28-10-2026: «NO APROBADO [la zapata corrida]. IMPLEMENTAR SOLUCIÓN MIXTA … se mantienen las 2 fundaciones aisladas que son unidas a las fundaciones corridas con CF 30/30»; CF 30/50: Gabriel, 28-10-2026 («dejémoslo 30/50 nomás»)'),
+        dict(que='Riostras verticales a tracción y compresión (el ingeniero, 29-10-2026)',
+             original='cruces C 150x50x3 (A 4-5 en C 150x50x4) y la diagonal única de C2 4-5 solo a tracción; faja del eje E con X de tensores Fe 22 con templador; 8 tensores de techo en Fe 22 (V124 a V132). Deriva 0,87 en 1–5 y 0,59 en A–E en el centro de masas',
+             nuevo='todas las riostras en su lugar y trabajando a tracción y compresión (las dos diagonales de cada X, unidas en el cruce con 1 perno M16 y suple de 8): '
+                   'C 150x50x3 en las cruces A-A2 y D-E de las fachadas 1 y 5, en E 1-2 y E 4-5, y en la X de la faja del eje E (antes Fe 22); C 150x50x4 en A 4-5, C 4-5, C–C2 de las fachadas 1 y 5 y la diagonal de C2 4-5, que en 3 mm no pasan a compresión. '
+                   'Los 8 tensores de techo vuelven a Fe 16 (0,48). Deriva en el centro de masas 0,57 en 1–5 y 0,34 en A–E (en un punto 0,83 y 0,47); con tabiques de 1 placa por cara (32 kgf/m²), 0,56 y 0,33. '
+                   'Ni en 4 mm pasan a compresión X-A-45 (1,67), X-C-45 (1,01), X-1-CC2 (1,60), X-5-CC2 (1,83) y X-C2-45a (3,06): pandean fuera del plano y el C 150x50 tiene r = 1,4 cm en los dos espesores. '
+                   'Propuesta (sin visto bueno): amarres fuera del plano, 2 travesaños por X a 1/4 y 3/4 del alto y 2 amarres a los tercios en la diagonal de C2 (no tocan la puerta de la bodega); con ellos, 0,35 a 0,67. '
+                   'Insertos máx. 0,96 → 0,71; fundaciones: SC-E 0,91 → 0,78, CF 0,43 → 0,38. Acero 9.146 kg (+49)',
+             por='el ingeniero (29-10-2026): «no permito riostras verticales que no soporten tracción y también compresión»; los Fe 22 con templador, «una exageración»; «que mantenga la posición de todas las riostras y, en principio, que las diseñe en la C150x50x3; si alguna le falla, que la cambie a 4 mm»'),
     ]
     # Gabriel, 22-10-2026: "en las preguntas al ingeniero al final, reduce el texto al 30 %, demasiado texto" (2.520 → ~750 caracteres)
     # Desde la revisión del 23-10-2026 ya no son preguntas al ingeniero: son los datos que faltan para cerrar el cálculo y firmarlo
     # Gabriel, 28-10-2026: "dejemos solo las preguntas que faltan responder y lo demás elimínalo todo" (no habrá más mediciones: agua, sondaje,
     # colectores y pesos quedan con los supuestos del lado seguro de la pestaña Revisión)
     # el ingeniero, 28-10-2026: visto bueno «RESPONDIDOS», viento «USAR NCh 432:2010», escalera «SÍ» (40 = alto total). Queda lo que no contestó: el arreglo del sismo
+    # el ingeniero, 29-10-2026: contestó el arreglo del sismo (riostras a tracción y compresión, todas en su lugar, C 150x50x3 y 4 mm si falla). Queda: las 5 que no pasan ni en 4 mm
     preguntas = [
-        'Sismo con tabiques y torsión accidental: ¿visto bueno al arreglo (cruces C 150x50x3 en el tramo C–C2 de las fachadas 1 y 5, X de Fe 22 en la faja del eje E, cruz A 4-5 en C 150x50x4 y 8 tensores de techo en Fe 22; deriva 0,87 en 1–5 y 0,59 en A–E) y a la línea C2 4-5 con una sola diagonal?',
+        'Riostras a tracción y compresión: 5 no pasan a compresión ni en C 150x50x4, porque pandean fuera del plano (r = 1,4 cm en 3 y 4 mm): X-A-45 1,67, X-C-45 1,01, X-1-CC2 1,60, X-5-CC2 1,83 y X-C2-45a 3,06. ¿Visto bueno a amarres fuera del plano (2 travesaños por X a 1/4 y 3/4 del alto; 2 amarres a los tercios en la diagonal de C2)? Con ellos, 0,35 a 0,67.',
         'Firma de un ingeniero civil.',
     ]
     out = dict(
@@ -455,7 +505,7 @@ def main(estudio_json, sitio_json, salida):
         marco='cm del marco de la app; z = 0 en el piso del nivel 1 de la casa; el piso del estudio (NPOG 0,00 del ingeniero) está en z = %s' % z0,
         z_piso=z0, ejes=ejes, perfiles={k: PERFILES[k] for k in sorted(set(mb['p'] for mb in M))}, miembros=M,
         hormigon=hormigon, fierros=fierros, cubicacion_hormigon=cub_hormigon, vanos=V, interior=interior, techo=techo, cielo=cielo,
-        cubicacion=cubicacion, total_kg=tot, uniones=uniones, cambios=cambios, preguntas=preguntas,
+        cubicacion=cubicacion, total_kg=tot, uniones=uniones, riostras=riostras, cambios=cambios, preguntas=preguntas,
         parametros=dict(muro=MURO, tabique=T, h_pilar=H_PILAR, z_viga_inf=Z_CORDON[0], terminaciones=dict(piso=T_PISO, cielo=T_CIELO, libre=LIBRE, capas=E['alturas'].get('capas', {}), dato=E['alturas'].get('dato_terminaciones', '')), pendiente=PEND, alero_ns=ALERO_NS, alero_eo=ALERO_EO, paso_costanera=PASO_COST, paso_puntal=PASO_PUNTAL, h_ventana=H_VENTANA,
                         bunker=dict(losa=BUNKER_LOSA, muro=BUNKER_MURO, radier=BUNKER_RADIER, fundacion=BUNKER_FUND, alto=BUNKER_H)),
     )
