@@ -102,7 +102,7 @@ body.embed .norte3d{top:52px}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V133" data-vista="3d"></script>
+    <script src="menu.js?v=V134" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -182,17 +182,17 @@ body.embed .norte3d{top:52px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V133"></script>
-<script src="data.js?v=V133"></script>
-<script src="casa_vanos.js?v=V133"></script>
-<script src="estructura.js?v=V133"></script>
-<script src="losa.js?v=V133"></script>
-<script src="sitio.js?v=V133"></script>
-<script src="sitio3d.js?v=V133"></script>
-<script src="estudio_estructura.js?v=V133"></script>
-<script src="mobiliario3d.js?v=V133"></script>
-<script src="cotas3d.js?v=V133"></script>
-<script src="goku3d.js?v=V133"></script>
+<script src="nav3d.js?v=V134"></script>
+<script src="data.js?v=V134"></script>
+<script src="casa_vanos.js?v=V134"></script>
+<script src="estructura.js?v=V134"></script>
+<script src="losa.js?v=V134"></script>
+<script src="sitio.js?v=V134"></script>
+<script src="sitio3d.js?v=V134"></script>
+<script src="estudio_estructura.js?v=V134"></script>
+<script src="mobiliario3d.js?v=V134"></script>
+<script src="cotas3d.js?v=V134"></script>
+<script src="goku3d.js?v=V134"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -413,8 +413,15 @@ body.embed .norte3d{top:52px}
     } else if (p.forma === 'tubo_rect'){
       // los tubos se dibujan con los extremos cerrados (en obra van con tapa): antes iban huecos y, visto de cerca desde abajo, el
       // agujero con el espesor de pared parecía una terminación mal hecha (Gabriel, 13-10-2026). El espesor sigue en la ficha.
-      const H = p.h / 2, B = p.b / 2;
-      poli([[-B,-H],[B,-H],[B,H],[-B,H]]);
+      // V134: con radio de esquina (p.r, el de las riostras RECT 150x50 del estudio: 2t por fuera) se dibujan las esquinas redondeadas
+      const H = p.h / 2, B = p.b / 2, r = Math.min(+p.r || 0, B, H);
+      if (r > 0){
+        const R = m(r);
+        s.moveTo(m(-B + r), m(-H)); s.lineTo(m(B - r), m(-H)); s.absarc(m(B - r), m(-H + r), R, -Math.PI / 2, 0, false);
+        s.lineTo(m(B), m(H - r)); s.absarc(m(B - r), m(H - r), R, 0, Math.PI / 2, false);
+        s.lineTo(m(-B + r), m(H)); s.absarc(m(-B + r), m(H - r), R, Math.PI / 2, Math.PI, false);
+        s.lineTo(m(-B), m(-H + r)); s.absarc(m(-B + r), m(-H + r), R, Math.PI, Math.PI * 1.5, false);
+      } else poli([[-B,-H],[B,-H],[B,H],[-B,H]]);
     } else if (p.forma === 'tubo_circ'){
       s.absarc(0, 0, m(p.d / 2), 0, Math.PI * 2, false);
     } else if (p.forma === 'C'){
@@ -432,7 +439,7 @@ body.embed .norte3d{top:52px}
   function geometriaDe(nombre){
     if (!geomPerfil[nombre]){
       const p = DATA_ESTRUCTURA.perfiles[nombre] || DATA_ESTRUCTURA.perfiles['desconocido'];
-      const curvas = (p.forma === 'tubo_circ' || p.forma === 'barra') ? 14 : 1;
+      const curvas = (p.forma === 'tubo_circ' || p.forma === 'barra') ? 14 : (p.forma === 'tubo_rect' && p.r > 0) ? 3 : 1;
       // largo 1 m sobre +Z local; cada pieza se escala en Z a su largo real
       geomPerfil[nombre] = new THREE.ExtrudeGeometry(seccion(p), {depth: 1, bevelEnabled: false, curveSegments: curvas});
     }
@@ -547,9 +554,11 @@ body.embed .norte3d{top:52px}
       else y = ARRIBA.clone();
       y.addScaledVector(z, -y.dot(z)).normalize();
       let x = new THREE.Vector3().crossVectors(y, z).normalize();
-      if (mb.acostado){ y = x; x = new THREE.Vector3().crossVectors(y, z).normalize(); }   // perfil acostado: su alto (h) queda horizontal (cordones de +4,00 a +4,10)
-      // riostras de perfil C (29-10-2026, a tracción y compresión): las dos diagonales de cada X van una a cada lado de la cartela de 8 (en el plano del muro),
-      // con el alma contra ella y las alas hacia afuera; la «b» va girada 180° al otro lado. Así se ve que pasan continuas por el cruce (1 M16 + suple de 8)
+      // perfil acostado: su alto (h) queda horizontal (cordones de +4,00 a +4,10; desde la V134 también las riostras RECT 150x50: el 150 atravesado al muro y el 50
+      // en el plano de la X, las dos diagonales en el mismo plano, la «b» cortada en el cruce y unida con una plancha pasante; en el dibujo se cruzan)
+      if (mb.acostado){ y = x; x = new THREE.Vector3().crossVectors(y, z).normalize(); }
+      // riostras de perfil C (V133; desde la V134 son tubos y esto no corre): las dos diagonales de cada X iban una a cada lado de la cartela de 8 (en el plano del muro),
+      // con el alma contra ella y las alas hacia afuera; la «b» girada 180° al otro lado
       const prC = mb.c === 'diagonal' ? (DATA_ESTRUCTURA.perfiles[mb.p] || {}) : {};
       let desp = null;
       if (prC.forma === 'C' && prC.b){ if (/b$/.test(mb.id)){ x.negate(); y.negate(); } desp = x.clone().multiplyScalar(cm(0.4 + prC.b / 2)); }
@@ -1195,7 +1204,15 @@ body.embed .norte3d{top:52px}
     const largo = (hit.object.userData.largo).toFixed(2).replace('.', ',');
     const clase = {pilar: 'pilar', viga: 'viga', diagonal: 'diagonal', otro: 'celosía', cabio: 'cabio', puntal: 'puntal',
                    costanera: 'costanera', tensor: 'tensor', colgador: 'colgador'}[mb.c] || mb.c;
-    ficha.innerHTML = `<b>${mb.p}</b> · ${clase}${hit.object.userData.estudio ? ' · <span class="sub">estudio, propuesta</span>' : ''}<br><span class="sub">${mb.d || ''}${mb.d ? ' · ' : ''}${largo} m</span>`;
+    // riostra del estudio (V134, RECT 150x50): pared del tubo y D/C de DATA_ESTUDIO_EST.riostras; si falta algún dato, la ficha sale sin esa línea
+    let rio = '';
+    try {
+      const rr = (hit.object.userData.estudio && mb.c === 'diagonal' && typeof DATA_ESTUDIO_EST !== 'undefined') ? (DATA_ESTUDIO_EST.riostras || []).find(q => q.id === mb.id) : null;
+      const pr = (DATA_ESTRUCTURA.perfiles || {})[mb.p] || {}, f2 = v => (typeof v === 'number' && isFinite(v)) ? v.toFixed(2).replace('.', ',') : '—';
+      const pared = rr && rr.espesor_mm ? rr.espesor_mm : (pr.forma === 'tubo_rect' && pr.t ? Math.round(pr.t * 10) : null);
+      if (rr) rio = `<br>${pared ? `tubo de pared ${pared} mm · ` : ''}D/C tracción ${f2(rr.dc_traccion)} · compresión ${f2(rr.dc_compresion)} · KL/r ${rr.KL_r != null ? rr.KL_r : '—'} · unión ${f2(rr.dc_union)}${rr.dc_cruce != null ? ' · cruce ' + f2(rr.dc_cruce) : ''}${rr.cumple === false ? ` · <b>no pasa${rr.KL_r > 200 ? ' (KL/r > 200)' : ''}: por decidir</b>` : ''}`;
+    } catch (err){ rio = ''; }
+    ficha.innerHTML = `<b>${mb.p}</b> · ${clase}${hit.object.userData.estudio ? ' · <span class="sub">estudio, propuesta</span>' : ''}${rio}<br><span class="sub">${mb.d || ''}${mb.d ? ' · ' : ''}${largo} m</span>`;
     ficha.style.left = Math.min(e.clientX - r.left + 12, r.width - 270) + 'px';
     ficha.style.top = Math.max(e.clientY - r.top - 50, 8) + 'px';
     ficha.hidden = false;
