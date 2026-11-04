@@ -23,6 +23,15 @@ TABLA = {'ss1': (16, 130), 'ss2': (16, 140), 'ss3': (12, 120), 'ss4': (16, 120),
 X_TABLA = 2300.0      # pt: a la derecha de esto están los detalles, la tabla y la viñeta
 
 
+def dentro(p, poly):
+    x, y = p; c = False
+    for i in range(len(poly)):
+        (x1, y1), (x2, y2) = poly[i], poly[i - 1]
+        if (y1 > y) != (y2 > y) and x < x1 + (y - y1) * (x2 - x1) / (y2 - y1):
+            c = not c
+    return c
+
+
 def leer_tabla(pag):
     """filas «ssN ø a L» de la tabla de la lámina"""
     pal = [w for w in pag.get_text('words') if w[0] > X_TABLA]
@@ -69,6 +78,10 @@ def main(pdf, salida):
     raiz = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'estructura.js')
     E = json.loads(re.sub(r'^const DATA_ESTRUCTURA = |;\s*$', '', open(raiz).read().strip()))
     vigas = [m for m in E['miembros'] if m['c'] == 'viga' and 'entrepiso' in (m.get('d') or '')]
+    sl = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'losa.js')).read()
+    LO = json.loads(sl[sl.index('{'):sl.rindex('}') + 1])
+    global AREAS, HUECO
+    AREAS, HUECO = LO['areas'], LO['hueco_escalera']
 
     # líneas sueltas largas (las cotas de los suples)
     segs = []
@@ -137,14 +150,38 @@ def main(pdf, salida):
             for t in tramos_l:
                 if abs(t[1] - u0) < 2 and t[0] < u0: u0 = t[0]; cambio = True
                 if abs(t[0] - u1) < 2 and t[1] > u1: u1 = t[1]; cambio = True
-        cortes = {u0, u1}
+        # corta el tramo una viga perpendicular que cruza la línea o que llega a ella por los dos lados; si llega por un solo
+        # lado, la losa del otro lado sigue de largo y el suple también (el ingeniero, 04-11-2026: faltaban los SS3 del eje 3
+        # entre C y B, donde la viga C llega solo desde el lado del 3a)
+        lados = {}
         for q in vigas:
             (qa, qb) = q['a'][:2], q['b'][:2]
             # las vigas que llegan a la línea terminan en la cara del pilar (7,5 cm antes del eje): 12 cm de tolerancia
             if abs(qa[k_u] - qb[k_u]) < 1 and u0 < qa[k_u] < u1 and min(qa[k_w], qb[k_w]) - 12 <= w_v <= max(qa[k_w], qb[k_w]) + 12:
-                cortes.add(qa[k_u])
-        cortes = sorted(cortes)
+                lo, hi = min(qa[k_w], qb[k_w]), max(qa[k_w], qb[k_w])
+                ld = lados.setdefault(round(qa[k_u], 1), set())
+                if lo < w_v - 12: ld.add(-1)
+                if hi > w_v + 12: ld.add(1)
+        cortes = sorted({u0, u1} | {u for u, ld in lados.items() if ld == {-1, 1}})
         tramo = next([c0_, c1_] for c0_, c1_ in zip(cortes, cortes[1:]) if c0_ <= uc <= c1_)
+        # y dentro de ese tramo, el suple sigue mientras a cada lado de la viga la losa esté como en la marca: con las
+        # planchas cruzando la viga (apoyadas en ella) o no; donde eso cambia (otra área, el hueco, el borde) se termina
+        sentido_sup = 'NS' if en_x else 'EO'
+        def estado(u):
+            out = []
+            for sg in (-1, 1):
+                p_ = (u, w_v + sg * 25) if en_x else (w_v + sg * 25, u)
+                ar = [A for A in AREAS if dentro(p_, A['poligono'])]
+                out.append(bool(ar) and ar[0]['dir'] == sentido_sup and not dentro(p_, HUECO))
+            return tuple(out)
+        e0 = estado(uc); t0, t1 = uc, uc
+        while t0 - 2 >= tramo[0] and estado(t0 - 2) == e0: t0 -= 2
+        while t1 + 2 <= tramo[1] and estado(t1 + 2) == e0: t1 += 2
+        # si termina a menos de 15 cm de una viga perpendicular (o del extremo del tramo), se lleva hasta ella
+        fines = sorted({tramo[0], tramo[1]} | set(lados))
+        t0 = min(fines, key=lambda f: abs(f - t0)) if min(abs(f - t0) for f in fines) < 15 else t0
+        t1 = min(fines, key=lambda f: abs(f - t1)) if min(abs(f - t1) for f in fines) < 15 else t1
+        tramo = [t0, t1]
         piezas = [t[2] for t in tramos_l if t[1] > tramo[0] + 0.5 and t[0] < tramo[1] - 0.5]
         k0, k1 = (p0[1], p1[1]) if vertical else (p0[0], p1[0])
         kc = yc if vertical else xc
@@ -157,8 +194,8 @@ def main(pdf, salida):
     # dos marcas en el mismo tramo de una viga, o de distinto tipo en la misma viga: avisar
     for m in marcas:
         for q in marcas:
-            if q is not m and q['viga'] == m['viga'] and q['tramo'] == m['tramo']:
-                raise SystemExit(f"{m['viga']}: dos marcas en el mismo tramo {m['tramo']}")
+            if q is not m and q['tramo_en'] == m['tramo_en'] and q['tramo'] == m['tramo'] and abs((q['y'] if q['tramo_en'] == 'x' else q['x']) - (m['y'] if m['tramo_en'] == 'x' else m['x'])) < 1 and q['tipo'] != m['tipo']:
+                raise SystemExit(f"{m['viga']}: dos marcas de distinto tipo en el mismo tramo {m['tramo']}")
             if q is not m and q['viga'] == m['viga'] and q['tipo'] != m['tipo']:
                 print(f"  ojo: {m['viga']} lleva {m['tipo']} y {q['tipo']} en tramos distintos")
     out = {'fuente': 'Lámina del ingeniero «Suples para losa colaborante», planta 1:50, rev. 3 (03-11-2026)',

@@ -38,8 +38,9 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
   ese tramo; la tabla da ø y a (L = a + 30: patas de 10 y pies de 5 hacia adentro). Van 2 por valle, separados entre 5 y
   10 cm (aquí 7, uno a cada lado del perno), con un separador de 2,5 cm bajo cada pie y la barra de arriba a 2,5 cm de la
   cara de la losa de 15 (la lámina todavía dice 14,35; el ingeniero corrigió a 15). Supuestos (el plano no los acota):
-  centrados en el eje de su viga; cada marca vale para su tramo entero (entre las vigas perpendiculares que llegan a la
-  viga), en todos sus valles, que son los de los pernos. 695 suples, ≈ 1.447 kg. Preguntas abiertas en losa.html: la malla
+  centrados en el eje de su viga; cada marca vale para su tramo entero, en todos sus valles (los de los pernos): hasta
+  una viga que la cruce o llegue por los dos lados, o hasta donde cambia la losa a un costado (el ingeniero, 04-11-2026:
+  el SS3 del eje 3 sigue entre C y B). 705 suples, ≈ 1.460 kg. Preguntas abiertas en losa.html: la malla
   queda a la misma altura que los suples; SS5 (viga B, 1–2) entra 1,35 m en el área donde las planchas van paralelas a B;
   SS1/SS2 se cruzan con SS5 en las esquinas de la viga B.
 - **Hormigón** hasta los 15 cm: llena los valles de la placa y sube 8,65 cm sobre la cresta (≈ 50 m³).

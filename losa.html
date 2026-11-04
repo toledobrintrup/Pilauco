@@ -194,7 +194,7 @@ details.areas[open] summary::before{content:"▾ ";}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V136" data-vista="losa"></script>
+  <script src="menu.js?v=V137" data-vista="losa"></script>
   <h1>Losa colaborante <small>Entrepiso de 15 cm · marco C, placa Instadeck 0,8, pernos, malla C-188, suples y hormigón</small></h1>
   <span class="meta">Fuentes: planta estructura nivel 1 (rev. 08-04-2026), detalle del ingeniero (05-10-2026), lámina 11 de pernos (07-10-2026), lámina de suples (03-11-2026), fichas de Instadeck, pernos Nelson y mallas ACMA, y áreas marcadas en obra</span>
 </header>
@@ -394,13 +394,13 @@ details.areas[open] summary::before{content:"▾ ";}
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=V136"></script>
+<script src="nav3d.js?v=V137"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
-<script src="placa3d.js?v=V136"></script>
-<script src="estructura.js?v=V136"></script>
-<script src="losa.js?v=V136"></script>
-<script src="alzaprimas.js?v=V136"></script>
-<script src="suples.js?v=V136"></script>
+<script src="placa3d.js?v=V137"></script>
+<script src="estructura.js?v=V137"></script>
+<script src="losa.js?v=V137"></script>
+<script src="alzaprimas.js?v=V137"></script>
+<script src="suples.js?v=V137"></script>
 <script>
 (function () {
 'use strict';
@@ -865,15 +865,15 @@ function dibujarSuples() {   // usa VALLES_C: se llama después de dibujarPerno(
   });
   PIL2.forEach(p => { const [a, b, c, d] = p.seccion; el('rect', { x: a, y: b, width: c - a, height: d - b, style: 'fill:var(--fig-ink)' }, svg); });
   // rótulo de cada marca, al costado de su franja (como en la lámina)
-  S.marcas.forEach(m => {
+  S.marcas.forEach(m => (m.marcas_xy || [m.marca]).forEach(([mx, my]) => {
     const ns = m.sentido === 'NS', h = m.a / 2, t = tipoN(m.tipo);
-    const cx = ns ? m.marca[0] : m.eje + h + 62, cy = ns ? m.eje - h - 36 : m.marca[1];
+    const cx = ns ? mx : m.eje + h + 62, cy = ns ? m.eje - h - 36 : my;
     el('rect', { x: cx - 58, y: cy - 27, width: 116, height: 54, rx: 10, style: `fill:var(--paper);stroke:${COL(m.d)};stroke-width:5` }, svg);
     txt(svg, cx, cy + 13, t, { 'font-size': 36, 'text-anchor': 'middle', 'font-weight': 700, style: `fill:${COL(m.d)}` });
-  });
+  }));
   flechaNorte(svg, (G.numeros['4a'] + G.numeros['5']) / 2, (G.letras.K + G.letras.J) / 2, 50, 56);
   const PD = S.por_diametro, T = S.total;
-  $('#cap-suples').innerHTML = `${miles(T.n)} suples a escala, ${S.tipos ? Object.keys(S.tipos).length : 10} tipos en ${S.marcas.length} tramos de viga · color por diámetro: <b style="color:var(--fig-s10)">ø10</b> (${PD['10'].n}), <b style="color:var(--fig-s12)">ø12</b> (${PD['12'].n}), <b style="color:var(--fig-s16)">ø16</b> (${PD['16'].n}) · franja clara: lo que cubren los suples de cada tramo · rótulo: el tipo de la tabla · negro: pilares del nivel 2 · amarillo: borde de la losa (marco C).`;
+  $('#cap-suples').innerHTML = `${miles(T.n)} suples a escala, ${S.tipos ? Object.keys(S.tipos).length : 10} tipos en ${S.marcas.length} tramos de viga (${S.marcas.reduce((t, m) => t + (m.n_marcas || 1), 0)} marcas de la lámina) · color por diámetro: <b style="color:var(--fig-s10)">ø10</b> (${PD['10'].n}), <b style="color:var(--fig-s12)">ø12</b> (${PD['12'].n}), <b style="color:var(--fig-s16)">ø16</b> (${PD['16'].n}) · franja clara: lo que cubren los suples de cada tramo · rótulo: el tipo de la tabla · negro: pilares del nivel 2 · amarillo: borde de la losa (marco C).`;
 
   // ---- detalle 1: medio suple de lado, cruzando su viga (simétrico respecto del eje de la viga), a escala ----
   const dv = $('#svg-suple-det'), H = ESP * 10, Sx = S.marcas.find(m => m.tipo === 'ss1') || S.marcas[0];

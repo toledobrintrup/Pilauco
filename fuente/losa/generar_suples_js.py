@@ -54,7 +54,17 @@ def main():
         raise SystemExit(f'la pata ({pata}) no calza con 15 − 2,5 − 2,5 = {z_tope - z_pie}')
 
     marcas, avisos = [], []
+    # dos marcas del mismo tipo en el mismo tramo de la misma línea (la lámina pone una por paño: SS5 en la viga B, SS8 en la H)
+    # son un solo tramo de suples
+    vistos = {}
     for m in SI['marcas']:
+        k = (m['tipo'], m['tramo_en'], round(m['y'] if m['tramo_en'] == 'x' else m['x'], 0), tuple(m['tramo']))
+        vistos.setdefault(k, []).append(m)
+    unicas = []
+    for k, ms in vistos.items():
+        m = dict(ms[0]); m['n_marcas'] = len(ms); m['marcas_xy'] = [[q['x'], q['y']] for q in ms]
+        unicas.append(m)
+    for m in unicas:
         t = SI['tabla'][m['tipo']]; d, a = t['d'], t['a']
         en_x = m['tramo_en'] == 'x'          # la viga corre en x: el suple corre en y (NS)
         w = m['y'] if en_x else m['x']         # eje de la viga
@@ -111,7 +121,7 @@ def main():
         L_barra = a + 2 * pata + 2 * pie
         marcas.append({'tipo': m['tipo'], 'd': d, 'a': a, 'L': L_barra, 'viga': m['viga'], 'perfil': m['perfil'],
                        'sentido': 'NS' if en_x else 'EO', 'eje': round(w, 1), 'tramo': [round(u0, 1), round(u1, 1)],
-                       'marca': [m['x'], m['y']], 'valles': len(uv), 'suples': suples, 'fuera': fuera, 'cruzan': cruzan,
+                       'marca': [m['x'], m['y']], 'marcas_xy': m['marcas_xy'], 'n_marcas': m['n_marcas'], 'valles': len(uv), 'suples': suples, 'fuera': fuera, 'cruzan': cruzan,
                        'piezas': m['vigas_tramo']})
 
     # totales por tipo
@@ -119,7 +129,7 @@ def main():
     for k, t in SI['tabla'].items():
         ms = [m for m in marcas if m['tipo'] == k]
         n = sum(len(m['suples']) for m in ms)
-        tipos[k] = {'d': t['d'], 'a': t['a'], 'L': t['L'], 'n': n, 'marcas': len(ms),
+        tipos[k] = {'d': t['d'], 'a': t['a'], 'L': t['L'], 'n': n, 'marcas': sum(m['n_marcas'] for m in ms), 'tramos': len(ms),
                     'm': round(n * t['L'] / 100, 2), 'kg': round(n * t['L'] / 100 * KG_M[t['d']], 1),
                     'vigas': sorted({m['viga'] for m in ms})}
     por_d = {}
@@ -164,7 +174,7 @@ def main():
         'choque_malla': bool(choque_malla), 'cruces': cruces, 'avisos': avisos,
         'supuestos': [
             'Cada suple va centrado sobre el eje de su viga: la planta no lo acota y sus cotas son esquemáticas (casi todas miden lo mismo).',
-            'Cada marca vale para su tramo de viga, entre las vigas perpendiculares que llegan a ella o la cruzan, en todos sus valles.',
+            'Cada marca vale para todo su tramo de viga, en todos sus valles: hasta una viga que la cruce o que llegue por los dos lados, o hasta donde cambia la losa a un costado (otra área, el hueco o el borde). Así lo corrigió el ingeniero el 04-11-2026: el SS3 del eje 3 sigue entre C y B, donde la viga C llega solo por un lado.',
             f'Los 2 suples de cada valle van a {SEP:g} cm entre sí (el ingeniero: entre 5 y 10), uno a cada lado del perno Nelson del centro del valle.',
         ],
     }
@@ -172,7 +182,7 @@ def main():
     with open(dst, 'w') as f:
         f.write('// Generado por fuente/losa/generar_suples_js.py — no editar a mano.\n')
         f.write('const DATA_SUPLES = ' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n')
-    print(f"{total['n']} suples, {total['m']} m, {total['kg']} kg en {len(marcas)} marcas")
+    print(f"{total['n']} suples, {total['m']} m, {total['kg']} kg en {sum(m['n_marcas'] for m in marcas)} marcas ({len(marcas)} tramos)")
     for k, t in tipos.items():
         print(f"  {k:5} ø{t['d']:2} a {t['a']:3} L {t['L']:3}: {t['n']:4} suples en {t['marcas']} marcas · {t['m']:7.1f} m · {t['kg']:6.1f} kg")
     for m in marcas:
