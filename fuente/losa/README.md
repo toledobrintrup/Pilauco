@@ -107,13 +107,16 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
 - `generar_alzaprimas_js.py` — escribe `alzaprimas.js` (lo leen `alzaprimas.html` y `losa.html`) desde `losa.js`,
   `estructura.js` y `alzaprimas.json`; desde la raíz: `python3 fuente/losa/generar_alzaprimas_js.py`. Recorta cada
   tramo de solera 1 cm antes del ala de la viga; elige la separación de cada línea (la mayor de 5 en 5 cm que deja la
-  solera doble en flexión ≤ 1 y el palo y su apoyo en ≤ 0,90 con 1,25·w·a); reparte los palos (el primero a 15 cm de
-  cada punta, los demás iguales; se corren de los pilares); traba las uniones de las dos piezas de la solera (sobre
-  palos distintos, piezas de hasta 4,00 m); calcula la reacción de cada palo con su ubicación real; ubica las uniones de
-  la solera abajo (entre palos) y del amarre (sobre un palo, con cubrejunta), las diagonales (pie de un palo → cabeza
-  del siguiente, en las puntas del tramo) y las cruces de lado entre los pares de líneas (en las puntas de cada solape y
-  al medio donde la solera, cargada de lado, no da); y las cantidades (piezas de 3x9 empacadas en piezas de 4,00 m,
-  las más largas a su largo, y tornillos). Correrlo de nuevo cada vez que cambie `losa.js`.
+  solera doble en flexión ≤ 1 y el palo y su apoyo en ≤ 0,90 con 1,25·w·a); arma las líneas en orden, de vecina en
+  vecina: los palos van frente a las cruces que pone la vecina ya armada, el primero a 15 cm de cada punta y los demás
+  iguales entre esos, a no más de la separación (se corren de los pilares); traba las uniones de las dos piezas de la
+  solera (sobre palos distintos, piezas de hasta 4,00 m, con cubrejunta); calcula la reacción de cada palo con su
+  ubicación real; ubica las uniones de la solera abajo (entre palos) y del amarre (sobre un palo, con cubrejunta), las
+  diagonales sobre 2 vanos y las cruces de lado entre palos enfrentados (en las puntas de cada solape y donde la solera,
+  cargada de lado, lo pida; lejos del acero del nivel 1 y de los pilares; con banda de alturas si el palo es de diagonal
+  o tiene otra cruz); suma al palo lo que tiran diagonales y cruces y revisa que ningún pie se levante; y las
+  cantidades (piezas de 3x9 empacadas en piezas de 4,00 m, las más largas a su largo, y tornillos). Correrlo de
+  nuevo cada vez que cambie `losa.js`.
 - `suples_ingeniero.json` — marcas de la lámina de suples en cm (tipo, viga, tramo, cota dibujada) y su tabla; se arma con
   `suples_desde_plano.py "ruta/a la lámina de suples.pdf" suples_ingeniero.json` (calibra con las burbujas de los ejes,
   como el de pernos; la lámina no va al repositorio: la viñeta trae datos personales).

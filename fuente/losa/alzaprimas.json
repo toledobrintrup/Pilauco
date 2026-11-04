@@ -54,12 +54,12 @@
   "piezas": 2,
   "largo_max": 400,
   "cubrejunta": 60,
-  "porque": "Arriba, DOS 3x9 DE CANTO lado a lado (13 de ancho × 21 de alto), atornillados entre sí cada 60 cm. Con una sola de canto el palo atravesado se apoyaría en 6,5 × 6,5 cm (≈ 1,3 t: no alcanza) y la placa en 6,5 cm (D/C 1,17 de lo que acepta la ficha). Con dos: el palo apoya en 13 × 6,5 y la placa en 13 cm. Piezas de hasta 4,00 m, a tope sobre un palo, trabadas (las uniones de una pieza en palos distintos que las de la otra) y con una cubrejunta 3x9 de 60 cm por fuera de cada unión, que mantiene la solera entera de lado. En el palo de una unión, las dos puntas apoyan con Kcn = 0,8 (NCh 1198 7.5.3.3). La flexión vertical se revisa como tramos simples (w·a²/8); de lado, entre cruces. En cada punta del tramo la solera llega a 1 cm del ala de la viga: ese centímetro se llena con un calce de terciado, que la sujeta a lo largo contra el acero."
+  "porque": "Arriba, DOS 3x9 DE CANTO lado a lado (13 de ancho × 21 de alto), atornillados entre sí cada 60 cm. Con una sola de canto el palo atravesado se apoyaría en 6,5 × 6,5 cm (≈ 1,3 t: no alcanza) y la placa en 6,5 cm (D/C 1,17 de lo que acepta la ficha). Con dos: el palo apoya en 13 × 6,5 y la placa en 13 cm. Piezas de hasta 4,00 m, a tope sobre un palo, trabadas (las uniones de una pieza en palos distintos que las de la otra) y con una cubrejunta 3x9 de 60 cm por fuera de cada unión, que mantiene la solera entera de lado. En el palo de una unión, las dos puntas de la pieza cortada apoyan con Kcn = 0,8 (NCh 1198 7.5.3.3 según INFOR IT 182, ej. 4; supuesto hasta leer la norma). La flexión vertical se revisa como tramos simples (w·a²/8); de lado, entre cruces. En cada punta del tramo la solera llega a 1 cm del ala de la viga: ese centímetro se llena con un calce de terciado, que la sujeta a lo largo contra el acero."
  },
  "abajo": {
   "largo_max": 400,
   "vuelo": 10,
-  "porque": "Abajo, un 3x9 PLANO (21 de ancho) bajo la línea, de 10 cm antes del palo de una punta a 10 cm después del de la otra (no llega a las placas base de los pilares), suelto sobre el piso; sus uniones a tope a medio camino entre palos. El palo apoya entero, 6,5 × 21. En el pie del palo donde nace cada diagonal, un tope 3x9 de 30 cm atornillado a la solera abajo, contra el palo. Área 1 sobre terreno (supuesto): DOS 3x9 planos lado a lado (42 de ancho) sobre suelo compactado."
+  "porque": "Abajo, un 3x9 PLANO (21 de ancho) bajo la línea, de 10 cm antes del palo de una punta a 10 cm después del de la otra (no llega a las placas base de los pilares), suelto sobre el piso; sus uniones a tope a medio camino entre palos. El palo apoya entero, 6,5 × 21. En el pie del palo donde nace cada diagonal, un tope 3x9 de 10 cm atornillado a la solera abajo (2 tornillos), contra el palo. Área 1 sobre terreno (supuesto): DOS 3x9 planos lado a lado (42 de ancho) sobre suelo compactado."
  },
  "amarre": {
   "largo_max": 400,
@@ -67,7 +67,7 @@
   "porque": "Amarre: un 3x9 de canto corrido a media altura por una cara de los palos (cara A), con 2 tornillos por palo. Sus uniones caen sobre un palo, a tope, con una cubrejunta 3x9 de 60 cm por fuera (3 + 3 tornillos). Corta el largo de pandeo del lado delgado a la mitad. Lo anclan las diagonales, que se atornillan al mismo palo del medio a esa altura."
  },
  "diagonal": {
-  "porque": "Diagonales en el plano de la línea, por la otra cara de los palos (cara B), sobre DOS vanos: del pie de un palo a la cabeza del que sigue al siguiente, atornilladas al palo del medio a media altura (donde va el amarre por la cara A). Una en cada punta del tramo si tiene 4 vanos o más (opuestas: / al principio, \\ al final) y una sola si tiene 2 o 3; en un tramo de 1 vano, sobre ese vano, amarrada al amarre con un taco 3x9 de 21. Llevan el 2 % de la carga de los palos (el arriostre del amarre) a la solera abajo (roce bajo los palos cargados y el tope) y a la de arriba (calzada contra las vigas). Se suma al palo de su cabeza lo que tira hacia abajo y se revisa que no levante el pie del primero. Caben 4 tornillos por punta en la cara de 6,5."
+  "porque": "Diagonales en el plano de la línea, por la otra cara de los palos (cara B), sobre DOS vanos: del pie de un palo a la cabeza del que sigue al siguiente, atornilladas al palo del medio a media altura (donde va el amarre por la cara A). Una en cada punta del tramo si tiene 5 vanos o más (opuestas: / al principio, \\ al final), dos seguidas si tiene 4 (la segunda nace al pie del palo donde termina la primera) y una sola si tiene 2 o 3; en un tramo de 1 vano, sobre ese vano, amarrada al amarre con un taco 3x9 de 21. Llevan el 2 % de la carga de los palos (el arriostre del amarre) a la solera abajo (roce bajo los palos cargados y el tope) y a la de arriba (calzada contra las vigas). Se suma al palo de su cabeza lo que tira hacia abajo y se revisa que no levante el pie del primero. Caben 4 tornillos por punta en la cara de 6,5."
  },
  "lado": {
   "pares": [
@@ -120,13 +120,17 @@
    [
     70,
     295
+   ],
+   [
+    110,
+    255
    ]
   ],
   "torn_max_65": 4,
   "ala_min_mm": 9.2,
-  "tope": 30,
+  "tope": 10,
   "taco_cruz": 25,
-  "porque": "De lado el palo trabaja por su lado ancho y no necesita amarre, pero cada línea tiene que quedar firme de lado: CRUCES (X) de 3x9 entre palos enfrentados de líneas vecinas. Los palos de la línea vecina se ubican para quedar justo frente al palo de la cruz. Cada X son dos piezas, una por cada cara ancha (21) de los dos palos, atornilladas a esa cara cerca de la cabeza y cerca del pie; donde se cruzan, un taco 3x9 de 25 entre ellas. Si el palo ya tiene una cruz del otro lado o es pie o cabeza de una diagonal, la X se atornilla más abajo y más arriba (a 0,70 y 2,95 en vez de 0,30 y 3,35). Van cerca de las dos puntas de cada tramo y donde la solera de arriba, cargada de lado, lo pide; nunca sobre la cruz de acero del nivel 1 ni sobre un pilar. No necesitan anclajes al piso: la fuerza baja por el palo de la otra línea, que está cargado. Las líneas solas (6-1 y 7-1) se cruzan con su vecina de otra área (3-3 y 5-5)."
+  "porque": "De lado el palo trabaja por su lado ancho y no necesita amarre, pero cada línea tiene que quedar firme de lado: CRUCES (X) de 3x9 entre palos enfrentados de líneas vecinas. Los palos de la línea vecina se ubican para quedar justo frente al palo de la cruz. Cada X son dos piezas, una por cada cara ancha (21) de los dos palos, atornilladas a esa cara cerca de la cabeza y cerca del pie; donde se cruzan, un taco 3x9 de 25 entre ellas. Si el palo es pie o cabeza de una diagonal, la X se atornilla a 0,70 y 2,95 en vez de 0,30 y 3,35; si el palo ya tiene una cruz del otro lado, la segunda va a otra altura (0,70 y 2,95, o 1,10 y 2,55), para que no se monten en la cara del palo. Van cerca de las dos puntas de cada tramo y donde la solera de arriba, cargada de lado, lo pide; nunca sobre la cruz de acero del nivel 1 ni sobre un pilar. No necesitan anclajes al piso: la fuerza baja por el palo de la otra línea, que está cargado. Las líneas solas (6-1 y 7-1) se cruzan con su vecina de otra área (3-3 y 5-5)."
  },
  "alturas": {
   "libre": 380.0,
@@ -139,7 +143,7 @@
   "borde": 15.0,
   "holgura_ala": 1.0,
   "modulo": 5,
-  "porque": "Primer palo a 15 cm de cada extremo del tramo y los demás iguales entre sí, a no más de la separación de la línea (de 5 en 5 cm). La solera termina 1 cm antes del ala de la viga. Si un palo cae sobre un pilar del nivel 1 se corre a su borde."
+  "porque": "Primer palo a 15 cm de cada extremo del tramo; donde llega una cruz de la línea vecina hay un palo justo enfrente (si queda a menos de 20 cm de la punta, el de punta se corre ahí); los demás, iguales entre esos, a no más de la separación de la línea (de 5 en 5 cm). La solera termina 1 cm antes del ala de la viga. Si un palo cae sobre un pilar del nivel 1 se corre a su borde."
  },
  "base": {
   "k_suelo": 0.05,
@@ -312,6 +316,10 @@
   [
    "Cruces de lado entre palos enfrentados de líneas vecinas; espacio libre entre ellas",
    "propuesta"
+  ],
+  [
+   "Kcn = 0,8 en las puntas de una pieza que termina sobre el palo",
+   "NCh 1198 7.5.3.3 según INFOR IT 182; leer la norma"
   ]
  ],
  "por_confirmar": [

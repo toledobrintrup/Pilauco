@@ -170,7 +170,7 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V138" data-vista="alzaprimas"></script>
+  <script src="menu.js?v=V139" data-vista="alzaprimas"></script>
   <h1>Alzaprimas <small>palos de pino 3x9 seco · borrador para el ingeniero</small></h1>
   <span class="meta" id="meta"></span>
 </header>
@@ -231,8 +231,8 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
 </div>
 </div>
 
-<script src="losa.js?v=V138"></script>
-<script src="alzaprimas.js?v=V138"></script>
+<script src="losa.js?v=V139"></script>
+<script src="alzaprimas.js?v=V139"></script>
 <script>
 (function () {
   const A = DATA_ALZAPRIMAS, L = DATA_LOSA, T = A.totales, M = A.madera, AL = A.alturas;
@@ -551,19 +551,19 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
     const palo = (g, Xf, Yf, u, kz) => madera(g, Xf(u - B / 2), Yf(zP), B * kz, (zP - zA) * kz);
     const amarre = (g, Xf, Yf, u1, u2, kz) => madera(g, Xf(u1), Yf(zM + Hh / 2), (u2 - u1) * kz, Hh * kz, true, ';fill-opacity:.93');
     const tope = (g, Xf, Yf, u, lado, kz) => madera(g, Xf(lado < 0 ? u - B / 2 - TOPE : u + B / 2), Yf(2 * zA), TOPE * kz, zA * kz, true);
-    // diagonal sobre 2 vanos: cortada a plomo en los ejes de sus dos palos y entre las dos soleras
+    // diagonal sobre 2 vanos: cortada a plomo en la cara de afuera de sus dos palos y entre las dos soleras
     let nClip = 0;
     const diagonal = (g, Xf, Yf, uPie, uCab, kz) => { const id = `${svg.id}-cd${nClip++}`, cp = el('clipPath', { id }, el('defs', {}, g));
-      el('rect', { x: Xf(Math.min(uPie, uCab)), y: Yf(zP), width: Math.abs(uCab - uPie) * kz, height: (zP - zA) * kz }, cp);
+      el('rect', { x: Xf(Math.min(uPie, uCab) - B / 2), y: Yf(zP), width: (Math.abs(uCab - uPie) + B) * kz, height: (zP - zA) * kz }, cp);   // hasta la cara de afuera de sus palos
       banda(g, Xf(uPie), Yf(ZPIE), Xf(uCab), Yf(ZCAB), Hh * kz, 'fill:var(--fig-mad);fill-opacity:.8;stroke:var(--fig-ink);stroke-width:1;stroke-dasharray:6 3').setAttribute('clip-path', `url(#${id})`); };
     const calce = (g, Xf, Yf, u, kz) => caja(g, Xf(u), Yf(zS), hol * kz, AL.solera * kz, 'fill:var(--fig-ink);opacity:.75');
     // piso
     el('rect', { x: X(-40), y: Y(0), width: (uV2 + 80) * k, height: 16, style: `fill:${suelo}` }, svg);
     el('line', { x1: X(-40), y1: Y(0), x2: X(uV2 + 40), y2: Y(0), style: 'stroke:var(--fig-ink);stroke-width:1.6' }, svg);
     // detrás: diagonales (cara B); luego solera abajo, topes, palos, solera doble, cubrejuntas, calces; delante: amarre (cara A)
-    diagonal(svg, X, Y, up[0], up[2], k); diagonal(svg, X, Y, up[4], up[2], k);
+    diagonal(svg, X, Y, up[0], up[2], k); diagonal(svg, X, Y, up[2], up[4], k);   // tramo de 4 vanos: dos seguidas
     abajo(svg, X, Y, up[0] - B / 2 - A.abajo.vuelo, up[4] + B / 2 + A.abajo.vuelo, k);
-    tope(svg, X, Y, up[0], -1, k); tope(svg, X, Y, up[4], 1, k);
+    tope(svg, X, Y, up[0], -1, k); tope(svg, X, Y, up[2], -1, k);
     up.forEach(u => palo(svg, X, Y, u, k));
     solera(svg, X, Y, s0, up[2], k); solera(svg, X, Y, up[2], s1, k);
     caja(svg, X(up[3] - CJS / 2), Y(zS), CJS * k, AL.solera * k, 'fill:none;stroke:var(--fig-ink);stroke-width:1.2;stroke-dasharray:4 3');   // cubrejunta de la pieza de atrás
@@ -591,8 +591,8 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
     llam(up[2] + 20, zS - 4, Y(zS) + 82, `cubrejunta 3x9 de ${CJS}`);
     llam(up[4] + B / 2, zP - 95, Y(zP - 95), 'palo 3x9 atravesado');
     llam(up[4] - 25, zM + 6, Y(zM) - 26, 'amarre 3x9 (cara A)');
-    llam(up[3] + 0.5 * (up[4] - up[3]), (ZPIE + ZCAB) / 2 - 70, Y(zM - 60), 'diagonal 3x9 (cara B)');
-    llam(up[4] + B / 2 + TOPE / 2, 1.5 * zA, Y(0) - 46, `tope 3x9 de ${TOPE}`);
+    llam(up[3] - 0.25 * (up[3] - up[2]), zM - 50, Y(zM - 60), 'diagonal 3x9 (cara B)');
+    llam(up[2] - B / 2 - TOPE / 2, 1.5 * zA, Y(0) - 46, `tope 3x9 de ${TOPE}`);
     llam(up[4] + 20, zA / 2, Y(0) - 18, 'solera abajo 3x9 plana');
     flechita(svg, X(up[1]) - 60, Y(BAND[1] - 30) - 5, X(up[1] - B / 2 - B / 2), Y(BAND[1] - 30)); rotulo(svg, X(up[1]) - 64, Y(BAND[1] - 30), 'cruz de lado (de canto)', { 'text-anchor': 'end' });
     flechita(svg, X(-14) - 4, Y(zL) - 26, X(-3), Y(362)); rotulo(svg, X(-14) - 8, Y(zL) - 26, 'viga', { 'text-anchor': 'end' });
@@ -672,11 +672,11 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
       tope(c, Xd, Yd, up[0], -1, kz);
       palo(c, Xd, Yd, up[0], kz);
       [-1, 1].forEach(sg => tornillo(c, Xd(up[0] + sg * 2.2), Yd(zA + 9), Xd(up[0] + sg * 0.6), Yd(zA - 5), 2.2));
-      [-24, -14].forEach(du => tornillo(c, Xd(up[0] + du), Yd(2 * zA), Xd(up[0] + du), Yd(1), 2.2));
+      [-B / 2 - TOPE * 0.72, -B / 2 - TOPE * 0.28].forEach(du => tornillo(c, Xd(up[0] + du), Yd(2 * zA), Xd(up[0] + du), Yd(1), 2.2));
       D.borde();
       titulo(ox, Y0d - 18, 'C · pie del palo de punta');
-      cotaH(svg, Xd(up[0] - B / 2 - TOPE), Xd(up[0] - B / 2), Yd(-8) + 28, coma(TOPE, 0), { ext: Yd(zA) + 4 });
-      rotulo(svg, ox, Yd(-8) + 62, `tope 3x9 de ${TOPE} contra el pie: 4 tornillos`, { class: 'tx h' });
+      cotaH(svg, Xd(up[0] - B / 2 - TOPE), Xd(up[0] - B / 2), Yd(-8) + 28, coma(TOPE, 0), { ext: Yd(zA) + 4, anchor: 'end', tx: Xd(up[0] - B / 2 - TOPE) - 6 });
+      rotulo(svg, ox, Yd(-8) + 62, `tope 3x9 de ${TOPE} contra el pie: 2 tornillos`, { class: 'tx h' });
       rotulo(svg, ox, Yd(-8) + 82, 'sin cuñas: cada palo se corta a la', { class: 'tx h' });
       rotulo(svg, ox, Yd(-8) + 102, 'medida de su lugar, sin levantar la placa', { class: 'tx h' });
       rotulo(svg, ox, Yd(-8) + 124, '2 lanceros ø6 × 120 arriba y abajo', { class: 'txs h' });
@@ -765,9 +765,9 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
       caja(svg, cx - 24, cy - 24, 48, 48, 'fill:none;stroke:var(--fig-ink);stroke-width:1.2;stroke-dasharray:3 3');
       rotulo(svg, 760, cy + 200, 'una pieza por cada cara ancha del palo, con un taco', { class: 'tx h' });
       rotulo(svg, 760, cy + 220, `3x9 de ${A.lado.taco_cruz} entre ellas donde se cruzan (punteado)`, { class: 'tx h' });
-      rotulo(svg, 760, cy + 242, `4 tornillos ø6 × 150 en el cruce · ${[...new Set([Math.min(...A.cruces.map(c => c.torn)), Math.max(...A.cruces.map(c => c.torn))])].join('–')} por punta, a la cara del palo`, { class: 'txs h' });
+      rotulo(svg, 760, cy + 242, `4 tornillos ø6 × 150 en el cruce · ${[...new Set([Math.min(...A.cruces.map(c => c.torn)), Math.max(...A.cruces.map(c => c.torn))])].join('–')} de 120 por punta`, { class: 'txs h' });
       rotulo(svg, 760, cy + 264, `D/C máx. ${coma(T.dc_cruz_max, 2)} · λ ≤ ${coma(Math.max(...A.cruces.map(c => c.lam)), 0)} (máx. 200)`, { class: 'txs h' });
-      rotulo(svg, 760, cy + 284, `uniones al palo a ${coma(A.lado.bandas[0][0] / 100, 2)} y ${coma(A.lado.bandas[0][1] / 100, 2)} m (o ${coma(A.lado.bandas[1][0] / 100, 2)} y ${coma(A.lado.bandas[1][1] / 100, 2)})`, { class: 'txs h' });
+      rotulo(svg, 760, cy + 284, `uniones al palo a ${A.lado.bandas.map(([a, b]) => `${coma(a / 100, 2)}/${coma(b / 100, 2)}`).join(', ')} m (según el palo)`, { class: 'txs h' });
     }
   })();
 
@@ -798,14 +798,15 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
       <tr><td class="nw"><b>× 150</b> <span class="sub">caña lisa ≥ 70</span></td><td>cubrejuntas de la solera de arriba: 3 + 3</td><td class="r">${coma(C.cubrejunta_s, 0)}</td></tr>
       <tr><td class="nw"><b>× 150</b></td><td>amarre: 2 por palo + cubrejuntas 3 + 3</td><td class="r">${coma(C.amarre, 0)}</td></tr>
       <tr><td class="nw"><b>× 150</b></td><td>diagonales: ${Math.min(...A.lineas.flatMap(l => l.tramos.flatMap(t => t.diagonales.map(d => d.torn))))}–${Math.max(...A.lineas.flatMap(l => l.tramos.flatMap(t => t.diagonales.map(d => d.torn))))} en cada punta + 2 al palo del medio</td><td class="r">${coma(C.diagonal, 0)}</td></tr>
-      <tr><td class="nw"><b>× 150</b></td><td>topes en el pie de las diagonales: 4 cada uno</td><td class="r">${coma(C.tope, 0)}</td></tr>
-      <tr><td class="nw"><b>× 150</b></td><td>cruces de lado: 2 piezas × 2 puntas + taco del cruce</td><td class="r">${coma(C.cruz, 0)}</td></tr>
-      <tr class="tot"><td>Total</td><td>sin pérdidas · ${coma(C.cabeza + C.pie + C.solera, 0)} de 120 y ${coma(T.torn_total - C.cabeza - C.pie - C.solera, 0)} de 150 · se sacan para reusar la madera</td><td class="r">${coma(T.torn_total, 0)}</td></tr></tbody>`;
+      <tr><td class="nw"><b>× 120</b> <span class="sub">caña lisa ≥ 70</span></td><td>topes en el pie de las diagonales: 2 cada uno</td><td class="r">${coma(C.tope, 0)}</td></tr>
+      <tr><td class="nw"><b>× 120</b> <span class="sub">caña lisa ≥ 70</span></td><td>cruces de lado: 2 piezas × 2 puntas, a la cara del palo (${[...new Set([Math.min(...A.cruces.map(c => c.torn)), Math.max(...A.cruces.map(c => c.torn))])].join('–')} cada una)</td><td class="r">${coma(C.cruz_puntas, 0)}</td></tr>
+      <tr><td class="nw"><b>× 150</b></td><td>cruces de lado: taco del cruce, 2 + 2</td><td class="r">${coma(C.cruz, 0)}</td></tr>
+      <tr class="tot"><td>Total</td><td>sin pérdidas · ${coma(T.torn_120, 0)} de 120 y ${coma(T.torn_total - T.torn_120, 0)} de 150 · se sacan para reusar la madera</td><td class="r">${coma(T.torn_total, 0)}</td></tr></tbody>`;
     const Bs = A.base;
     $('#pedido').innerHTML = `<div class="caja hi"><h4>Pedir a la barraca</h4><div class="kv">
         <span class="k">Madera</span><span>pino radiata 3x9 <b>seco</b> (CH < 20 %), G2 timbrado; cepillado (65 × 210) o dimensionado (69 × 214)</span>
         <span class="k">Piezas</span><span>${T.barras} de 4,00 m + ${largas} largas (${T.largas.map(([l, n]) => `${n} × ${coma(l / 100, 2)}`).join(', ')})</span>
-        <span class="k">Tornillos</span><span>ø6 para madera, estructurales: ${coma(T.torn.cabeza + T.torn.pie + T.torn.solera, 0)} de 120 y ${coma(T.torn_total - T.torn.cabeza - T.torn.pie - T.torn.solera, 0)} de 150 con caña lisa ≥ 70 mm</span>
+        <span class="k">Tornillos</span><span>ø6 para madera, estructurales, con caña lisa ≥ 70 mm: ${coma(T.torn_120, 0)} de 120 y ${coma(T.torn_total - T.torn_120, 0)} de 150</span>
         <span class="k">Calces</span><span>terciado de 1 cm: 2 por punta de tramo (${T.n_calces})</span>
         <span class="k">Al recibir</span><span>medir la escuadría y la humedad de unas piezas</span>
       </div></div>

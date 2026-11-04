@@ -308,7 +308,8 @@ def a_max(w, Np):
 
 
 REGLA = {(x['area'], x['pos']): x for x in C['lineas']}
-N_UNION = FCN * (Kcn(b) * b * b + 0.8 * b * b)          # palo de una unión: una pieza corrida y las dos puntas de la otra
+APOYO_CJ = ((Hh_ := MAD['h']) - SOL['piezas'] * b) / 2                # mm que la cubrejunta apoya en el palo (21 − 13)/2
+CAP_CORTADA = FCN * 0.8 * b * b + min(FCN * Kcn(b) * APOYO_CJ * b, 2 * 3 * MAD['tornillo_kN'] * 1000)   # N: la pieza cortada en un palo de unión
 W_UNA, W_LADO_UNA = b * h * h / 6, h * b * b / 6          # una sola pieza de la solera (en la unión)
 FF_LADO_UNA = MAD['Ff'] * KD * KH['f']                   # una pieza de lado (alto b < 90)
 Z_PIE, Z_CAB = ALT['abajo'] + 20, ALT['libre'] - ALT['solera'] - 20       # cm, uniones de la diagonal (pie y cabeza)
@@ -352,6 +353,7 @@ def diagonales_de(nv):
     if nv < 1: return []
     if nv == 1: return [dict(pie=0, cab=1, medio=None, s=1)]
     if nv <= 3: return [dict(pie=0, cab=2, medio=1, s=1)]
+    if nv == 4: return [dict(pie=0, cab=2, medio=1, s=1), dict(pie=2, cab=4, medio=3, s=1)]   # no comparten la cabeza del palo 2
     return [dict(pie=0, cab=2, medio=1, s=1), dict(pie=nv, cab=nv - 2, medio=nv - 1, s=-1)]
 
 
@@ -367,9 +369,10 @@ def ubicar_anclas(t0, t1, a, obs, anclas):
         if o0 < u0 < o1: u0 = o1
         if o0 < u1 < o1: u1 = o0
     if u1 <= u0: return [r1((t0 + t1) / 2)]
+    libre = lambda c: not any(o0 < c < o1 for o0, o1, _ in obs)
     for c in anclas:                                       # un ancla junto a la punta corre el palo de punta (a 15 cm o más del extremo)
-        if t0 + GEO['borde'] - 0.05 <= c < u0 + 20: u0 = c
-        if u1 - 20 < c <= t1 - GEO['borde'] + 0.05: u1 = c
+        if t0 + GEO['borde'] - 0.05 <= c < u0 + 20 and libre(c): u0 = c
+        if u1 - 20 < c <= t1 - GEO['borde'] + 0.05 and libre(c): u1 = c
     fijos = sorted(set([u0, u1] + [c for c in anclas if u0 + 20 <= c <= u1 - 20]))
     fijos = [c for i, c in enumerate(fijos) if i == 0 or c - fijos[i - 1] > 1]
     res = []
@@ -429,8 +432,9 @@ for x in BASES_L:
         ORDEN.append(u); cola += [v for v in VEC.get(u, []) if v not in ORDEN]
 
 
-def armar_linea(B, anclas):
-    """Palos, uniones, diagonales y reacciones de una línea con sus anclas."""
+def armar_linea(B, anclas_lado):
+    """Palos, uniones, diagonales y reacciones de una línea con sus anclas (u, lado de la cruz que llega)."""
+    anclas = [u for u, _ in anclas_lado]
     l, w, a = B['l'], B['w'], B['a']
     tramos = []
     for (t0, t1), (m0, m1) in zip(B['tr'], l['tramos']):
@@ -444,12 +448,18 @@ def armar_linea(B, anclas):
         m0a, m1a = pun[0] - b / 20 - 5, pun[-1] + b / 20 + 5
         uam = cortes(m0a, m1a, [(j, pun[j]) for j in range(1, len(pun) - 1)], AMA['largo_max'])
         if uam is None: raise SystemExit(f"{B['id']}: amarre sin cortes posibles")
-        R = [x + y for x, y in zip(reacciones(t0, t1, pun, ua, w['aci'] * 10 / 2), reacciones(t0, t1, pun, ub, w['aci'] * 10 / 2))]
+        Ra, Rb = reacciones(t0, t1, pun, ua, w['aci'] * 10 / 2), reacciones(t0, t1, pun, ub, w['aci'] * 10 / 2)
+        R = [x + y for x, y in zip(Ra, Rb)]
+        # apoyo en los palos de unión: la pieza corrida (Kcn) y la cortada (sus dos puntas con Kcn 0,8, más la cubrejunta,
+        # que apoya 4 cm en el palo y recibe su parte por 3 + 3 tornillos)
+        dcu = [max(Rc / (FCN * Kcn(b) * b * b), Rk / CAP_CORTADA) for j in range(len(pun))
+               for Rk, Rc in ([(Ra[j], Rb[j])] if j in ua else []) + ([(Rb[j], Ra[j])] if j in ub else [])]
+        llegan = {u: lado for u, lado in anclas_lado if u in pun}                   # cruces que pone la vecina (ya armada)
         tramos.append(dict(t0=t0, t1=t1, modelo=[m0, m1], largo=r1(t1 - t0), palos=pun, vanos=[r1(pun[i + 1] - pun[i]) for i in range(nv)],
                            uniones_a=ua, uniones_b=ub, piezas_a=trozos(t0, t1, [pun[j] for j in ua]), piezas_b=trozos(t0, t1, [pun[j] for j in ub]),
                            abajo=jab, abajo_ext=[r1(a0b), r1(a1b)], piezas_abajo=trozos(a0b, a1b, jab), amarre=[r1(m0a), r1(m1a)], uniones_amarre=uam,
                            piezas_amarre=trozos(m0a, m1a, [pun[j] for j in uam]), diagonales=diagonales_de(nv), R_N=R, extra_V=[0.0] * len(pun),
-                           cruces_en={}))
+                           cruces_en=dict(llegan), dc_union=max(dcu or [0])))
     return tramos
 
 
@@ -477,12 +487,13 @@ for vuelta in range(12):
                 res = reservados(ta)
                 cand = []
                 for j, u in enumerate(ta['palos']):
-                    if u in ocupados or not (o0 + GEO['borde'] - 1 <= u <= o1 - GEO['borde'] + 1): continue
+                    if not (o0 + GEO['borde'] - 1 <= u <= o1 - GEO['borde'] + 1): continue
+                    if u in ocupados and ta['cruces_en'][u] == lado: continue          # dos cruces en un palo: solo hacia lados distintos (en otra banda)
                     P = (u, B['l']['pos']) if B['ns'] else (B['l']['pos'], u)
                     Q_ = (u, V_['l']['pos']) if B['ns'] else (V_['l']['pos'], u)
                     ac, mu = choques(P, Q_)
                     if ac: continue
-                    cand.append((j, u, mu, j in res))
+                    cand.append((j, u, mu, j in res, u in ocupados))
                 if not cand: AVISOS.append(f'{lid}–{vid} en {o0:.0f}–{o1:.0f}: sin palo libre para la cruz'); continue
                 n = 1 if o1 - o0 < 200 else 2 + EXTRA.get((lid, vid, round(o0)), 0)
                 metas = [(o0 + o1) / 2] if n == 1 else [o0 + (o1 - o0) * i / (n - 1) for i in range(n)]
@@ -490,23 +501,28 @@ for vuelta in range(12):
                 for m in metas:
                     libres = [c for c in cand if c[1] not in [e[1] for e in elegidos]]
                     if not libres: break
-                    elegidos.append(min(libres, key=lambda c: abs(c[1] - m) + (40 if c[3] else 0)))   # mejor un palo sin diagonal
-                for j, u, mu, rv in sorted(elegidos, key=lambda c: c[1]):
-                    anclas[vid].append(u)
+                    # mejor un palo sin diagonal y sin otra cruz, si está cerca
+                    elegidos.append(min(libres, key=lambda c: abs(c[1] - m) + (0.75 * B['a'] if c[3] else 0) + (1.5 * B['a'] if c[4] else 0) + (B['a'] if c[3] and c[4] else 0)))
+                for j, u, mu, rv, oc in sorted(elegidos, key=lambda c: c[1]):
+                    anclas[vid].append((u, -lado))
                     ta['cruces_en'][u] = lado
                     CRUCES.append(dict(par=[lid, vid], dir=B['l']['dir'], pos=[B['l']['pos'], V_['l']['pos']], u=u,
                                        D=r1(abs(V_['l']['pos'] - B['l']['pos'])), muros=mu, ta=ta, tb_o=(o0, o1), en_diag=rv))
     # tramo de la vecina que recibe cada cruz (ya armada), y banda de alturas
+    BANDA_EN = {}                                      # (línea, u) -> bandas ya usadas en ese palo
     for c in CRUCES:
         V_ = LINS[c['par'][1]]
         tb = next(t for t in V_['tramos'] if t['t0'] - 1 <= c['u'] <= t['t1'] + 1)
-        if c['u'] not in tb['palos']: AVISOS.append(f"{c['par'][1]}: la cruz con {c['par'][0]} en {c['u']} no cae en un palo"); c['tb'] = tb; c['banda'] = 0; continue
+        if c['u'] not in tb['palos']: raise SystemExit(f"{c['par'][1]}: la cruz con {c['par'][0]} en {c['u']} no cae en un palo")
         c['tb'] = tb
-        otra = tb['cruces_en'].get(c['u'])
-        lado_b = 1 if c['pos'][0] > c['pos'][1] else -1
-        # banda baja (uniones a 70 y 295) si el palo ya tiene una cruz del otro lado o es el pie o la cabeza de una diagonal
-        c['banda'] = 1 if (otra is not None and otra != lado_b) or c['en_diag'] or tb['palos'].index(c['u']) in reservados(tb) else 0
-        tb['cruces_en'][c['u']] = lado_b
+        # banda baja (uniones a 70 y 295) si alguno de los dos palos es pie o cabeza de una diagonal
+        # banda: la primera libre en los dos palos; la alta (0,30 / 3,35) no, si alguno es pie o cabeza de una diagonal
+        de_diag = c['en_diag'] or tb['palos'].index(c['u']) in reservados(tb)
+        usadas = BANDA_EN.get((c['par'][0], c['u']), set()) | BANDA_EN.get((c['par'][1], c['u']), set())
+        libre_b = [k for k in range(len(BANDAS)) if k not in usadas and not (k == 0 and de_diag)]
+        if not libre_b: raise SystemExit(f"palo {c['par']} {c['u']}: dos cruces y sin banda libre")
+        c['banda'] = libre_b[0]
+        for lid_ in c['par']: BANDA_EN.setdefault((lid_, c['u']), set()).add(c['banda'])
     # fuerzas horizontales por tramo (la de ACI 347 de lado va a las cruces solo si 'aci_a_alzaprimas')
     K_ACI = 1.0 if CAR.get('aci_a_alzaprimas', True) else 0.0
     TR = [(LINS[i], t) for i in ORDEN for t in LINS[i]['tramos']]
@@ -544,10 +560,12 @@ for vuelta in range(12):
         t['dc_biaxial'] = r2(peor); t['luz_lado'] = r1(luz)
         if peor > 1.0: malos.append((x, t))
     if not malos and not [t for _, t in TR if len(t['cruces']) < (2 if t['largo'] >= 200 else 1)]: break
+    subir = set()
     for x, t in malos + [(x, t) for x, t in TR if len(t['cruces']) < (2 if t['largo'] >= 200 else 1)]:
-        for c in CRUCES:
-            if c['ta'] is t or c['tb'] is t:
-                k = (c['par'][0], c['par'][1], round(c['tb_o'][0])); EXTRA[k] = EXTRA.get(k, 0) + 1; break
+        cs = [c for c in CRUCES if (c['ta'] is t or c['tb'] is t) and c['tb_o'][1] - c['tb_o'][0] >= 200]
+        if not cs: raise SystemExit(f"{x['id']} {t['t0']}: no hay un solape de 2 m o más para otra cruz")
+        subir.add((cs[0]['par'][0], cs[0]['par'][1], round(cs[0]['tb_o'][0])))
+    for k in subir: EXTRA[k] = EXTRA.get(k, 0) + 1
 else:
     raise SystemExit('la solera no da de lado ni con 12 vueltas de cruces: ' + str([(x['id'], t['t0'], t['dc_biaxial'], t['cruces']) for x, t in malos]))
 
@@ -603,14 +621,14 @@ for x in BASES_L:
     P_d = KAP * w['aci'] * amm
     carga = max(max(r + v for r, v in zip(t['R_N'], t['extra_V'])) for t in tramos)       # palo más cargado, con diagonales y cruces
     R_max = max(max(t['R_N']) for t in tramos)
-    R_union = max([t['R_N'][j] for t in tramos for j in t['uniones_a'] + t['uniones_b']] or [0])
+    dc_union = max(t.pop('dc_union') for t in tramos)
     lev = min([t['R_N'][k] - V for t in tramos for k, V in t.get('levante', [])] or [1e9])
     dem = CAR['k_reaccion_placa'] * x['s'] * x['f']
     dc = dict(
         solera=w['aci'] * amm ** 2 / 8 / M_SOL,
         corte=0.625 * w['aci'] * amm / V_SOL,
         palo=max(P_d, carga) / Np,
-        apoyo=max(max(P_d, R_max) / N_APOYO, R_union / N_UNION),
+        apoyo=max(max(P_d, R_max) / N_APOYO, dc_union),
         apoyo_abajo=max(P_d, carga) / N_APOYO_ABAJO,
         apoyo_placa=dem / R_FICHA3 * abolladura(AP['ala_ipe220']) / abolladura(AP['ancho_solera']),
         apoyo_placa_2v=dem / R_FICHA2 * abolladura(AP['ala_ipe220']) / abolladura(AP['ancho_solera']),
@@ -664,11 +682,10 @@ for x in lineas:
         PIEZAS += [('amarre', p) for p in t['piezas_amarre']]
         PIEZAS += [('cubrejunta', AMA['cubrejunta'])] * len(t['uniones_amarre'])
         PIEZAS += [('cubrejunta_s', SOL['cubrejunta'])] * (len(t['uniones_a']) + len(t['uniones_b']))
-        a1 = x['area'] == 1                                                   # área 1: largos para terreno (lo más largo)
-        PIEZAS += [('diagonal', d['L_t'] if a1 else d['L']) for d in t['diagonales']]
+        PIEZAS += [('diagonal', d['L']) for d in t['diagonales']]
         PIEZAS += [('taco', h / 10) for d in t['diagonales'] if d['taco']]      # taco del cruce diagonal–amarre (diagonal de 1 vano)
         PIEZAS += [('tope', LADO['tope'])] * len(t['diagonales'])               # tope en el pie del palo donde nace la diagonal
-PIEZAS += [('cruz', c['L_t'] if LIN[c['par'][0]]['area'] == 1 else c['L']) for c in CRUCES for _ in (0, 1)]
+PIEZAS += [('cruz', c['L']) for c in CRUCES for _ in (0, 1)]
 PIEZAS += [('taco_x', LADO['taco_cruz'])] * len(CRUCES)                       # taco de 6,5 entre las dos piezas de la X
 COMPRA = 400
 
@@ -694,7 +711,7 @@ USOS = [('palo', 'Palos', f'atravesados, de {cm(H_PALO, 3)} m (área 1 en terren
         ('cubrejunta_s', 'Cubrejuntas de solera', f'{SOL["cubrejunta"]} cm, por fuera de cada unión de la solera de arriba'),
         ('diagonal', 'Diagonales', 'sobre 2 vanos: pie de un palo → cabeza del que sigue al siguiente, cara B'),
         ('taco', 'Tacos', f'{h / 10:.0f} cm, entre diagonal y amarre (diagonales de 1 vano)'),
-        ('tope', 'Topes', f'{LADO["tope"]} cm, en el pie del palo donde nace cada diagonal'),
+        ('tope', 'Topes', f'{LADO["tope"]} cm, en la solera abajo contra el pie del palo donde nace cada diagonal'),
         ('cruz', 'Cruces de lado', 'X entre palos de líneas vecinas, 2 por cruz'),
         ('taco_x', 'Tacos de cruz', f'{LADO["taco_cruz"]} cm, entre las dos piezas de cada X')]
 MAT = []
@@ -715,10 +732,11 @@ TORN = {             # ø6 × 120: lanceros y solera; ø6 × 150 con caña lisa 
     'cubrejunta_s': 6 * n_ua,                                             # 150: cubrejunta de la solera, 3 + 3
     'amarre': 2 * NP + 6 * n_uam,                                         # 150: 2 por palo + cubrejuntas 3 + 3
     'diagonal': sum(2 * d['torn'] + (4 if d['taco'] else 2) for t in TRS for d in t['diagonales']),   # 150: 2 puntas + palo del medio (o taco)
-    'tope': 4 * n_diag,                                                   # 150: tope a la solera abajo
-    'cruz': sum(4 * c['torn'] + 4 for c in CRUCES),                       # 150: 2 piezas × 2 puntas + taco del cruce (2 + 2)
+    'tope': 2 * n_diag,                                                   # 120: tope a la solera abajo (65 + 65)
+    'cruz_puntas': sum(4 * c['torn'] for c in CRUCES),                    # 120: 2 piezas × 2 puntas, a la cara del palo (65 + 65)
+    'cruz': 4 * len(CRUCES),                                              # 150: taco del cruce (65 + 65 + 65), 2 + 2
 }
-TORN_120 = TORN['cabeza'] + TORN['pie'] + TORN['solera']
+TORN_120 = TORN['cabeza'] + TORN['pie'] + TORN['solera'] + TORN['tope'] + TORN['cruz_puntas']
 N_CALCES = 4 * len(TRS)                                                   # terciado de 1 cm: las dos piezas, en las dos puntas
 
 # ------------------------------------------------------------------ base sobre terreno (área 1, supuesto)
@@ -756,7 +774,7 @@ TOT = dict(lineas=len(lineas), tramos=len(TRS), palos=NP, palos_area1=NP1, P_max
            H_palo=r1(H_PALO), H_palo1=r1(H_PALO1), z_amarre=r1(Z_AMARRE),
            solera_m=r1(sol_m), uniones_solera=n_ua, uniones_amarre=n_uam, diagonales=n_diag, cruces=len(CRUCES),
            ml=r1(ML), compra=COMPRA, barras=len(BARRAS), largas=[[k_, v] for k_, v in n_largas.items()],
-           m3=r2(ML / 100 * b * h / 1e6 * 100) if False else r2(ML * b * h / 1e6), torn=TORN, torn_total=sum(TORN.values()),
+           m3=r2(ML * b * h / 1e6), torn=TORN, torn_total=sum(TORN.values()), torn_120=TORN_120,
            extremos_en_ala=tot_dentro, extremos=2 * len(TRS),
            dc_solera_max=max(x['dc']['solera'] for x in lineas), dc_palo_max=max(x['dc']['palo'] for x in lineas),
            dc_apoyo_max=max(x['dc']['apoyo'] for x in lineas), dc_biaxial_max=max(x['dc']['biaxial'] for x in lineas),
