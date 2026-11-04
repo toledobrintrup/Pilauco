@@ -194,7 +194,7 @@ details.areas[open] summary::before{content:"▾ ";}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V137" data-vista="losa"></script>
+  <script src="menu.js?v=V138" data-vista="losa"></script>
   <h1>Losa colaborante <small>Entrepiso de 15 cm · marco C, placa Instadeck 0,8, pernos, malla C-188, suples y hormigón</small></h1>
   <span class="meta">Fuentes: planta estructura nivel 1 (rev. 08-04-2026), detalle del ingeniero (05-10-2026), lámina 11 de pernos (07-10-2026), lámina de suples (03-11-2026), fichas de Instadeck, pernos Nelson y mallas ACMA, y áreas marcadas en obra</span>
 </header>
@@ -273,7 +273,7 @@ details.areas[open] summary::before{content:"▾ ";}
   <ul class="puntos"><li><b>8 áreas</b> marcadas en el plano, cada una con la dirección de sus planchas.</li><li>Planchas <b>perpendiculares a las vigas que las sostienen</b>.</li><li><b>Hueco de la escalera</b> (ejes 2–3, B–A): sin losa.</li></ul>
   <figure>
     <svg id="svg-planta" role="img" aria-label="Planta de la losa colaborante con áreas, planchas y marco"></svg>
-    <figcaption>Rectángulo delgado = plancha (avance útil 0,95 m) · doble flecha = sentido de las planchas · amarillo: marco C con el número de cada tramo · morado: pernos Nelson, uno en cada valle de las vigas que marca el ingeniero · verde: líneas de alzaprimas (solera) con sus puntales · rojo: pilares del nivel 2. Tocar una fila de la tabla → se ve en el 3D.</figcaption>
+    <figcaption>Rectángulo delgado = plancha (avance útil 0,95 m) · doble flecha = sentido de las planchas · amarillo: marco C con el número de cada tramo · morado: pernos Nelson, uno en cada valle de las vigas que marca el ingeniero · verde: líneas de alzaprimas (solera) con sus palos · rojo: pilares del nivel 2. Tocar una fila de la tabla → se ve en el 3D.</figcaption>
   </figure>
   <div class="tw"><table id="tabla-areas"></table></div>
   <div id="dif-areas"></div>
@@ -394,26 +394,26 @@ details.areas[open] summary::before{content:"▾ ";}
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=V137"></script>
+<script src="nav3d.js?v=V138"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
-<script src="placa3d.js?v=V137"></script>
-<script src="estructura.js?v=V137"></script>
-<script src="losa.js?v=V137"></script>
-<script src="alzaprimas.js?v=V137"></script>
-<script src="suples.js?v=V137"></script>
+<script src="placa3d.js?v=V138"></script>
+<script src="estructura.js?v=V138"></script>
+<script src="losa.js?v=V138"></script>
+<script src="alzaprimas.js?v=V138"></script>
+<script src="suples.js?v=V138"></script>
 <script>
 (function () {
 'use strict';
 const L = DATA_LOSA, E = DATA_ESTRUCTURA;
-// alzaprimas: los tramos (recortados 1 cm antes del ala de la viga) y los puntales salen de la pestaña Alzaprimas
-// (alzaprimas.js: puntales metálicos arrendados con solera de dos 2x4, Gabriel 23-10-2026), para que la planta, la tabla
+// alzaprimas: los tramos (recortados 1 cm antes del ala de la viga) y los palos salen de la pestaña Alzaprimas
+// (alzaprimas.js: palos de pino 3x9 seco armados como tabiques, Gabriel 04-11-2026), para que la planta, la tabla
 // y el 3D de esta página muestren lo mismo que esa pestaña
 const ALZ_A = typeof DATA_ALZAPRIMAS !== 'undefined' ? DATA_ALZAPRIMAS : null;
 if (ALZ_A) {
   (L.alzaprimas || []).forEach(l => { const n = ALZ_A.lineas.find(x => x.area === l.area && x.pos === l.pos);
-    if (n) Object.assign(l, { id: n.id, a: n.a, tramos: n.tramos.map(t => [t.t0, t.t1]), puntales: n.tramos.flatMap(t => t.puntales) }); });
+    if (n) Object.assign(l, { id: n.id, a: n.a, tramos: n.tramos.map(t => [t.t0, t.t1]), puntales: n.tramos.flatMap(t => t.palos), alz: n }); });
   const T = ALZ_A.totales, c = v => String(v).replace('.', ','), mi = v => Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  L.notas = (L.notas || []).map(n => /^<b>Alzaprimas\.<\/b>/.test(n) ? `<b>Alzaprimas.</b> Luz máxima de la placa sin apoyo 1,87 m (ingeniero; las vigas no se alzapriman): ${T.lineas} líneas en ${T.tramos} tramos. ${T.puntales} puntales metálicos arrendados a 55–80 cm con solera de dos 2x4 de canto; hasta ${mi(T.P_max)} kgf por puntal → pedir ≥ ${mi(T.capacidad)} kgf a ${c((T.H_trabajo / 100).toFixed(2))} m. Detalle en la <a href="alzaprimas.html">pestaña Alzaprimas</a>.` : n);
+  L.notas = (L.notas || []).map(n => /^<b>Alzaprimas\.<\/b>/.test(n) ? `<b>Alzaprimas.</b> Luz máxima de la placa sin apoyo 1,87 m (ingeniero; las vigas no se alzapriman): ${T.lineas} líneas en ${T.tramos} tramos. Palos de pino 3x9 seco armados como tabiques: ${T.palos} palos atravesados a ${c((T.a_min / 100).toFixed(2))}–${c((T.a_max / 100).toFixed(2))} m bajo una solera doble de canto, con amarre a media altura, diagonales y cruces de lado; hasta ${mi(T.P_max)} kgf por palo. Detalle en la <a href="alzaprimas.html">pestaña Alzaprimas</a>.` : n);
 }
 const $ = s => document.querySelector(s);
 const coma = (v, d) => (Math.round(v * Math.pow(10, d)) / Math.pow(10, d)).toFixed(d).replace('.', ',');
@@ -520,7 +520,7 @@ function maxFlecha(nVanos, et) {
     ['Marco perimetral', fm(LARGO_PZ, 1), `C 150×50×3: ${N_PZ} piezas entre pilares en ${L.marco.length} tramos · ≈ ${coma(LARGO_PZ / 100 * KG_M_C, 0)} kg <span class="fuente calc">calculado</span>`],
     ['Planchas Instadeck', N_PLANCHAS + ' planchas', `${coma(M2_PLACA, 1)} m² de placa · ≈ ${miles(M2_PLACA * PL.peso)} kg <span class="fuente calc">calculado</span>`],
     ['Pernos Nelson', L.pernos.length + ' pernos', `Ø19 × 5", vigas de la lámina 11 <span class="fuente man">ingeniero</span>; uno en cada valle <span class="fuente calc">ajustado</span>`],
-    ['Alzaprimas', (L.alzaprimas || []).reduce((t, l) => t + (l.puntales || []).length, 0) + ' puntales', ALZ_A ? `En ${(L.alzaprimas || []).length} líneas, al centro o en los tercios de cada vano (luz máx. 1,87 m) <span class="fuente man">ingeniero</span>; metálicos arrendados a 55–80 cm con solera de dos 2x4 · <a href="alzaprimas.html">pestaña Alzaprimas</a>` : `En ${(L.alzaprimas || []).length} líneas · ver la <a href="alzaprimas.html">pestaña Alzaprimas</a>`],
+    ['Alzaprimas', (L.alzaprimas || []).reduce((t, l) => t + (l.puntales || []).length, 0) + ' palos', ALZ_A ? `En ${(L.alzaprimas || []).length} líneas, al centro o en los tercios de cada vano (luz máx. 1,87 m) <span class="fuente man">ingeniero</span>; palos de pino 3x9 seco a ${coma(ALZ_A.totales.a_min / 100, 2)}–${coma(ALZ_A.totales.a_max / 100, 2)} m, armados como tabiques · <a href="alzaprimas.html">pestaña Alzaprimas</a>` : `En ${(L.alzaprimas || []).length} líneas · ver la <a href="alzaprimas.html">pestaña Alzaprimas</a>`],
     ['Placa', '0,8 mm · 63,5 mm', `Avance útil 950 mm · ${coma(PL.peso, 2)} kg/m² · acero G37 galv. G-90 <span class="fuente man">ficha</span>`],
     ['Malla C-188', MA_N + ' paneles', `2,60 × 5,00 m, Ø6 a 15 cm; ${MA_CORT} van cortados · ≈ ${miles(MA_N * (L.malla ? L.malla.kg_panel : 39.03))} kg <span class="fuente calc">calculado</span>`],
     ['Hormigón', '≈ ' + coma(VOL_HORM, 1) + ' m³', `Losa de ${coma(ESP, 0)} cm en ${coma(SUP / 1e4, 1)} m² (${coma(M2_PLACA, 1)} m² con placa), sin pérdidas <span class="fuente calc">calculado</span>`],
@@ -765,14 +765,14 @@ dibujarPlaca();
   }).join('');
   const tot = ALZ.length, totT = ALZ.reduce((t, l) => t + l.tramos.length, 0), totM = ALZ.reduce((t, l) => t + l.tramos.reduce((u, q) => u + q[1] - q[0], 0), 0);
   const totP = ALZ.reduce((t, l) => t + (l.puntales || []).length, 0);
-  $('#tabla-apoyos').innerHTML = `<thead><tr><th>Área</th><th>Vanos entre vigas (m) → espacios</th><th class="c">Líneas</th><th class="r">Solera</th><th class="c">Puntales</th><th class="r">Máx. por flecha</th></tr></thead><tbody>${filas}
+  $('#tabla-apoyos').innerHTML = `<thead><tr><th>Área</th><th>Vanos entre vigas (m) → espacios</th><th class="c">Líneas</th><th class="r">Solera</th><th class="c">Palos</th><th class="r">Máx. por flecha</th></tr></thead><tbody>${filas}
     <tr><td><b>Total</b></td><td></td><td class="c"><b>${tot}</b> <span class="sub">(${totT} tramos)</span></td><td class="r"><b>${fm(totM, 1)}</b></td><td class="c"><b>${totP}</b></td><td></td></tr></tbody>`;
   $('#txt-apoyos').innerHTML = `Máx. por flecha: distancia máxima entre apoyos de la losa terminada según la ficha (${coma(ESP, 0)} cm) · ninguna luz la pasa.`;
 })();
 
 (function resumenAlz() {
   const T = ALZ_A && ALZ_A.totales;
-  $('#txt-alz-resumen').innerHTML = T ? `<b>${T.lineas} líneas</b> bajo la placa, al centro o en los tercios de cada vano (luz máx. sin apoyo ${fm(L.luz_max_alzaprima, 2)} <span class="fuente man">ingeniero</span>; las vigas no se alzapriman) · <b>${T.puntales} puntales metálicos arrendados</b> (+${T.reserva} de reserva) a 55–80 cm, con solera de dos 2x4 de canto (${coma(T.solera_m, 1)} m) · hasta <b>${miles(T.P_max)} kgf</b> por puntal → pedir ≥ ${miles(T.capacidad)} kgf a ${fm(T.H_trabajo, 2)}.<br><a href="alzaprimas.html">Planta, alzado, corte, carga por línea y materiales: pestaña Alzaprimas →</a>`
+  $('#txt-alz-resumen').innerHTML = T ? `<b>${T.lineas} líneas</b> bajo la placa, al centro o en los tercios de cada vano (luz máx. sin apoyo ${fm(L.luz_max_alzaprima, 2)} <span class="fuente man">ingeniero</span>; las vigas no se alzapriman) · <b>${T.palos} palos de pino 3x9 seco</b> a ${coma(T.a_min / 100, 2)}–${coma(T.a_max / 100, 2)} m, armados como tabiques: solera doble de canto (${coma(T.solera_m, 1)} m), amarre a media altura, ${T.diagonales} diagonales y ${T.cruces} cruces de lado · hasta <b>${miles(T.P_max)} kgf</b> por palo (D/C ${coma(T.dc_palo_max, 2)}) · ${miles(T.ml)} m de 3x9.<br><a href="alzaprimas.html">Planta, alzado, corte, carga por línea y materiales: pestaña Alzaprimas →</a>`
     : 'Ver la <a href="alzaprimas.html">pestaña Alzaprimas</a>.';
 })();
 
@@ -1346,40 +1346,61 @@ function iniciar3D() {
     PERNOS_AREA[a.n] = { g, lista };
   });
 
-  // ---------- alzaprimas: en cada línea, una solera bajo la placa sobre puntales repartidos a lo largo ----------
-  // la solera va de canto bajo los valles de la placa; cada puntal es una alzaprima metálica telescópica
-  // (placa base, tubo exterior, tubo interior y cabezal en U que recibe la solera), parada en el piso del nivel 1
+  // ---------- alzaprimas de madera (pestaña Alzaprimas): cada línea es un tabique de pino 3x9 seco: solera doble de
+  // canto bajo los valles, palos atravesados, solera abajo plana, amarre a media altura (cara A), diagonales en las puntas
+  // del tramo (cara B) y cruces de lado entre líneas vecinas
   const gAlz = new T.Group(); scene.add(gAlz);
   const gAlzIn = new T.Group(); gAlz.add(gAlzIn);
   MAT.madera = std(dark ? 0xC9A06A : 0xB58650, { roughness: 0.85, metalness: 0 });
-  const SOL_B = 0.082, SOL_H = 0.09, Y_SOL = Z0 / 100 - SOL_H;   // solera de dos 2x4 de canto (82 × 90, pestaña Alzaprimas)
-  const geoBase = new T.BoxGeometry(0.15, 0.008, 0.15); geoBase.translate(0, 0.004, 0);
-  const geoExt = new T.CylinderGeometry(0.03, 0.03, Y_SOL * 0.58, 12); geoExt.translate(0, 0.008 + Y_SOL * 0.29, 0);
-  const geoInt = new T.CylinderGeometry(0.024, 0.024, Y_SOL * 0.44, 12); geoInt.translate(0, Y_SOL * 0.54, 0);
-  const geoCabU = new T.BoxGeometry(0.15, 0.008, 0.10); geoCabU.translate(0, Y_SOL - 0.004, 0);
-  const geoOreja = new T.BoxGeometry(0.15, 0.06, 0.006);
-  const PUNT = [];   // por puntal: posición, giro e info (se dibujan con instancias)
+  MAT.madera2 = std(dark ? 0xA98552 : 0x9A6B3C, { roughness: 0.85, metalness: 0 });
+  const AZ = ALZ_A, MB = AZ ? AZ.madera.b / 1000 : 0.065, MH = AZ ? AZ.madera.h / 1000 : 0.21;
+  const Y_SOL = Z0 / 100 - (AZ ? AZ.alturas.solera / 100 : 0.21), Y_ABJ = AZ ? AZ.alturas.abajo / 100 : 0.065, Y_AMA = AZ ? AZ.alturas.amarre / 100 : 1.83;
+  const PUNT = [];   // por palo: posición, giro e info (se dibujan con instancias)
+  const caja3 = (mat, c, lx, ly, lz, info) => { const m = new T.Mesh(new T.BoxGeometry(lx, ly, lz), mat); m.position.copy(c); m.userData.info = info; gAlzIn.add(m); return m; };
+  // pieza inclinada entre dos puntos (m): ancho a en el plano de la pieza, espesor e según 'normal'
+  const pieza = (mat, p1, p2, a, e, normal, info) => {
+    const d = new T.Vector3().subVectors(p2, p1), yv = d.clone().normalize();
+    const zv = normal.clone().sub(yv.clone().multiplyScalar(normal.dot(yv))).normalize(), xv = new T.Vector3().crossVectors(yv, zv);
+    const m = new T.Mesh(new T.BoxGeometry(a, d.length(), e), mat);
+    m.quaternion.setFromRotationMatrix(new T.Matrix4().makeBasis(xv, yv, zv));
+    m.position.copy(p1).add(p2).multiplyScalar(0.5); m.userData.info = info; gAlzIn.add(m); return m;
+  };
   (L.alzaprimas || []).forEach(l => {
-    const ns = l.dir === 'NS';
-    l.tramos.forEach(([t0, t1], j) => {
-      const largo = (t1 - t0) / 100;
-      const sol = new T.Mesh(new T.BoxGeometry(ns ? largo : SOL_B, SOL_H, ns ? SOL_B : largo), MAT.madera);
-      sol.position.set(ns ? (t0 + t1) / 200 : l.pos / 100, Y_SOL + SOL_H / 2, ns ? l.pos / 100 : (t0 + t1) / 200);
-      const pun = (l.puntales || []).filter(c => c >= t0 - 0.5 && c <= t1 + 0.5);
-      const info = `<b>Línea de alzaprimas${l.id ? ' ' + l.id : ''}</b> · área ${l.area}${l.tramos.length > 1 ? `, tramo ${j + 1} de ${l.tramos.length}` : ''}<div class="d">Solera de dos 2x4 de ${fm(t1 - t0, 2)} bajo los valles de la placa, sobre ${pun.length} puntales metálicos arrendados${l.a ? ` @${l.a}` : ''}. Va ${l.espacios === 2 ? 'al centro' : 'en un tercio'} de un vano de ${fm(l.vano, 2)} (${l.espacios} espacios de ${fm(l.vano / l.espacios, 2)}; máximo sin apoyo ${fm(L.luz_max_alzaprima, 2)}, indicación del ingeniero).<br>Detalle en la pestaña Alzaprimas.</div>`;
-      sol.userData.info = info; gAlzIn.add(sol);
-      pun.forEach(c => PUNT.push({ x: ns ? c / 100 : l.pos / 100, z: ns ? l.pos / 100 : c / 100, ns, info }));
+    const ns = l.dir === 'NS', n = l.alz; if (!n) return;
+    const P3 = (u, y, lado) => ns ? new T.Vector3(u / 100, y, (l.pos + lado) / 100) : new T.Vector3((l.pos + lado) / 100, y, u / 100);   // lado (cm): + = cara A
+    const LADO = ns ? new T.Vector3(0, 0, 1) : new T.Vector3(1, 0, 0);
+    n.tramos.forEach((t, j) => {
+      const info = `<b>Línea de alzaprimas ${n.id}</b> · área ${n.area}${n.tramos.length > 1 ? `, tramo ${j + 1} de ${n.tramos.length}` : ''}<div class="d">Tabique de pino 3x9 seco de ${fm(t.largo, 2)}: solera doble de canto bajo los valles, ${t.palos.length} palos atravesados @ ≤ ${coma(n.a_real, 0)} cm, amarre a media altura, ${t.diagonales.length} ${t.diagonales.length === 1 ? 'diagonal' : 'diagonales'} y cruces de lado; hasta ${miles(n.P_max_kgf)} kgf por palo. Va ${n.espacios === 2 ? 'al centro' : 'en un tercio'} de un vano de ${fm(n.vano, 2)} (máximo sin apoyo ${fm(L.luz_max_alzaprima, 2)}, indicación del ingeniero).<br>Detalle en la pestaña Alzaprimas.</div>`;
+      const um = (t.t0 + t.t1) / 2, largo = t.largo / 100;
+      [-1, 1].forEach(sg => caja3(MAT.madera, P3(um, Y_SOL + MH / 2, sg * MB * 50), ns ? largo : MB, MH, ns ? MB : largo, info));
+      caja3(MAT.madera2, P3(um, Y_ABJ / 2, 0), ns ? largo : MH, Y_ABJ, ns ? MH : largo, info);
+      const [a0, a1] = t.amarre;
+      caja3(MAT.madera2, P3((a0 + a1) / 2, Y_AMA, (MH + MB) * 50), ns ? (a1 - a0) / 100 : MB, MH, ns ? MB : (a1 - a0) / 100, info);
+      t.palos.forEach(u => PUNT.push({ x: ns ? u / 100 : l.pos / 100, z: ns ? l.pos / 100 : u / 100, ns, info }));
+      // diagonales sobre 2 vanos (cara B): del pie de un palo a la cabeza del que sigue al siguiente
+      t.diagonales.forEach(d => pieza(MAT.madera2, P3(d.u[0], d.z[0] / 100, -(MH + MB) * 50), P3(d.u[1], d.z[1] / 100, -(MH + MB) * 50), MH, MB, LADO, info));
+      // topes en el pie del palo donde nace cada diagonal
+      t.diagonales.forEach(d => { const sg = d.u[1] > d.u[0] ? -1 : 1, uT = d.u[0] + sg * (MB * 50 + AZ.lado.tope / 2);
+        caja3(MAT.madera2, P3(uT, Y_ABJ * 1.5, 0), ns ? AZ.lado.tope / 100 : MH, Y_ABJ, ns ? MH : AZ.lado.tope / 100, info); });
     });
   });
   if (PUNT.length) {
-    const giro = new T.Quaternion(), uno = new T.Vector3(1, 1, 1), ps = new T.Vector3();
-    const inst = (geo, lista) => { const im = new T.InstancedMesh(geo, MAT.alz, lista.length);
-      lista.forEach((q, i) => { giro.setFromAxisAngle(ARRIBA, q.ns ? 0 : Math.PI / 2); ps.set(q.x + (q.dx || 0), q.y || 0, q.z + (q.dz || 0)); im.setMatrixAt(i, mtx.compose(ps, giro, uno)); });
-      im.userData = { infos: lista.map(q => q.info) }; gAlzIn.add(im); };
-    [geoBase, geoExt, geoInt, geoCabU].forEach(geo => inst(geo, PUNT));
-    const orejas = []; PUNT.forEach(q => [-1, 1].forEach(s => orejas.push(Object.assign({}, q, { y: Y_SOL + 0.03, dx: q.ns ? 0 : s * (SOL_B / 2 + 0.003), dz: q.ns ? s * (SOL_B / 2 + 0.003) : 0 }))));
-    inst(geoOreja, orejas);
+    const hP = Y_SOL - Y_ABJ, geo = new T.BoxGeometry(MB, hP, MH); geo.translate(0, Y_ABJ + hP / 2, 0);   // 6,5 a lo largo × 21 de lado
+    const im = new T.InstancedMesh(geo, MAT.madera, PUNT.length), giro = new T.Quaternion(), uno = new T.Vector3(1, 1, 1), ps = new T.Vector3();
+    PUNT.forEach((q, i) => { giro.setFromAxisAngle(ARRIBA, q.ns ? 0 : Math.PI / 2); ps.set(q.x, 0, q.z); im.setMatrixAt(i, mtx.compose(ps, giro, uno)); });
+    im.userData = { infos: PUNT.map(q => q.info) }; gAlzIn.add(im);
   }
+  // cruces de lado: dos 3x9 en X entre palos enfrentados de líneas vecinas, una por cada cara ancha de los palos
+  // (de la cabeza de uno al pie del otro), con un taco entre ellas donde se cruzan
+  (AZ ? AZ.cruces : []).forEach(c => {
+    const ns = c.dir === 'NS', [pa, pb] = c.pos, zb = c.z[0] / 100, zt = c.z[1] / 100;
+    const P3 = (pos, y, dl) => ns ? new T.Vector3(c.u / 100 + dl, y, pos / 100) : new T.Vector3(pos / 100, y, c.u / 100 + dl);
+    const LARGO = ns ? new T.Vector3(1, 0, 0) : new T.Vector3(0, 0, 1);
+    const info = `<b>Cruz de lado ${c.par[0]} · ${c.par[1]}</b><div class="d">Dos 3x9 de ${fm(c.L, 2)} en X entre palos enfrentados, una por cada cara del palo, atornilladas a ${coma(c.z[0] / 100, 2)} y ${coma(c.z[1] / 100, 2)} m y entre sí con un taco donde se cruzan; hasta ${miles(c.N_N / 9.81)} kgf. Detalle en la pestaña Alzaprimas.</div>`;
+    pieza(MAT.madera2, P3(pa, zt, -MB), P3(pb, zb, -MB), MH, MB, LARGO, info);
+    pieza(MAT.madera2, P3(pb, zt, MB), P3(pa, zb, MB), MH, MB, LARGO, info);
+    caja3(MAT.madera2, P3((pa + pb) / 2, (zt + zb) / 2, 0), ns ? MB : 0.12, 0.12, ns ? 0.12 : MB, info);
+  });
 
   // ---------- malla ACMA C-188: paneles con traslapo, a 2,5 cm de la cara superior ----------
   const gMalla = new T.Group(); scene.add(gMalla); gMalla.visible = false;
@@ -1577,7 +1598,7 @@ function iniciar3D() {
       $('#m-txt').innerHTML = est.t >= 0.999 ? `<b>Listo.</b> Losa de ${coma(ESP, 0)} cm con marco, placas, pernos, malla, suples y hormigón (≈ ${coma(VOL_H, 1)} m³). Las alzaprimas se sacan cuando el hormigón alcanza su resistencia.`
         : s.tipo === 'C' ? `<b>Marco C</b> · pieza ${s.m.nombre} (${fm(s.m.pz.largo, 2)}) · ${i + 1} de ${MARCO.length}`
         : s.tipo === 'S' ? `<b>Área ${s.n}</b> · se perfora la placa (Ø${coma(L.perforacion * 10, 0)} mm) y se sueldan al arco ${s.pa.lista.length} pernos Nelson al centro de los valles, directo sobre las vigas receptoras`
-        : s.tipo === 'A' ? `<b>Alzaprimas</b> · ${PUNT.length} puntales con sus soleras bajo la placa, antes de cargarla <span class="sub">(por confirmar con el ingeniero)</span>`
+        : s.tipo === 'A' ? `<b>Alzaprimas</b> · ${PUNT.length} palos de 3x9 con sus soleras, amarres, diagonales y cruces bajo la placa, antes de cargarla <span class="sub">(por confirmar con el ingeniero)</span>`
         : s.tipo === 'M' ? `<b>Malla ${MA.tipo}</b> · panel ${s.mz.p.n} de ${MALLAS.length}${s.mz.p.cortado ? ' (con cortes)' : ''}, sobre separadores, con su cara a ${coma(MA.recubrimiento, 1)} cm de la cara de la losa`
         : s.tipo === 'U' ? `<b>Suples</b> · ${N_SUP} suples sobre las vigas marcadas por el ingeniero, 2 por valle, sobre separadores de ${coma(SU.separador, 1)} cm`
         : s.tipo === 'H' ? `<b>Hormigonado</b> · ${coma(Math.max(0, ESP * avance(s)), 1)} de ${coma(ESP, 0)} cm · ≈ ${coma(VOL_H, 1)} m³`
@@ -1788,7 +1809,7 @@ function iniciar3D() {
   tog('#tg-color', on => { est.colorArea = on; seleccionar(est.sel && est.sel.tipo, est.sel && est.sel.id); });
   tog('#tg-etq', on => { est.etq = on; });
   addEventListener('keydown', e => { if (e.key === 'Escape') seleccionar(null); });
-  $('#txt-armado').innerHTML = `Marco C en ${MARCO.length} piezas (${TRAMOS.length} tramos) · ${N_PLANCHAS} planchas (${PLACAS.length} piezas) en ${L.areas.length} áreas · ${L.pernos.length} pernos Nelson · ${PUNT.length} alzaprimas · malla en ${MA_N} paneles · ${N_SUP} suples y ≈ ${coma(VOL_HORM, 1)} m³ de hormigón (capas apagadas: se prenden a la derecha) · ${PIL2.length} pilares del nivel 2 la atraviesan. Prueba <b>Despiece</b> o <b>Montaje</b>.`;
+  $('#txt-armado').innerHTML = `Marco C en ${MARCO.length} piezas (${TRAMOS.length} tramos) · ${N_PLANCHAS} planchas (${PLACAS.length} piezas) en ${L.areas.length} áreas · ${L.pernos.length} pernos Nelson · ${PUNT.length} palos de alzaprima · malla en ${MA_N} paneles · ${N_SUP} suples y ≈ ${coma(VOL_HORM, 1)} m³ de hormigón (capas apagadas: se prenden a la derecha) · ${PIL2.length} pilares del nivel 2 la atraviesan. Prueba <b>Despiece</b> o <b>Montaje</b>.`;
 
   // ---------- arranque ----------
   $('#v-carga').hidden = true; $('#v-ui').hidden = false;

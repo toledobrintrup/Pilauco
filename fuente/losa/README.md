@@ -23,12 +23,18 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
   terreno son 25 tramos de solera porque algunas pasan bajo una viga.
   Gabriel (23-10-2026): el 1,87 m es la luz de la placa sin apoyo (entre vigas o entre viga y línea); las vigas no se
   alzapriman.
-- **Alzaprimas arrendadas** (`alzaprimas.html`, borrador para el ingeniero, 23-10-2026): en las mismas 17 líneas,
-  puntales metálicos de arriendo (regulables con tornillo central, placa base y cabezal en U) con solera de dos 2x4 de
-  canto (Gabriel: "serán las que se arriendan, con un tornillo central"). La separación de puntales de cada línea
-  (55 a 80 cm) la manda la flexión de la solera (cálculo y revisión, `alzaprimas.json`); la carga máxima por puntal
-  fija la capacidad que hay que pedir a la empresa. `losa.html` toma de `alzaprimas.js` los tramos y puntales de cada
-  línea (planta, tabla y 3D) y en su sección 05 resume y enlaza a la pestaña.
+- **Alzaprimas de madera** (`alzaprimas.html`, borrador para el ingeniero, 04-11-2026; reemplaza al borrador de
+  puntales arrendados del 23-10-2026): en las mismas 17 líneas, cada línea se arma como un tabique de pino 3x9 seco
+  (Gabriel: "no voy a arrendar alzaprimas… palos de madera de 3x9… arriba en el soporte horizontal y lo mismo abajo";
+  madera seca; sin cuñas; amarre a media altura y 1 o 2 diagonales por tramo). Solera doble de canto arriba (2 × 3x9),
+  palos atravesados a la línea (cortados a la medida de su lugar), solera abajo plana, amarre 3x9 a media altura que
+  corta el pandeo del lado delgado, diagonales sobre 2 vanos en las puntas del tramo (atornilladas al palo del medio, a
+  la altura del amarre, con un tope en el pie) y cruces de lado (X de 3x9) entre palos enfrentados de líneas vecinas,
+  atornilladas a sus caras anchas. La horizontal de ACI 347 la toma el acero (placa soldada); las alzaprimas se
+  arriostran con el 2 % de la carga de sus palos. La separación de palos de cada línea la manda el palo (pandeo con
+  el amarre y apoyo bajo la solera, D/C ≤ 0,90) o la flexión de la solera doble. `losa.html` toma de `alzaprimas.js`
+  los tramos y palos de cada línea (planta, tabla y 3D, con soleras, amarres, diagonales y cruces) y en su sección 05
+  resume y enlaza a la pestaña.
 - **Malla ACMA C-188** (detalle del ingeniero) con su cara superior a 2,5 cm de la cara de la losa: paneles de
   2,60 × 5,00 m (18 barras Ø6 de 5,00 m y 33 de 2,60 m, a 15 cm), traslapados según la regla de ACMA (NCh 219: 4
   alambres de cada malla y 30 cm entre los últimos; 50 cm en los costados y 65 en las puntas; el ingeniero no lo
@@ -94,20 +100,20 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
   del marco y hueco de escalera, en cm en el marco de la app.
 - `placa.json` — sección de la placa y tablas de la ficha; se arma con `placa_desde_ficha.py`.
 - `pernos_ingeniero.json` — pernos de la lámina 11 en cm; se arma con `pernos_desde_plano.py "Plano 11, ubicacion pernos.pdf" pernos_ingeniero.json`.
-- `alzaprimas.json` — diseño de las alzaprimas: puntal metálico de arriendo (medidas típicas y capacidad: SUPUESTO
-  hasta tener la ficha de la empresa), solera de dos 2x4, cargas, alturas (3,71 m de trabajo), base, la separación de
-  puntales de cada línea con su porqué (cálculo con NCh 1198 y revisión independiente, 23-10-2026), datos, supuestos y
-  lo que falta confirmar.
+- `alzaprimas.json` — diseño de las alzaprimas de madera: madera (NCh 1198 vía INFOR: G2 seco, 65 × 210, KH al 18 %),
+  cargas, palo, solera doble, solera abajo, amarre, diagonales, cruces de lado (pares de líneas vecinas), alturas
+  (palo de 3,525 m; área 1 sobre terreno 4,225, supuesto), el borrador anterior para comparar, datos, supuestos y lo
+  que falta confirmar.
 - `generar_alzaprimas_js.py` — escribe `alzaprimas.js` (lo leen `alzaprimas.html` y `losa.html`) desde `losa.js`,
   `estructura.js` y `alzaprimas.json`; desde la raíz: `python3 fuente/losa/generar_alzaprimas_js.py`. Recorta cada
-  tramo de solera 1 cm antes del ala de la viga, reparte los puntales (el primero a 15 cm de cada punta, los demás
-  iguales y a no más de la separación de la línea), ubica las uniones de la solera (piezas de 3,20 m, las dos sobre el
-  mismo puntal, nunca en el 1.º ni el 2.º desde cada punta), calcula la carga por puntal (1,25·w·a de diseño, con el
-  factor de la revisión tomando la línea como apoyo rígido; y la reacción de cada puntal con su ubicación real, que
-  tiene que quedar bajo la de diseño) y la capacidad a pedir, el D/C de la solera y su separación máxima, el apoyo de
-  la placa comparado con la ficha (3 o más vanos y 2), la base (radier, tablón sobre piso terminado, durmiente doble
-  sobre terreno) y las cantidades (puntales con reserva, aparte los del área 1 si apoyan en terreno; 2x4, tablas de la
-  base, cruces de arriostre supuestas y clavos). Correrlo de nuevo cada vez que cambie `losa.js`.
+  tramo de solera 1 cm antes del ala de la viga; elige la separación de cada línea (la mayor de 5 en 5 cm que deja la
+  solera doble en flexión ≤ 1 y el palo y su apoyo en ≤ 0,90 con 1,25·w·a); reparte los palos (el primero a 15 cm de
+  cada punta, los demás iguales; se corren de los pilares); traba las uniones de las dos piezas de la solera (sobre
+  palos distintos, piezas de hasta 4,00 m); calcula la reacción de cada palo con su ubicación real; ubica las uniones de
+  la solera abajo (entre palos) y del amarre (sobre un palo, con cubrejunta), las diagonales (pie de un palo → cabeza
+  del siguiente, en las puntas del tramo) y las cruces de lado entre los pares de líneas (en las puntas de cada solape y
+  al medio donde la solera, cargada de lado, no da); y las cantidades (piezas de 3x9 empacadas en piezas de 4,00 m,
+  las más largas a su largo, y tornillos). Correrlo de nuevo cada vez que cambie `losa.js`.
 - `suples_ingeniero.json` — marcas de la lámina de suples en cm (tipo, viga, tramo, cota dibujada) y su tabla; se arma con
   `suples_desde_plano.py "ruta/a la lámina de suples.pdf" suples_ingeniero.json` (calibra con las burbujas de los ejes,
   como el de pernos; la lámina no va al repositorio: la viñeta trae datos personales).
