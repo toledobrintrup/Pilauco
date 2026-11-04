@@ -102,7 +102,7 @@ body.embed .norte3d{top:52px}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V134" data-vista="3d"></script>
+    <script src="menu.js?v=V135" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -138,6 +138,7 @@ body.embed .norte3d{top:52px}
       <div class="row"><label><input type="checkbox" id="chk-estructura" checked> Ver estructura</label></div>
       <div id="grupos-acero" hidden></div>
       <div class="row"><label><input type="checkbox" id="chk-losa" checked> Losa colaborante</label></div>
+      <div class="row" id="row-suples"><label><input type="checkbox" id="chk-suples" checked> Suples de la losa</label></div>
       <div class="row"><label><input type="checkbox" id="chk-escalera" checked> Escalera de obra (bodega)</label></div>
       <div class="row"><a class="btn losa" href="losa.html">Vista losa colaborante →</a></div>
       <div class="sep"></div>
@@ -182,17 +183,18 @@ body.embed .norte3d{top:52px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V134"></script>
-<script src="data.js?v=V134"></script>
-<script src="casa_vanos.js?v=V134"></script>
-<script src="estructura.js?v=V134"></script>
-<script src="losa.js?v=V134"></script>
-<script src="sitio.js?v=V134"></script>
-<script src="sitio3d.js?v=V134"></script>
-<script src="estudio_estructura.js?v=V134"></script>
-<script src="mobiliario3d.js?v=V134"></script>
-<script src="cotas3d.js?v=V134"></script>
-<script src="goku3d.js?v=V134"></script>
+<script src="nav3d.js?v=V135"></script>
+<script src="data.js?v=V135"></script>
+<script src="casa_vanos.js?v=V135"></script>
+<script src="estructura.js?v=V135"></script>
+<script src="losa.js?v=V135"></script>
+<script src="suples.js?v=V135"></script>
+<script src="sitio.js?v=V135"></script>
+<script src="sitio3d.js?v=V135"></script>
+<script src="estudio_estructura.js?v=V135"></script>
+<script src="mobiliario3d.js?v=V135"></script>
+<script src="cotas3d.js?v=V135"></script>
+<script src="goku3d.js?v=V135"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -531,6 +533,29 @@ body.embed .norte3d{top:52px}
       m.userData.losa = `<b>Placa Instadeck 0,8</b> · área ${a.n}<br><span class="sub">plancha ${p.k} · ${(p.largo / 100).toFixed(2).replace('.', ',')} m × ${(p.ancho / 100).toFixed(2).replace('.', ',')} m${p.cortada ? ' (cortada)' : ''}</span>`;
       g.add(m);
     }));
+    // suples superiores (suples.js, lámina del ingeniero del 03-11-2026): cada uno es un ⊓ de 5 tramos (pie, pata, barra, pata, pie)
+    // sobre su viga, 2 por valle, con el color por diámetro de la enfierradura del estudio; el detalle está en losa.html
+    if (typeof DATA_SUPLES !== 'undefined'){
+      const SU = DATA_SUPLES, gS = new THREE.Group(), porD = {};
+      SU.marcas.forEach(mk => mk.suples.forEach(u => (porD[mk.d] = porD[mk.d] || []).push([mk, u])));
+      const COLS = {10: 0xE8893A, 12: 0xD9534F, 16: 0x8E2A2A};
+      const X1 = new THREE.Vector3(1, 0, 0), q = new THREE.Quaternion(), sc = new THREE.Vector3(), dir = new THREE.Vector3(), M = new THREE.Matrix4();
+      Object.entries(porD).forEach(([d, lista]) => {
+        const r = cm(d / 20), geo = new THREE.CylinderGeometry(r, r, 1, 6, 1, false); geo.rotateZ(Math.PI / 2); geo.translate(0.5, 0, 0);   // de x = 0 a x = 1
+        const im = new THREE.InstancedMesh(geo, new THREE.MeshLambertMaterial({color: COLS[d] || 0x8E2A2A}), lista.length * 5);
+        let i = 0;
+        lista.forEach(([mk, u]) => {
+          const ns = mk.sentido === 'NS', h = mk.a / 2, dc = d / 10, zb = SU.z.pie + dc / 2, zt = SU.z.tope - dc / 2, pie = SU.forma.pie;
+          const P = (sv, z) => ns ? new THREE.Vector3(cm(u), cm(z), cm(mk.eje + sv)) : new THREE.Vector3(cm(mk.eje + sv), cm(z), cm(u));
+          const pts = [P(-h + pie, zb), P(-h + dc / 2, zb), P(-h + dc / 2, zt), P(h - dc / 2, zt), P(h - dc / 2, zb), P(h - pie, zb)];
+          for (let k = 0; k + 1 < pts.length; k++){ dir.subVectors(pts[k + 1], pts[k]); const largo = dir.length(); dir.normalize(); q.setFromUnitVectors(X1, dir); sc.set(largo, 1, 1); im.setMatrixAt(i++, M.compose(pts[k], q, sc)); }
+        });
+        const tipos = [...new Set(lista.map(([mk]) => mk.tipo.replace('ss', 'SS')))].join(', ');
+        im.userData.losa = `<b>Suples ø${d}</b> · ${lista.length} (${tipos})<br><span class="sub">barras de arriba sobre las vigas, 2 por valle · pies sobre separadores de ${String(SU.separador).replace('.', ',')} cm y barra a ${String(SU.recubrimiento).replace('.', ',')} cm de la cara · ingeniero, 03-11-2026 · detalle en la vista de la losa</span>`;
+        gS.add(im);
+      });
+      g.add(gS); g.userData.suples = gS;
+    }
     return g;
   }
   const grupoLosa = buildLosa();
@@ -1066,6 +1091,7 @@ body.embed .norte3d{top:52px}
   const chkN1 = document.getElementById('chk-n1'), chkN2 = document.getElementById('chk-n2'), chkRoof = document.getElementById('chk-roof');
   const chkEstructura = document.getElementById('chk-estructura');
   const chkLosa = document.getElementById('chk-losa');
+  const chkSuples = document.getElementById('chk-suples'), rowSuples = document.getElementById('row-suples');   // suples de la losa (03-11-2026), dentro de la capa de la losa
   const chkEscalera = document.getElementById('chk-escalera');   // escalera provisoria de fierro en la bodega (Gabriel, 16-10-2026)
   const chkSitio = {terreno: 'chk-terreno', gimnasio: 'chk-gimnasio', estudio: 'chk-estudio', urbanismo: 'chk-urbanismo'};
   Object.keys(chkSitio).forEach(k => { chkSitio[k] = document.getElementById(chkSitio[k]); });
@@ -1113,6 +1139,8 @@ body.embed .norte3d{top:52px}
     grupoRoof.visible = chkRoof.checked;
     grupoEstructura.visible = chkEstructura.checked;
     grupoLosa.visible = chkLosa.checked;
+    if (grupoLosa.userData.suples) grupoLosa.userData.suples.visible = chkSuples.checked;
+    rowSuples.hidden = !grupoLosa.userData.suples || !chkLosa.checked || chkLosa.closest('.row').hidden;
     cajaGrupos.hidden = !chkEstructura.checked;
     Object.keys(chkGrupo).forEach(k => { grupoEstructura.userData.sub[k].visible = chkGrupo[k].checked; });
     if (!chkEstructura.checked && !chkLosa.checked && !sitio) ficha.hidden = true;
@@ -1168,7 +1196,7 @@ body.embed .norte3d{top:52px}
     grupoRoof.position.y = off;
     grupoEstructura.traverse(o => { if (o.userData.superior) o.position.y = o.userData.y0 + off; });
   }
-  [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, chkEscalera, explode, chkBajoTierra, chkEstudioEst, chkEstudioHormigon, chkHTransE, chkEstudioFierros, chkEstudioTecho, chkCerramiento, chkMobiliario, chkCotas].concat(Object.values(chkSitio)).forEach(el => el.addEventListener('input', aplica));
+  [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, chkSuples, chkEscalera, explode, chkBajoTierra, chkEstudioEst, chkEstudioHormigon, chkHTransE, chkEstudioFierros, chkEstudioTecho, chkCerramiento, chkMobiliario, chkCotas].concat(Object.values(chkSitio)).forEach(el => el.addEventListener('input', aplica));
   if (!sitio) Object.values(chkSitio).concat([chkBajoTierra, chkEstudioEst, chkEstudioHormigon, chkEstudioFierros, chkEstudioTecho, chkCerramiento, chkMobiliario, chkCotas]).forEach(el => { el.closest('.row').hidden = true; });
   if (!grupoFierros.children.length) chkEstudioFierros.closest('.row').hidden = true;
   else document.getElementById('fierros-leyenda').innerHTML = Object.entries(COLOR_FIERRO).map(([d, c]) => `<span><span class="sw" style="display:inline-block;vertical-align:middle;background:#${c.toString(16).padStart(6, '0')}"></span> ø${NOM_DIAM(d)}</span>`).join('');

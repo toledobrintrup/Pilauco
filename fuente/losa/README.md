@@ -33,6 +33,15 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
   2,60 × 5,00 m (18 barras Ø6 de 5,00 m y 33 de 2,60 m, a 15 cm), traslapados según la regla de ACMA (NCh 219: 4
   alambres de cada malla y 30 cm entre los últimos; 50 cm en los costados y 65 en las puntas; el ingeniero no lo
   dio), recortados a 3 cm del borde y a 2 cm de los pilares: 50 paneles (43 con el traslapo de 30 cm de Armacero).
+- **Suples superiores** (lámina de suples del ingeniero, rev. 3, 03-11-2026, y sus mensajes del mismo día): barras
+  en ⊓ sobre las vigas donde la losa sigue a los dos lados. Cada marca «SS n» de la planta dice qué suple lleva esa viga en
+  ese tramo; la tabla da ø y a (L = a + 30: patas de 10 y pies de 5 hacia adentro). Van 2 por valle, separados entre 5 y
+  10 cm (aquí 7, uno a cada lado del perno), con un separador de 2,5 cm bajo cada pie y la barra de arriba a 2,5 cm de la
+  cara de la losa de 15 (la lámina todavía dice 14,35; el ingeniero corrigió a 15). Supuestos (el plano no los acota):
+  centrados en el eje de su viga; cada marca vale para su tramo entero (entre las vigas perpendiculares que llegan a la
+  viga), en todos sus valles, que son los de los pernos. 695 suples, ≈ 1.447 kg. Preguntas abiertas en losa.html: la malla
+  queda a la misma altura que los suples; SS5 (viga B, 1–2) entra 1,35 m en el área donde las planchas van paralelas a B;
+  SS1/SS2 se cruzan con SS5 en las esquinas de la viga B.
 - **Hormigón** hasta los 15 cm: llena los valles de la placa y sube 8,65 cm sobre la cresta (≈ 50 m³).
 
 ## Cómo se armó
@@ -98,6 +107,11 @@ capa ("Losa colaborante"). Los datos están en `losa.js`, que se genera aquí.
   la placa comparado con la ficha (3 o más vanos y 2), la base (radier, tablón sobre piso terminado, durmiente doble
   sobre terreno) y las cantidades (puntales con reserva, aparte los del área 1 si apoyan en terreno; 2x4, tablas de la
   base, cruces de arriostre supuestas y clavos). Correrlo de nuevo cada vez que cambie `losa.js`.
+- `suples_ingeniero.json` — marcas de la lámina de suples en cm (tipo, viga, tramo, cota dibujada) y su tabla; se arma con
+  `suples_desde_plano.py "ruta/a la lámina de suples.pdf" suples_ingeniero.json` (calibra con las burbujas de los ejes,
+  como el de pernos; la lámina no va al repositorio: la viñeta trae datos personales).
+- `generar_suples_js.py` — escribe `suples.js` (lo leen `losa.html` y `3d.html`) desde `suples_ingeniero.json`, `losa.js` y
+  `estructura.js`; desde la raíz: `python3 fuente/losa/generar_suples_js.py`. Correrlo de nuevo cada vez que cambie `losa.js`.
 - `generar_losa_js.py` — escribe `losa.js`: `python3 generar_losa_js.py losa.json placa.json ../../losa.js textos.json` (`textos.json` trae las diferencias y notas que muestra la página).
 
 La ficha técnica, el plano y la foto marcada no están en el repositorio (el plano lleva datos

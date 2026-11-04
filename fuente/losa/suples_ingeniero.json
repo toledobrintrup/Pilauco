@@ -1,0 +1,830 @@
+{
+ "fuente": "Lámina del ingeniero «Suples para losa colaborante», planta 1:50, rev. 3 (03-11-2026)",
+ "calibracion": {
+  "x": [
+   1.78275,
+   -1376.66,
+   0.04
+  ],
+  "y": [
+   1.78277,
+   -1185.33,
+   0.15
+  ],
+  "nota": "cm = a·pt + b; el tercer valor es el mayor residuo en los ejes (cm)"
+ },
+ "tabla": {
+  "ss1": {
+   "d": 16,
+   "a": 130,
+   "L": 160
+  },
+  "ss2": {
+   "d": 16,
+   "a": 140,
+   "L": 170
+  },
+  "ss3": {
+   "d": 12,
+   "a": 120,
+   "L": 150
+  },
+  "ss4": {
+   "d": 16,
+   "a": 120,
+   "L": 150
+  },
+  "ss5": {
+   "d": 16,
+   "a": 270,
+   "L": 300
+  },
+  "ss6": {
+   "d": 12,
+   "a": 100,
+   "L": 130
+  },
+  "ss7": {
+   "d": 16,
+   "a": 120,
+   "L": 150
+  },
+  "ss8": {
+   "d": 10,
+   "a": 100,
+   "L": 130
+  },
+  "ss9": {
+   "d": 12,
+   "a": 120,
+   "L": 150
+  },
+  "ss10": {
+   "d": 10,
+   "a": 100,
+   "L": 130
+  }
+ },
+ "forma": {
+  "pata": 10,
+  "pie": 5,
+  "nota": "L = a + 30: dos patas de 10 y dos pies de 5 hacia adentro (detalle de la lámina)"
+ },
+ "marcas": [
+  {
+   "tipo": "ss1",
+   "viga": "V-1ap-D-B",
+   "perfil": "IPE 360",
+   "x": 329.8,
+   "y": 1343.1,
+   "sentido": "EO",
+   "cota": [
+    [
+     264.4,
+     1343.1
+    ],
+    [
+     394.4,
+     1343.1
+    ]
+   ],
+   "largo_dibujado": 130.0,
+   "tramo": [
+    1104.1,
+    1694.7
+   ],
+   "tramo_en": "y",
+   "vigas_tramo": [
+    "V-1ap-D-B"
+   ],
+   "a": 130,
+   "lado_menor": 64.6,
+   "lado_mayor": 65.4
+  },
+  {
+   "tipo": "ss1",
+   "viga": "V-1ap-F-D",
+   "perfil": "IPE 360",
+   "x": 329.8,
+   "y": 810.3,
+   "sentido": "EO",
+   "cota": [
+    [
+     264.4,
+     810.3
+    ],
+    [
+     394.4,
+     810.3
+    ]
+   ],
+   "largo_dibujado": 130.0,
+   "tramo": [
+    625.3,
+    1104.1
+   ],
+   "tramo_en": "y",
+   "vigas_tramo": [
+    "V-1ap-F-D"
+   ],
+   "a": 130,
+   "lado_menor": 64.6,
+   "lado_mayor": 65.4
+  },
+  {
+   "tipo": "ss1",
+   "viga": "V-1ap-H-F",
+   "perfil": "IPE 360",
+   "x": 329.8,
+   "y": 270.5,
+   "sentido": "EO",
+   "cota": [
+    [
+     264.4,
+     270.5
+    ],
+    [
+     394.4,
+     270.5
+    ]
+   ],
+   "largo_dibujado": 130.0,
+   "tramo": [
+    9.9,
+    625.3
+   ],
+   "tramo_en": "y",
+   "vigas_tramo": [
+    "V-1ap-H-F"
+   ],
+   "a": 130,
+   "lado_menor": 64.6,
+   "lado_mayor": 65.4
+  },
+  {
+   "tipo": "ss1",
+   "viga": "V-F2+273-4-5",
+   "perfil": "IPE 300",
+   "x": 1607.0,
+   "y": 685.3,
+   "sentido": "NS",
+   "cota": [
+    [
+     1607.0,
+     748.9
+    ],
+    [
+     1607.0,
+     604.9
+    ]
+   ],
+   "largo_dibujado": 144.0,
+   "tramo": [
+    1257.3,
+    1783.7
+   ],
+   "tramo_en": "x",
+   "vigas_tramo": [
+    "V-F2+273-4-5"
+   ],
+   "a": 130,
+   "lado_menor": 63.6,
+   "lado_mayor": 80.4
+  },
+  {
+   "tipo": "ss1",
+   "viga": "V-F2-4-5",
+   "perfil": "IPE 300",
+   "x": 1590.4,
+   "y": 412.0,
+   "sentido": "NS",
+   "cota": [
+    [
+     1590.4,
+     490.9
+    ],
+    [
+     1590.4,
+     346.9
+    ]
+   ],
+   "largo_dibujado": 143.9,
+   "tramo": [
+    1264.8,
+    1783.7
+   ],
+   "tramo_en": "x",
+   "vigas_tramo": [
+    "V-F2-4-5"
+   ],
+   "a": 130,
+   "lado_menor": 65.1,
+   "lado_mayor": 78.9
+  },
+  {
+   "tipo": "ss2",
+   "viga": "V-2-E4-D",
+   "perfil": "IPE 220",
+   "x": 653.2,
+   "y": 810.3,
+   "sentido": "EO",
+   "cota": [
+    [
+     581.5,
+     810.3
+    ],
+    [
+     711.5,
+     810.3
+    ]
+   ],
+   "largo_dibujado": 130.0,
+   "tramo": [
+    655.6,
+    1104.1
+   ],
+   "tramo_en": "y",
+   "vigas_tramo": [
+    "V-2-E4-D"
+   ],
+   "a": 140,
+   "lado_menor": 58.3,
+   "lado_mayor": 71.7
+  },
+  {
+   "tipo": "ss2",
+   "viga": "V-2-Y1327-Y1526",
+   "perfil": "IPE 220",
+   "x": 653.2,
+   "y": 1354.9,
+   "sentido": "EO",
+   "cota": [
+    [
+     581.5,
+     1354.9
+    ],
+    [
+     711.5,
+     1354.9
+    ]
+   ],
+   "largo_dibujado": 130.0,
+   "tramo": [
+    1104.1,
+    1694.7
+   ],
+   "tramo_en": "y",
+   "vigas_tramo": [
+    "V-2-D-Y1327",
+    "V-2-Y1327-Y1526",
+    "V-2-Y1526-B"
+   ],
+   "a": 140,
+   "lado_menor": 58.3,
+   "lado_mayor": 71.7
+  },
+  {
+   "tipo": "ss3",
+   "viga": "V-3-D-C1",
+   "perfil": "IPE 220",
+   "x": 1007.2,
+   "y": 1292.7,
+   "sentido": "EO",
+   "cota": [
+    [
+     937.5,
+     1292.7
+    ],
+    [
+     1067.5,
+     1292.7
+    ]
+   ],
+   "largo_dibujado": 130.0,
+   "tramo": [
+    1104.1,
+    1511.9
+   ],
+   "tramo_en": "y",
+   "vigas_tramo": [
+    "V-3-D-C1",
+    "V-3-C1-C"
+   ],
+   "a": 120,
+   "lado_menor": 60.3,
+   "lado_mayor": 69.7
+  },
+  {
+   "tipo": "ss3",
+   "viga": "V-3-E4-D",
+   "perfil": "IPE 220",
+   "x": 1007.2,
+   "y": 810.3,
+   "sentido": "EO",
+   "cota": [
+    [
+     933.8,
+     810.3
+    ],
+    [
+     1063.8,
+     810.3
+    ]
+   ],
+   "largo_dibujado": 130.0,
+   "tramo": [
+    655.6,
+    1104.1
+   ],
+   "tramo_en": "y",
+   "vigas_tramo": [
+    "V-3-E4-D"
+   ],
+   "a": 120,
+   "lado_menor": 56.6,
+   "lado_mayor": 73.4
+  },
+  {
+   "tipo": "ss4",
+   "viga": "V-3a-D-A1",
+   "perfil": "IPE 300",
+   "x": 1210.2,
+   "y": 1258.6,
+   "sentido": "EO",
+   "cota": [
+    [
+     1134.7,
+     1258.6
+    ],
+    [
+     1264.6,
+     1258.6
+    ]
+   ],
+   "largo_dibujado": 130.0,
+   "tramo": [
+    1104.1,
+    1511.9
+   ],
+   "tramo_en": "y",
+   "vigas_tramo": [
+    "V-3a-D-A1"
+   ],
+   "a": 120,
+   "lado_menor": 54.4,
+   "lado_mayor": 75.5
+  },
+  {
+   "tipo": "ss4",
+   "viga": "V-3a-D-A1",
+   "perfil": "IPE 300",
+   "x": 1210.2,
+   "y": 1653.5,
+   "sentido": "EO",
+   "cota": [
+    [
+     1134.7,
+     1653.5
+    ],
+    [
+     1264.6,
+     1653.5
+    ]
+   ],
+   "largo_dibujado": 130.0,
+   "tramo": [
+    1511.9,
+    2045.2
+   ],
+   "tramo_en": "y",
+   "vigas_tramo": [
+    "V-3a-D-A1"
+   ],
+   "a": 120,
+   "lado_menor": 54.4,
+   "lado_mayor": 75.5
+  },
+  {
+   "tipo": "ss4",
+   "viga": "V-4a-D-A1",
+   "perfil": "IPE 300",
+   "x": 1525.2,
+   "y": 1262.7,
+   "sentido": "EO",
+   "cota": [
+    [
+     1448.5,
+     1262.7
+    ],
+    [
+     1578.5,
+     1262.7
+    ]
+   ],
+   "largo_dibujado": 130.0,
+   "tramo": [
+    1104.1,
+    1511.9
+   ],
+   "tramo_en": "y",
+   "vigas_tramo": [
+    "V-4a-D-A1"
+   ],
+   "a": 120,
+   "lado_menor": 53.3,
+   "lado_mayor": 76.7
+  },
+  {
+   "tipo": "ss4",
+   "viga": "V-4a-D-A1",
+   "perfil": "IPE 300",
+   "x": 1525.2,
+   "y": 1657.7,
+   "sentido": "EO",
+   "cota": [
+    [
+     1448.5,
+     1657.7
+    ],
+    [
+     1578.5,
+     1657.7
+    ]
+   ],
+   "largo_dibujado": 130.0,
+   "tramo": [
+    1511.9,
+    2045.2
+   ],
+   "tramo_en": "y",
+   "vigas_tramo": [
+    "V-4a-D-A1"
+   ],
+   "a": 120,
+   "lado_menor": 53.3,
+   "lado_mayor": 76.7
+  },
+  {
+   "tipo": "ss5",
+   "viga": "V-B-X110-X575",
+   "perfil": "IPE 450",
+   "x": 244.2,
+   "y": 1694.7,
+   "sentido": "NS",
+   "cota": [
+    [
+     244.2,
+     1831.4
+    ],
+    [
+     244.2,
+     1558.3
+    ]
+   ],
+   "largo_dibujado": 273.1,
+   "tramo": [
+    14.7,
+    329.8
+   ],
+   "tramo_en": "x",
+   "vigas_tramo": [
+    "V-B-1-X110",
+    "V-B-X110-X575"
+   ],
+   "a": 270,
+   "lado_menor": 136.4,
+   "lado_mayor": 136.7
+  },
+  {
+   "tipo": "ss5",
+   "viga": "V-B-X110-X575",
+   "perfil": "IPE 450",
+   "x": 388.5,
+   "y": 1694.7,
+   "sentido": "NS",
+   "cota": [
+    [
+     388.5,
+     1831.4
+    ],
+    [
+     388.5,
+     1558.3
+    ]
+   ],
+   "largo_dibujado": 273.1,
+   "tramo": [
+    329.8,
+    653.2
+   ],
+   "tramo_en": "x",
+   "vigas_tramo": [
+    "V-B-X110-X575",
+    "V-B-X575-2"
+   ],
+   "a": 270,
+   "lado_menor": 136.4,
+   "lado_mayor": 136.7
+  },
+  {
+   "tipo": "ss6",
+   "viga": "V-G2-2-4",
+   "perfil": "IPE 500",
+   "x": 754.3,
+   "y": 227.0,
+   "sentido": "NS",
+   "cota": [
+    [
+     754.3,
+     308.7
+    ],
+    [
+     754.3,
+     164.7
+    ]
+   ],
+   "largo_dibujado": 144.0,
+   "tramo": [
+    653.2,
+    1007.2
+   ],
+   "tramo_en": "x",
+   "vigas_tramo": [
+    "V-G2-2-4"
+   ],
+   "a": 100,
+   "lado_menor": 62.3,
+   "lado_mayor": 81.7
+  },
+  {
+   "tipo": "ss6",
+   "viga": "V-G2-2-4",
+   "perfil": "IPE 500",
+   "x": 1066.8,
+   "y": 227.0,
+   "sentido": "NS",
+   "cota": [
+    [
+     1066.8,
+     307.5
+    ],
+    [
+     1066.8,
+     163.5
+    ]
+   ],
+   "largo_dibujado": 144.0,
+   "tramo": [
+    1007.2,
+    1257.3
+   ],
+   "tramo_en": "x",
+   "vigas_tramo": [
+    "V-G2-2-4"
+   ],
+   "a": 100,
+   "lado_menor": 63.5,
+   "lado_mayor": 80.5
+  },
+  {
+   "tipo": "ss6",
+   "viga": "V-I-1-2",
+   "perfil": "IPE 300",
+   "x": 429.5,
+   "y": -170.0,
+   "sentido": "NS",
+   "cota": [
+    [
+     429.5,
+     -97.3
+    ],
+    [
+     429.5,
+     -241.3
+    ]
+   ],
+   "largo_dibujado": 144.0,
+   "tramo": [
+    6.7,
+    653.2
+   ],
+   "tramo_en": "x",
+   "vigas_tramo": [
+    "V-I-1-2"
+   ],
+   "a": 100,
+   "lado_menor": 71.3,
+   "lado_mayor": 72.7
+  },
+  {
+   "tipo": "ss7",
+   "viga": "V-J-1-2",
+   "perfil": "IPE 360",
+   "x": 467.4,
+   "y": -470.2,
+   "sentido": "NS",
+   "cota": [
+    [
+     467.4,
+     -410.1
+    ],
+    [
+     467.4,
+     -554.0
+    ]
+   ],
+   "largo_dibujado": 144.0,
+   "tramo": [
+    14.7,
+    653.2
+   ],
+   "tramo_en": "x",
+   "vigas_tramo": [
+    "V-J-1-2"
+   ],
+   "a": 120,
+   "lado_menor": 60.1,
+   "lado_mayor": 83.8
+  },
+  {
+   "tipo": "ss8",
+   "viga": "V-H-2-4",
+   "perfil": "IPE 450",
+   "x": 816.3,
+   "y": 9.9,
+   "sentido": "NS",
+   "cota": [
+    [
+     816.3,
+     78.2
+    ],
+    [
+     816.3,
+     -65.8
+    ]
+   ],
+   "largo_dibujado": 144.0,
+   "tramo": [
+    653.2,
+    1007.2
+   ],
+   "tramo_en": "x",
+   "vigas_tramo": [
+    "V-H-2-4"
+   ],
+   "a": 100,
+   "lado_menor": 68.3,
+   "lado_mayor": 75.7
+  },
+  {
+   "tipo": "ss8",
+   "viga": "V-H-2-4",
+   "perfil": "IPE 450",
+   "x": 1082.0,
+   "y": 9.9,
+   "sentido": "NS",
+   "cota": [
+    [
+     1082.0,
+     76.4
+    ],
+    [
+     1082.0,
+     -67.5
+    ]
+   ],
+   "largo_dibujado": 143.9,
+   "tramo": [
+    1007.2,
+    1257.3
+   ],
+   "tramo_en": "x",
+   "vigas_tramo": [
+    "V-H-2-4"
+   ],
+   "a": 100,
+   "lado_menor": 66.5,
+   "lado_mayor": 77.4
+  },
+  {
+   "tipo": "ss9",
+   "viga": "V-H-4-5",
+   "perfil": "IPE 450",
+   "x": 1417.7,
+   "y": 9.9,
+   "sentido": "NS",
+   "cota": [
+    [
+     1417.7,
+     101.6
+    ],
+    [
+     1417.7,
+     -42.3
+    ]
+   ],
+   "largo_dibujado": 143.9,
+   "tramo": [
+    1257.3,
+    1783.7
+   ],
+   "tramo_en": "x",
+   "vigas_tramo": [
+    "V-H-4-5"
+   ],
+   "a": 120,
+   "lado_menor": 52.2,
+   "lado_mayor": 91.7
+  },
+  {
+   "tipo": "ss10",
+   "viga": "V-E-4-5",
+   "perfil": "IPE 300",
+   "x": 1610.4,
+   "y": 958.5,
+   "sentido": "NS",
+   "cota": [
+    [
+     1610.4,
+     1038.3
+    ],
+    [
+     1610.4,
+     894.3
+    ]
+   ],
+   "largo_dibujado": 144.0,
+   "tramo": [
+    1264.8,
+    1783.7
+   ],
+   "tramo_en": "x",
+   "vigas_tramo": [
+    "V-E-4-5"
+   ],
+   "a": 100,
+   "lado_menor": 64.2,
+   "lado_mayor": 79.8
+  },
+  {
+   "tipo": "ss10",
+   "viga": "V-F1-2-4",
+   "perfil": "IPE 500",
+   "x": 929.3,
+   "y": 518.9,
+   "sentido": "NS",
+   "cota": [
+    [
+     929.3,
+     590.1
+    ],
+    [
+     929.3,
+     446.2
+    ]
+   ],
+   "largo_dibujado": 143.9,
+   "tramo": [
+    653.2,
+    1007.2
+   ],
+   "tramo_en": "x",
+   "vigas_tramo": [
+    "V-F1-2-4"
+   ],
+   "a": 100,
+   "lado_menor": 71.2,
+   "lado_mayor": 72.7
+  },
+  {
+   "tipo": "ss10",
+   "viga": "V-F1-2-4",
+   "perfil": "IPE 500",
+   "x": 1058.6,
+   "y": 518.9,
+   "sentido": "NS",
+   "cota": [
+    [
+     1058.6,
+     587.6
+    ],
+    [
+     1058.6,
+     443.6
+    ]
+   ],
+   "largo_dibujado": 143.9,
+   "tramo": [
+    1007.2,
+    1257.3
+   ],
+   "tramo_en": "x",
+   "vigas_tramo": [
+    "V-F1-2-4"
+   ],
+   "a": 100,
+   "lado_menor": 68.7,
+   "lado_mayor": 75.3
+  }
+ ]
+}

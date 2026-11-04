@@ -18,7 +18,7 @@
   --mal:#B42318; --mal-soft:rgba(180,35,24,.08);
   --shadow:0 1px 2px rgba(16,18,22,.06),0 10px 28px rgba(16,18,22,.10);
   --chrome:#1B1E24; --chrome-ink:#F0F2F5; --chrome-muted:#9AA0AC; --chrome-line:#343943; --chrome-hi:rgba(255,255,255,.10);
-  --fig-ink:#2B2F36; --fig-soft:#8B929C; --fig-fill:#F1F2F4; --fig-horm:#DCDDDF; --fig-viga:#1D63B8; --fig-c:#C98A0E; --fig-placa:#8C96A3; --fig-malla:#3B414B; --fig-horm2:#B4B3AA; --fig-sold:#5E636B;
+  --fig-s10:#D9771C; --fig-s12:#C6362F; --fig-s16:#7A1F1F; --fig-ink:#2B2F36; --fig-soft:#8B929C; --fig-fill:#F1F2F4; --fig-horm:#DCDDDF; --fig-viga:#1D63B8; --fig-c:#C98A0E; --fig-placa:#8C96A3; --fig-malla:#3B414B; --fig-horm2:#B4B3AA; --fig-sold:#5E636B;
   --ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme: dark){
@@ -29,7 +29,7 @@
   --mal:#F08A80; --mal-soft:rgba(240,138,128,.10);
   --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
   --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
-  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-horm:#30333A; --fig-viga:#5AA9F0; --fig-c:#F2C14E; --fig-placa:#A3ACB8; --fig-malla:#D3D7DE; --fig-horm2:#8A8D93; --fig-sold:#9BA1AB;
+  --fig-s10:#F0A35A; --fig-s12:#F07C76; --fig-s16:#E0A0A0; --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-horm:#30333A; --fig-viga:#5AA9F0; --fig-c:#F2C14E; --fig-placa:#A3ACB8; --fig-malla:#D3D7DE; --fig-horm2:#8A8D93; --fig-sold:#9BA1AB;
   }
 }
 :root[data-theme="dark"]{
@@ -39,7 +39,7 @@
   --mal:#F08A80; --mal-soft:rgba(240,138,128,.10);
   --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.45);
   --chrome:#101216; --chrome-ink:#ECEEF2; --chrome-muted:#868C99; --chrome-line:#2B303A; --chrome-hi:rgba(255,255,255,.09);
-  --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-horm:#30333A; --fig-viga:#5AA9F0; --fig-c:#F2C14E; --fig-placa:#A3ACB8; --fig-malla:#D3D7DE; --fig-horm2:#8A8D93; --fig-sold:#9BA1AB;
+  --fig-s10:#F0A35A; --fig-s12:#F07C76; --fig-s16:#E0A0A0; --fig-ink:#D5D9E0; --fig-soft:#7D8592; --fig-fill:#1E2128; --fig-horm:#30333A; --fig-viga:#5AA9F0; --fig-c:#F2C14E; --fig-placa:#A3ACB8; --fig-malla:#D3D7DE; --fig-horm2:#8A8D93; --fig-sold:#9BA1AB;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -194,9 +194,9 @@ details.areas[open] summary::before{content:"▾ ";}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V134" data-vista="losa"></script>
-  <h1>Losa colaborante <small>Entrepiso de 15 cm · marco C, placa Instadeck 0,8, pernos, malla C-188 y hormigón</small></h1>
-  <span class="meta">Fuentes: planta estructura nivel 1 (rev. 08-04-2026), detalle del ingeniero (05-10-2026), lámina 11 de pernos (07-10-2026), fichas de Instadeck, pernos Nelson y mallas ACMA, y áreas marcadas en obra</span>
+  <script src="menu.js?v=V135" data-vista="losa"></script>
+  <h1>Losa colaborante <small>Entrepiso de 15 cm · marco C, placa Instadeck 0,8, pernos, malla C-188, suples y hormigón</small></h1>
+  <span class="meta">Fuentes: planta estructura nivel 1 (rev. 08-04-2026), detalle del ingeniero (05-10-2026), lámina 11 de pernos (07-10-2026), lámina de suples (03-11-2026), fichas de Instadeck, pernos Nelson y mallas ACMA, y áreas marcadas en obra</span>
 </header>
 <div class="main">
   <div class="visor" id="visor">
@@ -217,6 +217,7 @@ details.areas[open] summary::before{content:"▾ ";}
           <button class="tg" id="tg-placa" aria-pressed="true" style="--sw:var(--fig-placa)">Placa</button>
           <button class="tg" id="tg-pernos" aria-pressed="true" style="--sw:#6B4FBB">Pernos</button>
           <button class="tg" id="tg-malla" aria-pressed="false" style="--sw:var(--fig-malla)">Malla</button>
+          <button class="tg" id="tg-suples" aria-pressed="false" style="--sw:var(--fig-s16)">Suples</button>
           <button class="tg" id="tg-horm" aria-pressed="false" style="--sw:var(--fig-horm2)">Hormigón</button>
           <button class="tg" id="tg-alz" aria-pressed="true" style="--sw:#2E9E6A">Alzaprimas</button>
           <button class="tg" id="tg-pil2" aria-pressed="true" style="--sw:#C2410C">Pilares N2</button>
@@ -255,12 +256,12 @@ details.areas[open] summary::before{content:"▾ ";}
 
   <div class="doc" id="doc">
     <nav class="toc" id="toc" aria-label="Secciones">
-      <a href="#resumen">Resumen</a><a href="#areas">Áreas</a><a href="#marco">Marco C</a><a href="#placa">Placa</a><a href="#pernos">Pernos</a><a href="#apoyos">Alzaprimas</a><a href="#malla">Malla</a><a href="#hormigon">Hormigón</a><a href="#notas">Notas</a>
+      <a href="#resumen">Resumen</a><a href="#areas">Áreas</a><a href="#marco">Marco C</a><a href="#placa">Placa</a><a href="#pernos">Pernos</a><a href="#apoyos">Alzaprimas</a><a href="#malla">Malla</a><a href="#suples">Suples</a><a href="#hormigon">Hormigón</a><a href="#notas">Notas</a>
     </nav>
     <div class="doc-in">
 <section id="resumen" style="padding-top:14px">
   <p class="lead"><b>Losa colaborante</b>: planchas de acero <b>Instadeck 0,8</b> sobre las vigas, hormigón encima y conectores de corte que hacen trabajar todo junto.</p>
-  <ul class="puntos"><li><b>Capas del 3D</b> (se prenden y apagan): <b>marco perimetral C 150×50×3</b> que contiene el hormigón · <b>planchas</b> con su dirección área por área · <b>pernos Nelson</b> · <b>alzaprimas</b> · <b>malla</b> · <b>hormigón</b>.</li></ul>
+  <ul class="puntos"><li><b>Capas del 3D</b> (se prenden y apagan): <b>marco perimetral C 150×50×3</b> que contiene el hormigón · <b>planchas</b> con su dirección área por área · <b>pernos Nelson</b> · <b>alzaprimas</b> · <b>malla</b> · <b>suples</b> · <b>hormigón</b>.</li></ul>
   <div class="specs" id="specs"></div>
   <p class="small sub"><span class="fuente man">plano</span> dato del plano o de la ficha ·
   <span class="fuente med">obra</span> lo que se marcó a mano en el plano ·
@@ -347,8 +348,31 @@ details.areas[open] summary::before{content:"▾ ";}
   <ul class="puntos" id="txt-malla"></ul>
 </section>
 
+<section id="suples">
+  <h2><span class="n">07</span>Suples superiores</h2>
+  <p class="lead">Barras cortas que van <b>arriba, sobre las vigas donde la losa sigue a los dos lados</b>. Ahí la losa se dobla al revés (tira por arriba) y la malla sola no alcanza: el suple toma esa fuerza. Cada uno tiene forma de <b>⊓</b>: se para sobre la placa con dos patas, sobre separadores, y cruza la viga por arriba.</p>
+  <div class="kvs">
+    <div class="k">Dónde</div><div class="v">en las vigas que marca el ingeniero (<b>SS1 a SS10</b>), en <b>todos los valles</b> del tramo marcado <span class="fuente man">ingeniero, 03-11-2026</span></div>
+    <div class="k">Cuántos</div><div class="v"><b>2 por valle</b>, separados entre 5 y 10 cm: aquí 7, uno a cada lado del perno Nelson <span class="fuente man">ingeniero</span></div>
+    <div class="k">Altura</div><div class="v"><b>separador de 2,5 cm</b> bajo cada pie · pata de 10 · la barra de arriba queda a <b>2,5 cm de la cara</b> de la losa de 15 <span class="fuente man">ingeniero</span></div>
+    <div class="k">Acero</div><div class="v">A630-420H · ø10, ø12 y ø16 según el tipo · largo L = a + 30 (dos patas de 10 y dos pies de 5)</div>
+  </div>
+  <figure><svg id="svg-suples" role="img" aria-label="Planta de la losa con los suples superiores"></svg>
+    <figcaption id="cap-suples"></figcaption></figure>
+  <figure><svg id="svg-suple-det" role="img" aria-label="Detalle 1: medio suple visto de lado, cruzando su viga"></svg>
+    <figcaption id="cap-suple-det"></figcaption></figure>
+  <figure><svg id="svg-suple-det2" role="img" aria-label="Detalle 2: forma del suple y corte del valle con los dos suples"></svg>
+    <figcaption id="cap-suple-det2"></figcaption></figure>
+  <div class="specs" id="specs-suples"></div>
+  <div class="tw"><table class="small" id="tabla-suples"></table></div>
+  <h3>Lo que dijo el ingeniero (03-11-2026)</h3>
+  <ul class="puntos" id="txt-suples-ing"></ul>
+  <h3>Supuestos de este dibujo y preguntas al ingeniero</h3>
+  <ul class="puntos" id="txt-suples-sup"></ul>
+</section>
+
 <section id="hormigon">
-  <h2><span class="n">07</span>Hormigón</h2>
+  <h2><span class="n">08</span>Hormigón</h2>
   <div class="kvs">
     <div class="k">Altura</div><div class="v">llena los valles de la placa y sube hasta el borde del perfil C · <b>15 cm</b> desde la base de la placa · <b>8,65 cm sobre la cresta</b> (la ficha pide al menos 5)</div>
     <div class="k">Antes de vaciar</div><div class="v">sellar los extremos de los nervios en los bordes perpendiculares a las planchas, para que el hormigón no se escape por debajo</div>
@@ -359,7 +383,7 @@ details.areas[open] summary::before{content:"▾ ";}
 </section>
 
 <section id="notas">
-  <h2><span class="n">08</span>Notas</h2>
+  <h2><span class="n">09</span>Notas</h2>
   <ul class="small" id="lista-notas"></ul>
   <footer>Planos y ficha técnica fuera del repositorio (el plano lleva datos personales en la viñeta) · los dibujos de esta página están hechos de nuevo a partir de ellos.</footer>
 </section>
@@ -370,12 +394,13 @@ details.areas[open] summary::before{content:"▾ ";}
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=V134"></script>
+<script src="nav3d.js?v=V135"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
-<script src="placa3d.js?v=V134"></script>
-<script src="estructura.js?v=V134"></script>
-<script src="losa.js?v=V134"></script>
-<script src="alzaprimas.js?v=V134"></script>
+<script src="placa3d.js?v=V135"></script>
+<script src="estructura.js?v=V135"></script>
+<script src="losa.js?v=V135"></script>
+<script src="alzaprimas.js?v=V135"></script>
+<script src="suples.js?v=V135"></script>
 <script>
 (function () {
 'use strict';
@@ -792,6 +817,200 @@ dibujarPlaca();
     <li><b>3D:</b> la capa <b>Malla</b> muestra cada barra · tocar un panel → sus datos.</li>`;
 })();
 
+// ---------- suples superiores (suples.js, de la lámina de suples del ingeniero, 03-11-2026) ----------
+function dibujarSuples() {   // usa VALLES_C: se llama después de dibujarPerno()
+  const S = typeof DATA_SUPLES !== 'undefined' ? DATA_SUPLES : null;
+  if (!S) { $('#suples').hidden = true; return; }
+  const COL = d => `var(--fig-s${d})`, G = L.grilla;
+  const tipoN = t => 'SS' + t.slice(2);
+  // nombre de un eje o de una línea fuera de eje («F2+273»), desde la grilla
+  const nomEje = (v, letras) => {
+    const ej = Object.entries(letras ? G.letras : G.numeros).sort((p, q) => p[1] - q[1]);
+    const ex = ej.find(([, c]) => Math.abs(c - v) < 9); if (ex) return ex[0];
+    const ant = ej.filter(([, c]) => c < v).pop(); return ant ? `${ant[0]}+${Math.round(v - ant[1])}` : String(Math.round(v));
+  };
+  // la marca en palabras: «viga del eje H, ejes 2–3»
+  const donde = m => {
+    const ns = m.sentido === 'NS';   // suple NS: la viga corre en x (un eje con letra)
+    return `${nomEje(m.eje, ns)}, ${nomEje(m.tramo[0], !ns)}–${nomEje(m.tramo[1], !ns)}`;
+  };
+
+  // ---- planta ----
+  const svg = $('#svg-suples');
+  const xs = L.perimetro.map(p => p[0]), ys = L.perimetro.map(p => p[1]);
+  const x0 = Math.min(...xs) - 140, x1 = Math.max(...xs) + 140, y0 = Math.min(...ys) - 140, y1 = Math.max(Math.max(...ys) + 120, G.letras.A + 60);
+  svg.setAttribute('viewBox', `${x0} ${y0} ${x1 - x0} ${y1 - y0}`);
+  const ejes = el('g', {}, svg);
+  Object.entries(G.numeros).forEach(([n, x]) => { el('line', { x1: x, x2: x, y1: y0 + 60, y2: y1 - 20, style: 'stroke:var(--fig-soft);stroke-width:2;stroke-dasharray:18 10;opacity:.5' }, ejes); txt(ejes, x, y0 + 45, n, { 'font-size': 42, 'text-anchor': 'middle', class: 'txs' }); });
+  const LET = Object.entries(G.letras).sort((p, q) => p[1] - q[1]);
+  LET.forEach(([n, y], i) => {
+    const antes = i > 0 && y - LET[i - 1][1] < 45, despues = i < LET.length - 1 && LET[i + 1][1] - y < 45;
+    el('line', { x1: x0 + 70, x2: x1 - 20, y1: y, y2: y, style: 'stroke:var(--fig-soft);stroke-width:2;stroke-dasharray:18 10;opacity:.5' }, ejes);
+    txt(ejes, x0 + 40, y + 14 + (antes ? 12 : 0) - (despues ? 12 : 0), n, { 'font-size': 38, 'text-anchor': 'middle', class: 'txs' });
+  });
+  el('polygon', { points: L.perimetro.map(p => p.join(',')).join(' '), style: 'fill:var(--fig-fill);stroke:var(--fig-c);stroke-width:8' }, svg);
+  if (L.hueco_escalera) {
+    const h = L.hueco_escalera, hx = h.map(p => p[0]), hy = h.map(p => p[1]);
+    el('polygon', { points: h.map(p => p.join(',')).join(' '), style: 'fill:var(--paper);stroke:var(--fig-soft);stroke-width:5' }, svg);
+    el('path', { d: `M${Math.min(...hx)} ${Math.min(...hy)} L${Math.max(...hx)} ${Math.max(...hy)} M${Math.max(...hx)} ${Math.min(...hy)} L${Math.min(...hx)} ${Math.max(...hy)}`, style: 'stroke:var(--fig-soft);stroke-width:4' }, svg);
+    txt(svg, (Math.min(...hx) + Math.max(...hx)) / 2, (Math.min(...hy) + Math.max(...hy)) / 2 + 14, 'escalera', { 'font-size': 40, 'text-anchor': 'middle', class: 'txs' });
+  }
+  VIGAS.forEach(m => el('line', { x1: m.a[0], y1: m.a[1], x2: m.b[0], y2: m.b[1], style: `stroke:var(--fig-viga);stroke-width:${(E.perfiles[m.p] || {}).b || 12};opacity:.3` }, svg));
+  // franja que cubren los suples de cada tramo (a de ancho) y los suples, de su color
+  S.marcas.forEach(m => {
+    const ns = m.sentido === 'NS', h = m.a / 2;
+    el('rect', ns ? { x: m.tramo[0], y: m.eje - h, width: m.tramo[1] - m.tramo[0], height: m.a } : { x: m.eje - h, y: m.tramo[0], width: m.a, height: m.tramo[1] - m.tramo[0] },
+      svg).setAttribute('style', `fill:${COL(m.d)};fill-opacity:.10`);
+    m.suples.forEach(u => el('line', ns ? { x1: u, x2: u, y1: m.eje - h, y2: m.eje + h } : { x1: m.eje - h, x2: m.eje + h, y1: u, y2: u }, svg).setAttribute('style', `stroke:${COL(m.d)};stroke-width:4`));
+  });
+  PIL2.forEach(p => { const [a, b, c, d] = p.seccion; el('rect', { x: a, y: b, width: c - a, height: d - b, style: 'fill:var(--fig-ink)' }, svg); });
+  // rótulo de cada marca, al costado de su franja (como en la lámina)
+  S.marcas.forEach(m => {
+    const ns = m.sentido === 'NS', h = m.a / 2, t = tipoN(m.tipo);
+    const cx = ns ? m.marca[0] : m.eje + h + 62, cy = ns ? m.eje - h - 36 : m.marca[1];
+    el('rect', { x: cx - 58, y: cy - 27, width: 116, height: 54, rx: 10, style: `fill:var(--paper);stroke:${COL(m.d)};stroke-width:5` }, svg);
+    txt(svg, cx, cy + 13, t, { 'font-size': 36, 'text-anchor': 'middle', 'font-weight': 700, style: `fill:${COL(m.d)}` });
+  });
+  flechaNorte(svg, (G.numeros['4a'] + G.numeros['5']) / 2, (G.letras.K + G.letras.J) / 2, 50, 56);
+  const PD = S.por_diametro, T = S.total;
+  $('#cap-suples').innerHTML = `${miles(T.n)} suples a escala, ${S.tipos ? Object.keys(S.tipos).length : 10} tipos en ${S.marcas.length} tramos de viga · color por diámetro: <b style="color:var(--fig-s10)">ø10</b> (${PD['10'].n}), <b style="color:var(--fig-s12)">ø12</b> (${PD['12'].n}), <b style="color:var(--fig-s16)">ø16</b> (${PD['16'].n}) · franja clara: lo que cubren los suples de cada tramo · rótulo: el tipo de la tabla · negro: pilares del nivel 2 · amarillo: borde de la losa (marco C).`;
+
+  // ---- detalle 1: medio suple de lado, cruzando su viga (simétrico respecto del eje de la viga), a escala ----
+  const dv = $('#svg-suple-det'), H = ESP * 10, Sx = S.marcas.find(m => m.tipo === 'ss1') || S.marcas[0];
+  const d = Sx.d, a = Sx.a * 10, sep = S.separador * 10, rec = S.recubrimiento * 10, pata = S.forma.pata * 10, pie = S.forma.pie * 10, PN = L.perno;
+  const xa = a / 2, XD = xa + 90, XI = -260, FS = 30;
+  dv.setAttribute('viewBox', `-640 -330 ${XD + 300 + 640} 540`);
+  const ln = (x1, y1, x2, y2, st, p = dv) => el('line', { x1, y1, x2, y2, style: st }, p);
+  const cota = (p, x1, y1, x2, y2, s, dx, dy, rot, fs = FS) => {
+    ln(x1, y1, x2, y2, 'stroke:var(--fig-ink);stroke-width:1.4', p);
+    [[x1, y1], [x2, y2]].forEach(([x, y]) => ln(x - 7, y + 7, x + 7, y - 7, 'stroke:var(--fig-ink);stroke-width:1.8', p));
+    const t = txt(p, (x1 + x2) / 2 + dx, (y1 + y2) / 2 + dy, s, { 'font-size': fs, 'text-anchor': 'middle', 'font-weight': 600 });
+    if (rot) t.setAttribute('transform', `rotate(-90 ${(x1 + x2) / 2 + dx} ${(y1 + y2) / 2 + dy})`);
+  };
+  // hormigón, cara de la losa, cresta (atrás) y fondo del valle
+  el('rect', { x: XI, y: -H, width: XD - XI, height: H, style: 'fill:var(--fig-horm2);opacity:.38' }, dv);
+  ln(XI, -H, XD, -H, 'stroke:var(--fig-soft);stroke-width:2.5');
+  ln(XI, -PL.alto, XD, -PL.alto, 'stroke:var(--fig-placa);stroke-width:2;stroke-dasharray:14 8');
+  ln(XI, 0, XD, 0, 'stroke:var(--fig-placa);stroke-width:5');
+  // corte de la losa a la izquierda (sigue): línea de quiebre
+  el('path', { d: `M ${XI} ${-H - 14} L ${XI + 12} ${-H * 0.62} L ${XI - 12} ${-H * 0.38} L ${XI} 14`, style: 'fill:none;stroke:var(--fig-soft);stroke-width:2' }, dv);
+  // viga (IPE 300: ala de 150) y su eje
+  el('rect', { x: -75, y: 1, width: 150, height: 10.7, style: 'fill:var(--fig-viga)' }, dv);
+  el('rect', { x: -3.6, y: 11.7, width: 7.2, height: 100, style: 'fill:var(--fig-viga);opacity:.7' }, dv);
+  ln(0, -H - 70, 0, 150, 'stroke:var(--fig-ink);stroke-width:1.4;stroke-dasharray:22 6 4 6');
+  txt(dv, 0, 182, 'eje de la viga (el suple es simétrico)', { 'font-size': FS - 4, 'text-anchor': 'middle', class: 'txs' });
+  // perno al centro del valle, 3,5 cm detrás del corte
+  el('rect', { x: -PN.d / 2, y: -(PN.largo - PN.cabeza_h), width: PN.d, height: PN.largo - PN.cabeza_h, style: 'fill:none;stroke:#6B4FBB;stroke-width:2.5;stroke-dasharray:6 4' }, dv);
+  el('rect', { x: -PN.cabeza_d / 2, y: -PN.largo, width: PN.cabeza_d, height: PN.cabeza_h, rx: 2, style: 'fill:none;stroke:#6B4FBB;stroke-width:2.5;stroke-dasharray:6 4' }, dv);
+  // malla: su cara superior a rec de la cara
+  const MA = L.malla, dB = MA ? MA.d * 10 : 6, zM = H - (MA ? MA.recubrimiento * 10 : 25);
+  ln(XI, -(zM - 1.5 * dB), XD, -(zM - 1.5 * dB), `stroke:var(--fig-malla);stroke-width:${dB};opacity:.7`);
+  for (let x = XI + 60; x < XD; x += (MA ? MA.sep * 10 : 150)) el('circle', { cx: x, cy: -(zM - dB / 2), r: dB / 2, style: 'fill:var(--fig-malla);opacity:.7' }, dv);
+  // medio suple: desde el eje de la viga hasta su pata; pie hacia adentro sobre el separador (ejes de barra)
+  const zb = sep + d / 2, zt = H - rec - d / 2;
+  el('path', { d: `M ${XI} ${-zt} L ${xa - d / 2} ${-zt} L ${xa - d / 2} ${-zb} L ${xa - pie} ${-zb}`, style: `fill:none;stroke:${COL(d)};stroke-width:${d};stroke-linejoin:round;stroke-linecap:round` }, dv);
+  el('rect', { x: xa - pie + 4, y: -sep, width: pie - 8, height: sep, style: 'fill:var(--fig-soft);opacity:.9' }, dv);
+  // cotas
+  cota(dv, XD + 34, -H, XD + 34, -(H - rec), coma(rec / 10, 1), 50, 11);
+  cota(dv, XD + 34, -(H - rec), XD + 34, -sep, `${coma(pata / 10, 0)} pata`, 92, 11);
+  cota(dv, XD + 34, -sep, XD + 34, 0, coma(sep / 10, 1), 50, 11);
+  cota(dv, XI - 60, 0, XI - 60, -H, `${coma(H / 10, 0)} losa`, -24, 0, true);
+  cota(dv, 0, -H - 46, xa, -H - 46, `a / 2 = ${coma(a / 20, 0)}`, -xa * 0.18, -16);
+  cota(dv, xa - pie, 40, xa, 40, `${coma(pie / 10, 0)} pie`, -20, 36);
+  // rótulos con línea de llamada
+  const llamada = (x1, y1, x2, y2, s, st, anc = 'start') => {
+    el('path', { d: `M ${x1} ${y1} L ${x2} ${y2} L ${x2 + (anc === 'end' ? -14 : 14)} ${y2}`, style: 'fill:none;stroke:var(--fig-ink);stroke-width:1.3' }, dv);
+    txt(dv, x2 + (anc === 'end' ? -20 : 20), y2 + 10, s, { 'font-size': FS - 2, 'text-anchor': anc, style: st || '' });
+  };
+  llamada(xa - 90, -zt - d / 2, xa - 110, -H - 118, `suple ${tipoN(Sx.tipo)} · ø${d} (ejemplo)`, `fill:${COL(d)};font-weight:700`);
+  llamada(-PN.cabeza_d / 2, -PN.largo + 4, -70, -H - 118, 'perno Nelson, 3,5 cm atrás', 'fill:#6B4FBB', 'end');
+  llamada(-190, -(zM - dB / 2), -210, -H - 52, `malla ${MA ? MA.tipo.replace('ACMA ', '') : 'C-188'} (pregunta 1)`, 'fill:var(--fig-ink)', 'end');
+  llamada(xa - pie / 2, -sep / 2, XD + 4, 112, 'separador de 2,5', 'fill:var(--fig-ink)');
+  txt(dv, 90, -PL.alto + 36, 'cresta del nervio, atrás', { 'font-size': FS - 4, class: 'txs' });
+  txt(dv, 18, 72, 'viga receptora', { 'font-size': FS - 4, class: 'txs' });
+  $('#cap-suple-det').innerHTML = `Detalle 1 · medio suple ${tipoN(Sx.tipo)} visto de lado, a escala, desde el eje de su viga (la otra mitad es igual): la barra de arriba a ${coma(S.recubrimiento, 1)} cm de la cara de la losa de ${coma(ESP, 0)}, la pata de ${coma(S.forma.pata, 0)} y el pie de ${coma(S.forma.pie, 0)} hacia adentro sobre un separador de ${coma(S.separador, 1)} cm · el perno va al centro del valle, 3,5 cm detrás de este suple · medidas en cm.`;
+
+  // ---- detalle 2: forma (tabla de la lámina) y corte del valle sobre la viga ----
+  const d2 = $('#svg-suple-det2');
+  d2.setAttribute('viewBox', '0 0 1640 620');
+  const fx = 70, fy = 150;
+  txt(d2, 0, 40, 'Forma (tabla de la lámina), sin escala', { 'font-size': 32, 'font-weight': 700 });
+  el('path', { d: `M ${fx + 80} ${fy + 170} L ${fx} ${fy + 170} L ${fx} ${fy} L ${fx + 520} ${fy} L ${fx + 520} ${fy + 170} L ${fx + 440} ${fy + 170}`, style: `fill:none;stroke:var(--fig-ink);stroke-width:8;stroke-linejoin:round` }, d2);
+  txt(d2, fx + 260, fy - 22, 'a', { 'font-size': 32, 'text-anchor': 'middle', 'font-weight': 700 });
+  txt(d2, fx + 260, fy + 66, 'L = a + 30', { 'font-size': 32, 'text-anchor': 'middle', 'font-weight': 700 });
+  txt(d2, fx - 22, fy + 96, '10', { 'font-size': 30, 'text-anchor': 'end', 'font-weight': 600 });
+  txt(d2, fx + 542, fy + 96, '10', { 'font-size': 30, 'font-weight': 600 });
+  txt(d2, fx + 40, fy + 216, '5', { 'font-size': 30, 'text-anchor': 'middle', 'font-weight': 600 });
+  txt(d2, fx + 480, fy + 216, '5', { 'font-size': 30, 'text-anchor': 'middle', 'font-weight': 600 });
+  txt(d2, 0, fy + 290, 'Dos patas de 10 y dos pies de 5 hacia adentro.', { 'font-size': 28, class: 'txs' });
+  txt(d2, 0, fy + 330, 'Los pies, sobre separadores de 2,5 cm.', { 'font-size': 28, class: 'txs' });
+  txt(d2, 0, fy + 370, 'Acero A630-420H.', { 'font-size': 28, class: 'txs' });
+  // corte del valle (×2), mirando a lo largo del suple
+  const k = 2, cx0 = 1110, cy0 = 520, vc = VALLES_C[0];
+  txt(d2, 700, 40, 'Corte del valle, sobre la viga (a escala)', { 'font-size': 32, 'font-weight': 700 });
+  const gC = el('g', { transform: `translate(${cx0} ${cy0}) scale(${k})` }, d2);
+  const pr = PL.perfil.filter(p => Math.abs(p[0] - vc) <= 190).map(p => [p[0] - vc, p[1]]);
+  const xC0 = pr[0][0], xC1 = pr[pr.length - 1][0];
+  let dh = `M ${xC0} ${-H} L ${xC1} ${-H}`; for (let i = pr.length - 1; i >= 0; i--) dh += ` L ${pr[i][0]} ${-pr[i][1]}`; dh += ' Z';
+  el('path', { d: dh, style: 'fill:var(--fig-horm2);opacity:.38' }, gC);
+  el('path', { d: 'M ' + pr.map(p => `${p[0]} ${-p[1]}`).join(' L '), style: 'fill:none;stroke:var(--fig-placa);stroke-width:2.5;stroke-linejoin:round' }, gC);
+  el('rect', { x: xC0, y: 1, width: xC1 - xC0, height: 10.7, style: 'fill:var(--fig-viga)' }, gC);
+  el('rect', { x: -PN.d / 2, y: -(PN.largo - PN.cabeza_h), width: PN.d, height: PN.largo - PN.cabeza_h, style: 'fill:#6B4FBB' }, gC);
+  el('rect', { x: -PN.cabeza_d / 2, y: -PN.largo, width: PN.cabeza_d, height: PN.cabeza_h, rx: 2, style: 'fill:#6B4FBB' }, gC);
+  ln(xC0, -(zM - dB / 2), xC1, -(zM - dB / 2), `stroke:var(--fig-malla);stroke-width:${dB};opacity:.7`, gC);
+  [-1, 1].forEach(s => el('circle', { cx: s * S.sep * 5, cy: -zt, r: d / 2, style: `fill:${COL(d)}` }, gC));
+  ln(xC0, -H, xC1, -H, 'stroke:var(--fig-soft);stroke-width:1.5', gC);
+  const enY = y0_ => { const c = []; for (let i = 1; i < pr.length; i++) { const p = pr[i - 1], q = pr[i]; if ((p[1] - y0_) * (q[1] - y0_) < 0) c.push(p[0] + (q[0] - p[0]) * (y0_ - p[1]) / (q[1] - p[1])); } return c; };
+  const med = enY(PL.alto / 2), iz = Math.max(...med.filter(x => x < 0)), de = Math.min(...med.filter(x => x > 0));
+  const P = (x, y) => [cx0 + x * k, cy0 + y * k];
+  cota(d2, ...P(-S.sep * 5, -H - 22), ...P(S.sep * 5, -H - 22), `${coma(S.sep, 0)} entre suples`, 0, -16, false, 30);
+  cota(d2, ...P(iz, -PL.alto / 2), ...P(de, -PL.alto / 2), '', 0, 0, false, 30);
+  el('path', { d: `M ${P(de, -PL.alto / 2).join(' ')} L ${P(de + 36, -PL.alto - 30).join(' ')}`, style: 'fill:none;stroke:var(--fig-ink);stroke-width:1.3' }, d2);
+  txt(d2, ...P(de + 40, -PL.alto - 40), `≈ ${coma((de - iz) / 10, 0)} cm`, { 'font-size': 30, 'font-weight': 600 });
+  txt(d2, ...P(de + 40, -PL.alto - 23), 'de valle', { 'font-size': 30, 'font-weight': 600 });
+  cota(d2, ...P(xC1 + 14, -H), ...P(xC1 + 14, -(H - rec)), coma(rec / 10, 1), 36, 11, false, 30);
+  txt(d2, ...P(xC0 + 4, 30), 'ala de la viga', { 'font-size': 28, class: 'txs' });
+  txt(d2, ...P(xC0 + 4, -H + 18), `malla ${MA ? MA.tipo.replace('ACMA ', '') : 'C-188'}`, { 'font-size': 28, class: 'txs' });
+  txt(d2, ...P(-PN.cabeza_d / 2 - 8, -PN.largo / 2), 'perno', { 'font-size': 28, 'text-anchor': 'end', style: 'fill:#6B4FBB;font-weight:600' });
+  $('#cap-suple-det2').innerHTML = `Detalle 2 · a la izquierda, la forma de la tabla del ingeniero (L = a + 30) · a la derecha, el valle cortado sobre la viga: los <b>2 suples</b> a ${coma(S.sep, 0)} cm, uno a cada lado del perno, con la barra de arriba a ${coma(S.recubrimiento, 1)} cm de la cara · el valle mide unos ${coma((de - iz) / 10, 0)} cm a media altura (el ingeniero: «alrededor de 17 cm») · medidas en cm.`;
+
+  // ---- totales ----
+  const kgT = T.kg;
+  const sp = [
+    ['Suples', miles(T.n), `2 por valle en los ${S.marcas.length} tramos marcados (${miles(S.marcas.reduce((t, m) => t + m.valles, 0))} valles)${S.marcas.some(m => m.fuera.length) ? ` · ${S.marcas.reduce((t, m) => t + m.fuera.length, 0)} no caben (pilar)` : ''} <span class="fuente calc">calculado</span>`],
+    ['Fierro', '≈ ' + miles(kgT) + ' kg', `${coma(T.m, 0)} m de barra A630-420H: ø10 ${miles(PD['10'].kg)} kg · ø12 ${miles(PD['12'].kg)} kg · ø16 ${miles(PD['16'].kg)} kg, sin pérdidas <span class="fuente calc">calculado</span>`],
+    ['Separadores', miles(T.n * 2), `De ${coma(S.separador, 1)} cm, uno bajo cada pie <span class="fuente man">ingeniero</span>`],
+    ['Altura', `${coma(S.recubrimiento, 1)} cm bajo la cara`, `Cara superior de la barra de arriba, igual que abajo: ${coma(S.separador, 1)} cm de separador <span class="fuente man">ingeniero</span>`]
+  ];
+  $('#specs-suples').innerHTML = sp.map(([l, v, dd]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${dd}</div></div>`).join('');
+  const filas = Object.entries(S.tipos).map(([kT, t]) => {
+    const ms = S.marcas.filter(m => m.tipo === kT);
+    return `<tr><td><b style="color:${COL(t.d)}">${tipoN(kT)}</b></td><td class="r">ø${t.d}</td><td class="r">${t.a}</td><td class="r">${t.L}</td><td>${ms.map(donde).join(' · ')}</td><td class="r">${miles(t.n)}</td><td class="r">${coma(t.m, 1)}</td><td class="r">${coma(t.kg, 1)}</td></tr>`;
+  }).join('');
+  $('#tabla-suples').innerHTML = `<thead><tr><th>Tipo</th><th class="r">ø</th><th class="r">a (cm)</th><th class="r">L (cm)</th><th>Viga y tramo (eje, entre ejes)</th><th class="r">Suples</th><th class="r">m</th><th class="r">kg</th></tr></thead><tbody>${filas}` +
+    `<tr class="tot"><td colspan="5">Total · ø10 ${PD['10'].n} · ø12 ${PD['12'].n} · ø16 ${PD['16'].n}</td><td class="r">${miles(T.n)}</td><td class="r">${coma(T.m, 1)}</td><td class="r">${coma(kgT, 1)}</td></tr></tbody>`;
+
+  // ---- lo que dijo el ingeniero, supuestos y preguntas ----
+  $('#txt-suples-ing').innerHTML = [
+    '<b>Dónde:</b> cada marca «SS» de la lámina indica el suple de esa viga; tipo, diámetro y largo, en su tabla (SS1 a SS10).',
+    '<b>2 suples en cada valle</b> donde se indican (el valle mide alrededor de 17 cm): no juntos, separados entre 5 y 10 cm (la lámina: 5 como mínimo).',
+    '<b>Separador:</b> bajo la pata de apoyo de cada suple, uno que lo deje 2,5 cm sobre la placa (primero dijo 2 y lo corrigió a 2,5).',
+    '<b>Losa de 15 cm:</b> la lámina todavía dice 14,35 (no lo alcanzó a corregir). Con 15 y el separador de 2,5, la barra de arriba queda con 2,5 cm de recubrimiento; los 15 dejan el canal de contención del hormigón en los bordes (el perfil C).',
+    '<b>Recubrimiento</b> superior e inferior de los suples en los apoyos: 2,5 cm · acero A630-420H.'
+  ].map(t => `<li>${t}</li>`).join('');
+  const cr = S.cruces || [], nCr = cr.reduce((t, c) => t + c.n, 0), cruzan = S.marcas.reduce((t, m) => t + (m.cruzan || []).length, 0);
+  const ss5 = S.marcas.filter(m => m.tipo === 'ss5'), ss5c = ss5.reduce((t, m) => t + (m.cruzan || []).length, 0);
+  const fuera = S.marcas.filter(m => m.fuera.length);
+  $('#txt-suples-sup').innerHTML = [
+    ...S.supuestos.map(t => `<b>Supuesto:</b> ${t}`),
+    fuera.length ? `<b>No caben:</b> ${fuera.map(m => `${m.fuera.length} de ${tipoN(m.tipo)} (${donde(m)}): ${[...new Set(m.fuera.map(f => f.motivo))].join(', ')}`).join(' · ')}; ${fuera.reduce((t, m) => t + m.fuera.length, 0) === 1 ? 'queda' : 'quedan'} fuera del conteo.` : '',
+    S.choque_malla ? `<b>Pregunta 1 · malla y suples a la misma altura:</b> la malla ${MA ? MA.tipo : 'C-188'} tiene su cara a ${coma(MA ? MA.recubrimiento : 2.5, 1)} cm de la cara de la losa (detalle del 05-10-2026) y la barra de arriba de los suples también: en cada cruce se topan. ¿La malla va bajo los suples (unos ${coma(Math.max(...Object.values(S.tipos).map(t => t.d)) / 10, 1)} cm más abajo) o encima, sobre ellos?` : '',
+    ss5.length ? `<b>Pregunta 2 · SS5 en la viga B (ejes 1–2):</b> con a = 270 centrado en la viga, por el sur llega a la viga A3, pero por el norte entra ${coma(ss5[0].a / 200, 2)} m en el área donde las planchas van paralelas a la viga B: ahí el suple cruza los nervios en vez de ir en un valle (${ss5c} de ${ss5.reduce((t, m) => t + m.suples.length, 0)}), y su pata norte puede caer sobre una cresta. ¿Va así, o se corre o se acorta?` : '',
+    nCr ? `<b>Pregunta 3 · suples que se cruzan:</b> ${Object.values(cr.reduce((o, c) => { const k = c.a + c.viga_a + c.b; (o[k] = o[k] || Object.assign({}, c, { n: 0 })).n += c.n; return o; }, {})).map(c => `${tipoN(c.a)} (${donde(S.marcas.find(m => m.viga === c.viga_a && m.tipo === c.a))}) con ${tipoN(c.b)} (viga B): ${c.n} cruces`).join(' · ')}, en las esquinas de la viga B con los ejes 1a' y 2. Van a la misma altura: ¿cuál va arriba y cuál abajo, o se corta uno de los dos?` : '',
+    cruzan - ss5c > 0 ? `<b>Esquinas:</b> ${cruzan - ss5c} suples de otros tramos tienen una punta donde las planchas cambian de sentido (cerca de la viga E4); se dejan como están.` : ''
+  ].filter(Boolean).map(t => `<li>${t}</li>`).join('');
+}
+
 (function hormigon() {
   const lleno = SUP / 1e4 * ESP / 100, vacio = M2_PLACA * VACIO;
   const sp = [
@@ -915,6 +1134,7 @@ function dibujarPerno() {
   txt(svg, v0 + 76, 89, `perforación Ø${coma(RP * 2, 0)} (sierra copa), con ${coma(RP - PN.d / 2, 0)} mm libres alrededor del perno`, { 'font-size': 14, style: 'fill:var(--fig-ink);font-weight:600' });
 }
 dibujarPerno();
+dibujarSuples();
 
 $('#lista-notas').innerHTML = (L.notas || []).map(n => `<li>${n}</li>`).join('');
 
@@ -1203,6 +1423,35 @@ function iniciar3D() {
     });
   }
 
+  // ---------- suples superiores (suples.js): cada uno es un ⊓ de 5 tramos (pie, pata, barra, pata, pie), con su color por diámetro ----------
+  const gSup = new T.Group(); scene.add(gSup); gSup.visible = false;
+  const SU = typeof DATA_SUPLES !== 'undefined' ? DATA_SUPLES : null;
+  let N_SUP = 0;
+  if (SU) {
+    const COLS = dark ? { 10: 0xF0A35A, 12: 0xF07C76, 16: 0xE0A0A0 } : { 10: 0xD9771C, 12: 0xC6362F, 16: 0x7A1F1F };
+    const porD = {};
+    SU.marcas.forEach(m => m.suples.forEach(u => (porD[m.d] = porD[m.d] || []).push([m, u])));
+    const qq = new T.Quaternion(), sc = new T.Vector3(), X1 = new T.Vector3(1, 0, 0), dir = new T.Vector3();
+    Object.entries(porD).forEach(([d, lista]) => {
+      const r = d / 2000, dc = d / 10;   // m · cm
+      const geo = new T.CylinderGeometry(r, r, 1, 8, 1, false); geo.rotateZ(Math.PI / 2); geo.translate(0.5, 0, 0);   // de x = 0 a x = 1
+      const im = new T.InstancedMesh(geo, std(COLS[d] || 0x8E2A2A, { roughness: 0.5, metalness: 0.45 }), lista.length * 5);
+      const infos = []; let i = 0;
+      lista.forEach(([m, u]) => {
+        const ns = m.sentido === 'NS', h = m.a / 2, zb = SU.z.pie + dc / 2, zt = SU.z.tope - dc / 2, pie = SU.forma.pie;
+        const at = (sv, z) => ns ? W(u, m.eje + sv, z) : W(m.eje + sv, u, z);   // sv: cm a lo largo del suple, desde el eje de la viga
+        const pts = [at(-h + pie, zb), at(-h + dc / 2, zb), at(-h + dc / 2, zt), at(h - dc / 2, zt), at(h - dc / 2, zb), at(h - pie, zb)];
+        const info = `<b>Suple ${m.tipo.toUpperCase().replace('SS', 'SS')} · ø${m.d}</b><div class="d">a = ${m.a} cm, L = ${m.L} cm (patas de 10, pies de 5) · sobre la viga ${m.viga.replace(/^V-/, '')} (${m.perfil}) · 2 por valle, ${m.suples.length} en el tramo · pies sobre separadores de ${coma(SU.separador, 1)} cm, barra de arriba a ${coma(SU.recubrimiento, 1)} cm de la cara · ingeniero, 03-11-2026</div>`;
+        for (let k = 0; k + 1 < pts.length; k++) {
+          dir.subVectors(pts[k + 1], pts[k]); const largo = dir.length(); dir.normalize();
+          qq.setFromUnitVectors(X1, dir); sc.set(largo, 1, 1);
+          im.setMatrixAt(i, mtx.compose(pts[k], qq, sc)); infos[i++] = info;
+        }
+      });
+      im.userData = { infos }; gSup.add(im); N_SUP += lista.length;
+    });
+  }
+
   // ---------- hormigón: llena los valles de cada plancha y sube hasta la cara de la losa ----------
   const gHorm = new T.Group(); scene.add(gHorm); gHorm.visible = false;
   const planoH = new T.Plane(new T.Vector3(0, -1, 0), 1e3);   // durante el vaciado corta lo que está sobre el nivel del hormigón
@@ -1257,8 +1506,9 @@ function iniciar3D() {
   });
   if (PUNT.length) SECUENCIA.push({ tipo: 'A', alz: gAlzIn, w: 6 });
   MALLAS.forEach(mz => SECUENCIA.push({ tipo: 'M', mz }));
+  if (N_SUP) SECUENCIA.push({ tipo: 'U', sup: gSup, w: 4 });
   SECUENCIA.push({ tipo: 'H', horm: gHorm, w: 22 });
-  const IDX = new Map(); SECUENCIA.forEach((s, i) => IDX.set(s.q || s.m || s.pa || s.mz || s.alz || s.horm, i));
+  const IDX = new Map(); SECUENCIA.forEach((s, i) => IDX.set(s.q || s.m || s.pa || s.mz || s.alz || s.horm || s.sup, i));
   const NSEC = SECUENCIA.length, PESO = SECUENCIA.reduce((t, s) => t + (s.w || 1), 0), VENT = Math.min(0.12, 6 / PESO);
   { let acu = 0; SECUENCIA.forEach(s => { s.t0 = acu / PESO * (1 - VENT); acu += s.w || 1; s.dur = s.w ? (s.w / PESO) * (1 - VENT) + VENT : VENT; }); }
   const avance = s => Math.max(0, Math.min(1, (est.t - s.t0) / s.dur));
@@ -1308,6 +1558,11 @@ function iniciar3D() {
       else if (desp) y = yMal;
       mz.grupo.position.set(0, y, 0); mz.grupo.visible = vis;
     });
+    // suples: en el montaje bajan después de la malla; en el despiece van con ella
+    if (N_SUP) { let y = 0, vis = true;
+      if (mont) { const s = SECUENCIA[IDX.get(gSup)]; vis = est.t >= s.t0; y = (1 - ease(avance(s))) * 1.2; }
+      else if (desp) y = yMal + est.sM * 0.3;
+      gSup.position.y = y; gSup.children.forEach(o => { o.visible = vis; }); }
     // hormigón: en el montaje se vacía (sube el plano de corte); en el despiece se levanta entero
     { const s = SECUENCIA[IDX.get(gHorm)];
       if (mont) { const u = avance(s); gHorm.children.forEach(o => { o.visible = est.t >= s.t0; }); planoH.constant = (Z0 + ESP * u) / 100; gHorm.position.y = 0; }
@@ -1319,11 +1574,12 @@ function iniciar3D() {
     if (mont) {
       let i = 0; SECUENCIA.forEach((s, k) => { if (est.t >= s.t0) i = k; });
       const s = SECUENCIA[i];
-      $('#m-txt').innerHTML = est.t >= 0.999 ? `<b>Listo.</b> Losa de ${coma(ESP, 0)} cm con marco, placas, pernos, malla y hormigón (≈ ${coma(VOL_H, 1)} m³). Las alzaprimas se sacan cuando el hormigón alcanza su resistencia.`
+      $('#m-txt').innerHTML = est.t >= 0.999 ? `<b>Listo.</b> Losa de ${coma(ESP, 0)} cm con marco, placas, pernos, malla, suples y hormigón (≈ ${coma(VOL_H, 1)} m³). Las alzaprimas se sacan cuando el hormigón alcanza su resistencia.`
         : s.tipo === 'C' ? `<b>Marco C</b> · pieza ${s.m.nombre} (${fm(s.m.pz.largo, 2)}) · ${i + 1} de ${MARCO.length}`
         : s.tipo === 'S' ? `<b>Área ${s.n}</b> · se perfora la placa (Ø${coma(L.perforacion * 10, 0)} mm) y se sueldan al arco ${s.pa.lista.length} pernos Nelson al centro de los valles, directo sobre las vigas receptoras`
         : s.tipo === 'A' ? `<b>Alzaprimas</b> · ${PUNT.length} puntales con sus soleras bajo la placa, antes de cargarla <span class="sub">(por confirmar con el ingeniero)</span>`
         : s.tipo === 'M' ? `<b>Malla ${MA.tipo}</b> · panel ${s.mz.p.n} de ${MALLAS.length}${s.mz.p.cortado ? ' (con cortes)' : ''}, sobre separadores, con su cara a ${coma(MA.recubrimiento, 1)} cm de la cara de la losa`
+        : s.tipo === 'U' ? `<b>Suples</b> · ${N_SUP} suples sobre las vigas marcadas por el ingeniero, 2 por valle, sobre separadores de ${coma(SU.separador, 1)} cm`
         : s.tipo === 'H' ? `<b>Hormigonado</b> · ${coma(Math.max(0, ESP * avance(s)), 1)} de ${coma(ESP, 0)} cm · ≈ ${coma(VOL_H, 1)} m³`
         : `<b>Área ${s.q.a.n}</b> · plancha ${s.q.p.k} de ${s.q.a.planchas}${s.q.p.cortada ? ' (cortada)' : ''} · ${fm(s.q.p.largo, 2)} · paso ${i + 1} de ${NSEC}`;
     }
@@ -1405,7 +1661,7 @@ function iniciar3D() {
     const r = renderer.domElement.getBoundingClientRect();
     ptr.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1); ray.setFromCamera(ptr, camera);
     const seVe = o => { for (let p = o; p; p = p.parent) if (!p.visible) return false; return true; };
-    const objs = []; [gHorm, gMalla, gMarco, gPlaca, gPernos, gAlz, gVigas, gPilares, gPil2].forEach(g => g.visible && g.traverse(o => { if (o.isMesh && seVe(o)) objs.push(o); }));
+    const objs = []; [gHorm, gMalla, gSup, gMarco, gPlaca, gPernos, gAlz, gVigas, gPilares, gPil2].forEach(g => g.visible && g.traverse(o => { if (o.isMesh && seVe(o)) objs.push(o); }));
     // durante el vaciado, lo que el plano de corte esconde no se toca
     const hit = ray.intersectObjects(objs, false).find(h => h.object.material !== MAT.horm || h.point.y <= planoH.constant + 1e-4);
     if (!hit) { seleccionar(null); return; }
@@ -1502,10 +1758,10 @@ function iniciar3D() {
   // despiece y montaje muestran la losa completa (malla, hormigón y, en el montaje, alzaprimas);
   // al volver a Armado las capas quedan como estaban
   let capasAntes = null;
-  const FORZAR = { despiece: ['#tg-malla', '#tg-horm'], montaje: ['#tg-malla', '#tg-horm', '#tg-alz'] };
+  const FORZAR = { despiece: ['#tg-malla', '#tg-suples', '#tg-horm'], montaje: ['#tg-malla', '#tg-suples', '#tg-horm', '#tg-alz'] };
   function fijarCapa(id, on) { const b = $(id); if ((b.getAttribute('aria-pressed') === 'true') !== on) b.click(); }
   function modo(m) {
-    if (m !== 'armado' && !capasAntes) capasAntes = Object.fromEntries(['#tg-malla', '#tg-horm', '#tg-alz'].map(id => [id, $(id).getAttribute('aria-pressed') === 'true']));
+    if (m !== 'armado' && !capasAntes) capasAntes = Object.fromEntries(['#tg-malla', '#tg-suples', '#tg-horm', '#tg-alz'].map(id => [id, $(id).getAttribute('aria-pressed') === 'true']));
     if (capasAntes) { Object.entries(capasAntes).forEach(([id, on]) => fijarCapa(id, (FORZAR[m] || []).includes(id) || on)); if (m === 'armado') capasAntes = null; }
     est.modo = m; auto = null; $('#d-auto').textContent = '▶ Automático';
     document.querySelectorAll('[data-modo]').forEach(b => b.setAttribute('aria-pressed', b.dataset.modo === m ? 'true' : 'false'));
@@ -1527,11 +1783,12 @@ function iniciar3D() {
   tog('#tg-pernos', on => { gPernos.visible = on; });
   tog('#tg-alz', on => { gAlz.visible = on; });
   tog('#tg-malla', on => { gMalla.visible = on; });
+  tog('#tg-suples', on => { gSup.visible = on; });
   tog('#tg-horm', on => { gHorm.visible = on; });
   tog('#tg-color', on => { est.colorArea = on; seleccionar(est.sel && est.sel.tipo, est.sel && est.sel.id); });
   tog('#tg-etq', on => { est.etq = on; });
   addEventListener('keydown', e => { if (e.key === 'Escape') seleccionar(null); });
-  $('#txt-armado').innerHTML = `Marco C en ${MARCO.length} piezas (${TRAMOS.length} tramos) · ${N_PLANCHAS} planchas (${PLACAS.length} piezas) en ${L.areas.length} áreas · ${L.pernos.length} pernos Nelson · ${PUNT.length} alzaprimas · malla en ${MA_N} paneles y ≈ ${coma(VOL_HORM, 1)} m³ de hormigón (capas apagadas: se prenden a la derecha) · ${PIL2.length} pilares del nivel 2 la atraviesan. Prueba <b>Despiece</b> o <b>Montaje</b>.`;
+  $('#txt-armado').innerHTML = `Marco C en ${MARCO.length} piezas (${TRAMOS.length} tramos) · ${N_PLANCHAS} planchas (${PLACAS.length} piezas) en ${L.areas.length} áreas · ${L.pernos.length} pernos Nelson · ${PUNT.length} alzaprimas · malla en ${MA_N} paneles · ${N_SUP} suples y ≈ ${coma(VOL_HORM, 1)} m³ de hormigón (capas apagadas: se prenden a la derecha) · ${PIL2.length} pilares del nivel 2 la atraviesan. Prueba <b>Despiece</b> o <b>Montaje</b>.`;
 
   // ---------- arranque ----------
   $('#v-carga').hidden = true; $('#v-ui').hidden = false;
