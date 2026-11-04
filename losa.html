@@ -194,7 +194,7 @@ details.areas[open] summary::before{content:"▾ ";}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V139" data-vista="losa"></script>
+  <script src="menu.js?v=V140" data-vista="losa"></script>
   <h1>Losa colaborante <small>Entrepiso de 15 cm · marco C, placa Instadeck 0,8, pernos, malla C-188, suples y hormigón</small></h1>
   <span class="meta">Fuentes: planta estructura nivel 1 (rev. 08-04-2026), detalle del ingeniero (05-10-2026), lámina 11 de pernos (07-10-2026), lámina de suples (03-11-2026), fichas de Instadeck, pernos Nelson y mallas ACMA, y áreas marcadas en obra</span>
 </header>
@@ -394,13 +394,13 @@ details.areas[open] summary::before{content:"▾ ";}
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=V139"></script>
+<script src="nav3d.js?v=V140"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
-<script src="placa3d.js?v=V139"></script>
-<script src="estructura.js?v=V139"></script>
-<script src="losa.js?v=V139"></script>
-<script src="alzaprimas.js?v=V139"></script>
-<script src="suples.js?v=V139"></script>
+<script src="placa3d.js?v=V140"></script>
+<script src="estructura.js?v=V140"></script>
+<script src="losa.js?v=V140"></script>
+<script src="alzaprimas.js?v=V140"></script>
+<script src="suples.js?v=V140"></script>
 <script>
 (function () {
 'use strict';
@@ -1370,7 +1370,7 @@ function iniciar3D() {
     const P3 = (u, y, lado) => ns ? new T.Vector3(u / 100, y, (l.pos + lado) / 100) : new T.Vector3((l.pos + lado) / 100, y, u / 100);   // lado (cm): + = cara A
     const LADO = ns ? new T.Vector3(0, 0, 1) : new T.Vector3(1, 0, 0);
     n.tramos.forEach((t, j) => {
-      const info = `<b>Línea de alzaprimas ${n.id}</b> · área ${n.area}${n.tramos.length > 1 ? `, tramo ${j + 1} de ${n.tramos.length}` : ''}<div class="d">Tabique de pino 3x9 seco de ${fm(t.largo, 2)}: solera doble de canto bajo los valles, ${t.palos.length} palos atravesados @ ≤ ${coma(n.a_real, 0)} cm, amarre a media altura, ${t.diagonales.length} ${t.diagonales.length === 1 ? 'diagonal' : 'diagonales'} y cruces de lado; hasta ${miles(n.P_max_kgf)} kgf por palo. Va ${n.espacios === 2 ? 'al centro' : 'en un tercio'} de un vano de ${fm(n.vano, 2)} (máximo sin apoyo ${fm(L.luz_max_alzaprima, 2)}, indicación del ingeniero).<br>Detalle en la pestaña Alzaprimas.</div>`;
+      const info = `<b>Línea de alzaprimas ${n.id}</b> · área ${n.area}${n.tramos.length > 1 ? `, tramo ${j + 1} de ${n.tramos.length}` : ''}<div class="d">Tabique de pino 3x9 seco de ${fm(t.largo, 2)}: solera doble de canto bajo los valles, ${t.palos.length} palos atravesados @ ≤ ${coma(n.a_real, 0)} cm, amarre a media altura, ${t.diagonales.length} ${t.diagonales.length === 1 ? 'diagonal' : 'diagonales'} y cruces de lado; hasta ${miles(n.carga_max_kgf)} kgf por palo, con diagonales y cruces. Va ${n.espacios === 2 ? 'al centro' : 'en un tercio'} de un vano de ${fm(n.vano, 2)} (máximo sin apoyo ${fm(L.luz_max_alzaprima, 2)}, indicación del ingeniero).<br>Detalle en la pestaña Alzaprimas.</div>`;
       const um = (t.t0 + t.t1) / 2, largo = t.largo / 100;
       [-1, 1].forEach(sg => caja3(MAT.madera, P3(um, Y_SOL + MH / 2, sg * MB * 50), ns ? largo : MB, MH, ns ? MB : largo, info));
       caja3(MAT.madera2, P3(um, Y_ABJ / 2, 0), ns ? largo : MH, Y_ABJ, ns ? MH : largo, info);

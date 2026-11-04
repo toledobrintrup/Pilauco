@@ -30,7 +30,7 @@ header h1{font-size:16.5px;font-weight:600;margin:0;letter-spacing:-.012em}
 header .meta{color:var(--chrome-muted);font-size:11.5px;margin-left:auto}
 .stage{position:relative;flex:1;min-height:0;background:var(--paper)}
 .stage canvas{display:block;width:100%;height:100%}
-.panel{position:absolute;left:12px;bottom:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:12.5px;box-shadow:0 1px 2px rgba(16,18,22,.06),0 10px 28px rgba(16,18,22,.10);max-width:240px}
+.panel{position:absolute;left:12px;bottom:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:12.5px;box-shadow:0 1px 2px rgba(16,18,22,.06),0 10px 28px rgba(16,18,22,.10);max-width:240px;max-height:calc(100% - 24px);overflow:auto}
 .panel .row{display:flex;align-items:center;gap:8px;padding:3px 0}
 .panel label{display:flex;align-items:center;gap:7px;cursor:pointer;user-select:none}
 .panel .sw{width:10px;height:10px;border-radius:2px;flex:none;border:1px solid rgba(0,0,0,.15)}
@@ -102,7 +102,7 @@ body.embed .norte3d{top:52px}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V139" data-vista="3d"></script>
+    <script src="menu.js?v=V140" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -125,7 +125,8 @@ body.embed .norte3d{top:52px}
       y el techo de un agua con sus aleros. Activa <b>Ver estructura</b> para ver la estructura de
       acero de los planos del ingeniero, pieza por pieza y con la sección de su perfil; toca una
       pieza para ver su perfil, dónde está y su largo. <b>Losa colaborante</b> agrega el marco C y
-      las placas del entrepiso; su vista especial trae el despiece y el montaje. <b>Terreno:</b> lote,
+      las placas del entrepiso; su vista especial trae el despiece y el montaje. <b>Alzaprimas de madera</b> muestra los tabiques de pino 3x9 que sostienen la losa
+      hasta que el hormigón toma resistencia; apaga <b>Nivel 1</b> para verlas. <b>Terreno:</b> lote,
       gimnasio, estudio con búnker y piscina; toca cualquiera para ver su ficha
       y de dónde sale el dato. <span class="version"></span></span>
     </div>
@@ -139,6 +140,7 @@ body.embed .norte3d{top:52px}
       <div id="grupos-acero" hidden></div>
       <div class="row"><label><input type="checkbox" id="chk-losa" checked> Losa colaborante</label></div>
       <div class="row" id="row-suples"><label><input type="checkbox" id="chk-suples" checked> Suples de la losa</label></div>
+      <div class="row" id="row-alz"><label><input type="checkbox" id="chk-alz" checked> Alzaprimas de madera (obra)</label></div>
       <div class="row"><label><input type="checkbox" id="chk-escalera" checked> Escalera de obra (bodega)</label></div>
       <div class="row"><a class="btn losa" href="losa.html">Vista losa colaborante →</a></div>
       <div class="sep"></div>
@@ -183,18 +185,19 @@ body.embed .norte3d{top:52px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V139"></script>
-<script src="data.js?v=V139"></script>
-<script src="casa_vanos.js?v=V139"></script>
-<script src="estructura.js?v=V139"></script>
-<script src="losa.js?v=V139"></script>
-<script src="suples.js?v=V139"></script>
-<script src="sitio.js?v=V139"></script>
-<script src="sitio3d.js?v=V139"></script>
-<script src="estudio_estructura.js?v=V139"></script>
-<script src="mobiliario3d.js?v=V139"></script>
-<script src="cotas3d.js?v=V139"></script>
-<script src="goku3d.js?v=V139"></script>
+<script src="nav3d.js?v=V140"></script>
+<script src="data.js?v=V140"></script>
+<script src="casa_vanos.js?v=V140"></script>
+<script src="estructura.js?v=V140"></script>
+<script src="losa.js?v=V140"></script>
+<script src="suples.js?v=V140"></script>
+<script src="alzaprimas.js?v=V140"></script>
+<script src="sitio.js?v=V140"></script>
+<script src="sitio3d.js?v=V140"></script>
+<script src="estudio_estructura.js?v=V140"></script>
+<script src="mobiliario3d.js?v=V140"></script>
+<script src="cotas3d.js?v=V140"></script>
+<script src="goku3d.js?v=V140"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -560,6 +563,67 @@ body.embed .norte3d{top:52px}
   }
   const grupoLosa = buildLosa();
   grupoLosa.visible = false;
+
+  // ---------- alzaprimas de madera bajo la losa (alzaprimas.js, Gabriel 04-11-2026): cada línea es un tabique de pino 3x9 seco,
+  // el mismo dibujo que la vista de la losa (solera doble de canto bajo los valles, palos atravesados, solera abajo plana, amarre
+  // a media altura por la cara A, diagonales sobre 2 vanos por la cara B con su tope y cruces de lado entre líneas vecinas).
+  // Todas las piezas son cajas de un mismo cubo en dos instancias (un tono por pieza), para que el modelo de la casa no se ponga lento.
+  function buildAlzaprimas(){
+    const g = new THREE.Group();
+    if (typeof DATA_ALZAPRIMAS === 'undefined' || typeof DATA_LOSA === 'undefined') return g;
+    const AZ = DATA_ALZAPRIMAS, MB = AZ.madera.b / 1000, MH = AZ.madera.h / 1000;
+    const Y_SOL = cm(DATA_LOSA.z_viga) - cm(AZ.alturas.solera), Y_ABJ = cm(AZ.alturas.abajo), Y_AMA = cm(AZ.alturas.amarre);
+    const coma = (v, d) => v.toFixed(d).replace('.', ','), miles = v => Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const piezas = [[], []];   // [madera, madera2]: {p, q, s, info}
+    const SIN_GIRO = new THREE.Quaternion();
+    const caja = (k, c, lx, ly, lz, info) => piezas[k].push({p: c, q: SIN_GIRO, s: new THREE.Vector3(lx, ly, lz), info});
+    // pieza inclinada entre dos puntos (m): ancho a en su plano, espesor e según 'normal'
+    const pieza = (k, p1, p2, a, e, normal, info) => {
+      const d = new THREE.Vector3().subVectors(p2, p1), yv = d.clone().normalize();
+      const zv = normal.clone().sub(yv.clone().multiplyScalar(normal.dot(yv))).normalize(), xv = new THREE.Vector3().crossVectors(yv, zv);
+      piezas[k].push({p: p1.clone().add(p2).multiplyScalar(0.5), q: new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(xv, yv, zv)), s: new THREE.Vector3(a, d.length(), e), info});
+    };
+    AZ.lineas.forEach(n => {
+      const ns = n.dir === 'NS';
+      const P3 = (u, y, lado) => ns ? new THREE.Vector3(cm(u), y, cm(n.pos + lado)) : new THREE.Vector3(cm(n.pos + lado), y, cm(u));   // lado (cm): + = cara A
+      const LADO = ns ? new THREE.Vector3(0, 0, 1) : new THREE.Vector3(1, 0, 0);
+      n.tramos.forEach((t, j) => {
+        const info = `<b>Alzaprimas · línea ${n.id}</b> · área ${n.area}${n.tramos.length > 1 ? `, tramo ${j + 1} de ${n.tramos.length}` : ''}<br><span class="sub">pino 3x9 seco: solera doble arriba, ${t.palos.length} palos @ ≤ ${coma(n.a_real, 0)} cm, amarre a media altura, ${t.diagonales.length} ${t.diagonales.length === 1 ? 'diagonal' : 'diagonales'} y cruces de lado · hasta ${miles(n.carga_max_kgf)} kgf por palo, con diagonales y cruces · se retiran cuando el hormigón toma resistencia (≥ 14 días, con probetas) · detalle en la pestaña Alzaprimas</span>`;
+        const um = (t.t0 + t.t1) / 2, largo = cm(t.largo);
+        [-1, 1].forEach(sg => caja(0, P3(um, Y_SOL + MH / 2, sg * MB * 50), ns ? largo : MB, MH, ns ? MB : largo, info));
+        caja(1, P3(um, Y_ABJ / 2, 0), ns ? largo : MH, Y_ABJ, ns ? MH : largo, info);
+        const [a0, a1] = t.amarre;
+        caja(1, P3((a0 + a1) / 2, Y_AMA, (MH + MB) * 50), ns ? cm(a1 - a0) : MB, MH, ns ? MB : cm(a1 - a0), info);
+        const hP = Y_SOL - Y_ABJ;   // palo atravesado: 6,5 a lo largo de la línea × 21 de lado
+        t.palos.forEach(u => caja(0, P3(u, Y_ABJ + hP / 2, 0), ns ? MB : MH, hP, ns ? MH : MB, info));
+        t.diagonales.forEach(d => {
+          pieza(1, P3(d.u[0], cm(d.z[0]), -(MH + MB) * 50), P3(d.u[1], cm(d.z[1]), -(MH + MB) * 50), MH, MB, LADO, info);
+          const sg = d.u[1] > d.u[0] ? -1 : 1, uT = d.u[0] + sg * (MB * 50 + AZ.lado.tope / 2);   // tope en el pie del palo donde nace
+          caja(1, P3(uT, Y_ABJ * 1.5, 0), ns ? cm(AZ.lado.tope) : MH, Y_ABJ, ns ? MH : cm(AZ.lado.tope), info);
+        });
+      });
+    });
+    AZ.cruces.forEach(c => {
+      const ns = c.dir === 'NS', [pa, pb] = c.pos, zb = cm(c.z[0]), zt = cm(c.z[1]);
+      const P3 = (pos, y, dl) => ns ? new THREE.Vector3(cm(c.u) + dl, y, cm(pos)) : new THREE.Vector3(cm(pos), y, cm(c.u) + dl);
+      const LARGO = ns ? new THREE.Vector3(1, 0, 0) : new THREE.Vector3(0, 0, 1);
+      const info = `<b>Alzaprimas · cruz de lado ${c.par[0]} · ${c.par[1]}</b><br><span class="sub">dos 3x9 de ${coma(cm(c.L), 2)} m en X entre palos enfrentados, una por cada cara del palo, a ${coma(cm(c.z[0]), 2)} y ${coma(cm(c.z[1]), 2)} m, con un taco donde se cruzan</span>`;
+      pieza(1, P3(pa, zt, -MB), P3(pb, zb, -MB), MH, MB, LARGO, info);
+      pieza(1, P3(pb, zt, MB), P3(pa, zb, MB), MH, MB, LARGO, info);
+      caja(1, P3((pa + pb) / 2, (zt + zb) / 2, 0), ns ? MB : 0.12, 0.12, ns ? 0.12 : MB, info);
+    });
+    const geo = new THREE.BoxGeometry(1, 1, 1), M = new THREE.Matrix4();
+    [dark ? 0xC9A06A : 0xB58650, dark ? 0xA98552 : 0x9A6B3C].forEach((color, k) => {
+      if (!piezas[k].length) return;
+      const im = new THREE.InstancedMesh(geo, new THREE.MeshLambertMaterial({color}), piezas[k].length);
+      piezas[k].forEach((q, i) => im.setMatrixAt(i, M.compose(q.p, q.q, q.s)));
+      im.frustumCulled = false;   // three r128 recorta un InstancedMesh por la caja del cubo en el origen, no por sus instancias
+      im.userData.infos = piezas[k].map(q => q.info);
+      g.add(im);
+    });
+    return g;
+  }
+  const grupoAlz = buildAlzaprimas();
 
   // ---------- estructura del estudio con búnker (estudio_estructura.js): propuesta adaptada del proyecto del
   // ingeniero; acero con la sección real de cada perfil (mismo dibujo que la casa) y el búnker en hormigón ----------
@@ -999,7 +1063,7 @@ body.embed .norte3d{top:52px}
     try { sitio = Sitio3D.crear({T: THREE, D: DATA_SITIO, dark, tipoColor: KIND_COLOR}); } catch (err){ console.error(err); sitio = null; }
   }
   if (slabAlaE) scene.add(slabAlaE); if (slabAlaEHueco) scene.add(slabAlaEHueco); scene.add(grupoEscalera);
-  scene.add(grupoN1, grupoN2, slabN1, slabN2, grupoRoof, grupoEstructura, grupoLosa, grupoEstudioEst, grupoFierros, grupoCerramiento, grupoMobiliario, grupoCotas);
+  scene.add(grupoN1, grupoN2, slabN1, slabN2, grupoRoof, grupoEstructura, grupoLosa, grupoAlz, grupoEstudioEst, grupoFierros, grupoCerramiento, grupoMobiliario, grupoCotas);
   // zócalo de la casa: del terreno (NPT +0,70 sobre el ±0,00) hasta la losa del nivel 1, para que no quede en el aire
   let zocaloN1 = null;
   if (sitio){
@@ -1092,6 +1156,8 @@ body.embed .norte3d{top:52px}
   const chkEstructura = document.getElementById('chk-estructura');
   const chkLosa = document.getElementById('chk-losa');
   const chkSuples = document.getElementById('chk-suples'), rowSuples = document.getElementById('row-suples');   // suples de la losa (03-11-2026), dentro de la capa de la losa
+  const chkAlz = document.getElementById('chk-alz');   // alzaprimas de madera bajo la losa (04-11-2026), aparte de la losa: es obra provisoria
+  if (!grupoAlz.children.length){ chkAlz.checked = false; chkAlz.closest('.row').hidden = true; }
   const chkEscalera = document.getElementById('chk-escalera');   // escalera provisoria de fierro en la bodega (Gabriel, 16-10-2026)
   const chkSitio = {terreno: 'chk-terreno', gimnasio: 'chk-gimnasio', estudio: 'chk-estudio', urbanismo: 'chk-urbanismo'};
   Object.keys(chkSitio).forEach(k => { chkSitio[k] = document.getElementById(chkSitio[k]); });
@@ -1141,9 +1207,10 @@ body.embed .norte3d{top:52px}
     grupoLosa.visible = chkLosa.checked;
     if (grupoLosa.userData.suples) grupoLosa.userData.suples.visible = chkSuples.checked;
     rowSuples.hidden = !grupoLosa.userData.suples || !chkLosa.checked || chkLosa.closest('.row').hidden;
+    grupoAlz.visible = chkAlz.checked;
     cajaGrupos.hidden = !chkEstructura.checked;
     Object.keys(chkGrupo).forEach(k => { grupoEstructura.userData.sub[k].visible = chkGrupo[k].checked; });
-    if (!chkEstructura.checked && !chkLosa.checked && !sitio) ficha.hidden = true;
+    if (!chkEstructura.checked && !chkLosa.checked && !chkAlz.checked && !sitio) ficha.hidden = true;
     if (sitio){
       Object.keys(chkSitio).forEach(k => { sitio.sub[k].visible = chkSitio[k].checked; });
       sitio.sub.cierros.visible = chkSitio.terreno.checked;
@@ -1175,7 +1242,7 @@ body.embed .norte3d{top:52px}
       if (sueloEstudio) sueloEstudio.visible = !chkBajoTierra.checked;
       if (vistaEstudio || vistaHormigon){   // solo el estudio: lo demás del terreno y la casa quedan apagados aunque sus casillas sigan marcadas
         Object.keys(sitio.sub).forEach(k => { if (k !== 'estudio') sitio.sub[k].visible = false; });
-        grupoN1.visible = slabN1.visible = grupoN2.visible = slabN2.visible = grupoRoof.visible = grupoEstructura.visible = grupoLosa.visible = false;
+        grupoN1.visible = slabN1.visible = grupoN2.visible = slabN2.visible = grupoRoof.visible = grupoEstructura.visible = grupoLosa.visible = grupoAlz.visible = false;
         if (zocaloN1) zocaloN1.visible = false;
       }
       if (vistaHormigon){
@@ -1196,7 +1263,7 @@ body.embed .norte3d{top:52px}
     grupoRoof.position.y = off;
     grupoEstructura.traverse(o => { if (o.userData.superior) o.position.y = o.userData.y0 + off; });
   }
-  [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, chkSuples, chkEscalera, explode, chkBajoTierra, chkEstudioEst, chkEstudioHormigon, chkHTransE, chkEstudioFierros, chkEstudioTecho, chkCerramiento, chkMobiliario, chkCotas].concat(Object.values(chkSitio)).forEach(el => el.addEventListener('input', aplica));
+  [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, chkSuples, chkAlz, chkEscalera, explode, chkBajoTierra, chkEstudioEst, chkEstudioHormigon, chkHTransE, chkEstudioFierros, chkEstudioTecho, chkCerramiento, chkMobiliario, chkCotas].concat(Object.values(chkSitio)).forEach(el => el.addEventListener('input', aplica));
   if (!sitio) Object.values(chkSitio).concat([chkBajoTierra, chkEstudioEst, chkEstudioHormigon, chkEstudioFierros, chkEstudioTecho, chkCerramiento, chkMobiliario, chkCotas]).forEach(el => { el.closest('.row').hidden = true; });
   if (!grupoFierros.children.length) chkEstudioFierros.closest('.row').hidden = true;
   else document.getElementById('fierros-leyenda').innerHTML = Object.entries(COLOR_FIERRO).map(([d, c]) => `<span><span class="sw" style="display:inline-block;vertical-align:middle;background:#${c.toString(16).padStart(6, '0')}"></span> ø${NOM_DIAM(d)}</span>`).join('');
@@ -1214,16 +1281,18 @@ body.embed .norte3d{top:52px}
   renderer.domElement.addEventListener('pointerup', e => {
     if (!abajo || Math.hypot(e.clientX - abajo[0], e.clientY - abajo[1]) > 5) return;
     abajo = null;
-    if (!grupoEstructura.visible && !grupoLosa.visible && !sitio) return;
+    if (!grupoEstructura.visible && !grupoLosa.visible && !grupoAlz.visible && !sitio) return;
     const r = renderer.domElement.getBoundingClientRect();
     puntero.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     raycaster.setFromCamera(puntero, camera);
     raycaster.params.Line.threshold = 0.04; raycaster.params.Line2 = {threshold: 0.04}; raycaster.camera = camera;
-    const objetivos = [grupoEstructura, grupoLosa, grupoEstudioEst, grupoFierros, grupoCerramiento, grupoMobiliario].concat(goku ? [goku] : []).concat(sitio ? Object.values(sitio.sub) : []).filter(gr => gr.visible);
-    const hit = raycaster.intersectObjects(objetivos, true).find(h => h.object.visible && h.object.parent.visible && (h.object.userData.miembro || h.object.userData.losa || h.object.userData.sitio));
+    const objetivos = [grupoEstructura, grupoLosa, grupoAlz, grupoEstudioEst, grupoFierros, grupoCerramiento, grupoMobiliario].concat(goku ? [goku] : []).concat(sitio ? Object.values(sitio.sub) : []).filter(gr => gr.visible);
+    const tapa = grupoAlz.visible ? raycaster.intersectObjects([grupoN1, slabN1, grupoN2, slabN2].filter(gr => gr.visible), true).find(h => h.object.visible && h.object.parent.visible && !(h.object.material && h.object.material.transparent)) : null;
+    const hit = raycaster.intersectObjects(objetivos, true).find(h => h.object.visible && h.object.parent.visible && (h.object.userData.miembro || h.object.userData.losa || h.object.userData.sitio || (h.object.userData.infos && h.instanceId != null && !(tapa && tapa.distance < h.distance))));
     if (!hit){ ficha.hidden = true; return; }
-    if (hit.object.userData.losa || hit.object.userData.sitio){
-      ficha.innerHTML = hit.object.userData.losa || hit.object.userData.sitio;
+    const infoInst = hit.object.userData.infos && hit.instanceId != null ? hit.object.userData.infos[hit.instanceId] : null;
+    if (hit.object.userData.losa || hit.object.userData.sitio || infoInst){
+      ficha.innerHTML = hit.object.userData.losa || hit.object.userData.sitio || infoInst;
       ficha.style.left = Math.min(e.clientX - r.left + 12, r.width - 270) + 'px';
       ficha.style.top = Math.max(e.clientY - r.top - 50, 8) + 'px';
       ficha.hidden = false; return;
@@ -1253,7 +1322,7 @@ body.embed .norte3d{top:52px}
     try {
       nav = Nav3D.conectar({
         camera, controls, dom: renderer.domElement,
-        objetivos: () => [grupoN1, slabN1, grupoN2, slabN2, grupoRoof, grupoEstructura, grupoLosa, grupoEstudioEst, grupoCerramiento, grupoMobiliario].concat(sitio ? Object.values(sitio.sub) : []).filter(g => g.visible),
+        objetivos: () => [grupoN1, slabN1, grupoN2, slabN2, grupoRoof, grupoEstructura, grupoLosa, grupoAlz, grupoEstudioEst, grupoCerramiento, grupoMobiliario].concat(sitio ? Object.values(sitio.sub) : []).filter(g => g.visible),
         planoY: PISO,
         inicio: encuadre,
         contenedor: stage, lado: 'derecha', vertical: '(max-width: 639px)',
@@ -1356,9 +1425,9 @@ body.embed .norte3d{top:52px}
     // vista del estudio: todo prendido (muros, mobiliario, acero y hormigón) salvo las medidas; ?estudio=1 solo la estructura, ?estudio=2 estructura + muros
     chkEstudioEst.checked = !!nivelEstudio || vistaEstudio; chkEstudioHormigon.checked = !!nivelEstudio || vistaEstudio; chkCerramiento.checked = nivelEstudio === '2'; chkMobiliario.checked = vistaEstudio || nivelEstudio === '2';
     if (vistaEstudio){ chkEstudioFierros.checked = true; chkBajoTierra.checked = true; }   // la vista por defecto que pidió Gabriel: estructura, hormigón y fierros a la vista, muros apagados
-    chkEstructura.checked = false; chkLosa.checked = false; chkRoof.checked = false; chkEscalera.checked = false;
+    chkEstructura.checked = false; chkLosa.checked = false; chkRoof.checked = false; chkEscalera.checked = false; chkAlz.checked = false;
     if (vistaHormigon){
-      [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, chkEscalera, chkEstudioEst, chkEstudioHormigon, chkEstudioFierros, chkEstudioTecho, chkCerramiento, chkMobiliario, chkCotas, chkBajoTierra].forEach(el => { el.closest('.row').hidden = true; });
+      [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, chkAlz, chkEscalera, chkEstudioEst, chkEstudioHormigon, chkEstudioFierros, chkEstudioTecho, chkCerramiento, chkMobiliario, chkCotas, chkBajoTierra].forEach(el => { el.closest('.row').hidden = true; });
       chkEstudioEst.checked = false; chkEstudioHormigon.checked = true; chkCerramiento.checked = false; chkMobiliario.checked = false; chkCotas.checked = true; chkBajoTierra.checked = true; chkEstructura.checked = false; chkLosa.checked = false; chkRoof.checked = false;
       document.getElementById('chk-estudio').closest('.row').hidden = true;
       document.querySelector('a.btn.losa').closest('.row').hidden = true; document.getElementById('grupos-acero').hidden = true; document.getElementById('fierros-leyenda').hidden = true;
@@ -1371,7 +1440,7 @@ body.embed .norte3d{top:52px}
     }
     if (vistaEstudio){
       // el panel muestra solo lo del estudio: fuera las capas de la casa, el terreno y la separación de pisos
-      [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, chkEscalera].forEach(el => { el.checked = false; el.closest('.row').hidden = true; });
+      [chkN1, chkN2, chkRoof, chkEstructura, chkLosa, chkAlz, chkEscalera].forEach(el => { el.checked = false; el.closest('.row').hidden = true; });
       document.querySelector('a.btn.losa').closest('.row').hidden = true; document.getElementById('grupos-acero').hidden = true;
       document.getElementById('terreno-cab').hidden = true; document.getElementById('terreno-filas').hidden = true; document.getElementById('estudio-sep').hidden = true;
       explode.closest('.row').hidden = true; explode.closest('.row').previousElementSibling.hidden = true;
