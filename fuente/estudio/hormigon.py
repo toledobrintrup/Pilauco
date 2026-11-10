@@ -80,7 +80,7 @@ IMPERMEABILIZACION = dict(
     membrana='por fuera: membrana HDPE pre-adherida bajo la losa de fundación (sobre el emplantillado, sube por el canto del vuelo) y membrana adherida en los muros, con chaflán de 5 × 5 en los rincones, hasta 30 cm sobre el terreno; encima, lámina drenante de nódulos con geotextil',
     junta='junta losa–muro con water-stop de PVC de 15 a 23 cm con bulbo, en un cuello de 15 cm hormigonado junto con la losa, más manguera de inyección de respaldo; los 4 muros en una sola faena, sin juntas verticales',
     pasadas='pasadas con pasamuros de aleta embebidos (de preferencia por la losa de techo); amarras de moldaje con sello; nada se perfora bajo el nivel del agua',
-    dren='sin dren (Gabriel, 10-11-2026: «esos tubos lo único que harán es llenarse de agua»; el ingeniero había pedido un dren interceptor): la flotación con el relleno lleno de agua queda por decidir; relleno granular compactado al 95 % con tapa de suelo fino y pendiente hacia afuera',
+    dren='dren perimetral ø110 ranurado en grava con geotextil al nivel del sello, con pendiente 0,5 % hacia un pozo con 2 bombas (propuesta, 10-11-2026; el ingeniero pidió un dren interceptor y sugirió bombas): el agua no sube del sello; relleno granular compactado al 95 % con tapa de suelo fino y pendiente hacia afuera',
     interior='opcional: cámara drenada (lámina de nódulos y canaleta a un pozo de achique) detrás de la sala acústica, y deshumidificador',
     fuente='revisión 23-10-2026 (BS 8102, grado 3: recinto habitable seco)')
 KGM = {6: 0.222, 8: 0.395, 10: 0.617, 12: 0.888, 16: 1.578, 19: 2.235, 22: 3.04}   # kg/m por diámetro (ø19 = 3/4")
@@ -234,7 +234,30 @@ def armar(c):
     od = 25.0
     # dren perimetral: el ingeniero (V134 revisada, 10-11-2026) dijo «en mi opinión debe haber dren interceptor»; Gabriel (10-11-2026): «saca esos tubos,
     # lo único que harán es llenarse de agua y quedar metidos ahí» → sin dren; la flotación queda por decidir (vuelo de la losa de fundación o lo que diga el ingeniero)
-    dren = None
+    # Propuesta (Gabriel, 10-11-2026: «haz una propuesta… que el tubo de salida vaya hacia el norte, considera las 2 bombas»; el ingeniero había sugerido bombas):
+    # dren perimetral ø110 ranurado en grava con geotextil al nivel del sello, con pendiente 0,5 % hacia la esquina noreste, donde un pozo de bombeo de anillos
+    # (ø100 interior) baja 1 m bajo el sello; 2 bombas sumergibles que se turnan con flotadores (bomba 1, bomba 2 y alarma); cada una con su válvula de retención;
+    # se juntan en un tubo de salida ø63 enterrado a 0,8 m que va 8 m hacia el norte (la descarga, a aguas lluvia o zanja, falta decidirla); tablero con alarma al
+    # celular y respaldo eléctrico. Todas las medidas son de la propuesta (detalle típico), no del ingeniero.
+    G_LADO, G_CAMA, PEND = 15.0, 10.0, 0.005
+    cx0, cy0, cx1, cy1 = ap(zx0 - od, zy0 - od, 0)[0], ap(zx0 - od, zy0 - od, 0)[1], ap(zx1 + od, zy1 + od, 0)[0], ap(zx1 + od, zy1 + od, 0)[1]
+    esq = [(cx0, cy0), (cx1, cy0), (cx1, cy1), (cx0, cy1)]                 # NO, NE, SE, SO (el norte es −y)
+    z_tubo = z_emp_inf + 5.5                                                # eje del tubo en la esquina del pozo (NE): apoyado en el sello
+    dist = lambda q: min(abs(q[0] - cx1) + abs(q[1] - cy0), 9e9)          # recorrido hasta la esquina NE por el perímetro
+    dren = dict(diam=11.0, pendiente=PEND, pts=[list(map(r1, q)) for q in esq], z_pts=[Z(z_tubo + PEND * dist(q)) for q in esq], z=Z(z_tubo),
+                grava=dict(ancho=11.0 + 2 * G_LADO, cama=G_CAMA, sobre=G_LADO), sello=Z(z_emp_inf), terreno=Z(-50.0),
+                nota=IMPERMEABILIZACION['dren'], ingeniero='el ingeniero: «en mi opinión debe haber dren interceptor» y sugirió bombas (10-11-2026)')
+    pc = (r1(cx1 + 70.0), r1(cy0 - 70.0))                                    # centro del pozo, afuera de la esquina NE
+    z_fondo = z_emp_inf - 100.0
+    bombeo = dict(propuesta=True,
+                  pozo=dict(centro=pc, d_int=100.0, pared=8.0, z_fondo=Z(z_fondo), z_tapa=Z(-50.0 + 5.0),
+                            d='pozo de anillos de hormigón ø100 interior, 1 m bajo el sello (≈ 4,4 m bajo el terreno), con fondo de hormigón y tapa registrable'),
+                  bombas=dict(n=2, d=20.0, alto=40.0, sep=44.0, d_txt='2 bombas sumergibles de drenaje que se turnan (si una no da abasto, parte la segunda)'),
+                  flotadores=[dict(id='apaga', z=Z(z_fondo + 15.0)), dict(id='bomba 1', z=Z(z_fondo + 40.0)), dict(id='bomba 2', z=Z(z_fondo + 55.0)), dict(id='alarma', z=Z(z_fondo + 80.0))],
+                  impulsion=dict(d=5.0, d_salida=6.3, z_union=Z(-50.0 - 80.0), largo_norte=800.0, z_fin=Z(-50.0 - 90.0),
+                                 d_txt='cada bomba con su válvula de retención; se juntan en un tubo ø63 enterrado a 0,8 m que sale 8 m hacia el norte, con un poco de caída; descarga a aguas lluvia o zanja (falta decidir), nunca de vuelta al relleno'),
+                  tablero=dict(pos=(r1(pc[0] + 110.0), pc[1]), d_txt='tablero de las bombas con alarma de nivel alto al celular y respaldo eléctrico (UPS o generador): los temporales cortan la luz justo cuando más llueve'),
+                  fuente='propuesta (Gabriel, 10-11-2026); medidas de un detalle típico, por confirmar con el ingeniero')
     # radier del estudio (fuera del búnker) en tres paños, dejando las franjas del sobrecimiento y de los CF (caras coplanares parpadean)
     g = GAP
     rad_pts = [('estudio', xA[0] + hs + g, by1 + g, xA[3] - hcf - g, yA[6] - hs - g),
@@ -346,7 +369,7 @@ def armar(c):
                        fuente='lámina 01 rev 1, detalle placa base PLb; insertos con anclajes soldados: ingeniero (V121, 25-10-2026: sugerido y aceptado); dimensiones: propuesta 27-10-2026 (calculo/anclajes_insertos.py)', lista=placas)
 
     hormigon = dict(especificaciones=ESPECIFICACIONES, impermeabilizacion=IMPERMEABILIZACION, muros=muros, losa=losa, piso=piso, relleno=relleno_b, relleno_excavacion=relleno, losa_fundacion=losa_fundacion, zapata_corrida=zapata_corrida, vigas=vigas,
-                    cimiento=cimiento, cf=cf, dados=dados, dren=dren, radier_estudio=radier_estudio, placas=placas_info, escalera=c['escalera'],
+                    cimiento=cimiento, cf=cf, dados=dados, dren=dren, bombeo=bombeo, radier_estudio=radier_estudio, placas=placas_info, escalera=c['escalera'],
                     interior=dict(ancho=r1(bx1 - bx0 - 2 * MURO), largo=r1(by1 - by0 - 2 * MURO), alto=H,
                                   terminado=dict(ancho=r1(bx1 - bx0 - 2 * MURO - 2 * c.get('T', 0)), largo=r1(by1 - by0 - 2 * MURO - 2 * c.get('T', 0)), tabique=c.get('T', 0), nota='entre los tabiques de 10 que van por dentro de los muros (Gabriel, 14-10-2026)')),
                     niveles=dict(npog_0='NPOG 0,00 = cara superior de la losa del búnker y del radier (obra gruesa); el piso terminado va más arriba (sobrelosa + adhesivo + porcelanato)', losa_inf=z_losa_inf, piso_bunker=z_piso, radier_bunker_inf=z_rad_inf, losa_fund_sup=z_zap_sup, losa_fund_inf=z_zap_inf,

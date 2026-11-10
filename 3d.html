@@ -102,7 +102,7 @@ body.embed .norte3d{top:52px}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V146" data-vista="3d"></script>
+    <script src="menu.js?v=V147" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -185,19 +185,19 @@ body.embed .norte3d{top:52px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V146"></script>
-<script src="data.js?v=V146"></script>
-<script src="casa_vanos.js?v=V146"></script>
-<script src="estructura.js?v=V146"></script>
-<script src="losa.js?v=V146"></script>
-<script src="suples.js?v=V146"></script>
-<script src="alzaprimas.js?v=V146"></script>
-<script src="sitio.js?v=V146"></script>
-<script src="sitio3d.js?v=V146"></script>
-<script src="estudio_estructura.js?v=V146"></script>
-<script src="mobiliario3d.js?v=V146"></script>
-<script src="cotas3d.js?v=V146"></script>
-<script src="goku3d.js?v=V146"></script>
+<script src="nav3d.js?v=V147"></script>
+<script src="data.js?v=V147"></script>
+<script src="casa_vanos.js?v=V147"></script>
+<script src="estructura.js?v=V147"></script>
+<script src="losa.js?v=V147"></script>
+<script src="suples.js?v=V147"></script>
+<script src="alzaprimas.js?v=V147"></script>
+<script src="sitio.js?v=V147"></script>
+<script src="sitio3d.js?v=V147"></script>
+<script src="estudio_estructura.js?v=V147"></script>
+<script src="mobiliario3d.js?v=V147"></script>
+<script src="cotas3d.js?v=V147"></script>
+<script src="goku3d.js?v=V147"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -728,31 +728,87 @@ body.embed .norte3d{top:52px}
       (hp.piezas || []).forEach(z => { const zi = z.z_inf != null ? z.z_inf : hp.z_inf, zs = z.z_sup != null ? z.z_sup : hp.z_sup;
         addH('pobre', ficha(prismaH(z.pts, zi, zs, matPobre), `Hormigón pobre G5 bajo el ${nm}`, `${z.id} · de −${coma1(-zs - 20)} a −${coma1(-zi - 20)} bajo el NPOG 0,00${hp.nota ? ' · ' + hp.nota : ''}`)); });
     });
-    // dren perimetral del búnker: tubo ø110 al nivel del sello, alrededor de la losa de fundación
+    // dren perimetral del búnker y su pozo con 2 bombas (propuesta, 10-11-2026): tubo ø110 al nivel del sello, con pendiente hacia el pozo de la esquina noreste
+    const P3 = (x, y, z) => new THREE.Vector3(cm(x), cm(z), cm(y));
+    // pieza entre dos puntos (cm): cilindro de radio r, o caja de ancho a y alto h (con la caja «acostada» siguiendo el tramo)
+    const tubo = (a, b, r, mat, seg) => { const A = P3(...a), B = P3(...b), d = B.clone().sub(A), m = new THREE.Mesh(new THREE.CylinderGeometry(cm(r), cm(r), d.length(), seg || 14), mat);
+      m.position.copy(A).add(B).multiplyScalar(0.5); m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.clone().normalize()); return m; };
+    // rótulo legible desde lejos: píldora blanca con texto oscuro, con una línea guía hasta la pieza
+    const rotuloH = (texto, punto, off) => {   // off: [dx, dy, dz] en cm, del punto de la pieza al rótulo
+      const cv = document.createElement('canvas'), ctx = cv.getContext('2d'), fs = 44, pad = 22;
+      ctx.font = `600 ${fs}px Inter, system-ui, sans-serif`; const w = Math.ceil(ctx.measureText(texto).width) + pad * 2, h = fs + pad * 1.4;
+      cv.width = w; cv.height = h; ctx.font = `600 ${fs}px Inter, system-ui, sans-serif`;
+      ctx.fillStyle = 'rgba(255,255,255,0.94)'; ctx.strokeStyle = '#26282C'; ctx.lineWidth = 3;
+      const r = h / 2; ctx.beginPath(); ctx.moveTo(r, 1.5); ctx.lineTo(w - r, 1.5); ctx.arc(w - r, r, r - 1.5, -Math.PI / 2, Math.PI / 2); ctx.lineTo(r, h - 1.5); ctx.arc(r, r, r - 1.5, Math.PI / 2, -Math.PI / 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#1F2124'; ctx.textBaseline = 'middle'; ctx.fillText(texto, pad, h / 2 + 2);
+      const tex = new THREE.CanvasTexture(cv); tex.minFilter = THREE.LinearFilter;
+      const sp = new THREE.Sprite(new THREE.SpriteMaterial({map: tex, depthTest: false, transparent: true})); const H_ = 0.2; sp.scale.set(H_ * w / h, H_, 1);
+      const arriba = P3(punto[0] + off[0], punto[1] + off[1], punto[2] + off[2]); sp.position.copy(arriba); sp.renderOrder = 10;
+      const ln = new THREE.Line(new THREE.BufferGeometry().setFromPoints([P3(...punto), arriba]), new THREE.LineBasicMaterial({color: 0x26282C, depthTest: false, transparent: true, opacity: 0.8})); ln.renderOrder = 9;
+      addH('bombeo', sp); addH('bombeo', ln);
+    };
     if (H.dren){
-      const Dr = H.dren, matDren = new THREE.MeshLambertMaterial({color: 0x4F7D93}), matGrava = new THREE.MeshLambertMaterial({color: 0xB9B2A3, transparent: true, opacity: 0.55, depthWrite: false});
+      const Dr = H.dren, matDren = new THREE.MeshLambertMaterial({color: 0x2F6FA3}), matGrava = new THREE.MeshLambertMaterial({color: 0xB9B2A3, transparent: true, opacity: 0.45, depthWrite: false});
+      const n = Dr.pts.length, zt = Dr.z_pts || Dr.pts.map(() => Dr.z);
       Dr.pts.forEach((a, i) => {
-        const b = Dr.pts[(i + 1) % Dr.pts.length], L = Math.hypot(b[0] - a[0], b[1] - a[1]);
-        const m = new THREE.Mesh(new THREE.CylinderGeometry(cm(Dr.diam / 2), cm(Dr.diam / 2), cm(L), 12), matDren);
-        m.position.set(cm((a[0] + b[0]) / 2), cm(Dr.z), cm((a[1] + b[1]) / 2));
-        m.rotation.set(0, -Math.atan2(b[1] - a[1], b[0] - a[0]), Math.PI / 2);   // el cilindro nace vertical: se acuesta y se gira según el tramo
-        addH('dren', ficha(m, `Dren perimetral ø${coma1(Dr.diam * 10)} del búnker`, Dr.nota));
-        // zanja de grava envuelta en geotextil alrededor del tubo (translúcida, para ver el tubo adentro)
-        if (Dr.grava){
-          const G = Dr.grava, hG = cm(G.z_sup - G.z_inf), Lg = cm(L + G.ancho);
-          const zg = new THREE.Mesh(new THREE.BoxGeometry(Lg, hG, cm(G.ancho)), matGrava);
-          zg.position.set(cm((a[0] + b[0]) / 2), cm((G.z_inf + G.z_sup) / 2), cm((a[1] + b[1]) / 2));
-          zg.rotation.y = -Math.atan2(b[1] - a[1], b[0] - a[0]);
-          addH('dren', ficha(zg, 'Zanja de grava del dren, envuelta en geotextil', `${coma1(G.ancho)} cm de ancho, de ${coma1((G.z_sup - Dr.sello))} cm sobre el sello a ${coma1(Dr.sello - G.z_inf)} cm bajo él (cama) · grava limpia 3/4"–1½" · propuesta (detalle típico) · ${Dr.ingeniero || ''}`));
-        }
-        // registro en cada esquina: tubo vertical hasta el terreno, con tapa
-        if (Dr.registros){
-          const R = Dr.registros, hR = cm(R.z_sup - R.z_inf);
-          const rg = new THREE.Mesh(new THREE.CylinderGeometry(cm(R.diam / 2), cm(R.diam / 2), hR, 12), matDren);
-          rg.position.set(cm(a[0]), cm(R.z_inf) + hR / 2, cm(a[1]));
-          addH('dren', ficha(rg, `Registro del dren (esquina ${i + 1})`, `tubo ø${coma1(R.diam * 10)} vertical del dren al terreno (${coma1((R.z_sup - R.z_inf) / 100)} m), con tapa: para revisar y lavar el dren · propuesta`));
+        const k = (i + 1) % n, b = Dr.pts[k], A = [a[0], a[1], zt[i]], B = [b[0], b[1], zt[k]];
+        addH('dren', ficha(tubo(A, B, Dr.diam / 2, matDren), `Dren perimetral ø${coma1(Dr.diam * 10)} del búnker`, `${Dr.nota}${Dr.pendiente ? ' · pendiente ' + coma1(Dr.pendiente * 100) + ' % hacia el pozo de la esquina noreste' : ''}`));
+        if (Dr.grava){   // zanja de grava envuelta en geotextil, siguiendo la pendiente del tubo
+          const G = Dr.grava, hG = Dr.diam + G.cama + G.sobre, dz = (G.sobre - G.cama) / 2;
+          const zg = tubo([A[0], A[1], A[2] + dz], [B[0], B[1], B[2] + dz], 1, matGrava, 4);
+          zg.geometry = new THREE.BoxGeometry(cm(G.ancho), zg.geometry.parameters.height + cm(G.ancho), cm(hG));
+          // la caja nace con su largo en Y: se gira para que su alto quede vertical
+          const dir = P3(...B).sub(P3(...A)).normalize(), lado = new THREE.Vector3(0, 1, 0).cross(dir).normalize(), arr = dir.clone().cross(lado).normalize();
+          zg.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(lado, dir, arr.y < 0 ? arr.negate() : arr));
+          addH('dren', ficha(zg, 'Zanja de grava del dren, envuelta en geotextil', `${coma1(G.ancho)} cm de ancho, cama de ${coma1(G.cama)} bajo el tubo y ${coma1(G.sobre)} sobre él · grava limpia 3/4"–1½" · propuesta`));
         }
       });
+      const mitadN = [(Dr.pts[0][0] + Dr.pts[1][0]) / 2, Dr.pts[0][1], (zt[0] + zt[1]) / 2];
+      rotuloH('Dren perimetral ø110 en grava · baja 0,5 % hacia el pozo', mitadN, [0, -120, 330]);
+    }
+    if (H.bombeo){
+      const Bo = H.bombeo, Po = Bo.pozo, [px, py] = Po.centro, ri = Po.d_int / 2, re = ri + Po.pared;
+      const matAnillo = new THREE.MeshLambertMaterial({color: 0xA7A9AD, transparent: true, opacity: 0.33, side: THREE.DoubleSide, depthWrite: false});
+      const matTapa = new THREE.MeshLambertMaterial({color: 0x3A3D42, transparent: true, opacity: 0.6}), matBomba = new THREE.MeshLambertMaterial({color: 0x2F6FA3});
+      const matTubo = new THREE.MeshLambertMaterial({color: 0x1F2124}), matValv = new THREE.MeshLambertMaterial({color: 0xC9302C}), matFlot = new THREE.MeshLambertMaterial({color: 0xE3A622});
+      const hP = Po.z_tapa - Po.z_fondo;
+      const anillo = new THREE.Mesh(new THREE.CylinderGeometry(cm(re), cm(re), cm(hP), 32, 1, true), matAnillo); anillo.position.copy(P3(px, py, Po.z_fondo + hP / 2));
+      addH('bombeo', ficha(anillo, 'Pozo de bombeo (propuesta)', `${Po.d} · ${Bo.fuente}`));
+      const fondo = new THREE.Mesh(new THREE.CylinderGeometry(cm(re), cm(re), cm(15), 32), new THREE.MeshLambertMaterial({color: 0x8F918F})); fondo.position.copy(P3(px, py, Po.z_fondo - 7.5)); addH('bombeo', ficha(fondo, 'Fondo del pozo', 'hormigón de 15 cm'));
+      const tapa = new THREE.Mesh(new THREE.CylinderGeometry(cm(re + 5), cm(re + 5), cm(6), 32), matTapa); tapa.position.copy(P3(px, py, Po.z_tapa + 3)); addH('bombeo', ficha(tapa, 'Tapa registrable del pozo', 'a ras de terreno, para revisar y sacar las bombas'));
+      // el dren entra al pozo desde la esquina NE del anillo
+      if (H.dren){ const e = H.dren.pts[1], ze = (H.dren.z_pts || [])[1] ?? H.dren.z; const ang = Math.atan2(py - e[1], px - e[0]);
+        addH('bombeo', ficha(tubo([e[0], e[1], ze], [px - Math.cos(ang) * ri, py - Math.sin(ang) * ri, ze - 2], H.dren.diam / 2, new THREE.MeshLambertMaterial({color: 0x2F6FA3})), 'Llegada del dren al pozo', 'el dren descarga al pozo; el agua nunca sube del sello')); }
+      // 2 bombas, cada una con su tubo de subida y su válvula de retención; se juntan en el tubo de salida
+      const Bm = Bo.bombas, Im = Bo.impulsion, zU = Im.z_union;
+      [-1, 1].forEach((sg, k) => {
+        const bx = px + sg * Bm.sep / 2, b = new THREE.Mesh(new THREE.CylinderGeometry(cm(Bm.d / 2), cm(Bm.d / 2), cm(Bm.alto), 20), matBomba);
+        b.position.copy(P3(bx, py, Po.z_fondo + Bm.alto / 2)); addH('bombeo', ficha(b, `Bomba sumergible ${k + 1}`, Bm.d_txt));
+        addH('bombeo', ficha(tubo([bx, py, Po.z_fondo + Bm.alto], [bx, py, zU], Im.d / 2, matTubo, 10), `Tubo de subida de la bomba ${k + 1}`, 'ø50'));
+        const v = new THREE.Mesh(new THREE.BoxGeometry(cm(12), cm(14), cm(12)), matValv); v.position.copy(P3(bx, py, zU - 40)); addH('bombeo', ficha(v, `Válvula de retención de la bomba ${k + 1}`, 'impide que el agua vuelva al pozo cuando la bomba para'));
+      });
+      addH('bombeo', ficha(tubo([px - Bm.sep / 2, py, zU], [px + Bm.sep / 2, py, zU], Im.d / 2, matTubo, 10), 'Unión de las dos bombas', 'las dos subidas se juntan en el tubo de salida'));
+      // tubo de salida: del pozo hacia el norte (−y), enterrado, con un poco de caída
+      const yFin = py - Im.largo_norte;
+      addH('bombeo', ficha(tubo([px, py, zU], [px, yFin, Im.z_fin], Im.d_salida / 2, matTubo, 12), 'Tubo de salida ø63, hacia el norte', Im.d_txt));
+      const desc = new THREE.Mesh(new THREE.BoxGeometry(cm(50), cm(40), cm(30)), new THREE.MeshLambertMaterial({color: 0x2F6FA3, transparent: true, opacity: 0.7})); desc.position.copy(P3(px, yFin, Im.z_fin + 5)); addH('bombeo', ficha(desc, 'Descarga (falta decidir dónde)', 'a la red de aguas lluvia, una zanja o un pozo absorbente lejos de la casa; nunca de vuelta al relleno del búnker'));
+      // flotadores: apaga, bomba 1, bomba 2 y alarma
+      Bo.flotadores.forEach((f, k) => { const fl = new THREE.Mesh(new THREE.SphereGeometry(cm(5), 14, 10), matFlot); fl.position.copy(P3(px - ri + 18, py + 18 - k * 9, f.z)); addH('bombeo', ficha(fl, `Flotador: ${f.id}`, 'con este nivel de agua ' + (f.id === 'apaga' ? 'se apagan las bombas' : f.id === 'alarma' ? 'suena la alarma (algo falla)' : 'parte la ' + f.id)));
+        addH('bombeo', new THREE.Line(new THREE.BufferGeometry().setFromPoints([P3(px - ri + 18, py + 18 - k * 9, f.z), P3(px - ri + 18, py + 18 - k * 9, Po.z_tapa)]), new THREE.LineBasicMaterial({color: 0x26282C}))); });
+      // tablero con alarma y respaldo, sobre el terreno
+      const [tx, ty] = Bo.tablero.pos, tab = new THREE.Mesh(new THREE.BoxGeometry(cm(45), cm(60), cm(22)), new THREE.MeshLambertMaterial({color: 0xE8E6E1}));
+      tab.position.copy(P3(tx, ty, H.dren ? H.dren.terreno + 110 : -50)); addH('bombeo', ficha(tab, 'Tablero de las bombas + alarma', Bo.tablero.d_txt));
+      addH('bombeo', tubo([tx, ty, H.dren ? H.dren.terreno : -70], [tx, ty, (H.dren ? H.dren.terreno : -70) + 80], 4, matTubo, 8));
+      addH('bombeo', new THREE.Line(new THREE.BufferGeometry().setFromPoints([P3(tx, ty, (H.dren ? H.dren.terreno : -70) + 80), P3(px, py, Po.z_tapa)]), new THREE.LineBasicMaterial({color: 0x26282C})));
+      // rótulos: en una columna al este del pozo, de arriba abajo en el orden en que se lee el sistema
+      const zT = H.dren ? H.dren.terreno : -70, col = (pt, k) => [px + 260 - pt[0], py - pt[1], zT + 300 - k * 75 - pt[2]];
+      [['Tablero + alarma al celular + respaldo eléctrico', [tx, ty, zT + 140]],
+       ['Pozo de bombeo ø1,0 m · 4,4 m de hondo, con tapa', [px + re, py, Po.z_tapa - 40]],
+       ['Válvulas de retención (una por bomba)', [px + Bm.sep / 2, py, zU - 40]],
+       ['Flotadores: apaga · bomba 1 · bomba 2 · alarma', [px - ri + 18, py + 9, Bo.flotadores[2].z]],
+       ['2 bombas sumergibles que se turnan', [px + Bm.sep / 2, py, Po.z_fondo + Bm.alto]]].forEach(([t, pt], k) => rotuloH(t, pt, col(pt, k)));
+      rotuloH('Tubo de salida ø63 hacia el norte, enterrado a 0,8 m', [px, py - Im.largo_norte * 0.55, zU - 5], [0, 0, 260]);
+      rotuloH('Descarga: aguas lluvia o zanja (por decidir)', [px, yFin, Im.z_fin + 25], [0, -40, 180]);
     }
     if (H.radier_estudio) H.radier_estudio.capas.forEach(capa => { const mat = capa.id === 'radier' ? matH : capa.id === 'poliestireno' ? matPoli : matRell; capa.piezas.forEach(z => addH('radier', ficha(prismaH(z.pts, capa.z_inf, capa.z_sup, mat), capa.nombre, `bajo ${z.recinto} · ${H.radier_estudio.fuente}`))); });
     // placas base: su contorno real (pl.pts: las PLc con cartela o inserto grande no son cuadradas, 27-10-2026), de pl.z − e a pl.z
@@ -1191,7 +1247,7 @@ body.embed .norte3d{top:52px}
     const sep = () => { const d = document.createElement('div'); d.className = 'sep'; panelEl.insertBefore(d, filaFit); };
     titulo('Hormigón');
     const hayH = {}; (grupoEstudioEst.userData.sub && grupoEstudioEst.userData.sub.hormigon ? grupoEstudioEst.userData.sub.hormigon : {traverse: () => {}}).traverse(o => { if (o.userData.hgrupo) hayH[o.userData.hgrupo] = true; });
-    [['muros', 'Muros del búnker'], ['losa', 'Losa y vigas VHA'], ['zapata', 'Losa de fundación y emplantillado'], ['piso', 'Radier y relleno del búnker'], ['escalera', 'Escalera y su caja'], ['cimiento', 'Sobrecimiento y cimiento corrido'], ['cf', 'CF bajo los tabiques'], ['dados', 'Dados bajo 4C y 4C2'], ['pobre', 'Hormigón pobre G5 hasta el sello'], ['dren', 'Dren perimetral del búnker'], ['radier', 'Radier del estudio y sus capas'], ['placas', 'Placas base PLc y PLb']].filter(([k]) => hayH[k]).forEach(([k, t]) => { const c = document.createElement('input'); c.type = 'checkbox'; c.checked = true; chkHGrupo[k] = c; fila(t, c); c.addEventListener('input', aplica); });
+    [['muros', 'Muros del búnker'], ['losa', 'Losa y vigas VHA'], ['zapata', 'Losa de fundación y emplantillado'], ['piso', 'Radier y relleno del búnker'], ['escalera', 'Escalera y su caja'], ['cimiento', 'Sobrecimiento y cimiento corrido'], ['cf', 'CF bajo los tabiques'], ['dados', 'Dados bajo 4C y 4C2'], ['pobre', 'Hormigón pobre G5 hasta el sello'], ['dren', 'Dren perimetral del búnker'], ['bombeo', 'Pozo y 2 bombas del dren (propuesta)'], ['radier', 'Radier del estudio y sus capas'], ['placas', 'Placas base PLc y PLb']].filter(([k]) => hayH[k]).forEach(([k, t]) => { const c = document.createElement('input'); c.type = 'checkbox'; c.checked = true; chkHGrupo[k] = c; fila(t, c); c.addEventListener('input', aplica); });
     fila('Hormigón translúcido', chkHTrans); chkHTrans.addEventListener('input', aplica);
     sep(); titulo('Enfierradura');
     const elems = [...new Set(grupoFierros.children.map(ls => ls.userData.elemento))];
