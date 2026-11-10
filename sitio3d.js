@@ -14,12 +14,12 @@
     const T = o.T, D = o.D, dark = !!o.dark, m = v => v / 100;
     const C = dark ? {
       pasto: 0x27392B, pastoLinea: 0x5C7A5E, lote: 0xB9C2CC, cierro: 0x9AA3AE, porton: 0xD3B26A,
-      gimMuro: 0x7A5A3E, gimTecho: 0x2A2D33, estudioTecho: 0x6B5440, muro: 0x4A5058, bunker: 0x3C3F46, bunkerBorde: 0xC0C6CF,
+      gimMuro: 0x7A5A3E, gimTecho: 0x2A2D33, estudioTecho: 0x3A3D42, muro: 0x4A5058, bunker: 0x3C3F46, bunkerBorde: 0xC0C6CF,
       estac: 0x8FB4D4, grava: 0x5E5A52, hormigon: 0x7E8187, radier: 0x6E7177, agua: 0x2C6E8A, laguna: 0x3E6F5A, galpon: 0x3A3D44, galponTecho: 0xB7BCC4,
       etiqueta: '#E7E9EE', etiquetaFondo: 'rgba(26,29,35,.88)',
     } : {
       pasto: 0xA9C79B, pastoLinea: 0x7FA072, lote: 0x3A4250, cierro: 0x6B7380, porton: 0xB8862B,
-      gimMuro: 0xB68B62, gimTecho: 0x3A3D44, estudioTecho: 0xC9A06C, muro: 0x8F97A2, bunker: 0x6E7480, bunkerBorde: 0x3A4250,
+      gimMuro: 0xB68B62, gimTecho: 0x3A3D44, estudioTecho: 0x1F2124, muro: 0x8F97A2, bunker: 0x6E7480, bunkerBorde: 0x3A4250,
       estac: 0x3D5A73, grava: 0xC9C2B3, hormigon: 0xD7D9DC, radier: 0xC5C8CD, agua: 0x6FB8D6, laguna: 0x7FA78F, galpon: 0x8A8F98, galponTecho: 0xF0F1F3,
       etiqueta: '#1F2328', etiquetaFondo: 'rgba(255,255,255,.9)',
     };
