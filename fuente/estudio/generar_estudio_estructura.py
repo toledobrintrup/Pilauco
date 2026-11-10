@@ -523,7 +523,7 @@ def main(estudio_json, sitio_json, salida):
                    'Máximo de las X: compresión 0,22, KL/r 109 (0,55), cruce 0,37, unión 0,33 (cartela PL 8 en una ranura de dos caras opuestas, 4 filetes de 150). '
                    'Más rígidas: deriva en el CM 0,56 → 0,47 en 1–5 y 0,33 → 0,26 en A–E; insertos máx. 0,74 → 0,82 (PLc-1C); fundaciones: SC-E 0,78 → 0,81 (0,90 con ks 7.000), CF 0,38; '
                    'el eje 4 se despega apenas (0,02 mm; el dado de 4C, 0,06 mm con ks 28.000). Acero 9.193 → 10.009 kg (riostras 826 → 1.642 kg). '
-                   'El ingeniero pidió un dren interceptor; Gabriel prefiere no ponerlo (10-11-2026): la flotación queda por decidir (vuelo de ~80 cm de la losa de fundación)',
+                   'El ingeniero pidió un dren interceptor; Gabriel decidió no ponerlo (10-11-2026): la flotación pasa sin él (FS 1,76 a 1,93 con la napa de diseño; ≈ 1,09 con el agua hasta el terreno)',
              por='el ingeniero (10-11-2026, informe V134 revisado): «Usar cuadrado 150*150x3 en general para diagonales verticales»; «en mi opinión debe haber dren interceptor»; lo demás, aceptado'),
     ]
     # Gabriel, 22-10-2026: "en las preguntas al ingeniero al final, reduce el texto al 30 %, demasiado texto" (2.520 → ~750 caracteres)
@@ -535,7 +535,7 @@ def main(estudio_json, sitio_json, salida):
     # el ingeniero, 29-10-2026 (2): «que use perfil rectangular 150x50x2, 3 o 4 mm». Todas pasan en 2 o 3 mm menos la diagonal sola de C2 4-5
     # el ingeniero, 10-11-2026 (informe V134 revisado): riostras en CUAD 150x150x3 (aplicado), dren interceptor (dibujado) y lo demás aceptado
     preguntas = [
-        'Flotación sin dren (Gabriel prefiere no poner el dren interceptor): con el relleno lleno de agua el búnker queda en FS 0,99. ¿Acepta alargar el vuelo de la losa de fundación a ~80 cm, para que la tierra encima lo sujete, u otra solución?',
+        'Sin dren ni bombas (decisión de Gabriel): la flotación da FS 1,76 solo con el búnker y ≈ 1,93 contando la estructura, las terminaciones y el radier, con la napa de diseño (1,50 m sobre el piso); ≈ 1,09 si el agua llegara al terreno. Durante la obra, bomba de achique hasta tener la losa de techo y el relleno.',
         'Firma de un ingeniero civil.',
     ]
     out = dict(

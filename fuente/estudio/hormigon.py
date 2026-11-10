@@ -80,7 +80,7 @@ IMPERMEABILIZACION = dict(
     membrana='por fuera: membrana HDPE pre-adherida bajo la losa de fundación (sobre el emplantillado, sube por el canto del vuelo) y membrana adherida en los muros, con chaflán de 5 × 5 en los rincones, hasta 30 cm sobre el terreno; encima, lámina drenante de nódulos con geotextil',
     junta='junta losa–muro con water-stop de PVC de 15 a 23 cm con bulbo, en un cuello de 15 cm hormigonado junto con la losa, más manguera de inyección de respaldo; los 4 muros en una sola faena, sin juntas verticales',
     pasadas='pasadas con pasamuros de aleta embebidos (de preferencia por la losa de techo); amarras de moldaje con sello; nada se perfora bajo el nivel del agua',
-    dren='dren perimetral ø110 ranurado en grava con geotextil al nivel del sello, con pendiente 0,5 % hacia un pozo con 2 bombas (propuesta, 10-11-2026; el ingeniero pidió un dren interceptor y sugirió bombas): el agua no sube del sello; relleno granular compactado al 95 % con tapa de suelo fino y pendiente hacia afuera',
+    dren='sin dren ni bombas (Gabriel, 10-11-2026; la flotación pasa sin ellos: FS 1,76 a 1,93 con la napa de diseño); durante la obra, bomba de achique hasta tener la losa de techo y el relleno; relleno granular compactado al 95 % con tapa de suelo fino y pendiente hacia afuera',
     interior='opcional: cámara drenada (lámina de nódulos y canaleta a un pozo de achique) detrás de la sala acústica, y deshumidificador',
     fuente='revisión 23-10-2026 (BS 8102, grado 3: recinto habitable seco)')
 KGM = {6: 0.222, 8: 0.395, 10: 0.617, 12: 0.888, 16: 1.578, 19: 2.235, 22: 3.04}   # kg/m por diámetro (ø19 = 3/4")
@@ -258,6 +258,8 @@ def armar(c):
                                  d_txt='cada bomba con su válvula de retención; se juntan en un tubo ø63 enterrado a 0,8 m que sale 8 m hacia el norte, con un poco de caída; descarga a aguas lluvia o zanja (falta decidir), nunca de vuelta al relleno'),
                   tablero=dict(pos=(r1(pc[0] + 110.0), pc[1]), d_txt='tablero de las bombas con alarma de nivel alto al celular y respaldo eléctrico (UPS o generador): los temporales cortan la luz justo cuando más llueve'),
                   fuente='propuesta (Gabriel, 10-11-2026); medidas de un detalle típico, por confirmar con el ingeniero')
+    # Gabriel, 10-11-2026, con la flotación revisada (FS 1,76–1,93 con la napa de diseño; ≈ 1,09 con el agua hasta el terreno): «saca el dren y las bombas del 3D»
+    dren = bombeo = None
     # radier del estudio (fuera del búnker) en tres paños, dejando las franjas del sobrecimiento y de los CF (caras coplanares parpadean)
     g = GAP
     rad_pts = [('estudio', xA[0] + hs + g, by1 + g, xA[3] - hcf - g, yA[6] - hs - g),
