@@ -20,6 +20,8 @@ from geom import offset_rect_poly
 PERFILES = {
     'CUAD 150x150x5': dict(forma='tubo_rect', h=15, b=15, t=0.5),
     'CUAD 150x150x4': dict(forma='tubo_rect', h=15, b=15, t=0.4),
+    # riostras verticales desde la V134 revisada (el ingeniero, 10-11-2026: «usar cuadrado 150*150x3 en general para diagonales verticales»); r = 2t
+    'CUAD 150x150x3': dict(forma='tubo_rect', h=15, b=15, t=0.3, r=0.6),
     'RECT 150x100x3': dict(forma='tubo_rect', h=15, b=10, t=0.3),
     'RECT 200x150x3': dict(forma='tubo_rect', h=20, b=15, t=0.3),
     'RECT 200x150x5': dict(forma='tubo_rect', h=20, b=15, t=0.5),
@@ -37,7 +39,7 @@ PERFILES = {
     'FE 22':          dict(forma='barra', d=2.2),
     'FE 10':          dict(forma='barra', d=1.0),
 }
-PESO = {'C 150x50x3': 5.65, 'C 150x50x4': 7.47, 'FE 22': 2.98, 'CUAD 100x100x3': 8.94, 'CUAD 150x150x4': 18.0, 'CUAD 150x150x5': 22.2, 'FE 16': 1.58,
+PESO = {'CUAD 150x150x3': 13.6, 'C 150x50x3': 5.65, 'C 150x50x4': 7.47, 'FE 22': 2.98, 'CUAD 100x100x3': 8.94, 'CUAD 150x150x4': 18.0, 'CUAD 150x150x5': 22.2, 'FE 16': 1.58,
         'RECT 150x100x3': 11.3, 'RECT 200x150x3': 16.0, 'RECT 200x150x5': 26.1, 'RECT 200x150x6': 31.0, 'CA 100x50x15x3': 4.95, 'CA 100x50x15x2': 3.38, 'RECT 150x50x2': 6.07, 'RECT 150x50x3': 8.96, 'RECT 150x50x4': 11.73, 'FE 10': 0.62}
 
 h2 = lambda p: PERFILES[p]['h'] / 2   # medio alto del perfil: las líneas de los miembros van por el EJE del perfil (como en estructura.js)
@@ -178,11 +180,13 @@ def main(estudio_json, sitio_json, salida):
     # (fuera del plano trabaja el eje fuerte y no depende del cruce; en el plano, el eje débil, sujeto en el cruce por la otra diagonal).
     RIOSTRA_T = {'X-1-AA2': 2, 'X-5-AA2': 2, 'X-1-DE': 2, 'X-5-DE': 2, 'X-1-CC2': 2, 'X-5-CC2': 3, 'X-A-45': 3, 'X-C-45': 2, 'X-C2-45': 4,
                  'X-E-12': 2, 'X-E-45': 2, 'XF-E-12': 2, 'XF-E-45': 2}
-    rp = lambda k: f'RECT 150x50x{RIOSTRA_T[k]}'
-    UNION_X = ('; tubo «acostado» (el 150 atravesado al muro, el 50 en el plano); en cada extremo, cartela PL 8 soldada a la placa base o a la viga (no a la cara del tubo de 3 mm), '
-               'metida en una ranura de 10 en las dos caras de 150 del tubo y soldada con 4 filetes de 120 (garganta del espesor del tubo, E6011 o MIG); trabaja a tracción y compresión')
+    # el ingeniero, V134 revisada (10-11-2026): «usar cuadrado 150*150x3 en general para diagonales verticales» → todas en CUAD 150x150x3 (RIOSTRA_T queda
+    # como registro de los espesores del RECT 150x50 de la V134)
+    rp = lambda k: 'CUAD 150x150x3'
+    UNION_X = ('; tubo cuadrado 150x150x3 (el ingeniero, 10-11-2026); en cada extremo, cartela PL 8 soldada a la placa base o a la viga (no a la cara del tubo de 3 mm), '
+               'metida en una ranura de 10 en dos caras opuestas del tubo (las perpendiculares al muro) y soldada con 4 filetes de 150 (garganta del espesor del tubo, E6011 o MIG); trabaja a tracción y compresión')
     CRUCE_X = ('; en el cruce, las dos diagonales en el mismo plano: la «a» continua y la «b» cortada a cada lado de ella, unida con una plancha pasante PL 8 que atraviesa la «a» '
-               'por una ranura en sus caras de 150 (soldada a ella) y a la que se sueldan las dos mitades de la «b» como a una cartela')
+               'por una ranura en sus dos caras perpendiculares al muro (soldada a ella) y a la que se sueldan las dos mitades de la «b» como a una cartela')
     def cruz(id_, a, b, d, ns=False):
         (xa, ya), (xb, yb) = a, b; d = d + UNION_X + CRUCE_X
         za = z_viga(ya) if ns else Z_CORDON_EJE; zb = z_viga(yb) if ns else Z_CORDON_EJE
@@ -213,8 +217,8 @@ def main(estudio_json, sitio_json, salida):
         m(f'{id_}b', 'diagonal', rp(id_), (xa, y, za), (xb, y, zb), d + ' (esta es la cortada en el cruce)', acostado=True)
     UNION_F = ('; a cartelas PL 8 soldadas a la cabeza del pilar (bajo la viga inclinada) y al nudo de la viga E-O con el pilar, metidas en la ranura del tubo con 4 filetes de 120; '
                'trabaja a tracción y compresión' + CRUCE_X)
-    faja('XF-E-12', xA[0], xA[1], yA[6], f'X de RECT 150x50 en la faja de {z_viga(yA[6]) - Z_CORDON[1]:.0f} cm entre la viga E-O y la viga inclinada, eje E, tramo 1-2 (sobre la cruz X-E-12)' + UNION_F)
-    faja('XF-E-45', xA[3], xA[4], yA[6], f'X de RECT 150x50 en la faja de {z_viga(yA[6]) - Z_CORDON[1]:.0f} cm entre la viga E-O y la viga inclinada, eje E, tramo 4-5 (sobre la cruz X-E-45)' + UNION_F)
+    faja('XF-E-12', xA[0], xA[1], yA[6], f'X de CUAD 150x150x3 en la faja de {z_viga(yA[6]) - Z_CORDON[1]:.0f} cm entre la viga E-O y la viga inclinada, eje E, tramo 1-2 (sobre la cruz X-E-12)' + UNION_F)
+    faja('XF-E-45', xA[3], xA[4], yA[6], f'X de CUAD 150x150x3 en la faja de {z_viga(yA[6]) - Z_CORDON[1]:.0f} cm entre la viga E-O y la viga inclinada, eje E, tramo 4-5 (sobre la cruz X-E-45)' + UNION_F)
     # ---------- tensores Fe 16 en el plano del techo: X en los paños extremos completos y en los vanos extremos del resto ----------
     panos = [(yA[0], yA[1]), (yA[1], yB), (yB, yC), (yC, yC2), (yC2, yA[5]), (yA[5], yA[6])]
     nudos = set()
@@ -375,44 +379,44 @@ def main(estudio_json, sitio_json, salida):
     # desde la cara del pilar: continua de 750 en B (cruz) y de 435 en E (T, termina a 15 de la cara de fachada). Cajas en cm de la app (a = mínimo, b = máximo).
     # D/C de calculo/union_cordon/union_cordon_pilar.py con los esfuerzos del modelo con UM, tabiques y torsión accidental (extraer_marcos.py planchas)
     UM_DC = {'2B': (0.54, 0.48, 0.30, 0.20), '2E': (0.49, 0.47, 0.44, 0.33), '3B': (0.54, 0.48, 0.30, 0.19), '3E': (0.48, 0.46, 0.43, 0.32)}  # soldadura al cordón, plancha, soldadura al pilar, pilar en el nudo
-    # ---------- riostras verticales a tracción y compresión, en tubo RECT 150x50 (el ingeniero, 29-10-2026): D/C por diagonal de calculo/verificar_acero.py ----------
+    # ---------- riostras verticales a tracción y compresión, en tubo CUAD 150x150x3 (el ingeniero, 10-11-2026; antes RECT 150x50, 29-10-2026): D/C por diagonal de calculo/verificar_acero.py ----------
     # T, C en kN mayorados; D/C a tracción (AISC 360-16 D2/D3: ranura de 10 y U = 1 − x̄/l), a compresión (E3 + E7, paredes de tubo), KL/r, unión (4 filetes de 120 de
     # garganta 0,707·t, E60; pared del tubo; cartela PL 8: Whitmore y pandeo con K = 1,2); c_am / KL_r_am: la diagonal sola X-C2-45a con un amarre en el plano al centro
     # (PROPUESTA sin visto bueno; en las X es lo mismo que sin amarre, no lo necesitan); L y Ls: largo entre puntos de trabajo y hasta el cruce (m); cruce: D/C de la
     # rigidez del nudo del cruce (Apéndice 6.2.2: la «a» continua sujeta fuera del plano a la «b» cortada); var: [tracción, compresión, KL/r/200, unión] con 2, 3 y 4 mm
     # (las fuerzas del modelo final). Tubo «acostado» (150 atravesado al muro): en el plano pandea con el eje débil (r 2,1 cm) hasta el cruce; fuera, con el fuerte (r 5,1 cm).
     RIOSTRAS_DC = {
-    'X-1-AA2a': dict(T=25.1, C=27.1, t=0.18, c=0.34, KL_r=113, u=0.21, c_am=0.34, KL_r_am=113, L=4.82, Ls=2.47, cruce=0.37, cont=True, var={'2': [0.18, 0.34, 0.56, 0.21], '3': [0.12, 0.21, 0.57, 0.14], '4': [0.09, 0.16, 0.59, 0.11]}),
-    'X-1-AA2b': dict(T=25.9, C=29.6, t=0.19, c=0.35, KL_r=108, u=0.23, c_am=0.35, KL_r_am=108, L=4.62, Ls=2.37, cruce=0.37, cont=False, var={'2': [0.19, 0.35, 0.54, 0.23], '3': [0.13, 0.21, 0.55, 0.16], '4': [0.1, 0.17, 0.56, 0.12]}),
-    'X-1-CC2a': dict(T=31.7, C=36.1, t=0.23, c=0.68, KL_r=151, u=0.29, c_am=0.68, KL_r_am=151, L=6.52, Ls=3.31, cruce=0.89, cont=True, var={'2': [0.23, 0.68, 0.76, 0.29], '3': [0.16, 0.48, 0.77, 0.19], '4': [0.12, 0.38, 0.79, 0.14]}),
-    'X-1-CC2b': dict(T=35.8, C=38.8, t=0.26, c=0.71, KL_r=149, u=0.31, c_am=0.71, KL_r_am=149, L=6.41, Ls=3.26, cruce=0.89, cont=False, var={'2': [0.26, 0.71, 0.74, 0.31], '3': [0.18, 0.5, 0.76, 0.2], '4': [0.14, 0.4, 0.77, 0.15]}),
-    'X-1-DEa': dict(T=21.7, C=23.8, t=0.16, c=0.33, KL_r=122, u=0.19, c_am=0.33, KL_r_am=122, L=5.30, Ls=2.67, cruce=0.32, cont=True, var={'2': [0.16, 0.33, 0.61, 0.19], '3': [0.11, 0.21, 0.62, 0.13], '4': [0.08, 0.16, 0.63, 0.09]}),
-    'X-1-DEb': dict(T=21.3, C=21.1, t=0.16, c=0.28, KL_r=120, u=0.17, c_am=0.28, KL_r_am=120, L=5.24, Ls=2.64, cruce=0.32, cont=False, var={'2': [0.16, 0.28, 0.6, 0.17], '3': [0.11, 0.18, 0.61, 0.11], '4': [0.08, 0.14, 0.63, 0.08]}),
-    'X-5-AA2a': dict(T=25.5, C=28.1, t=0.19, c=0.35, KL_r=113, u=0.22, c_am=0.35, KL_r_am=113, L=4.82, Ls=2.47, cruce=0.40, cont=True, var={'2': [0.19, 0.35, 0.56, 0.22], '3': [0.13, 0.22, 0.57, 0.15], '4': [0.1, 0.17, 0.59, 0.11]}),
-    'X-5-AA2b': dict(T=28.2, C=31.5, t=0.21, c=0.38, KL_r=108, u=0.25, c_am=0.38, KL_r_am=108, L=4.62, Ls=2.37, cruce=0.40, cont=False, var={'2': [0.21, 0.38, 0.54, 0.25], '3': [0.14, 0.23, 0.55, 0.17], '4': [0.11, 0.18, 0.56, 0.12]}),
-    'X-5-CC2a': dict(T=43.8, C=50.5, t=0.22, c=0.68, KL_r=154, u=0.27, c_am=0.68, KL_r_am=154, L=6.52, Ls=3.31, cruce=0.80, cont=True, var={'2': [0.32, 0.96, 0.76, 0.4], '3': [0.22, 0.68, 0.77, 0.27], '4': [0.17, 0.54, 0.79, 0.2]}),
-    'X-5-CC2b': dict(T=46.8, C=50.6, t=0.23, c=0.65, KL_r=152, u=0.27, c_am=0.65, KL_r_am=152, L=6.41, Ls=3.26, cruce=0.80, cont=False, var={'2': [0.34, 0.93, 0.74, 0.4], '3': [0.23, 0.65, 0.76, 0.27], '4': [0.18, 0.52, 0.77, 0.2]}),
-    'X-5-DEa': dict(T=20.5, C=23.7, t=0.15, c=0.32, KL_r=122, u=0.19, c_am=0.32, KL_r_am=122, L=5.30, Ls=2.67, cruce=0.31, cont=True, var={'2': [0.15, 0.32, 0.61, 0.19], '3': [0.1, 0.21, 0.62, 0.13], '4': [0.08, 0.16, 0.63, 0.09]}),
-    'X-5-DEb': dict(T=21.6, C=20.8, t=0.16, c=0.28, KL_r=120, u=0.17, c_am=0.28, KL_r_am=120, L=5.24, Ls=2.64, cruce=0.31, cont=False, var={'2': [0.16, 0.28, 0.6, 0.17], '3': [0.11, 0.18, 0.61, 0.11], '4': [0.08, 0.14, 0.63, 0.09]}),
-    'X-A-45a': dict(T=74.7, C=77.2, t=0.37, c=0.60, KL_r=116, u=0.41, c_am=0.60, KL_r_am=116, L=4.99, Ls=2.49, cruce=0.73, cont=True, var={'2': [0.54, 0.97, 0.57, 0.61], '3': [0.37, 0.6, 0.58, 0.41], '4': [0.28, 0.48, 0.59, 0.31]}),
-    'X-A-45b': dict(T=75.7, C=78.6, t=0.37, c=0.61, KL_r=116, u=0.41, c_am=0.61, KL_r_am=116, L=4.99, Ls=2.49, cruce=0.73, cont=False, var={'2': [0.55, 0.99, 0.57, 0.62], '3': [0.37, 0.61, 0.58, 0.41], '4': [0.29, 0.48, 0.59, 0.31]}),
-    'X-C-45a': dict(T=39.8, C=44.0, t=0.29, c=0.55, KL_r=114, u=0.35, c_am=0.55, KL_r_am=114, L=4.99, Ls=2.49, cruce=0.57, cont=True, var={'2': [0.29, 0.55, 0.57, 0.35], '3': [0.2, 0.34, 0.58, 0.23], '4': [0.15, 0.27, 0.59, 0.17]}),
-    'X-C-45b': dict(T=39.4, C=43.1, t=0.29, c=0.54, KL_r=114, u=0.34, c_am=0.54, KL_r_am=114, L=4.99, Ls=2.49, cruce=0.57, cont=False, var={'2': [0.29, 0.54, 0.57, 0.34], '3': [0.19, 0.34, 0.58, 0.23], '4': [0.15, 0.27, 0.59, 0.17]}),
-    'X-C2-45a': dict(T=38.0, C=39.1, t=0.14, c=0.94, KL_r=237, u=0.15, c_am=0.24, KL_r_am=119, L=4.99, Ls=4.99, cruce=None, cont=True, var={'2': [0.28, 1.68, 1.14, 0.31], '3': [0.19, 1.19, 1.16, 0.21], '4': [0.14, 0.94, 1.19, 0.15]}),
-    'X-E-12a': dict(T=30.8, C=34.1, t=0.22, c=0.42, KL_r=112, u=0.27, c_am=0.42, KL_r_am=112, L=4.90, Ls=2.45, cruce=0.43, cont=True, var={'2': [0.22, 0.42, 0.56, 0.27], '3': [0.15, 0.26, 0.57, 0.18], '4': [0.12, 0.2, 0.58, 0.14]}),
-    'X-E-12b': dict(T=31.1, C=33.2, t=0.23, c=0.41, KL_r=112, u=0.26, c_am=0.41, KL_r_am=112, L=4.90, Ls=2.45, cruce=0.43, cont=False, var={'2': [0.23, 0.41, 0.56, 0.26], '3': [0.15, 0.25, 0.57, 0.18], '4': [0.12, 0.2, 0.58, 0.13]}),
-    'X-E-45a': dict(T=32.8, C=33.6, t=0.24, c=0.42, KL_r=114, u=0.27, c_am=0.42, KL_r_am=114, L=4.99, Ls=2.49, cruce=0.44, cont=True, var={'2': [0.24, 0.42, 0.57, 0.27], '3': [0.16, 0.26, 0.58, 0.18], '4': [0.12, 0.21, 0.59, 0.13]}),
-    'X-E-45b': dict(T=30.9, C=33.0, t=0.22, c=0.42, KL_r=114, u=0.26, c_am=0.42, KL_r_am=114, L=4.99, Ls=2.49, cruce=0.44, cont=False, var={'2': [0.22, 0.42, 0.57, 0.26], '3': [0.15, 0.26, 0.58, 0.17], '4': [0.12, 0.2, 0.59, 0.13]}),
-    'XF-E-12a': dict(T=17.7, C=17.5, t=0.13, c=0.15, KL_r=61, u=0.14, c_am=0.15, KL_r_am=61, L=2.69, Ls=1.35, cruce=0.06, cont=True, var={'2': [0.13, 0.15, 0.31, 0.14], '3': [0.09, 0.08, 0.31, 0.09], '4': [0.07, 0.06, 0.32, 0.07]}),
-    'XF-E-12b': dict(T=14.5, C=16.8, t=0.11, c=0.14, KL_r=61, u=0.13, c_am=0.14, KL_r_am=61, L=2.69, Ls=1.35, cruce=0.06, cont=False, var={'2': [0.11, 0.14, 0.31, 0.13], '3': [0.07, 0.08, 0.31, 0.09], '4': [0.05, 0.06, 0.32, 0.07]}),
-    'XF-E-45a': dict(T=15.0, C=16.9, t=0.11, c=0.15, KL_r=65, u=0.13, c_am=0.15, KL_r_am=65, L=2.85, Ls=1.43, cruce=0.08, cont=True, var={'2': [0.11, 0.15, 0.33, 0.13], '3': [0.07, 0.08, 0.33, 0.09], '4': [0.06, 0.06, 0.34, 0.07]}),
-    'XF-E-45b': dict(T=18.0, C=17.9, t=0.13, c=0.16, KL_r=65, u=0.14, c_am=0.16, KL_r_am=65, L=2.85, Ls=1.43, cruce=0.08, cont=False, var={'2': [0.13, 0.16, 0.33, 0.14], '3': [0.09, 0.09, 0.33, 0.09], '4': [0.07, 0.06, 0.34, 0.07]}),
+    'X-1-AA2a': dict(T=23.7, C=27.6, t=0.07, c=0.09, KL_r=81, u=0.12, c_am=0.09, KL_r_am=81, L=4.82, Ls=2.47, cruce=0.13, cont=True, var={'3': [0.07, 0.09, 0.40, 0.12]}),
+    'X-1-AA2b': dict(T=24.3, C=30.5, t=0.08, c=0.09, KL_r=40, u=0.13, c_am=0.09, KL_r_am=40, L=4.62, Ls=2.37, cruce=0.13, cont=False, var={'3': [0.08, 0.09, 0.20, 0.13]}),
+    'X-1-CC2a': dict(T=30.8, C=39.1, t=0.10, c=0.18, KL_r=109, u=0.16, c_am=0.18, KL_r_am=109, L=6.52, Ls=3.31, cruce=0.33, cont=True, var={'3': [0.10, 0.18, 0.55, 0.16]}),
+    'X-1-CC2b': dict(T=37.6, C=43.4, t=0.12, c=0.13, KL_r=54, u=0.18, c_am=0.13, KL_r_am=54, L=6.41, Ls=3.26, cruce=0.33, cont=False, var={'3': [0.12, 0.13, 0.27, 0.18]}),
+    'X-1-DEa': dict(T=22.0, C=25.6, t=0.07, c=0.10, KL_r=89, u=0.11, c_am=0.10, KL_r_am=89, L=5.30, Ls=2.67, cruce=0.10, cont=True, var={'3': [0.07, 0.10, 0.44, 0.11]}),
+    'X-1-DEb': dict(T=20.2, C=19.9, t=0.06, c=0.06, KL_r=44, u=0.09, c_am=0.06, KL_r_am=44, L=5.24, Ls=2.64, cruce=0.10, cont=False, var={'3': [0.06, 0.06, 0.22, 0.09]}),
+    'X-5-AA2a': dict(T=27.9, C=32.4, t=0.09, c=0.11, KL_r=81, u=0.14, c_am=0.11, KL_r_am=81, L=4.82, Ls=2.47, cruce=0.16, cont=True, var={'3': [0.09, 0.11, 0.40, 0.14]}),
+    'X-5-AA2b': dict(T=32.4, C=38.0, t=0.10, c=0.11, KL_r=40, u=0.16, c_am=0.11, KL_r_am=40, L=4.62, Ls=2.37, cruce=0.16, cont=False, var={'3': [0.10, 0.11, 0.20, 0.16]}),
+    'X-5-CC2a': dict(T=38.9, C=47.2, t=0.12, c=0.22, KL_r=109, u=0.20, c_am=0.22, KL_r_am=109, L=6.52, Ls=3.31, cruce=0.37, cont=True, var={'3': [0.12, 0.22, 0.55, 0.20]}),
+    'X-5-CC2b': dict(T=43.0, C=48.1, t=0.13, c=0.14, KL_r=54, u=0.20, c_am=0.14, KL_r_am=54, L=6.41, Ls=3.26, cruce=0.37, cont=False, var={'3': [0.13, 0.14, 0.27, 0.20]}),
+    'X-5-DEa': dict(T=24.7, C=30.2, t=0.08, c=0.11, KL_r=89, u=0.13, c_am=0.11, KL_r_am=89, L=5.30, Ls=2.67, cruce=0.12, cont=True, var={'3': [0.08, 0.11, 0.44, 0.13]}),
+    'X-5-DEb': dict(T=24.2, C=23.3, t=0.07, c=0.07, KL_r=44, u=0.10, c_am=0.07, KL_r_am=44, L=5.24, Ls=2.64, cruce=0.12, cont=False, var={'3': [0.07, 0.07, 0.22, 0.10]}),
+    'X-A-45a': dict(T=75.1, C=78.5, t=0.23, c=0.28, KL_r=83, u=0.33, c_am=0.28, KL_r_am=83, L=4.99, Ls=2.49, cruce=0.35, cont=True, var={'3': [0.23, 0.28, 0.42, 0.33]}),
+    'X-A-45b': dict(T=75.2, C=78.6, t=0.23, c=0.22, KL_r=42, u=0.33, c_am=0.22, KL_r_am=42, L=4.99, Ls=2.49, cruce=0.35, cont=False, var={'3': [0.23, 0.22, 0.21, 0.33]}),
+    'X-C-45a': dict(T=41.6, C=48.9, t=0.13, c=0.17, KL_r=83, u=0.21, c_am=0.17, KL_r_am=83, L=4.99, Ls=2.49, cruce=0.20, cont=True, var={'3': [0.13, 0.17, 0.42, 0.21]}),
+    'X-C-45b': dict(T=40.0, C=46.2, t=0.12, c=0.13, KL_r=42, u=0.19, c_am=0.13, KL_r_am=42, L=4.99, Ls=2.49, cruce=0.20, cont=False, var={'3': [0.12, 0.13, 0.21, 0.19]}),
+    'X-C2-45a': dict(T=37.5, C=38.8, t=0.12, c=0.14, KL_r=83, u=0.16, c_am=0.14, KL_r_am=83, L=4.99, Ls=4.99, cruce=None, cont=True, var={'3': [0.12, 0.14, 0.42, 0.16]}),
+    'X-E-12a': dict(T=30.4, C=37.2, t=0.09, c=0.13, KL_r=82, u=0.16, c_am=0.13, KL_r_am=82, L=4.90, Ls=2.45, cruce=0.16, cont=True, var={'3': [0.09, 0.13, 0.41, 0.16]}),
+    'X-E-12b': dict(T=32.7, C=36.5, t=0.10, c=0.10, KL_r=41, u=0.15, c_am=0.10, KL_r_am=41, L=4.90, Ls=2.45, cruce=0.16, cont=False, var={'3': [0.10, 0.10, 0.20, 0.15]}),
+    'X-E-45a': dict(T=35.5, C=37.5, t=0.11, c=0.13, KL_r=83, u=0.16, c_am=0.13, KL_r_am=83, L=4.99, Ls=2.49, cruce=0.15, cont=True, var={'3': [0.11, 0.13, 0.42, 0.16]}),
+    'X-E-45b': dict(T=30.4, C=34.0, t=0.09, c=0.10, KL_r=42, u=0.14, c_am=0.10, KL_r_am=42, L=4.99, Ls=2.49, cruce=0.15, cont=False, var={'3': [0.09, 0.10, 0.21, 0.14]}),
+    'XF-E-12a': dict(T=18.8, C=18.7, t=0.06, c=0.05, KL_r=45, u=0.08, c_am=0.05, KL_r_am=45, L=2.69, Ls=1.35, cruce=0.02, cont=True, var={'3': [0.06, 0.05, 0.22, 0.08]}),
+    'XF-E-12b': dict(T=14.0, C=16.9, t=0.04, c=0.05, KL_r=22, u=0.07, c_am=0.05, KL_r_am=22, L=2.69, Ls=1.35, cruce=0.02, cont=False, var={'3': [0.04, 0.05, 0.11, 0.07]}),
+    'XF-E-45a': dict(T=14.5, C=17.4, t=0.04, c=0.05, KL_r=48, u=0.07, c_am=0.05, KL_r_am=48, L=2.85, Ls=1.43, cruce=0.03, cont=True, var={'3': [0.04, 0.05, 0.24, 0.07]}),
+    'XF-E-45b': dict(T=19.5, C=19.6, t=0.06, c=0.05, KL_r=24, u=0.08, c_am=0.05, KL_r_am=24, L=2.85, Ls=1.43, cruce=0.03, cont=False, var={'3': [0.06, 0.05, 0.12, 0.08]}),
     }
     riostras = [dict(id=k, perfil=next(mb['p'] for mb in M if mb['id'] == k), espesor_mm=int(next(mb['p'] for mb in M if mb['id'] == k)[-1]), T_kN=v['T'], C_kN=v['C'],
                      T_t=round(v['T'] * 0.10197, 2), C_t=round(v['C'] * 0.10197, 2), dc_traccion=v['t'], dc_compresion=v['c'], KL_r=v['KL_r'], dc_union=v['u'],
                      dc_compresion_amarres=v['c_am'], KL_r_amarres=v['KL_r_am'], L=v['L'], L_pandeo=v['Ls'], dc_cruce=v['cruce'], continua=v['cont'],
                      variantes={f'{t} mm': dict(zip(('traccion', 'compresion', 'KL_r_200', 'union'), x), max=max(x)) for t, x in v['var'].items()},
-                     union='cartela PL 8 metida en una ranura de 10 del tubo (caras de 150), 4 filetes de 120 de garganta 0,707·t (E6011 o MIG)',
+                     union='cartela PL 8 metida en una ranura de 10 en dos caras opuestas del tubo, 4 filetes de 150 de garganta 0,707·t (E6011 o MIG)',
                      cumple=max(v['t'], v['c'], v['u']) <= 1.0 and v['KL_r'] <= 200 and (v['cruce'] is None or v['cruce'] <= 1.0)) for k, v in RIOSTRAS_DC.items()]
     TPL, HPL, LPL = 0.8, 15.0, 30.0
     uniones = []
@@ -513,6 +517,14 @@ def main(estudio_json, sitio_json, salida):
                    'La diagonal sola de C2 4-5 no pasa en ningún espesor: sola pandea en el plano en todo su largo (KL/r 227 a 237 > 200; en 4 mm la carga sí, 0,94): queda en 4 mm y pendiente (amarre en el plano al centro, del pilar 4C2, 0,49 en 2 mm; o CUAD 100x100x3, 0,35). '
                    'Deriva en el CM 0,57 → 0,56 en 1–5 y 0,34 → 0,33 en A–E; insertos máx. 0,71 → 0,74 (PLc-5C); fundaciones sin cambio (SC-E 0,78, CF 0,38; el eje 4 ya no despega); tensores Fe 16 0,48 → 0,50. Acero 9.146 → 9.193 kg (riostras 774 → 827 kg)',
              por='el ingeniero (29-10-2026): «Que use perfil rectangular 150x50x2, 3 o 4 mm. Creo se saldrá máximo de 3 mm»'),
+        dict(que='Riostras en CUAD 150x150x3 y dren interceptor (el ingeniero, 10-11-2026)',
+             original='riostras en RECT 150x50 de 2 y 3 mm; la diagonal sola de C2 4-5 sin pasar (KL/r 227 a 237, en 4 mm y pendiente); dren perimetral con salida por decidir',
+             nuevo='todas las riostras verticales en tubo cuadrado CUAD 150x150x3 (r 5,9 cm en los dos sentidos): pasan todas, también la diagonal sola de C2 4-5 sin amarre (compresión 0,14, KL/r 83). '
+                   'Máximo de las X: compresión 0,22, KL/r 109 (0,55), cruce 0,37, unión 0,33 (cartela PL 8 en una ranura de dos caras opuestas, 4 filetes de 150). '
+                   'Más rígidas: deriva en el CM 0,56 → 0,47 en 1–5 y 0,33 → 0,26 en A–E; insertos máx. 0,74 → 0,82 (PLc-1C); fundaciones: SC-E 0,78 → 0,81 (0,90 con ks 7.000), CF 0,38; '
+                   'el eje 4 se despega apenas (0,02 mm; el dado de 4C, 0,06 mm con ks 28.000). Acero 9.193 → 10.009 kg (riostras 826 → 1.642 kg). '
+                   'Dren interceptor obligatorio: tubo ranurado ø110 al nivel del sello en grava con geotextil y registros en las esquinas (dibujado; salida por decidir)',
+             por='el ingeniero (10-11-2026, informe V134 revisado): «Usar cuadrado 150*150x3 en general para diagonales verticales»; «en mi opinión debe haber dren interceptor»; lo demás, aceptado'),
     ]
     # Gabriel, 22-10-2026: "en las preguntas al ingeniero al final, reduce el texto al 30 %, demasiado texto" (2.520 → ~750 caracteres)
     # Desde la revisión del 23-10-2026 ya no son preguntas al ingeniero: son los datos que faltan para cerrar el cálculo y firmarlo
@@ -521,8 +533,9 @@ def main(estudio_json, sitio_json, salida):
     # el ingeniero, 28-10-2026: visto bueno «RESPONDIDOS», viento «USAR NCh 432:2010», escalera «SÍ» (40 = alto total). Queda lo que no contestó: el arreglo del sismo
     # el ingeniero, 29-10-2026: contestó el arreglo del sismo (riostras a tracción y compresión, todas en su lugar, C 150x50x3 y 4 mm si falla). Queda: las 5 que no pasan ni en 4 mm
     # el ingeniero, 29-10-2026 (2): «que use perfil rectangular 150x50x2, 3 o 4 mm». Todas pasan en 2 o 3 mm menos la diagonal sola de C2 4-5
+    # el ingeniero, 10-11-2026 (informe V134 revisado): riostras en CUAD 150x150x3 (aplicado), dren interceptor (dibujado) y lo demás aceptado
     preguntas = [
-        'Riostras en RECT 150x50 (2 y 3 mm, todas pasan): la diagonal sola de C2 4-5 (X-C2-45a, 4,99 m) no pasa en ningún espesor, porque sola pandea en el plano en todo su largo: KL/r 227 a 237 (> 200). ¿Amarre en el plano del tabique, del pilar 4C2 al centro de la diagonal (RECT 150x50x2 de 1,3 m a +2,08, no toca la puerta; diagonal en 2 mm: 0,49) o la diagonal en CUAD 100x100x3 sin amarre (0,35)?',
+        'Dren interceptor: ¿es el perimetral al nivel del sello que está dibujado (tubo ranurado ø110 en grava con geotextil, a 62,5 cm del muro, con registros en las esquinas)? ¿Y la salida, por gravedad o cámara con bombas?',
         'Firma de un ingeniero civil.',
     ]
     out = dict(
