@@ -194,7 +194,7 @@ details.areas[open] summary::before{content:"▾ ";}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V141" data-vista="losa"></script>
+  <script src="menu.js?v=V142" data-vista="losa"></script>
   <h1>Losa colaborante <small>Entrepiso de 15 cm · marco C, placa Instadeck 0,8, pernos, malla C-188, suples y hormigón</small></h1>
   <span class="meta">Fuentes: planta estructura nivel 1 (rev. 08-04-2026), detalle del ingeniero (05-10-2026), lámina 11 de pernos (07-10-2026), lámina de suples (03-11-2026), fichas de Instadeck, pernos Nelson y mallas ACMA, y áreas marcadas en obra</span>
 </header>
@@ -394,13 +394,13 @@ details.areas[open] summary::before{content:"▾ ";}
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="nav3d.js?v=V141"></script>
+<script src="nav3d.js?v=V142"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
-<script src="placa3d.js?v=V141"></script>
-<script src="estructura.js?v=V141"></script>
-<script src="losa.js?v=V141"></script>
-<script src="alzaprimas.js?v=V141"></script>
-<script src="suples.js?v=V141"></script>
+<script src="placa3d.js?v=V142"></script>
+<script src="estructura.js?v=V142"></script>
+<script src="losa.js?v=V142"></script>
+<script src="alzaprimas.js?v=V142"></script>
+<script src="suples.js?v=V142"></script>
 <script>
 (function () {
 'use strict';
@@ -1170,17 +1170,17 @@ function iniciar3D() {
   const W = (x, y, z) => new T.Vector3(x / 100, z / 100, y / 100);   // app (cm) -> mundo (m)
   const std = (color, extra) => new T.MeshStandardMaterial(Object.assign({ color, roughness: 0.55, metalness: 0.25 }, extra || {}));
   const MAT = {
-    // acero en negro (Gabriel, 09-11-2026); gris en modo oscuro
-    viga: std(dark ? 0x5B6069 : 0x26282C, { transparent: true, opacity: 0.9 }),
-    pilar: std(dark ? 0x5B6069 : 0x26282C, { transparent: true, opacity: 0.45 }),
-    pilar2: std(dark ? 0x5B6069 : 0x26282C),
-    c: std(dark ? 0x5B6069 : 0x26282C, { roughness: 0.45, metalness: 0.35 }),
+    // acero en negro (Gabriel, 09-11-2026), también en modo oscuro
+    viga: std(0x26282C, { transparent: true, opacity: 0.9 }),
+    pilar: std(0x26282C, { transparent: true, opacity: 0.45 }),
+    pilar2: std(0x26282C),
+    c: std(0x26282C, { roughness: 0.45, metalness: 0.35 }),
     placa: std(dark ? 0xB9C0C9 : 0xC5CBD3, { roughness: 0.35, metalness: 0.55, side: T.DoubleSide }),
     sel: std(0x4D8FEA, { emissive: 0x153563, side: T.DoubleSide }),
-    perno: std(dark ? 0x5B6069 : 0x26282C, { roughness: 0.4, metalness: 0.5 }),
+    perno: std(0x26282C, { roughness: 0.4, metalness: 0.5 }),
     alz: std(dark ? 0x5CC795 : 0x2E9E6A, { roughness: 0.7, metalness: 0.1 }),
     sold: std(dark ? 0x9BA1AB : 0x5E636B, { roughness: 0.85, metalness: 0.4 }),
-    malla: std(dark ? 0x9AA0A8 : 0x26282C, { roughness: 0.6, metalness: 0.45 }),
+    malla: std(0x26282C, { roughness: 0.6, metalness: 0.45 }),
   };
   const matArea = {};
   L.areas.forEach(a => { matArea[a.n] = std(new T.Color(a.color).getHex(), { roughness: 0.45, metalness: 0.2, side: T.DoubleSide }); });
@@ -1450,7 +1450,7 @@ function iniciar3D() {
   const SU = typeof DATA_SUPLES !== 'undefined' ? DATA_SUPLES : null;
   let N_SUP = 0;
   if (SU) {
-    const COLS = dark ? { 10: 0x9AA0A8, 12: 0x9AA0A8, 16: 0x9AA0A8 } : { 10: 0x26282C, 12: 0x26282C, 16: 0x26282C };   // fierros negros (Gabriel, 09-11-2026)
+    const COLS = { 10: 0x26282C, 12: 0x26282C, 16: 0x26282C };   // fierros negros (Gabriel, 09-11-2026)
     const porD = {};
     SU.marcas.forEach(m => m.suples.forEach(u => (porD[m.d] = porD[m.d] || []).push([m, u])));
     const qq = new T.Quaternion(), sc = new T.Vector3(), X1 = new T.Vector3(1, 0, 0), dir = new T.Vector3();

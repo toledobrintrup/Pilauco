@@ -3,7 +3,7 @@
 // y el menú se dibuja ahí mismo, antes del primer pintado (el script es síncrono).
 // Para agregar una vista nueva basta con sumarla a VISTAS.
 // Versión publicada: la escribe fuente/version.py antes de cada commit (V<n> = número de commits del proyecto).
-window.PILAUCO_VERSION = { n: 'V141', fecha: '09-11-2026' };
+window.PILAUCO_VERSION = { n: 'V142', fecha: '09-11-2026' };
 (function () {
   // Tema claro / oscuro (Gabriel, 14-10-2026: "agrega una versión clara de toda la web"). Sin elección guardada va en claro (Gabriel, 28-10-2026: "deja toda la página con modo claro por defecto"; antes seguía al sistema);
   // el botón del menú guarda 'claro' u 'oscuro' en localStorage ('pilauco-tema-2'; la clave cambió el 28-10-2026 para que todos partan en claro) y recarga, para que el 3D (three.js) se arme con sus colores.
@@ -11,7 +11,7 @@ window.PILAUCO_VERSION = { n: 'V141', fecha: '09-11-2026' };
   const raiz = document.documentElement;
   const temaElegido = () => { try { const q = new URLSearchParams(location.search).get('tema'); if (q === 'claro' || q === 'oscuro') return q; return localStorage.getItem('pilauco-tema-2'); } catch (e) { return null; } };
   const aplicarTema = t => { if (t === 'claro') raiz.dataset.theme = 'light'; else if (t === 'oscuro') raiz.dataset.theme = 'dark'; else delete raiz.dataset.theme; };
-  aplicarTema(temaElegido() || 'claro');
+  aplicarTema('claro');   // sin modo oscuro: todo el sitio en claro (Gabriel, 09-11-2026: «elimina el modo oscuro»)
   const esOscuro = () => raiz.dataset.theme === 'dark' || (raiz.dataset.theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
   window.PILAUCO_TEMA = { esOscuro, elegido: temaElegido };
   const VISTAS = [
@@ -79,7 +79,7 @@ window.PILAUCO_VERSION = { n: 'V141', fecha: '09-11-2026' };
   </button>
   <div class="m-pop" hidden>${VISTAS.map(v =>
     `<a class="m-item" href="${v.href}"${v.id === actual ? ' aria-current="page"' : ''}>${svg(v.ico)}<div><b>${v.t}</b><span>${v.d}</span></div></a>`).join('')}</div>
-</nav><span class="m-ver" title="Versión publicada: número de commit y fecha">${window.PILAUCO_VERSION ? window.PILAUCO_VERSION.n : ''}</span><button class="m-tema" type="button" title="Cambiar a modo claro u oscuro" aria-label="Cambiar entre modo claro y oscuro"></button>`;
+</nav><span class="m-ver" title="Versión publicada: número de commit y fecha">${window.PILAUCO_VERSION ? window.PILAUCO_VERSION.n : ''}</span>`;
   yo.insertAdjacentHTML('afterend', html);
   const SOL = '<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="3.5"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4"/></svg>';
   const LUNA = '<svg viewBox="0 0 20 20"><path d="M16 12.3A6.5 6.5 0 0 1 7.7 4a6.5 6.5 0 1 0 8.3 8.3z"/></svg>';

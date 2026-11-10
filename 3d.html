@@ -102,7 +102,7 @@ body.embed .norte3d{top:52px}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V141" data-vista="3d"></script>
+    <script src="menu.js?v=V142" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -185,19 +185,19 @@ body.embed .norte3d{top:52px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V141"></script>
-<script src="data.js?v=V141"></script>
-<script src="casa_vanos.js?v=V141"></script>
-<script src="estructura.js?v=V141"></script>
-<script src="losa.js?v=V141"></script>
-<script src="suples.js?v=V141"></script>
-<script src="alzaprimas.js?v=V141"></script>
-<script src="sitio.js?v=V141"></script>
-<script src="sitio3d.js?v=V141"></script>
-<script src="estudio_estructura.js?v=V141"></script>
-<script src="mobiliario3d.js?v=V141"></script>
-<script src="cotas3d.js?v=V141"></script>
-<script src="goku3d.js?v=V141"></script>
+<script src="nav3d.js?v=V142"></script>
+<script src="data.js?v=V142"></script>
+<script src="casa_vanos.js?v=V142"></script>
+<script src="estructura.js?v=V142"></script>
+<script src="losa.js?v=V142"></script>
+<script src="suples.js?v=V142"></script>
+<script src="alzaprimas.js?v=V142"></script>
+<script src="sitio.js?v=V142"></script>
+<script src="sitio3d.js?v=V142"></script>
+<script src="estudio_estructura.js?v=V142"></script>
+<script src="mobiliario3d.js?v=V142"></script>
+<script src="cotas3d.js?v=V142"></script>
+<script src="goku3d.js?v=V142"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -212,7 +212,7 @@ body.embed .norte3d{top:52px}
     hall:0xAFB6BE, otro:0xAFB6BE, cocina:0xB7A0D9, serv:0xE3BE7E, terraza:0x9FC9A8,
   };
   const WALL_COLOR = dark ? 0x4A5058 : 0x8F97A2;
-  const ROOF_COLOR = dark ? 0x3A3D42 : 0x1F2124;   // cubierta negra, colores reales (Gabriel, 09-11-2026)
+  const ROOF_COLOR = 0x1F2124;   // cubierta negra, colores reales (Gabriel, 09-11-2026)
   const BG = dark ? 0x14161A : 0xF2F3F5;
   const GRID = dark ? 0x2A2E37 : 0xE3E6EB;
 
@@ -345,7 +345,7 @@ body.embed .norte3d{top:52px}
   const grupoEscalera = (() => {
     const g = new THREE.Group(); g.name = 'escalera de obra';
     const X0 = 1796, X1 = 1946, PL0 = 349, YP = PL0 + 150, NH = 17, H = 24, YA = YP + NH * H, Z1 = PISO * 100 + 15, NC = 18, CH = Z1 / NC;
-    const matF = new THREE.MeshLambertMaterial({color: dark ? 0x6c7076 : 0x55595f}), matP = new THREE.MeshLambertMaterial({color: dark ? 0x8a8f96 : 0x6f747b}), matB = new THREE.MeshLambertMaterial({color: dark ? 0x5B6069 : 0x26282C});
+    const matF = new THREE.MeshLambertMaterial({color: dark ? 0x6c7076 : 0x55595f}), matP = new THREE.MeshLambertMaterial({color: dark ? 0x8a8f96 : 0x6f747b}), matB = new THREE.MeshLambertMaterial({color: 0x26282C});
     const ficha = (m, t, s2) => { m.userData.sitio = `<b>${t}</b><br><span class="sub">${s2}</span>`; g.add(m); return m; };
     const caja = (cx, cy, cz, lx, ly, lz, mat, t, s2) => { const m = new THREE.Mesh(new THREE.BoxGeometry(cm(lx), cm(lz), cm(ly)), mat); m.position.set(cm(cx), cm(cz), cm(cy)); return ficha(m, t, s2); };
     const sub = 'escalera de obra de fierro en la bodega (Gabriel, 16-10-2026): 1,50 de ancho, 17 huellas de 24 (avance 4,08), 18 contrahuellas de 21,9 hasta el piso del nivel 2 (+3,95), 44°, plataforma pegada al fierro del eje G; unos 650 kg de fierro (detalle y lista de compra en escalera.html)';
@@ -399,8 +399,8 @@ body.embed .norte3d{top:52px}
   // seccion real de su perfil (I para HEB/IPE, tubo cuadrado/rectangular, cañeria
   // redonda, C y CA para celosias y costaneras, barra para tensores). Los datos (eje
   // de cada pieza en cm, marco de la app) salen de estructura.js.
-  // todo el acero en negro (Gabriel, 09-11-2026: «se ve feo con esos colores»); en modo oscuro, gris para que se vea sobre el fondo
-  const ACERO = dark ? 0x5B6069 : 0x26282C;
+  // todo el acero en negro, también en modo oscuro (Gabriel, 09-11-2026: «se ve feo con esos colores»)
+  const ACERO = 0x26282C;
   const GRUPOS_ACERO = [
     {key: 'pilar',      nombre: 'Pilares',               clases: ['pilar'],                                   color: ACERO},
     {key: 'viga',       nombre: 'Vigas',                 clases: ['viga'],                                    color: ACERO},
@@ -498,7 +498,7 @@ body.embed .norte3d{top:52px}
     const g = new THREE.Group();
     if (typeof DATA_LOSA === 'undefined') return g;
     const Lo = DATA_LOSA, z0 = cm(Lo.z_viga), mm = v => v / 1000;
-    const matC = new THREE.MeshLambertMaterial({color: dark ? 0x5B6069 : 0x26282C});
+    const matC = new THREE.MeshLambertMaterial({color: 0x26282C});
     const matP = new THREE.MeshLambertMaterial({color: dark ? 0xB9C0C9 : 0xB8BFC8, side: THREE.DoubleSide});
     const {h, b, t} = Lo.perfilC, sC = new THREE.Shape();
     [[0,0],[b,0],[b,t],[t,t],[t,h-t],[b,h-t],[b,h],[0,h]].forEach(([x, y], i) => i ? sC.lineTo(mm(x), mm(y)) : sC.moveTo(mm(x), mm(y)));
@@ -543,7 +543,7 @@ body.embed .norte3d{top:52px}
     if (typeof DATA_SUPLES !== 'undefined'){
       const SU = DATA_SUPLES, gS = new THREE.Group(), porD = {};
       SU.marcas.forEach(mk => mk.suples.forEach(u => (porD[mk.d] = porD[mk.d] || []).push([mk, u])));
-      const COLS = {10: dark ? 0x5B6069 : 0x26282C, 12: dark ? 0x5B6069 : 0x26282C, 16: dark ? 0x5B6069 : 0x26282C};
+      const COLS = {10: 0x26282C, 12: 0x26282C, 16: 0x26282C};
       const X1 = new THREE.Vector3(1, 0, 0), q = new THREE.Quaternion(), sc = new THREE.Vector3(), dir = new THREE.Vector3(), M = new THREE.Matrix4();
       Object.entries(porD).forEach(([d, lista]) => {
         const r = cm(d / 20), geo = new THREE.CylinderGeometry(r, r, 1, 6, 1, false); geo.rotateZ(Math.PI / 2); geo.translate(0.5, 0, 0);   // de x = 0 a x = 1
@@ -778,7 +778,7 @@ body.embed .norte3d{top:52px}
   grupoEstudioEst.visible = false;
 
   // ---------- enfierradura del estudio: cada familia de barras (estudio_estructura.js → fierros) como líneas, con su color por diámetro ----------
-  const FIERRO = dark ? 0x9AA0A8 : 0x26282C;   // fierros negros (Gabriel, 09-11-2026); gris claro en modo oscuro para que se vean
+  const FIERRO = 0x26282C;   // fierros negros (Gabriel, 09-11-2026), también en modo oscuro
   const COLOR_FIERRO = {8: FIERRO, 10: FIERRO, 12: FIERRO, 16: FIERRO, 19: FIERRO, 22: FIERRO};   // 22: barras lisas A36 ø7/8" de los insertos (27-10-2026)
   const NOM_DIAM = d => ({19: '3/4"', 22: '7/8"'})[d] || d;   // pernos y barras en pulgadas, el resto en mm
   const materialesFierro = [];   // LineMaterial de cada familia: resize() les pone el tamaño real del lienzo (aquí 'stage' aún no existe: se declara más abajo)
