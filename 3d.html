@@ -102,7 +102,7 @@ body.embed .norte3d{top:52px}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V142" data-vista="3d"></script>
+    <script src="menu.js?v=V143" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -185,19 +185,19 @@ body.embed .norte3d{top:52px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V142"></script>
-<script src="data.js?v=V142"></script>
-<script src="casa_vanos.js?v=V142"></script>
-<script src="estructura.js?v=V142"></script>
-<script src="losa.js?v=V142"></script>
-<script src="suples.js?v=V142"></script>
-<script src="alzaprimas.js?v=V142"></script>
-<script src="sitio.js?v=V142"></script>
-<script src="sitio3d.js?v=V142"></script>
-<script src="estudio_estructura.js?v=V142"></script>
-<script src="mobiliario3d.js?v=V142"></script>
-<script src="cotas3d.js?v=V142"></script>
-<script src="goku3d.js?v=V142"></script>
+<script src="nav3d.js?v=V143"></script>
+<script src="data.js?v=V143"></script>
+<script src="casa_vanos.js?v=V143"></script>
+<script src="estructura.js?v=V143"></script>
+<script src="losa.js?v=V143"></script>
+<script src="suples.js?v=V143"></script>
+<script src="alzaprimas.js?v=V143"></script>
+<script src="sitio.js?v=V143"></script>
+<script src="sitio3d.js?v=V143"></script>
+<script src="estudio_estructura.js?v=V143"></script>
+<script src="mobiliario3d.js?v=V143"></script>
+<script src="cotas3d.js?v=V143"></script>
+<script src="goku3d.js?v=V143"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -730,13 +730,28 @@ body.embed .norte3d{top:52px}
     });
     // dren perimetral del búnker: tubo ø110 al nivel del sello, alrededor de la losa de fundación
     if (H.dren){
-      const Dr = H.dren, matDren = new THREE.MeshLambertMaterial({color: dark ? 0x7FA3B5 : 0x4F7D93});
+      const Dr = H.dren, matDren = new THREE.MeshLambertMaterial({color: 0x4F7D93}), matGrava = new THREE.MeshLambertMaterial({color: 0xB9B2A3, transparent: true, opacity: 0.55, depthWrite: false});
       Dr.pts.forEach((a, i) => {
         const b = Dr.pts[(i + 1) % Dr.pts.length], L = Math.hypot(b[0] - a[0], b[1] - a[1]);
         const m = new THREE.Mesh(new THREE.CylinderGeometry(cm(Dr.diam / 2), cm(Dr.diam / 2), cm(L), 12), matDren);
         m.position.set(cm((a[0] + b[0]) / 2), cm(Dr.z), cm((a[1] + b[1]) / 2));
         m.rotation.set(0, -Math.atan2(b[1] - a[1], b[0] - a[0]), Math.PI / 2);   // el cilindro nace vertical: se acuesta y se gira según el tramo
         addH('dren', ficha(m, `Dren perimetral ø${coma1(Dr.diam * 10)} del búnker`, Dr.nota));
+        // zanja de grava envuelta en geotextil alrededor del tubo (translúcida, para ver el tubo adentro)
+        if (Dr.grava){
+          const G = Dr.grava, hG = cm(G.z_sup - G.z_inf), Lg = cm(L + G.ancho);
+          const zg = new THREE.Mesh(new THREE.BoxGeometry(Lg, hG, cm(G.ancho)), matGrava);
+          zg.position.set(cm((a[0] + b[0]) / 2), cm((G.z_inf + G.z_sup) / 2), cm((a[1] + b[1]) / 2));
+          zg.rotation.y = -Math.atan2(b[1] - a[1], b[0] - a[0]);
+          addH('dren', ficha(zg, 'Zanja de grava del dren, envuelta en geotextil', `${coma1(G.ancho)} cm de ancho, de ${coma1((G.z_sup - Dr.sello))} cm sobre el sello a ${coma1(Dr.sello - G.z_inf)} cm bajo él (cama) · grava limpia 3/4"–1½" · propuesta (detalle típico) · ${Dr.ingeniero || ''}`));
+        }
+        // registro en cada esquina: tubo vertical hasta el terreno, con tapa
+        if (Dr.registros){
+          const R = Dr.registros, hR = cm(R.z_sup - R.z_inf);
+          const rg = new THREE.Mesh(new THREE.CylinderGeometry(cm(R.diam / 2), cm(R.diam / 2), hR, 12), matDren);
+          rg.position.set(cm(a[0]), cm(R.z_inf) + hR / 2, cm(a[1]));
+          addH('dren', ficha(rg, `Registro del dren (esquina ${i + 1})`, `tubo ø${coma1(R.diam * 10)} vertical del dren al terreno (${coma1((R.z_sup - R.z_inf) / 100)} m), con tapa: para revisar y lavar el dren · propuesta`));
+        }
       });
     }
     if (H.radier_estudio) H.radier_estudio.capas.forEach(capa => { const mat = capa.id === 'radier' ? matH : capa.id === 'poliestireno' ? matPoli : matRell; capa.piezas.forEach(z => addH('radier', ficha(prismaH(z.pts, capa.z_inf, capa.z_sup, mat), capa.nombre, `bajo ${z.recinto} · ${H.radier_estudio.fuente}`))); });
