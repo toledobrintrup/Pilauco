@@ -517,13 +517,13 @@ def main(estudio_json, sitio_json, salida):
                    'La diagonal sola de C2 4-5 no pasa en ningún espesor: sola pandea en el plano en todo su largo (KL/r 227 a 237 > 200; en 4 mm la carga sí, 0,94): queda en 4 mm y pendiente (amarre en el plano al centro, del pilar 4C2, 0,49 en 2 mm; o CUAD 100x100x3, 0,35). '
                    'Deriva en el CM 0,57 → 0,56 en 1–5 y 0,34 → 0,33 en A–E; insertos máx. 0,71 → 0,74 (PLc-5C); fundaciones sin cambio (SC-E 0,78, CF 0,38; el eje 4 ya no despega); tensores Fe 16 0,48 → 0,50. Acero 9.146 → 9.193 kg (riostras 774 → 827 kg)',
              por='el ingeniero (29-10-2026): «Que use perfil rectangular 150x50x2, 3 o 4 mm. Creo se saldrá máximo de 3 mm»'),
-        dict(que='Riostras en CUAD 150x150x3 y dren interceptor (el ingeniero, 10-11-2026)',
+        dict(que='Riostras en CUAD 150x150x3 (el ingeniero, 10-11-2026)',
              original='riostras en RECT 150x50 de 2 y 3 mm; la diagonal sola de C2 4-5 sin pasar (KL/r 227 a 237, en 4 mm y pendiente); dren perimetral con salida por decidir',
              nuevo='todas las riostras verticales en tubo cuadrado CUAD 150x150x3 (r 5,9 cm en los dos sentidos): pasan todas, también la diagonal sola de C2 4-5 sin amarre (compresión 0,14, KL/r 83). '
                    'Máximo de las X: compresión 0,22, KL/r 109 (0,55), cruce 0,37, unión 0,33 (cartela PL 8 en una ranura de dos caras opuestas, 4 filetes de 150). '
                    'Más rígidas: deriva en el CM 0,56 → 0,47 en 1–5 y 0,33 → 0,26 en A–E; insertos máx. 0,74 → 0,82 (PLc-1C); fundaciones: SC-E 0,78 → 0,81 (0,90 con ks 7.000), CF 0,38; '
                    'el eje 4 se despega apenas (0,02 mm; el dado de 4C, 0,06 mm con ks 28.000). Acero 9.193 → 10.009 kg (riostras 826 → 1.642 kg). '
-                   'Dren interceptor obligatorio: tubo ranurado ø110 al nivel del sello en grava con geotextil y registros en las esquinas (dibujado; salida por decidir)',
+                   'El ingeniero pidió un dren interceptor; Gabriel prefiere no ponerlo (10-11-2026): la flotación queda por decidir (vuelo de ~80 cm de la losa de fundación)',
              por='el ingeniero (10-11-2026, informe V134 revisado): «Usar cuadrado 150*150x3 en general para diagonales verticales»; «en mi opinión debe haber dren interceptor»; lo demás, aceptado'),
     ]
     # Gabriel, 22-10-2026: "en las preguntas al ingeniero al final, reduce el texto al 30 %, demasiado texto" (2.520 → ~750 caracteres)
@@ -535,7 +535,7 @@ def main(estudio_json, sitio_json, salida):
     # el ingeniero, 29-10-2026 (2): «que use perfil rectangular 150x50x2, 3 o 4 mm». Todas pasan en 2 o 3 mm menos la diagonal sola de C2 4-5
     # el ingeniero, 10-11-2026 (informe V134 revisado): riostras en CUAD 150x150x3 (aplicado), dren interceptor (dibujado) y lo demás aceptado
     preguntas = [
-        'Dren interceptor: ¿es el perimetral al nivel del sello que está dibujado (tubo ranurado ø110 en grava con geotextil, a 62,5 cm del muro, con registros en las esquinas)? ¿Y la salida, por gravedad o cámara con bombas?',
+        'Flotación sin dren (Gabriel prefiere no poner el dren interceptor): con el relleno lleno de agua el búnker queda en FS 0,99. ¿Acepta alargar el vuelo de la losa de fundación a ~80 cm, para que la tierra encima lo sujete, u otra solución?',
         'Firma de un ingeniero civil.',
     ]
     out = dict(

@@ -80,7 +80,7 @@ IMPERMEABILIZACION = dict(
     membrana='por fuera: membrana HDPE pre-adherida bajo la losa de fundación (sobre el emplantillado, sube por el canto del vuelo) y membrana adherida en los muros, con chaflán de 5 × 5 en los rincones, hasta 30 cm sobre el terreno; encima, lámina drenante de nódulos con geotextil',
     junta='junta losa–muro con water-stop de PVC de 15 a 23 cm con bulbo, en un cuello de 15 cm hormigonado junto con la losa, más manguera de inyección de respaldo; los 4 muros en una sola faena, sin juntas verticales',
     pasadas='pasadas con pasamuros de aleta embebidos (de preferencia por la losa de techo); amarras de moldaje con sello; nada se perfora bajo el nivel del agua',
-    dren='dren interceptor obligatorio (ingeniero, 10-11-2026): perímetro de tubo ø110 ranurado al nivel del sello, en una zanja de grava de 41 de ancho envuelta en geotextil, con registros en las esquinas y salida por gravedad (o cámara con 2 bombas alternadas y alarma; falta decidir); relleno granular compactado al 95 % con tapa de suelo fino y pendiente hacia afuera',
+    dren='sin dren (Gabriel, 10-11-2026: «esos tubos lo único que harán es llenarse de agua»; el ingeniero había pedido un dren interceptor): la flotación con el relleno lleno de agua queda por decidir; relleno granular compactado al 95 % con tapa de suelo fino y pendiente hacia afuera',
     interior='opcional: cámara drenada (lámina de nódulos y canaleta a un pozo de achique) detrás de la sala acústica, y deshumidificador',
     fuente='revisión 23-10-2026 (BS 8102, grado 3: recinto habitable seco)')
 KGM = {6: 0.222, 8: 0.395, 10: 0.617, 12: 0.888, 16: 1.578, 19: 2.235, 22: 3.04}   # kg/m por diámetro (ø19 = 3/4")
@@ -232,15 +232,9 @@ def armar(c):
                         'Solución mixta del ingeniero (28-10-2026): «se mantienen las 2 fundaciones aisladas que son unidas a las fundaciones corridas con CF» (la zapata corrida ZC-4 de la V127 no la aprobó)')
     # dren perimetral ø110 al nivel del sello, a 25 cm del borde de la losa de fundación (revisión 23-10-2026)
     od = 25.0
-    # el ingeniero (V134 revisada, 10-11-2026): «en mi opinión debe haber dren interceptor» → queda obligatorio. Zanja de grava alrededor
-    # del tubo (15 cm por lado, cama de 10 bajo el sello) envuelta en geotextil y un registro vertical en cada esquina hasta el terreno:
-    # medidas de un detalle típico (propuesta); la salida (por gravedad o cámara con bombas) falta decidirla
-    G_LADO, G_CAMA = 15.0, 10.0
-    dren = dict(diam=11.0, z=Z(z_emp_inf + 5.5), pts=[ap(zx0 - od, zy0 - od, 0)[:2], ap(zx1 + od, zy0 - od, 0)[:2], ap(zx1 + od, zy1 + od, 0)[:2], ap(zx0 - od, zy1 + od, 0)[:2]],
-                grava=dict(ancho=11.0 + 2 * G_LADO, z_inf=Z(z_emp_inf - G_CAMA), z_sup=Z(z_emp_inf + 11.0 + G_LADO)),
-                registros=dict(diam=11.0, z_inf=Z(z_emp_inf + 5.5), z_sup=Z(-50.0)),
-                sello=Z(z_emp_inf), terreno=Z(-50.0), a_muro=od + LOSA_FUND_MARGEN,
-                nota=IMPERMEABILIZACION['dren'], ingeniero='«En mi opinión debe haber dren interceptor» (V134 revisada, 10-11-2026)')
+    # dren perimetral: el ingeniero (V134 revisada, 10-11-2026) dijo «en mi opinión debe haber dren interceptor»; Gabriel (10-11-2026): «saca esos tubos,
+    # lo único que harán es llenarse de agua y quedar metidos ahí» → sin dren; la flotación queda por decidir (vuelo de la losa de fundación o lo que diga el ingeniero)
+    dren = None
     # radier del estudio (fuera del búnker) en tres paños, dejando las franjas del sobrecimiento y de los CF (caras coplanares parpadean)
     g = GAP
     rad_pts = [('estudio', xA[0] + hs + g, by1 + g, xA[3] - hcf - g, yA[6] - hs - g),
