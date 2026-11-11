@@ -180,7 +180,7 @@ ol.preg li{margin:0 0 8px}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V148" data-vista="estudio"></script>
+  <script src="menu.js?v=V149" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
   <span class="meta" id="meta">Revisado con cálculo propio · sin firma</span>
 </header>
@@ -315,6 +315,49 @@ ol.preg li{margin:0 0 8px}
 <text x="20" y="765" style="font-size:13px;fill:var(--fig-soft)">Corte por el borde del búnker · medidas en cm · sin escala exacta en los espesores de las láminas (dibujadas más gruesas para verlas)</text>
 </svg>
     <figcaption><b>Detalle de la unión muro–losa de fundación.</b> En azul, la membrana preaplicada bajo la losa (1), que sube por el canto del vuelo; en rojo, la membrana adherida al muro (2), que baja sobre el chaflán y el vuelo y la traslapa ≥ 15 cm. Los números son los pasos de abajo. Medidas: propuesta (detalle típico).</figcaption></figure>
+  <h4 id="bajo-losa">Qué va debajo de la losa de fundación (y qué pedir)</h4>
+  <figure class="ancho"><svg id="svg-bajo-losa" viewBox="0 0 1000 470" role="img" aria-label="Capas bajo la losa de fundación del búnker" style="width:100%;height:auto">
+<defs><pattern id="bl-suelo" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M0,14L14,0" style="stroke:#8C7A55;stroke-width:.8"/></pattern></defs>
+<rect x="40" y="40" width="480" height="140" style="fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1.2"/>
+<line x1="56" y1="64" x2="504" y2="64" style="stroke:#26282C;stroke-width:1.8"/><line x1="56" y1="156" x2="504" y2="156" style="stroke:#26282C;stroke-width:1.8"/>
+<g style="fill:#26282C"><circle cx="72" cy="70" r="3"/><circle cx="108" cy="70" r="3"/><circle cx="144" cy="70" r="3"/><circle cx="180" cy="70" r="3"/><circle cx="216" cy="70" r="3"/><circle cx="252" cy="70" r="3"/><circle cx="288" cy="70" r="3"/><circle cx="324" cy="70" r="3"/><circle cx="360" cy="70" r="3"/><circle cx="396" cy="70" r="3"/><circle cx="432" cy="70" r="3"/><circle cx="468" cy="70" r="3"/><circle cx="504" cy="70" r="3"/><circle cx="72" cy="150" r="3"/><circle cx="108" cy="150" r="3"/><circle cx="144" cy="150" r="3"/><circle cx="180" cy="150" r="3"/><circle cx="216" cy="150" r="3"/><circle cx="252" cy="150" r="3"/><circle cx="288" cy="150" r="3"/><circle cx="324" cy="150" r="3"/><circle cx="360" cy="150" r="3"/><circle cx="396" cy="150" r="3"/><circle cx="432" cy="150" r="3"/><circle cx="468" cy="150" r="3"/><circle cx="504" cy="150" r="3"/></g>
+<line x1="40" y1="183" x2="520" y2="183" style="stroke:#1D63B8;stroke-width:4"/>
+<rect x="40" y="186" width="480" height="44" style="fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:1;opacity:.85"/>
+<rect x="40" y="230" width="480" height="170" style="fill:#C9B88F;opacity:.45"/><rect x="40" y="230" width="480" height="170" style="fill:url(#bl-suelo)"/>
+<line x1="20" y1="230" x2="540" y2="230" style="stroke:var(--fig-ink);stroke-width:1.6"/>
+<rect x="300" y="230" width="140" height="40" style="fill:var(--fig-horm2);stroke:var(--fig-ink);stroke-width:1;stroke-dasharray:5 3;opacity:.9"/>
+<text x="370" y="255" text-anchor="middle" style="font-size:12.5px;fill:var(--fig-ink)">se pasó la pala</text>
+<line x1="530" y1="110" x2="572" y2="110" style="stroke:var(--fig-soft);stroke-width:.8"/>
+<text x="580" y="105" style="font-size:16px;fill:var(--fig-ink);font-weight:600">Losa de fundación e=35</text>
+<text x="580" y="124" style="font-size:13.5px;fill:var(--fig-soft)">G30 con cristalizante, fierro arriba y abajo</text>
+<line x1="530" y1="183" x2="572" y2="170" style="stroke:var(--fig-soft);stroke-width:.8"/>
+<text x="580" y="166" style="font-size:16px;fill:#1D63B8;font-weight:600">Membrana preaplicada</text>
+<text x="580" y="185" style="font-size:13.5px;fill:var(--fig-soft)">sobre el emplantillado, antes del fierro</text>
+<line x1="530" y1="208" x2="572" y2="222" style="stroke:var(--fig-soft);stroke-width:.8"/>
+<text x="580" y="222" style="font-size:16px;fill:var(--fig-ink);font-weight:600">Emplantillado G5 de 10 cm</text>
+<text x="580" y="241" style="font-size:13.5px;fill:var(--fig-soft)">liso, 10 cm más ancho que la losa por lado</text>
+<line x1="448" y1="262" x2="572" y2="282" style="stroke:var(--fig-soft);stroke-width:.8"/>
+<text x="580" y="281" style="font-size:16px;fill:var(--fig-ink);font-weight:600">Si la máquina se pasa: más G5</text>
+<text x="580" y="300" style="font-size:13.5px;fill:var(--fig-soft)">el hueco se llena con el mismo hormigón pobre</text>
+<line x1="530" y1="350" x2="572" y2="342" style="stroke:var(--fig-soft);stroke-width:.8"/>
+<text x="580" y="340" style="font-size:16px;fill:var(--fig-ink);font-weight:600">Sello: suelo natural firme</text>
+<text x="580" y="359" style="font-size:13.5px;fill:var(--fig-soft)">20 cm dentro del estrato de la memoria (−391)</text>
+<text x="580" y="378" style="font-size:13.5px;fill:var(--fig-soft)">sin pisar, sin barro, sin agua empozada</text>
+<text x="40" y="24" style="font-size:14px;fill:#B4232A;font-weight:600">✕ Nada de ripio, grava ni estabilizado bajo la losa</text>
+<text x="40" y="440" style="font-size:13px;fill:var(--fig-soft)">Corte bajo el búnker · espesores aproximados (la membrana, más gruesa para verla) · −391 desde la losa del estudio</text>
+</svg>
+    <figcaption><b>De abajo hacia arriba: suelo natural firme → emplantillado G5 de 10 → membrana → losa de 35.</b> No va relleno granular: la losa apoya directo en el suelo que dice la memoria de cálculo, a través del emplantillado.</figcaption></figure>
+  <ul class="rv-orden">
+    <li><b>Lo que dice el ingeniero</b> (lámina y memoria): emplantillado G5 «Var. / Mín. 10» bajo toda la losa, con el sello 20 cm dentro del estrato indicado en la memoria. La losa de fundación ocupa el lugar del radier: no hay relleno ni radier aparte (15-10-2026).</li>
+    <li><b>Mi consejo</b> (no lo dijo el ingeniero): <b>nada de ripio ni grava abajo</b>. Sin dren, una capa de grava solo junta agua bajo la losa, y sobre el limo blando no mejora nada. Si la máquina excava de más, o aparece una zona blanda o con barro, se saca lo malo y <b>se rellena con G5</b> (lo mismo que el ingeniero pide bajo las fundaciones de afuera), nunca con tierra suelta.</li>
+    <li><b>En obra:</b> los últimos 20 cm se sacan con balde liso (sin dientes) y sin pasar la máquina encima; el emplantillado se vacía el mismo día o al siguiente, para que el fondo no se ablande con la lluvia. Si entra agua, bomba de achique antes de vaciar.</li>
+  </ul>
+  <div class="tw"><table id="tabla-bajo-losa"><thead><tr><th>Qué pedir ahora</th><th>Cuenta (modelo)</th><th class="r">Pedir</th></tr></thead><tbody>
+    <tr><td>Hormigón G5 para el emplantillado</td><td>losa 11,60 × 7,55 + 10 cm por lado = 11,80 × 7,75 = 91,5 m² × 0,10</td><td class="r">9,1 m³ → <b>10 m³</b></td></tr>
+    <tr><td>G5 extra si la máquina se pasa</td><td>cada 1 cm más hondo en todo el fondo = 0,9 m³</td><td class="r">según el fondo</td></tr>
+    <tr><td>Ripio, grava o estabilizado bajo la losa</td><td>no lleva</td><td class="r">0</td></tr>
+    <tr><td><b>Total a pedir</b></td><td>emplantillado, más lo que se haya pasado la máquina</td><td class="r"><b>10 m³ de G5</b></td></tr>
+  </tbody></table></div>
   <h4>Orden de obra</h4>
   <ol class="rv-orden">
     <li><b>Emplantillado (6)</b> G5 de 10 cm, liso y limpio, 10 cm más ancho que la losa por cada lado. Sin agua empozada al poner la membrana.</li>
@@ -393,7 +436,7 @@ ol.preg li{margin:0 0 8px}
 <section id="vista3d">
   <h2><span class="n">01</span>Vista 3D del estudio</h2>
   <ul class="puntos"><li><b>Capas:</b> estructura de acero y hormigón, búnker bajo tierra, enfierradura, medidas (vienen apagadas).</li><li><b>Girar:</b> arrastrar · <b>acercar:</b> rueda o pellizco · <b>centrar:</b> doble toque · <b>ficha:</b> tocar la pieza.</li></ul>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V148" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V149" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
@@ -492,9 +535,9 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=V148"></script>
-<script src="estudio_estructura.js?v=V148"></script>
-<script src="armaduras_det.js?v=V148"></script>
+<script src="sitio.js?v=V149"></script>
+<script src="estudio_estructura.js?v=V149"></script>
+<script src="armaduras_det.js?v=V149"></script>
 <script>
 // se dibuja cuando la letra Inter ya cargó: los rótulos se miden con getBBox y con la letra de reemplazo quedaban más angostos de lo que son (25-10-2026)
 (function (dibujar) { const f = document.fonts; if (!f || !f.load) return dibujar();

@@ -129,7 +129,7 @@ def armar(c):
     # Las cuatro franjas bajo los muros (37,5 + 25 + 37,5 = 100) se mantienen como contornos para las láminas y las elevaciones.
     zx0, zy0, zx1, zy1 = bx0 - LOSA_FUND_MARGEN, by0 - LOSA_FUND_MARGEN, bx1 + LOSA_FUND_MARGEN, by1 + LOSA_FUND_MARGEN
     emp_lf = dict(espesor=EMPLANTILLADO, z_sup=Z(z_zap_inf - GAP), z_inf=Z(z_emp_inf), hormigon='G5', piezas=[dict(id='EMP-LF', pts=rect(zx0, zy0, zx1, zy1))],
-                  nota='Var. / mín. 10 bajo toda la losa de fundación: el sello va 20 cm dentro del estrato indicado en la memoria de cálculo')
+                  nota='Var. / mín. 10 bajo toda la losa de fundación: el sello va 20 cm dentro del estrato indicado en la memoria de cálculo · sin ripio ni grava abajo; si se excava de más, se rellena con G5 (consejo, no del ingeniero) · ≈ 9,1 m³: pedir 10 m³')
     losa_fundacion = dict(espesor=LOSA_FUND, margen=LOSA_FUND_MARGEN, pts=rect(zx0, zy0, zx1, zy1), z_sup=Z(z_zap_sup), z_inf=Z(z_zap_inf),
                           piezas=[pieza('LF', zx0, zy0, zx1, zy1, z_zap_inf, z_zap_sup, 'Losa de fundación del búnker', f'e={LOSA_FUND:.0f} bajo todo el búnker, unida a los muros; sobresale {LOSA_FUND_MARGEN:.1f} de su cara exterior; su cara superior es el piso del búnker'.replace('.', ','))],
                           armadura='doble malla: ø16@15 en A–B (luz corta) y ø12@15 en 1–5, abajo (con ganchos de 15 hacia arriba en los bordes) y arriba; las verticales exteriores de los muros bajan con pata de 60 traslapada sobre la malla inferior; '
