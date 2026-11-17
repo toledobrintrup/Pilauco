@@ -306,7 +306,9 @@
       if (o.yMax != null) { let lim = o.yMax; for (let i = fs.length - 1; i >= 0; i--) { if (fs[i].y > lim) fs[i].y = lim; lim = fs[i].y - gap; } }
       fs.forEach(f => {
         const w = anchoT(f.t, h); llamada(g, X(f.b.u), Y(f.b.z), xCol, f.y, [f.t], { lado: izq ? 'i' : 'd', h, circ: f.b.linea ? null : 1 });
-        const fila = PL.filaDe(f.b.f, f.b.pl); if (fila && o.marcas !== false) marca(g, izq ? xCol - w - 1 - 2.9 : xCol + w + 1 + 2.9, f.y - 1.1, fila.marca, 2.1);
+        const ms = f.b.linea ? [PL.filaDe(f.b.f, f.b.pl)] : pts.filter(p => p.f.id === f.b.f.id).map(p => PL.filaDe(p.f, p.pl));
+        const ns = [...new Set(ms.filter(Boolean).map(m => m.marca))].sort((a, b) => a - b);   // barras en punta: todas las marcas de la familia que se ven en el corte
+        if (o.marcas !== false) ns.forEach((n, i) => marca(g, (izq ? xCol - w - 1 - 2.9 : xCol + w + 1 + 2.9) + (izq ? -1 : 1) * 4.7 * i, f.y - 1.1, n, 2.1));
       });
       return fs;
     }
@@ -412,6 +414,10 @@
     const ycb = V.YL(200); cotaH(g, V.XL(bx0 + e), V.XL(bx1 - e), ycb, cmt(bx1 - bx0 - 2 * e), { tx: V.XL(690) });
     const xcb = V.XL(170); cotaV(g, xcb, V.YL(by0 + e), V.YL(by1 - e), cmt(by1 - by0 - 2 * e), { ty: V.YL(480) });
     cotaH(g, V.XL(bx0 - m), V.XL(bx0), V.YL(96), cmt(m), { fuera: 'izq' });
+    // medidas totales de la losa de fundación (trazado y emplantillado)
+    const lx0 = V.LF[0] - V.ox, lx1 = V.LF[2] - V.ox, ly0 = V.LF[1] - V.oy, ly1 = V.LF[3] - V.oy;
+    cotaH(g, V.XL(lx0), V.XL(lx1), V.YL(-62), cmt(lx1 - lx0) + ' losa de fundación', { tx: V.XL(650), ref: [[V.XL(lx0), V.YL(ly0)], [V.XL(lx1), V.YL(ly0)]] });
+    cotaV(g, V.XL(-138), V.YL(ly0), V.YL(ly1), cmt(ly1 - ly0) + ' losa de fundación', { ty: V.YL(420), ref: [[V.XL(lx0), V.YL(ly0)], [V.XL(lx0), V.YL(ly1)]] });
     // ---- marcas de corte ----
     marcaCorte(g, V.XL(230), V.YL(-66), V.XL(230), V.YL(120), 1, 0, 'a');
     marcaCorte(g, V.XL(-78), V.YL(ey.D + 1), V.XL(118), V.YL(ey.D + 1), 0, -1, 'b');
@@ -518,7 +524,9 @@
         '8. Junta de 2 cm entre el búnker y las fundaciones del estudio, sin barras pasantes.',
         '9. Los números en círculo son las marcas de la planilla de doblado (pestaña Fundaciones del sitio).', '   Las barras se miden a eje. Medidas en cm, salvo las placas (mm).',
         '10. Insertos PLc y PLb: placas embebidas a ras, con sus barras soldadas; se colocan antes de hormigonar.', '   Detalle y cuadro: pestaña Fundaciones del sitio.',
-        '11. Impermeabilización del búnker (membranas, water-stop, cristalizante): pestaña Revisión del sitio.'];
+        '11. Impermeabilización del búnker (membranas, water-stop, cristalizante): pestaña Revisión del sitio.',
+        '12. Las verticales de los muros del búnker van dibujadas y medidas de una pieza (L=447 y 416): nacen sobre la', '   malla inferior de la losa de fundación, con patas de 60 y 30 hacia el interior.', '   Si se prefiere arranque con traslapo, consultar antes al ingeniero.',
+        '13. Esta lámina no define completa la losa de techo del búnker (suples, vigas VHA, VBL y VBC, hueco de la escalera)', '   ni la escalera: van en lámina aparte. Mientras tanto, pestañas Planta y Fundaciones del sitio.'];
       lin.forEach((t, i) => T(sv, x, 344 + 5.0 * i, t, 2.3));
     }
     return sv;
