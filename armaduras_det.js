@@ -223,7 +223,7 @@
       // V124: el rectángulo se recorta a la ventana (con 2 de holgura, que el clip-path esconde): se ve igual, pero ya no queda una pieza invisible bajo las llamadas de la derecha
       const ra = Math.max(x, -2), rb = Math.min(x + w, W + 2), zs = Math.min(p.zs, cfg.zmax + 2), zi = Math.max(p.zi, cfg.zmin - 2);
       if (rb > ra && zs > zi) el('rect', { x: ra, y: Y(zs), width: rb - ra, height: zs - zi, class: p.cls }, g);
-      cortes.push({ x0: x, x1: x + w, zi: p.zi, zs: p.zs, cls: p.cls });
+      cortes.push({ x0: x, x1: x + w, zi: p.zi, zs: p.zs, cls: p.cls, nombre: p.nombre });   // nombre: lo usan las láminas (laminas_estudio.js) para la trama de cada material
     });
     // terreno natural (−50) y quiebres donde el hormigón sigue fuera de la ventana
     if (cfg.ntn !== false) { const [a, b] = Array.isArray(cfg.ntn) ? cfg.ntn : [0, W]; el('line', { x1: a, y1: Y(-50), x2: b, y2: Y(-50), class: 'ad-ntn' }, g); }
@@ -304,5 +304,5 @@
     return { U, Y, W, zmin: cfg.zmin, zmax: cfg.zmax, lineas, puntos, cortes, llamada, recubrimiento, cotaH, cotaV, nivel, fs };
   }
 
-  window.Armaduras = { planilla, tablaHTML, formaSVG, seccion, KGM, nomD };
+  window.Armaduras = { planilla, tablaHTML, formaSVG, seccion, KGM, nomD, nominal };   // nominal: lo usan las láminas para el despiece de los estribos
 })();

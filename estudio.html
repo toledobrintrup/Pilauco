@@ -91,7 +91,8 @@ td.med{color:var(--med);font-weight:600}
 figure{margin:14px 0 10px}
 figure svg{display:block;width:100%;height:auto}
 figure.ancho{position:relative;left:50%;transform:translateX(-50%);width:min(100vw - 40px,var(--ancho-fig));overflow-x:auto}
-figure.ancho svg{min-width:calc(var(--ancho-fig) - 8px)}   /* letra mínima (Gabriel, 22-10-2026): los dibujos no se achican; en pantallas chicas se desplazan */   /* se sale de la columna de texto para dibujar más grande (corte del búnker) */
+figure.ancho svg{min-width:calc(var(--ancho-fig) - 8px)}
+.lamina-link{display:block;border:1px solid var(--line);cursor:zoom-in}.lamina-link svg{min-width:0!important}   /* letra mínima (Gabriel, 22-10-2026): los dibujos no se achican; en pantallas chicas se desplazan */   /* se sale de la columna de texto para dibujar más grande (corte del búnker) */
 figcaption{font-size:14px;color:var(--ink);opacity:.82;margin-top:6px;line-height:1.45}
 svg .tx{font-family:var(--ui);fill:var(--fig-ink)}
 svg .txs{font-family:var(--ui);fill:var(--fig-soft)}
@@ -180,12 +181,12 @@ ol.preg li{margin:0 0 8px}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V150" data-vista="estudio"></script>
+  <script src="menu.js?v=V151" data-vista="estudio"></script>
   <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
   <span class="meta" id="meta">Revisado con cálculo propio · sin firma</span>
 </header>
 <nav class="toc" id="toc">
-  <a href="#resumen">Resumen</a><a href="#revision">Revisión</a><a href="#ingeniero">Ingeniero</a><a href="#vista3d">3D</a><a href="#planta">Planta</a><a href="#bunker">Búnker</a><a href="#elevaciones">Elevaciones</a><a href="#alturas">Alturas</a><a href="#vanos">Ventanas</a><a href="#fundaciones">Fundaciones</a><a href="#luces">Luces</a><a href="#acero">Acero</a><a href="#preguntas">Falta</a>
+  <a href="#resumen">Resumen</a><a href="#revision">Revisión</a><a href="#ingeniero">Ingeniero</a><a href="#vista3d">3D</a><a href="#planta">Planta</a><a href="#bunker">Búnker</a><a href="#elevaciones">Elevaciones</a><a href="#alturas">Alturas</a><a href="#vanos">Ventanas</a><a href="#fundaciones">Fundaciones</a><a href="#planos">Planos</a><a href="#luces">Luces</a><a href="#acero">Acero</a><a href="#preguntas">Falta</a>
 </nav>
 <div class="doc-in">
 
@@ -302,7 +303,7 @@ ol.preg li{margin:0 0 8px}
 <line x1="200" y1="388" x2="270" y2="472" style="stroke:var(--fig-soft);stroke-width:.8"/>
 <circle cx="270" cy="472" r="2.2" style="fill:var(--fig-ink)"/>
 <text x="196" y="392" text-anchor="end" style="font-size:15px;fill:var(--fig-ink);font-weight:600">water-stop de PVC (4)</text>
-<text x="196" y="410" text-anchor="end" style="font-size:13.5px;fill:var(--fig-soft)">15–23 cm, mitad losa, mitad muro</text>
+<text x="196" y="410" text-anchor="end" style="font-size:13.5px;fill:var(--fig-soft)">15–23 cm, mitad y mitad</text>
 <line x1="200" y1="448" x2="242" y2="494" style="stroke:var(--fig-soft);stroke-width:.8"/>
 <circle cx="242" cy="494" r="2.2" style="fill:var(--fig-ink)"/>
 <text x="196" y="452" text-anchor="end" style="font-size:15px;fill:var(--fig-ink);font-weight:600">cordón hidroexpansivo (5)</text>
@@ -436,7 +437,7 @@ ol.preg li{margin:0 0 8px}
 <section id="vista3d">
   <h2><span class="n">01</span>Vista 3D del estudio</h2>
   <ul class="puntos"><li><b>Capas:</b> estructura de acero y hormigón, búnker bajo tierra, enfierradura, medidas (vienen apagadas).</li><li><b>Girar:</b> arrastrar · <b>acercar:</b> rueda o pellizco · <b>centrar:</b> doble toque · <b>ficha:</b> tocar la pieza.</li></ul>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V150" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V151" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
@@ -511,6 +512,14 @@ ol.preg li{margin:0 0 8px}
 
 
 
+<section id="planos">
+  <h2>Planos de enfierradura (formato de lámina)</h2>
+  <ul class="puntos"><li><b>Para el enfierrador:</b> lámina A1 con el formato de las láminas del proyecto: planta de fundaciones, cortes y, al lado de cada corte, el despiece de sus barras (forma, medidas, ø, separación y largo). Los números en círculo son las marcas de la planilla de doblado (pestaña Fundaciones).</li><li><b>Sale del modelo:</b> la misma geometría y las mismas barras de las pestañas Planta y Fundaciones; si el modelo cambia, la lámina cambia sola.</li><li><b>Sin firma:</b> es un plano de trabajo para que lo vise el ingeniero antes de cortar y doblar fierro.</li></ul>
+  <p><a class="btn p" href="lamina.html?n=01">Abrir la lámina en grande ↗</a> <span class="small sub">para acercar, imprimir en A1 o guardar en PDF</span></p>
+  <figure class="ancho"><a href="lamina.html?n=01" id="lamina-01" class="lamina-link" title="Abrir la lámina 01 en grande" aria-label="Abrir la lámina 01 en grande"></a>
+    <figcaption><b>Lámina 01 · Planta de fundaciones y cortes.</b> Planta 1:50 con la enfierradura de la losa de fundación del búnker · corte a-a (muro y losas del búnker), b-b (sobrecimiento y cimiento corrido), c-c (CF 30/50) y d-d (dado), a 1:20 · notas. Tocar el plano lo abre en grande.</figcaption></figure>
+</section>
+
 <section id="luces">
   <h2><span class="n">08</span>Luces y perfiles: qué se mantiene y qué se recalculó</h2>
   <ul class="puntos"><li>Luz nueva ≤ original con el mismo perfil → <b>cubierto</b> por el diseño del ingeniero · luz mayor → <b>recalculado</b> en la revisión del 23-10-2026 y al día al 27-10-2026 (pestaña Revisión).</li></ul>
@@ -535,9 +544,11 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=V150"></script>
-<script src="estudio_estructura.js?v=V150"></script>
-<script src="armaduras_det.js?v=V150"></script>
+<script src="sitio.js?v=V151"></script>
+<script src="estudio_estructura.js?v=V151"></script>
+<script src="armaduras_det.js?v=V151"></script>
+<script src="fuente_trazos.js?v=V151"></script>
+<script src="laminas_estudio.js?v=V151"></script>
 <script>
 // se dibuja cuando la letra Inter ya cargó: los rótulos se miden con getBBox y con la letra de reemplazo quedaban más angostos de lo que son (25-10-2026)
 (function (dibujar) { const f = document.fonts; if (!f || !f.load) return dibujar();
@@ -2240,6 +2251,9 @@ ol.preg li{margin:0 0 8px}
       `<tr class="tot"><td colspan="3">Máximo de las ${nX} X (${RX.length} diagonales)</td><td class="r" style="white-space:nowrap">${num(mx(RX, 'C_t')) ? coma(mx(RX, 'C_t'), 1) : '—'} <span class="small sub">(${num(mx(RX, 'C_kN')) ? coma(mx(RX, 'C_kN'), 1) : '—'})</span></td><td class="r">${kl(mx(RX, 'KL_r'))}</td><td class="r">${tot(RX, 'dc_traccion')}</td><td class="r">${tot(RX, 'dc_compresion')}</td><td class="r">${tot(RX, 'dc_union')}</td><td class="r">${tot(RX, 'dc_cruce')}</td></tr></tbody>`;
   })();
 
+  // ---------- planos: láminas en formato de plano (laminas_estudio.js), dibujadas desde el mismo modelo ----------
+  if (window.LaminasEstudio) LaminasEstudio.dibujar($('#lamina-01'), '01', D, E, (window.PILAUCO_VERSION || {}).n);
+
   // ---------- preguntas ----------
   $('#preguntas-lista').innerHTML = D.preguntas.map(p => `<li>${p}</li>`).join('');
   $('#pendiente').innerHTML = `<b>Pendiente:</b> lo de «Lo que falta» en la pestaña Revisión.`;
@@ -2253,7 +2267,7 @@ ol.preg li{margin:0 0 8px}
   // Ningún texto de los dibujos bajo 14 px con el dibujo en su ancho de diseño (su min-width; bajo eso se desplaza, no se achica).
   // Lo que quedaba más chico se sube a 13 px; si algo choca, se le da aire en el dibujo (fuente/estudio/lint_textos_svg.js lo mide).
   (function letraMinima(MIN) {
-    document.querySelectorAll('.doc-in svg').forEach(svg => {
+    document.querySelectorAll('.doc-in svg:not(.lamina)').forEach(svg => {   // las láminas (pestaña Planos) van a escala de papel: su letra no se toca
       const vb = svg.viewBox && svg.viewBox.baseVal; if (!vb || !vb.width) return;
       const ref = parseFloat(getComputedStyle(svg).minWidth) || svg.getBoundingClientRect().width, kRef = ref / vb.width, inv = svg.getCTM() && svg.getCTM().inverse();
       svg.querySelectorAll('text').forEach(t => {

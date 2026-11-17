@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#1B1E24">
+<meta name="description" content="Láminas del estudio de Casa Pilauco en formato de plano (A1): planta de fundaciones, cortes y despiece de la enfierradura, para acercar, imprimir o guardar en PDF.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%233D5A73'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='2.2'%3E%3Cpath d='M7 24V10h18v14'/%3E%3Cpath d='M7 10l18 14M25 10L7 24'/%3E%3C/g%3E%3C/svg%3E">
+<title>Estudio: láminas</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Visor de las láminas del estudio (Gabriel, 17-11-2026: «un plano a la antigua… una vista aparte dentro de estudio»): la hoja A1 sobre una mesa,
+   con zoom y arrastre; al imprimir sale solo la hoja, a su tamaño (841 × 594 mm). Las láminas las dibuja laminas_estudio.js desde el modelo. */
+:root{
+  --paper:#FFFFFF; --ink:#16181D; --muted:#6B7280; --line:#E3E6EB; --hi:#D9731A; --hi-borde:rgba(217,115,26,.38);
+  --chrome:#1B1E24; --chrome-ink:#F0F2F5; --chrome-muted:#9AA0AC; --chrome-line:#343943; --chrome-hi:rgba(255,255,255,.10);
+  --mesa:#4A4F58; --ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+html,body{height:100%}
+body{margin:0;background:var(--mesa);color:var(--ink);font-family:var(--ui);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
+header.top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:12px 18px 11px;background:var(--chrome);color:var(--chrome-ink);flex:none}
+header.top h1{font-size:16.5px;font-weight:600;margin:0;letter-spacing:-.012em}
+header.top h1 small{font-weight:400;color:var(--chrome-muted);font-size:14px;margin-left:9px;letter-spacing:0}
+@media (max-width:760px){header.top h1 small{display:block;margin:2px 0 0}}
+.barra{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 18px;background:var(--paper);border-bottom:1px solid var(--line);flex:none}
+.barra .sep{flex:1}
+.barra .info{font-size:13.5px;color:var(--muted)}
+.btn{font:inherit;font-size:14px;font-weight:500;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block}
+.btn:hover{border-color:var(--hi-borde);color:var(--hi)}
+.btn.p{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn.p:hover{opacity:.9;color:var(--paper)}
+.btn.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn.z{min-width:36px;text-align:center;padding:5px 0}
+.mesa{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:16px;cursor:grab}
+.mesa.arrastra{cursor:grabbing;user-select:none;-webkit-user-select:none}
+.papel{margin:0 auto;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.35),0 14px 40px rgba(0,0,0,.35)}
+.papel svg{display:block;width:100%;height:auto}
+@media (max-width:640px){.barra{padding:7px 12px;gap:6px}.mesa{padding:10px}.barra .info{display:none}}
+/* modo PDF (lamina.html?pdf=1): solo la hoja, a 1 pt por 1/72 de pulgada, para fuente/webpdf.swift */
+body.pdf{display:block;background:#fff;height:auto}
+body.pdf header.top,body.pdf .barra{display:none}
+body.pdf .mesa{overflow:visible;padding:0}
+body.pdf .papel{width:2384px!important;box-shadow:none;margin:0}
+@page{size:841mm 594mm;margin:0}
+@media print{
+  html,body{height:auto}
+  body{display:block;background:#fff}
+  header.top,.barra{display:none!important}
+  .mesa{overflow:visible;padding:0}
+  .papel{width:841mm!important;box-shadow:none;margin:0;page-break-after:always}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <script src="menu.js?v=V151" data-vista="estudio"></script>
+  <h1>Estudio: láminas <small>planos de enfierradura en formato de lámina (A1), dibujados desde el modelo</small></h1>
+</header>
+<div class="barra" id="barra">
+  <a class="btn" href="estudio.html#planos">← Estudio</a>
+  <span id="laminas"></span>
+  <span class="sep"></span>
+  <span class="info" id="info"></span>
+  <button class="btn z" id="z-menos" type="button" aria-label="Alejar">−</button>
+  <button class="btn z" id="z-mas" type="button" aria-label="Acercar">+</button>
+  <button class="btn" id="z-ajustar" type="button">Ajustar</button>
+  <button class="btn p" id="imprimir" type="button">Imprimir o guardar PDF</button>
+</div>
+<div class="mesa" id="mesa"><div class="papel" id="papel"></div></div>
+
+<script src="sitio.js?v=V151"></script>
+<script src="estudio_estructura.js?v=V151"></script>
+<script src="armaduras_det.js?v=V151"></script>
+<script src="fuente_trazos.js?v=V151"></script>
+<script src="laminas_estudio.js?v=V151"></script>
+<script>
+(function () {
+  const q = new URLSearchParams(location.search), L = LaminasEstudio.lista, mesa = document.getElementById('mesa'), papel = document.getElementById('papel');
+  let n = L.some(l => l.n === q.get('n')) ? q.get('n') : L[0].n, z = 0;   // z: px por mm de papel (0 = ajustar al ancho)
+  const pdf = q.get('pdf') === '1'; if (pdf) document.body.classList.add('pdf');
+  const ver = (window.PILAUCO_VERSION || {}).n || '';
+  const ajuste = () => Math.max(0.3, (mesa.clientWidth - 32) / 841);
+  function zoom(nuevo, cx, cy) {   // mantiene fijo el punto (cx, cy) de la mesa
+    const z0 = z || ajuste(), z1 = Math.min(14, Math.max(ajuste() * 0.999, nuevo)), r = mesa.getBoundingClientRect();
+    const px = cx == null ? r.width / 2 : cx - r.left, py = cy == null ? r.height / 2 : cy - r.top;
+    const ux = (mesa.scrollLeft + px - papel.offsetLeft) / z0, uy = (mesa.scrollTop + py - papel.offsetTop) / z0;
+    z = Math.abs(z1 - ajuste()) < 0.01 ? 0 : z1; papel.style.width = z ? (841 * z) + 'px' : '100%';
+    const zz = z || ajuste(); mesa.scrollLeft = ux * zz + papel.offsetLeft - px; mesa.scrollTop = uy * zz + papel.offsetTop - py;
+    document.getElementById('info').textContent = `A1 · 841 × 594 mm · ${Math.round(zz / 3.7795 * 100)} %`;   // 100 % = tamaño real en pantalla (96 px por pulgada)
+  }
+  function dibujar() {
+    papel.innerHTML = ''; LaminasEstudio.dibujar(papel, n, DATA_ESTUDIO_EST, DATA_SITIO.estudio, ver);
+    const l = L.find(x => x.n === n); document.title = `Lámina ${l.n}: ${l.titulo}`;
+    document.querySelectorAll('#laminas .btn').forEach(b => b.classList.toggle('on', b.dataset.n === n));
+    if (!pdf) { z = 0; papel.style.width = '100%'; zoom(ajuste()); }
+  }
+  const cont = document.getElementById('laminas');
+  L.forEach(l => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.dataset.n = l.n; b.textContent = `Lámina ${l.n}`; b.title = l.titulo; b.addEventListener('click', () => { n = l.n; history.replaceState(null, '', '?n=' + n); dibujar(); }); cont.appendChild(b); });
+  if (L.length < 2) cont.hidden = true;
+  document.getElementById('z-mas').addEventListener('click', () => zoom((z || ajuste()) * 1.5));
+  document.getElementById('z-menos').addEventListener('click', () => zoom((z || ajuste()) / 1.5));
+  document.getElementById('z-ajustar').addEventListener('click', () => zoom(ajuste()));
+  document.getElementById('imprimir').addEventListener('click', () => window.print());
+  // rueda con Ctrl o ⌘ (o pellizco del trackpad): acercar hacia el cursor; doble clic: acercar ahí
+  mesa.addEventListener('wheel', e => { if (!e.ctrlKey && !e.metaKey) return; e.preventDefault(); zoom((z || ajuste()) * Math.exp(-e.deltaY * 0.01), e.clientX, e.clientY); }, { passive: false });
+  mesa.addEventListener('dblclick', e => zoom((z || ajuste()) * 1.8, e.clientX, e.clientY));
+  // arrastrar con el mouse (en el teléfono se desplaza con el dedo)
+  let a = null;
+  mesa.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse' || e.button !== 0) return; a = { x: e.clientX, y: e.clientY, l: mesa.scrollLeft, t: mesa.scrollTop }; mesa.classList.add('arrastra'); mesa.setPointerCapture(e.pointerId); });
+  mesa.addEventListener('pointermove', e => { if (!a) return; mesa.scrollLeft = a.l - (e.clientX - a.x); mesa.scrollTop = a.t - (e.clientY - a.y); });
+  const suelta = () => { a = null; mesa.classList.remove('arrastra'); };
+  mesa.addEventListener('pointerup', suelta); mesa.addEventListener('pointercancel', suelta);
+  window.addEventListener('resize', () => { if (!z && !pdf) zoom(ajuste()); });
+  dibujar();
+})();
+</script>
+</body>
+</html>

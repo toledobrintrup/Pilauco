@@ -98,3 +98,26 @@ variables para `:root:not([data-theme="light"])` dentro del media query oscuro y
 
 `armaduras_det.js` arma la sección 07 de `estudio.html` desde las barras del modelo: cortes A–D (muro y losas del búnker, sobrecimiento y placa, CF 25/50, VHA 25/40) con marcas, recubrimientos y cotas, y la planilla de doblado (marca, forma acotada, L, cantidad, espaciamiento, m, kg, fuente). Correcciones del modelo: estribo ø10@20 L=211 del sobrecimiento según la lámina 01 (30 + 68 + 15 + 68 + 30), CF con recubrimiento 5, horquillas de 43 (L=120) y ganchos de 135° en estribos (propuesta).
 
+
+## Láminas en formato de plano (pestaña Planos y `lamina.html`)
+
+Gabriel (17-11-2026): «un plano a la antigua, como los que envió el ingeniero… el enfierrador quiere eso». `laminas_estudio.js` dibuja
+cada lámina como un SVG en milímetros de papel (A1 apaisado, 841 × 594) con el marco y la viñeta medidos de la lámina 01 rev 1 del
+proyecto, la letra de trazo único de los planos CAD, plantas a 1:50 y cortes a 1:20 con el despiece de las barras al lado.
+
+- **Nada se retipea.** La geometría sale de `DATA_ESTUDIO_EST.hormigon`; las barras, de `DATA_ESTUDIO_EST.fierros`, cortadas por un plano
+  con el mismo motor de la sección 07 (`Armaduras.seccion`); las marcas y los largos, de la planilla de doblado (`Armaduras.planilla`).
+  Los textos a mano (notas, rótulos de materiales) repiten `hormigon.especificaciones` y las descripciones del modelo.
+- **Letra:** `fuente_trazos.js` (Hershey «Roman Simplex», la «romans» de CAD, más los glifos del castellano y de la notación de fierros).
+  Se genera con `python3 generar_fuente_trazos.py ../../fuente_trazos.js`. Si falta un glifo, la lámina lo avisa por consola.
+- **Viñeta:** la misma franja de las láminas del proyecto, sin nombre, timbre ni datos de ningún profesional. Es un plano de trabajo
+  «sin firma, para visar por el ingeniero».
+- **Visor:** `lamina.html?n=01` (zoom, arrastre, imprimir en A1). `lamina.html?n=01&pdf=1` deja solo la hoja a 2384 × 1684 px
+  (1 px = 1 pt) para `fuente/webpdf.swift`, que la guarda como PDF vectorial A1:
+
+      swiftc -O -o webpdf fuente/webpdf.swift
+      ./webpdf "http://127.0.0.1:8801/lamina.html?n=01&pdf=1" ~/Downloads/"lamina 01.pdf" 2384 1684 4
+
+  Los PDF no van al repo: se dejan en Descargas.
+- **Láminas:** 01 planta de fundaciones (con la enfierradura de la losa de fundación del búnker) y cortes a-a, b-b, c-c y d-d.
+  Pendientes: 02 búnker (plantas de la losa de techo, muros y vigas) y 03 planilla de doblado.
