@@ -28,6 +28,12 @@
     return [cola(pl[1], pl[0]), A, pl[2], pl[3], pl[4], A, cola(pl[5], pl[6])];
   };
   const clave = (f, pl) => [f.elemento, f.diam, segsDe(nominal(pl)).map(medio).join(',')].join('|');
+  // Medidas por fuera (el ingeniero, 22-11-2026: «cuando hay un destacado de una armadura, se está midiendo desde el exterior»): cada tramo va de fuera
+  // a fuera de sus dobleces (medio diámetro más por cada doblez) y L es la suma de los tramos. En los estribos cerrados, los cuatro lados de fuera a
+  // fuera y los dos ganchos de 135° con su largo. Es la misma regla de _largo() en fuente/estudio/hormigon.py (la cubicación suma lo mismo)
+  const esEstribo = pl => pl.length === 7 && dist3(pl[1], pl[5]) <= 4;
+  const segsExt = (pl, diam) => { const s = segsDe(nominal(pl)), o = diam / 10, n = s.length, cerr = esEstribo(pl);
+    return s.map((v, i) => medio(cerr ? (i === 0 || i === n - 1 ? v : v + o) : v + (i > 0 ? o / 2 : 0) + (i < n - 1 ? o / 2 : 0))); };
 
   // ---------- dónde va y de dónde sale cada barra ----------
   const PARTE = { sup: 'superiores', med: 'medias', lat: 'laterales (torsión)', inf: 'inferiores', est: 'estribos' };
@@ -109,19 +115,20 @@
       const pls = f.polilineas ? f.polilineas.map(pl => [pl, 1]) : [[f.polilinea, f.n]];
       pls.forEach(([pl, n]) => {
         const k = clave(f, pl); let g = grupos.get(k);
-        if (!g) { g = { elemento: f.elemento, diam: f.diam, segs: segsDe(nominal(pl)).map(medio), Lx: segsDe(pl).reduce((a, b) => a + b, 0), pl: nominal(pl), n: 0, ids: [], esp: null, fams: [] }; grupos.set(k, g); }
+        if (!g) { g = { elemento: f.elemento, diam: f.diam, segs: segsDe(nominal(pl)).map(medio), ext: segsExt(pl, f.diam), pl: nominal(pl), n: 0, ids: [], esp: null, fams: [] }; grupos.set(k, g); }
         g.n += n; if (!g.ids.includes(f.id)) { g.ids.push(f.id); g.fams.push(f); }
         const e = espaciado(f); if (e && !g.esp) g.esp = e;
       });
     });
     const filas = [...grupos.values()].sort((a, b) => orden(a.elemento) - orden(b.elemento));
     filas.forEach((g, i) => {
-      g.marca = i + 1; g.L = Math.round(g.Lx * 10) / 10; g.m = g.Lx * g.n / 100; g.kg = g.m * KGM[g.diam];
+      g.marca = i + 1; g.L = g.ext.reduce((a, b) => a + b, 0); g.m = g.L * g.n / 100; g.kg = g.m * KGM[g.diam];   // segs: tramos por el eje (identifican la forma); ext: tramos por fuera, los que se leen
       g.donde = donde(g.ids); const fs = g.ids.map(fuente); g.fuente = fs.find(x => x[0] === 'propuesta') || fs[0];
       // cabezas de las barras de los insertos: pletinas A36 soldadas (el modelo las lleva como un trazo de barra de su largo, así la cubicación las cuenta)
-      if (g.ids.length === 1 && g.ids[0] === 'AP' && g.L < 15) g.donde = `cabezas ${coma(g.L * 10)} × 45 × 12 soldadas al pie de las barras${g.L > 9 ? ' (PLc-4A)' : g.L > 7 ? ' (PLc-1E)' : ''} · pletina A36, el modelo la cuenta como trazo de barra`;
-      if (g.ids.length === 1 && g.ids[0] === 'AN' && g.L < 15) g.donde = 'cabezas 50 × 50 × 10 soldadas al pie de las barras · pletina A36, el modelo la cuenta como trazo de barra';
-      if (g.ids.length === 1 && /^(AP|AN)$/.test(g.ids[0]) && g.L >= 15) { const hef = Math.round((g.L * 10 + 14) / 50) * 50; g.donde += ` · hef ${coma(hef)}${g.diam === 22 ? (hef === 1200 ? ' (PLc-4A, placa de 30)' : hef === 1000 ? ' (en los muros del búnker)' : ' (sobrecimientos y dados)') : hef === 500 ? ' (3A y 3B, sobre la VHA)' : ''}`; }   // hef = barra + placa, en mm
+      if (g.ids.length === 1 && g.ids[0] === 'AP' && g.L < 15) g.donde = `cabezas ${coma(g.L * 10)} × 45 × 12 soldadas bajo el gancho de las barras${g.L > 9 ? ' (PLc-4A)' : g.L > 7 ? ' (PLc-1E)' : ''} · pletina A36, el modelo la cuenta como trazo de barra`;
+      if (g.ids.length === 1 && g.ids[0] === 'AN' && g.L < 15) g.donde = 'cabezas 50 × 50 × 10 soldadas bajo el gancho de las barras · pletina A36, el modelo la cuenta como trazo de barra';
+      // barras de los insertos: fuste + gancho de 10 (el ingeniero, 23-11-2026). hef = fuste + placa + radio, en mm; donde el gancho no cabía a su nivel, el fuste baja 2 o 4 cm
+      if (g.ids.length === 1 && /^(AP|AN)$/.test(g.ids[0]) && g.L >= 15) { const hef = Math.round((g.segs[0] * 10 + 14 + g.diam / 2) / 50) * 50; g.donde += ` · hef ${coma(hef)}${g.diam === 22 ? (hef === 1200 ? ' (PLc-4A, placa de 30)' : hef === 1000 ? ' (en los muros del búnker)' : ' (sobrecimientos y dados)') : hef === 500 ? ' (3A y 3B, sobre la VHA)' : ''}`; }   // hef = barra + placa, en mm
     });
     const totales = {}; filas.forEach(g => { const t = totales[g.diam] = totales[g.diam] || { m: 0, kg: 0 }; t.m += g.m; t.kg += g.kg; });
     const porClave = new Map(filas.map(g => [[g.elemento, g.diam, g.segs.join(',')].join('|'), g]));
@@ -158,7 +165,7 @@
       let nx = -dy / h, ny = dx / h; if ((mx - cx) * nx + (my - cy) * ny < 0) { nx = -nx; ny = -ny; }
       const ang = Math.round(((Math.atan2(dy, dx) * 180 / Math.PI) + 180) % 180 / 20), k = ang + '|' + medio(L);
       if ((vistos.includes(k) && (cerrada || L < 25)) || (cerrada && i === Ls.length - 1 && i > 0)) return; vistos.push(k);   // estribos y ganchos: cada medida una vez (la segunda cola, igual a la primera)
-      const t = cm(medio(L)), wt = t.length * 6.6, off = 7 + Math.abs(nx) * wt / 2;
+      const t = cm(g.ext && g.ext.length === Ls.length ? g.ext[i] : medio(L)), wt = t.length * 6.6, off = 7 + Math.abs(nx) * wt / 2;   // la medida que se lee: por fuera
       let x = mx + nx * off, y = my + ny * (off - Math.abs(nx) * wt / 2 + 3) + 4;
       if (cerrada && (i === 0 || i === Ls.length - 1)) {   // cola del gancho de un estribo: la medida va en la punta, no junto al lado vecino
         const e = i === 0 ? a : b, o = i === 0 ? b : a, ux = (e[0] - o[0]) / h, uy = (e[1] - o[1]) / h;
@@ -196,6 +203,7 @@
     if (H.cimiento) { H.cimiento.emplantillado.piezas.forEach(p => add(p.pts, p.z_inf, p.z_sup, 'ad-emp', 'emplantillado G5')); }
     if (H.cf && H.cf.emplantillado) (H.cf.emplantillado.piezas || []).forEach(p => add(p.pts, H.cf.emplantillado.z_inf, H.cf.emplantillado.z_sup, 'ad-emp', 'emplantillado G5'));   // V131: solo en las zanjas entre el búnker, los dados y los cimientos
     [H.cimiento, H.cf, H.dados].forEach(e => { const hp = e && e.hormigon_pobre; if (hp) (hp.piezas || []).forEach(p => add(p.pts, p.z_inf != null ? p.z_inf : hp.z_inf, p.z_sup != null ? p.z_sup : hp.z_sup, 'ad-emp', 'hormigón pobre G5')); });
+    if (H.cf && H.cf.relleno) (H.cf.relleno.piezas || []).forEach(p => add(p.pts, H.cf.relleno.z_inf, H.cf.relleno.z_sup, 'ad-capa', 'estabilizado compactado'));   // bajo los CF: 30 de estabilizado bajo los 20 de G5 (el ingeniero, 22 y 23-11-2026)
     if (H.radier_estudio) H.radier_estudio.capas.forEach(c => c.piezas.forEach(p => add(p.pts, c.z_inf, c.z_sup, c.id === 'radier' ? 'ad-rad' : 'ad-capa', c.nombre)));
     (H.losa_fundacion ? H.losa_fundacion.piezas : []).forEach(p => add(p.pts, p.z_inf, p.z_sup, 'ad-h', 'losa de fundación'));
     H.muros.piezas.forEach(p => add(p.pts, H.muros.z_inf, H.muros.z_sup, 'ad-h', 'muro'));
@@ -230,9 +238,11 @@
     // barras: las que están en el plano (la más cercana de cada familia) como líneas; las que lo cruzan como puntos
     const lineas = [], puntos = [];
     D.fierros.forEach(f => {
-      const sp = espaciado(f), tol = sp ? sp / 2 : 6; let mejor = null;
+      const sp = espaciado(f), tol = (cfg.tol && cfg.tol[f.id]) || (sp ? sp / 2 : 6); let mejor = null;   // cfg.tol: { familia: distancia } para proyectar al corte una barra que no está en su plano (el canastillo de un dado)
+      const ins = /^(AP|AN)$/.test(f.id);   // barras de los insertos (fuste + gancho de 10): su plano lo da el fuste, porque el gancho puede salir del corte; las cabezas (trazos cortos) no se dibujan
       instancias(f).forEach(pl => {
-        const dk = pl.map(p => Math.abs(p[k] - c)), dmax = Math.max(...dk);
+        if (ins && pl.length < 3) return;
+        const dk = (ins ? pl.slice(0, 2) : pl).map(p => Math.abs(p[k] - c)), dmax = Math.max(...dk);
         if (dmax < tol) { if (!mejor || dmax < mejor.d) mejor = { d: dmax, pl }; return; }
         for (let i = 0; i + 1 < pl.length; i++) { const a = pl[i], b = pl[i + 1]; if ((a[k] - c) * (b[k] - c) < 0) { const t = (c - a[k]) / (b[k] - a[k]); puntos.push({ f, pl, u: U(a[ku] + t * (b[ku] - a[ku])), z: a[2] + t * (b[2] - a[2]) - z0 }); } }
       });
@@ -304,5 +314,5 @@
     return { U, Y, W, zmin: cfg.zmin, zmax: cfg.zmax, lineas, puntos, cortes, llamada, recubrimiento, cotaH, cotaV, nivel, fs };
   }
 
-  window.Armaduras = { planilla, tablaHTML, formaSVG, seccion, KGM, nomD, nominal };   // nominal: lo usan las láminas para el despiece de los estribos
+  window.Armaduras = { planilla, tablaHTML, formaSVG, seccion, KGM, nomD, nominal, segsExt };   // nominal: lo usan las láminas para el despiece de los estribos
 })();

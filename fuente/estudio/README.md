@@ -121,3 +121,21 @@ proyecto, la letra de trazo único de los planos CAD, plantas a 1:50 y cortes a 
   Los PDF no van al repo: se dejan en Descargas.
 - **Láminas:** 01 planta de fundaciones (con la enfierradura de la losa de fundación del búnker) y cortes a-a, b-b, c-c y d-d.
   Pendientes: 02 búnker (plantas de la losa de techo, muros y vigas) y 03 planilla de doblado.
+- **Revisión B de la lámina 01 (23-11-2026).** El ingeniero rayó la revisión A impresa (22-11) y contestó cuatro dudas (23-11). Todo
+  se aplicó en el modelo (`hormigon.py`), no en la lámina:
+  - **Medidas por fuera.** «Cuando hay un destacado de una armadura, se está midiendo desde el exterior»: cada tramo se mide de fuera a
+    fuera de sus dobleces (medio diámetro más por doblez) y L es la suma de los tramos. La regla está dos veces, igual: `segsExt` en
+    `armaduras_det.js` (planilla y despieces) y `_largo` en `hormigon.py` (cubicación). Las patas y ganchos de las verticales de los muros
+    y de la malla inferior de la losa de fundación quedaron con su medida redonda por fuera (60, 30, 20, 15).
+  - **Búnker:** ganchos superiores de las verticales cruzados (la interior dobla hacia la cara exterior, bajo el de la exterior); 2ø12 de
+    coronamiento dentro de esos dobleces; trabas ø8 L=30 (5-20-5) entre las dos mallas, cada 3 nudos (su croquis: 9 por paño de 90 × 90);
+    malla superior de la losa de fundación con pata de 25 y pie de 5 sobre separadores de 5 cm; ø10 corrido en los bordes.
+  - **Estudio:** estribos de las cadenas de 24 × 44 (L=156) y de 24 × 50 (L=168) con traba ø10 L=34 sobre los dados; dados sin estribos
+    perimetrales y con canastillo (4ø16 con dobleces hacia adentro y E ø8@20 de 24 × 24, L=116); estribo del sobrecimiento con ramas de 67
+    (L=200); barras de los insertos con gancho de 10 además de la cabeza soldada (`_ganchos_insertos` elige hacia dónde dobla cada uno
+    para que no salga del hormigón ni tope con otra barra); bajo las cadenas, 20 de G5 sobre 30 de estabilizado compactado, con el sello
+    en −100 (el cimiento corrido y los dados siguen con hormigón pobre hasta −140).
+  - **Lectura nuestra, por confirmar cuando la vise:** el gancho del inserto tendido sobre su cabeza; la traba ø10 solo sobre los dados
+    (ahí la dibujó); las trabas de los muros cada 3 nudos; el coronamiento dentro de los dobleces. **Sin decidir:** si las fundaciones del
+    estudio se conectan al búnker (dice que se puede; siguen con junta de 2 cm).
+  - En la planta, las cuatro barras de la losa de fundación van con su «destacado» (dobleces abatidos y medidas); sin flecha del norte.

@@ -102,7 +102,7 @@ body.embed .norte3d{top:52px}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V153" data-vista="3d"></script>
+    <script src="menu.js?v=V154" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -185,19 +185,19 @@ body.embed .norte3d{top:52px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V153"></script>
-<script src="data.js?v=V153"></script>
-<script src="casa_vanos.js?v=V153"></script>
-<script src="estructura.js?v=V153"></script>
-<script src="losa.js?v=V153"></script>
-<script src="suples.js?v=V153"></script>
-<script src="alzaprimas.js?v=V153"></script>
-<script src="sitio.js?v=V153"></script>
-<script src="sitio3d.js?v=V153"></script>
-<script src="estudio_estructura.js?v=V153"></script>
-<script src="mobiliario3d.js?v=V153"></script>
-<script src="cotas3d.js?v=V153"></script>
-<script src="goku3d.js?v=V153"></script>
+<script src="nav3d.js?v=V154"></script>
+<script src="data.js?v=V154"></script>
+<script src="casa_vanos.js?v=V154"></script>
+<script src="estructura.js?v=V154"></script>
+<script src="losa.js?v=V154"></script>
+<script src="suples.js?v=V154"></script>
+<script src="alzaprimas.js?v=V154"></script>
+<script src="sitio.js?v=V154"></script>
+<script src="sitio3d.js?v=V154"></script>
+<script src="estudio_estructura.js?v=V154"></script>
+<script src="mobiliario3d.js?v=V154"></script>
+<script src="cotas3d.js?v=V154"></script>
+<script src="goku3d.js?v=V154"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -721,6 +721,9 @@ body.embed .norte3d{top:52px}
     }
     // dados bajo 4C y 4C2 (revisión 23-10-2026; el ingeniero los mantiene en su solución mixta, 28-10-2026): el CF pasa por encima y los amarra
     if (H.dados && H.dados.piezas) H.dados.piezas.forEach(z => addH('dados', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matCF), `${z.id} · ${z.nombre}`, `${z.d} · ${H.dados.armadura}${z.fuente ? ' · ' + z.fuente : ''}`)));
+    // bajo los CF: estabilizado compactado, 30 en 2 capas de 15, bajo los 20 de G5 (el ingeniero, 22 y 23-11-2026)
+    if (H.cf && H.cf.relleno) { const matEst = new THREE.MeshLambertMaterial({color: dark ? 0x6B5D48 : 0xCBB894, transparent: true, opacity: 0.85, side: THREE.DoubleSide}), re = H.cf.relleno;
+      (re.piezas || []).forEach(z => addH('pobre', ficha(prismaH(z.pts, re.z_inf, re.z_sup, matEst), 'Estabilizado compactado bajo el CF', `${z.id} · de −${coma1(-re.z_sup - 20)} a −${coma1(-re.z_inf - 20)} bajo el NPOG 0,00 · ${re.material} · ${re.nota}`))); }
     // hormigón pobre G5 del emplantillado al sello (cimientos, CF y dados): más claro que el emplantillado
     const matPobre = new THREE.MeshLambertMaterial({color: dark ? 0x4A4D52 : 0xC4C5C2, transparent: true, opacity: 0.85, side: THREE.DoubleSide});
     [[H.cimiento, 'cimiento corrido'], [H.cf, 'CF'], [H.dados, 'dado']].forEach(([el, nm]) => {

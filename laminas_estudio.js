@@ -52,7 +52,7 @@
   // T: texto de trazos con la línea base en (x, y). o: { a: 'm' centrado | 'e' a la derecha, rot: grados, obl: true (oblicua, como los rótulos de la viñeta) }
   function T(g, x, y, str, h, o) {
     o = o || {}; const t = trazos(str, h), dx = o.a === 'm' ? -t.w / 2 : o.a === 'e' ? -t.w : 0, dy = o.cv ? h / 2 : 0;   // cv: centrado también en altura
-    const p = el('path', { d: t.d, class: 'lm-t', 'stroke-width': f2(o.sw || Math.max(0.13, h * 0.085)),
+    const p = el('path', { d: t.d, class: 'lm-t', 'data-t': String(str), 'stroke-width': f2(o.sw || Math.max(0.13, h * 0.085)),   // data-t: el texto, para el revisor de textos que se pisan
       transform: `translate(${f2(x)} ${f2(y)})${o.rot ? ` rotate(${f2(o.rot)})` : ''}${dx || dy ? ` translate(${f2(dx)} ${f2(dy)})` : ''}${o.obl ? ' skewX(-15)' : ''}` }, g);
     p.w = t.w; return p;
   }
@@ -228,14 +228,28 @@
   function barraPlanta(g, V, PL, f, o) {
     const ins = instancias(f), eje = Math.abs(ins[0][0][0] - ins[ins.length - 1][0][0]) > Math.abs(ins[0][0][1] - ins[ins.length - 1][0][1]) ? 0 : 1;   // eje en que se reparten
     const co = pl => pl[0][eje] - (eje ? V.oy : V.ox), pl = ins.reduce((m, q) => Math.abs(co(q) - o.en) < Math.abs(co(m) - o.en) ? q : m), fila = PL.filaDe(f, pl);
-    const pts = pl.map(p => [V.X(p[0]), V.Y(p[1])]), a = pts[0], b = pts[pts.length - 1], gancho = pl.length > 2 && Math.abs(pl[0][2] - pl[1][2]) > 1;
-    const hor = Math.abs(b[0] - a[0]) > Math.abs(b[1] - a[1]), lado = o.lado || 1;
-    P(g, pts, 'lm-b').setAttribute('stroke-width', '0.6');
-    if (gancho) [[a, b], [b, a]].forEach(([p, q]) => { const ux = (q[0] - p[0]) / (Math.hypot(q[0] - p[0], q[1] - p[1]) || 1), uy = (q[1] - p[1]) / (Math.hypot(q[0] - p[0], q[1] - p[1]) || 1); P(g, [[p[0], p[1]], [p[0] + (ux * 0.9 - uy * 1.5) * 1, p[1] + (uy * 0.9 + ux * 1.5) * 1]], 'lm-b').setAttribute('stroke-width', '0.6'); });   // gancho: patita en la punta
+    // «Destacado» (el ingeniero, 22-11-2026: «el dibujo de la barra con todos sus dobleces y largos respectivos, además de su largo total»): la barra va
+    // en su lugar y sus dobleces, que en planta no se ven, se abaten sobre el dibujo a escala (los que suben, a un lado; los que bajan, al otro), cada tramo con su medida por fuera
+    const p3 = pl.filter((q, i) => i === 0 || d3(q, pl[i - 1]) > 0.05), sL = p3.slice(1).map((q, i) => d3(p3[i], q)); let iM = 0; sL.forEach((v, i) => { if (v > sL[iM]) iM = i; });
+    const A3 = p3[iM], B3 = p3[iM + 1], a = [V.X(A3[0]), V.Y(A3[1])], b = [V.X(B3[0]), V.Y(B3[1])], lm = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1, mx = (b[0] - a[0]) / lm, my = (b[1] - a[1]) / lm;
+    const hor = Math.abs(b[0] - a[0]) > Math.abs(b[1] - a[1]), lado = o.lado || 1, L3 = d3(A3, B3), u3 = [(B3[0] - A3[0]) / L3, (B3[1] - A3[1]) / L3];
+    let nx = -my, ny = mx; if (hor ? ny > 0 : nx < 0) { nx = -nx; ny = -ny; }   // los dobleces que suben se abaten hacia arriba del papel (barra horizontal) o hacia la derecha (vertical)
+    const des = p3.map(q => { const t = (q[0] - A3[0]) * u3[0] + (q[1] - A3[1]) * u3[1], z = (q[2] - A3[2]) * lado; return [a[0] + (mx * t + nx * z) * V.k, a[1] + (my * t + ny * z) * V.k]; });
+    P(g, des, 'lm-b').setAttribute('stroke-width', '0.6');
     const t = o.t == null ? 0.5 : o.t, tx = a[0] + (b[0] - a[0]) * t, ty = a[1] + (b[1] - a[1]) * t, esp = espDe(f);
     const rot = `${nomD(f.diam)}${esp ? '@' + esp : ''}, L=${coma(Math.round(fila ? fila.L : 0))}${o.texto ? ' ' + o.texto : ''}`, w = anchoT(rot, 2.3);
     if (hor) { if (fila) marca(g, tx - w / 2 - 3.6, ty - 2.6, fila.marca); T(g, tx, ty - 1.3, rot, 2.3, { a: 'm' }); }
     else { if (fila) marca(g, tx - 2.6, ty + w / 2 + 3.6, fila.marca); T(g, tx - 1.3, ty, rot, 2.3, { a: 'm', rot: -90 }); }
+    if (fila && fila.ext && fila.ext.length === sL.length && sL.length > 1) {
+      const hh = 1.9, cx = des.reduce((q, v) => q + v[0], 0) / des.length, cy = des.reduce((q, v) => q + v[1], 0) / des.length;
+      sL.forEach((v, i) => {
+        const txt = cmt(fila.ext[i]), q0 = des[i], q1 = des[i + 1], Mx = (q0[0] + q1[0]) / 2, My = (q0[1] + q1[1]) / 2, len = Math.hypot(q1[0] - q0[0], q1[1] - q0[1]) || 1;
+        if (i === iM) { if (hor) T(g, tx, ty + 1.3 + hh, txt, hh, { a: 'm' }); else T(g, tx + 1.3 + hh, ty, txt, hh, { a: 'm', rot: -90 }); return; }   // tramo principal: al otro lado del rótulo
+        let ox = -(q1[1] - q0[1]) / len, oy = (q1[0] - q0[0]) / len; if ((Mx - cx) * ox + (My - cy) * oy < 0) { ox = -ox; oy = -oy; }   // hacia afuera de la figura
+        if (Math.abs(ox) > Math.abs(oy)) T(g, Mx + ox * 0.9, My + hh / 2, txt, hh, ox > 0 ? {} : { a: 'e' });
+        else { if (!hor) oy = -oy; T(g, Mx, oy < 0 ? My - 0.9 : My + 0.9 + hh, txt, hh, { a: 'm' }); }   // barra vertical: la medida del gancho va hacia adentro, lejos del borde de la losa y de sus cotas
+      });
+    }
     // línea de reparto
     const c0 = co(ins[0]), c1 = co(ins[ins.length - 1]);
     if (o.rep != null) {
@@ -244,13 +258,10 @@
     }
     return fila;
   }
-  // flecha del norte (las láminas no escriben la orientación: va este indicador)
-  function norte(g, x, y, r) { C(g, x, y, r, 'lm-f'); el('polygon', { points: `${f2(x)},${f2(y - r * 0.92)} ${f2(x - r * 0.42)},${f2(y + r * 0.62)} ${f2(x)},${f2(y + r * 0.25)}`, class: 'lm-n' }, g); P(g, [[x, y - r * 0.92], [x + r * 0.42, y + r * 0.62], [x, y + r * 0.25]], 'lm-f'); TA(g, x, y - r - 1.2, 'N', r * 0.9, { a: 'm', b: true }); }
-
   // ---------- cortes del modelo ----------
   let nClip = 0;
   const medio = v => Math.round(v * 2) / 2;
-  const tramaDe = c => c.nombre === 'emplantillado G5' ? 'emp' : c.nombre === 'hormigón pobre G5' ? 'pobre' : c.cls === 'ad-rad' ? 'rad' : /oliestireno/.test(c.nombre || '') ? 'pol' : 'rel';
+  const tramaDe = c => c.nombre === 'emplantillado G5' ? 'emp' : c.nombre === 'hormigón pobre G5' ? 'pobre' : c.cls === 'ad-rad' ? 'rad' : /oliestireno/.test(c.nombre || '') ? 'pol' : /estabilizado/.test(c.nombre || '') ? 'sub' : 'rel';
   function quiebre(g, x1, y1, x2, y2) {   // línea de quiebre: recta con un zigzag al medio, pasada 1,5 de cada punta
     const dx = x2 - x1, dy = y2 - y1, h = Math.hypot(dx, dy) || 1, ux = dx / h, uy = dy / h, nx = -uy, ny = ux, mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
     P(g, [[x1 - ux * 1.5, y1 - uy * 1.5], [mx - ux * 1.3, my - uy * 1.3], [mx - ux * 0.45 + nx * 1.1, my - uy * 0.45 + ny * 1.1], [mx + ux * 0.45 - nx * 1.1, my + uy * 0.45 - ny * 1.1], [mx + ux * 1.3, my + uy * 1.3], [x2 + ux * 1.5, y2 + uy * 1.5]], 'lm-f');
@@ -344,7 +355,7 @@
       };
       const pon = (i, t, fuera, hh, sep, alo) => { const q2 = lado(i, fuera), off = (sep == null ? 1.1 : sep) + sw / 2 + (q2.arriba ? 0 : hh), al = alo || 0, x = q2.mx + q2.nx * off + q2.ux * al, y = q2.my + q2.ny * off + q2.uy * al; T(g, x, y, t, hh, { a: 'm', rot: q2.ang }); return { x, y, q2 }; };
       // cada tramo con su largo (en los estribos, cada medida una sola vez); en un tramo con quiebre el número se corre para no pisarlo
-      if (real.length > 1) real.forEach((v, i) => { const q2 = lado(i, true), key = Math.round((q2.ang + 180) % 180 / 15) + '|' + medio(v); if (cerrada && (i === 0 || i === real.length - 1)) return; if (cerrada && vistos.includes(key)) return; vistos.push(key); pon(i, cmt(medio(v)), true, 2.1, 0.9, rotos.includes(i) ? q2.len * 0.25 : 0); });
+      if (real.length > 1) real.forEach((v, i) => { const q2 = lado(i, true), key = Math.round((q2.ang + 180) % 180 / 15) + '|' + medio(v); if (cerrada && (i === 0 || i === real.length - 1)) return; if (cerrada && vistos.includes(key)) return; vistos.push(key); pon(i, cmt(fila && fila.ext && fila.ext.length === real.length ? fila.ext[i] : medio(v)), true, 2.1, 0.9, rotos.includes(i) ? q2.len * 0.25 : 0); });   // la medida que se lee va por fuera (planilla)
       const rot = o.texto != null ? o.texto : `${cerrada ? 'E ' : ''}${nomD(l.f.diam)}${esp ? '@' + esp : ''}, L=${coma(Math.round(fila ? fila.L : real.reduce((a, b) => a + b, 0)))}`;
       if (rot) {
         const w = anchoT(rot, h), qL = lado(iL, true), cabe = real.length === 1 || qL.len > w + 10;
@@ -382,7 +393,6 @@
     const xc1 = V.XL(1075 + 80), xc2 = V.XL(1075 + 125);
     for (let i = 0; i + 1 < ys.length; i++) cotaV(g, xc1, V.YL(ys[i]), V.YL(ys[i + 1]), cmt(ys[i + 1] - ys[i]));
     cotaV(g, xc2, V.YL(ys[0]), V.YL(ys[ys.length - 1]), cmt(ys[ys.length - 1] - ys[0]), { ty: V.YL((ys[2] + ys[3]) / 2) });
-    norte(sv, 47, 33, 5.2);
     // ---- insertos: rótulo de cada placa (nombre sobre la raya, medidas en mm debajo), hacia donde hay lugar ----
     H.placas.lista.forEach(q => {
       const cx = q.centro[0] - V.ox, cy = q.centro[1] - V.oy, x = V.XL(cx), y = V.YL(cy), b = caja(q.pts);
@@ -394,10 +404,10 @@
       L(g, x, y, xa, ya); L(g, xa, ya, xb, ya); T(g, izq ? xb + 0.4 : xa + 0.6, ya - 0.8, t1, h); T(g, izq ? xb + 0.4 : xa + 0.6, ya + h + 0.9, t2, h);
     });
     // ---- enfierradura de la losa de fundación del búnker (las 4 mallas), como la «Planta losa» del proyecto ----
-    barraPlanta(g, V, PL, F('LF-inf-NS'), { en: 432, rep: 150, t: 0.72, texto: 'inf.' });
-    barraPlanta(g, V, PL, F('LF-sup-NS'), { en: 492, rep: 150, t: 0.72, texto: 'sup.', sinLinea: true });
-    barraPlanta(g, V, PL, F('LF-inf-EO'), { en: 290, rep: 740, t: 0.57, texto: 'inf.' });
-    barraPlanta(g, V, PL, F('LF-sup-EO'), { en: 350, rep: 740, t: 0.57, texto: 'sup.', sinLinea: true });
+    barraPlanta(g, V, PL, F('LF-inf-NS'), { en: 417, rep: 150, t: 0.72, texto: 'inf.' });
+    barraPlanta(g, V, PL, F('LF-sup-NS'), { en: 507, rep: 150, t: 0.72, texto: 'sup.', sinLinea: true });
+    barraPlanta(g, V, PL, F('LF-inf-EO'), { en: 290, rep: 740, t: 0.80, texto: 'inf.' });
+    barraPlanta(g, V, PL, F('LF-sup-EO'), { en: 350, rep: 740, t: 0.80, texto: 'sup.', sinLinea: true });
     // ---- rótulos de los elementos ----
     const h2 = 2.1;
     TA(g, V.XL(885), V.YL(470), 'LOSA DE FUNDACION e=35', 3.4, { a: 'm' }); T(g, V.XL(885), V.YL(470) + 3.6, `cara superior ${N.zapata_sup} · sello ${N.emplantillado_inf}`.replace(/-/g, '−'), 1.9, { a: 'm' }); T(g, V.XL(885), V.YL(470) + 6.9, 'hormigón G30 con cristalizante', 1.9, { a: 'm' });
@@ -432,11 +442,22 @@
       // barras de las losas, a la derecha; barras del muro, a la izquierda (por fuera, como en la lámina del proyecto)
       Ca.rotulos([['LT-NS', null, -2.6, U(165)], ['LS-AB', null, null, U(150)], ['LN', null, -22.5, U(165)], ['LE', null, null, U(150)]], Ca.X(Ca.W) + 7, { gap: 6.4 });
       Ca.rotulos([['LF-sup-NS', null, null, U(165)], ['LF-sup-EO', null, null, U(150)], ['LF-inf-EO', null, null, U(150)], ['LF-inf-NS', null, -375, U(165)]], Ca.X(Ca.W) + 7, { gap: 6.4 });
-      Ca.rotulos([['MC-N-ext', '2ø12 (1 por cara)', null, null], ['MV-N-ext', null, -128, null], ['MH-N-ext', null, -158, null], ['MV-N-int', null, -205, null], ['MH-N-int', null, -233, null]], Ca.X(0) - 3, { izq: true, gap: 6.4 });
-      // despiece: verticales del muro a la izquierda, barras de la losa de techo arriba y de la losa de fundación abajo
-      Ca.despiece('MV-N-ext', { dx: -78, max: 150 }); Ca.despiece('MV-N-int', { dx: -113, max: 150 });
+      Ca.rotulos([['MC-N-ext', '2ø12 (1 por cara), en los dobleces', null, null], ['MV-N-ext', null, -128, null], ['MH-N-ext', null, -158, null], ['MV-N-int', null, -205, null], ['MH-N-int', null, -233, null], ['MT-N', 'Trabas ø8', -262, null]], Ca.X(0) - 3, { izq: true, gap: 6.4 });
+      Ca.rotulos([['LF-borde', 'ø10 de borde', null, null]], Ca.X(0) - 3, { izq: true });
+      // pie de la malla superior sobre su separador (el ingeniero, 22-11-2026)
+      const fS = F('LF-sup-NS'), zPie = Math.min(...fS.polilineas[0].map(q => q[2])) - D.z_piso, yPie = fS.polilineas[0][0][1] - V.oy;
+      llamada(g2, Ca.X(U(yPie)) - 0.4, Ca.Y(zPie) + 0.6, Ca.X(0) - 3, Ca.Y(zPie) + 5.6, ['Pie sobre separador de 5 cm', '(conduit de PVC de 50 mm)'], { lado: 'i', h: 2.1 });
+      // despiece: verticales del muro a la izquierda, en el orden del corte (la exterior, a la izquierda), barras de la losa de techo arriba y de la losa de fundación abajo
+      Ca.despiece('MV-N-ext', { dx: -124, max: 150 }); Ca.despiece('MV-N-int', { dx: -84, max: 150 });
       Ca.despiece('LT-NS', { dx: -3, dy: -52 }); Ca.despiece('LN', { dy: -22, max: 84, dx: 22 });
-      Ca.despiece('LF-sup-NS', { dy: 38, max: 96, dx: 4 }); Ca.despiece('LF-inf-NS', { dy: 44, max: 96, dx: 4 });
+      Ca.despiece('LF-sup-NS', { dy: 34, max: 96, dx: 4 }); Ca.despiece('LF-inf-NS', { dy: 55, max: 96, dx: 4 });
+      // detalle de la traba (sin escala): 5 – 20 – 5, medida por fuera, con su marca de la planilla
+      { const fT = F('MT-N'), fl = PL.filaDe(fT, fT.polilineas[0]), xa = Ca.X(0) - 31, ya = Ca.Y(-262) + 21, e = fl ? fl.ext : [5, 20, 5];
+        T(g2, xa - 2, ya - 6.2, 'DETALLE TRABA (SIN ESCALA)', 2.1);
+        P(g2, [[xa, ya + 5], [xa, ya], [xa + 20, ya], [xa + 20, ya + 5]], 'lm-b').setAttribute('stroke-width', '0.5');
+        T(g2, xa + 10, ya - 1.0, cmt(e[1]), 2.1, { a: 'm' }); T(g2, xa - 1.1, ya + 3.6, cmt(e[0]), 2.1, { a: 'e' }); T(g2, xa + 21.1, ya + 3.6, cmt(e[2]), 2.1);
+        if (fl) marca(g2, xa + 1.2, ya + 10.6, fl.marca); T(g2, xa + 4.6, ya + 11.4, `${nomD(fT.diam)}, L=${coma(Math.round(fl ? fl.L : 30))}`, 2.3);
+        T(g2, xa - 2, ya + 16.2, 'cada 3 nudos en los dos sentidos', 1.9); T(g2, xa - 2, ya + 19.6, 'ganchos a lo largo del muro', 1.9); }
       // niveles
       Ca.nivel(U(y0m) - 8, 0, 'NPOG 0,00', { alto: 6.5, lado: 'i' }); nivel(g2, Ca.X(9), Ca.Y(-50), 'N.T.N −50', { alto: 4.2, lado: 'i' });
       Ca.nivel(U(100), zFs, cmt(zFs).replace('-', '−'), { alto: 6.5, lado: 'i' });
@@ -450,7 +471,7 @@
       llamada(g2, Ca.X(U(172)), Ca.Y(zFs), Ca.X(Ca.W) + 7, Ca.Y(zFs) - 5.2, ['Losa de fundación e=' + cmt(zFs - zFi)], { h: 2.5 });
       llamada(g2, Ca.X(U(135)), Ca.Y((zFi + zSe) / 2), Ca.X(Ca.W) + 7, Ca.Y(zSe) + 8.5, ['Emplantillado G5 e=' + cmt(zFi - zSe)], { h: 2.5 });
       llamada(g2, Ca.X(U(y0m - m) + 6), Ca.Y(zSe), Ca.X(0) - 3, Ca.Y(zSe) + 10, ['Sello ' + cmt(zSe).replace('-', '−') + ': 20 cm en el estrato', 'indicado en la memoria de cálculo'], { lado: 'i', h: 2.1 });
-      titulo(sv, 470, 330, 'Corte a-a', 20); T(sv, 513, 330, 'MURO DEL EJE A, ENTRE LOS EJES 1 Y 2', 2.1); T(sv, 513, 334.4, '(LOS CUATRO MUROS IGUALES)', 2.1);
+      titulo(sv, 470, 339, 'Corte a-a', 20); T(sv, 513, 339, 'MURO DEL EJE A, ENTRE LOS EJES 1 Y 2', 2.1); T(sv, 513, 343.4, '(LOS CUATRO MUROS IGUALES)', 2.1);
     }
     // ================= Corte b-b: sobrecimiento, cimiento corrido e inserto (fachadas), por el pilar 1-D (1:20) =================
     {
@@ -465,7 +486,7 @@
       const xl = Cb.X(0) - 3;
       llamada(g2, Cb.X(U(xe)) - 5 * Cb.k, Cb.Y(27), xl, Cb.Y(31), [`Pilar ${PD.perfil.replace('RECT ', '').replace('CUAD ', '')}`], { lado: 'i', h: 2.3, punta: true });
       llamada(g2, Cb.X(U(xe)) - PD.ancho / 2 * Cb.k + 0.6, Cb.Y(-tD / 2), xl, Cb.Y(15), [`Inserto ${PD.id} a ras`, `PL ${coma(PD.largo * 10)}x${coma(PD.ancho * 10)}x${coma(tD * 10)}, barras soldadas`], { lado: 'i', h: 2.3 });
-      Cb.rotulos([['S16-1', null, null, null], ['S8-1', null, -15, null], ['SU-1', 'E ' + nomD(F('SU-1').diam) + '@' + espDe(F('SU-1')), -26, null], ['AP', `4ø22 A36 (hef ${cmt(PD.hef)})`, -38, null]], xl, { izq: true, gap: 5.6 });
+      Cb.rotulos([['S16-1', null, null, null], ['S8-1', null, -15, null], ['SU-1', 'E ' + nomD(F('SU-1').diam) + '@' + espDe(F('SU-1')), -26, null], ['AP', `4ø22 A36 (hef ${cmt(PD.hef)}), gancho 10`, -38, null]], xl, { izq: true, gap: 5.6 });
       if (Cb.cerca('AX', 0, -58)) Cb.rotulos([['AX', 'E ø10 extra bajo el pilar', -58, null]], xl, { izq: true });
       Cb.rotulos([['CL-1', null, null, null], ['CU-1', null, -69.4, U(xe + 30)]], Cb.X(Cb.W) + 6, { gap: 6.2 });
       // capas del radier y materiales (a la derecha, como en la lámina del proyecto)
@@ -480,26 +501,38 @@
       Cb.cotaV(U(xe - hc), zs, 0, cmt(-zs), -6); Cb.cotaV(U(xe - hc), zc, zs, cmt(zs - zc), -6); Cb.cotaV(U(xe - hc), zc - 10, zc, '10', -6, { lado: 'izq' }); Cb.cotaV(U(xe - hc), zse, zc - 10, cmt(zc - 10 - zse), -6);
       Cb.cotaH(U(xe - hc), U(xe - hs), zse, cmt(hc - hs), 5); Cb.cotaH(U(xe - hs), U(xe + hs), zse, cmt(2 * hs), 5); Cb.cotaH(U(xe + hs), U(xe + hc), zse, cmt(hc - hs), 5); Cb.cotaH(U(xe - hc), U(xe + hc), zse, cmt(2 * hc), 11);
       Cb.despiece('SU-1', { dx: -24, dy: 88 }); Cb.despiece('CU-1', { dx: 32, dy: 92 });
+      // detalle de la barra del inserto (sin escala): fuste soldado bajo la placa, gancho de 10 y cabeza soldada bajo el gancho (el ingeniero, 22 y 23-11-2026)
+      { const fA = F('AP'), cxp = PD.centro[0], cyp = PD.centro[1], bp = fA.polilineas.find(q => q.length === 3 && Math.hypot(q[0][0] - cxp, q[0][1] - cyp) < 15), fl = bp ? PL.filaDe(fA, bp) : null;
+        const x0d = 778, y0d = 118, hb = 30, cab = PD.cabeza || [6, 4.5];
+        T(g2, x0d - 6, y0d - 8.6, 'DETALLE BARRA DEL INSERTO', 2.1); T(g2, x0d - 6, y0d - 5.2, '(SIN ESCALA)', 1.9);
+        R(g2, x0d - 6, y0d - 1.6, 16, 1.6, 'lm-n');                                                       // placa
+        P(g2, [[x0d, y0d], [x0d, y0d + hb], [x0d + 9, y0d + hb]], 'lm-b').setAttribute('stroke-width', '0.9');   // fuste y gancho
+        R(g2, x0d + 0.9, y0d + hb + 0.6, 7, 1.3, 'lm-n');                                                 // cabeza
+        if (fl) { T(g2, x0d - 1.3, y0d + hb / 2, cmt(fl.ext[0]), 2.1, { a: 'm', rot: -90 }); T(g2, x0d + 4.8, y0d + hb - 1.3, cmt(fl.ext[1]), 2.1, { a: 'm' }); marca(g2, x0d + 5.2, y0d + 9.4, fl.marca); }
+        T(g2, x0d + 8.6, y0d + 10.2, `${nomD(fA.diam)} lisa A36, L=${coma(Math.round(fl ? fl.L : 0))}`, 2.1); T(g2, x0d + 3.2, y0d + 14.4, 'soldada bajo la placa', 1.9);
+        T(g2, x0d + 3.2, y0d + hb + 6.4, `cabeza ${coma(cab[0] * 10)}x${coma(cab[1] * 10)}x12 soldada`, 1.9); T(g2, x0d + 3.2, y0d + hb + 9.8, 'bajo el gancho (por visar)', 1.9); }
       titulo(sv, 664, 186, 'Corte b-b', 20); T(sv, 707, 186, 'EJE 1 POR EL PILAR D (EJES 5 Y E IGUALES)', 2.1);
     }
     // ================= Corte c-c: cadena de fundación CF 30/50 (1:20) =================
     {
-      const yC = ey.C2, Cc = corte(sv, D, PL, { eje: 'x', c: AX(880), u0: AY(yC) - 45, u1: AY(yC) + 45, zmin: -146, zmax: 12 }, 704, 222, 20), U = y => y - (yC - 45), g2 = Cc.g, a2 = H.cf.ancho / 2, zse = N.sello_fachadas;
+      const yC = ey.C2, zse = N.sello_cf, G5 = H.cf.emplantillado, RE = H.cf.relleno, zg5 = N.cf_inf - G5.espesor;   // bajo la cadena: 20 de G5 sobre 30 de estabilizado compactado, sello −100 (el ingeniero, 22 y 23-11-2026)
+      const Cc = corte(sv, D, PL, { eje: 'x', c: AX(880), u0: AY(yC) - 45, u1: AY(yC) + 45, zmin: zse - 6, zmax: 12 }, 704, 222, 20), U = y => y - (yC - 45), g2 = Cc.g, a2 = H.cf.ancho / 2;
       Cc.rotulos([['CF-C2-sup', null, null, null], ['CF-C2-est', 'E ' + nomD(F('CF-C2-est').diam) + '@' + espDe(F('CF-C2-est')), -18, null], ['CF-C2-med', null, null, null], ['CF-C2-inf', null, null, null]], Cc.X(Cc.W) + 6, { gap: 6.4 });
-      llamada(g2, Cc.X(U(yC + 8)), Cc.Y(-55), Cc.X(Cc.W) + 6, Cc.Y(-62), ['Emplantillado G5 45x10'], { h: 2.3 });
-      llamada(g2, Cc.X(U(yC + 5)), Cc.Y(-95), Cc.X(Cc.W) + 6, Cc.Y(-92), ['Hormigón pobre G5', `hasta el sello (${cmt(zse).replace('-', '−')})`], { h: 2.3 });
+      llamada(g2, Cc.X(U(yC + 8)), Cc.Y((N.cf_inf + zg5) / 2), Cc.X(Cc.W) + 6, Cc.Y(-59), [`Hormigón G5 ${cmt(G5.ancho)}x${cmt(G5.espesor)}`], { h: 2.3 });
+      llamada(g2, Cc.X(U(yC + 5)), Cc.Y((zg5 + zse) / 2), Cc.X(Cc.W) + 6, Cc.Y(-78), [`Estabilizado compactado ${cmt(RE.ancho)}x${cmt(RE.espesor)}`, '2 capas de 15, Tmáx 2"'], { h: 2.3 });
+      llamada(g2, Cc.X(U(yC + 18)), Cc.Y(zse), Cc.X(Cc.W) + 6, Cc.Y(zse) - 1, [`Sello ${cmt(zse).replace('-', '−')}, compactado`], { h: 2.3 });
       llamada(g2, Cc.X(U(yC + 32)), Cc.Y(-5), Cc.X(Cc.W) + 6, Cc.Y(13), ['Radier e=10 y capas: ver corte b-b'], { h: 2.3 });
       Cc.nivel(U(yC - 30), 0, 'NPOG 0,00', { alto: 6.5, lado: 'i' });
-      const dxc = -(45 - a2) * Cc.k - 4; Cc.cotaV(U(yC - a2), N.cf_inf, 0, cmt(-N.cf_inf), dxc); Cc.cotaV(U(yC - a2), N.cf_inf - 10, N.cf_inf, '10', dxc, { lado: 'izq' }); Cc.cotaV(U(yC - a2), zse, N.cf_inf - 10, cmt(N.cf_inf - 10 - zse), dxc);
-      Cc.cotaH(U(yC - a2), U(yC + a2), zse, cmt(2 * a2), 5);
+      const dxc = -(45 - a2) * Cc.k - 4; Cc.cotaV(U(yC - a2), N.cf_inf, 0, cmt(-N.cf_inf), dxc); Cc.cotaV(U(yC - a2), zg5, N.cf_inf, cmt(N.cf_inf - zg5), dxc); Cc.cotaV(U(yC - a2), zse, zg5, cmt(zg5 - zse), dxc);
+      Cc.cotaH(U(yC - G5.ancho / 2), U(yC + G5.ancho / 2), zse, cmt(G5.ancho), 5);
       Cc.despiece('CF-C2-est', { dx: -62, dy: 22 });
       titulo(sv, 664, 310, 'Corte c-c', 20); T(sv, 707, 310, `CADENA DE FUNDACION CF ${cmt(H.cf.ancho)}/${cmt(H.cf.alto)} (EJES 4, C Y C2)`, 2.1);
     }
     // ================= Corte d-d: dado bajo los pilares 4C y 4C2, con el CF-4 encima (1:20) =================
     {
-      const x4 = ex['4'], Cd = corte(sv, D, PL, { eje: 'y', c: AY(ey.C - 23.5), u0: AX(x4 - 110), u1: AX(x4 + 110), zmin: -146, zmax: 12 }, 374, 372, 20), U = x => x - (x4 - 110), g2 = Cd.g, hd = H.dados.lado / 2, zds = N.dado_sup, zdi = N.dado_inf, zse = N.sello_fachadas;
-      Cd.rotulos([['CF-4-sup', null, null, null], ['CF-4-est', 'E ' + nomD(F('CF-4-est').diam) + '@' + espDe(F('CF-4-est')), -18, null], ['CF-4-med', null, null, null], ['CF-4-inf', null, null, null],
-        ['AU', '4ø16 verticales (anclaje del inserto)', -62, null], ['DA-4C-est', '6 E ø10 perimetrales', -78, null], ['DA-4C-inf', 'malla ø12@15 en los dos sentidos', -124.2, U(x4 + 40)]], Cd.X(Cd.W) + 6, { gap: 6.4 });
+      const x4 = ex['4'], Cd = corte(sv, D, PL, { eje: 'y', c: AY(ey.C - 23.5), u0: AX(x4 - 110), u1: AX(x4 + 110), zmin: -146, zmax: 12, tol: { AU: 14, 'AU-est': 36 } }, 374, 372, 20), U = x => x - (x4 - 110), g2 = Cd.g, hd = H.dados.lado / 2, zds = N.dado_sup, zdi = N.dado_inf, zse = N.sello_fachadas;
+      Cd.rotulos([['CF-4-sup', null, null, null], ['CF-4-est', 'E ' + nomD(F('CF-4-est').diam) + '@' + espDe(F('CF-4-est')) + ' de 24x50 sobre el dado', -14, null], ['CF-4-traba', 'Traba ø10@20', null, null], ['CF-4-med', null, null, null], ['CF-4-inf', null, null, null],
+        ['AU', 'Canastillo: 4ø16 verticales', -68, null], ['AU-est', 'E ø8@20 de 24x24', -78, null], ['DA-4C-inf', 'malla ø12@15 en los dos sentidos', -124.2, U(x4 + 40)]], Cd.X(Cd.W) + 6, { gap: 6.4 });
       llamada(g2, Cd.X(U(x4 - 40)), Cd.Y((zdi + zse) / 2), Cd.X(0) - 3, Cd.Y(zse) + 9, ['Hormigón pobre G5', `hasta el sello (${cmt(zse).replace('-', '−')})`], { lado: 'i', h: 2.3 });
       llamada(g2, Cd.X(U(x4 - 85)), Cd.Y(-5), Cd.X(0) - 3, Cd.Y(8), ['Radier e=10 y capas:', 'ver corte b-b'], { lado: 'i', h: 2.3 });
       llamada(g2, Cd.X(U(x4 + 12)), Cd.Y(0), Cd.X(Cd.W) + 6, Cd.Y(0) - 7.5, [`CF ${cmt(H.cf.ancho)}/${cmt(H.cf.alto)} (corte c-c)`], { h: 2.3 });
@@ -507,7 +540,16 @@
       Cd.cotaV(U(x4 - hd), zdi, zds, cmt(zds - zdi), -7); Cd.cotaV(U(x4 - hd), zse, zdi, cmt(zdi - zse), -7, { abajo: true }); Cd.cotaV(U(x4 - hd), zds, 0, cmt(-zds), -7);
       Cd.cotaH(U(x4 - hd), U(x4 + hd), zse, cmt(2 * hd), 5);
       Cd.despiece('DA-4C-inf', { dy: 27 }); Cd.despiece('AU', { dx: 172 });
-      titulo(sv, 374, 492, 'Corte d-d', 20); T(sv, 417, 492, 'DADO 140x140 BAJO LOS PILARES 4C Y 4C2 (PLANTA Y ESTRIBOS PERIMETRALES: PLANILLA)', 2.1);
+      // a la izquierda: estribo de la cadena sobre el dado (24 × 50) y su traba; a la derecha, bajo el despiece de las verticales, el estribo del canastillo (24 × 24, en planta)
+      { const fE = F('CF-4-est'), lE = Cd.S.lineas.find(q => q.f.id === 'CF-4-est'), flE = lE ? PL.filaDe(fE, lE.pl) : null, dxE = -82, xE = Cd.X(U(x4) - 11.5) + dxE, yE = Cd.Y(-53);
+        Cd.despiece('CF-4-est', { dx: dxE, texto: '' });
+        if (flE) marca(g2, xE - 5.4, yE + 7.6, flE.marca); T(g2, xE - 2.2, yE + 8.4, `E ${nomD(fE.diam)}@${espDe(fE)}, L=${coma(Math.round(flE ? flE.L : 0))}`, 2.3); T(g2, xE - 2.2, yE + 12.0, 'ganchos de 135° de 10', 1.9);
+        Cd.despiece('CF-4-traba', { dx: dxE, dy: 40 }); }
+      { const fE = F('AU-est'), fl = PL.filaDe(fE, fE.polilineas[0]), lq = 12, xq = 584, yq = 441;
+        R(g2, xq, yq, lq, lq, 'lm-b').setAttribute('stroke-width', '0.45'); P(g2, [[xq + 0.9, yq + 2.6], [xq + 2.6, yq + 0.9]], 'lm-b').setAttribute('stroke-width', '0.45');
+        if (fl) { T(g2, xq + lq / 2, yq - 0.9, cmt(fl.ext[1]), 2.1, { a: 'm' }); T(g2, xq - 1.0, yq + lq / 2, cmt(fl.ext[2]), 2.1, { a: 'm', rot: -90 }); marca(g2, xq - 3.4, yq + lq + 4.2, fl.marca); }
+        T(g2, xq - 0.2, yq + lq + 5.0, `E ${nomD(fE.diam)}@20, L=${coma(Math.round(fl ? fl.L : 0))}`, 2.3); T(g2, xq - 5.8, yq + lq + 8.6, 'canastillo, en planta', 1.9); }
+      titulo(sv, 374, 492, 'Corte d-d', 20); T(sv, 417, 492, 'DADO 140x140 BAJO LOS PILARES 4C Y 4C2 (SIN ESTRIBOS PERIMETRALES; CANASTILLO BAJO EL INSERTO)', 2.1);
     }
     // ================= Notas =================
     {
@@ -515,18 +557,19 @@
       TA(sv, x, 334, 'NOTAS', 6.2); L(sv, x, 336.4, x + 205, 336.4);
       const lin = [
         '1. HORMIGON: ' + ES.hormigon.replace('Hormigón ', '') + '.', '   Emplantillado y hormigón pobre: G5.',
-        '2. ACERO DE REFUERZO: ' + ES.acero.replace('Acero ', '') + '. Barras de los insertos: lisas A36, soldadas (no se traslapan).',
-        `3. RECUBRIMIENTOS (cm): fundaciones ${rc.fundaciones} · muros del búnker, cara exterior ${rc['muros del búnker, cara exterior']} ·`, `   elementos de hormigón armado ${rc['elementos de hormigón armado']} · losa ${rc.losa}.`,
+        '2. ACERO DE REFUERZO: ' + ES.acero.replace('Acero ', '') + '. Barras de los insertos: lisas A36 soldables, con gancho de 10 y cabeza soldada.',
+        `3. RECUBRIMIENTOS (cm): fundaciones ${rc.fundaciones} · muros del búnker, cara exterior ${rc['muros del búnker, cara exterior']} ·`, `   elementos de hormigón armado ${rc['elementos de hormigón armado']} · losa ${rc.losa}.`, '   Estribos de las cadenas CF y del sobrecimiento: 3 (abajo, dentro del cimiento, 5).',
         `4. TRASLAPOS: ${ES.traslapo} (${tr} cm), alternados.`,
         '5. Estribos cerrados con ganchos de 135°. En las esquinas, las barras longitudinales llevan pata de 60 diámetros.',
         `6. NIVELES en cm desde el NPOG 0,00 (cara superior de la losa del búnker y del radier). Terreno natural: N.T.N ${N.ntn}.`.replace('-', '−'),
-        `7. SELLO DE FUNDACION: búnker ${cmt(N.emplantillado_inf)}, 20 cm dentro del estrato indicado en la memoria de cálculo;`.replace('-', '−'), `   fachadas, CF y dados ${cmt(N.sello_fachadas)} (0,90 m bajo el terreno natural), con hormigón pobre G5 hasta el sello.`.replace('-', '−'),
+        `7. SELLO DE FUNDACION: búnker ${cmt(N.emplantillado_inf)}, 20 cm dentro del estrato indicado en la memoria de cálculo;`.replace('-', '−'), `   fachadas y dados ${cmt(N.sello_fachadas)} (0,90 m bajo el terreno natural), con hormigón pobre G5 hasta el sello;`.replace('-', '−'), `   cadenas CF ${cmt(N.sello_cf)}: bajo ellas, ${cmt(H.cf.emplantillado.espesor)} de G5 sobre ${cmt(H.cf.relleno.espesor)} de estabilizado compactado en 2 capas de 15, de ${cmt(H.cf.relleno.ancho)} de ancho.`.replace('-', '−'),
         '8. Junta de 2 cm entre el búnker y las fundaciones del estudio, sin barras pasantes.',
-        '9. Los números en círculo son las marcas de la planilla de doblado (pestaña Fundaciones del sitio).', '   Las barras se miden a eje. Medidas en cm, salvo las placas (mm).',
+        '9. Los números en círculo son las marcas de la planilla de doblado (pestaña Fundaciones del sitio).', '   Las barras se miden por fuera, de fuera a fuera de sus dobleces; L es la suma de los tramos.', '   Medidas en cm, salvo las placas (mm).',
         '10. Insertos PLc y PLb: placas embebidas a ras, con sus barras soldadas; se colocan antes de hormigonar.', '   Detalle y cuadro: pestaña Fundaciones del sitio.',
         '11. Impermeabilización del búnker (membranas, water-stop, cristalizante): pestaña Revisión del sitio.',
-        '12. Las verticales de los muros del búnker van dibujadas y medidas de una pieza (L=447 y 416): nacen sobre la', '   malla inferior de la losa de fundación, con patas de 60 y 30 hacia el interior.', '   Si se prefiere arranque con traslapo, consultar antes al ingeniero.',
-        '13. Esta lámina no define completa la losa de techo del búnker (suples, vigas VHA, VBL y VBC, hueco de la escalera)', '   ni la escalera: van en lámina aparte. Mientras tanto, pestañas Planta y Fundaciones del sitio.'];
+        '12. Muros del búnker: verticales de una pieza, con patas de 60 y 30 hacia el interior sobre la malla inferior de la', '   losa de fundación y ganchos superiores cruzados. Trabas ø8 L=30 entre las dos mallas, 9 por m² (cada 3 nudos).', '   Separadores de las mallas contra los moldajes.',
+        '13. Esta lámina no define completa la losa de techo del búnker (suples, vigas VHA, VBL y VBC, hueco de la escalera)', '   ni la escalera: van en lámina aparte. Mientras tanto, pestañas Planta y Fundaciones del sitio.',
+        '14. Losa de fundación del búnker: la malla superior se sostiene en sus patas (25 + 5), sobre separadores de 5 cm', '   (trozos de conduit de PVC de 50 mm); ø10 corrido en los cuatro bordes, constructivo.'];
       lin.forEach((t, i) => T(sv, x, 344 + 5.0 * i, t, 2.3));
     }
     return sv;
@@ -535,12 +578,13 @@
   const LISTA = [{ n: '01', id: 'fundaciones', titulo: 'Planta de fundaciones y cortes', plano: 'E-01', contenido: ['PLANTA FUNDACIONES', 'CORTES Y NOTAS'], fn: lamina01 }];
   function dibujar(cont, n, D, E, ver) {
     const l = LISTA.find(x => x.n === n) || LISTA[0];
-    const info = { n: l.n, plano: l.plano, contenido: l.contenido, rev: 'A', fecha: '17-11-2026', mandante: 'Gabriel Toledo Brintrup', proyecto: 'Casa Toledo , Sector estudio',
+    const info = { n: l.n, plano: l.plano, contenido: l.contenido, rev: 'B', fecha: '23-11-2026', mandante: 'Gabriel Toledo Brintrup', proyecto: 'Casa Toledo , Sector estudio',
       identificacion: [['1', 'Láminas 01 rev 1 y 02 a 05 del proyecto del estudio (ingeniero)', '04-2026'], ['2', 'Revisión estructural con cálculo propio (modelo 3D)', '23-10-2026'],
-        ['3', 'Respuestas del ingeniero: solución mixta, insertos, VBL', '28-10-2026'], ['4', 'Informe V134 revisado por el ingeniero: aceptado', '10-11-2026']],
-      revisiones: [['A', 'EMITIDO PARA VISAR POR EL INGENIERO' + (ver ? ' (modelo ' + ver + ')' : '')]],
+        ['3', 'Respuestas del ingeniero: solución mixta, insertos, VBL', '28-10-2026'], ['4', 'Informe V134 revisado por el ingeniero: aceptado', '10-11-2026'],
+        ['5', 'Observaciones del ingeniero a la rev. A y sus respuestas', '23-11-2026']],
+      revisiones: [['A', 'EMITIDO PARA VISAR POR EL INGENIERO (17-11-2026)'], ['B', 'CON LAS OBSERVACIONES DEL INGENIERO (22 Y 23-11-2026)' + (ver ? ' (modelo ' + ver + ')' : '')]],
       nota: ['Plano de trabajo dibujado desde el modelo 3D del estudio, con el formato de las láminas del proyecto.',
-        'Geometría, armaduras y niveles: los del modelo revisado con cálculo propio (23-10-2026) y aceptado por el', 'ingeniero del proyecto en sus respuestas del 28-10-2026 y del 10-11-2026 (informe V134 revisado).',
+        'Geometría, armaduras y niveles: los del modelo revisado con cálculo propio (23-10-2026) y aceptado por el', 'ingeniero del proyecto (28-10 y 10-11-2026), con sus observaciones a la rev. A (22 y 23-11-2026) ya aplicadas.',
         'NO LLEVA FIRMA: antes de cortar y doblar fierro, debe visarlo el ingeniero civil del proyecto.', 'Las medidas mandan sobre el dibujo. Cualquier diferencia con la obra se consulta antes de hormigonar.'],
       profesionales: ['PROYECTO: ingeniero civil del proyecto', 'CALCULO: revisión con modelo propio', 'REVISO: pendiente (visar esta lámina)', 'APROBO:', 'DIBUJO: modelo 3D del sitio' + (ver ? ' (' + ver + ')' : '')] };
     return l.fn(cont, D, E, info);
