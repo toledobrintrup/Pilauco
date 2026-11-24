@@ -129,7 +129,7 @@
     T(g, 689.4, 554.2, 'dibujado desde el modelo del sitio', 1.9, { a: 'm' });
     T(g, 689.4, 558.6, '(revisado con cálculo propio)', 1.9, { a: 'm' });
     R(g, 664.5, 563.2, 49.8, 11.4, 'lm-m');
-    T(g, 689.4, 568.0, 'SIN FIRMA', 2.6, { a: 'm', sw: 0.3 }); T(g, 689.4, 572.3, 'para visar por el ingeniero', 1.7, { a: 'm' });
+    T(g, 689.4, 568.0, 'SIN FIRMA', 2.6, { a: 'm', sw: 0.3 }); T(g, 689.4, 572.3, info.pie || 'para visar por el ingeniero', 1.7, { a: 'm' });
     // bloque derecho
     T(g, 727.4, 521.6, 'MANDANTE:', 1.9, { obl: true }); TA(g, 752.3, 522.4, info.mandante, 4.5);
     T(g, 727.4, 532.6, 'PROYECTO:', 1.9, { obl: true }); TA(g, 751.5, 533.4, info.proyecto, 4.5);
@@ -221,7 +221,7 @@
   const d3 = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2]);
   const espDe = f => { if (f.paso && f.n > 1) { const p = Math.hypot(f.paso[0], f.paso[1], f.paso[2]); if (p > 0.1) return Math.round(p); } const m = /ø[\d\/"]+@(\d+)/.exec(f.d || ''); return m ? +m[1] : null; };
   // círculo con la marca de la planilla de doblado
-  function marca(g, x, y, n, r) { r = r || 2.3; C(g, x, y, r, 'lm-f'); T(g, x, y + r * 0.42, String(n), r * 0.86, { a: 'm' }); }
+  function marca(g, x, y, n, r) { r = r || 2.3; const h = r * (String(n).length > 2 ? 0.64 : 0.86); C(g, x, y, r, 'lm-f'); T(g, x, y + h * 0.49, String(n), h, { a: 'm' }); }   // tres cifras (desde la marca 100): letra más chica, para que quepa en el mismo círculo
   // Barra en planta, como en la «Planta losa» del proyecto: una barra de la familia dibujada entera, con su rótulo (marca, ø, separación y largo)
   // a lo largo, y la línea de reparto con flechas hasta la primera y la última barra. o: { en: coordenada (cm locales) de la barra elegida,
   // rep: coordenada de la línea de reparto, t: posición del rótulo (0–1), texto: sufijo («inf.», «sup.»), lado: 1 | −1 }
@@ -417,7 +417,9 @@
     T(g, V.XL(400), V.YL(1672), 'SOBRECIMIENTO 30x50 · CIMIENTO CORRIDO 80x25 (corte b-b)', h2, { a: 'm' });
     T(g, V.XL(ex['4']) - 4.2, V.YL(850), 'CF 30/50 (corte c-c)', h2, { a: 'm', rot: -90 }); T(g, V.XL(ex['4']) - 4.2, V.YL(1245), 'CF 30/50', h2, { a: 'm', rot: -90 }); T(g, V.XL(985), V.YL(ey.C) - 4.4, 'CF 30/50', h2, { a: 'm' }); T(g, V.XL(985), V.YL(ey.C2) - 4.4, 'CF 30/50', h2, { a: 'm' });
     llamada(g, V.XL(ex['4'] - 62), V.YL(ey.C2 - 50), V.XL(ex['4'] - 95), V.YL(ey.C2 - 96), ['DADO 140x140x120', '(corte d-d)'], { lado: 'i', h: h2, punta: true });
-    llamada(g, V.XL(ex['1'] + 2), V.YL(ey.B + 21), V.XL(150), V.YL(ey.B + 122), ['JUNTA DE 2 cm ENTRE EL BUNKER', 'Y LAS FUNDACIONES DEL ESTUDIO'], { h: 1.9 });
+    // unión del búnker con las fundaciones del estudio: sin junta, con las esperas que entran 60 al búnker (el ingeniero, 24-11-2026), tal como están en el modelo
+    D.fierros.filter(f => /^UB-/.test(f.id)).forEach(f => f.polilineas.forEach(pl => P(g, pl.map(q => [V.XL(q[0] - V.ox), V.YL(q[1] - V.oy)]), 'lm-b').setAttribute('stroke-width', '0.3')));
+    llamada(g, V.XL(ex['1'] + 9), V.YL(ey.B + 48), V.XL(150), V.YL(ey.B + 122), ['SIN JUNTA: ESPERAS QUE ENTRAN', '60 AL BUNKER (NOTA 8 Y DETALLE)'], { h: 1.9 });
     TA(g, V.XL(400), V.YL(1120), 'RADIER e=10', 3.4, { a: 'm' }); T(g, V.XL(400), V.YL(1120) + 3.6, 'malla C139 · poliestireno 10 · relleno granular 15', 1.9, { a: 'm' });
     // ---- cotas del búnker y de las fundaciones ----
     const e = H.muros.espesor, m = H.losa_fundacion.margen, bx0 = V.ext[0] - V.ox, bx1 = V.ext[2] - V.ox, by0 = V.ext[1] - V.oy, by1 = V.ext[3] - V.oy;
@@ -510,22 +512,22 @@
         R(g2, x0d + 0.9, y0d + hb + 0.6, 7, 1.3, 'lm-n');                                                 // cabeza
         if (fl) { T(g2, x0d - 1.3, y0d + hb / 2, cmt(fl.ext[0]), 2.1, { a: 'm', rot: -90 }); T(g2, x0d + 4.8, y0d + hb - 1.3, cmt(fl.ext[1]), 2.1, { a: 'm' }); marca(g2, x0d + 5.2, y0d + 9.4, fl.marca); }
         T(g2, x0d + 8.6, y0d + 10.2, `${nomD(fA.diam)} lisa A36, L=${coma(Math.round(fl ? fl.L : 0))}`, 2.1); T(g2, x0d + 3.2, y0d + 14.4, 'soldada bajo la placa', 1.9);
-        T(g2, x0d + 3.2, y0d + hb + 6.4, `cabeza ${coma(cab[0] * 10)}x${coma(cab[1] * 10)}x12 soldada`, 1.9); T(g2, x0d + 3.2, y0d + hb + 9.8, 'bajo el gancho (por visar)', 1.9); }
+        T(g2, x0d + 3.2, y0d + hb + 6.4, `cabeza ${coma(cab[0] * 10)}x${coma(cab[1] * 10)}x12 soldada`, 1.9); T(g2, x0d + 3.2, y0d + hb + 9.8, 'bajo el gancho', 1.9); }
       titulo(sv, 664, 186, 'Corte b-b', 20); T(sv, 707, 186, 'EJE 1 POR EL PILAR D (EJES 5 Y E IGUALES)', 2.1);
     }
     // ================= Corte c-c: cadena de fundación CF 30/50 (1:20) =================
     {
       const yC = ey.C2, zse = N.sello_cf, G5 = H.cf.emplantillado, RE = H.cf.relleno, zg5 = N.cf_inf - G5.espesor;   // bajo la cadena: 20 de G5 sobre 30 de estabilizado compactado, sello −100 (el ingeniero, 22 y 23-11-2026)
       const Cc = corte(sv, D, PL, { eje: 'x', c: AX(880), u0: AY(yC) - 45, u1: AY(yC) + 45, zmin: zse - 6, zmax: 12 }, 704, 222, 20), U = y => y - (yC - 45), g2 = Cc.g, a2 = H.cf.ancho / 2;
-      Cc.rotulos([['CF-C2-sup', null, null, null], ['CF-C2-est', 'E ' + nomD(F('CF-C2-est').diam) + '@' + espDe(F('CF-C2-est')), -18, null], ['CF-C2-med', null, null, null], ['CF-C2-inf', null, null, null]], Cc.X(Cc.W) + 6, { gap: 6.4 });
-      llamada(g2, Cc.X(U(yC + 8)), Cc.Y((N.cf_inf + zg5) / 2), Cc.X(Cc.W) + 6, Cc.Y(-59), [`Hormigón G5 ${cmt(G5.ancho)}x${cmt(G5.espesor)}`], { h: 2.3 });
-      llamada(g2, Cc.X(U(yC + 5)), Cc.Y((zg5 + zse) / 2), Cc.X(Cc.W) + 6, Cc.Y(-78), [`Estabilizado compactado ${cmt(RE.ancho)}x${cmt(RE.espesor)}`, '2 capas de 15, Tmáx 2"'], { h: 2.3 });
+      Cc.rotulos([['CF-C2-sup', null, null, null], ['CF-C2-est', 'E ' + nomD(F('CF-C2-est').diam) + '@' + espDe(F('CF-C2-est')), -14, null], ['CF-C2-traba', 'Traba ' + nomD(F('CF-C2-traba').diam) + '@' + espDe(F('CF-C2-traba')) + ', en toda la cadena', null, null], ['CF-C2-med', null, null, null], ['CF-C2-inf', null, null, null]], Cc.X(Cc.W) + 6, { gap: 6.4 });
+      llamada(g2, Cc.X(U(yC + 8)), Cc.Y((N.cf_inf + zg5) / 2), Cc.X(Cc.W) + 6, Cc.Y(-72), [`Hormigón G5 ${cmt(G5.ancho)}x${cmt(G5.espesor)}`], { h: 2.3 });
+      llamada(g2, Cc.X(U(yC + 5)), Cc.Y((zg5 + zse) / 2), Cc.X(Cc.W) + 6, Cc.Y(-82.6), [`Estabilizado compactado ${cmt(RE.ancho)}x${cmt(RE.espesor)}`, '2 capas de 15, Tmáx 2"'], { h: 2.3 });
       llamada(g2, Cc.X(U(yC + 18)), Cc.Y(zse), Cc.X(Cc.W) + 6, Cc.Y(zse) - 1, [`Sello ${cmt(zse).replace('-', '−')}, compactado`], { h: 2.3 });
       llamada(g2, Cc.X(U(yC + 32)), Cc.Y(-5), Cc.X(Cc.W) + 6, Cc.Y(13), ['Radier e=10 y capas: ver corte b-b'], { h: 2.3 });
       Cc.nivel(U(yC - 30), 0, 'NPOG 0,00', { alto: 6.5, lado: 'i' });
       const dxc = -(45 - a2) * Cc.k - 4; Cc.cotaV(U(yC - a2), N.cf_inf, 0, cmt(-N.cf_inf), dxc); Cc.cotaV(U(yC - a2), zg5, N.cf_inf, cmt(N.cf_inf - zg5), dxc); Cc.cotaV(U(yC - a2), zse, zg5, cmt(zg5 - zse), dxc);
       Cc.cotaH(U(yC - G5.ancho / 2), U(yC + G5.ancho / 2), zse, cmt(G5.ancho), 5);
-      Cc.despiece('CF-C2-est', { dx: -62, dy: 22 });
+      Cc.despiece('CF-C2-est', { dx: -62, dy: 22 }); Cc.despiece('CF-C2-traba', { dx: -62, dy: 50 });
       titulo(sv, 664, 310, 'Corte c-c', 20); T(sv, 707, 310, `CADENA DE FUNDACION CF ${cmt(H.cf.ancho)}/${cmt(H.cf.alto)} (EJES 4, C Y C2)`, 2.1);
     }
     // ================= Corte d-d: dado bajo los pilares 4C y 4C2, con el CF-4 encima (1:20) =================
@@ -551,6 +553,35 @@
         T(g2, xq - 0.2, yq + lq + 5.0, `E ${nomD(fE.diam)}@20, L=${coma(Math.round(fl ? fl.L : 0))}`, 2.3); T(g2, xq - 5.8, yq + lq + 8.6, 'canastillo, en planta', 1.9); }
       titulo(sv, 374, 492, 'Corte d-d', 20); T(sv, 417, 492, 'DADO 140x140 BAJO LOS PILARES 4C Y 4C2 (SIN ESTRIBOS PERIMETRALES; CANASTILLO BAJO EL INSERTO)', 2.1);
     }
+    // ================= Detalle de la unión búnker – fundaciones del estudio (sin escala): esperas que entran 60 al búnker (el ingeniero, 24-11-2026) =================
+    {
+      const UN = H.union_bunker, UBs = D.fierros.filter(f => /^UB-/.test(f.id));
+      if (UN && UBs.length) {
+        const g2 = el('g', { class: 'lm-union' }, sv), k = 0.36, xu = 373, y0 = 27, PX = c => xu + c * k, PY = z => y0 - z * k, pen = UN.penetra;
+        const filas = []; UBs.forEach(f => f.polilineas.forEach(pl => { const fl = PL.filaDe(f, pl); if (fl) filas.push({ f, pl, fl }); }));
+        const conPata = filas.find(q => q.pl.length === 3), pata = conPata ? conPata.fl.ext[0] : 0, dIn = pen - pata, zA = -6, zB = -37, lap = 72;
+        const porD = {}; filas.forEach(q => { (porD[q.f.diam] = porD[q.f.diam] || new Set()).add(Math.round(q.fl.L)); });
+        const porL = {}; Object.keys(porD).map(Number).sort((a, b) => a - b).forEach(d => [...porD[d]].forEach(l => (porL[l] = porL[l] || []).push(nomD(d))));
+        const largos = Object.keys(porL).map(Number).sort((a, b) => a - b).map(l => `${porL[l].join(' y ')}, ${coma(l)}`);
+        // hormigón: losa y muro del búnker a la izquierda de la línea de unión; sobrecimiento o cadena a la derecha
+        P(g2, [[PX(-78), PY(0)], [PX(0), PY(0)]], 'lm-g'); P(g2, [[PX(-78), PY(-25)], [PX(-30), PY(-25)], [PX(-30), PY(-86)]], 'lm-g'); P(g2, [[PX(0), PY(-50)], [PX(0), PY(-86)]], 'lm-g');
+        P(g2, [[PX(0), PY(0)], [PX(88), PY(0)]], 'lm-g'); P(g2, [[PX(0), PY(-50)], [PX(88), PY(-50)]], 'lm-g'); L(g2, PX(0), PY(0), PX(0), PY(-50), 'lm-o');
+        quiebre(g2, PX(-78), PY(0), PX(-78), PY(-25)); quiebre(g2, PX(-30), PY(-86), PX(0), PY(-86)); quiebre(g2, PX(88), PY(0), PX(88), PY(-50));
+        // las barras del estudio (finas) y sus esperas (gruesas): recta arriba, con pata abajo
+        [zA - 2.6, zB - 2.6].forEach(z => P(g2, [[PX(4), PY(z)], [PX(88), PY(z)]], 'lm-b').setAttribute('stroke-width', '0.3'));
+        P(g2, [[PX(-pen), PY(zA)], [PX(lap), PY(zA)]], 'lm-b').setAttribute('stroke-width', '0.7');
+        P(g2, [[PX(-dIn), PY(zB - pata)], [PX(-dIn), PY(zB)], [PX(lap), PY(zB)]], 'lm-b').setAttribute('stroke-width', '0.7');
+        cotaH(g2, PX(-pen), PX(0), PY(0) - 3.2, cmt(pen), { h: 2.1 }); cotaH(g2, PX(0), PX(lap), PY(0) - 3.2, 'traslapo', { h: 1.9 });
+        cotaH(g2, PX(-dIn), PX(0), PY(zB) + 3.6, cmt(dIn), { h: 2.1, dentro: true }); cotaV(g2, PX(-dIn) - 3.4, PY(zB), PY(zB - pata), cmt(pata), { h: 2.1 });
+        T(g2, PX(-64), PY(-18), 'LOSA', 1.7); T(g2, PX(-24), PY(-83), 'MURO', 1.7); T(g2, PX(22), PY(-24), 'SOBRECIMIENTO', 1.7); T(g2, PX(22), PY(-24) + 3.0, 'O CADENA', 1.7);
+        llamada(g2, PX(0), PY(-46), PX(14), PY(-62), ['línea de unión', '(sin junta)'], { h: 1.7 });
+        T(g2, PX(-78), y0 - 9.6, 'DETALLE UNION BUNKER - FUNDACIONES DEL ESTUDIO (SIN ESCALA)', 2.1);
+        const tx = PX(88) + 7, n = UN.esperas || {};
+        ['Una espera por cada barra horizontal,', 'del mismo diámetro que su barra:', `${cmt(pen)} dentro del búnker y, hacia afuera,`, `el traslapo (${UN.traslapo.replace('60 diámetros', '60ø').replace(', 60 como mínimo', ', mín. 60')}).`,
+          'L: ' + largos.join(' · '), 'Recta donde tiene losa por delante;', 'si no, entra al muro y dobla en pata,', `a lo largo de él o hacia abajo (${cmt(dIn)} + ${cmt(pata)}).`,
+          'Se dejan puestas antes de hormigonar.', 'Ejes ' + Object.keys(n).map(e => `${e}: ${n[e]}`).join(' · ') + ' (planilla).'].forEach((t, i) => T(g2, tx, y0 - 3.6 + 3.3 * i, t, 1.9));
+      }
+    }
     // ================= Notas =================
     {
       const ES = H.especificaciones, rc = ES.recubrimientos, x = 618, tr = [8, 10, 12, 16].map(d => `ø${d}: ${coma(60 * d / 10)}`).join(' · ');
@@ -560,10 +591,13 @@
         '2. ACERO DE REFUERZO: ' + ES.acero.replace('Acero ', '') + '. Barras de los insertos: lisas A36 soldables, con gancho de 10 y cabeza soldada.',
         `3. RECUBRIMIENTOS (cm): fundaciones ${rc.fundaciones} · muros del búnker, cara exterior ${rc['muros del búnker, cara exterior']} ·`, `   elementos de hormigón armado ${rc['elementos de hormigón armado']} · losa ${rc.losa}.`, '   Estribos de las cadenas CF y del sobrecimiento: 3 (abajo, dentro del cimiento, 5).',
         `4. TRASLAPOS: ${ES.traslapo} (${tr} cm), alternados.`,
-        '5. Estribos cerrados con ganchos de 135°. En las esquinas, las barras longitudinales llevan pata de 60 diámetros.',
+        '5. Estribos cerrados con ganchos de 135°. En las esquinas, las barras longitudinales llevan pata de 60 diámetros.', '   Cadenas CF: traba ø10 L=34 para las barras del medio en toda la cadena, una junto a cada estribo.',
         `6. NIVELES en cm desde el NPOG 0,00 (cara superior de la losa del búnker y del radier). Terreno natural: N.T.N ${N.ntn}.`.replace('-', '−'),
         `7. SELLO DE FUNDACION: búnker ${cmt(N.emplantillado_inf)}, 20 cm dentro del estrato indicado en la memoria de cálculo;`.replace('-', '−'), `   fachadas y dados ${cmt(N.sello_fachadas)} (0,90 m bajo el terreno natural), con hormigón pobre G5 hasta el sello;`.replace('-', '−'), `   cadenas CF ${cmt(N.sello_cf)}: bajo ellas, ${cmt(H.cf.emplantillado.espesor)} de G5 sobre ${cmt(H.cf.relleno.espesor)} de estabilizado compactado en 2 capas de 15, de ${cmt(H.cf.relleno.ancho)} de ancho.`.replace('-', '−'),
-        '8. Junta de 2 cm entre el búnker y las fundaciones del estudio, sin barras pasantes.',
+        '   Zanjas de las cadenas excavadas más abajo: se rellenan con el mismo estabilizado, compactado en capas de 15.',
+        '8. Búnker y fundaciones del estudio van unidos, sin junta de dilatación: las armaduras horizontales de uno y otro',
+        '   penetran 60 cm en el elemento contrario desde la línea de unión. Cada barra horizontal que llega al muro del',
+        '   eje B lleva una espera de su mismo diámetro: 60 dentro del búnker y traslapo con su barra (ver detalle).',
         '9. Los números en círculo son las marcas de la planilla de doblado (pestaña Fundaciones del sitio).', '   Las barras se miden por fuera, de fuera a fuera de sus dobleces; L es la suma de los tramos.', '   Medidas en cm, salvo las placas (mm).',
         '10. Insertos PLc y PLb: placas embebidas a ras, con sus barras soldadas; se colocan antes de hormigonar.', '   Detalle y cuadro: pestaña Fundaciones del sitio.',
         '11. Impermeabilización del búnker (membranas, water-stop, cristalizante): pestaña Revisión del sitio.',
@@ -578,15 +612,17 @@
   const LISTA = [{ n: '01', id: 'fundaciones', titulo: 'Planta de fundaciones y cortes', plano: 'E-01', contenido: ['PLANTA FUNDACIONES', 'CORTES Y NOTAS'], fn: lamina01 }];
   function dibujar(cont, n, D, E, ver) {
     const l = LISTA.find(x => x.n === n) || LISTA[0];
-    const info = { n: l.n, plano: l.plano, contenido: l.contenido, rev: 'B', fecha: '23-11-2026', mandante: 'Gabriel Toledo Brintrup', proyecto: 'Casa Toledo , Sector estudio',
+    const info = { n: l.n, plano: l.plano, contenido: l.contenido, rev: 'C', fecha: '24-11-2026', mandante: 'Gabriel Toledo Brintrup', proyecto: 'Casa Toledo , Sector estudio', pie: 'rev. B visada el 24-11-2026',
       identificacion: [['1', 'Láminas 01 rev 1 y 02 a 05 del proyecto del estudio (ingeniero)', '04-2026'], ['2', 'Revisión estructural con cálculo propio (modelo 3D)', '23-10-2026'],
         ['3', 'Respuestas del ingeniero: solución mixta, insertos, VBL', '28-10-2026'], ['4', 'Informe V134 revisado por el ingeniero: aceptado', '10-11-2026'],
-        ['5', 'Observaciones del ingeniero a la rev. A y sus respuestas', '23-11-2026']],
-      revisiones: [['A', 'EMITIDO PARA VISAR POR EL INGENIERO (17-11-2026)'], ['B', 'CON LAS OBSERVACIONES DEL INGENIERO (22 Y 23-11-2026)' + (ver ? ' (modelo ' + ver + ')' : '')]],
+        ['5', 'Observaciones del ingeniero a la rev. A y sus respuestas', '23-11-2026'], ['6', 'Respuestas finales del ingeniero y su visto bueno a la rev. B', '24-11-2026']],
+      revisiones: [['A', 'EMITIDO PARA VISAR POR EL INGENIERO (17-11-2026)'], ['B', 'CON LAS OBSERVACIONES DEL INGENIERO (22 Y 23-11-2026)'], ['C', 'REV. B VISADA (24-11-2026), MAS SUS DOS CAMBIOS' + (ver ? ' (modelo ' + ver + ')' : '')]],
       nota: ['Plano de trabajo dibujado desde el modelo 3D del estudio, con el formato de las láminas del proyecto.',
         'Geometría, armaduras y niveles: los del modelo revisado con cálculo propio (23-10-2026) y aceptado por el', 'ingeniero del proyecto (28-10 y 10-11-2026), con sus observaciones a la rev. A (22 y 23-11-2026) ya aplicadas.',
-        'NO LLEVA FIRMA: antes de cortar y doblar fierro, debe visarlo el ingeniero civil del proyecto.', 'Las medidas mandan sobre el dibujo. Cualquier diferencia con la obra se consulta antes de hormigonar.'],
-      profesionales: ['PROYECTO: ingeniero civil del proyecto', 'CALCULO: revisión con modelo propio', 'REVISO: pendiente (visar esta lámina)', 'APROBO:', 'DIBUJO: modelo 3D del sitio' + (ver ? ' (' + ver + ')' : '')] };
+        'El ingeniero visó la rev. B para cortar y doblar fierro (24-11-2026) con dos cambios, que esta rev. C incorpora:',
+        'traba en toda la cadena y unión con el búnker sin junta (el detalle de esa unión es dibujo nuestro de su regla).',
+        'No lleva firma ni timbre. Las medidas mandan sobre el dibujo; cualquier diferencia con la obra se consulta.'],
+      profesionales: ['PROYECTO: ingeniero civil del proyecto', 'CALCULO: revisión con modelo propio', 'REVISO: ingeniero, rev. B, 24-11-2026', 'APROBO:', 'DIBUJO: modelo 3D del sitio' + (ver ? ' (' + ver + ')' : '')] };
     return l.fn(cont, D, E, info);
   }
   window.LaminasEstudio = { lista: LISTA.map(l => ({ n: l.n, id: l.id, titulo: l.titulo, plano: l.plano })), dibujar };

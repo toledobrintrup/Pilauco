@@ -135,7 +135,19 @@ proyecto, la letra de trazo único de los planos CAD, plantas a 1:50 y cortes a 
     (L=200); barras de los insertos con gancho de 10 además de la cabeza soldada (`_ganchos_insertos` elige hacia dónde dobla cada uno
     para que no salga del hormigón ni tope con otra barra); bajo las cadenas, 20 de G5 sobre 30 de estabilizado compactado, con el sello
     en −100 (el cimiento corrido y los dados siguen con hormigón pobre hasta −140).
-  - **Lectura nuestra, por confirmar cuando la vise:** el gancho del inserto tendido sobre su cabeza; la traba ø10 solo sobre los dados
-    (ahí la dibujó); las trabas de los muros cada 3 nudos; el coronamiento dentro de los dobleces. **Sin decidir:** si las fundaciones del
-    estudio se conectan al búnker (dice que se puede; siguen con junta de 2 cm).
+  - **Lectura nuestra en la revisión B** (resuelta el 24-11, ver la revisión C): el gancho del inserto tendido sobre su cabeza; la traba
+    ø10 solo sobre los dados; las trabas de los muros cada 3 nudos; el coronamiento dentro de los dobleces; la junta de 2 cm con el búnker.
   - En la planta, las cuatro barras de la losa de fundación van con su «destacado» (dobleces abatidos y medidas); sin flecha del norte.
+- **Revisión C de la lámina 01 (24-11-2026):** el ingeniero contestó las últimas preguntas y visó la revisión B para cortar y doblar fierro.
+  Confirmó el gancho del inserto sobre su cabeza, las trabas de los muros cada 3 nudos y el coronamiento dentro de los dobleces. Dos cambios:
+  - **Traba ø10 en toda la cadena** (`CF-*-traba`, una junto a cada estribo). Escribió «irán cada 20, es decir cada 2 estribos»; como los
+    estribos van cada 20, quedó una por estribo (cubre las dos lecturas). Las trabas se corren con los estribos en `_resolver_estribos`.
+  - **Unión búnker–fundaciones sin junta** (`JUNTA = 0`, `PENETRA = 60`): «las armaduras horizontales del estudio y del búnker penetran en
+    el elemento contrario 60 cm desde la línea de unión». Se materializa con esperas (`UB-eje-ø`, `_esperas_union`): una por cada barra
+    horizontal de los sobrecimientos y cimientos de los ejes 1 y 5 y del CF-4 que tiene búnker por delante, de su mismo diámetro, 60 dentro
+    del búnker (recta si tiene losa por delante; con pata si solo tiene el muro) y traslapo de 60ø hacia afuera. Cada espera se pone en el
+    lugar libre más cercano a su barra, sin mover nada del búnker. Las esperas son lectura nuestra de la regla (el búnker se hormigona antes).
+  - Zanjas de las cadenas excavadas bajo −100: se rellenan con el mismo estabilizado, en capas de 15 (nota 7 de la lámina).
+  - De paso: `_dseg` y `calculo/choques_fierro.py` usaban un umbral absoluto para decidir si dos segmentos eran paralelos; con barras de
+    metros el residuo de redondeo los hacía pasar por «no paralelos» y dos barras colineales podían no verse como choque. Ahora el umbral
+    es relativo. El modelo de la V154, revisado de nuevo con el umbral corregido, sigue en 0 choques.

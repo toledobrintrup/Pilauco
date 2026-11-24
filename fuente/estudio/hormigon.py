@@ -71,7 +71,8 @@ EST_CF = 20.0               # estribos ø10 de los CF: @20 como pide el ingenier
 SELLO_EXT = -140.0          # sello del cimiento corrido y de los dados: 0,90 bajo el NTN (−50), como pide el informe de suelos; hasta ahí hormigón pobre G5
 CF_G5, CF_RELLENO, CF_ZANJA = 20.0, 30.0, 50.0   # bajo los CF (el ingeniero, 22 y 23-11-2026): 20 de G5 sobre 30 de estabilizado compactado en 2 capas de 15, de 50 de ancho
 SELLO_CF = -50.0 - CF_G5 - CF_RELLENO            # −100: sello de las zanjas de los CF
-JUNTA = 2.0                 # junta de 2 cm entre el búnker y los sobrecimientos / CF que nacen en su muro sur (sin barras ancladas al muro)
+JUNTA = 0.0                 # sin junta entre el búnker y los sobrecimientos / CF que nacen en su muro del eje B (el ingeniero, 24-11-2026: «no hay junta de dilatación»; del 23-10 a la V154, junta de 2 cm sin barras)
+PENETRA = 60.0              # el ingeniero (24-11-2026): «dejar que las armaduras horizontales del estudio y del búnker penetren en el elemento contrario en 60 cm desde la línea de unión»
 GAP = 0.5                   # separación entre piezas apiladas, para que las caras no parpadeen en el 3D
 
 ESPECIFICACIONES = dict(
@@ -169,9 +170,9 @@ def armar(c):
     z_sc_inf = -SOBRECIM[1]; z_ci_inf = z_sc_inf - CIMIENTO[1]; z_cemp_inf = z_ci_inf - EMPLANTILLADO   # −75, −100, −110
     hs, hc = SOBRECIM[0] / 2, CIMIENTO[0] / 2
     NSC, NCF = f'Sobrecimiento {SOBRECIM[0]:.0f} × {SOBRECIM[1]:.0f}', f'CF {CF[0]:.0f}/{CF[1]:.0f}'
-    yJ = by1 + JUNTA   # los sobrecimientos y CF que nacen en el muro sur del búnker parten tras una junta de 2 (revisión 23-10-2026)
-    tramos_sc = [('1', xA[0], yJ, xA[0], yA[6] - hs, 'bajo la fachada del eje 1, del búnker (junta de 2) a la fachada del eje E'),
-                 ('5', xA[4], yJ, xA[4], yA[6] - hs, 'bajo la fachada del eje 5, del búnker (junta de 2) a la fachada del eje E'),
+    yJ = by1 + JUNTA   # línea de unión: los sobrecimientos y el CF-4 nacen en la cara del muro del eje B, sin junta (el ingeniero, 24-11-2026)
+    tramos_sc = [('1', xA[0], yJ, xA[0], yA[6] - hs, 'bajo la fachada del eje 1, del búnker (unido a él, sin junta) a la fachada del eje E'),
+                 ('5', xA[4], yJ, xA[4], yA[6] - hs, 'bajo la fachada del eje 5, del búnker (unido a él, sin junta) a la fachada del eje E'),
                  ('E', xA[0] - hs, yA[6], xA[4] + hs, yA[6], 'bajo la fachada del eje E')]
     sc_piezas, ci_piezas, cemp_piezas = [], [], []
     for n, x0, y0, x1, y1, d in tramos_sc:
@@ -186,21 +187,21 @@ def armar(c):
     # hormigón pobre G5 del emplantillado al sello de −140 (0,90 bajo el NTN, como pide el informe de suelos; revisión 23-10-2026)
     hp_piezas = [dict(id=p['id'].replace('CC', 'HP'), pts=p['pts'], z_inf=Z(SELLO_EXT), z_sup=Z(z_cemp_inf - GAP), nombre='Hormigón pobre G5 bajo el cimiento corrido') for p in ci_piezas]
     cimiento = dict(sobrecimiento=dict(ancho=SOBRECIM[0], alto=SOBRECIM[1], z_sup=Z(0), z_inf=Z(z_sc_inf), piezas=sc_piezas,
-                                       armadura='2ø16 arriba, estribos ø10@20 (cerrados arriba, ramas hasta el cimiento y patas hacia afuera con recubrimiento 5; la lámina 01 los da de L=211 para el sobrecimiento de 25), ø8@20 horizontales; recubrimiento 3; junta de 2 con el muro del búnker, sin barras ancladas a él'),
+                                       armadura='2ø16 arriba, estribos ø10@20 (cerrados arriba, ramas hasta el cimiento y patas hacia afuera con recubrimiento 5; la lámina 01 los da de L=211 para el sobrecimiento de 25), ø8@20 horizontales; recubrimiento 3; unido al muro del búnker sin junta, con esperas que entran 60 en él (el ingeniero, 24-11-2026)'),
                     zapata=dict(ancho=CIMIENTO[0], espesor=CIMIENTO[1], z_sup=Z(z_sc_inf - GAP), z_inf=Z(z_ci_inf), piezas=ci_piezas,
                                 armadura='U ø12@20 + 4ø12 longitudinales (revisión 23-10-2026: antes 4ø10; el sismo en A–E le pide 86 kN·m y con 4ø10 aguanta 80); recubrimiento 5'),
                     emplantillado=dict(espesor=EMPLANTILLADO, z_sup=Z(z_ci_inf - GAP), z_inf=Z(z_cemp_inf), hormigon='G5', piezas=cemp_piezas),
                     hormigon_pobre=dict(z_sup=Z(z_cemp_inf - GAP), z_inf=Z(SELLO_EXT), hormigon='G5', piezas=hp_piezas, nota=f'del emplantillado al sello de −{-SELLO_EXT:.0f} (0,90 bajo el NTN, como el informe de suelos)'),
-                    fuente='lámina 01 rev 1, corte b-b (cadena 50 | 25 | var. mín. 10: sobrecimiento 25 x 50 hasta el NTN −50, zapata 27,5 + 25 + 27,5 = 80 x 25 de −50 a −75, emplantillado); sello a −140 con hormigón pobre, 2ø16 arriba y junta con el búnker: revisión 23-10-2026',
+                    fuente='lámina 01 rev 1, corte b-b (cadena 50 | 25 | var. mín. 10: sobrecimiento 25 x 50 hasta el NTN −50, zapata 27,5 + 25 + 27,5 = 80 x 25 de −50 a −75, emplantillado); sello a −140 con hormigón pobre y 2ø16 arriba: revisión 23-10-2026; unión con el búnker sin junta: el ingeniero, 24-11-2026',
                     nota='bajo las fachadas fuera del búnker; el original lo lleva bajo todo su perímetro F1 y sus esquinas, con placas encima de cada pilar')
     hcf = CF[0] / 2; z_cf_sup = CF_TOPE - GAP; z_cf_inf = CF_TOPE - CF[1]; z_cfe_inf = z_cf_inf - CF_G5   # −0,5, −50 (= NTN), −70 (20 de G5 bajo los CF; hasta la V153, emplantillado de 10 y hormigón pobre hasta −140)
-    cf_piezas = [pieza('CF-4', xA[3] - hcf, yJ, xA[3] + hcf, yA[6] - hs, z_cf_inf, z_cf_sup, NCF, 'bajo el tabique estudio/baño-bodega (eje 4), del búnker (junta de 2) a la fachada del eje E, hasta la cara del radier'),
+    cf_piezas = [pieza('CF-4', xA[3] - hcf, yJ, xA[3] + hcf, yA[6] - hs, z_cf_inf, z_cf_sup, NCF, 'bajo el tabique estudio/baño-bodega (eje 4), del búnker (unido a él, sin junta) a la fachada del eje E, hasta la cara del radier'),
                  pieza('CF-C', xA[3] + hcf, yC - hcf, xA[4] - hs, yC + hcf, z_cf_inf, z_cf_sup, NCF, 'bajo el tabique baño/cabina (eje C), del eje 4 a la fachada del eje 5, hasta la cara del radier'),
                  pieza('CF-C2', xA[3] + hcf, yC2 - hcf, xA[4] - hs, yC2 + hcf, z_cf_inf, z_cf_sup, NCF, 'bajo el tabique cabina/bodega (eje C2), del eje 4 a la fachada del eje 5, hasta la cara del radier')]
     # solución mixta del ingeniero (28-10-2026): los dados de 4C y 4C2 se quedan, unidos entre sí por el CF-4 y al cimiento del eje 5 por el CF-C y el CF-C2. Los tramos del
     # CF-4 del búnker a 4C y de 4C2 a la fachada del eje E (sus círculos amarillos: «podrían eliminarse») se quedan: sin ellos 4C se levanta (calculo/fundaciones_lineales.py, COMPARAR=1)
     fte_mx = 'el ingeniero 28-10-2026, solución mixta'
-    # emplantillado y hormigón pobre de los CF: 45 de ancho (7,5 por lado) en las zanjas entre el búnker (junta), los dados y los cimientos corridos, sin meterse en ellos
+    # emplantillado y hormigón pobre de los CF: 45 de ancho (7,5 por lado) en las zanjas entre el búnker, los dados y los cimientos corridos, sin meterse en ellos
     # (hasta la V126 cada uno iba de punta a punta del CF, 7,5 más allá: se metía en los dados, en el muro del búnker y en el cimiento corrido)
     hdx, hdy, gz = DADO[0] / 2, DADO[1] / 2, GAP
     # El ingeniero (22-11-2026, sobre el corte c-c): «bastaría con una franja de ancho 50 cm y altura 30 cm (2 capas de 15 cm c/u) de estabilizado o relleno granular
@@ -218,7 +219,7 @@ def armar(c):
                            nota=f'{CF_ZANJA:.0f} de ancho y {CF_RELLENO:.0f} de alto, en 2 capas de 15 compactadas, sobre el sello de −{-SELLO_CF:.0f} compactado antes (el ingeniero, 22 y 23-11-2026); en las mismas zanjas',
                            piezas=[dict(id='REL-' + k, pts=rect(*b)) for k, *b in zanjas],
                            m3=round(sum(abs(b[2] - b[0]) * abs(b[3] - b[1]) for k, *b in zanjas) * CF_RELLENO / 1e6, 2)),
-              armadura=f'3ø12 arriba, 2ø10 al medio, 3ø12 abajo, Est ø10@{EST_CF:.0f} de 24 × 44 (el ingeniero, 28-10 y 22-11-2026), de 24 × 50 con traba ø10 sobre los dados; debajo, {CF_G5:.0f} de G5 y {CF_RELLENO:.0f} de estabilizado compactado, de {CF_ZANJA:.0f} de ancho, con el sello en −{-SELLO_CF:.0f} (el ingeniero, 22 y 23-11-2026); junta de 2 con el muro del búnker',
+              armadura=f'3ø12 arriba, 2ø10 al medio, 3ø12 abajo, Est ø10@{EST_CF:.0f} de 24 × 44 (el ingeniero, 28-10 y 22-11-2026), de 24 × 50 sobre los dados, y traba ø10 L=34 para las barras del medio en toda la cadena (el ingeniero, 24-11-2026); debajo, {CF_G5:.0f} de G5 y {CF_RELLENO:.0f} de estabilizado compactado, de {CF_ZANJA:.0f} de ancho, con el sello en −{-SELLO_CF:.0f} (el ingeniero, 22 y 23-11-2026); el CF-4 va unido al muro del búnker sin junta, con esperas que entran 60 en él (el ingeniero, 24-11-2026)',
               tramos='el CF-4 va completo, del búnker a la fachada del eje E: los tramos del búnker a 4C y de 4C2 a la fachada E, que el ingeniero marcó como prescindibles, se quedan. '
                      'Sin el primero, el sismo levanta el dado de 4C 2,0 mm (4,2 sin los dos; 1,1 a 2,0 con el viento); sin el segundo, 4C empieza a despegar (+0,02 mm con ks 14.000 y +0,10 con 28.000). '
                      'Con los dos, 4C sigue apretando el suelo (−0,09 mm con el sismo, −0,13 con el viento) y 4C2 también (−0,63 y −0,46). Además hacen de borde de los paños del radier',
@@ -684,13 +685,14 @@ def armar(c):
         # equivalente del otro tramo (exterior con exterior, interior con interior), traslapada 60ø por contacto. Revisión de choques
         # del 23-10-2026: hasta entonces todas doblaban en el recubrimiento lejano, sobre las ramas de los estribos y unas encima de otras
         Lp = L60(diam)
-        if n == '1': return (None, (yE - k, Lp, 0))       # de norte a sur: parte tras la junta con el búnker y dobla al oriente en la fachada sur
+        if n == '1': return (None, (yE - k, Lp, 0))       # de norte a sur: parte en la unión con el búnker y dobla al oriente en la fachada sur
         if n == '5': return (None, (yE + k, -Lp, 0))      # igual, doblando al poniente
         return ((xA[0] - k, 0, -Lp), (xA[4] + k, 0, -Lp))  # tramo E: en las dos esquinas dobla al norte
     sc_info, cf_info = {}, {}
+    pedidos = []   # barras horizontales del estudio que llegan a la línea de unión con el búnker: (familia de la espera, elemento, ø, x, z, lado de la pata, recubrimiento)
     for n, x0, y0, x1, y1, d in tramos_sc:
         dx, dy = x1 - x0, y1 - y0; ln = math.hypot(dx, dy); ux, uy = dx / ln, dy / ln; px, py = -uy, ux
-        ejeB = 'y' if abs(dx) < 1 else 'x'; cB = x0 if ejeB == 'y' else y0; tA, tB = (y0 + 3.8, y1) if ejeB == 'y' else (x0, x1)   # 1 y 5: parten con recubrimiento (3 + radio) tras la junta
+        ejeB = 'y' if abs(dx) < 1 else 'x'; cB = x0 if ejeB == 'y' else y0; tA, tB = (y0 + 3.8, y1) if ejeB == 'y' else (x0, x1)   # 1 y 5: parten a 3,8 de la línea de unión con el búnker (sus esperas UB entran 60 en él)
         # las U arrancan 3,5 antes del inicio del tramo (recubrimiento) y llegan al final de la pieza: en las esquinas quedan U en los dos sentidos
         # tramo E: su pieza va de cara exterior a cara exterior (0..1055): las U de 3,5 a 1051,5. Tramos 1 y 5: siguen hasta la cara exterior del tramo E menos 3,5
         xU, yU = x0 + ux * 3.5, y0 + uy * 3.5
@@ -710,14 +712,19 @@ def armar(c):
             n=int(lnU // 20) + 1, paso=(ux * 20, uy * 20, 0), d=f'estribos ø10@20 L={2 * (zT - zP + 1) + (2 * rs + 1) + 2 * (pP - rs + 0.5):.0f} del sobrecimiento (eje {n}), medidos por fuera: cerrados arriba ({2 * rs + 1:.0f}), ramas de {zT - zP + 1:.0f} hasta 5 del fondo del cimiento y patas de {pP - rs + 0.5:.0f} hacia afuera (el ingeniero, 22-11-2026); en las esquinas solo las del tramo E')
         zs16 = -4.8 if n != 'E' else -6.4   # en las esquinas las del tramo E pasan bajo las de 1 y 5
         fam(f'S16-{n}', 'sobrecimiento', 16, None, polis=[barra_L(ejeB, cB, k, tA, tB, zs16, *extremos(n, 16, k)) for k in (-(rs - 1.3), rs - 1.3)],   # dentro del estribo
-            d=f'2ø16 superiores del sobrecimiento (eje {n}), con patas de {L60(16):.0f} (60ø) en las esquinas; parten tras la junta con el búnker (revisión 23-10-2026: antes 2ø12 anclados al muro)')
+            d=f'2ø16 superiores del sobrecimiento (eje {n}), con patas de {L60(16):.0f} (60ø) en las esquinas; en la unión con el búnker las continúan sus esperas (el ingeniero, 24-11-2026)')
         fam(f'S8-{n}', 'sobrecimiento', 8, None, polis=[barra_L(ejeB, cB, k, tA, tB, zz - (0.8 if n == 'E' else 0.0), *extremos(n, 8, k)) for k in (-(rs - 0.9), rs - 0.9) for zz in (-15, -35)], d=f'ø8@20 horizontales del sobrecimiento (eje {n}), dos caras, con patas de {L60(8):.0f} (60ø) en las esquinas')
-        # cimiento: la pieza E va de 40 antes del eje 1 a 40 después del eje 5: U desde 5,6 de sus caras; las de 1 y 5 parten a 5,6 de la junta y paran antes del cimiento E
+        # cimiento: la pieza E va de 40 antes del eje 1 a 40 después del eje 5: U desde 5,6 de sus caras; las de 1 y 5 parten a 5,6 de la línea de unión con el búnker y paran antes del cimiento E
         xC, yC_ = x0 - ux * (40.0 - hs - 5.6 if n == 'E' else 0.0), y0 + uy * 5.6
         lnC = (ln + 2 * (40.0 - hs - 5.6)) if n == 'E' else (ln + hs - 50.0)
         fam(f'CU-{n}', 'cimiento corrido', 12, [(xC - px * pC, yC_ - py * pC, zCt), (xC - px * pC, yC_ - py * pC, zCb), (xC + px * pC, yC_ + py * pC, zCb), (xC + px * pC, yC_ + py * pC, zCt)],
             n=int(lnC // 20) + 1, paso=(ux * 20, uy * 20, 0), d=f'ø12@20 L={2 * pC + 1.2 + 2 * (zCt - zCb + 0.7):.0f} en U del cimiento corrido (eje {n}), medida por fuera: base de {2 * pC + 1.2:.0f} y ramas de {zCt - zCb + 0.7:.1f} (recubrimiento 5); en las esquinas solo las del tramo E'.replace('.', ','))
-        fam(f'CL-{n}', 'cimiento corrido', 12, None, polis=[barra_L(ejeB, cB, k, tA + (1.8 if ejeB == 'y' else 0.0), tB, zCL + (1.2 if n == 'E' else 0.0), *extremos(n, 12, k)) for k in (-33, -13, 13, 33)], d=f'4ø12 longitudinales del cimiento corrido (eje {n}), sobre la base de las U, con patas de {L60(12):.0f} (60ø) en las esquinas; parten tras la junta con el búnker')
+        if n in ('1', '5'):
+            ld_ = 1 if n == '1' else -1   # las patas, hacia el interior del muro del eje B
+            pedidos += [(f'UB-{n}-16', 'sobrecimiento', 16, cB + k, zs16, ld_, 3.0) for k in (-(rs - 1.3), rs - 1.3)]
+            pedidos += [(f'UB-{n}-8', 'sobrecimiento', 8, cB + k, zz, ld_, 3.0) for k in (-(rs - 0.9), rs - 0.9) for zz in (-15, -35)]
+            pedidos += [(f'UB-{n}-12', 'cimiento corrido', 12, cB + k, zCL, ld_, 5.0) for k in (-33, -13, 13, 33) if bx0 + 4 <= cB + k <= bx1 - 4]   # la que queda fuera del búnker no tiene dónde entrar
+        fam(f'CL-{n}', 'cimiento corrido', 12, None, polis=[barra_L(ejeB, cB, k, tA + (1.8 if ejeB == 'y' else 0.0), tB, zCL + (1.2 if n == 'E' else 0.0), *extremos(n, 12, k)) for k in (-33, -13, 13, 33)], d=f'4ø12 longitudinales del cimiento corrido (eje {n}), sobre la base de las U, con patas de {L60(12):.0f} (60ø) en las esquinas; en la unión con el búnker las continúan sus esperas (el ingeniero, 24-11-2026)')
     # CF 30/50 (de 0 a −50): barras a 5 del borde arriba y abajo, 2ø10 al medio; estribos ø10@20 (el ingeniero, 28-10-2026)
     for cid, x0, y0, x1, y1 in (('CF-4', xA[3], yJ + 5, xA[3], yA[6] - hs - 2.5), ('CF-C', xA[3] + hcf + 2.5, yC, xA[4] - hs - 2.5, yC), ('CF-C2', xA[3] + hcf + 2.5, yC2, xA[4] - hs - 2.5, yC2)):
         dx, dy = x1 - x0, y1 - y0; ln = math.hypot(dx, dy); ux, uy = dx / ln, dy / ln; px, py = -uy, ux
@@ -725,8 +732,8 @@ def armar(c):
         # lejana (por dentro de sus barras), en vez de patas horizontales de 60ø que corrían unas encima de otras y sobre las ramas de los estribos.
         # ldh (ACI 318-14 25.4.3, con el factor 0,7 por recubrimiento) = 17 cm para ø12: caben 24 en el sobrecimiento y 21 en el CF-4.
         # Capas: el CF-4 pasa bajo las 2ø16 del sobrecimiento sur; los CF E-O pasan sobre el CF-4 (arriba) y por encima de sus inferiores (abajo)
-        if cid == 'CF-4':   # N-S: parte tras la junta con el búnker (sin anclarse al muro, revisión 23-10-2026) y entra al sobrecimiento sur
-            ejeB, cB, tI, tF, gI = 'y', xA[3], y0 + 0.6, yE + hs - 5.6, False   # y0 = junta + 5: barras a 5 + radio
+        if cid == 'CF-4':   # N-S: parte en la unión con el búnker (sus esperas UB entran 60 en el muro; el ingeniero, 24-11-2026) y entra al sobrecimiento sur
+            ejeB, cB, tI, tF, gI = 'y', xA[3], y0 + 0.6, yE + hs - 5.6, False   # y0 = línea de unión + 5: barras a 5 + radio
             zS, zM, zI = -8.0, -25.0, -43.4
         else:               # E-O: entra al CF-4 y al sobrecimiento oriente
             ejeB, cB, tI, tF, gI = 'x', y0, xA[3] - hcf + 8.6, xA[4] + hs - 5.6, True   # y0 = yC o yC2: cada CF con su eje
@@ -736,15 +743,20 @@ def armar(c):
             return ([pt(tI, z + g)] if (g and gI) else []) + [pt(tI, z), pt(tF, z)] + ([pt(tF, z + g)] if g else [])
         # recubrimiento 5 (lámina 02, fundaciones): estribo ø10 por fuera de las barras; ramas a ±9,5 con el CF de 30
         rc = hcf - 5.5
-        if cid == 'CF-4': y0 += 0.5   # primer estribo a 5 + radio de la junta
+        if cid == 'CF-4': y0 += 0.5   # primer estribo a 5 + radio de la línea de unión
         cf_info[cid] = dict(o=(x0, y0), u=(ux, uy), p=(px, py), rc=rc, n=int(ln // EST_CF) + 1)
-        anc_ = ' en el sobrecimiento del eje E (parten tras la junta con el búnker)' if cid == 'CF-4' else ' en el CF-4 y en el sobrecimiento del eje 5'
+        anc_ = ' en el sobrecimiento del eje E (en la unión con el búnker los continúan sus esperas)' if cid == 'CF-4' else ' en el CF-4 y en el sobrecimiento del eje 5'
         fam(f'{cid}-sup', NCF, 12, None, polis=[barra_g(k, zS, -15.0) for k in (-(rc - 1.1), 0, rc - 1.1)], d=f'3ø12 superiores del {cid}, con gancho de 90° (12ø){anc_}')
         fam(f'{cid}-med', NCF, 10, None, polis=[barra_g(k, zM, 0.0) for k in (-(rc - 1.0), rc - 1.0)], d=f'2ø10 medios (de piel) del {cid}, rectos hasta 9,4 de la cara lejana del elemento que los recibe')
         fam(f'{cid}-inf', NCF, 12, None, polis=[barra_g(k, zI, 15.0) for k in (-(rc - 1.1), 0, rc - 1.1)], d=f'3ø12 inferiores del {cid}, con gancho de 90° (12ø){anc_}')
+        if cid == 'CF-4':
+            pedidos += [('UB-4-12', NCF, 12, cB + k, z_, (-1 if k < 0 else 1), 5.0) for z_ in (zS, zI) for k in (-(rc - 1.1), 0, rc - 1.1)]
+            pedidos += [('UB-4-10', NCF, 10, cB + k, zM, (-1 if k < 0 else 1), 5.0) for k in (-(rc - 1.0), rc - 1.0)]
         # El ingeniero (22-11-2026): estribo de 24 × 44 medido por fuera (recubrimiento 3 en todo el contorno), L=156 (23-11); sobre el dado, de 24 × 50 (L=168), que entra 3 en
         # el dado, con «3 cm de recubrimiento superior en la cadena» y una traba ø10@20 L=34 (5-24-5) para las barras del medio. Las longitudinales quedan donde estaban
-        # (capas de los cruces): la traba y el estribo de 24 × 50 van solo en los estribos que caen sobre un dado, que es donde los dibujó
+        # (capas de los cruces): el estribo de 24 × 50 va solo en los estribos que caen sobre un dado, que es donde lo dibujó. La traba va en toda la cadena (el ingeniero,
+        # 24-11-2026: «va en toda la cadena, pero haremos una modificación, irán cada 20, es decir cada 2 estribos»). Como los estribos van cada 20, «cada 20» y «cada 2
+        # estribos» no dicen lo mismo: queda una traba por estribo (cada 20), que cubre las dos lecturas; si el ingeniero confirma cada 2 estribos, se saca una por medio
         rE, zEs, zEi, zEd = hcf - 3.5, -3.5, -CF[1] + 3.5, -CF[1] - 3.0 + 0.5
         en_dado = lambda X_, Y_: any(min(q[0] for q in d_['pts']) - c['ox'] < X_ < max(q[0] for q in d_['pts']) - c['ox'] and min(q[1] for q in d_['pts']) - c['oy'] < Y_ < max(q[1] for q in d_['pts']) - c['oy'] for d_ in da_piezas)
         polE, polTr = [], []
@@ -752,11 +764,11 @@ def armar(c):
             X_, Y_ = x0 + ux * EST_CF * i_, y0 + uy * EST_CF * i_; dd = en_dado(X_, Y_); zb_ = zEd if dd else zEi
             za_, zc_ = (zb_, zEs) if cid == 'CF-4' else (zEs, zb_)   # CF-4: los ganchos de 135° van en una esquina de abajo, abrazando su barra (las de arriba pasan más bajas en los cruces y las colas las atravesaban)
             polE.append(estribo([(X_ - px * rE, Y_ - py * rE, za_), (X_ + px * rE, Y_ + py * rE, za_), (X_ + px * rE, Y_ + py * rE, zc_), (X_ - px * rE, Y_ - py * rE, zc_), (X_ - px * rE, Y_ - py * rE, za_)]))
-            if dd:
+            if True:
                 Xt, Yt, zt_ = X_ + ux * 1.1, Y_ + uy * 1.1, zM + 1.0
                 polTr.append([(Xt - px * rE, Yt - py * rE, zt_ - 4.5), (Xt - px * rE, Yt - py * rE, zt_), (Xt + px * rE, Yt + py * rE, zt_), (Xt + px * rE, Yt + py * rE, zt_ - 4.5)])
         fam(f'{cid}-est', NCF, 10, None, polis=polE, d=f'estribos ø10@{EST_CF:.0f} del {cid}, con ganchos de 135°: de 24 × 44 medidos por fuera (L=156; el ingeniero, 28-10 y 22-11-2026) y de 24 × 50 (L=168) en los que caen sobre un dado')
-        if polTr: fam(f'{cid}-traba', NCF, 10, None, polis=polTr, d=f'trabas ø10@{EST_CF:.0f} L=34 (5-24-5) del {cid} para las barras del medio, junto a cada estribo que cae sobre un dado (el ingeniero, 22-11-2026)')
+        if polTr: fam(f'{cid}-traba', NCF, 10, None, polis=polTr, d=f'trabas ø10@{EST_CF:.0f} L=34 (5-24-5) del {cid} para las barras del medio, una junto a cada estribo, en toda la cadena (el ingeniero, 22 y 24-11-2026)')
     # anclajes de las placas embebidas (insertos): barras lisas A36 verticales (ø22 en PLc, ø3/4" en PLb), soldadas bajo la placa, con cabeza soldada abajo
     polisA, polisP, polisU, polisX, polisUE, ganchos = [], [], [], [], [], []
     for pl in placas:
@@ -994,6 +1006,23 @@ def armar(c):
     #            después se vuelven a correr los estribos que hayan quedado sobre un gancho ----------
     _ganchos_insertos(fierros, hormigon, ganchos)
     _resolver_estribos(fierros)
+    # ---------- unión del búnker con las fundaciones del estudio, sin junta (el ingeniero, 24-11-2026: «dejar que las armaduras horizontales del estudio y del búnker
+    #            penetren en el elemento contrario en 60 cm desde la línea de unión. No hay junta de dilatación»). El búnker se hormigona antes que las fundaciones del
+    #            estudio: cada barra horizontal de los sobrecimientos y cimientos de los ejes 1 y 5 y del CF-4 que llega al muro del eje B lleva una espera de su mismo
+    #            diámetro, que se deja puesta antes de hormigonar el búnker: 60 dentro de él (recta donde tiene losa por delante; con pata dentro del muro donde no) y,
+    #            hacia afuera, el traslapo de 60ø con su barra (60 como mínimo). Lectura nuestra de su regla: el resto del fierro no se toca y cada espera va donde cabe ----------
+    n_esp = {}
+    for fid_, pls_ in _esperas_union(fierros, hormigon, ap, pedidos, by1, PENETRA).items():
+        n_esp[fid_.split('-')[1]] = n_esp.get(fid_.split('-')[1], 0) + len(pls_)
+        el_, dm_ = next((q[1], q[2]) for q in pedidos if q[0] == fid_); eje_ = fid_.split('-')[1]; lap_ = max(PENETRA, L60(dm_))
+        fam(fid_, el_, dm_, None, polis=pls_, d=f'esperas ø{dm_} de la unión con el búnker (eje {eje_}), una por cada barra horizontal: {PENETRA:.0f} dentro del búnker y {lap_:.0f} hacia afuera, traslapadas con su barra '
+                                                f'(60ø, {PENETRA:.0f} como mínimo); se dejan puestas antes de hormigonar el muro del eje B y la losa de techo (el ingeniero, 24-11-2026: las armaduras horizontales penetran 60 en el elemento contrario; sin junta)')
+    hormigon['union_bunker'] = dict(penetra=PENETRA, junta=JUNTA, traslapo='60 diámetros, 60 como mínimo', esperas=n_esp,
+        regla='«Dejar que las armaduras horizontales del estudio y del búnker penetren en el elemento contrario en 60 cm desde la línea de unión. No hay junta de dilatación» (el ingeniero, 24-11-2026)',
+        d='los sobrecimientos y cimientos de los ejes 1 y 5 y el CF del eje 4 nacen en la cara del muro del eje B, sin junta; cada una de sus barras horizontales que tiene búnker por delante lleva una espera de su mismo diámetro: 60 dentro del búnker '
+          '(recta donde tiene losa por delante; con pata, a lo largo del muro o hacia abajo, donde solo tiene el muro) y, hacia afuera, el traslapo con su barra (60ø, 60 como mínimo)',
+        lectura='la regla es del ingeniero; materializarla con esperas, su forma y su lugar son lectura nuestra (el búnker se hormigona antes que las fundaciones del estudio). El fierro del búnker ya revisado no se tocó',
+        obra='las esperas se dejan puestas antes de hormigonar el muro del eje B y la losa de techo')
     # ---------- cubicación de hormigón (m³) y de fierro (kg) ----------
     def area(pts):
         return abs(sum(pts[i][0] * pts[(i + 1) % len(pts)][1] - pts[(i + 1) % len(pts)][0] * pts[i][1] for i in range(len(pts)))) / 2
@@ -1028,7 +1057,7 @@ def armar(c):
                       nota='volúmenes del modelo (sin pérdidas ni traslapos); fierro por largo de barras del modelo, medido por fuera como en la planilla de doblado, sin traslapos ni ganchos adicionales')
     return hormigon, fierros, cubicacion
 
-ESTRIBOS = lambda f: f['id'].endswith('-est') or f['id'].split('-')[0] in ('SU', 'CU', 'AX')
+ESTRIBOS = lambda f: f['id'].endswith(('-est', '-traba')) or f['id'].split('-')[0] in ('SU', 'CU', 'AX')
 REPARTIDAS = ('MV-', 'LN', 'LE', 'LT-', 'LR-')   # barras repartidas @: se pueden correr unos cm, como en obra
 
 def _expandir(f):
@@ -1042,8 +1071,9 @@ def _dseg(p, q, r, t):
     dot = lambda u, v: u[0] * v[0] + u[1] * v[1] + u[2] * v[2]
     a, b, c, d, e = dot(d1, d1), dot(d1, d2), dot(d2, d2), dot(d1, w), dot(d2, w)
     den = a * c - b * b
-    sN, sD = (b * e - c * d, den) if den > 1e-9 else (0.0, 1.0)
-    tN, tD = (a * e - b * d, den) if den > 1e-9 else (e, c)
+    par = den <= 1e-9 * a * c   # paralelos: umbral relativo (con largos de metros, a·c − b² deja un residuo de redondeo que antes pasaba por «no paralelos»)
+    sN, sD = (0.0, 1.0) if par else (b * e - c * d, den)
+    tN, tD = (e, c) if par else (a * e - b * d, den)
     if sN < 0: sN, tN, tD = 0.0, e, c
     elif sN > sD: sN, tN, tD = sD, e + b, c
     if tN < 0:
@@ -1106,6 +1136,82 @@ def _resolver_estribos(fierros):
             f.pop('polilinea', None); f.pop('n', None); f.pop('paso', None)
             f['polilineas'] = [[[round(v, 1) for v in q] for q in pl] for pl in nuevas]
             f['largo'] = round(sum(_largo(pl, f['diam']) for pl in nuevas), 1)
+
+def _esperas_union(fierros, H, ap, pedidos, by1, pen):
+    """Esperas de la unión búnker–fundaciones del estudio. Para cada barra horizontal que llega a la línea de unión (y = by1, local) busca dónde cabe su espera sin
+    atravesar ninguna barra y con el recubrimiento de su elemento: lo más cerca posible de su barra (hasta 6 cm; el traslapo sin contacto se admite), recta 60 hacia
+    adentro si tiene losa por delante y, si no, entrando al muro y doblando en una pata (a lo largo del muro, hacia abajo o hacia arriba) hasta completar 60 por fuera.
+    pedidos: (familia, elemento, ø, x, z, lado, recubrimiento), en coordenadas locales. Devuelve {familia: [polilíneas locales]} y avisa si alguna no encuentra lugar."""
+    from collections import defaultdict
+    C = 25.0; yU = ap(0, by1, 0)[1]
+    segs, grid = [], defaultdict(list)
+    def agrega(a, b, r):
+        i = len(segs); segs.append((a, b, r))
+        for ix in range(int(min(a[0], b[0]) // C) - 1, int(max(a[0], b[0]) // C) + 2):
+            for iy in range(int(min(a[1], b[1]) // C) - 1, int(max(a[1], b[1]) // C) + 2): grid[(ix, iy)].append(i)
+    for g in fierros:
+        for pl in _expandir(g):
+            for a, b in zip(pl[:-1], pl[1:]):
+                if max(a[1], b[1]) > yU - 90 and min(a[1], b[1]) < yU + 130: agrega(tuple(a), tuple(b), g['diam'] / 20.0)
+    def choca(pl, r):
+        for a, b in zip(pl[:-1], pl[1:]):
+            cand = set()
+            for ix in range(int(min(a[0], b[0]) // C), int(max(a[0], b[0]) // C) + 1):
+                for iy in range(int(min(a[1], b[1]) // C), int(max(a[1], b[1]) // C) + 1): cand.update(grid.get((ix, iy), ()))
+            for i in cand:
+                p, q, rr = segs[i]
+                if _dseg(a, b, p, q) < r + rr - 0.05: return True
+        return False
+    def caja(pts, z0, z1):
+        xs, ys = [q[0] for q in pts], [q[1] for q in pts]; return (min(xs), max(xs), min(ys), max(ys), min(z0, z1), max(z0, z1))
+    G = 0.5   # el modelo separa 0,5 las piezas apiladas solo para dibujarlas
+    cajas = [caja(m['pts'], H['muros']['z_inf'], H['muros']['z_sup']) for m in H['muros']['piezas']] + [caja(H['losa']['pts'], H['losa']['z_inf'], H['losa']['z_sup'])]
+    cajas += [caja(v['pts'], v['z_inf'], v['z_sup']) for v in H['vigas']] + [caja(q['pts'], q['z_inf'], q['z_sup'] + G) for q in H['cf']['piezas']] + [caja(q['pts'], q['z_inf'], q['z_sup']) for q in H['dados']['piezas']]
+    for k in ('sobrecimiento', 'zapata'): cajas += [caja(q['pts'], q['z_inf'], q['z_sup'] + (G if k == 'zapata' else 0)) for q in H['cimiento'][k]['piezas']]
+    dentro = lambda q: any(c[0] - 1e-6 <= q[0] <= c[1] + 1e-6 and c[2] - 1e-6 <= q[1] <= c[3] + 1e-6 and c[4] - 0.6 <= q[2] <= c[5] + 0.6 for c in cajas)
+    DIRS = ((1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1))
+    def cubierta(pl, rec):
+        for a, b in zip(pl[:-1], pl[1:]):
+            n = max(1, int(math.dist(a, b) // 6))
+            for k in range(n + 1):
+                q = tuple(a[i] + (b[i] - a[i]) * k / n for i in range(3))
+                if not all(dentro((q[0] + d[0] * rec, q[1] + d[1] * rec, q[2] + d[2] * rec)) for d in DIRS): return False
+        return True
+    paso = [v * 0.5 for v in range(-12, 13)]
+    offs = sorted(((dx, dz) for dx in paso for dz in paso), key=lambda o: (round(math.hypot(*o), 3), abs(o[1]), o))
+    out, sin = defaultdict(list), []
+    for fid, el, dm, x, z, lado, rec in pedidos:
+        r = dm / 20.0; lap = max(pen, 6.0 * dm)
+        def formas(X, Z, dins):
+            # medidas por fuera: 60 desde la línea de unión hasta la punta (recta) o d_in + pata = 60 (con pata); hacia afuera, el traslapo
+            L = []
+            if Z >= -20: L.append(('recta', [(X, by1 - pen, Z), (X, by1 + lap, Z)]))
+            for d_in in dins:
+                yb, pt = by1 - d_in + r, pen - d_in - r
+                L.append(('pata', [(X + lado * pt, yb, Z), (X, yb, Z), (X, by1 + lap, Z)]))
+                L.append(('pata', [(X - lado * pt, yb, Z), (X, yb, Z), (X, by1 + lap, Z)]))
+                L.append(('abajo', [(X, yb, Z - pt), (X, yb, Z), (X, by1 + lap, Z)]))
+                L.append(('arriba', [(X, yb, Z + pt), (X, yb, Z), (X, by1 + lap, Z)]))
+            return L
+        hecho = None
+        for dins in ((22.0,), (20.0, 24.0, 18.0, 26.0, 16.0)):   # todas con la misma pata (22 + 38) mientras se pueda: una sola forma en la planilla
+            for lim in (4.5, 6.6):   # hasta 6,6 de su barra (traslapo sin contacto: se admite hasta 1/5 del traslapo)
+                for k in range(25):   # las formas, en su orden de preferencia; para cada una, el lugar libre más cercano a la barra
+                    for dx, dz in offs:
+                        if math.hypot(dx, dz) > lim: break
+                        fs = formas(x + dx, z + dz, dins)
+                        if k >= len(fs): continue
+                        pl = [tuple(ap(*q)) for q in fs[k][1]]
+                        if cubierta(pl, rec + r) and not choca(pl, r): hecho = (fs[k][1], pl); break
+                    if hecho: break
+                if hecho: break
+            if hecho: break
+        if not hecho:
+            sin.append((fid, x, z)); f0 = formas(x, z + 2 * r, (22.0,))[0][1]; hecho = (f0, [tuple(ap(*q)) for q in f0])
+        out[fid].append(hecho[0])
+        for a, b in zip(hecho[1][:-1], hecho[1][1:]): agrega(a, b, r)
+    if sin: print('  AVISO: espera de la unión sin lugar libre:', sin)
+    return out
 
 def _ganchos_insertos(fierros, H, ganchos):
     """Gancho inferior de las barras lisas de los insertos (el ingeniero, 22-11-2026: «conviene hacerles un gancho inferior»; 23-11-2026: «va cabeza soldada y gancho

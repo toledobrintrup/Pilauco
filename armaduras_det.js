@@ -54,7 +54,7 @@
       AH: 'horquillas de corte bajo las PLc (abrazan las barras del inserto; amarradas, nunca soldadas)',
       LS: 'superiores sobre la VHA del eje 3', 'LR-sup': 'suples superiores en las esquinas del hueco', 'LR-inf': 'suples inferiores en las esquinas del hueco',
       AN: 'barras lisas A36 de los insertos PLb, soldadas a la placa y a su cabeza (no son A630)', AP: 'barras lisas A36 de los insertos PLc, soldadas a la placa y a su cabeza (no son A630)', AU: 'armadura de anclaje de los dados (4 verticales por dado)',
-      AX: 'estribos extra bajo los pilares con cruz del sobrecimiento',
+      AX: 'estribos extra bajo los pilares con cruz del sobrecimiento', 'AU-est': 'estribos del canastillo de los dados (4 por dado)', 'LF-borde': 'ø10 corrido en los cuatro bordes (constructivo)',
       // escalera del búnker (V126): viga central VE 25/40 bajo la losa de 10 (alternativa del croquis del ingeniero, 27-10-2026)
       'VE-inf': 'viga central VE: 3ø16 inferiores, con gancho en la losa de fundación y L en el muro del eje B', 'VE-sup': 'viga central VE: 2ø12 superiores, con gancho de 90° en la losa de fundación y L en el muro del eje B',
       'VE-est': 'viga central VE: estribos cerrados, 2 por peldaño', 'ES-LT': 'losa de 10: transversales superiores, 2 por peldaño (vuelos desde la viga)', 'ES-LL': 'losa de 10: longitudinales, 2 por vuelo',
@@ -68,6 +68,12 @@
     if (s.length) { const t = { SU: 'estribos', S16: '2ø16 superiores', S8: 'horizontales (2 caras)', CU: 'U transversales', CL: '4ø12 longitudinales' }[s[0][1]]; const e = uniq(s.map(x => x[2])); return `${t} · eje${e.length > 1 ? 's' : ''} ${lista(e)}`; }
     const da = ids.map(id => /^DA-(4C2?)-(inf|est)$/.exec(id)).filter(Boolean);
     if (da.length) return `${lista(uniq(da.map(x => x[2] === 'inf' ? 'malla inferior' : 'estribos perimetrales')))} · dado${uniq(da.map(x => x[1])).length > 1 ? 's' : ''} ${lista(uniq(da.map(x => x[1])))}`;
+    const ub = ids.map(id => /^UB-(1|4|5)-\d+$/.exec(id)).filter(Boolean);
+    if (ub.length) { const e = uniq(ub.map(x => x[1])); return `esperas de la unión con el búnker · eje${e.length > 1 ? 's' : ''} ${lista(e)} (se dejan en el muro del eje B antes de hormigonarlo)`; }
+    const mt = ids.map(id => /^MT-([NSOE])$/.exec(id)).filter(Boolean);
+    if (mt.length) return `trabas entre las dos mallas · muro${mt.length > 1 ? 's de los ejes' : ' del eje'} ${lista(uniq(mt.map(x => EJE_MURO[x[1]])))}`;
+    const tr = ids.map(id => /^CF-(4|C|C2)-traba$/.exec(id)).filter(Boolean);
+    if (tr.length) { const e = uniq(tr.map(x => x[1])); return `trabas de las barras del medio · eje${e.length > 1 ? 's' : ''} ${lista(e)}`; }
     const c = ids.map(id => /^CF-(4|C|C2)-(sup|med|inf|est)$/.exec(id)).filter(Boolean);
     if (c.length) { const e = uniq(c.map(x => x[1])); return `${lista(uniq(c.map(x => PARTE[x[2]])))} · eje${e.length > 1 ? 's' : ''} ${lista(e)}`; }
     return ids.join(', ');
@@ -83,6 +89,11 @@
     if (/^VBL-/.test(id)) return ['propuesta', 'viga colgada', `${ESC}; 25/50 (flecha 5,6 mm = L/1110 con L = 6,20 libre; L/300 = 20,7), armadura y estribos: propuesta (calculo/diseno.py, ACI 318-08 con torsión)`];
     if (/^VBC-/.test(id)) return ['propuesta', 'viga botada', `${ESC}; 40/25, armadura y estribos @9 (s ≤ d/2): propuesta (calculo/diseno.py, ACI 318-08 con torsión)`];
     if (id === 'LS-AB') return ['propuesta', 'ingeniero', `${ESC}; largo y cantidad: propuesta`];
+    if (/^UB-/.test(id)) return ['propuesta', 'unión búnker', 'el ingeniero (24-11-2026): sin junta de dilatación; las armaduras horizontales del estudio y del búnker penetran 60 cm en el elemento contrario desde la línea de unión. Materializarlo con esperas del mismo diámetro (60 dentro del búnker y traslapo de 60ø), su forma y su lugar: lectura nuestra'];
+    if (/^CF-.*-traba$/.test(id)) return ['dato', 'ingeniero 22 y 24-11', 'traba ø10 L=34 (5-24-5) para las barras del medio (el ingeniero, 22-11-2026), en toda la cadena (24-11-2026: «irán cada 20, es decir cada 2 estribos»; con los estribos cada 20 quedó una por estribo)'];
+    if (/^MT-/.test(id)) return ['dato', 'ingeniero 22-11', 'trabas ø8 L=30 (5-20-5), 9 por m²: el ingeniero (22-11-2026); cada 3 nudos en los dos sentidos, confirmado el 24-11-2026'];
+    if (id === 'LF-borde') return ['dato', 'ingeniero 22-11', 'ø10 corrido en el borde de la losa de fundación, constructivo (el ingeniero, 22-11-2026)'];
+    if (id === 'AU-est') return ['dato', 'ingeniero 22-11', 'canastillo de los dados: E ø8@20 de 24 × 24, L=116 (el ingeniero, 22 y 23-11-2026)'];
     if (/^(AP|AN)$/.test(id)) return ['propuesta', 'insertos', 'insertos con anclajes soldados en vez de pernos con tuerca: sugerido por el ingeniero (V121, 25-10-2026); medidas aprobadas por el ingeniero el 28-10-2026 (calculo/anclajes_insertos.py)'];
     if (id === 'AH') return ['propuesta', 'insertos', 'horquillas de corte ø16 A630 donde el hormigón no alcanza (ACI 318-19 17.5.2.1 b): aprobadas con los insertos por el ingeniero (28-10-2026)'];
     if (/^MV-.*-ext$/.test(id)) return ['propuesta', 'revisión', `${REV}: ø16@15 por fuera (lámina 01: DM ø12@15)`];
@@ -99,7 +110,7 @@
     if (/^LF-/.test(id)) return ['propuesta', 'losa fund.', `losa de fundación del ingeniero (15-10-2026), e=35 y armadura ø16@15 / ø12@15 de la ${REV}`];
     if (/^SU-/.test(id)) return ['propuesta', 'L01 ajustada', `lámina 01, corte b-b (ø10@20); ramas y patas ajustadas al sobrecimiento de 30 y al recubrimiento 5 del cimiento (${REV})`];
     if (/^CU-/.test(id)) return ['propuesta', 'L01 ajustada', `lámina 01, corte b-b (ø12@20 en U); ramas ajustadas al recubrimiento 5 (${REV})`];
-    if (/^S16-/.test(id)) return ['propuesta', 'revisión', `${REV}: 2ø16 (lámina 01: 2ø12 anclados al muro); esquinas en L traslapadas 60ø`];
+    if (/^S16-/.test(id)) return ['propuesta', 'revisión', `${REV}: 2ø16 (lámina 01: 2ø12 anclados al muro); esquinas en L traslapadas 60ø; en el búnker las continúan sus esperas (el ingeniero, 24-11-2026)`];
     if (/^S8-/.test(id)) return ['dato', 'L01 b-b', 'lámina 01, corte b-b; esquinas en L de 60ø propuestas'];
     if (/^CL-/.test(id)) return ['propuesta', 'revisión', `lámina 01, corte b-b: 4ø10; 4ø12 por el sismo en A–E (${REV}); esquinas en L de 60ø`];
     if (/^CF-/.test(id)) return ['dato', 'L01 CF', `lámina 01, CF 25/40: 3ø12 + 2ø10 + 3ø12; sección 30/50 y ganchos de 90° en los extremos por la ${REV}; 30/50 por el moldaje existente (el ingeniero, 28-10-2026, pidió 30/30 con 4ø12 y E ø10@20; 30/50 lo cubre)`];
@@ -273,7 +284,8 @@
       G.ps.forEach(q => { const d = Math.hypot(q.u - X, q.z - Z); if (!best || d < best.d) best = { d, p: [q.u, q.z], obj: q }; });
       return best;
     };
-    const circMarca = (x, y, n) => { el('circle', { cx: x, cy: y, r: fs * 0.82, class: 'ad-mc' }, sv); txt(sv, x, y + fs * 0.34, n, { 'text-anchor': 'middle', 'font-size': fs * 0.92, class: 'ad-mt' }); };
+    const rMarca = n => fs * (String(n).length > 2 ? 1.04 : 0.82);   // las marcas de tres cifras (desde la 100) llevan un círculo más grande: el número no cabía en el de dos
+    const circMarca = (x, y, n) => { el('circle', { cx: x, cy: y, r: rMarca(n), class: 'ad-mc' }, sv); txt(sv, x, y + fs * 0.34, n, { 'text-anchor': 'middle', 'font-size': fs * 0.92, class: 'ad-mt' }); };
     function llamada(idf, lx, lz, texto, opc) {
       const G = geomDe(idf); if (G.vacio) return;
       const X = lx, YY = Y(lz);
@@ -283,8 +295,9 @@
       const izq = X < best.p[0];
       el('polyline', { points: `${best.p[0].toFixed(2)},${Y(best.p[1]).toFixed(2)} ${X + (izq ? fs * 0.9 : -fs * 0.9)},${YY} ${X},${YY}`, class: 'ad-ll' }, sv);
       el('circle', { cx: best.p[0], cy: Y(best.p[1]), r: 0.8, class: 'ad-lp' }, sv);
-      let x = X + (izq ? -fs * 0.82 : fs * 0.82);
-      marcas.forEach(n => { circMarca(x, YY, n); x += (izq ? -1 : 1) * fs * 1.8; });
+      let x = X, sg_ = izq ? -1 : 1;
+      marcas.forEach(n => { const r = rMarca(n); circMarca(x + sg_ * r, YY, n); x += sg_ * (2 * r + fs * 0.16); });
+      x += sg_ * (fs * 0.82 - fs * 0.16);   // como antes: el texto parte a 0,15 fs del último círculo
       const n = G.ps.length, esp = espaciado(f);
       const t = texto || (G.ls.includes(obj) ? `${nomD(f.diam)}${esp ? '@' + esp : ''} L=${coma(Math.round(fila ? fila.L : segsDe(obj.pl).reduce((a, b) => a + b, 0)))}` : (esp ? `${nomD(f.diam)}@${esp}` : `${n > 1 ? n : ''}${nomD(f.diam)}`));
       txt(sv, x - (izq ? -fs * 0.8 : fs * 0.8) + (izq ? -fs * 0.15 : fs * 0.15), YY + fs * 0.34, t, { 'text-anchor': izq ? 'end' : 'start', 'font-size': fs, class: 'tx ad-lt' });
