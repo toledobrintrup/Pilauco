@@ -5,7 +5,7 @@
 // Nada se retipea: la geometría sale de DATA_ESTUDIO_EST.hormigon, las barras de DATA_ESTUDIO_EST.fierros (cortadas por el mismo plano que los
 // cortes de la sección 07, con Armaduras.seccion) y las marcas de la planilla de doblado (Armaduras.planilla).
 // La viñeta NO lleva nombre, timbre ni firma de ningún profesional: es un plano de trabajo para que lo vise el ingeniero del proyecto.
-// Láminas: 01 fundaciones (visada el 24-11-2026), 02 losa de techo del búnker con sus vigas y el hueco, 03 escalera del búnker (las dos últimas, por visar).
+// Láminas: 01 fundaciones (visada el 24-11-2026), 02 losa de techo del búnker con sus vigas y el hueco, 03 escalera del búnker.
 //   LaminasEstudio.lista                         → [{ n, id, titulo }]
 //   LaminasEstudio.dibujar(contenedor, n, D, E)  → <svg> de la lámina n (D = DATA_ESTUDIO_EST, E = DATA_SITIO.estudio)
 (function () {
@@ -129,7 +129,7 @@
     TA(g, 689.4, 547.6, 'PLANO DE TRABAJO', 4.6, { a: 'm' });
     T(g, 689.4, 554.2, 'dibujado desde el modelo del sitio', 1.9, { a: 'm' });
     R(g, 664.5, 563.2, 49.8, 11.4, 'lm-m');
-    T(g, 689.4, 568.0, 'SIN FIRMA', 2.6, { a: 'm', sw: 0.3 }); T(g, 689.4, 572.3, info.pie || 'para visar por el ingeniero', 1.7, { a: 'm' });
+    T(g, 689.4, 568.0, 'SIN FIRMA', 2.6, { a: 'm', sw: 0.3 }); if (info.pie) T(g, 689.4, 572.3, info.pie, 1.7, { a: 'm' });
     // bloque derecho
     T(g, 727.4, 521.6, 'MANDANTE:', 1.9, { obl: true }); TA(g, 752.3, 522.4, info.mandante, 4.5);
     T(g, 727.4, 532.6, 'PROYECTO:', 1.9, { obl: true }); TA(g, 751.5, 533.4, info.proyecto, 4.5);
@@ -950,19 +950,20 @@
     return sv;
   }
 
-  // La lámina 01 está visada por el ingeniero (24-11-2026). Las láminas 02 y 03 se dibujan desde el mismo modelo, con la enfierradura del informe que el ingeniero
-  // revisó y aceptó (10-11-2026), pero él no las ha visto como lámina: su viñeta lo dice («para visar por el ingeniero») y no lleva fecha de visado
+  // La lámina 01 está visada por el ingeniero (24-11-2026) y su viñeta lo dice. Las láminas 02 y 03 se dibujan desde el mismo modelo, con la enfierradura del informe
+  // que el ingeniero revisó y aceptó (10-11-2026); él no las vio como lámina, así que no llevan fecha de visado. El dueño cerró los vistos buenos (24-11-2026:
+  // «se acabaron los vistos buenos»): tampoco llevan «para visar»; la viñeta dice solo de dónde sale la enfierradura
   const LISTA = [{ n: '01', id: 'fundaciones', titulo: 'Planta de fundaciones y cortes', plano: 'E-01', contenido: ['PLANTA FUNDACIONES', 'CORTES Y NOTAS'], fn: lamina01, visada: '24-11-2026', ident: 'Planta de fundaciones y cortes: versión final' },
     { n: '02', id: 'losa-techo', titulo: 'Losa de techo del búnker, vigas y hueco', plano: 'E-02', contenido: ['PLANTA LOSA DE TECHO DEL BUNKER', 'VIGAS, HUECO Y NOTAS'], fn: lamina02, ident: 'Losa de techo del búnker, vigas y hueco de la escalera' },
     { n: '03', id: 'escalera', titulo: 'Escalera del búnker', plano: 'E-03', contenido: ['ESCALERA DEL BUNKER', 'CORTES, PLANTA Y NOTAS'], fn: lamina03, ident: 'Escalera del búnker: cortes, planta y detalle de peldaños' }];
   function dibujar(cont, n, D, E, ver) {
     const l = LISTA.find(x => x.n === n) || LISTA[0];
-    const info = { n: l.n, plano: l.plano, contenido: l.contenido, rev: '', fecha: '24-11-2026', mandante: 'Gabriel Toledo Brintrup', proyecto: 'Casa Toledo , Sector estudio', pie: l.visada ? 'visado el ' + l.visada : 'para visar por el ingeniero',
+    const info = { n: l.n, plano: l.plano, contenido: l.contenido, rev: '', fecha: '24-11-2026', mandante: 'Gabriel Toledo Brintrup', proyecto: 'Casa Toledo , Sector estudio', pie: l.visada ? 'visado el ' + l.visada : '',
       identificacion: [['1', l.ident, '24-11-2026']],
       revisiones: [],
       nota: ['Plano dibujado desde el modelo 3D del estudio, con el formato de las láminas del proyecto.'].concat(l.visada
         ? [`Visado por el ingeniero civil del proyecto para cortar y doblar fierro (${l.visada}), con sus últimas indicaciones`, 'incorporadas. No lleva firma ni timbre.']
-        : ['La enfierradura es la del informe revisado y aceptado por el ingeniero civil del proyecto (10-11-2026).', 'Esta lámina, como dibujo, falta que la vise. No lleva firma ni timbre.'],
+        : ['La enfierradura es la del informe revisado y aceptado por el ingeniero civil del proyecto (10-11-2026).', 'No lleva firma ni timbre.'],
         ['Las medidas mandan sobre el dibujo; cualquier diferencia con la obra se consulta antes de hormigonar.']),
       profesionales: ['PROYECTO: ingeniero civil del proyecto', 'CALCULO: verificado con modelo 3D', l.visada ? `REVISO: ingeniero civil (${l.visada})` : 'REVISO:', 'APROBO:', 'DIBUJO: modelo 3D del sitio' + (ver ? ' (' + ver + ')' : '')] };
     return l.fn(cont, D, E, info);

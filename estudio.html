@@ -185,7 +185,7 @@ ol.preg li{margin:0 0 8px}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V158" data-vista="estudio"></script>
+  <script src="menu.js?v=V159" data-vista="estudio"></script>
   <h1>Estudio y búnker <small>estructura, fundaciones y enfierradura</small></h1>
   <span class="meta" id="meta"></span>
 </header>
@@ -203,7 +203,7 @@ ol.preg li{margin:0 0 8px}
 <section id="vista3d">
   <h2><span class="n">01</span>Vista 3D del estudio</h2>
   <p class="sub"><b>Girar:</b> arrastrar · <b>acercar:</b> rueda o pellizco · <b>ficha:</b> tocar la pieza · las capas se prenden en «Capas».</p>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V158" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V159" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
@@ -458,7 +458,7 @@ ol.preg li{margin:0 0 8px}
 
 <section id="planos">
   <h2><span class="n">09</span>Planos de enfierradura</h2>
-  <p class="sub"><b>Para el enfierrador:</b> tres láminas A1 con plantas, cortes, el despiece de cada barra y su cuadro de barras. Los números en círculo son las marcas de la planilla de doblado (pestaña Fundaciones). La lámina 01 está visada por el ingeniero; la 02 y la 03, por visar.</p>
+  <p class="sub"><b>Para el enfierrador:</b> tres láminas A1 con plantas, cortes, el despiece de cada barra y su cuadro de barras. Los números en círculo son las marcas de la planilla de doblado (pestaña Fundaciones).</p>
   <p><a class="btn p" href="lamina.html?n=01">01 · Fundaciones ↗</a> <a class="btn p" href="lamina.html?n=02">02 · Losa de techo y vigas ↗</a> <a class="btn p" href="lamina.html?n=03">03 · Escalera ↗</a> <span class="small sub">para acercar, imprimir en A1 o guardar en PDF</span></p>
   <figure class="ancho"><a href="lamina.html?n=01" id="lamina-01" class="lamina-link" title="Abrir la lámina 01 en grande" aria-label="Abrir la lámina 01 en grande"></a>
     <figcaption><b>Lámina 01 · Planta de fundaciones y cortes.</b> Tocar el plano lo abre en grande.</figcaption></figure>
@@ -478,11 +478,11 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=V158"></script>
-<script src="estudio_estructura.js?v=V158"></script>
-<script src="armaduras_det.js?v=V158"></script>
-<script src="fuente_trazos.js?v=V158"></script>
-<script src="laminas_estudio.js?v=V158"></script>
+<script src="sitio.js?v=V159"></script>
+<script src="estudio_estructura.js?v=V159"></script>
+<script src="armaduras_det.js?v=V159"></script>
+<script src="fuente_trazos.js?v=V159"></script>
+<script src="laminas_estudio.js?v=V159"></script>
 <script>
 // se dibuja cuando la letra Inter ya cargó: los rótulos se miden con getBBox y con la letra de reemplazo quedaban más angostos de lo que son (25-10-2026)
 (function (dibujar) { const f = document.fonts; if (!f || !f.load) return dibujar();
@@ -1348,7 +1348,7 @@ ol.preg li{margin:0 0 8px}
       <li><b>Faja del eje E:</b> tubo de 100 × 100 × 3, sin planchas. La diagonal entera va primero: abajo, apoyada en bisel sobre la viga VT; arriba, de frente al pilar. Después, las dos mitades de la otra. Filete 3 en todo el contorno de cada corte.</li>
       <li>Soldadura E6011 o MIG. Revisión visual de todos los cordones; después, anticorrosivo.</li></ol>`;
     cont.appendChild(info);
-    cap.innerHTML = '<b>Detalle de las cruces</b> · cartelas de las diagonales CUAD 150×150×3, plancha pasante del cruce y faja del eje E · escala 1:5 (corte al doble; faja 1:10) · cotas en mm · <span style="color:var(--fig-sold);font-weight:600">rojo</span>: soldadura · gris: plancha de 8 · por visar por el ingeniero.';
+    cap.innerHTML = '<b>Detalle de las cruces</b> · cartelas de las diagonales CUAD 150×150×3, plancha pasante del cruce y faja del eje E · escala 1:5 (corte al doble; faja 1:10) · cotas en mm · <span style="color:var(--fig-sold);font-weight:600">rojo</span>: soldadura · gris: plancha de 8.';
   }
   const cont = $('#elevs');
   elevacion(cont, 'Elevación eje 1 (fachada)', 'x', D.ejes.x['1'], 'x');

@@ -138,6 +138,10 @@ proyecto, la letra de trazo único de los planos CAD, plantas a 1:50 y cortes a 
   - **Lectura nuestra en la revisión B** (resuelta el 24-11, ver la revisión C): el gancho del inserto tendido sobre su cabeza; la traba
     ø10 solo sobre los dados; las trabas de los muros cada 3 nudos; el coronamiento dentro de los dobleces; la junta de 2 cm con el búnker.
   - En la planta, las cuatro barras de la losa de fundación van con su «destacado» (dobleces abatidos y medidas); sin flecha del norte.
+- **Sin más vistos buenos (24-11-2026):** el dueño cerró el tema («se acabaron los vistos buenos»). Las láminas 02 y 03 y el detalle de las
+  cruces ya no llevan «por visar»; tampoco dicen «visado», porque el ingeniero no los vio: la viñeta de la 02 y la 03 dice solo que su
+  enfierradura es la del informe que él revisó y aceptó el 10-11-2026. La lámina 01 sigue con «visado el 24-11-2026». La faja del eje E en
+  CUAD 100x100x3 queda como decisión del dueño, comprobada en el cálculo (ver más abajo).
 - **Detalle de las cruces (24-11-2026):** el ingeniero dejó el detalle de las cartelas y de la plancha pasante a cargo nuestro («corresponde a
   la IA», 10-11-2026). `cartelas_y_cruces()` (generar_estudio_estructura.py) define el contorno real de cada cartela y dónde se corta cada tubo,
   y lo vuelve a comprobar; salen `cartelas`, `cruces` y `fajas` en el modelo y `detalleCruz()` los dibuja en la pestaña Elevaciones.
@@ -156,8 +160,7 @@ proyecto, la letra de trazo único de los planos CAD, plantas a 1:50 y cortes a 
     50 cm y habría partido a 57 cm del pilar con una cartela de ese largo. El dueño pidió corregirlo. Con el 100x100 (el mismo tubo de la VT y
     del puntal) la diagonal se apoya en bisel sobre la VT y llega de frente al pilar, soldada en todo el contorno, sin planchas. Comprobado en
     el modelo de cálculo: tracción 0,07, compresión 0,08 (KL/r 72), cruce 0,09; la deriva no cambia y las demás cruces varían 0,3 kN o menos
-    (`RIOSTRAS_DC` actualizado desde la salida del cálculo). Es una excepción al «cuadrado 150x150x3 en general» del ingeniero: queda para su
-    visto bueno junto con el detalle, que lleva «por visar por el ingeniero» en su pie.
+    (`RIOSTRAS_DC` actualizado desde la salida del cálculo). Es una excepción al «cuadrado 150x150x3 en general» del ingeniero.
 - **Láminas 02 y 03 (24-11-2026):** a pedido del dueño, «láminas en papel de lo que sigue»: la 02 es la losa de techo del búnker (dos plantas 1:50,
   armadura inferior y superior, con el «destacado» de cada barra; elevaciones y cortes 1:20 de la VHA, la VBL y la VBC; detalle de los suples
   de la esquina del hueco; cuadro de barras) y la 03 es la escalera (corte a lo largo por la viga central con la planta alineada debajo,
@@ -165,7 +168,7 @@ proyecto, la letra de trazo único de los planos CAD, plantas a 1:50 y cortes a 
   motor que la 01 (`corte`, `barraPlanta`, `despiece`), con dos opciones nuevas que la 01 no usa: `cfg.proyectar` / `cfg.sinPuntos` (los
   estribos de una viga vistos en su elevación) y `o.filtro` / `o.eje` / `o.rotulo` en `barraPlanta`. El dibujo de la 01 no cambió con ellas
   (mismo SVG, byte a byte); solo su nota 13, que ahora manda a las láminas 02 y 03. La enfierradura de la 02 y la 03 es la del informe que el
-  ingeniero revisó y aceptó el 10-11-2026, pero él no las ha visto como lámina: su viñeta dice «para visar por el ingeniero».
+  ingeniero revisó y aceptó el 10-11-2026; él no las ha visto como lámina.
 - **Versión final publicada (24-11-2026):** a pedido del dueño, el sitio muestra solo lo que se construye, sin el proceso. De la página del
   estudio salieron las pestañas Revisión, Ingeniero, Luces y Falta, las etiquetas de origen (dato, propuesta, revisión), las citas con fecha y
   las columnas de verificación (D/C); la impermeabilización pasó a su propia pestaña, Humedad. La lámina va sin letra ni historial de

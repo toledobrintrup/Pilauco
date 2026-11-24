@@ -347,7 +347,7 @@ def main(estudio_json, sitio_json, salida):
     # desde el pilar y habría tenido que partir a 57 cm con una cartela de ese largo (Gabriel: «eso es una tontera, corrígelo»). El 100x100 es el mismo
     # tubo de la VT y del puntal: se apoya en bisel sobre la VT y llega de frente al pilar, soldado en todo el contorno, sin planchas. Comprobado en
     # calculo/verificar_acero.py: tracción 0,07, compresión 0,08 (KL/r 72), cruce 0,09; la deriva no cambia (7,9 / 4,4 mm) y las demás cruces varían 0,3 kN
-    # o menos. El ingeniero había pedido «cuadrado 150*150x3 en general»: esta excepción queda para su visto bueno con el detalle de las cruces
+    # o menos. El ingeniero había pedido «cuadrado 150*150x3 en general»: esta es la excepción, decidida por el dueño (24-11-2026: «se acabaron los vistos buenos»)
     rp = lambda k: 'CUAD 100x100x3' if k.startswith('XF') else 'CUAD 150x150x3'
     UNION_X = ('; tubo cuadrado 150x150x3 (el ingeniero, 10-11-2026); en cada extremo, cartela PL 8 soldada a la placa base o a la viga (no a la cara del tubo de 3 mm), '
                'metida en una ranura de 10 en dos caras opuestas del tubo (las perpendiculares al muro) y soldada con 4 filetes de 150 (garganta del espesor del tubo, E6011 o MIG); trabaja a tracción y compresión')
