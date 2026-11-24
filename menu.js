@@ -3,7 +3,7 @@
 // y el menú se dibuja ahí mismo, antes del primer pintado (el script es síncrono).
 // Para agregar una vista nueva basta con sumarla a VISTAS.
 // Versión publicada: la escribe fuente/version.py antes de cada commit (V<n> = número de commits del proyecto).
-window.PILAUCO_VERSION = { n: 'V155', fecha: '24-11-2026' };
+window.PILAUCO_VERSION = { n: 'V156', fecha: '24-11-2026' };
 (function () {
   // Tema claro / oscuro (Gabriel, 14-10-2026: "agrega una versión clara de toda la web"). Sin elección guardada va en claro (Gabriel, 28-10-2026: "deja toda la página con modo claro por defecto"; antes seguía al sistema);
   // el botón del menú guarda 'claro' u 'oscuro' en localStorage ('pilauco-tema-2'; la clave cambió el 28-10-2026 para que todos partan en claro) y recarga, para que el 3D (three.js) se arme con sus colores.
@@ -21,11 +21,11 @@ window.PILAUCO_VERSION = { n: 'V155', fecha: '24-11-2026' };
       ico: '<path d="M10 2.5 17 6.5v7L10 17.5 3 13.5v-7z"/><path d="M3 6.5 10 10.5l7-4M10 10.5v7"/>' },
     { id: 'losa', href: 'losa.html', t: 'Losa', d: 'Losa colaborante del entrepiso: marco C, placa, pernos, malla, hormigón, despiece y montaje',
       ico: '<path d="M2.5 12.5h15M2.5 15.5h15"/><path d="M3 12.5l2-3h2l2 3 2-3h2l2 3"/><path d="M5 9.5V7M15 9.5V7"/>' },
-    { id: 'alzaprimas', href: 'alzaprimas.html', t: 'Alzaprimas', d: 'Alzaprimas bajo la losa: tabiques de pino 3x9 seco (solera doble, palos, amarre, diagonales y cruces); planta, alzado, corte, carga por palo y materiales (borrador para el ingeniero)',
+    { id: 'alzaprimas', href: 'alzaprimas.html', t: 'Alzaprimas', d: 'Alzaprimas bajo la losa: líneas de pino 3x9 seco; planta, alzado, corte, orden de armado y materiales',
       ico: '<path d="M3 3.5h14"/><path d="M7 3.5v2h6v-2"/><path d="M10 5.5v6"/><path d="M8.5 11.5h3v5h-3z"/><path d="M7 11.5h6"/><path d="M6 16.5h8"/>' },
     { id: 'pernos', href: 'pernos.html', t: 'Pernos', d: 'Pernos Nelson: perforación, soldadura y cada caso de instalación en 2D y 3D, paso a paso',
       ico: '<path d="M8.5 5.5h3M10 5.5v9"/><path d="M6.5 3.5h7"/><path d="M3 16.5h14"/><circle cx="10" cy="15.5" r="2.5"/>' },
-    { id: 'estudio', href: 'estudio.html', t: 'Estudio', d: 'Estudio con búnker: la estructura del ingeniero adaptada a la planta nueva, para su revisión',
+    { id: 'estudio', href: 'estudio.html', t: 'Estudio', d: 'Estudio con búnker: plantas, fundaciones, enfierradura, humedad del búnker y acero',
       ico: '<path d="M3.5 16.5v-9l6.5-4 6.5 4v9"/><path d="M3.5 7.5l13 9M16.5 7.5l-13 9"/><path d="M3 16.5h14"/>' },
     { id: 'tablero', href: 'tablero.html', t: 'Tablero', d: 'Aro de básquetbol: piezas, fundación, armado paso a paso y 3D',
       ico: '<rect x="3" y="2.5" width="14" height="9" rx="1"/><rect x="7.5" y="5.5" width="5" height="4"/><path d="M6.5 13.5h7l-1.2 4h-4.6z"/>' },

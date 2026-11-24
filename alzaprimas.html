@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#1B1E24">
-<meta name="description" content="Alzaprimas bajo la losa colaborante de Casa Pilauco con palos de pino 3x9 seco armados como tabiques: solera doble arriba, palos atravesados, amarre a media altura, diagonales y cruces de lado. Planta de las 17 líneas, alzado, corte, carga por palo, materiales y lo que falta confirmar. Borrador para el ingeniero.">
+<meta name="description" content="Alzaprimas bajo la losa colaborante de Casa Pilauco con palos de pino 3x9 seco armados como tabiques: orden de armado, reglas de obra, planta de las 17 líneas, alzado, corte, tabla por línea, materiales y pedido.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%233D5A73'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='2.2' stroke-linejoin='round'%3E%3Cpath d='M5 6.5h22M11 6.5v3h10v-3M16 9.5v9M14 18.5h4v8h-4zM11 18.5h10M10.5 26.5h11'/%3E%3C/g%3E%3C/svg%3E">
 <title>Alzaprimas</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,8 +61,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);fon
 header.top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:12px 18px 11px;background:var(--chrome);color:var(--chrome-ink)}
 header.top h1{font-size:16.5px;font-weight:600;margin:0;letter-spacing:-.012em}
 header.top h1 small{font-weight:400;color:var(--chrome-muted);font-size:14px;margin-left:9px;letter-spacing:0}
-header.top .meta{color:var(--chrome-muted);font-size:14px;margin-left:auto}
-@media (max-width:760px){header.top .meta{display:none}header.top h1 small{display:block;margin:2px 0 0}}
+@media (max-width:760px){header.top h1 small{display:block;margin:2px 0 0}}
 .toc{position:sticky;top:0;z-index:5;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding:9px 22px;background:var(--paper);border-bottom:1px solid var(--line)}
 .toc::-webkit-scrollbar{display:none}
 .toc a{flex:none;font-size:14px;font-weight:500;color:var(--muted);text-decoration:none;padding:4px 10px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
@@ -77,26 +76,19 @@ h3{font-size:16px;font-weight:600;margin:22px 0 6px}
 p{margin:0 0 10px}
 .lead{font-size:15.5px;margin:16px 0 14px}
 .sub{color:var(--muted)}
-.small{font-size:14px}
 a{color:var(--accent)}
-.fuente{display:inline-block;font-size:14px;font-weight:600;letter-spacing:.02em;padding:0 7px;border-radius:999px;white-space:nowrap}
-.fuente.man{color:var(--ok);background:var(--ok-soft)}
-.fuente.med{color:var(--med);background:var(--med-soft)}
-.fuente.calc{color:var(--calc);background:var(--calc-soft)}
 /* números del resumen */
-.chips{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:12px 0 4px}
+.chips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0 4px}
 .chip{border:1px solid var(--line);border-radius:10px;padding:9px 12px 8px;background:var(--panel);min-width:0}
 .chip .v{font-size:21px;font-weight:650;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.2}
 .chip .v small{font-size:14px;font-weight:500;color:var(--muted);margin-left:3px}
 .chip .l{font-size:14px;color:var(--muted);line-height:1.3;margin-top:2px}
-.chip.hi{border-color:var(--hi-borde);background:var(--hi-soft)}
-@media (max-width:860px){.chips{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (max-width:480px){.chips{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.chips{grid-template-columns:repeat(2,minmax(0,1fr))}}
 /* figuras: no se achican bajo su ancho de diseño (letra mínima 14 px); en pantallas chicas se desplazan */
 figure{margin:14px 0 10px}
 figure svg{display:block;width:100%;height:auto}
 figure.ancho{position:relative;left:50%;transform:translateX(-50%);width:min(100vw - 40px,1240px);overflow-x:auto;margin-top:12px}
-figcaption{font-size:14px;color:var(--ink);opacity:.82;margin-top:6px;line-height:1.45}
+figcaption,.pie{font-size:14px;color:var(--ink);opacity:.82;margin:6px 0 0;line-height:1.45}
 svg .tx{font-family:var(--ui);fill:var(--fig-ink)}
 svg .txs{font-family:var(--ui);fill:var(--fig-soft)}
 svg .txm{font-family:var(--ui);fill:var(--med)}
@@ -115,10 +107,7 @@ svg .h{paint-order:stroke;stroke:var(--paper);stroke-width:4px;stroke-linejoin:r
 .ficha .kv{display:grid;grid-template-columns:max-content 1fr;gap:3px 12px;margin:6px 0 2px}
 .ficha .kv .k{color:var(--muted)}
 .ficha .kv .v{font-variant-numeric:tabular-nums}
-.ficha .nota{color:var(--muted);margin-top:8px}
 .ficha .vacia{color:var(--muted)}
-.ficha .nw{white-space:nowrap}
-.dc-ok{color:var(--ok);font-weight:600}.dc-ju{color:var(--med);font-weight:600}.dc-no{color:var(--mal);font-weight:600}
 #svg-planta .ln{cursor:pointer}
 #svg-planta .ln .hit{stroke:transparent;stroke-width:24;fill:none;pointer-events:stroke}
 #svg-planta.sel .ln{opacity:.28}
@@ -142,47 +131,34 @@ tr.tot td.r{white-space:nowrap}
 #tabla-lineas tbody tr[data-id]{cursor:pointer}
 #tabla-lineas tbody tr[data-id]:hover td,#tabla-lineas tbody tr.on td{background:var(--hi-soft)}
 .sw{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px}
-/* pedido a la empresa y obra */
-.dos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}
-.caja{border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:var(--panel);font-size:14.5px}
+/* cajas: orden de armado, reglas (en naranjo: atención) y pedido */
+.caja{border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:var(--panel);font-size:14.5px;margin:12px 0}
 .caja.hi{border-color:var(--hi-borde);background:var(--hi-soft)}
 .caja h4{margin:0 0 6px;font-size:15px}
+.caja.hi h4{color:var(--hi)}
+.caja ol,.caja ul{margin:0;padding-left:20px}
+.caja li{margin:4px 0;text-wrap:pretty}
 .caja .kv{display:grid;grid-template-columns:max-content 1fr;gap:4px 12px}
 .caja .kv .k{color:var(--muted)}
-@media (max-width:700px){.dos{grid-template-columns:1fr}}
-/* falta / dato vs supuesto */
-.aviso{border:1px solid var(--hi-borde);background:var(--hi-soft);border-radius:10px;padding:10px 14px;margin:10px 0;font-size:14.5px}
-.aviso b{color:var(--hi)}
-.aviso ol{margin:6px 0 0;padding-left:20px}.aviso li{margin:3px 0}
-.dvs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}
-.dvs > div{border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:var(--panel)}
-.dvs h4{margin:0 0 6px;font-size:15px}
-.dvs ul{margin:0;padding-left:18px;font-size:14.5px}.dvs li{margin:3px 0}
-.dvs li span{color:var(--muted)}
-@media (max-width:700px){.dvs{grid-template-columns:1fr}}
-details{margin:10px 0;font-size:14.5px}
-details summary{cursor:pointer;color:var(--accent);font-weight:500}
-details ul{padding-left:18px}
-footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
-@media (max-width:640px){.doc-in{padding:4px 16px 70px}.toc{padding:8px 16px}}
+@media (max-width:640px){.doc-in{padding:4px 16px 70px}.toc{padding:8px 16px}#tabla-torn th{white-space:normal;vertical-align:bottom}#tabla-torn td.nw .sub{display:block}}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V155" data-vista="alzaprimas"></script>
-  <h1>Alzaprimas <small>palos de pino 3x9 seco · borrador para el ingeniero</small></h1>
-  <span class="meta" id="meta"></span>
+  <script src="menu.js?v=V156" data-vista="alzaprimas"></script>
+  <h1>Alzaprimas <small>palos de pino 3x9 seco</small></h1>
 </header>
 <nav class="toc" id="toc">
-  <a href="#resumen">Resumen</a><a href="#planta">Planta</a><a href="#alzado">Alzado</a><a href="#corte">Corte</a><a href="#lineas">Líneas</a><a href="#materiales">Materiales</a><a href="#falta">Falta</a>
+  <a href="#resumen">Resumen</a><a href="#planta">Planta</a><a href="#alzado">Alzado</a><a href="#corte">Corte</a><a href="#lineas">Líneas</a><a href="#materiales">Materiales</a>
 </nav>
 <div class="doc-in">
 
 <section id="resumen" style="padding-top:14px">
-  <p class="lead">Cada línea se arma <b>como un tabique de pino 3x9 seco</b> bajo los valles de la placa, entre las vigas (las vigas no se alzapriman): <b>solera doble</b> de canto arriba, <b>palos atravesados</b>, <b>amarre</b> a media altura, <b>diagonales</b> en las puntas, solera abajo y <b>cruces de lado</b> con la línea vecina. Todo atornillado, <b>sin cuñas</b>. <b>Borrador para el ingeniero.</b></p>
+  <p class="lead">Cada línea se arma como un <b>tabique de pino 3x9 seco</b>, atornillado y <b>sin cuñas</b>, bajo los valles de la placa. Va entre las vigas: <b>las vigas no se alzapriman</b>.</p>
   <div class="chips" id="chips"></div>
-  <div class="caja" id="porque-palos" style="margin-top:12px"></div>
+  <div class="caja"><h4>Orden de armado</h4><ol id="orden"></ol></div>
+  <div class="caja hi"><h4>Reglas</h4><ul id="reglas"></ul></div>
 </section>
 
 <section id="planta">
@@ -192,47 +168,38 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
     <div class="pl-svg"><svg id="svg-planta" role="img" aria-label="Planta de la losa con las líneas de alzaprimas, sus palos, diagonales y cruces de lado"></svg></div>
     <aside class="ficha" id="ficha" aria-live="polite"></aside>
   </div>
-  <p class="small sub" style="margin-top:8px">Toca o pasa el cursor por una línea para ver su ficha. Rótulo: <b>área-línea · @ separación</b> (cm).</p>
+  <p class="pie" id="nota-planta"></p>
 </section>
 
 <section id="alzado">
   <h2><span class="n">02</span>Alzado tipo de una línea</h2>
   <figure class="ancho"><svg id="svg-alzado" role="img" aria-label="Alzado tipo de un tramo de alzaprimas de madera entre dos vigas, con sus cotas y tres detalles"></svg></figure>
-  <figcaption>Cotas en cm · niveles en m desde el piso terminado del nivel 1 · tramo tipo de 4 palos; la separación (@) y el número de palos de cada línea están en la tabla · se mira desde la cara A (la del amarre); las diagonales van por detrás, en la cara B.</figcaption>
+  <figcaption>Cotas en cm; niveles en m desde el piso terminado del nivel 1. Tramo tipo de 4 vanos.</figcaption>
 </section>
 
 <section id="corte">
   <h2><span class="n">03</span>Corte entre dos líneas vecinas</h2>
   <figure class="ancho"><svg id="svg-corte" role="img" aria-label="Corte transversal de dos líneas vecinas con su cruz de lado, y detalles de la cabeza del palo y del cruce"></svg></figure>
-  <figcaption>Cotas en mm en los detalles y en cm en el corte · madera 3x9 seca: cálculo con 65 × 210 (cepillado; el dimensionado mide 69 × 214).</figcaption>
+  <figcaption>Medidas en cm; detalle D en mm.</figcaption>
 </section>
 
 <section id="lineas">
   <h2><span class="n">04</span>Línea por línea</h2>
   <div class="tw"><table id="tabla-lineas"></table></div>
-  <p class="small sub" id="nota-carga"></p>
 </section>
 
 <section id="materiales">
   <h2><span class="n">05</span>Materiales y pedido</h2>
   <div class="tw"><table id="tabla-mat"></table></div>
   <div class="tw"><table id="tabla-torn"></table></div>
-  <div class="dos" id="pedido"></div>
+  <div class="caja" id="pedido"></div>
 </section>
 
-<section id="falta">
-  <h2><span class="n">06</span>Falta confirmar</h2>
-  <div class="aviso" id="por-confirmar"></div>
-  <div class="dvs" id="dvs"></div>
-  <details id="det-fuentes"><summary>Cómo se calculó (para el ingeniero)</summary><ul id="fuentes"></ul></details>
-</section>
-
-<footer>Fuentes: losa.js (líneas, áreas y ejes), estructura.js (vigas y pilares), NCh 1198:2014 vía INFOR (IT 182 y lámina 2020), NCh 2824 y la ficha Instadeck. Generado con fuente/losa/generar_alzaprimas_js.py.</footer>
 </div>
 </div>
 
-<script src="losa.js?v=V155"></script>
-<script src="alzaprimas.js?v=V155"></script>
+<script src="losa.js?v=V156"></script>
+<script src="alzaprimas.js?v=V156"></script>
 <script>
 (function () {
   const A = DATA_ALZAPRIMAS, L = DATA_LOSA, T = A.totales, M = A.madera, AL = A.alturas;
@@ -241,14 +208,13 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
   const m2 = cm => coma(cm / 100, 2);
   const m3d = cm => coma(cm / 100, 3);
   // separación de palos en 5 tonos (más oscuro = más juntos)
-  // la separación que se muestra es la real (la mayor de cada línea); la máxima permitida va en la ficha
+  // la separación que se muestra es la mayor de cada línea
   A.lineas.forEach(l => { l.sep = Math.round(l.a_real); });
   const CORTES = [105, 125, 145, 165];
   const BIN = a => 1 + CORTES.filter(c => a > c).length;
   const COL = a => `var(--s${BIN(a)})`, TCOL = a => `var(--t${BIN(a)})`;
   const BINS = [1, 2, 3, 4, 5].map(k => ({ k, as: A.lineas.filter(l => BIN(l.sep) === k).map(l => l.sep) })).filter(x => x.as.length);
   const rango = as => { const a = Math.min(...as), b = Math.max(...as); return a === b ? `@${a}` : `@${a}–${b}`; };
-  const dcClase = v => v <= 0.9 ? 'dc-ok' : v <= 1.0 ? 'dc-ju' : 'dc-no';
   const nomEje = n => { const m = /^(.+)\+(\d+)$/.exec(n); return m ? `viga a ${coma(+m[2] / 100, 2)} de ${m[1]}` : n; };
   const NSV = 'http://www.w3.org/2000/svg';
   function el(tag, at, padre) { const e = document.createElementNS(NSV, tag); for (const k in at) e.setAttribute(k, at[k]); if (padre) padre.appendChild(e); return e; }
@@ -307,22 +273,38 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
   const B = M.b / 10, Hh = M.h / 10;           // 3x9 de cálculo en cm: 6,5 × 21
 
   // =====================================================================  resumen
-  $('#meta').textContent = `${T.lineas} líneas · ${T.palos} palos · ${A.fecha} · sin firma`;
   $('#chips').innerHTML = [
-    [T.palos, '', `palos 3x9 de ${m3d(T.H_palo)} m, en ${T.lineas} líneas`],
+    [T.palos, '', `palos de ${m3d(T.H_palo)} m · ${T.lineas} líneas`],
     [`${m2(T.a_min)}–${m2(T.a_max)}`, 'm', 'entre palos, según la línea'],
-    [coma(T.carga_max, 0), 'kgf', `máx. por palo · D/C ${coma(T.dc_palo_max, 2)}`, true],
     [coma(T.ml, 0), 'm', `de 3x9 seco (≈ ${coma(T.m3, 1)} m³)`],
-    ['≥ 14', 'días', 'retiro, con probetas'],
-  ].map(([v, u, l, hi]) => `<div class="chip${hi ? ' hi' : ''}"><div class="v">${v}${u ? `<small>${u}</small>` : ''}</div><div class="l">${l}</div></div>`).join('');
+    [coma(T.torn_total, 0), '', 'tornillos ø6 de 120 y de 150'],
+  ].map(([v, u, l]) => `<div class="chip"><div class="v">${v}${u ? `<small>${u}</small>` : ''}</div><div class="l">${l}</div></div>`).join('');
 
-  // para el ingeniero: por qué hay menos palos que puntales en el borrador anterior
-  { const An = A.antes, kW = A.W_solera_mm3 / An.W_mm3, mi = v => coma(v, 0);
-    $('#porque-palos').innerHTML = `<h4>Para el ingeniero: por qué ${T.palos} palos y no ${An.puntales} puntales</h4><ul style="margin:4px 0 0;padding-left:18px">
-      <li><b>Las líneas no cambian:</b> siguen las mismas ${T.lineas}, y la placa queda con luz ≤ 1,87 m entre línea y viga, como usted indicó.</li>
-      <li><b>Cambia la separación a lo largo de cada línea, y la manda la solera.</b> En el borrador del ${An.fecha} la solera era ${An.solera}: puntales a ${An.sep}. Ahora es de 2 × 3x9 de canto (${M.b * 2} × ${M.h}): ${coma(kW, 1)} veces su módulo resistente (${mi(A.W_solera_mm3)} mm³ contra ${mi(An.W_mm3)}), y los palos van a ${m2(T.a_min)}–${m2(T.a_max)} m con la solera a ${coma(T.dc_solera_max, 2)} como máximo.</li>
-      <li><b>La carga total es la misma, repartida en menos apoyos:</b> cada palo toma hasta ${mi(T.carga_max)} kgf, contando lo que tiran las diagonales y las cruces (antes ${mi(An.P_max_kgf)} por puntal) y aguanta ${mi(T.N_palo)} kgf en pandeo con el amarre a media altura (D/C ${coma(T.dc_palo_max, 2)}) y ${mi(T.N_apoyo)} kgf en el apoyo bajo la solera (${coma(T.dc_apoyo_max, 2)}), con 10 % de holgura porque no se regula.</li>
-      <li>Si prefiere los palos más juntos (por ejemplo, máximo 1,20 m), es un solo número del cálculo: salen más palos.</li></ul>`;
+  // =====================================================================  orden de armado y reglas (en el resumen)
+  { const Bs = A.base, [zb, zt] = A.lado.bandas[0];
+    // cruces de lado que tocan un muro del plano del nivel 1, por par de líneas
+    const conMuro = A.cruces.filter(c => c.muros.length), pares = [...new Set(conMuro.map(c => c.par.join(' y ')))];
+    // pares de líneas donde TODAS sus cruces topan el mismo muro: ahí correr la cruz al palo siguiente no sirve (el muro va a todo el largo entre las dos líneas)
+    const porPar = {}; A.cruces.forEach(c => { const k = c.par.join(' y '); (porPar[k] = porPar[k] || []).push(c); });
+    const todoMuro = Object.keys(porPar).filter(k => porPar[k].every(c => c.muros.length)), algunos = pares.filter(k => !todoMuro.includes(k));
+    const dondeMuro = algunos.length ? ` (entre ${algunos.join(', ')})` : '';
+    const sinLugar = todoMuro.length ? ` Entre ${todoMuro.join(', ')} el muro va a todo el largo: si ya está, las cruces no caben; avisar antes de hormigonar.` : '';
+    $('#orden').innerHTML = [
+      `<b>Solera abajo:</b> un 3x9 plano corrido bajo la línea, suelto en el piso; uniones a medio camino entre palos.`,
+      `<b>Solera doble arriba,</b> contra los valles: uniones sobre un palo, trabadas y con cubrejunta; calces contra el ala de cada viga.`,
+      `<b>Palos atravesados:</b> medir cada uno en su lugar y cortarlo a esa medida; entra apretado, sin levantar la placa.`,
+      `<b>Amarre</b> a media altura (${m2(T.z_amarre)}&nbsp;m al centro), por la cara A; uniones sobre un palo, con cubrejunta.`,
+      `<b>Diagonales</b> por la cara B, con su tope al pie: 1 por tramo; 2 seguidas si tiene 4 vanos; 1 en cada punta si tiene 5 o más.`,
+      `<b>Cruces de lado:</b> van al palo a ${m2(zb)} y ${m2(zt)}&nbsp;m; si es pie o cabeza de diagonal o tiene otra cruz, a la altura siguiente (detalle&nbsp;E).`,
+    ].map(t => `<li>${t}</li>`).join('');
+    $('#reglas').innerHTML = [
+      `<b>Madera:</b> G2 timbrada y seca (CH&nbsp;&lt;&nbsp;20&nbsp;%); al recibirla, medir la escuadría y la humedad de unas piezas.`,
+      `<b>Placa:</b> no dejarla con más de ${m2(L.luz_max_alzaprima)}&nbsp;m sin apoyo.`,
+      `<b>Área 1, si la base es terreno:</b> suelo compactado, solera abajo doble y ${Bs.palos}&nbsp;palos de ≈&nbsp;${m3d(Bs.largo_palo)}&nbsp;m (de piezas de ${coma(Bs.compra_palo / 100, 2)}).`,
+      `<b>Muros:</b> si una cruz de lado choca con un muro ya construido, correrla al palo siguiente${dondeMuro}.${sinLugar}`,
+      `<b>No acopiar</b> material sobre la losa alzaprimada.`,
+      `<b>Retiro:</b> no antes de 14&nbsp;días y con probetas ≥&nbsp;75&nbsp;% de la resistencia (25&nbsp;MPa); soltar los tornillos y sacar cada palo de lado.`,
+    ].map(t => `<li>${t}</li>`).join('');
   }
 
   // =====================================================================  01 planta
@@ -470,8 +452,7 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
       g.insertBefore(el('rect', { x: b.x - 5, y: b.y - 2, width: b.width + 10, height: b.height + 4, rx: 3, style: 'fill:var(--fig-fill)' }), t); }
 
     // leyenda
-    const cuenta = k => A.lineas.filter(l => BIN(l.sep) === k).length;
-    $('#ley-planta').innerHTML = BINS.map(x => `<span><i style="background:var(--s${x.k})"></i>${rango(x.as)} <span class="sub">(${cuenta(x.k)})</span></span>`).join('') +
+    $('#ley-planta').innerHTML = BINS.map(x => `<span><i style="background:var(--s${x.k})"></i>${rango(x.as)}</span>`).join('') +
       `<span><svg viewBox="0 0 22 14"><rect x="9.5" y="2" width="3" height="10" fill="var(--fig-ink)"/></svg>palo</span>` +
       `<span><svg viewBox="0 0 22 14"><line x1="5" y1="12" x2="17" y2="2" stroke="var(--fig-ink)" stroke-width="1.5"/></svg>diagonal</span>` +
       `<span><svg viewBox="0 0 22 14"><line x1="1" y1="7" x2="21" y2="7" stroke="var(--fig-ink)" stroke-width="1.2" stroke-dasharray="5 3"/><path d="M7 3l8 8M15 3l-8 8" stroke="var(--fig-ink)" stroke-width="1.6"/></svg>cruz de lado</span>` +
@@ -481,28 +462,22 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
       `<span><svg viewBox="0 0 22 14"><path d="M2 7h18M2 7l5-3M2 7l5 3M20 7l-5-3M20 7l-5 3" stroke="var(--fig-ink)" stroke-width="1.3" fill="none"/></svg>sentido de la placa</span>`;
 
     // ficha
-    const fichaVacia = `<div class="vacia"><b style="color:var(--ink)">${T.lineas} líneas · ${T.palos} palos · ${T.cruces} cruces de lado</b><br>Toca una línea en la planta o en la tabla.</div>
-      <div class="kv" style="margin-top:10px">${BINS.map(x => `<span class="k"><span class="sw" style="background:var(--s${x.k})"></span>${rango(x.as)}</span><span class="v">${A.lineas.filter(l => BIN(l.sep) === x.k).map(l => `<span class="nw">${l.id}</span>`).join(' · ')}</span>`).join('')}</div>`;
+    const fichaVacia = `<div class="vacia">Toca una línea de la planta o de la tabla para ver su ficha.</div>`;
+    $('#nota-planta').innerHTML = `Rótulo: <b>área-línea · @ separación máxima</b> (cm). Palos: a ${coma(A.geometria.borde, 0)} cm de cada punta del tramo, uno frente a cada cruz de lado y el resto iguales.`;
     function ficha(l) {
       if (!l) { $('#ficha').innerHTML = fichaVacia; return; }
-      const d = l.dc, tr = l.tramos;
-      const dirTxt = l.espacios === 2 ? `al centro (${m2(l.dist)} m de ${l.desde})` : `a ${m2(l.dist)} m de ${l.desde} (en tercios)`;
+      const tr = l.tramos, n = (k, uno, varios) => `${k}&nbsp;${k === 1 ? uno : varios}`;
+      const eje = (e, b) => { const t = nomEje(e), r = b ? `<b>${t}</b>` : t; return /^viga /.test(t) ? 'la ' + r : r; };   // «la viga a 2,73 de F2»
+      const dirTxt = l.espacios === 2 ? `al centro (${m2(l.dist)}&nbsp;m de ${eje(l.desde)})` : `a ${m2(l.dist)}&nbsp;m de ${eje(l.desde)} (en tercios)`;
       const pares = [...new Set(A.cruces.filter(c => c.par.includes(l.id)).map(c => c.par.find(p => p !== l.id)))];
       $('#ficha').innerHTML = `<h4>Línea ${l.id} <span class="sep" style="background:${COL(l.sep)};color:${TCOL(l.sep)}">@${l.sep}</span> <span class="sub" style="font-size:14.5px;font-weight:500">área ${l.area}</span></h4>
         <div class="kv">
-          <span class="k">Ejes</span><span class="v">entre <b>${nomEje(l.entre[0])}</b> y <b>${nomEje(l.entre[1])}</b>, ${dirTxt} · de ${l.de[0]} a ${l.de[1]}</span>
-          <span class="k">Luz de placa</span><span class="v">${m2(l.luz[0])} | ${m2(l.luz[1])} m <span class="sub">(máx. 1,87)</span></span>
-          <span class="k">Palos</span><span class="v"><b>${l.n_palos}</b> · @ ≤ ${coma(l.a_real, 1)} cm <span class="sub">(máx. permitido ${l.a})</span> · de ${m3d(l.H)} m${l.H_terreno ? ` <span class="sub">(≈ ${m3d(l.H_terreno)} si es terreno)</span>` : ''}</span>
-          <span class="k">Tramos</span><span class="v">${tr.map(t => m2(t.largo)).join(' + ')} m</span>
-          <span class="k">Solera arriba</span><span class="v">2 × ${coma(l.solera_m, 2)} m · ${l.uniones} ${l.uniones === 1 ? 'unión' : 'uniones'} trabadas</span>
-          <span class="k">Carga palo</span><span class="v">máx. <b>${coma(l.carga_max_kgf, 0)}</b> kgf <span class="sub">(con diagonales y cruces)</span> · típica ≈ ${coma(l.P_kgf, 0)}${l.f > 1 ? ` <span class="sub">(× ${coma(l.f, 2)} revisión)</span>` : ''}</span>
-          <span class="k">D/C palo</span><span class="v"><span class="${dcClase(d.palo)}">${coma(d.palo, 2)}</span> <span class="sub">pandeo con el amarre; aguanta ${coma(l.N_palo_kgf, 0)} kgf</span></span>
-          <span class="k">D/C apoyo</span><span class="v"><span class="${dcClase(d.apoyo)}">${coma(d.apoyo, 2)}</span> <span class="sub">solera doble sobre el palo</span></span>
-          <span class="k">D/C solera</span><span class="v"><span class="${dcClase(d.solera)}">${coma(d.solera, 2)}</span> <span class="sub">· con la carga de lado</span> <span class="${dcClase(d.biaxial)}">${coma(d.biaxial, 2)}</span></span>
-          <span class="k">Apoyo placa</span><span class="v"><span class="${dcClase(d.apoyo_placa)}">${coma(d.apoyo_placa, 2)}</span> <span class="sub">de lo que acepta la ficha</span></span>
-          <span class="k">Arriostre</span><span class="v">${l.diagonales} diagonales · ${l.cruces} cruces con ${pares.join(' y ')}</span>
-        </div>
-        <div class="nota">Separación máxima permitida ${l.a} cm (de 5 en 5): la manda ${l.manda} (${coma(l.a_max, 1)} cm). Los palos quedan iguales entre sí en cada tramo, a ${coma(l.a_real, 1)} cm o menos.${l.obstaculos.length ? ` Palos lejos de ${l.obstaculos.length} pilares.` : ''}</div>`;
+          <span class="k">Ejes</span><span class="v">entre ${eje(l.entre[0], true)} y ${eje(l.entre[1], true)}, ${dirTxt} · de ${l.de[0]} a ${l.de[1]}</span>
+          <span class="k">Palos</span><span class="v"><b>${l.n_palos}</b> de ${m3d(l.H)}&nbsp;m${l.H_terreno ? ` <span class="sub">(≈&nbsp;${m3d(l.H_terreno)} si es terreno)</span>` : ''} · @&nbsp;≤&nbsp;${coma(l.a_real, 1)}&nbsp;cm</span>
+          <span class="k">Tramos</span><span class="v">${tr.map(t => `${m2(t.largo)}&nbsp;m${tr.length > 1 ? ` (${n(t.palos.length, 'palo', 'palos')})` : ''}`).join(' + ')}</span>
+          <span class="k">Solera arriba</span><span class="v">2&nbsp;×&nbsp;${coma(l.solera_m, 2)}&nbsp;m · ${l.uniones ? `${n(l.uniones, 'unión trabada', 'uniones trabadas')}` : 'sin uniones'}</span>
+          <span class="k">Arriostre</span><span class="v">${n(l.diagonales, 'diagonal', 'diagonales')} · ${n(l.cruces, 'cruz', 'cruces')} con ${pares.join(' y ')}</span>
+        </div>`;
     }
     let sel = null;
     function marcar(id, fijo) {
@@ -685,7 +660,7 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
 
   // =====================================================================  03 corte entre dos líneas vecinas (cm; detalles en mm)
   (function corte() {
-    const svg = $('#svg-corte'), W = 1240, H = 1300;
+    const svg = $('#svg-corte'), W = 1240, H = 1280;
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.style.minWidth = W + 'px';
     const suelo = defs(svg);
     const zS = AL.libre, zL = zS + L.espesor, zA = AL.abajo, zP = zS - AL.solera, zM = AL.amarre;
@@ -749,7 +724,7 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
       cotaV(svg, X2(-h / 2) - 22, Y2(zs), Y2(zp), String(h), { izq: true, ext: X2(-b) - 4 });
       cotaH(svg, X2(-h / 2), X2(h / 2), Y2(zb) + 28, `${h} (de lado)`, { ext: Y2(zb) + 4 });
       const xN = X2(150) + 24, yN = Y2(zs) + 26;
-      rotulo(svg, xN, yN, `apoyo ${2 * b} × ${b} mm: ${coma(T.N_apoyo, 0)} kgf admisibles`);
+      rotulo(svg, xN, yN, `apoyo del palo: ${2 * b} × ${b} mm`);
       rotulo(svg, xN, yN + 22, 'las 2 piezas: 1 tornillo ø6 × 120', { class: 'txs h' });
       rotulo(svg, xN, yN + 42, 'cada 60 cm', { class: 'txs h' });
       rotulo(svg, xN, yN + 66, 'palo → solera: 2 lanceros ø6 × 120', { class: 'txs h' });
@@ -766,81 +741,44 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-si
       rotulo(svg, 760, cy + 200, 'una pieza por cada cara ancha del palo, con un taco', { class: 'tx h' });
       rotulo(svg, 760, cy + 220, `3x9 de ${A.lado.taco_cruz} entre ellas donde se cruzan (punteado)`, { class: 'tx h' });
       rotulo(svg, 760, cy + 242, `4 tornillos ø6 × 150 en el cruce · ${[...new Set([Math.min(...A.cruces.map(c => c.torn)), Math.max(...A.cruces.map(c => c.torn))])].join('–')} de 120 por punta`, { class: 'txs h' });
-      rotulo(svg, 760, cy + 264, `D/C máx. ${coma(T.dc_cruz_max, 2)} · λ ≤ ${coma(Math.max(...A.cruces.map(c => c.lam)), 0)} (máx. 200)`, { class: 'txs h' });
-      rotulo(svg, 760, cy + 284, `uniones al palo a ${A.lado.bandas.map(([a, b]) => `${coma(a / 100, 2)}/${coma(b / 100, 2)}`).join(', ')} m (según el palo)`, { class: 'txs h' });
+      rotulo(svg, 760, cy + 264, `uniones al palo a ${A.lado.bandas.map(([a, b]) => `${coma(a / 100, 2)}/${coma(b / 100, 2)}`).join(', ')} m (según el palo)`, { class: 'txs h' });
     }
   })();
 
   // =====================================================================  04 tabla por línea
   (function tabla() {
     const t = $('#tabla-lineas'), ub = l => `${nomEje(l.entre[0])}–${nomEje(l.entre[1])}${l.espacios > 2 ? ` <span class="sub">(${m2(l.dist)} de ${l.desde})</span>` : ''} · ${l.de[0]}→${l.de[1]}`;
-    t.innerHTML = `<thead><tr><th>Línea</th><th>Ubicación (ejes)</th><th class="r">Luz de placa (m)</th><th class="r">@ real (cm)</th><th class="r">Palos</th><th class="r">Solera (m)</th><th class="r">Carga máx. por palo (kgf)</th><th class="r">D/C palo</th><th class="r">D/C solera</th><th class="r">Diag. · cruces</th></tr></thead><tbody>` +
-      A.lineas.map(l => `<tr data-id="${l.id}"><td class="nw"><span class="sw" style="background:${COL(l.sep)}"></span><b>${l.id}</b></td><td>${ub(l)}</td><td class="r">${m2(l.luz[0])}</td><td class="r"><b>${l.sep}</b></td><td class="r">${l.n_palos}</td><td class="r">${coma(l.solera_m, 2)}</td>
-        <td class="r">${l.carga_max_kgf === T.carga_max ? '<b>' : ''}${coma(l.carga_max_kgf, 0)}${l.carga_max_kgf === T.carga_max ? '</b>' : ''}</td><td class="r ${dcClase(l.dc.palo)}">${coma(l.dc.palo, 2)}</td><td class="r ${dcClase(Math.max(l.dc.solera, l.dc.biaxial))}">${coma(Math.max(l.dc.solera, l.dc.biaxial), 2)}</td><td class="r">${l.diagonales} · ${l.cruces}</td></tr>`).join('') +
-      `<tr class="tot"><td>${T.lineas}</td><td>${T.tramos} tramos</td><td class="r">≤ ${m2(Math.max(...A.lineas.map(l => l.luz[0])))}</td><td class="r">${T.a_min}–${T.a_max}</td><td class="r">${T.palos}</td><td class="r">${coma(T.solera_m, 1)}</td><td class="r">máx. ${coma(T.carga_max, 0)}</td><td class="r">máx. ${coma(T.dc_palo_max, 2)}</td><td class="r">máx. ${coma(Math.max(T.dc_solera_max, T.dc_biaxial_max), 2)}</td><td class="r">${T.diagonales} · ${T.cruces}</td></tr></tbody>`;
+    t.innerHTML = `<thead><tr><th>Línea</th><th>Ubicación (ejes)</th><th class="r">Luz de placa (m)</th><th class="r">@ máx. (cm)</th><th class="r">Palos</th><th class="r">Solera (m)</th><th class="r">Diag. · cruces</th></tr></thead><tbody>` +
+      A.lineas.map(l => `<tr data-id="${l.id}"><td class="nw"><span class="sw" style="background:${COL(l.sep)}"></span><b>${l.id}</b></td><td>${ub(l)}</td><td class="r">${m2(l.luz[0])}</td><td class="r"><b>${l.sep}</b></td><td class="r">${l.n_palos}</td><td class="r">${coma(l.solera_m, 2)}</td><td class="r">${l.diagonales} · ${l.cruces}</td></tr>`).join('') +
+      `<tr class="tot"><td>${T.lineas}</td><td>${T.tramos} tramos</td><td class="r">≤ ${m2(Math.max(...A.lineas.map(l => l.luz[0])))}</td><td class="r">${T.a_min}–${T.a_max}</td><td class="r">${T.palos}</td><td class="r">${coma(T.solera_m, 1)}</td><td class="r">${T.diagonales} · ${T.cruces}</td></tr></tbody>`;
     t.querySelectorAll('tbody tr[data-id]').forEach(tr => tr.addEventListener('click', () => { window.__marcarLinea(tr.dataset.id, true); $('#planta').scrollIntoView({ behavior: 'smooth' }); }));
-    const L8 = A.lineas.filter(l => l.area === 8).map(l => l.f), C = A.cargas;
-    $('#nota-carga').innerHTML = `Carga máx. por palo = la mayor entre ${coma(C.k_apoyo, 2)}·w·a y la reacción real de cada palo más lo que tiran hacia abajo las diagonales y las cruces; con w = ${coma(C.k_reaccion_placa, 2)} × ${coma(C.q_aci_kgm2, 0)} kg/m² (ACI 347) × luz de placa × factor de la revisión (mayor que 1 en ${T.n_f} líneas: ${coma(T.f_min, 2)}–${coma(T.f_max, 2)}; en el área 8, ${coma(Math.min(...L8), 2)}–${coma(Math.max(...L8), 2)}, por la flecha de las vigas 3a y 4a) · con la ubicación real de cada palo da hasta ${coma(T.R_max, 0)} (${T.R_max_linea}) · D/C palo: pandeo con el amarre a media altura (aguanta ${coma(T.N_palo, 0)} kgf; área 1, si es terreno, ${coma(T.N_palo1, 0)}), con 10 % de holgura porque no se regula · D/C solera: flexión, y con la carga de lado entre cruces · madera seca G2, 65 × 210.`;
   })();
 
   // =====================================================================  05 materiales y pedido
   (function materiales() {
     const f1 = v => coma(v, 1), largos = m => m.min === m.max ? coma(m.min / 100, 2) : `${coma(m.min / 100, 2)}–${coma(m.max / 100, 2)}`;
     const largas = T.largas.reduce((s, [l, n]) => s + n, 0);
+    const rangoTorn = ns => [...new Set([Math.min(...ns), Math.max(...ns)])].join('–');   // 3 o, si cambia, 3–4
     $('#tabla-mat').innerHTML = `<thead><tr><th>Pieza 3x9</th><th>Para</th><th class="r">Piezas</th><th class="r">Largo (m)</th><th class="r">ml</th></tr></thead><tbody>` +
       A.materiales.map(m => `<tr><td class="nw"><b>${m.mat}</b></td><td>${m.uso}</td><td class="r"><b>${m.n}</b></td><td class="r nw">${largos(m)}</td><td class="r">${f1(m.ml)}</td></tr>`).join('') +
-      `<tr class="tot"><td>Total</td><td>${A.madera.especie} · ≈ ${coma(T.m3, 1)} m³</td><td class="r">${A.materiales.reduce((s, m) => s + m.n, 0)}</td><td class="r nw">—</td><td class="r">${f1(T.ml)}</td></tr>
-       <tr class="tot"><td>Compra</td><td colspan="4">${T.barras} piezas de ${coma(T.compra / 100, 2)} m (los palos y las piezas cortas salen de ahí) + ${largas} pedidas a su largo: ${T.largas.map(([l, n]) => `${n} de ${coma(l / 100, 2)}`).join(' · ')} · cada pieza de 4 m pesa ≈ ${T.peso_pieza}–${Math.round(T.peso_pieza * 1.3)} kg</td></tr></tbody>`;
+      `<tr class="tot"><td>Total</td><td>≈ ${coma(T.m3, 1)} m³</td><td class="r">${A.materiales.reduce((s, m) => s + m.n, 0)}</td><td class="r nw">—</td><td class="r">${f1(T.ml)}</td></tr></tbody>`;
     const C = T.torn;
     $('#tabla-torn').innerHTML = `<thead><tr><th>Tornillo ø6 para madera</th><th>Dónde</th><th class="r">Cantidad</th></tr></thead><tbody>
       <tr><td class="nw"><b>× 120</b></td><td>palo → solera de arriba y palo → solera abajo: 2 lanceros en cada punta</td><td class="r">${coma(C.cabeza + C.pie, 0)}</td></tr>
       <tr><td class="nw"><b>× 120</b></td><td>las 2 piezas de la solera de arriba entre sí, @60</td><td class="r">${coma(C.solera, 0)}</td></tr>
-      <tr><td class="nw"><b>× 150</b> <span class="sub">caña lisa ≥ 70</span></td><td>cubrejuntas de la solera de arriba: 3 + 3</td><td class="r">${coma(C.cubrejunta_s, 0)}</td></tr>
-      <tr><td class="nw"><b>× 150</b></td><td>amarre: 2 por palo + cubrejuntas 3 + 3</td><td class="r">${coma(C.amarre, 0)}</td></tr>
-      <tr><td class="nw"><b>× 150</b></td><td>diagonales: ${Math.min(...A.lineas.flatMap(l => l.tramos.flatMap(t => t.diagonales.map(d => d.torn))))}–${Math.max(...A.lineas.flatMap(l => l.tramos.flatMap(t => t.diagonales.map(d => d.torn))))} en cada punta + 2 al palo del medio</td><td class="r">${coma(C.diagonal, 0)}</td></tr>
+      <tr><td class="nw"><b>× 150</b> <span class="sub">caña lisa ≥ 70</span></td><td>cubrejuntas de la solera de arriba: 3&nbsp;+&nbsp;3</td><td class="r">${coma(C.cubrejunta_s, 0)}</td></tr>
+      <tr><td class="nw"><b>× 150</b></td><td>amarre: 2 por palo + cubrejuntas 3&nbsp;+&nbsp;3</td><td class="r">${coma(C.amarre, 0)}</td></tr>
+      <tr><td class="nw"><b>× 150</b></td><td>diagonales: ${rangoTorn(A.lineas.flatMap(l => l.tramos.flatMap(t => t.diagonales.map(d => d.torn))))} en cada punta + 2 al palo del medio</td><td class="r">${coma(C.diagonal, 0)}</td></tr>
       <tr><td class="nw"><b>× 120</b> <span class="sub">caña lisa ≥ 70</span></td><td>topes en el pie de las diagonales: 2 cada uno</td><td class="r">${coma(C.tope, 0)}</td></tr>
-      <tr><td class="nw"><b>× 120</b> <span class="sub">caña lisa ≥ 70</span></td><td>cruces de lado: 2 piezas × 2 puntas, a la cara del palo (${[...new Set([Math.min(...A.cruces.map(c => c.torn)), Math.max(...A.cruces.map(c => c.torn))])].join('–')} cada una)</td><td class="r">${coma(C.cruz_puntas, 0)}</td></tr>
-      <tr><td class="nw"><b>× 150</b></td><td>cruces de lado: taco del cruce, 2 + 2</td><td class="r">${coma(C.cruz, 0)}</td></tr>
-      <tr class="tot"><td>Total</td><td>sin pérdidas · ${coma(T.torn_120, 0)} de 120 y ${coma(T.torn_total - T.torn_120, 0)} de 150 · se sacan para reusar la madera</td><td class="r">${coma(T.torn_total, 0)}</td></tr></tbody>`;
-    const Bs = A.base;
-    $('#pedido').innerHTML = `<div class="caja hi"><h4>Pedir a la barraca</h4><div class="kv">
-        <span class="k">Madera</span><span>pino radiata 3x9 <b>seco</b> (CH < 20 %), G2 timbrado; cepillado (65 × 210) o dimensionado (69 × 214)</span>
-        <span class="k">Piezas</span><span>${T.barras} de 4,00 m + ${largas} largas (${T.largas.map(([l, n]) => `${n} × ${coma(l / 100, 2)}`).join(', ')})</span>
+      <tr><td class="nw"><b>× 120</b> <span class="sub">caña lisa ≥ 70</span></td><td>cruces de lado: 2 piezas × 2 puntas, a la cara del palo (${rangoTorn(A.cruces.map(c => c.torn))} cada una)</td><td class="r">${coma(C.cruz_puntas, 0)}</td></tr>
+      <tr><td class="nw"><b>× 150</b></td><td>cruces de lado: taco del cruce, 2&nbsp;+&nbsp;2</td><td class="r">${coma(C.cruz, 0)}</td></tr>
+      <tr class="tot"><td>Total</td><td>sin pérdidas</td><td class="r">${coma(T.torn_total, 0)}</td></tr></tbody>`;
+    $('#pedido').innerHTML = `<h4>Pedir a la barraca</h4><div class="kv">
+        <span class="k">Madera</span><span>pino radiata 3x9 <b>seco</b> (CH &lt; 20 %), G2 timbrado; cepillado (65 × 210) o dimensionado (69 × 214)</span>
+        <span class="k">Piezas</span><span>${T.barras} de ${coma(T.compra / 100, 2)} m (de ahí salen los palos y las piezas cortas; ≈ ${T.peso_pieza}–${Math.round(T.peso_pieza * 1.3)} kg cada una) + ${largas} largas: ${T.largas.map(([l, n]) => `${n} de ${coma(l / 100, 2)}`).join(' · ')}</span>
         <span class="k">Tornillos</span><span>ø6 para madera, estructurales, con caña lisa ≥ 70 mm: ${coma(T.torn_120, 0)} de 120 y ${coma(T.torn_total - T.torn_120, 0)} de 150</span>
         <span class="k">Calces</span><span>terciado de 1 cm: 2 por punta de tramo (${T.n_calces})</span>
-        <span class="k">Al recibir</span><span>medir la escuadría y la humedad de unas piezas</span>
-      </div></div>
-      <div class="caja"><h4>En obra</h4><div class="kv">
-        <span class="k">1</span><span>solera abajo plana, corrida bajo la línea, suelta en el piso</span>
-        <span class="k">2</span><span>solera doble arriba, contra los valles, con los calces contra las alas y una cubrejunta en cada unión</span>
-        <span class="k">3</span><span>medir cada palo en su lugar y cortarlo a esa medida; entra apretado sin levantar la placa; 2 lanceros arriba y abajo</span>
-        <span class="k">4</span><span>amarre a media altura (${m2(T.z_amarre)} m al centro), diagonales sobre 2 vanos con su tope, cruces de lado entre palos enfrentados</span>
-        <span class="k">Retiro</span><span>no antes de 14 días y con probetas; soltar tornillos y sacar el palo de lado</span>
-        <span class="k">Área 1</span><span>si es terreno: palos de ≈ ${m3d(Bs.largo_palo)} (de piezas de ${coma(Bs.compra_palo / 100, 2)}) y solera abajo doble · ${coma(Bs.p, 2)} kg/cm² <span class="fuente med">supuesto</span></span>
-      </div></div>`;
-  })();
-
-  // =====================================================================  06 falta confirmar, dato y supuesto
-  (function falta() {
-    $('#por-confirmar').innerHTML = `<b>Por confirmar</b><ol>${A.por_confirmar.map(([t, q]) => `<li>${t} <span class="sub">· ${q}</span></li>`).join('')}</ol>`;
-    const li = arr => arr.map(([t, q]) => `<li>${t} <span>· ${q}</span></li>`).join('');
-    $('#dvs').innerHTML = `<div><h4><span class="fuente man">dato</span></h4><ul>${li(A.datos)}</ul></div><div><h4><span class="fuente med">supuesto</span></h4><ul>${li(A.supuestos)}</ul></div>`;
-    const C = A.cargas;
-    $('#fuentes').innerHTML = [
-      `Cargas: losa fresca ${C.D_kgm2} kg/m² + trabajo → ${C.q_base_kgm2} kg/m²; se diseña con ACI 347: ${C.q_aci_kgm2} kg/m². ${C.porque}`,
-      `Madera: ${M.porque} Con eso: Ff ${coma(M.Ff_dis, 2)} MPa (canto) · Fcp ${coma(M.Fcp_dis, 2)} · Fcn ${coma(M.Fcn_dis, 2)} × ${coma(M.Kcn, 2)} · Fcz ${coma(M.Fcz_dis, 2)} · E ${coma(M.E_dis, 0)} MPa.`,
-      `Palo: ${A.palo.porque} De ${m3d(T.H_palo)} m: suelto λ ${coma(T.lam_suelto, 0)}; con el amarre λ ${coma(T.lam_d, 0)} (lado delgado) y ${coma(T.lam_f, 0)} (ancho) → ${coma(T.N_palo, 0)} kgf. Área 1 en terreno (${m3d(T.H_palo1)} m): ${coma(T.N_palo1, 0)} kgf.`,
-      `Solera de arriba: ${A.solera.porque} Momento admisible ${coma(M.M_solera_kNm, 2)} kN·m y corte ${coma(M.V_solera_kN, 1)} kN; apoyo sobre el palo ${coma(T.N_apoyo, 0)} kgf; flecha máx. ${coma(T.flecha_max, 1)} mm.`,
-      `Solera abajo: ${A.abajo.porque} El palo apoya ${coma(T.N_apoyo_abajo, 0)} kgf.`,
-      `Amarre: ${A.amarre.porque}`,
-      `Diagonales: ${A.diagonal.porque} D/C máx. ${coma(T.dc_diag_max, 2)}.`,
-      `De lado: ${A.lado.porque} ${T.cruces} cruces; D/C máx. ${coma(T.dc_cruz_max, 2)}; la solera de arriba cargada de lado entre cruces y combinada con la vertical: máx. ${coma(T.dc_biaxial_max, 2)}. Horizontal de ACI 347 en toda la losa: ${coma(T.H_aci_kN[0], 1)} kN en x y ${coma(T.H_aci_kN[1], 1)} kN en y.`,
-      `Factor de la revisión: ${A.f_rev_porque}`,
-      `Apoyo de la placa en la solera: ${A.apoyo_placa.porque} Máx. ${coma(T.apoyo_max, 2)} (${T.apoyo_max_linea}; con 2 vanos ${coma(T.apoyo_max_2v, 2)}).`,
-      `Base: ${A.base_porque}`,
-      `Alturas: ${A.alturas.porque}`,
-      `Geometría: ${A.geometria.porque}`,
-    ].map(t => `<li>${t}</li>`).join('');
+      </div>`;
   })();
 
   // ---------- índice activo ----------

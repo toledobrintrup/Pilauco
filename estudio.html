@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#1B1E24">
-<meta name="description" content="Estudio de grabación con búnker de Casa Pilauco: la estructura del proyecto del ingeniero adaptada a la planta nueva (medidas y recintos), con revisión estructural, plantas, cortes, elevaciones, luces y lo que falta.">
+<meta name="description" content="Estudio de grabación con búnker de Casa Pilauco: planta, búnker, humedad y filtraciones, elevaciones, alturas, ventanas, fundaciones, planos de enfierradura y acero.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%233D5A73'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='2.2'%3E%3Cpath d='M7 24V10h18v14'/%3E%3Cpath d='M7 10l18 14M25 10L7 24'/%3E%3C/g%3E%3C/svg%3E">
 <title>Estudio: estructura</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -185,73 +185,71 @@ ol.preg li{margin:0 0 8px}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V155" data-vista="estudio"></script>
-  <h1>Estudio y búnker: estructura <small>el proyecto del ingeniero adaptado a la planta nueva, para que él lo revise</small></h1>
-  <span class="meta" id="meta">Revisado con cálculo propio · sin firma</span>
+  <script src="menu.js?v=V156" data-vista="estudio"></script>
+  <h1>Estudio y búnker <small>estructura, fundaciones y enfierradura</small></h1>
+  <span class="meta" id="meta"></span>
 </header>
 <nav class="toc" id="toc">
-  <a href="#resumen">Resumen</a><a href="#revision">Revisión</a><a href="#ingeniero">Ingeniero</a><a href="#vista3d">3D</a><a href="#planta">Planta</a><a href="#bunker">Búnker</a><a href="#elevaciones">Elevaciones</a><a href="#alturas">Alturas</a><a href="#vanos">Ventanas</a><a href="#fundaciones">Fundaciones</a><a href="#planos">Planos</a><a href="#luces">Luces</a><a href="#acero">Acero</a><a href="#preguntas">Falta</a>
+  <a href="#resumen">Resumen</a><a href="#vista3d">3D</a><a href="#planta">Planta</a><a href="#bunker">Búnker</a><a href="#humedad">Humedad</a><a href="#elevaciones">Elevaciones</a><a href="#alturas">Alturas</a><a href="#vanos">Ventanas</a><a href="#fundaciones">Fundaciones</a><a href="#planos">Planos</a><a href="#acero">Acero</a>
 </nav>
 <div class="doc-in">
 
 <section id="resumen" style="padding-top:14px">
-  <p class="lead">Estudio con búnker, con el <b>sistema estructural del ingeniero</b> (abril 2026) acomodado a la planta nueva. Cada pieza dice si es <span class="fuente man">dato</span> de sus láminas o <span class="fuente med">propuesta</span>.</p>
-  <div class="aviso"><b>Revisado con cálculo propio</b> (pestaña Revisión, 23-10-2026), con los cambios ya aplicados. Al 27-10-2026 lleva también lo que pidió el ingeniero (vigas en los bordes del hueco de la escalera, VHA 25/50, unión de momento UM, insertos y sismo con tabiques y torsión). El 28-10 aprobó el hueco de la escalera, la unión UM y los insertos, aceptó la viga central de la escalera y pidió su solución mixta en el eje 4 (dados de 4C y 4C2 unidos por CF), ya aplicada con CF 30/50 por el moldaje existente. Ese día el hueco quedó sin pilar (decisión del propietario): la VBL va colgada 25/50, con el alto que cumple la flecha L/300 que pidió el ingeniero y la armadura recalculada. El 29-10 pidió que todas las riostras verticales trabajen a tracción y compresión, en su lugar. El 10-11, al revisar el informe V134, aceptó todo lo demás y pidió las riostras verticales en <b>tubo cuadrado 150x150x3</b> (ya aplicado: todas pasan, máx. 0,55, también la diagonal sola de C2 4-5) y un <b>dren interceptor</b>, que no se hace (decisión del propietario, 10-11: la flotación pasa sin él, FS 1,76; búnker impermeabilizado como bañera cerrada). Falta la firma de un ingeniero civil.</div>
+  <p class="lead">Estudio de grabación con <b>búnker bajo tierra</b>. Aquí está lo que se construye: plantas, cortes, fundaciones, enfierradura y acero.</p>
   <div class="specs" id="specs"></div>
-  <p style="margin-top:12px"><a class="btn p" href="3d.html?estudio=1">Ver en 3D →</a> <span class="small sub">con la sección real de cada perfil; toca una pieza para ver qué es</span></p>
+  <p style="margin-top:12px"><a class="btn p" href="3d.html?estudio=1">Ver en 3D →</a> <span class="small sub">toca una pieza para ver qué es</span></p>
 </section>
 
-<section id="revision">
-  <h2>Revisión estructural</h2>
-  <p class="small sub">23-10-2026, con la escalera de 1,20 y el distribuidor (23-10) y la cabina de 4,15 con la bodega desde ella (24-10) · al día al 27-10-2026 con lo que pidió el ingeniero (V121 y 27-10): vigas en los bordes del hueco de la escalera, VHA 25/50, fisura 0,30 mm, unión de momento UM, insertos y sismo con tabiques y torsión · agua a 1,50 m sobre el piso del búnker · cálculo propio (modelo 3D de todo) · al día con su respuesta del 28-10-2026 (solución mixta en el eje 4: dados unidos por CF 30/50; hueco de la escalera sin pilar, con la VBL colgada 25/50 y flecha ≤ L/300) · al día con sus respuestas del 29-10-2026 (riostras verticales a tracción y compresión, todas en su lugar) y del 10-11-2026 sobre el informe V134 (riostras en CUAD 150x150x3; dren interceptor: no se hace, decisión del propietario; lo demás, aceptado) · todo aplicado en el modelo, los planos y el 3D.</p>
-  <div class="rv-cuenta" id="rv-cuenta"></div>
+<section id="vista3d">
+  <h2><span class="n">01</span>Vista 3D del estudio</h2>
+  <p class="sub"><b>Girar:</b> arrastrar · <b>acercar:</b> rueda o pellizco · <b>ficha:</b> tocar la pieza · las capas se prenden en «Capas».</p>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V156" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
+</section>
 
-  <h3>Búnker</h3>
-  <div class="rv-lista">
-    <div class="rv-cab"><span>Elemento</span><span>Antes → ahora</span><span style="text-align:right">D/C</span><span style="text-align:right">Estado</span></div>
-    <div class="rv-fila"><span class="el">Losa de techo</span><span class="qp">e=20 hecha para 5 m → <b>e=25</b> continua con los muros: ø10@15 abajo, ø12@15 en L arriba y <b>ø10@20 arriba en 1–5 junto a los muros A y B</b> (esa franja trabajaba en hormigón simple: 0,97 → 0,40). Sin pilar, con la VBL colgada, manda la flexión inferior junto a la VBL: 3.280 / 4.450 kgf·m/m (32,2 / 43,7 kN·m/m); con el pilar 0,81, antes 0,98. Flecha de largo plazo 6,1 mm (L/480 = 13,5).</span><span class="dc">0,74</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Corte de la losa de techo</span><span class="qp">5.577 kgf/m (54,7 kN/m), sin pilar: pasa con ACI 318-08 (la de la NCh 430) y con la 318-19 tomando el fierro en tracción. El ingeniero lo da por bueno con la losa de 25.</span><span class="dc">0,36 · 0,55</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">VHA-3</span><span class="qp">25/40 muy flexible → <b>25/50</b> (lo pidió el ingeniero) con 3ø16 abajo, 3ø12 arriba y E ø10@15: M+ 5.075 / 10.440 kgf·m (49,8 / 102,4 kN·m) = 0,49; manda M− 0,61; corte 0,18.</span><span class="dc">0,61</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Hueco de la escalera</span><span class="qp">1,20 × 3,97 hasta el muro del eje B. Vigas de borde 25/45 colgadas (2,13 libres) → vigas botadas con pilar en la esquina (ingeniero) → <b>sin pilar</b> (propietario, 28-10): <b>VBL colgada 25/50</b> al costado del hueco, de muro A a muro B, y <b>VBC 40/25 botada</b> apoyada en ella (medidas: propuesta). Alto de la VBL con flecha ≤ L/300 (el ingeniero, 28-10): L = 6,20 libre entre muros, 5,6 mm = L/1110 contra 20,7 (con 30 a 60 de alto da 7,4 a 4,7 mm: L/300 no manda; manda la resistencia). VBL 3ø16 + 5ø12 + 2ø12 laterales, E ø8@10: 0,97 (fierro de abajo con torsión); VBC 4ø12 + 4ø12, E ø8@9: 0,95. Altura libre 2,27 hasta el cielo, desde las narices, sin cambio.</span><span class="dc">0,97</span><span class="es"><span class="est ju">Justo</span></span></div>
-    <div class="rv-fila"><span class="el">Escalera del búnker</span><span class="qp">Croquis del ingeniero (27-10): losa de 15 con ø16@18, solo fierro abajo (simplemente apoyada) → flexión 1,13 y flecha 112 mm (L/480 = 12,3). Va su alternativa, que aceptó el 28-10 con 40 de alto total: <b>viga central VE 25/40 bajo una losa de 10</b> (fierro: propuesta), 3ø16 abajo y 2ø12 arriba, todas con gancho de 90° en la losa de fundación y L en el muro B: flexión 0,71, corte 0,30, torsión 0,80, flecha 6,4 mm (0,55), anclajes 0,76 / 0,95 (3ø16) y 0,57 / 0,72 (2ø12), 12,6 Hz.</span><span class="dc">0,80</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Losa de fundación</span><span class="qp">e=30 con fisuras de 0,5 mm → <b>e=35</b>, ø16@15 y ø12@15 arriba y abajo. Sin el pilar de la escalera sale el suple que iba bajo él: manda la flexión inferior junto al muro del eje 5, 6.796 / 7.899 kgf·m/m (66,6 / 77,5 kN·m/m); 0,74 con ks 14.000; con el pilar 0,80. Corte 0,58 (0,93 con la 318-19).</span><span class="dc">0,86</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Muros</span><span class="qp">e=25 → <b>e=30</b> hacia afuera (el interior no cambia): ø16@15 por fuera, ø12@15 por dentro. Corte 0,48. En el muro B, donde se empotra la VBL colgada: flexión 0,79 y corte 0,89 con la 318-19.</span><span class="dc">0,79</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Fisura</span><span class="qp">Límite 0,20 → <b>0,30 mm</b> (lo pidió el ingeniero: EC2, tabla 7.1N; la estanqueidad la da la membrana). Máx. 0,25 mm en el muro del eje B, por fuera bajo la losa, donde se empotra la VBL colgada (con el pilar 0,21 en la losa de fundación; antes 0,24 en el muro del eje 5); 0,22 en la losa de fundación y 0,20 en la VBL.</span><span class="dc">0,85</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Hormigón</span><span class="qp">G25 con 2,9 cm → <b>G30 con cristalizante</b>, recubrimiento 4 por fuera y 5 en fundaciones.</span><span class="dc"></span><span class="es"><span class="est ok">Cumple</span></span></div>
-    <div class="rv-fila"><span class="el">Fierro armable</span><span class="qp">Revisado barra por barra con la escalera, los insertos y la VBL colgada: <b>0 choques</b> entre barras (91 familias, con la escalera y los dados; sin el LF-suple ni el LR-VBL y con las laterales de la VBL) y con las placas, todas con su recubrimiento y las cabezas de los insertos libres. El fierro más cercano a la escalera queda a 6,0 libres (estribo de la VBL contra los peldaños). Bajo la placa de 30 de PLc-4A, 4 superiores LT-NS bajan 1,4 cm con quiebre 1:6 y la primera ø10@20 de la franja A parte pasado el quiebre.</span><span class="dc"></span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Flotación terminado</span><span class="qp">FS 1,76 con el relleno puesto (piden 1,20); no cambia con la escalera nueva.</span><span class="dc">0,68</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Flotación en obra</span><span class="qp">Con losa y muros, FS 1,0: hay que bombear hasta tener techo y relleno.</span><span class="dc">1,20</span><span class="es"><span class="est ju">Con bomba</span></span></div>
-    <div class="rv-fila"><span class="el">Agua hasta el terreno</span><span class="qp">Si el relleno se llena de lluvia, FS 0,99 contando solo el hormigón del búnker y la tierra sobre el vuelo. La membrana y el hormigón impermeable no lo evitan: el agua empuja hacia arriba igual. El ingeniero pidió un dren interceptor (10-11-2026); Gabriel prefiere no poner dren (10-11-2026: «esos tubos lo único que harán es llenarse de agua»). Contando también lo que el cálculo dejaba fuera del lado seguro (la estructura de acero y el techo que apoyan en los muros ≈ 10 t, las terminaciones del piso del estudio ≈ 9,6 t y el radier del búnker ≈ 7,6 t; sin el roce del relleno), queda en <b>≈ 1,09</b>: no flota, aunque bajo el 1,20. Con la napa de diseño (1,50 m sobre el piso), 1,76 solo con el búnker y ≈ 1,93 con todo. Decisión: <b>sin dren ni bombas</b> (Gabriel, 10-11-2026; el ingeniero había pedido un dren interceptor). Condiciones: durante la obra, excavación seca con bomba de achique hasta tener la losa de techo y el relleno (con losa y muros solos, FS 1,0 con el agua a 1,50 m); y tapa de suelo fino con pendiente y aguas lluvia lejos, para que el relleno no se llene desde arriba.</span><span class="dc">0,92</span><span class="es"><span class="est ju">Sin dren</span></span></div>
-    <div class="rv-fila"><span class="el">Suelo bajo el búnker</span><span class="qp">Pesa menos que la tierra que se saca: no se hunde.</span><span class="dc">0,75</span><span class="es"><span class="est ok">Pasa</span></span></div>
-  </div>
+<section id="planta">
+  <h2><span class="n">02</span>Plantas de enfierradura</h2>
+  <p class="sub">Planta 1: fundaciones y losa inferior · planta 2: losa superior del búnker · cotas en cm · toca una barra para ver qué es.</p>
+  <div class="segs" id="tz-capas"></div>
+  <figure class="ancho"><svg id="svg-planta" role="img" aria-label="Plano de fundaciones y trazado"></svg>
+    <figcaption id="cap-planta"></figcaption></figure>
+  <figure class="ancho"><svg id="svg-planta-sup" role="img" aria-label="Planta de la losa superior del búnker"></svg>
+    <figcaption id="cap-planta-sup"></figcaption></figure>
+  <figure class="ancho"><svg id="svg-corte-bunker" role="img" aria-label="Corte A–A del búnker"></svg></figure>
+  <p class="sub" id="cap-corte-bunker" style="margin-top:4px"></p>
+  <div class="leyenda" id="ley-planta"></div>
+  <div class="kvs" id="tz-fichas"></div>
+</section>
 
-  <h3>Estructura del estudio</h3>
-  <div class="rv-lista">
-    <div class="rv-cab"><span>Elemento</span><span>Antes → ahora</span><span style="text-align:right">D/C</span><span style="text-align:right">Estado</span></div>
-    <div class="rv-fila"><span class="el">Marcos de 10,75 m</span><span class="qp">Puntales y soldaduras no aguantaban → <b>viga 200×150×6</b>, puntales 150×150×5 con planchas y <b>cordón soldado a momento (UM)</b> a los pilares B y E de los ejes 2 y 3 (en A y en el eje 4 sigue articulado): puntal→viga 1,07 → 0,80, puntal→cordón 0,87, cordón 0,81, puntal 0,71; flecha 13,8 mm (L/782).</span><span class="dc">0,87</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Unión UM</span><span class="qp">Plancha de 8 y E6011 (lo pidió el ingeniero) → <b>2 planchas laterales PL 8×150</b> por nudo, de +4,11 a +4,26 (propuesta: las platabandas arriba y abajo daban 1,51): plancha 0,48, soldadura al cordón 0,54, al pilar 0,44, pilar en el nudo 0,33. 8 planchas, 45 kg.</span><span class="dc">0,54</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Sismo (deriva)</span><span class="qp">Con la masa de los tabiques (+4,4 t: P 24,7 → 29,4 t) y la torsión accidental (NCh 433 §6.2.8) daba 1,09 en 1–5 y 1,13 en A–E con las riostras solo a tracción → cruces nuevas en C–C2 de los ejes 1 y 5, X en la faja del eje E y cruz A 4-5 en 4 mm (0,87 / 0,59) → <b>riostras a tracción y compresión</b> (el ingeniero, 29-10), todas en su lugar, y desde el 10-11 en <b>CUAD 150x150x3</b> (el ingeniero), más rígidas; los 8 tensores de techo en Fe 16 (0,49). Deriva en el CM 4,25 / 9,0 mm en 1–5 (0,47) y 2,31 / 9,0 en A–E (0,26); exceso de un punto 3,7 / 4,5 mm (0,82) y 2,1 (0,47). El tabique B 4–5 sigue sin diagonal y el C2 4–5 con una sola.</span><span class="dc">0,82</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Riostras (cruces)</span><span class="qp">Solo a tracción → <b>a tracción y compresión</b>, todas en su lugar (el ingeniero, 29-10) → tubo RECT 150x50 de 2 a 4 mm (29-10), con la diagonal sola de C2 4-5 sin pasar → <b>tubo cuadrado CUAD 150x150x3</b> en todas (el ingeniero, 10-11: «usar cuadrado 150*150x3 en general para diagonales verticales»). Pasan todas, también la diagonal sola de C2 4-5 sin amarre (compresión 0,14, KL/r 83). Las dos diagonales de cada X en el mismo plano: la «b» cortada en el cruce y soldada a una plancha pasante PL 8 que atraviesa la «a». Compresión 0,22 como máximo, KL/r ≤ 109 (límite 200: 0,55), cruce ≤ 0,37 (AISC 360-16, Apéndice 6), unión ≤ 0,33 (cartela PL 8 en una ranura de dos caras opuestas del tubo, 4 filetes de 150), C máx. 8,0 t (78,6 kN) en A 4-5. 120,7 m de tubo, 1.642 kg (antes 826): acero del estudio 9.193 → 10.009 kg.</span><span class="dc">0,55</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Pilares</span><span class="qp">Los 150×100 de fachada, girados: lado de 150 contra el viento. El 1C pasa a 150×150×4 por la cabina de 4,15. Mandan el 1A2 y el 5A2 con viento: N 1,03 t (10,1 kN) + M 1.397 kgf·m (13,7 kN·m). Con las riostras a tracción y compresión el 5C baja de 0,84 a 0,68; con el CUAD 150x150x3, 0,69.</span><span class="dc">0,77</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Placas (insertos)</span><span class="qp">Fallaban 14 de 25 → PLc con 4 pernos (las tuercas chocaban con el tubo) → <b>insertos embebidos con barras A36 soldadas</b> (los aceptó el ingeniero; medidas: propuesta): 17 PLc e=16 con 4 ø22 y 8 PLb 200×200×12 con 4 ø3/4"; PLc-4A de 550×250×30 con 8 ø22 y hef 1.200 (Nua 24,8 t = 242,8 kN, Vua 8,3 t = 81,0 kN: 0,54); horquillas de corte ø16 en 11. Ω<sub>0</sub> = 2 solo en la parte sísmica. Con las riostras a tracción y compresión (29-10) bajaron todas (máx. 0,96 → 0,71); con las riostras en CUAD 150x150x3 (10-11), más rígidas, suben algunas, sin cambiar ninguna: máx. <b>0,82</b> (PLc-1C, corte por arranque del borde), soldaduras y placa 0,73, cartelas 0,50.</span><span class="dc">0,82</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Fundaciones</span><span class="qp">El sismo levantaba el CF del eje 4 → <b>solución mixta del ingeniero</b> (28-10; la zapata corrida ZC-4 no la aprobó): dados 1,40 × 1,40 bajo 4C y 4C2 unidos por <b>CF 30/50</b> con E ø10@20 (él pidió 30/30; 30/50 por el moldaje existente) entre sí, al cimiento del eje 5 y, por el CF-4 completo, al búnker y a la fachada E. Con las riostras en CUAD 150x150x3 (10-11), más rígidas, el eje 4 se despega apenas: con ks 14.000, 3 nudos del CF suben 0,02 mm y el dado de 4C sigue apretando el suelo (0,03 mm); con ks 28.000 el dado de 4C sube 0,06 mm; con ks 7.000, nada. CF 0,38 (0,43 con ks 7.000), corte 0,11. Manda el sobrecimiento del eje E: 8.790 / 10.799 kgf·m (86,2 / 105,9 kN·m) con 0,9D+1,4E (0,90 con ks 7.000). Lo que más se levanta: 0,89 mm en el sobrecimiento con ks 14.000 (1,26 con ks 28.000).</span><span class="dc">0,81</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Suelo del estudio</span><span class="qp">Presión en el sello, con los dados y lo que hay bajo cada línea (hormigón pobre, emplantillado): gravitacional 0,53 / 0,61 kgf/cm² (52 / 59,8 kPa) = 0,87; sísmica 0,51 / 0,92 kgf/cm² (50 / 90,2 kPa) = 0,55 (cargas mayoradas contra el admisible: conservador).</span><span class="dc">0,87</span><span class="es"><span class="est ok">Pasa</span></span></div>
-    <div class="rv-fila"><span class="el">Choques del acero</span><span class="qp">Revisado perfil por perfil, con las planchas UM y las riostras en CUAD 150x150x3 (las dos diagonales de cada X en el mismo plano, unidas en el cruce): solo se tocan en sus uniones, igual que con el RECT 150x50. En la V119 un puntal se metía en el pilar 4C2; ya no.</span><span class="dc"></span><span class="es"><span class="est ok">Cumple</span></span></div>
-    <div class="rv-fila"><span class="el">Vigas, aleros y techo</span><span class="qp">Pasan. Costaneras de 3 mm con silla y 2 pernos.</span><span class="dc">0,75</span><span class="es"><span class="est ok">Pasa</span></span></div>
-  </div>
-  <p class="rv-cargas">Cargas: viento 40 m/s (75 kgf/m² = 0,74 kPa, NCh 432:2010), que levanta el techo · nieve 25 kgf/m² (0,25 kPa) · sismo zona 3 (la de Osorno es 2: el ingeniero, 10-11-2026, «la considerada es más desfavorable, por lo tanto, más exigente»; se deja la 3), suelo E, R&nbsp;=&nbsp;2, P 29,4 t (288 kN) con los tabiques y torsión accidental ±0,10·b · insertos con Ω<sub>0</sub>&nbsp;=&nbsp;2 en la parte sísmica.</p>
+<section id="bunker">
+  <h2><span class="n">03</span>Búnker</h2>
+  <div class="kvs" id="txt-bunker"></div>
+  <figure class="ancho"><svg id="svg-bunker" role="img" aria-label="Planta del búnker"></svg>
+    <figcaption id="cap-bunker"></figcaption></figure>
+  <figure class="ancho"><svg id="svg-escalera" role="img" aria-label="Corte de la escalera al búnker"></svg>
+    <figcaption id="cap-escalera"></figcaption></figure>
+  <figure class="ancho" style="--ancho-fig:1480px"><svg id="svg-escalera-det" role="img" aria-label="Detalle constructivo de la escalera al búnker"></svg>
+    <figcaption id="cap-escalera-det"></figcaption></figure>
+</section>
 
-  <h3>Humedad y filtraciones del búnker</h3>
-  <div class="specs rv-agua">
-    <div class="spec"><div class="l">Por fuera</div><div class="d">Membrana preaplicada bajo la losa, membrana adherida en muros y lámina nodular de protección encima (detalle y compras abajo).</div></div>
-    <div class="spec"><div class="l">El hormigón</div><div class="d">G30 con cristalizante, water-stop de PVC en la junta losa–muro y los 4 muros en una sola faena.</div></div>
-    <div class="spec"><div class="l">Sacar el agua</div><div class="d">Sin dren ni bombas (Gabriel, 10-11-2026): tapa de suelo fino con pendiente hacia afuera y aguas lluvia lejos del búnker; en obra, bomba de achique hasta tener el techo y el relleno.</div></div>
-    <div class="spec"><div class="l">Por dentro</div><div class="d">Cámara drenada con pozo de achique detrás de la sala acústica y deshumidificador (45–55 %).</div></div>
-  </div>
+<section id="humedad">
+  <h2><span class="n">04</span>Humedad y filtraciones del búnker</h2>
+  <p class="lead">El búnker va como una <b>bañera cerrada</b>: membrana continua por fuera, hormigón impermeable y juntas selladas. <b>No lleva dren ni bombas</b>: el agua lluvia se aleja por arriba.</p>
 
-  <h3 id="impermeabilizacion">Impermeabilización del búnker: cómo se hace y qué comprar</h3>
-  <p>Sin dren ni bombas (Gabriel, 10-11-2026): el búnker tiene que aguantar el agua por sí solo. Se arma como una <b>bañera cerrada</b>: una membrana continua por debajo de la losa y por fuera de los muros, hormigón impermeable y todas las juntas selladas. Con el relleno lleno de agua, la presión al fondo es de unos 3,4 m de columna de agua (0,34 kgf/cm² = 34 kPa); la membrana y el hormigón la resisten, pero no impiden el empuje hacia arriba (flotación, ver «Agua hasta el terreno», por decidir).</p>
-  <figure class="ancho"><svg id="svg-imper" viewBox="0 0 1000 775" role="img" aria-label="Detalle de la impermeabilización del búnker en la unión muro–losa de fundación" style="width:100%;height:auto">
+  <h3>Qué lleva</h3>
+  <div class="tw"><table id="tabla-barreras">
+    <thead><tr><th class="c">N°</th><th>Qué es</th><th>Dónde va</th><th>Para qué</th></tr></thead><tbody>
+    <tr><td class="c"><b>1</b></td><td><b>Membrana preaplicada</b></td><td>Bajo toda la losa de fundación, sobre el emplantillado. Sube por el canto de la losa.</td><td>Corta el agua por abajo. El hormigón fresco se pega a ella.</td></tr>
+    <tr><td class="c"><b>2</b></td><td><b>Membrana autoadhesiva</b></td><td>Cara exterior de los 4 muros, desde el vuelo de la losa hasta 30 cm sobre el terreno.</td><td>Corta el agua por los lados.</td></tr>
+    <tr><td class="c"><b>3</b></td><td><b>Lámina nodular con geotextil</b></td><td>Sobre la membrana de los muros.</td><td>Protege la membrana del relleno.</td></tr>
+    <tr><td class="c"><b>4</b></td><td><b>Water-stop de PVC</b></td><td>En la junta entre la losa de fundación y los muros, en todo el perímetro.</td><td>Sella la junta de hormigonado.</td></tr>
+    <tr><td class="c"><b>5</b></td><td><b>Cordón hidroexpansivo</b></td><td>En la misma junta, por dentro, y alrededor de cada pasada.</td><td>Segundo sello: se hincha con el agua.</td></tr>
+    <tr><td class="c"><b>6</b></td><td><b>Emplantillado G5 de 10 cm</b></td><td>Bajo la losa de fundación, 10 cm más ancho por lado.</td><td>Base lisa y limpia para la membrana.</td></tr>
+    <tr><td class="c"><b>7</b></td><td><b>Hormigón G30 con cristalizante</b></td><td>Losa de fundación y los 4 muros.</td><td>Hormigón que no deja pasar el agua.</td></tr>
+    <tr><td class="c">·</td><td><b>Chaflán de mortero de 5 × 5</b></td><td>Rincón entre el muro y el vuelo de la losa, por fuera.</td><td>La membrana no se dobla en canto vivo.</td></tr>
+    <tr><td class="c">·</td><td><b>Relleno y tapa de suelo fino</b></td><td>Alrededor del búnker, con pendiente hacia afuera.</td><td>Que la lluvia no se meta al relleno.</td></tr>
+    </tbody></table></div>
+<figure class="ancho"><svg id="svg-imper" viewBox="0 0 1000 775" role="img" aria-label="Detalle de la impermeabilización del búnker en la unión muro–losa de fundación" style="width:100%;height:auto">
 <defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1D63B8"/></marker></defs>
 <rect x="330.0" y="40.0" width="248.0" height="460.0" style="fill:#C9B88F;opacity:.35"/>
 <rect x="520.0" y="500.0" width="58.0" height="180.0" style="fill:#C9B88F;opacity:.35"/>
@@ -307,7 +305,7 @@ ol.preg li{margin:0 0 8px}
 <line x1="200" y1="388" x2="270" y2="472" style="stroke:var(--fig-soft);stroke-width:.8"/>
 <circle cx="270" cy="472" r="2.2" style="fill:var(--fig-ink)"/>
 <text x="196" y="392" text-anchor="end" style="font-size:15px;fill:var(--fig-ink);font-weight:600">water-stop de PVC (4)</text>
-<text x="196" y="410" text-anchor="end" style="font-size:13.5px;fill:var(--fig-soft)">15–23 cm, mitad y mitad</text>
+<text x="196" y="410" text-anchor="end" style="font-size:13.5px;fill:var(--fig-soft)">22 cm, mitad y mitad</text>
 <line x1="200" y1="448" x2="242" y2="494" style="stroke:var(--fig-soft);stroke-width:.8"/>
 <circle cx="242" cy="494" r="2.2" style="fill:var(--fig-ink)"/>
 <text x="196" y="452" text-anchor="end" style="font-size:15px;fill:var(--fig-ink);font-weight:600">cordón hidroexpansivo (5)</text>
@@ -319,9 +317,47 @@ ol.preg li{margin:0 0 8px}
 <text x="418.0" y="732.0" style="font-size:14px;fill:var(--fig-ink);fill:#1D63B8;font-size:13px">agua bajo la losa</text>
 <text x="20" y="765" style="font-size:13px;fill:var(--fig-soft)">Corte por el borde del búnker · medidas en cm · sin escala exacta en los espesores de las láminas (dibujadas más gruesas para verlas)</text>
 </svg>
-    <figcaption><b>Detalle de la unión muro–losa de fundación.</b> En azul, la membrana preaplicada bajo la losa (1), que sube por el canto del vuelo; en rojo, la membrana adherida al muro (2), que baja sobre el chaflán y el vuelo y la traslapa ≥ 15 cm. Los números son los pasos de abajo. Medidas: propuesta (detalle típico).</figcaption></figure>
-  <h4 id="bajo-losa">Qué va debajo de la losa de fundación (y qué pedir)</h4>
-  <figure class="ancho"><svg id="svg-bajo-losa" viewBox="0 0 1000 470" role="img" aria-label="Capas bajo la losa de fundación del búnker" style="width:100%;height:auto">
+    <figcaption><b>Unión del muro con la losa de fundación.</b> Azul: membrana preaplicada bajo la losa (1) · rojo: membrana del muro (2), que la traslapa 15 cm o más · los números son los de la tabla.</figcaption></figure>
+
+  <h3>Qué comprar</h3>
+  <div class="tw"><table id="tabla-imper">
+    <thead><tr><th class="c">N°</th><th>Qué pedir</th><th>Producto con ficha</th><th>Viene en</th><th class="r">Cantidad</th><th class="r">Pedir</th></tr></thead><tbody>
+    <tr><td class="c"><b>1</b></td><td>Membrana preaplicada para bajo la losa</td><td>SikaProof A+ 12</td><td>rollos de 2 × 20 m</td><td class="r">≈ 112 m²</td><td class="r"><b>3 rollos</b></td></tr>
+    <tr><td class="c"></td><td>Cinta para sus traslapos</td><td>SikaProof Tape A+ N</td><td>rollos de 25 m</td><td class="r">todos los traslapos</td><td class="r">≈ 3 rollos</td></tr>
+    <tr><td class="c"><b>2</b></td><td>Membrana autoadhesiva para los muros</td><td>SikaBit S-515</td><td>rollos de 1 × 20 m</td><td class="r">≈ 148 m²</td><td class="r"><b>8 rollos</b></td></tr>
+    <tr><td class="c"></td><td>Imprimante para esa membrana</td><td>el que indique Sika (Igol)</td><td>—</td><td class="r">≈ 135 m²</td><td class="r">según su ficha</td></tr>
+    <tr><td class="c"><b>3</b></td><td>Lámina nodular con geotextil</td><td>Sika Dren-50 GEO</td><td>rollos de 2 × 20 m</td><td class="r">≈ 127 m²</td><td class="r"><b>4 rollos</b></td></tr>
+    <tr><td class="c"><b>4</b></td><td>Water-stop de PVC de 22 cm</td><td>Cinta de PVC Sika O-22</td><td>rollos de 15 m</td><td class="r">≈ 36 m</td><td class="r"><b>3 rollos</b> y sus clips</td></tr>
+    <tr><td class="c"><b>5</b></td><td>Sello hidroexpansivo</td><td>SikaSwell S-2</td><td>cajas de 12 cartuchos</td><td class="r">≈ 36 m + pasadas</td><td class="r"><b>2 cajas</b></td></tr>
+    <tr><td class="c"><b>6</b></td><td>Hormigón G5 para el emplantillado</td><td>premezclado</td><td>—</td><td class="r">9,1 m³</td><td class="r"><b>10 m³</b></td></tr>
+    <tr><td class="c"><b>7</b></td><td>Cristalizante en el hormigón G30</td><td>Sika WT-240 P o Xypex Admix C-500 NF</td><td>lo agrega la planta</td><td class="r">63,5 m³ de G30</td><td class="r">pedirlo con el hormigón</td></tr>
+    <tr><td class="c">·</td><td>Mortero para el chaflán y los conos de las amarras</td><td>mortero de reparación (SikaRep)</td><td>sacos de 25 kg</td><td class="r">≈ 37 m de chaflán</td><td class="r">≈ 4 sacos</td></tr>
+    </tbody></table></div>
+  <ul class="puntos">
+    <li><b>Quién las pone:</b> las dos membranas las coloca un instalador capacitado o recomendado por Sika; lo piden sus fichas. Él confirma los rollos, las cintas y la unión de la membrana de la losa con la del muro.</li>
+    <li><b>Antes de comprar:</b> pedir stock a Sika Chile. Las membranas, la lámina nodular y la cinta de PVC no aparecen hoy en su catálogo web. Si no hay SikaProof A+, la que tiene ficha chilena es la SikaProof A-08.</li>
+    <li><b>Cantidades:</b> del modelo, con 10 % de traslapos y pérdidas. Losa de fundación de 11,60 × 7,55 m; muros por fuera, 35,3 m × 3,26 m.</li>
+    <li><b>Fichas:</b> <a href="https://esp.sika.com/dam/dms/es01/q/sikaproof-a-plus-12.pdf">SikaProof A+ 12</a> · <a href="https://chl.sika.com/dms/getdocument.get/af488e14-b626-4575-a549-cc09e83a1907/sikaproof_a-08.pdf">SikaProof A-08</a> · <a href="https://chl.sika.com/dms/getdocument.get/71720faf-e3f4-3049-9a47-a098dc16b093/SikaBit%20S-515.pdf">SikaBit S-515</a> · <a href="https://chl.sika.com/dms/getdocument.get/9a814781-78f7-33f2-a714-dd732de71d03/SikaDren%2050%20GEO.pdf">Sika Dren-50 GEO</a> · <a href="https://chl.sika.com/dms/getdocument.get/627120e0-5cd6-3d1c-8f26-4f0a7ba20355/CintasPVCSika%20CL.pdf">Cintas de PVC</a> · <a href="https://chl.sika.com/dam/dms/cl01/g/sikaswell_s-2.pdf">SikaSwell S-2</a> · <a href="https://chl.sika.com/dms/getdocument.get/76e88447-9a43-4148-9ba1-7b7f0967f528/sika-wt-240-p.pdf">Sika WT-240 P</a> · <a href="https://www.mc-bauchemie.cl/assets/downloads/products/es-CL/fichas_tecnicas/Xypex%20Admix%20C-500%20NF.pdf">Xypex Admix C-500 NF</a>.</li>
+  </ul>
+
+  <h3>Cómo se instala, paso a paso</h3>
+  <ol class="puntos" id="pasos-imper">
+    <li><b>Emplantillado (6).</b> G5 de 10 cm, liso y limpio, 10 cm más ancho que la losa por lado. Huecos de más de 1,5 cm, rellenos. Sin agua empozada.</li>
+    <li><b>Membrana bajo la losa (1).</b> Cara gris hacia arriba: es la que se pega al hormigón. Primero las tiras del borde, que suben por el canto de la losa; después los paños. Traslapos de 5 cm o más, todos con su cinta y rodillo.</li>
+    <li><b>Fierro.</b> No se acopia directo sobre la membrana: terciado debajo. Separadores de mortero de base ancha, sin cantos vivos. Nada se clava ni se arrastra.</li>
+    <li><b>Antes de hormigonar.</b> Se revisa toda la membrana. Rotura de hasta 1 cm: parche de cinta. Mayor: parche de membrana 5 cm más grande por lado, con cinta. Se hormigona antes de 90 días.</li>
+    <li><b>Water-stop (4).</b> Al centro del muro, a 15 cm de cada cara, mitad en la losa y mitad hacia el muro. Amarrado al fierro con sus clips, 5 por metro, perforando solo la aleta del borde. Uniones y esquinas soldadas a tope con plancha caliente; no se traslapan.</li>
+    <li><b>Losa de fundación (7).</b> G30 con cristalizante agregado en la planta. Bien vibrada, sobre todo junto al water-stop. Curado húmedo 7 días.</li>
+    <li><b>Cordón hidroexpansivo (5).</b> Sobre la junta limpia, por dentro del water-stop: cordón triangular de 2 cm, con 10 cm o más de hormigón a cada lado. Se pone al menos 2 días antes de hormigonar los muros y no puede quedar bajo agua.</li>
+    <li><b>Muros.</b> Mismo hormigón, los 4 en una sola faena. Amarras de moldaje con cono; sus agujeros se rellenan con mortero.</li>
+    <li><b>Pasadas.</b> Solo con pasamuros embebidos y cordón hidroexpansivo alrededor del tubo. De preferencia, por la losa de techo.</li>
+    <li><b>Chaflán y membrana de muros (2).</b> Chaflán de mortero de 5 × 5 en el rincón. Muro seco y limpio, sin lluvia y sobre 5 °C. Primero el imprimante. La membrana se pega con rodillo, con traslapos de 8 cm (franja blanca), 15 cm o más sobre la membrana del canto de la losa y hasta 30 cm sobre el terreno.</li>
+    <li><b>Lámina nodular (3).</b> Rollos en horizontal: lado liso contra la membrana; nódulos y geotextil hacia el relleno. Traslapos de 20 cm o más hacia arriba y 12 cm hacia el lado. No se clava sobre la membrana: se fija arriba, sobre su borde, con perfil de remate. Se pone solo lo que se va a rellenar pronto.</li>
+    <li><b>Relleno.</b> En capas de 20 cm compactadas, sin piedras grandes contra la lámina ni máquina pegada al muro.</li>
+  </ol>
+
+  <h3 id="bajo-losa">Bajo la losa de fundación</h3>
+<figure class="ancho"><svg id="svg-bajo-losa" viewBox="0 0 1000 470" role="img" aria-label="Capas bajo la losa de fundación del búnker" style="width:100%;height:auto">
 <defs><pattern id="bl-suelo" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M0,14L14,0" style="stroke:#8C7A55;stroke-width:.8"/></pattern></defs>
 <rect x="40" y="40" width="480" height="140" style="fill:var(--fig-horm);stroke:var(--fig-ink);stroke-width:1.2"/>
 <line x1="56" y1="64" x2="504" y2="64" style="stroke:#26282C;stroke-width:1.8"/><line x1="56" y1="156" x2="504" y2="156" style="stroke:#26282C;stroke-width:1.8"/>
@@ -351,145 +387,49 @@ ol.preg li{margin:0 0 8px}
 <text x="40" y="24" style="font-size:14px;fill:#B4232A;font-weight:600">✕ Nada de ripio, grava ni estabilizado bajo la losa</text>
 <text x="40" y="440" style="font-size:13px;fill:var(--fig-soft)">Corte bajo el búnker · espesores aproximados (la membrana, más gruesa para verla) · −391 desde la losa del estudio</text>
 </svg>
-    <figcaption><b>De abajo hacia arriba: suelo natural firme → emplantillado G5 de 10 → membrana → losa de 35.</b> No va relleno granular: la losa apoya directo en el suelo que dice la memoria de cálculo, a través del emplantillado.</figcaption></figure>
-  <ul class="rv-orden">
-    <li><b>Lo que dice el ingeniero</b> (lámina y memoria): emplantillado G5 «Var. / Mín. 10» bajo toda la losa, con el sello 20 cm dentro del estrato indicado en la memoria. La losa de fundación ocupa el lugar del radier: no hay relleno ni radier aparte (15-10-2026).</li>
-    <li><b>Mi consejo</b> (no lo dijo el ingeniero): <b>nada de ripio ni grava abajo</b>. Sin dren, una capa de grava solo junta agua bajo la losa, y sobre el limo blando no mejora nada. Si la máquina excava de más, o aparece una zona blanda o con barro, se saca lo malo y <b>se rellena con G5</b> (lo mismo que el ingeniero pide bajo las fundaciones de afuera), nunca con tierra suelta.</li>
-    <li><b>En obra:</b> los últimos 20 cm se sacan con balde liso (sin dientes) y sin pasar la máquina encima; el emplantillado se vacía el mismo día o al siguiente, para que el fondo no se ablande con la lluvia. Si entra agua, bomba de achique antes de vaciar.</li>
+    <figcaption><b>De abajo hacia arriba:</b> suelo natural firme → emplantillado G5 de 10 → membrana → losa de 35. Sin ripio ni grava.</figcaption></figure>
+  <ul class="puntos">
+    <li><b>Nada de ripio, grava ni estabilizado</b> bajo la losa: sin dren, solo junta agua.</li>
+    <li><b>Si la máquina se pasa</b> o aparece barro: se saca lo malo y se rellena con <b>G5</b>, nunca con tierra suelta.</li>
+    <li><b>Últimos 20 cm:</b> con balde liso, sin dientes, y sin pasar la máquina encima.</li>
+    <li><b>Emplantillado:</b> el mismo día o al siguiente, para que el fondo no se ablande con la lluvia.</li>
   </ul>
-  <div class="tw"><table id="tabla-bajo-losa"><thead><tr><th>Qué pedir ahora</th><th>Cuenta (modelo)</th><th class="r">Pedir</th></tr></thead><tbody>
-    <tr><td>Hormigón G5 para el emplantillado</td><td>losa 11,60 × 7,55 + 10 cm por lado = 11,80 × 7,75 = 91,5 m² × 0,10</td><td class="r">9,1 m³ → <b>10 m³</b></td></tr>
-    <tr><td>G5 extra si la máquina se pasa</td><td>cada 1 cm más hondo en todo el fondo = 0,9 m³</td><td class="r">según el fondo</td></tr>
-    <tr><td>Ripio, grava o estabilizado bajo la losa</td><td>no lleva</td><td class="r">0</td></tr>
-    <tr><td><b>Total a pedir</b></td><td>emplantillado, más lo que se haya pasado la máquina</td><td class="r"><b>10 m³ de G5</b></td></tr>
-  </tbody></table></div>
-  <h4>Orden de obra</h4>
-  <ol class="rv-orden">
-    <li><b>Emplantillado (6)</b> G5 de 10 cm, liso y limpio, 10 cm más ancho que la losa por cada lado. Sin agua empozada al poner la membrana.</li>
-    <li><b>Membrana preaplicada bajo la losa (1)</b>, extendida sobre el emplantillado con la cara adherente hacia arriba (el hormigón fresco se pega a ella), traslapos de 8–10 cm con su cinta, y subida por el canto del vuelo hasta la cara de arriba. Se pisa con cuidado: nada de fierros arrastrados ni tacones; se repara con parches del mismo sistema.</li>
-    <li><b>Fierro</b> sobre separadores de base ancha (no puntudos) para no perforar la membrana. Nada se clava ni se ancla a través de ella.</li>
-    <li><b>Water-stop de PVC (4)</b> centrado en la junta losa–muro, la mitad en la losa y la mitad hacia el muro, amarrado al fierro para que no se tumbe al hormigonar, y <b>cordón hidroexpansivo (5)</b> pegado en la junta, con al menos 8 cm de hormigón a cada lado.</li>
-    <li><b>Losa de fundación (7)</b> en G30 con <b>aditivo cristalizante</b> en planta (dosis de la ficha), bien vibrada y con <b>curado húmedo 7 días</b>. Antes de los muros, limpiar la junta (sin lechada suelta).</li>
-    <li><b>Muros</b> del mismo hormigón, los 4 en una sola faena (sin juntas verticales). Amarras de moldaje con cono y sello; los agujeros se rellenan con mortero sin retracción. Pasadas solo con pasamuros de aleta embebidos, de preferencia por la losa de techo.</li>
-    <li><b>Chaflán</b> de mortero de 5 × 5 en el rincón muro–vuelo, y <b>membrana adherida al muro (2)</b> por fuera, sobre hormigón seco y limpio (con su imprimante si la ficha lo pide), de abajo hacia arriba, traslapando ≥ 15 cm sobre la membrana del canto del vuelo y subiendo hasta 30 cm sobre el terreno, con perfil de remate arriba.</li>
-    <li><b>Lámina nodular con geotextil (3)</b> sobre la membrana del muro, con los nódulos hacia el muro y el geotextil hacia el relleno, fijada solo arriba (sobre la línea de la membrana), para que el relleno no la raye.</li>
-    <li><b>Relleno granular</b> en capas de 20 cm compactadas al 95 %, sin piedras grandes contra la lámina ni máquina pegada al muro.</li>
-  </ol>
-  <h4>Qué comprar (cantidades del modelo, con 10 % de traslapos y pérdidas)</h4>
-  <div class="tw"><table id="tabla-imper">
-    <thead><tr><th>Ítem</th><th>Qué es y opciones que se venden en Chile</th><th class="r">Cantidad</th></tr></thead><tbody>
-    <tr><td>1 · Membrana bajo la losa</td><td>Membrana <b>preaplicada</b> (se pone antes del hormigón y queda adherida a él): SikaProof A+ (Sika). Pedir ficha vigente en Sika Chile.</td><td class="r">≈ 112 m²</td></tr>
-    <tr><td>2 · Membrana de muros</td><td>Membrana <b>autoadhesiva bituminosa</b> postaplicada para subterráneos: SikaBit S-515 (Sika Chile; la ficha pide aplicador entrenado y protegerla antes del relleno).</td><td class="r">≈ 148 m²</td></tr>
-    <tr><td>3 · Lámina nodular</td><td>Lámina de nódulos de polietileno con geotextil incorporado: SikaDren-50 GEO (Sika Chile) u otra equivalente.</td><td class="r">≈ 127 m²</td></tr>
-    <tr><td>4 · Water-stop</td><td>Cinta de PVC para juntas de hormigonado de 15 a 23 cm (Sika Waterbar u otra).</td><td class="r">≈ 36 m</td></tr>
-    <tr><td>5 · Cordón hidroexpansivo</td><td>Perfil o masilla que se hincha con el agua: SikaSwell (Sika Chile) o MC-Water Stop (MC-Bauchemie).</td><td class="r">≈ 36 m + pasadas</td></tr>
-    <tr><td>7 · Cristalizante</td><td>Aditivo impermeabilizante por cristalización en el hormigón de la losa de fundación y los muros: Sika WT-240 P (Sika Chile) o Xypex Admix C-500 (MC-Bauchemie). Se pide a la planta de premezclado con la dosis de la ficha.</td><td class="r">63,5 m³ de G30</td></tr>
-    <tr><td>6 · Emplantillado</td><td>Hormigón G5 de 10 cm bajo la losa de fundación.</td><td class="r">≈ 9 m³</td></tr>
-    <tr><td>Chaflán y sellos</td><td>Mortero sin retracción para el chaflán de 5 × 5 y los conos de las amarras.</td><td class="r">≈ 37 m de chaflán</td></tr>
-    <tr class="tot"><td>Superficies</td><td>losa de fundación 11,60 × 7,55 = 87,6 m² + canto 13,4 m² · muros por fuera 35,3 m × 3,26 m = 115 m² + vuelo 19,5 m²</td><td class="r"></td></tr>
-    </tbody></table></div>
-  <p class="small sub">Productos: opciones con ficha de Sika Chile y MC-Bauchemie (no se cotizaron; confirmar la ficha vigente, que las membranas de losa y de muro sean compatibles entre sí y quién las instala). Las medidas del detalle son de un detalle típico (propuesta), no del ingeniero. Fichas: <a href="https://esp.sika.com/dam/dms/es01/q/sikaproof-a-plus-12.pdf">SikaProof A+ 12</a> · <a href="https://chl.sika.com/dms/getdocument.get/71720faf-e3f4-3049-9a47-a098dc16b093/SikaBit%20S-515.pdf">SikaBit S-515</a> · <a href="https://chl.sika.com/content/dam/dms/cl01/f/sika_dren-50_geo.pdf">SikaDren-50 GEO</a> · <a href="https://chl.sika.com/dam/dms/cl01/g/sikaswell_s-2.pdf">SikaSwell S-2</a> · <a href="https://chl.sika.com/dms/getdocument.get/76e88447-9a43-4148-9ba1-7b7f0967f528/sika-wt-240-p.pdf">Sika WT-240 P</a> · <a href="https://www.mc-bauchemie.cl/assets/downloads/products/es-CL/fichas_tecnicas/Xypex%20Admix%20C-500%20NF.pdf">Xypex Admix C-500 NF</a>.</p>
 
-  <h3>Lo que falta</h3>
-  <ol class="rv-orden">
-    <li>Sin dren: avisarle al ingeniero (pidió un dren interceptor) con la flotación revisada: FS 1,76 a 1,93 con la napa de diseño y ≈ 1,09 con el agua hasta el terreno.</li>
-    <li>Dibujar en detalle las cartelas PL 8 con la ranura del tubo y la plancha pasante PL 8 de cada cruce, ahora en CUAD 150x150x3 (el ingeniero, 10-11: «corresponde a la IA»).</li>
-    <li>Caja de la escalera: el ingeniero la entiende como una viga botada apoyada en un muro y luego en la losa de fundación (10-11-2026); así se calculó la escalera (viga central VE 25/40). Falta dejar el dibujo claro en ese sentido. Pasadas, fuego y corrosión: sin revisar.</li>
-    <li>Planos en formato de lámina (pestaña Planos): <b>el ingeniero visó la lámina 01 revisión B para cortar y doblar fierro (24-11-2026)</b> y confirmó lo que era lectura nuestra: el gancho de las barras de los insertos tendido sobre su cabeza soldada, las trabas de los muros cada 3 nudos y las 2ø12 de coronamiento dentro de los dobleces de arriba. Pidió dos cambios, que van en la revisión C: (1) la traba ø10 de las cadenas va en toda la cadena, no solo sobre los dados; (2) el búnker y las fundaciones del estudio van unidos, sin junta: «dejar que las armaduras horizontales del estudio y del búnker penetren en el elemento contrario en 60 cm desde la línea de unión». Además, si una zanja de las cadenas quedó excavada bajo −100, se rellena con el mismo estabilizado, compactado en capas de 15. Lo que en la revisión C es lectura nuestra de esos dos cambios (no cambia el visto bueno; se le puede mostrar cuando se quiera): (a) sobre la traba escribió «irán cada 20, es decir cada 2 estribos», pero los estribos van cada 20: quedó una traba por estribo, que cubre las dos lecturas; si era una cada 2 estribos, se saca una por medio; (b) la unión va con esperas del mismo diámetro de cada barra horizontal, que se dejan en el muro del eje B antes de hormigonar el búnker (60 adentro y, hacia afuera, el traslapo de 60ø): su forma y su lugar son dibujo nuestro, y el fierro del búnker ya revisado no se tocó. Por dibujar: lámina 02 (búnker: losa de techo, muros, vigas y escalera) y lámina 03 (planilla de doblado).</li>
-    <li>Firma de un ingeniero civil.</li>
-  </ol>
-  <p class="rv-nota">D/C = lo que se pide dividido por lo que aguanta: sobre 1 no pasa; justo = 0,9 a 1, o fisura en el límite (0,30 mm). Normas: NCh 433, 432, 431 y 1537, ACI 318 y AISC 360. No reemplaza la firma de un ingeniero.</p>
-</section>
-<script>
-(function () {
-  const n = c => document.querySelectorAll('#revision .est.' + c).length;
-  document.getElementById('rv-cuenta').innerHTML =
-    `<span class="est ok">${n('ok')} pasan</span><span class="est ju">${n('ju')} justos</span><span class="est no">${n('no')} por decidir</span>`;
-})();
-</script>
+  <h3>Mientras se construye</h3>
+  <ul class="puntos">
+    <li><b>Excavación seca:</b> bomba de achique hasta tener la losa de techo y el relleno. Con solo la losa y los muros, el agua puede levantar el búnker.</li>
+    <li><b>Membranas:</b> se revisan antes de tapar. Cada rotura se repara con parche del mismo sistema.</li>
+    <li><b>Nada se perfora</b> bajo el nivel del terreno después de hormigonar.</li>
+  </ul>
 
-<section id="ingeniero">
-  <h2>Respuestas al ingeniero</h2>
-  <p class="small sub">Solo lo que está en revisión con el ingeniero (29-10-2026). Lo aprobado, aceptado o respondido salió de esta pestaña: queda aplicado en el modelo y en la pestaña Revisión · fuerzas en kgf y t, kN entre paréntesis.</p>
-  <div class="rv-lista">
-    <div class="ing-cab"><span>Tema</span><span>Observación</span><span>Respuesta</span><span style="text-align:right">Estado</span></div>
-    <div class="ing-fila"><span class="el">Hueco de la escalera</span><span class="ob">Pilar en la esquina del hueco y vigas botadas en la losa de 25 (aprobado el 28-10) · sin el pilar: «que la altura supuesta no sobrepase la deformación de 1/300 de la luz y recalcule la armadura» (28-10)</span><span class="re">Sin pilar (decisión del propietario, 28-10-2026): la <b>VBL va colgada, 25/50</b> (cuelga 25 bajo la losa, como la VHA-3), del muro A al muro B por el lado abierto del hueco, con su cara oriente en el borde: no queda sobre la escalera. La VBC 40/25 sigue botada dentro de la losa y ahora apoya en la VBL. Luz usada: <b>6,20 libre</b> entre las caras de los muros A y B, L/300 = 20,7 mm. Flecha de la VBL a largo plazo (ACI 318-08 9.5.2.3, Branson con λΔ = 2; control con la 318-19), con 25 de ancho:
-      <table class="ing-tab"><thead><tr><th>Alto VBL</th><th>30</th><th>35</th><th>40</th><th>45</th><th><b>50</b></th><th>55</th><th>60</th></tr></thead><tbody>
-        <tr><td>Flecha (mm)</td><td>7,4</td><td>7,0</td><td>6,5</td><td>6,0</td><td><b>5,6</b></td><td>5,1</td><td>4,7</td></tr>
-        <tr><td>÷ L/300</td><td>0,36</td><td>0,34</td><td>0,31</td><td>0,29</td><td><b>0,27</b></td><td>0,25</td><td>0,23</td></tr>
-        <tr><td>VBL máx.</td><td>0,78</td><td>0,73</td><td>0,81</td><td>0,86</td><td><b>0,97</b></td><td>1,05</td><td>1,13</td></tr>
-        <tr><td>VBC máx.</td><td>1,17</td><td>1,11</td><td>1,06</td><td>1,0005</td><td><b>0,95</b></td><td>0,93</td><td>0,94</td></tr>
-      </tbody></table>
-      L/300 se cumple con cualquier alto, también con la altura supuesta (55–60): no es lo que manda. Manda la resistencia: más baja que 50 no pasa la VBC, que apoya en la VBL (su fierro longitudinal); más alta, la VBL atrae más momento y pide más fierro abajo con el mismo armado. Se propone <b>25/50</b>: 5,6 mm = L/1110 (5,7 con la 318-19). Armadura recalculada: <b>VBL</b> 3ø16 abajo rectas (19 dentro de cada muro), 5ø12 arriba en L de 72 en los muros A y B, 2ø12 laterales (torsión) y E ø8@10: M+ 6.897 kgf·m (67,6 kN·m) 0,68, M− 5.190 kgf·m (50,9 kN·m) 0,55, V 7.626 kgf (74,8 kN) 0,34, T 469 kgf·m (4,6 kN·m) con estribo V+T 0,22, fierro abajo con torsión <b>0,97</b>, fisura 0,20 mm. <b>VBC</b> 4ø12 abajo y 4ø12 arriba con gancho dentro de la VBL y E ø8@9 (s ≤ d/2): 0,95 (fierro arriba con torsión), estribo V+T 0,76. Sin pilar salen el suple de la losa de fundación y el LR-VBL; quedan los suples de las esquinas y las ø16 sobre el muro B. Efecto: losa de techo 0,74 (flecha 6,1 mm), losa de fundación 0,86, muro B donde se empotra la VBL: flexión 0,79, corte 0,89 con la 318-19 (0,48 con la 318-08) y fisura 0,25 mm. Altura libre de la escalera sin cambio: 2,33 a la losa y 2,27 hasta el cielo, desde las narices. Hormigón +0,39 m³, fierro +3 kg, sin los 54 kg del pilar.</span><span class="es"><span class="est ok">Aplicado</span><br><span class="small sub">según el ingeniero, 28-10</span></span></div>
-    <div class="ing-fila"><span class="el">Sismo</span><span class="ob">¿Qué suelo? · 29-10: «no permito riostras verticales que no soporten tracción y también compresión»; «que mantenga la posición de todas las riostras» · y luego: «Que use perfil rectangular 150x50x2, 3 o 4 mm. Creo se saldrá máximo de 3 mm» · 10-11, sobre el informe V134: «Contestada. Usar cuadrado 150*150x3 en general para diagonales verticales»</span><span class="re">Suelo <b>E</b>: lo asigna el informe de suelos con la regla del DS 61 para obras ≤ 500 m² y ≤ 2 pisos (sin Vs30 ni SPT). Zona 3, A0 0,40 g, S 1,30, T0 1,20 s, T′ 1,35 s, n 1,80, p 1,0, I 1,0. R = 2 (se mantiene; sin diseño por capacidad; NCh 433, tabla 5.1). C = Cmáx = 0,90·S·A0/g = 0,468. Con la masa de los tabiques y del cielo de la cabina (+4,4 t = 43,2 kN): P 24,7 → <b>29,4 t</b> (288 kN); Q0 11,6 → 13,7 t (135 kN); y torsión accidental ±0,10·b (§6.2.8): 23.990 kgf·m (235 kN·m) en 1–5 y 14.780 kgf·m (145 kN·m) en A–E. Ω0 = 2 solo en los insertos (supuesto, ACI 318-19 §17.10.5.3).
-      <br><b>Riostras en CUAD 150x150x3 (aplicado, 10-11).</b> Todas en su posición, a tracción y compresión, en tubo cuadrado 150x150x3 como pidió el ingeniero (antes RECT 150x50 de 2 y 3 mm, y la diagonal sola de C2 4-5 sin pasar). Con el tubo cuadrado el radio de giro es igual en los dos sentidos (5,9 cm): fuera del plano la «a» pandea en todo su largo (KL/r ≤ 109) y en el plano hasta el cruce (≤ 54); la diagonal sola de C2 4-5 pasa sin amarre (KL/r 83, compresión 0,14). Las dos diagonales de cada X van en el mismo plano: la «a» continua y la «b» cortada, soldada a una plancha pasante PL 8 que atraviesa la «a» por una ranura en sus dos caras perpendiculares al muro; la «a» sujeta el cruce fuera del plano (Apéndice 6.2.2: 0,37 en el peor). En cada extremo, cartela PL 8 metida en una ranura de 10 en dos caras opuestas del tubo, con 4 filetes de 150 de garganta 0,707·t (E6011 o MIG): máx. 0,33. AISC 360-16: tracción D2/D3, compresión E3 + E7, soldadura J2, pared del tubo K1. Cabe en el muro de 25, como los pilares de fachada.</span><span class="es"><span class="est ok">Aplicado</span><br><span class="small sub">según el ingeniero, 10-11</span></span>
-      <div class="ing-ancho">D/C de la peor diagonal de cada X (C = compresión mayorada; cruce = rigidez del nudo del cruce):
-      <div style="overflow-x:auto"><table class="ing-tab" id="tab-riostras" style="display:table"></table></div>
-      Los 8 tensores de techo siguen en Fe 16 (máx. 0,49, T-45-212a: 2,26 t = 22,2 kN), solo a tracción, en el plano del techo. Deriva en el CM <b>0,47</b> en 1–5 (4,25 / 9,0 mm) y <b>0,26</b> en A–E (2,31 mm); en un punto 0,82 (3,7 / 4,5 mm) y 0,47. Insertos máx. 0,82 (PLc-1C), sin cambiar ninguno; fundaciones: sobrecimiento del eje E 0,81 (0,90 con ks 7.000), CF 0,38; el eje 4 se despega apenas (0,02 mm; el dado de 4C, 0,06 mm con ks 28.000). Acero 9.193 → 10.009 kg (riostras 826 → 1.642 kg).</div></div>
-    <div class="ing-fila"><span class="el">Planos y memoria</span><span class="ob">Datos desordenados; memoria de cálculo</span><span class="re">De acuerdo. Próxima entrega: láminas limpias (fundaciones, estructura, losa del cielo del búnker y elevaciones de ejes) con cuadro de materiales, y una memoria resumida (bases, suelo y agua, cargas, modelos, acero, búnker, fundaciones y anclajes, resumen de D/C).</span><span class="es"><span class="est ju">Pendiente</span></span></div>
-  </div>
-
-  <h3>Respuesta del ingeniero (10-11-2026, informe V134 revisado)</h3>
-  <ol class="rv-orden">
-    <li>Riostras: «Contestada. Usar cuadrado 150*150x3 en general para diagonales verticales» → aplicado en todas (fila Sismo).</li>
-    <li>Cartelas y plancha pasante: «Corresponde a la IA» → por dibujar en detalle.</li>
-    <li>Revisión de la armadura de la losa y de los peldaños: «Se aceptó».</li>
-    <li>Caja de la escalera: «Se entiende como una viga botada que está apoyada en un muro y después en la losa de fundación».</li>
-    <li>Lo demás, aceptado: «se entiende que está aceptado, excepto que los detalles tendrán el cambio indicado de las riostras verticales»; «todo lo que incremente diámetros y largos se considera aceptado sin consulta posterior, por estar por el lado de la seguridad, entendiendo que las dimensiones geométricas no cambiarán». Agua: «debe haber dren interceptor» (Gabriel decidió no ponerlo: la flotación pasa sin él). Zona sísmica: «es 2, no 3, pero la considerada es más desfavorable».</li>
-  </ol>
-</section>
-
-<section id="vista3d">
-  <h2><span class="n">01</span>Vista 3D del estudio</h2>
-  <ul class="puntos"><li><b>Capas:</b> estructura de acero y hormigón, búnker bajo tierra, enfierradura, medidas (vienen apagadas).</li><li><b>Girar:</b> arrastrar · <b>acercar:</b> rueda o pellizco · <b>centrar:</b> doble toque · <b>ficha:</b> tocar la pieza.</li></ul>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V155" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
-  <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
-</section>
-
-<section id="planta">
-  <h2><span class="n">02</span>Plantas de enfierradura: losa inferior y losa superior</h2>
-  <p class="sub">Planta 1: losa inferior y fundaciones · planta 2: losa superior del búnker · ejes al centro de los pilares (los muros del búnker crecieron 5 hacia afuera) · cotas en cm · cursor sobre una barra: qué es</p>
-  <div class="segs" id="tz-capas"></div>
-  <figure class="ancho"><svg id="svg-planta" role="img" aria-label="Plano de fundaciones y trazado"></svg>
-    <figcaption id="cap-planta"></figcaption></figure>
-  <figure class="ancho"><svg id="svg-planta-sup" role="img" aria-label="Planta de la losa superior del búnker"></svg>
-    <figcaption id="cap-planta-sup"></figcaption></figure>
-  <figure class="ancho"><svg id="svg-corte-bunker" role="img" aria-label="Corte A–A del búnker"></svg></figure>
-  <p class="sub" id="cap-corte-bunker" style="margin-top:4px"></p>
-  <div class="leyenda" id="ley-planta"></div>
-  <div class="kvs" id="tz-fichas"></div>
-</section>
-
-<section id="bunker">
-  <h2><span class="n">03</span>Búnker</h2>
-  <div class="kvs" id="txt-bunker"></div>
-  <figure class="ancho"><svg id="svg-bunker" role="img" aria-label="Planta del búnker"></svg>
-    <figcaption id="cap-bunker"></figcaption></figure>
-  <figure class="ancho"><svg id="svg-escalera" role="img" aria-label="Corte de la escalera al búnker"></svg>
-    <figcaption id="cap-escalera"></figcaption></figure>
-  <figure class="ancho" style="--ancho-fig:1480px"><svg id="svg-escalera-det" role="img" aria-label="Detalle constructivo de la escalera al búnker"></svg>
-    <figcaption id="cap-escalera-det"></figcaption></figure>
+  <h3>Alrededor y por dentro</h3>
+  <ul class="puntos">
+    <li><b>Relleno:</b> granular importado (tamaño máximo 50 mm, pocos finos), en capas de 20 cm compactadas al 95 %. No se reutiliza el limo excavado.</li>
+    <li><b>Tapa:</b> suelo fino arriba, con pendiente hacia afuera.</li>
+    <li><b>Aguas lluvia:</b> bajadas y canaletas lejos del búnker.</li>
+    <li><b>Por dentro (opcional):</b> cámara drenada detrás de la sala acústica (lámina de nódulos y canaleta a un pozo de achique) y deshumidificador a 45–55 %.</li>
+  </ul>
 </section>
 
 <section id="elevaciones">
-  <h2><span class="n">04</span>Elevaciones</h2>
-  <ul class="puntos"><li><b>Pilares</b> 4,11 (eje A) a 4,81 m (eje E) · <b>viga 1–5</b> 100×100 encima · <b>viga inclinada</b> al 3,5 % · cordón + puntales en los marcos interiores, soldado a momento en B y E de los ejes 2 y 3 (<b>UM</b>, detalle abajo) · riostras a tracción y compresión (el ingeniero, 29-10-2026), todas en su lugar, en tubo cuadrado CUAD 150x150x3 (el ingeniero, 10-11-2026): cruces en los muros ciegos, una X en la faja sobre las cruces del eje E y la diagonal sola de C2 4-5 (todas pasan) · el perfil va escrito en cada cruz; las de los tabiques C y C2 (4-5) se ven en la planta de ventanas y en el 3D.</li><li><b>Colores:</b> naranjo pilares · azul vigas · morado techo · verde diagonales · gris hormigón · azul/naranjo ventanas y puertas.</li></ul>
+  <h2><span class="n">05</span>Elevaciones</h2>
+  <p class="sub"><b>Pilares</b> de 4,11 (eje A) a 4,81 m (eje E) · <b>viga inclinada</b> al 3,5 % · <b>riostras</b> en tubo CUAD 150x150x3; el perfil va escrito en cada cruz.</p>
   <div class="elevs" id="elevs"></div>
 </section>
 
 <section id="alturas">
-  <h2><span class="n">05</span>Alturas para la obra</h2>
-  <ul class="puntos"><li>Corte en dirección A–E por el muro del eje A del búnker, del sello al techo. Detalles <b>A</b> fundación y piso del búnker · <b>B</b> losa, pisos y placa base · <b>C</b> techo y cielo.</li><li><b>Obra gruesa</b> = dato del ingeniero · <b>terminaciones</b> = propuesta ya aplicada (la obra gruesa se ajustó para <b>4,00 / 3,10 libres terminados</b>).</li></ul>
+  <h2><span class="n">06</span>Alturas para la obra</h2>
+  <p class="sub">Corte A–E por el muro del eje A, del sello al techo · detalles <b>A</b> fundación y piso del búnker · <b>B</b> losa, pisos y placa base · <b>C</b> techo y cielo · libres terminados: <b>4,00</b> arriba y <b>3,10</b> en el búnker.</p>
   <figure id="alturas-fig" class="ancho"></figure>
   <div class="kvs" id="alturas-cap"></div>
-  <h3>Capas de piso y cielo (<b>PROPUESTA</b>)</h3>
+  <h3>Capas de piso y cielo</h3>
   <div class="tw"><table id="tabla-capas"></table></div>
   <ul class="puntos" id="txt-capas"></ul>
 </section>
 
 <section id="vanos">
-  <h2><span class="n">06</span>Ventanas, puertas y esquema interior (propuesta)</h2>
-  <ul class="puntos"><li><b>Módulo:</b> entre pilares (ejes cada 2,58; vanos de 2,18) · marcos de acero negro · de piso a <b>cielo terminado (4,00)</b>; la viga 1–5 +4,11/+4,21 y el cielo quedan encima.</li><li><b>Eje A (patio):</b> vidrio de piso a cielo en 1-2, 2-3 (corredera de 2 hojas) y 3-4; el 4-5 ciego, que es la esquina de la cocina, el minibar y la escalera (Gabriel, 14-10-2026).</li><li><b>Tabique cafetería/estudio:</b> todo de vidrio (tramos 1-2, 2-3 y 3-4), corredera centrada en el estudio, doble vidrio; cortina gruesa atrás para mezclar.</li><li><b>Eje E:</b> ventana de piso a cielo en el tramo 2-3, entre los parlantes, con cortina acústica pesada para mezclar fino; luz pareja, sin sol directo (Gabriel, 14-10-2026).</li><li><b>Puertas:</b> entrada 1,80 en el eje 1 junto al pilar A2 · distribuidor desde la cafetería (eje B), y desde él el baño y la escalera al búnker (con llave) · cabina (acústica, maciza) desde el estudio, en su extremo hacia el eje A, lejos de la posición de escucha · bodega desde la cabina, en el tabique C2 junto al eje 5 (24-10-2026).</li><li><b>Cabina de grabación:</b> 2,50 × 4,15 ciega (sin ventana), cielo a 3,35, tabiques dobles dentro de los 25 (24-10-2026, por acústica).</li><li><b>Cruces</b> solo en muros ciegos (baño/cabina, fachada del eje E, ejes 1 y 5 en A–A2, C–C2 y D–E, y muro A 4-5); el tabique C2 4-5 lleva una sola diagonal, que pasa sobre la puerta de la bodega, y el B 4-5 ninguna (puertas del distribuidor y de la escalera).</li></ul>
+  <h2><span class="n">07</span>Ventanas, puertas y esquema interior</h2>
+  <ul class="puntos"><li><b>Módulo:</b> vanos de 2,18 entre pilares (ejes cada 2,58), de piso a cielo terminado (4,00), marcos de acero negro.</li><li><b>Eje A (patio):</b> vidrio en 1-2, 2-3 (corredera de 2 hojas) y 3-4; el 4-5 es ciego.</li><li><b>Tabique cafetería/estudio:</b> todo de vidrio, con corredera centrada, doble vidrio.</li><li><b>Eje E:</b> ventana de piso a cielo en el tramo 2-3.</li><li><b>Puertas:</b> entrada de 1,80 en el eje 1 · distribuidor desde la cafetería, con el baño y la escalera al búnker · cabina desde el estudio · bodega desde la cabina.</li><li><b>Cabina de grabación:</b> 2,50 × 4,15, sin ventana, cielo a 3,35, tabiques dobles.</li><li><b>Cruces</b> solo en muros ciegos; el tabique C2 4-5 lleva una sola diagonal, sobre la puerta de la bodega.</li></ul>
   <figure class="ancho"><svg id="svg-vanos" role="img" aria-label="Planta de ventanas, puertas y esquema interior"></svg>
     <figcaption id="cap-vanos"></figcaption></figure>
   <div class="tw"><table id="tabla-vanos"></table></div>
@@ -498,19 +438,18 @@ ol.preg li{margin:0 0 8px}
 </section>
 
 <section id="fundaciones">
-  <h2><span class="n">07</span>Fundaciones y hormigón armado</h2>
+  <h2><span class="n">08</span>Fundaciones y hormigón armado</h2>
   <div class="kvs">
-    <div class="k">Fuente</div><div class="v">láminas 01 rev 1, 02 rev G, 03 rev H y 05 rev H, adaptadas a la planta nueva <span class="fuente man">dato</span></div>
-    <div class="k">Búnker</div><div class="v">losa de fundación e=35 (sobresale 37,5) · muros e=30 · losa e=25 + VHA 25/50 · hueco de la escalera sin pilar: VBL colgada 25/50 y VBC botada 40/25 · G30 con cristalizante <span class="fuente med">revisión</span></div>
-    <div class="k">Fachadas</div><div class="v">sobrecimiento 30 × 50 (2ø16) · cimiento corrido 80 × 25 (U ø12@20 + 4ø12) · hormigón pobre hasta −140 <span class="fuente med">revisión</span></div>
-    <div class="k">Tabiques</div><div class="v">CF 30/50 de 0 a −50 en los ejes 4, C y C2, con 3ø12 + 2ø10 + 3ø12 y E ø10@20 · dados 1,40 × 1,40 bajo 4C y 4C2, hasta 10 sobre el sello, unidos entre sí y al cimiento del eje 5 por los CF · CF 30/50 por el moldaje existente (el ingeniero pidió 30/30 con 4ø12 y E ø10@20; 30/50 lo cubre) <span class="fuente man">ingeniero 28-10 · lámina: 25/40</span></div>
-    <div class="k">Placas</div><div class="v">insertos embebidos con anclajes A36 soldados, sin pernos ni tuercas: PLc e=16 con 4 barras ø22 en los 17 pilares con cruz (4A: e=30 con 8) · PLb 200 × 200 × 12 con 4 ø3/4" en los otros 8 <span class="fuente man">aprobado por el ingeniero</span></div>
+    <div class="k">Búnker</div><div class="v">losa de fundación e=35 (sobresale 37,5) · muros e=30 · losa de techo e=25 + VHA 25/50 · hueco de la escalera: VBL colgada 25/50 y VBC botada 40/25 · G30 con cristalizante</div>
+    <div class="k">Fachadas</div><div class="v">sobrecimiento 30 × 50 (2ø16) · cimiento corrido 80 × 25 (U ø12@20 + 4ø12) · hormigón pobre hasta −140</div>
+    <div class="k">Tabiques</div><div class="v">CF 30/50 en los ejes 4, C y C2: 3ø12 + 2ø10 + 3ø12, E ø10@20 y traba ø10 · dados 1,40 × 1,40 bajo 4C y 4C2, unidos por los CF</div>
+    <div class="k">Placas</div><div class="v">insertos embebidos con barras A36 soldadas: PLc e=16 con 4 ø22 en los 17 pilares con cruz (4A: e=30 con 8) · PLb 200 × 200 × 12 con 4 ø3/4" en los otros 8</div>
     <div class="k">Niveles</div><div class="v">NPOG 0,00 · NTN −50 · piso búnker −346 · sello búnker −391 · fondo de los dados −130 · sello fachadas y dados −140 · sello de los CF −100</div>
   </div>
   <div class="notas-ing" id="notas-ing"></div>
   <div class="cortes" id="cortes-fund"></div>
   <h3>Planilla de doblado (despiece de la enfierradura)</h3>
-  <p class="small sub">Medidas en cm, por fuera de la barra (de fuera a fuera de sus dobleces; L es la suma de los tramos), como pidió el ingeniero · formas sin escala.</p>
+  <p class="small sub">Medidas en cm, por fuera de la barra (de fuera a fuera de sus dobleces; L es la suma de los tramos) · formas sin escala · sin pérdidas ni despuntes.</p>
   <div class="tw"><table id="tabla-planilla" class="planilla"></table></div>
   <div class="tw"><table id="tabla-hormigon"></table></div>
 </section>
@@ -518,42 +457,28 @@ ol.preg li{margin:0 0 8px}
 
 
 <section id="planos">
-  <h2>Planos de enfierradura (formato de lámina)</h2>
-  <ul class="puntos"><li><b>Para el enfierrador:</b> lámina A1 con el formato de las láminas del proyecto: planta de fundaciones, cortes y, al lado de cada corte, el despiece de sus barras (forma, medidas, ø, separación y largo). Los números en círculo son las marcas de la planilla de doblado (pestaña Fundaciones).</li><li><b>Sale del modelo:</b> la misma geometría y las mismas barras de las pestañas Planta y Fundaciones; si el modelo cambia, la lámina cambia sola.</li><li><b>Sin firma:</b> es un plano de trabajo. El ingeniero visó la revisión B para cortar y doblar fierro (24-11-2026); la revisión C le suma los dos cambios que pidió.</li></ul>
+  <h2><span class="n">09</span>Planos de enfierradura</h2>
+  <p class="sub"><b>Para el enfierrador:</b> lámina A1 con la planta de fundaciones, los cortes y el despiece de cada barra. Los números en círculo son las marcas de la planilla de doblado (pestaña Fundaciones).</p>
   <p><a class="btn p" href="lamina.html?n=01">Abrir la lámina en grande ↗</a> <span class="small sub">para acercar, imprimir en A1 o guardar en PDF</span></p>
   <figure class="ancho"><a href="lamina.html?n=01" id="lamina-01" class="lamina-link" title="Abrir la lámina 01 en grande" aria-label="Abrir la lámina 01 en grande"></a>
-    <figcaption><b>Lámina 01 · Planta de fundaciones y cortes.</b> Planta 1:50 con la enfierradura de la losa de fundación del búnker · corte a-a (muro y losas del búnker), b-b (sobrecimiento y cimiento corrido), c-c (CF 30/50) y d-d (dado), a 1:20 · notas. Revisión C (24-11-2026): la revisión B, que el ingeniero visó, más sus dos cambios (traba en toda la cadena y unión con el búnker sin junta, con su detalle). Tocar el plano lo abre en grande.</figcaption></figure>
-</section>
-
-<section id="luces">
-  <h2><span class="n">08</span>Luces y perfiles: qué se mantiene y qué se recalculó</h2>
-  <ul class="puntos"><li>Luz nueva ≤ original con el mismo perfil → <b>cubierto</b> por el diseño del ingeniero · luz mayor → <b>recalculado</b> en la revisión del 23-10-2026 y al día al 27-10-2026 (pestaña Revisión).</li></ul>
-  <div class="tw"><table id="tabla-luces"></table></div>
+    <figcaption><b>Lámina 01 · Planta de fundaciones y cortes.</b> Tocar el plano lo abre en grande.</figcaption></figure>
 </section>
 
 <section id="acero">
-  <h2><span class="n">09</span>Acero del modelo</h2>
+  <h2><span class="n">10</span>Acero</h2>
   <figure class="ancho" style="--ancho-fig:840px"><svg id="svg-techo" role="img" aria-label="Planta de techo: estructura de acero"></svg>
     <figcaption id="cap-techo"></figcaption></figure>
   <div class="tw"><table id="tabla-acero"></table></div>
-  <p class="small sub">Largos de las piezas del modelo y de las planchas de las uniones UM, sin pérdidas, placas base ni anclajes (los insertos van en la sección 07).</p>
+  <p class="small sub">Largos sin pérdidas; no incluye placas base ni anclajes (los insertos van en Fundaciones).</p>
 </section>
-
-<section id="preguntas">
-  <h2><span class="n">10</span>Datos que faltan y firma</h2>
-  <ol class="preg" id="preguntas-lista"></ol>
-  <div class="pendiente" id="pendiente"></div>
-</section>
-
-<footer>Fuentes: láminas 03, 04 y 05 del proyecto del estudio (abril 2026), planta del estudio (octubre 2026) y las indicaciones de Gabriel. Las láminas no están en este sitio.</footer>
 </div>
 </div>
 
-<script src="sitio.js?v=V155"></script>
-<script src="estudio_estructura.js?v=V155"></script>
-<script src="armaduras_det.js?v=V155"></script>
-<script src="fuente_trazos.js?v=V155"></script>
-<script src="laminas_estudio.js?v=V155"></script>
+<script src="sitio.js?v=V156"></script>
+<script src="estudio_estructura.js?v=V156"></script>
+<script src="armaduras_det.js?v=V156"></script>
+<script src="fuente_trazos.js?v=V156"></script>
+<script src="laminas_estudio.js?v=V156"></script>
 <script>
 // se dibuja cuando la letra Inter ya cargó: los rótulos se miden con getBBox y con la letra de reemplazo quedaban más angostos de lo que son (25-10-2026)
 (function (dibujar) { const f = document.fonts; if (!f || !f.load) return dibujar();
@@ -570,16 +495,16 @@ ol.preg li{margin:0 0 8px}
   // ---------- resumen ----------
   const pil = D.miembros.filter(x => x.c === 'pilar').length, H = D.hormigon;
   $('#specs').innerHTML = [
-    ['Planta', `${coma(W / 100, 2)} × ${coma(L / 100, 2)} m`, 'exteriores · arriba muros y tabiques de 25 terminado; el búnker lleva tabique de 10 por dentro de sus muros <span class="fuente man">planta</span>'],
-    ['Pilares', pil, `${D.miembros.filter(x => x.c === 'pilar' && x.p === 'CUAD 150x150x5').length} PM1 150×150×5, ${D.miembros.filter(x => x.c === 'pilar' && x.p === 'CUAD 150x150x4').length} PM2 150×150×4, ${D.miembros.filter(x => x.c === 'pilar' && x.p === 'RECT 150x100x3').length} PM3 150×100×3 <span class="fuente med">propuesta</span>`],
-    ['Búnker', `${coma(H.interior.terminado.ancho / 100, 2)} × ${coma(H.interior.terminado.largo / 100, 2)} m`, `terminados entre tabiques (${coma(H.interior.ancho / 100, 2)} × ${coma(H.interior.largo / 100, 2)} entre muros); ${coma(E.bunker.interior_cm / 100, 2)} libres; muros ${H.muros.espesor}, losa ${H.losa.espesor}, losa de fundación ${H.losa_fundacion ? H.losa_fundacion.espesor : (H.piso ? (H.piso ? H.piso.espesor : 0) : 0)} <span class="fuente man">dato</span>`],
-    ['Acero', `${coma(D.total_kg, 0)} kg`, 'perfiles del modelo y planchas de las uniones UM, sin placas base ni pérdidas <span class="fuente calc">calculado</span>'],
-    ['Alturas libres', `${coma(D.parametros.terminaciones.libre / 100, 2)} / ${coma(E.bunker.interior_cm / 100, 2)} m`, `estudio / búnker, terminadas; estructura a +${coma(D.parametros.z_viga_inf, 0)} <span class="fuente med">Gabriel</span>`],
-    ['Techo', `${(P.pendiente * 100).toLocaleString('es-CL')} % hacia E`, `viga 200×150, costaneras CA 100×50 @${P.paso_costanera}, aleros 1,00 <span class="fuente man">dato</span>`],
-    ['Fundación', `losa ${coma(H.losa_fundacion.espesor, 0)}`, `bajo el búnker; sobrecimiento ${coma(H.cimiento.sobrecimiento.ancho, 0)}×${coma(H.cimiento.sobrecimiento.alto, 0)} + cimiento ${coma(H.cimiento.zapata.ancho, 0)}×${coma(H.cimiento.zapata.espesor, 0)} en fachadas; CF ${coma(H.cf.ancho, 0)}/${coma(H.cf.alto, 0)} en tabiques${H.dados ? '; dados bajo 4C y 4C2 unidos por los CF (solución mixta del ingeniero, 28-10)' : ''} <span class="fuente med">revisión</span>`],
-    ['Original', '11,05 × 10,25 m', 'búnker de 5,00 bajo un extremo, 2,72 libres; techo hacia ese lado <span class="fuente man">láminas</span>'],
+    ['Planta', `${coma(W / 100, 2)} × ${coma(L / 100, 2)} m`, 'por fuera'],
+    ['Pilares', pil, `${D.miembros.filter(x => x.c === 'pilar' && x.p === 'CUAD 150x150x5').length} PM1 150×150×5, ${D.miembros.filter(x => x.c === 'pilar' && x.p === 'CUAD 150x150x4').length} PM2 150×150×4, ${D.miembros.filter(x => x.c === 'pilar' && x.p === 'RECT 150x100x3').length} PM3 150×100×3`],
+    ['Búnker', `${coma(H.interior.terminado.ancho / 100, 2)} × ${coma(H.interior.terminado.largo / 100, 2)} m`, `terminado (${coma(H.interior.ancho / 100, 2)} × ${coma(H.interior.largo / 100, 2)} entre muros); muros ${H.muros.espesor}, losa ${H.losa.espesor}, losa de fundación ${H.losa_fundacion.espesor}`],
+    ['Alturas libres', `${coma(D.parametros.terminaciones.libre / 100, 2)} / ${coma(E.bunker.interior_cm / 100, 2)} m`, 'estudio / búnker, terminadas'],
+    ['Techo', `${(P.pendiente * 100).toLocaleString('es-CL')} % hacia E`, `viga 200×150, costaneras CA 100×50 @${P.paso_costanera}, aleros 1,00`],
+    ['Fundación', `losa ${coma(H.losa_fundacion.espesor, 0)}`, `bajo el búnker; sobrecimiento ${coma(H.cimiento.sobrecimiento.ancho, 0)}×${coma(H.cimiento.sobrecimiento.alto, 0)} + cimiento ${coma(H.cimiento.zapata.ancho, 0)}×${coma(H.cimiento.zapata.espesor, 0)} en fachadas; CF ${coma(H.cf.ancho, 0)}/${coma(H.cf.alto, 0)} en tabiques`],
+    ['Acero', `${coma(D.total_kg, 0)} kg`, 'perfiles y planchas de unión, sin pérdidas'],
+    ['Hormigón y fierro', `${coma(D.cubicacion_hormigon.total_m3, 0)} m³`, `${coma(D.cubicacion_hormigon.total_kg, 0)} kg de fierro; detalle en Fundaciones`],
   ].map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
-  $('#meta').textContent = `Propuesta sobre las láminas 03, 04 y 05 (abril 2026) · ${D.miembros.length} piezas de acero · revisado con cálculo propio, sin firma`;
+  $('#meta').textContent = 'Planos y cantidades para la obra';
 
   // ---------- helpers svg ----------
   const NS = 'http://www.w3.org/2000/svg';
@@ -698,7 +623,7 @@ ol.preg li{margin:0 0 8px}
     // entre C y C2, al poniente del CF-4 y bajo el nombre del estudio (capa de recintos); más arriba quedaban apretados contra el rótulo del CF-C y se metían en el dado de 4C
     const yCF4 = (D.ejes.y.C + D.ejes.y.C2) / 2;
     if (!SUP) lab(capas.fund, (cf4[0][0] + cf4[1][0]) / 2 - 345, yCF4 - 6, `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)} (eje 4): 3ø12 + 2ø10 + 3ø12, E ${estCF}`, false, 17);   // dentro del estudio, al poniente de la viga del eje 4
-    if (!SUP) lab(capas.fund, (cf4[0][0] + cf4[1][0]) / 2 - 345, yCF4 + 26, `${coma(CF.ancho, 0)}/${coma(CF.alto, 0)} por el moldaje (el ingeniero pidió 30/30 con 4ø12)`, false, 17);
+    if (!SUP) lab(capas.fund, (cf4[0][0] + cf4[1][0]) / 2 - 345, yCF4 + 26, `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)}`, false, 17);
     // CF de los ejes C y C2: el rótulo va sobre su dado (sin pisarlo) y termina antes del cimiento del eje 5 (se salía del contorno de la casa); los dos alineados a la derecha
     const labDer = (xFin, y, t) => lab(capas.fund, xFin - (t.length * 17 * 0.56 + 16) / 2, y, t, false, 17);   // xFin: borde derecho de la placa del rótulo (el ancho es el que usa lab)
     const xFinCF = CI.zapata.piezas.find(z => z.id === 'CC-5').pts.map(loc)[0][0] - 12, dadoDe = id => DAD.find(z => z.id === id);
@@ -772,19 +697,14 @@ ol.preg li{margin:0 0 8px}
     const def = [['fund', 'Enfierradura y arranque de pilares', true], ['recintos', 'Recintos', false], ['cotas', 'Cotas', true]];
     TZ_CAPAS.push(capas); if (SUP) { def.forEach(([k, t, on]) => { capas[k].style.display = on ? '' : 'none'; }); } else { const bot = $('#tz-capas'); def.forEach(([k, t, on]) => { const lab2 = document.createElement('label'); const ch = document.createElement('input'); ch.type = 'checkbox'; ch.checked = on; capas[k].style.display = on ? '' : 'none'; ch.addEventListener('input', () => { TZ_CAPAS.forEach(c => { c[k].style.display = ch.checked ? '' : 'none'; }); }); lab2.append(ch, ' ' + t); bot.appendChild(lab2); }); }
     const nPM = p => D.miembros.filter(x => x.c === 'pilar' && x.p === p).length;
-    if (SUP) { $('#cap-planta-sup').innerHTML = `<b>Planta 2 · losa superior</b> · cielo del búnker: losa e=${coma(H.losa.espesor, 0)}, VHA del eje 3, VBL colgada y VBC botada del hueco de la escalera (sin pilar), coronamiento y verticales de los muros · color por diámetro`; return; }
-    $('#cap-planta').innerHTML = `<b>Planta 1 · losa inferior</b> · losa de fundación, muros, sobrecimientos, cimientos, CF, dados de 4C y 4C2 y placas · color por diámetro · PM1 = CUAD 150×150×5 · PM2 = CUAD 150×150×4 · PM3 = RECT 150×100×3`;
+    if (SUP) { $('#cap-planta-sup').innerHTML = `<b>Planta 2 · losa superior del búnker</b> · losa e=${coma(H.losa.espesor, 0)}, VHA del eje 3, VBL y VBC del hueco de la escalera · color por diámetro`; return; }
+    $('#cap-planta').innerHTML = `<b>Planta 1 · fundaciones y losa inferior</b> · color por diámetro · PM1 = CUAD 150×150×5 · PM2 = CUAD 150×150×4 · PM3 = RECT 150×100×3`;
     $('#ley-planta').innerHTML = [[COLF[8], 'ø8'], [COLF[10], 'ø10'], [COLF[12], 'ø12 (y arranque de pilares)'], [COLF[16], 'ø16'], [COLF[19], 'ø3/4" A36 insertos PLb'], [COLF[22], 'ø22 A36 insertos PLc'], ['transparent;border:1px dashed var(--fig-soft)', 'hormigón (solo contorno)'], ['transparent;border:1px solid var(--fig-ink)', 'placa embebida PLb o PLc (⊠)']].map(([c, t]) => `<span><span class="sw" style="background:${c}"></span>${t}</span>`).join('');
     const NIV = H.niveles;
     const sEf = CI.sobrecimiento.piezas.find(z => z.id === 'SC-E').pts.map(loc), eCf = (CF.emplantillado.piezas.find(z => z.id === 'EMP-C') || CF.emplantillado.piezas[0]).pts.map(loc), lado = H.dados ? coma(H.dados.lado / 100, 2) : null;   // las de arriba viven dentro del if
     $('#tz-fichas').innerHTML = [
       ['Ejes 1 → 5', `${xn.slice(1).map((n, i) => `${xn[i]}–${n} ${coma(xs[i + 1] - xs[i], 1).replace(',0', '')}`).join(' · ')} · extremos <b>${coma(xs[4] - xs[0], 0)}</b> · exterior ${coma(W, 0)}`],
       ['Ejes A → E', `${yn.slice(1).map((n, i) => `${yn[i]}–${n} ${coma(ys[i + 1] - ys[i], 0)}`).join(' · ')} · extremos <b>${coma(ys[ys.length - 1] - ys[0], 0)}</b> · exterior ${coma(Lp, 0)}`],
-      ['Búnker', `muros e=${coma(H.muros.espesor, 0)} (crecieron 5 hacia afuera: el interior no cambia) · ${coma(H.interior.ancho, 0)} × ${coma(H.interior.largo, 0)} entre muros · <b>${coma(H.interior.terminado.ancho, 0)} × ${coma(H.interior.terminado.largo, 0)} terminado</b> (tabique de ${coma(H.interior.terminado.tabique, 0)} por dentro) · losa de fundación e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker, unida a los muros (ø16@15 y ø12@15): <b>sobresale ${coma(H.losa_fundacion.margen, 1)}</b> de la cara exterior · escalera ${coma(hu[1][0] - hu[0][0], 0)} × ${coma(hu[2][1] - hu[0][1], 0)} junto al muro del eje 5 <span class="fuente med">revisión</span>`],
-      ['Fachadas fuera del búnker', `sobrecimiento ${coma(CI.sobrecimiento.ancho, 0)} × ${coma(CI.sobrecimiento.alto, 0)} centrado en el eje · cimiento corrido ${coma(CI.zapata.ancho, 0)} × ${coma(CI.zapata.espesor, 0)}: <b>sobresale ${coma(ccE[2][1] - sEf[2][1], 1).replace(',0', '')}</b> del sobrecimiento · emplantillado 10 y hormigón pobre hasta 0,90 bajo el terreno <span class="fuente med">revisión</span>`],
-      ['Tabiques', `CF ${coma(CF.ancho, 0)}/${coma(CF.alto, 0)} con E ${estCF} bajo los ejes 4 (del búnker a la fachada del eje E) y C y C2 (del eje 4 al eje 5)${CF.rotulo ? `: <b>${CF.rotulo}</b>` : ''}${lado ? ` · <b>dados de ${lado} × ${lado}</b> bajo 4C y 4C2 (de −${coma(-(NIV.dado_sup != null ? NIV.dado_sup : -10), 0)} a −${coma(-(NIV.dado_inf != null ? NIV.dado_inf : -130), 0)}, hasta 10 sobre el sello), unidos entre sí por el CF-4 y al cimiento corrido del eje 5 por el CF-C y el CF-C2` : ''} · bajo los CF, ${coma(CF.emplantillado.espesor, 0)} de G5 sobre ${coma(CF.relleno.espesor, 0)} de estabilizado compactado en 2 capas de 15, de ${coma(eCf[2][1] - eCf[0][1], 0)} de ancho, con el sello en −${coma(-NIV.sello_cf, 0)} <span class="fuente man">ingeniero 28-10 · 22 y 23-11</span>`],
-      ['Placas', `insertos embebidos a ras del hormigón, sin pernos ni tuercas: PLc A36 e=16 con 4 barras lisas A36 ø22 soldadas, con gancho de 10 y cabeza soldada (hef 1000 en los muros del búnker, 450 en el resto) en los ${H.placas.lista.filter(q => q.tipo === 'PLc').length} pilares con cruz, más largas hacia las diagonales (PLc-4A: 550 × 250 × 30 con 8 barras, hef 1200) · PLb A36 200 × 200 × 12 con 4 ø3/4" A36 soldadas a 80 × 80 en los otros ${H.placas.lista.filter(q => q.tipo === 'PLb').length} · detalle «Inserto PLc / PLb» en la sección 07 <span class="fuente man">aprobado por el ingeniero</span>`],
-      ['Niveles (desde la losa, NPOG 0,00)', `terreno natural −50 · búnker: losa de fundación −${coma(-NIV.zapata_sup, 0)} / −${coma(-NIV.zapata_inf, 0)} (su cara superior es el piso del búnker), sello −${coma(-NIV.emplantillado_inf, 0)} · fachadas: sobrecimiento de 0 a −50 y cimiento corrido de −50 a −75 · CF de 0 a −50${lado ? ` · dados de −${coma(-(NIV.dado_sup != null ? NIV.dado_sup : -10), 0)} a −${coma(-(NIV.dado_inf != null ? NIV.dado_inf : -130), 0)}` : ''} · hormigón pobre hasta el sello de −${coma(-H.niveles.sello_fachadas, 0)} bajo el cimiento corrido y los dados · sello de los CF −${coma(-H.niveles.sello_cf, 0)}`],
     ].map(([k, v]) => `<div class="k">${k}</div><div class="v">${v}</div>`).join('');
   }
   plantaTrazado('#svg-planta', 'inf'); plantaTrazado('#svg-planta-sup', 'sup');
@@ -823,7 +743,7 @@ ol.preg li{margin:0 0 8px}
     rect(yLo, yN[0], zLo, N.ntn, 'tz-suelo'); rect(yN[0], yN[1], zLo, N.emplantillado_inf, 'tz-suelo'); rect(yN[1], yS[0], zLo, N.emplantillado_inf, 'tz-suelo'); rect(yS[0], yS[1], zLo, N.emplantillado_inf, 'tz-suelo'); rect(yS[1], yHi, zLo, zRad[3], 'tz-suelo');
     rect(yN[0], y0, N.zapata_sup, N.ntn, 'tz-suelo'); rect(y1, yS[1], N.zapata_sup, zRad[3], 'tz-suelo');   // tierra pegada a los muros por fuera
     // fundación: emplantillado G5, zapata corrida (achurada), relleno granular y radier
-    rect(yN[0], yS[1], N.emplantillado_inf, N.zapata_inf, 'cx-horm2', 'emplantillado G5 e=10 bajo toda la losa de fundación'); rect(yN[0], yS[1], N.zapata_inf, N.zapata_sup, 'cx-horm', `losa de fundación e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker, unida a los muros · ø16@15 en A–E y ø12@15 en 1–5, arriba y abajo · sobresale ${coma(H.losa_fundacion.margen, 1)} de los muros (ingeniero, 15-10-2026)`);
+    rect(yN[0], yS[1], N.emplantillado_inf, N.zapata_inf, 'cx-horm2', 'emplantillado G5 e=10 bajo toda la losa de fundación'); rect(yN[0], yS[1], N.zapata_inf, N.zapata_sup, 'cx-horm', `losa de fundación e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker, unida a los muros · ø16@15 en A–E y ø12@15 en 1–5, arriba y abajo · sobresale ${coma(H.losa_fundacion.margen, 1)} de los muros`);
     // sin relleno ni radier: el piso del búnker es la cara superior de la losa de fundación
     // muros y losa de techo del búnker (revisión 23-10-2026)
     rect(y0, y0 + e, N.zapata_sup, N.losa_inf, 'cx-horm', `muro del eje A del búnker e=${coma(e, 0)} · verticales ø16@15 por fuera y ø12@15 por dentro · horizontales ø12@15`); rect(y1 - e, y1, N.zapata_sup, N.losa_inf, 'cx-horm', `muro del eje B del búnker e=${coma(e, 0)} · verticales ø16@15 por fuera y ø12@15 por dentro · horizontales ø12@15`);
@@ -924,7 +844,7 @@ ol.preg li{margin:0 0 8px}
     };
     const niveles = [[N.emplantillado_inf, 'sello'], [N.zapata_inf, 'losa de fundación inf'], [N.piso_bunker, 'piso búnker (losa fund.)'], [N.piso_bunker + TP, 'piso term. búnker'], [N.losa_inf - TC, 'cielo term. búnker'], [N.losa_inf, 'losa inf'], [N.ntn, 'terreno natural'], [0, 'losa (0,00)'], [TP, 'piso term. estudio']];
     cadena(yLo - 50, niveles, -1, 0, 'NIVELES DESDE LA LOSA (0,00)', 12);   // una sola cadena (Gabriel, 23-10-2026); el terreno natural es un nivel más
-    $('#cap-corte-bunker').innerHTML = `<b>Corte A–A</b> · en dirección A–B entre los ejes 2 y 3, mirando hacia el eje 5 · cotas en cm · al medio se omiten ${coma(CUT, 0)} cm del largo del búnker (ahí todo es igual), para dibujar al doble de escala: las cotas dicen las medidas reales · niveles desde la cara de la losa (NPOG 0,00, el del ingeniero); el terreno natural queda a −50 · losa de fundación e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker, unida a los muros y sobresaliendo 37,5 (ingeniero, 15-10-2026; su cara superior es el piso) · muros e=${coma(e, 0)} (crecieron 5 hacia afuera; revisión 23-10-2026) · losa ${coma(H.losa.espesor, 0)} · piso terminado ${coma(TP, 1)} (porcelanato + adhesivo + sobrelosa) · cielo ${coma(TC, 1)} (yeso cartón + perfilería) · tabique de ${coma(D.parametros.tabique || 0, 0)} por dentro de cada muro del búnker (yeso cartón sobre perfilería): queda de ${coma(H.interior.terminado.ancho, 0)} × ${coma(H.interior.terminado.largo, 0)} terminado; arriba muros de 25 terminado, sin tabique extra · la ${vha.nombre} del eje 3 cuelga ${coma(N.losa_inf - zv, 0)} bajo la losa: ahí quedan ${coma((zv - TC) - (N.piso_bunker + TP), 0)} libres, no ${coma((N.losa_inf - TC) - (N.piso_bunker + TP), 0)} · la escalera (muro del eje 5) no aparece en este corte.`;
+    $('#cap-corte-bunker').innerHTML = `<b>Corte A–A</b> · entre los ejes 2 y 3, mirando hacia el eje 5 · cotas en cm (al medio se omiten ${coma(CUT, 0)} cm; las cotas dicen la medida real) · niveles desde la cara de la losa (NPOG 0,00); terreno natural a −50 · tabique de ${coma(D.parametros.tabique || 0, 0)} por dentro de cada muro: queda de ${coma(H.interior.terminado.ancho, 0)} × ${coma(H.interior.terminado.largo, 0)} terminado · bajo la ${vha.nombre} quedan ${coma((zv - TC) - (N.piso_bunker + TP), 0)} libres.`;
   })();
 
   // ---------- planta del búnker ----------
@@ -967,18 +887,17 @@ ol.preg li{margin:0 0 8px}
     placa(txt(svg, (bx0 + bx1) / 2, (by0 + by1) / 2 - 6, H.losa.armadura.split(' (')[0], { 'text-anchor': 'middle', 'font-size': 13, class: 'txs' }), 3);
     const vblB = H.vigas.find(v => v.id === 'VBL'), vbcB = H.vigas.find(v => v.id === 'VBC');
     $('#txt-bunker').innerHTML = [
-      ['Interior', `<b>${coma(H.interior.terminado.ancho / 100, 2)} × ${coma(H.interior.terminado.largo / 100, 2)} m terminados</b> entre tabiques de ${coma(H.interior.terminado.tabique, 0)} (${coma(H.interior.ancho / 100, 2)} × ${coma(H.interior.largo / 100, 2)} entre muros) · ${coma(E.bunker.interior_cm / 100, 2)} libres terminados (${coma(H.interior.alto / 100, 2)} de obra gruesa) · original 10,80 × 5,00 × 2,72`],
-      ['Muros', `e=${H.muros.espesor} (5 más hacia afuera) · verticales ø16@15 por fuera y ø12@15 por dentro (bajan a la losa de fundación con patas de 60 y 30) · horizontales ø12@15 · 2ø12 de coronamiento · recubrimiento 4 por fuera, 3 por dentro · G30 con cristalizante <span class="fuente med">revisión</span>`],
-      ['Losa', `e=${H.losa.espesor} · ø10@15 abajo en los dos sentidos · ø12@15 en L arriba sobre los 4 muros (1,80 dentro de la losa) · ø10@20 sobre la VHA y en 1–5 junto a los muros A y B (1,80 desde su cara) · ${H.vigas[0].nombre} en el eje 3 · hueco de la escalera, sin pilar: VBL ${vblB ? vblB.nombre.replace(/^Viga colgada /, '') : ''} colgada al costado del hueco, de muro A a muro B (flecha ≤ L/300, como pidió el ingeniero), y VBC ${vbcB ? vbcB.nombre.replace(/^Viga botada /, '') : ''} botada dentro de la losa, apoyada en la VBL · fisura máx. 0,30 mm <span class="fuente med">ingeniero · medidas: propuesta</span>`],
+      ['Interior', `<b>${coma(H.interior.terminado.ancho / 100, 2)} × ${coma(H.interior.terminado.largo / 100, 2)} m terminados</b> entre tabiques de ${coma(H.interior.terminado.tabique, 0)} (${coma(H.interior.ancho / 100, 2)} × ${coma(H.interior.largo / 100, 2)} entre muros) · ${coma(E.bunker.interior_cm / 100, 2)} libres terminados (${coma(H.interior.alto / 100, 2)} de obra gruesa)`],
+      ['Muros', `e=${H.muros.espesor} · verticales ø16@15 por fuera y ø12@15 por dentro (patas de 60 y 30 en la losa de fundación) · horizontales ø12@15 · 2ø12 de coronamiento · trabas ø8 cada 3 nudos · recubrimiento 4 por fuera, 3 por dentro · G30 con cristalizante`],
+      ['Losa de techo', `e=${H.losa.espesor} · ø10@15 abajo en los dos sentidos · ø12@15 en L arriba sobre los 4 muros · ø10@20 sobre la VHA y junto a los muros A y B · ${H.vigas[0].nombre} en el eje 3 · hueco de la escalera: VBL ${vblB ? vblB.nombre.replace(/^Viga colgada /, '') : ''} colgada y VBC ${vbcB ? vbcB.nombre.replace(/^Viga botada /, '') : ''} botada`],
       ['Piso', `cara superior de la losa de fundación de ${coma(H.losa_fundacion.espesor, 0)} · porcelanato + adhesivo + sobrelosa 4 encima`],
-      ['Fundación', `losa armada e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker, unida a los muros, sobresale ${coma(H.losa_fundacion.margen, 1)} · ø16@15 en A–E y ø12@15 en 1–5, arriba y abajo · emplantillado G5 10 <span class="fuente med">revisión</span>`],
+      ['Fundación', `losa armada e=${coma(H.losa_fundacion.espesor, 0)} bajo todo el búnker, unida a los muros, sobresale ${coma(H.losa_fundacion.margen, 1)} · ø16@15 en A–B y ø12@15 en 1–5, arriba y abajo · emplantillado G5 de 10`],
       ['Niveles', `desde la losa (NPOG 0,00): terreno natural −50 · piso −${coma(-H.niveles.piso_bunker, 0)} · losa de fundación −${coma(-H.niveles.zapata_sup, 0)} / −${coma(-H.niveles.zapata_inf, 0)} · sello −${coma(-H.niveles.emplantillado_inf, 0)}`],
-      ['0,00', 'cara de la losa (NPOG, nivel de piso de obra gruesa del ingeniero) · 50 sobre el terreno · 20 bajo el piso de la casa'],
-      ['Cambios', `muro del eje B bajo el tabique cafetería/estudio (recibe sus 5 pilares) · escalera junto al muro del eje 5, con una viga en cada borde libre del hueco (ingeniero, 25/26-10-2026) y sin pilar en su esquina (Gabriel, 28-10-2026): VBL colgada y VBC botada <span class="fuente med">propuesta</span>`],
+      ['0,00', 'cara de la losa (NPOG) · 50 sobre el terreno · 20 bajo el piso de la casa'],
     ].map(([k, v]) => `<div class="k">${k}</div><div class="v">${v}</div>`).join('');
     // V124: la altura libre se mide aquí (igual que la nota del modelo), de la línea de las narices en el borde del hueco a la cara inferior de la losa
     const Es_ = H.escalera, tr_ = Es_.tramo, kE = ((Es_.z_arriba - Es_.z_abajo) / tr_.peldanos) / (tr_.largo / tr_.peldanos), libE = H.niveles.losa_inf + (tr_.y_arriba - Math.min(...Es_.pts.map(q => q[1]))) * kE - (Es_.z_arriba - Es_.z_abajo) / tr_.peldanos;   // desde las narices: una contrahuella sobre los rincones
-    $('#cap-bunker').innerHTML = `Planta del búnker con la losa de techo. ${H.vigas[0].d}. Hueco de la escalera sin pilar (Gabriel, 28-10-2026): en su borde hacia el eje 4 va la VBL ${vblB ? vblB.nombre.replace(/^Viga colgada /, '') : ''} colgada (raya larga, como la VHA), del muro A al muro B, al costado del hueco y fuera de la huella de la escalera; en el borde hacia el eje A, la VBC ${vbcB ? vbcB.nombre.replace(/^Viga botada /, '') : ''} botada dentro de la losa (raya corta), de la VBL al muro del eje 5; el del eje B y el del eje 5 son los muros (ingeniero, 25/26-10-2026: una viga en cada borde; 28-10-2026: alto de la VBL con flecha ≤ L/300; medidas: propuesta). Se entra desde el distribuidor por el eje B (puerta con llave) y se baja ${coma(Es_.baja / 100, 2)} m hacia el eje A en ${coma(tr_.largo / 100, 2)} m: ${tr_.peldanos} peldaños; el hueco mide ${coma(Es_.ancho / 100, 2)} × ${coma(Es_.largo / 100, 2)} y el último metro va bajo la losa, con ${coma(libE / 100, 2)} libres de obra gruesa desde las narices en el borde del hueco (antes 2,13 bajo la viga de borde 25/45).`;
+    $('#cap-bunker').innerHTML = `<b>Planta del búnker</b> con la losa de techo · hueco de la escalera de ${coma(Es_.ancho / 100, 2)} × ${coma(Es_.largo / 100, 2)}: VBL ${vblB ? vblB.nombre.replace(/^Viga colgada /, '') : ''} colgada en su borde hacia el eje 4 (raya larga) y VBC ${vbcB ? vbcB.nombre.replace(/^Viga botada /, '') : ''} botada hacia el eje A (raya corta) · se entra desde el distribuidor y se baja ${coma(Es_.baja / 100, 2)} m en ${tr_.peldanos} peldaños.`;
   })();
 
   // ---------- corte de la escalera al búnker (el ingeniero, vía Gabriel, 25-10-2026: "un detalle de la escalera con un corte que se vea cómo baja") ----------
@@ -1042,7 +961,7 @@ ol.preg li{margin:0 0 8px}
     T(yT - 150, zP + 16, ES ? `losa inclinada de ${coma(eLs, 0)} sobre la viga ${ES.viga.nombre}` : 'sobre una losa inclinada de 15', { 'text-anchor': 'middle' });
     T(s1 + 8, 30, 'distribuidor', {}); T(s1 + 8, 12, 'puerta con llave', {});
     T(v0 - 8, 92, 'muro de la caja', { 'text-anchor': 'end' });
-    $('#cap-escalera').innerHTML = `<b>Corte de la escalera al búnker</b> · a lo largo de la escalera, mirando hacia el eje 5 · se entra desde el distribuidor por la puerta con llave del tabique B y se baja hacia el eje A: ${N} contrahuellas de ${coma(ch, 1)} (${coma(-zP, 0)} en total) y ${N} huellas de ${coma(hu, 1)}; el último metro va bajo la losa · el borde del hueco del lado del eje A es la VBC ${vb.nombre.replace(/^Viga botada /, '')}, botada dentro de la losa (sin caída), apoyada en la VBL; la VBL ${vblE ? vblE.nombre.replace(/^Viga colgada /, '') : ''} va colgada al costado del hueco, del lado del eje 4 (del lado de quien mira: no sale en el corte) y no queda sobre la escalera; sin pilar en la esquina (Gabriel, 28-10-2026; ingeniero, 25/26 y 28-10-2026; medidas: propuesta) · altura libre ${coma(libre / 100, 2)} de la línea de las narices de obra gruesa a la losa (antes 2,13 bajo la viga de borde 25/45); cada cm de terminación en los peldaños la baja 1 cm${ES ? ` · el corte pasa por la viga central ${ES.viga.nombre} bajo una losa inclinada de ${coma(eLs, 0)} (raya: su cara inferior en los vuelos), la alternativa del croquis del ingeniero (27-10-2026); su armadura, en el detalle de abajo` : ''} · medidas en cm`;
+    $('#cap-escalera').innerHTML = `<b>Corte de la escalera al búnker</b> · mirando hacia el eje 5 · ${N} contrahuellas de ${coma(ch, 1)} (${coma(-zP, 0)} en total) y ${N} huellas de ${coma(hu, 1)} · altura libre ${coma(libre / 100, 2)} desde las narices a la losa${ES ? ` · viga central ${ES.viga.nombre} bajo una losa de ${coma(eLs, 0)}; su armadura, en el detalle de abajo` : ''} · medidas en cm`;
   })();
 
   // ---------- elevaciones ----------
@@ -1127,7 +1046,7 @@ ol.preg li{margin:0 0 8px}
         txt(svg, uc, Y(zt) - 18, `faja: X ${nomP(g[0].p)}`, { 'text-anchor': 'middle', 'font-size': FSX, class: 'tx' });
         return;
       }
-      const kX = g[0].id.replace(/[ab]$/, ''), zc = (Math.min(...zs) + Math.max(...zs)) / 2, t = txt(svg, uc, Y(zc), nomP(g[0].p) + (rNo.has(kX) ? ' · por decidir' : ''), { 'text-anchor': 'middle', 'font-size': FSX, class: 'tx' }), bb = t.getBBox();
+      const kX = g[0].id.replace(/[ab]$/, ''), zc = (Math.min(...zs) + Math.max(...zs)) / 2, t = txt(svg, uc, Y(zc), nomP(g[0].p) + (rNo.has(kX) ? ' · no pasa' : ''), { 'text-anchor': 'middle', 'font-size': FSX, class: 'tx' }), bb = t.getBBox();
       t.setAttribute('y', 2 * Y(zc) - (bb.y + bb.height / 2));   // centrado en la vertical del centro de la X
       if (bb.width + 24 > u1 - u0 - 15) t.setAttribute('transform', `rotate(-90 ${uc} ${Y(zc)})`);
       const b2 = t.getBBox(); svg.insertBefore(el('rect', { x: b2.x - 6, y: b2.y - 2, width: b2.width + 12, height: b2.height + 4, style: 'fill:var(--paper);stroke:none', transform: t.getAttribute('transform') || '' }), t);
@@ -1154,7 +1073,7 @@ ol.preg li{margin:0 0 8px}
     // riostras de esta elevación que no pasan (V134, RECT 150x50: solo la diagonal sola de C2 4-5, por esbeltez; por decidir con el ingeniero; DATA.riostras)
     const noPasan = {}; (D.riostras || []).filter(r => r.cumple === false && sel.some(x => x.id === r.id)).forEach(r => { const k = r.id.replace(/[ab]$/, ''), o = noPasan[k] || (noPasan[k] = { kl: 0, dc: 0 }); o.kl = Math.max(o.kl, r.KL_r || 0); o.dc = Math.max(o.dc, r.dc_traccion || 0, r.dc_compresion || 0, r.dc_union || 0, r.dc_cruce || 0); });
     const txtNo = Object.entries(noPasan).map(([k, o]) => `${k} (${o.kl > 200 ? `KL/r ${coma(o.kl, 0)} > 200` : `D/C ${coma(o.dc, 2)}`})`).join(', ');
-    cap.innerHTML = `<b>${titulo}</b> · ${Object.entries(tipos).map(([p, n]) => `${nomP(p)} (${n})`).join(', ')}.${nUM ? ' <b>UM</b>: cordón soldado a momento al pilar con 2 planchas de 8 (detalle UM, más abajo).' : ''}${txtNo ? ` Riostras en CUAD 150x150x3, a tracción y compresión: no pasa ${txtNo}; por decidir con el ingeniero (amarre en el plano o perfil mayor; pestaña Ingeniero).` : ''}`;
+    cap.innerHTML = `<b>${titulo}</b> · ${Object.entries(tipos).map(([p, n]) => `${nomP(p)} (${n})`).join(', ')}.${nUM ? ' <b>UM</b>: cordón soldado a momento al pilar con 2 planchas de 8 (detalle más abajo).' : ''}${txtNo ? ` No pasa: ${txtNo}.` : ''}`;
     return fig;
   }
   // ---------- detalle UM (27-10-2026): unión de momento del cordón con los pilares B y E de los marcos 2 y 3 ----------
@@ -1264,19 +1183,19 @@ ol.preg li{margin:0 0 8px}
       ['Plancha–cordón, en la punta', 'filete 3 vertical', '88, en la parte plana del costado del cordón'],
       ['Plancha–pilar', 'filete 5 arriba y abajo; en E también el vertical del extremo', '130 c/u en B · 125 + 125 + 150 en E'],
       ['Cordón–cara del pilar', 'filete 3 arriba y abajo, en el ancho plano', '138; los costados no (quedan bajo las planchas)'],
-      ['Cielo', `perfilería ${coma(PTU.capas ? PTU.capas.cielo[1][1] * 10 : 40, 0)} + yeso ${coma(PTU.capas ? PTU.capas.cielo[0][1] * 10 : 15, 0)} bajo ${nv(z0)}`, `nada baja de ${nv(z0)}; solo asoman ≤ 5 mm los filetes contra la cara del pilar (pregunta al ingeniero)`],
+      ['Cielo', `perfilería ${coma(PTU.capas ? PTU.capas.cielo[1][1] * 10 : 40, 0)} + yeso ${coma(PTU.capas ? PTU.capas.cielo[0][1] * 10 : 15, 0)} bajo ${nv(z0)}`, `nada baja de ${nv(z0)}; solo asoman ≤ 5 mm los filetes contra la cara del pilar`],
       ['VT–plancha', 'filete 3 en 3 lados: arriba y los 2 costados', 'abajo no'],
     ];
     const f2 = v => coma(v, 2), dcs = U.map(x => x.dc_max);
     const info = document.createElement('div'); info.style.cssText = 'flex:1 1 100%;max-width:1240px;min-width:0';
     info.innerHTML = `<div class="tw"><table><thead><tr><th class="c">Marca</th><th>Pieza o soldadura</th><th>Qué</th><th>Medida (mm)</th></tr></thead><tbody>${MAR.map((r, i) => `<tr><td class="c"><b>${i + 1}</b></td><td><b>${r[0]}</b></td><td>${r[1]}</td><td class="small">${r[2]}</td></tr>`).join('')}</tbody></table></div>
-      <div class="tw"><table><thead><tr><th>Unión</th><th>Tipo</th><th>Planchas</th><th class="r">Sold. al cordón</th><th class="r">Plancha</th><th class="r">Sold. al pilar</th><th class="r">Pilar en el nudo</th><th class="r">D/C máx.</th></tr></thead><tbody>${U.map(x => `<tr><td><b>${x.id}</b></td><td>${x.tipo}</td><td>${x.plancha}</td><td class="r">${f2(x.dc.soldadura_cordon)}</td><td class="r">${f2(x.dc.plancha)}</td><td class="r">${f2(x.dc.soldadura_pilar)}</td><td class="r">${f2(x.dc.pilar_nudo)}</td><td class="r"><b>${f2(x.dc_max)}</b></td></tr>`).join('')}
-        <tr><td><b>Total</b></td><td>${U.length} nudos</td><td>${2 * U.length} PL 8 · ${coma(U.reduce((a, x) => a + 2 * x.largo, 0) / 100, 2)} m${kgPL ? ` · ${coma(kgPL, 0)} kg` : ''}</td><td></td><td></td><td></td><td></td><td class="r"><b>${f2(Math.max(...dcs))}</b></td></tr></tbody></table></div>
-      <p class="small sub">Soldadura SMAW E6011 (F<sub>EXX</sub> 4.180 kgf/cm², 410 MPa). ${uB.nota.charAt(0).toUpperCase() + uB.nota.slice(1)}. Fuente: ${uB.fuente}. En A y en el eje 4 el cordón sigue articulado.</p>
-      <h3>Secuencia de obra (propuesta)</h3>
-      <ol class="puntos"><li>Taller: cortar las ${2 * U.length} planchas rectangulares, cantos rectos y limpios.</li><li>Presentar el cordón entre los pilares con la cara inferior a ${nv(z0)} y puntear. Soldar filete 3 arriba y abajo contra la cara del pilar (los costados no: quedan bajo las planchas).</li><li>Presentar las 2 planchas con prensa, a ras abajo con el cordón. Holgura máxima 1,5 mm; si es mayor, el filete crece esa medida (AWS D1.1). Puntear.</li><li>Soldar alternando de un lado al otro para que no se tuerza: canal de la esquina de arriba relleno a ras + filete 3; filete 3 en la punta; filetes 5 al pilar (abajo, arriba y, en E, el vertical).</li><li>Cortar las VT 8 mm más cortas y soldarlas a la plancha (3 lados, filete 3).</li><li>Electrodo ø 2,5 mm sobre el tubo de 3 mm y ø 3,2 mm sobre el pilar y la plancha (sugerencia). Sin precalentar si el acero está sobre 0 °C.</li><li>Inspección visual del 100 % con galga de filete, sin socavación en el tubo de 3 mm. Luego anticorrosivo.</li></ol>`;
+      <div class="tw"><table><thead><tr><th>Unión</th><th>Tipo</th><th>Planchas</th></tr></thead><tbody>${U.map(x => `<tr><td><b>${x.id}</b></td><td>${x.tipo}</td><td>${x.plancha}</td></tr>`).join('')}
+        <tr><td><b>Total</b></td><td>${U.length} nudos</td><td>${2 * U.length} PL 8 · ${coma(U.reduce((a, x) => a + 2 * x.largo, 0) / 100, 2)} m${kgPL ? ` · ${coma(kgPL, 0)} kg` : ''}</td></tr></tbody></table></div>
+      <p class="small sub">Soldadura SMAW E6011. En A y en el eje 4 el cordón va articulado.</p>
+      <h3>Secuencia de obra</h3>
+      <ol class="puntos"><li>Taller: cortar las ${2 * U.length} planchas rectangulares, cantos rectos y limpios.</li><li>Presentar el cordón entre los pilares con la cara inferior a ${nv(z0)} y puntear. Soldar filete 3 arriba y abajo contra la cara del pilar (los costados no: quedan bajo las planchas).</li><li>Presentar las 2 planchas con prensa, a ras abajo con el cordón. Holgura máxima 1,5 mm; si es mayor, el filete crece esa medida. Puntear.</li><li>Soldar alternando de un lado al otro para que no se tuerza: canal de la esquina de arriba relleno a ras + filete 3; filete 3 en la punta; filetes 5 al pilar (abajo, arriba y, en E, el vertical).</li><li>Cortar las VT 8 mm más cortas y soldarlas a la plancha (3 lados, filete 3).</li><li>Electrodo ø 2,5 mm sobre el tubo de 3 mm y ø 3,2 mm sobre el pilar y la plancha. Sin precalentar si el acero está sobre 0 °C.</li><li>Inspección visual del 100 % con galga de filete, sin socavación en el tubo de 3 mm. Luego anticorrosivo.</li></ol>`;
     cont.appendChild(info);
-    cap.innerHTML = '<b>Detalle UM</b> · unión de momento del cordón con los pilares B y E de los ejes 2 y 3 · escala 1:5 (corte 1-1 al doble) · cotas en mm, niveles desde el NPOG 0,00 · <span style="color:var(--fig-sold);font-weight:600">rojo</span>: soldadura · números: marcas de la tabla · aprobado por el ingeniero (28-10-2026).';
+    cap.innerHTML = '<b>Detalle UM</b> · unión de momento del cordón con los pilares B y E de los ejes 2 y 3 · escala 1:5 (corte 1-1 al doble) · cotas en mm, niveles desde el NPOG 0,00 · <span style="color:var(--fig-sold);font-weight:600">rojo</span>: soldadura · números: marcas de la tabla.';
   }
   const cont = $('#elevs');
   elevacion(cont, 'Elevación eje 1 (fachada)', 'x', D.ejes.x['1'], 'x');
@@ -1397,7 +1316,7 @@ ol.preg li{margin:0 0 8px}
       ['Obra gruesa', `sello −${coma(-nv.sello, 0)} · emplantillado G5 10 · losa de fundación e=${coma(ZAP_H, 0)} bajo todo el búnker (sobresale 37,5) · muro e=${coma(MURO, 0)} · losa ${coma(LOSA, 0)} · inserto PLb 200×200×12 a ras (PLc e=16 en los pilares con cruz) · pilar 150×150 · viga 1–5 +${coma(Z_VIGA_INF, 0)}/+${coma(Z_VIGA_INF + VT, 0)} · viga inclinada 200×150 al 3,5 % · costaneras @${coma(PASO, 0)} · plancha ${coma(TECHO, 0)} · alero del eje E ${sg(ZTOP)}`],
       ['Terminado', `piso +${coma(TP, 1)} (${capP.map(c => c[0].toLowerCase().split(' /')[0] + ' ' + coma(c[1], 1)).join(' + ')}) · cielo +${coma(Z_VIGA_INF - TC, 1)} (${capC.map(c => c[0].toLowerCase().split(' /')[0] + ' ' + coma(c[1], 1)).join(' + ')}) → <b>${coma(LIB_EST, 0)} libres</b> · búnker piso −${coma(-(nv.pisoBk + TP), 1)}, cielo −${coma(-(nv.losaInf - TC), 1)} → <b>${coma(LIB_BK, 0)} libres</b>`],
       ['Bajo la losa', `desde la losa (NPOG 0,00): terreno natural −50 · piso terminado del búnker −${coma(-(nv.pisoBk + TP), 1)} · piso del búnker −${coma(-nv.pisoBk, 0)} · losa de fundación −${coma(-nv.zapSup, 0)} / −${coma(-nv.zapInf, 0)} · sello −${coma(-nv.sello, 0)}`],
-      ['Siglas', 'NPOG = nivel de piso de obra gruesa (0,00 del ingeniero, cara de la losa) · NPT = nivel de piso terminado · NTN = nivel de terreno natural (−50) · punteado naranjo = niveles terminados · naranjo = fierros'],
+      ['Siglas', 'NPOG = nivel de piso de obra gruesa (0,00, cara de la losa) · NPT = nivel de piso terminado · NTN = nivel de terreno natural (−50) · punteado naranjo = niveles terminados · naranjo = fierros'],
     ].map(([k, v]) => `<div class="k">${k}</div><div class="v">${v}</div>`).join('');
   })();
   // tabla de capas y qué pasa con las alturas libres
@@ -1415,7 +1334,7 @@ ol.preg li{margin:0 0 8px}
       <tr><td>${TERM.cielo[1][0]}</td><td class="r">${coma(TERM.cielo[1][1], 1)}</td><td rowspan="2">cielo terminado a −${coma(-(NIV.losa_inf - T_CIELO), 1)}</td></tr>
       <tr><td>${TERM.cielo[0][0]}</td><td class="r">${coma(TERM.cielo[0][1], 1)}</td></tr>
       <tr><td><b>Alturas libres terminadas</b></td><td>estudio: de NPT a cielo terminado</td><td class="r">${coma(libreEst, 1)}</td><td>búnker: ${coma(libreBk, 1)} (obra gruesa ${coma(LIBRE_OG_BUNKER, 0)})</td></tr></tbody>`;
-    $('#txt-capas').innerHTML = `<li>El 0,00 del ingeniero es la cara de la losa; su estructura iba a +400/+410.</li><li>Para <b>${coma(libreEst, 0)} / ${coma(libreBk, 0)} libres terminados</b>: la estructura sube <b>${coma(subir, 1)} cm</b> (viga 1–5 y cordones a +${coma(Z_VIGA_INF, 0)}/+${coma(Z_VIGA_INF + 10, 0)}, pilares y techo con ella) y el piso del búnker baja con ella (losa de fundación −${coma(-NIV.zapata_sup, 0)} / −${coma(-NIV.zapata_inf, 0)}, sello −${coma(-NIV.emplantillado_inf, 0)} desde la losa).</li><li>Cambios chicos (largo de pilares, excavación): avisados en las preguntas al ingeniero. Otro porcelanato o cielo se cambia en un solo lugar.</li>`;
+    $('#txt-capas').innerHTML = `<li>Niveles desde la cara de la losa (NPOG 0,00) · viga 1–5 y cordones a +${coma(Z_VIGA_INF, 0)}/+${coma(Z_VIGA_INF + 10, 0)} · <b>${coma(libreEst, 0)} / ${coma(libreBk, 0)} libres terminados</b>.</li>`;
   })();
 
   // ---------- ventanas, puertas y esquema interior ----------
@@ -1488,11 +1407,11 @@ ol.preg li{margin:0 0 8px}
     });
     txt(svg, W / 2, -95, 'patio', { 'text-anchor': 'middle', 'font-size': 16, class: 'txs' }); flechaNorte(svg, -82, -60, 20);
     txt(svg, -100, L / 2, 'casa →', { 'text-anchor': 'middle', 'font-size': 15, class: 'txs', transform: `rotate(-90 -100 ${L / 2})` });
-    $('#cap-vanos').innerHTML = 'Planta de ventanas (azul), puertas (naranjo) y cruces (verde) sobre los muros, con un esquema interior de referencia (punteado): parlantes a los lados de la ventana del eje E, consola a 2,5 m mirando hacia ella, sofá junto al vidrio, barra de espaldas al muro de la escalera, mesas de cowork frente al patio y, en la esquina de los ejes A y 5, una cocina chica con lavaplatos y un minibar (la cabina de grabación de la cafetería se sacó por ahora). La escalera al búnker va en hormigón, en su propia caja de muros, y se entra desde el distribuidor por una puerta con llave en el tabique B. Todo es propuesta para conversar.';
+    $('#cap-vanos').innerHTML = 'Ventanas en azul, puertas en naranjo y cruces en verde · punteado: esquema interior de referencia (parlantes, consola, sofá, barra, mesas y cocina chica).';
     const fmtm = v => (v / 100).toFixed(2).replace('.', ',');
     $('#tabla-vanos').innerHTML = `<thead><tr><th>Vano</th><th>Dónde</th><th>Tipo</th><th class="r">Ancho × alto</th><th>Nota</th></tr></thead><tbody>${D.vanos.filter(v => v.tipo !== 'escalera').map(v => `<tr><td><b>${v.id}</b></td><td>${({ norte: 'fachada eje A', sur: 'fachada eje E', oriente: 'fachada eje 5', poniente: 'fachada eje 1', 'tabique B': 'tabique eje B', 'tabique 4': 'tabique eje 4' })[v.muro] || v.muro}</td><td>${v.tipo}</td><td class="r">${fmtm(v.ancho)} × ${fmtm(v.alto)} m</td><td class="small">${v.d}</td></tr>`).join('')}</tbody>`;
     const vid = D.vanos.filter(v => v.tipo.includes('ventana') || v.tipo.includes('vidri') || v.tipo.includes('corredera')).reduce((s, v) => s + v.ancho * v.alto / 1e4, 0);
-    $('#txt-vanos').textContent = `${vid.toFixed(1).replace('.', ',')} m² de vidrio en total. Las ventanas al patio son de piso a cielo (4,00) en los tramos 1-2, 2-3 y 3-4; el 4-5 es ciego. El baño lleva una ventana alta en el eje 5; la cabina y la bodega van sin ventana y el resto del eje 1 queda ciego (cruces y entrada). Pendiente: el detalle acústico del tabique vidriado y la escalera.`;
+    $('#txt-vanos').textContent = `${vid.toFixed(1).replace('.', ',')} m² de vidrio en total. Las ventanas al patio son de piso a cielo (4,00) en los tramos 1-2, 2-3 y 3-4; el 4-5 es ciego. El baño lleva una ventana alta en el eje 5; la cabina y la bodega van sin ventana y el resto del eje 1 queda ciego (cruces y entrada).`;
   })();
 
   // ---------- fundaciones y hormigón armado (sección 07) ----------
@@ -1574,7 +1493,7 @@ ol.preg li{margin:0 0 8px}
       S.nivel(-26, 0, 'NPOG 0,00'); S.nivel(-26, -50, '−50'); S.nivel(-26, zG5, '−' + coma(-zG5, 0)); S.nivel(-26, zSe, '−' + coma(-zSe, 0));
       nota(sv, S.U(yC + aG5 / 2) + 4, S.Y((-50 + zG5) / 2) + 2.3, `G5 ${coma(aG5, 0)} × ${coma(-50 - zG5, 0)}`, 6.5); nota(sv, S.U(yC + aG5 / 2) + 4, S.Y((zG5 + zSe) / 2) - 1.5, `estabilizado compactado ${coma(aG5, 0)} × ${coma(zG5 - zSe, 0)}`, 6.5); nota(sv, S.U(yC + aG5 / 2) + 4, S.Y((zG5 + zSe) / 2) + 6.5, '2 capas de 15 · sello compactado', 6.5);
       nota(sv, S.U(yC - 30.25), S.Y(-5) + 2.3, 'radier 10', 6, { 'text-anchor': 'middle' }); nota(sv, S.U(yC + 30.25), S.Y(-5) + 2.3, 'radier 10', 6, { 'text-anchor': 'middle' });   // al medio de cada tramo de radier (entre el marco y el CF)
-    }, `eje C entre 4 y 5 (C2 y eje 4 iguales; sobre los dados de 4C y 4C2 el CF va monolítico con el dado) · <b>${H.cf.rotulo || '30/50 por el moldaje existente; el ingeniero pidió 30/30 con 4ø12 y E ø10@20'}</b> · ingeniero (lámina 01): 25/40 bajo el radier · debajo, 20 de G5 sobre 30 de estabilizado compactado, con el sello en −100 (el ingeniero, 22 y 23-11-2026) · traba ø10 para las barras del medio en toda la cadena (el ingeniero, 24-11-2026) · medidas en cm`);
+    }, `eje C entre 4 y 5 (C2 y eje 4 iguales) · debajo, 20 de G5 sobre 30 de estabilizado compactado, con el sello en −100 · traba ø10 en toda la cadena · medidas en cm`);
     // D) VHA del eje 3, bajo la losa del búnker
     corte(`Corte D · viga ${H.vigas[0].nombre} bajo la losa del búnker`, [-112, -26, 390, 132], sv => {
       const x3 = AX(D.ejes.x['3']), S = AR.seccion(sv, D, H, PL, { eje: 'y', c: AY(390), u0: x3 - 75, u1: x3 + 75, zmin: -64, zmax: 6, fs: 8.3, ntn: false });   // ventana 8 más baja: el r bajo la viga cabe sin pisar el marco
@@ -1785,15 +1704,11 @@ ol.preg li{margin:0 0 8px}
         });
         // ---------------- notas del diseño, a la derecha de la planta (calculo/diseno.py y barrido_vbl.py, V132) ----------------
         const NX = 900; let yN = 24;
-        T14(sv, NX, yN, 'VBL colgada y VBC botada: diseño (ACI 318-08, con torsión)', { 'font-weight': 700 }); yN += 32;
+        T14(sv, NX, yN, 'VBL colgada y VBC botada', { 'font-weight': 700 }); yN += 32;
         const notas = [
-          `Sin pilar (Gabriel, 28-10-2026): la VBL va colgada al costado del hueco, del muro A al muro B, con su cara oriente en el borde del hueco: no queda sobre la escalera. La VBC sigue botada dentro de la losa y apoya en la VBL.`,
-          `Alto de la VBL (el ingeniero, 28-10-2026: que la flecha no pase de L/300 y recalcular la armadura): L = 6,20 libre entre las caras de los muros A y B, L/300 = 20,7 mm. Flecha a largo plazo (Branson, λΔ = 2; control con la 318-19), con alto 30 → 7,4 mm · 40 → 6,5 · 50 → 5,6 · 60 → 4,7: todas bajo 0,36 de L/300.`,
-          `Va con 50 (cuelga 25, como la VHA-3): 5,6 mm = L/1110 (0,27; 5,7 con la 318-19). Más baja no pasa la VBC, que apoya en ella (con 45 su fierro da 1,00); más alta, la VBL pide más fierro abajo.`,
-          `VBL ${nomb(VBL)}: M+ 6.897 kgf·m (67,6 kN·m) 0,68 · M− en la cara del muro B 5.190 kgf·m (50,9 kN·m) 0,55 · V 7.626 kgf (74,8 kN) 0,34 · T 469 kgf·m (4,6 kN·m): estribo V+T 0,22 · fierro abajo con torsión 0,97 · fisura 0,20 mm.`,
-          `VBC ${nomb(VBC)}: M+ 1.853 kgf·m (18,2 kN·m) 0,58 · M− 2.080 kgf·m (20,4 kN·m) 0,65 · V 7.381 kgf (72,4 kN) 0,59 · T 908 kgf·m (8,9 kN·m): estribo V+T 0,76 · fierro arriba con torsión 0,95 · E ø8@9 (s ≤ d/2 = 9,3).`,
-          `Anclajes: VBL arriba en L de 72 en los muros A y B y abajo recta, 19 dentro de cada muro (ACI 318-08 12.11.1: ≥ 15); la VBC, con gancho dentro de la VBL (ldh 15,5 ≤ 21).`,
-          `Sin pilar salen el suple de la losa de fundación y el LR-VBL; quedan los suples de las esquinas y las ø16 sobre el muro B. Altura libre de la escalera sin cambio: 2,33 a la losa y 2,27 al cielo, desde las narices.`,
+          `La VBL ${nomb(VBL)} va colgada al costado del hueco, del muro A al muro B. La VBC ${nomb(VBC)} va botada dentro de la losa y apoya en la VBL.`,
+          `Anclajes: la VBL, arriba en L de 72 en los muros A y B y abajo recta, 19 dentro de cada muro; la VBC, con gancho dentro de la VBL.`,
+          `Altura libre de la escalera: 2,33 a la losa y 2,27 al cielo, desde las narices.`,
         ];
         notas.forEach(s => { const pal = s.split(' '); let lin = ''; pal.forEach(p => { if ((lin + ' ' + p).length > 68) { T14(sv, NX, yN, lin.trim(), { class: 'txs' }); yN += 19; lin = ''; } lin += ' ' + p; }); T14(sv, NX, yN, lin.trim(), { class: 'txs' }); yN += 27; });
         // ---------------- corte a lo largo de la VBL, por su eje y de muro a muro (mirando hacia el eje 5), a la misma escala ----------------
@@ -1814,7 +1729,7 @@ ol.preg li{margin:0 0 8px}
         columna(S, [['LR-sup'], ['VBC-sup'], ['VBC-inf']], -12, 22 / k);
         columna(S, [['LS-AB'], ['VBL-sup'], ['VBL-est'], ['VBL-lat'], ['VBL-inf']], S.W + 40, 22 / k);
         S.cotaH(Ux(mN[3]), Ux(mS[2]), zVi, `${coma(mS[2] - mN[3], 0)} libres entre los muros A y B · flecha 5,6 mm = L/1110 (L/300 = 20,7)`, zVi - zBot + 18);
-      }, `planta (arriba a la izquierda): losa de techo vista desde arriba, con la VBL colgada (raya larga) y la VBC botada (raya corta), los suples de la esquina y las ø16 en L sobre el muro B; fierro con color por diámetro, superiores en línea llena e inferiores en raya; la malla general de la losa está en la planta 2 · corte (abajo): a lo largo de la VBL por su eje, de muro a muro y a la misma escala, con las barras del modelo y sus marcas de la planilla (estribos y laterales proyectados) · sin pilar (Gabriel, 28-10-2026); ingeniero (25/26-10-2026: una viga en cada borde del hueco; 28-10-2026: flecha ≤ L/300 y armadura recalculada); medidas, armaduras y suples: propuesta · medidas en cm`);
+      }, `planta (arriba): losa de techo con la VBL (raya larga), la VBC (raya corta), los suples de la esquina y las ø16 en L sobre el muro B · corte (abajo): a lo largo de la VBL, de muro a muro, con las marcas de la planilla · medidas en cm`);
 
       // ===== cortes de la VBL colgada y de la VBC botada, al doble de escala (2,4 px por cm en una columna de 720); V132: la ventana baja hasta −60 por la VBL y las dos van del mismo alto =====
       const VBW = 300, kV = 721 / VBW, fsV = 14 / kV / 0.92;   // columna de 721 px: 2,4 px por cm, el doble que la planta
@@ -1827,7 +1742,7 @@ ol.preg li{margin:0 0 8px}
         S.cotaH(S.U(lx0), S.U(lx1), zVi, coma(lx1 - lx0, 0), 20); S.cotaV(0, H.niveles.losa_inf, 0, coma(-H.niveles.losa_inf, 0), -8); S.cotaV(S.U(lx0), zVi, H.niveles.losa_inf, coma(H.niveles.losa_inf - zVi, 0), -10);   // la losa y lo que cuelga la VBL
         S.nivel(-26, 0, 'NPOG 0,00'); S.nivel(-26, H.niveles.losa_inf, coma(H.niveles.losa_inf, 0)); S.nivel(-26, zVi, coma(zVi, 0));
         nota(sv, S.U(hx0) + 4, S.Y(-56), 'hueco', 14 / kV, { class: 'txs' }); if (cajaL) nota(sv, S.U(cajaL[0]) - 30, S.Y(29.5), `muro de la caja e=${coma(cajaL[1] - cajaL[0], 1)}`, 14 / kV, { class: 'txs' });   // «hueco», bajo las llamadas (a −32 lo cruzaban); la caja, sobre el marco de la ventana
-      }, `a ${coma((420 - AY(D.ejes.y.A)) / 100, 2)} m del eje A, mirando hacia el eje A · ${VBL.armadura} · flecha a largo plazo 5,6 mm = L/1110 con L = 6,20 libre entre los muros A y B (L/300 = 20,7; el ingeniero, 28-10-2026) · medidas en cm`);
+      }, `a ${coma((420 - AY(D.ejes.y.A)) / 100, 2)} m del eje A, mirando hacia el eje A · ${VBL.armadura} · medidas en cm`);
       corte(`Corte E2 · VBC ${nomb(VBC)} botada (borde del hueco hacia el eje A)`, [-72, -40, VBW, 128], sv => {
         const xc = 4391.2, S = AR.seccion(sv, D, H, PL, { eje: 'x', c: xc, u0: cy0 - 64, u1: hy0 + 26, zmin: -48, zmax: 26, fs: fsV, ntn: false });
         if (caja) { el('rect', { x: S.U(caja[2]), y: S.Y(24), width: caja[3] - caja[2], height: 24, class: 'ad-h' }, sv); }
@@ -1960,12 +1875,8 @@ ol.preg li{margin:0 0 8px}
       const XN = 880; let yN = TOPC - 8;
       T14(sv, XN, TOPC - 38, 'Notas', { 'font-weight': 700 });
       const envolver = (s, n) => { const out = []; let l = ''; s.split(' ').forEach(w => { if ((l + ' ' + w).trim().length > n) { out.push(l.trim()); l = ''; } l += ' ' + w; }); if (l.trim()) out.push(l.trim()); return out; };
-      [['Ingeniero (croquis 27-10-2026):', 'losa inclinada e=15 con ø16@18 (ø12@11) corrido, con gancho en la losa de fundación y L en el muro; peldaños ø8@20 en ⌐ con una ø8 en cada nariz; «como alternativa puede ir una viga central de 25/40 … con la losa de e=10 cm solamente»; «debe chequearse la deformación».'],
-       ['Revisión', `(${C_.fuente.replace(' (', '; ').replace(/\)$/, '')}): ${C_.croquis}. No pasa: se toma su alternativa.`],
-       ['Aplicado:', `${C_.viga}.`],
-       ['Ingeniero (28-10-2026):', `acepta la viga central, con ${coma(hV, 0)} de alto total perpendicular a la losa (${coma(hL, 0)} de losa + ${coma(hV - hL, 0)} colgados) y sus armaduras ancladas en la losa de fundación de ${coma(H.losa_fundacion.espesor, 0)}; largos y ganchos: tabla D. Revisará la armadura de la losa y de los peldaños en su revisión final.`],
-       ['Propuesta (el croquis no lo da):', `el fierro de la viga y de la losa de ${coma(hL, 0)}; recubrimiento 3 (5 en la losa de fundación, 4 por fuera del muro B); hormigón G25 (G30 si se hormigona con el búnker).`],
-       ['Cantidades:', `${coma(kgE.reduce((a, g) => a + g.kg, 0), 0)} kg de fierro (marcas ${kgE[0].marca} a ${kgE[kgE.length - 1].marca} de la planilla, sección 07)${m3E != null ? ` y ${coma(m3E, 2)} m³ de hormigón` : ''}.`]]
+      [['Hormigón:', `recubrimiento 3 (5 en la losa de fundación, 4 por fuera del muro B); G25 (G30 si se hormigona con el búnker).`],
+       ['Cantidades:', `${coma(kgE.reduce((a, g) => a + g.kg, 0), 0)} kg de fierro (marcas ${kgE[0].marca} a ${kgE[kgE.length - 1].marca} de la planilla)${m3E != null ? ` y ${coma(m3E, 2)} m³ de hormigón` : ''}.`]]
         .forEach(([b, s]) => { envolver(b + ' ' + s, 76).forEach((L, i) => { const t = T14(sv, XN, yN, ''); if (i === 0) { el('tspan', { 'font-weight': 700 }, t).textContent = b; el('tspan', {}, t).textContent = L.slice(b.length); } else t.textContent = L; yN += 19; }); yN += 8; });
       // ===== D) V131: anclajes de la viga VE (el ingeniero, 28-10-2026: «largo y ganchos de enfierraduras de la viga, a determinar»): largo de cada barra,
       //      cómo termina al pie (losa de fundación) y arriba (muro B), y su ldh contra lo disponible, todo de escalera.estructura.anclajes del modelo ----------
@@ -1974,14 +1885,14 @@ ol.preg li{margin:0 0 8px}
       if (ANC.length) {
         let yD = ALTO + 18; const lf = H.losa_fundacion ? coma(H.losa_fundacion.espesor, 0) : '35';
         T14(sv, 8, yD, `D · Anclajes de la viga central ${VE.nombre}: largo de cada barra y cómo termina en la losa de fundación y en el muro B`, { 'font-weight': 700 }); yD += 30;
-        const COLS = [[8, 'Barras', 30], [246, 'Largo', 0], [334, `Al pie: losa de fundación e=${lf}`, 50], [732, 'ldh / disponible', 0], [885, 'Arriba: muro del eje B', 50], [1283, 'ldh / disponible', 0]];
+        const COLS = [[8, 'Barras', 30], [246, 'Largo', 0], [334, `Al pie: losa de fundación e=${lf}`, 60], [860, 'Arriba: muro del eje B', 60]];
         COLS.forEach(([x, t]) => T14(sv, x, yD, t, { 'font-weight': 700 }));
         el('line', { x1: 8, y1: yD + 8, x2: 1440, y2: yD + 8, style: 'stroke:var(--fig-ink);stroke-width:.8' }, sv); yD += 30;
         const dc = (l, d) => l != null && d ? `${coma(l, 1)} / ${coma(d, 1)} = ${coma(Math.ceil(l / d * 100 - 1e-9) / 100, 2)}` : '—';   // D/C redondeado hacia arriba (con ldh y lo disponible de 1 decimal, 20,6 / 21,8 daba 0,94; el cálculo da 0,95)
         ANC.forEach((a, i) => {
           const nEst = PL.filas.filter(g => g.ids.includes(a.familia)).reduce((t, g) => t + g.n, 0);
           const largo = a.largo ? `${coma(a.largo / 100, 2)} m` : (nEst ? `${nEst} cerrados` : '—');
-          const cel = [envolver(a.barras + (a.nota ? ' · ' + a.nota.split(' (')[0] : ''), 24), [largo], envolver(a.pie || '—', 50), [dc(a.pie_ldh, a.pie_disponible)], envolver(a.arriba || '—', 50), [dc(a.arriba_ldh, a.arriba_disponible)]];
+          const cel = [envolver(a.barras + (a.nota ? ' · ' + a.nota.split(' (')[0] : ''), 24), [largo], envolver(a.pie || '—', 60), envolver(a.arriba || '—', 60)];
           const xm = 8 + 12, ms = [...new Set(mk(a.familia))];
           ms.forEach((m, k) => { const cx = xm + k * 26; el('circle', { cx, cy: yD - 5, r: 11.5, class: 'ad-mc' }, sv); txt(sv, cx, yD - 0.2, m, { 'text-anchor': 'middle', 'font-size': 12.9, class: 'ad-mt' }); });
           cel.forEach((ls, k) => ls.forEach((L, j) => T14(sv, COLS[k][0] + (k === 0 ? 12 + ms.length * 26 : 0), yD + j * 19, L)));
@@ -1989,12 +1900,12 @@ ol.preg li{margin:0 0 8px}
           el('line', { x1: 8, y1: yD - 19, x2: 1440, y2: yD - 19, style: `stroke:var(--fig-soft);stroke-width:.6${i === ANC.length - 1 ? '' : ';stroke-dasharray:4 3'}` }, sv);
         });
         yD += 4;
-        [ES.montaje ? `Montaje: ${ES.montaje}.` : '', 'ldh: largo de desarrollo con gancho estándar (ACI 318-08 12.5.2, G30), con el factor 0,7 de 12.5.3 a (recubrimiento lateral y delante del gancho de 90° suficientes); disponible: medido en el modelo, desde la cara de la losa o del muro hasta el fondo del gancho.']
+        [ES.montaje ? `Montaje: ${ES.montaje}.` : '']
           .filter(Boolean).forEach(t => envolver(t, 190).forEach(L => { T14(sv, 8, yD, L, { class: 'txs' }); yD += 19; }));
         ALTO = yD + 8;
       }
       sv.setAttribute('viewBox', `0 0 1472 ${Math.ceil(ALTO)}`);
-      $('#cap-escalera-det').innerHTML = `<b>Detalle constructivo de la escalera</b> · A: corte longitudinal por la viga central ${VE.nombre}, mirando hacia el eje 5 (el plano pasa a 7,7 de su eje; las ⌐ del eje y las ramas de los estribos, proyectadas) · B: tres peldaños ampliados, como el detalle del croquis · C: corte perpendicular a la losa, por un estribo, mirando hacia el muro B · barras del modelo con su marca de la planilla (sección 07) y color por diámetro: ø8 verde, ø12 naranjo, ø16 rojo; las de la losa de fundación y los muros, más tenues · la viga toca el piso a ${coma((yT - yUV) / 100, 2)} m del muro B (${coma((yUV - yP) / 100, 2)} de la primera contrahuella) y desde ahí al pie todo es macizo sobre la losa de fundación · D: anclajes de la viga en la losa de fundación y en el muro B (largos y ganchos que pidió el ingeniero el 28-10-2026, del modelo) · ingeniero (croquis 27-10-2026): peldaños, narices, ø16 corrido y la alternativa de la viga; aceptada el 28-10-2026 con 40 de alto total; propuesta: el fierro de la viga y de la losa · medidas en cm`;
+      $('#cap-escalera-det').innerHTML = `<b>Detalle de la escalera</b> · A: corte por la viga central ${VE.nombre}, mirando hacia el eje 5 · B: tres peldaños ampliados · C: corte por un estribo, mirando hacia el muro B · D: anclajes de la viga en la losa de fundación y en el muro B · barras con su marca de la planilla y color por diámetro (ø8 verde, ø12 naranjo, ø16 rojo) · medidas en cm`;
     })();
 
     // ---------- detalle «Inserto PLc / PLb» (V124; el ingeniero, V121 25-10-2026: placas embebidas con anclajes soldados en vez de pernos con tuerca, para su VºBº).
@@ -2118,7 +2029,7 @@ ol.preg li{margin:0 0 8px}
         el('rect', { x: s3, y: DY, width: tt * kD, height: 70, style: 'fill:var(--fig-pilar);stroke:var(--fig-ink);stroke-width:.8' }, sv); zig(sv, s3 - 6, DY, s3 + tt * kD + 6, 2);
         [-1, 1].forEach(s => filete(sv, s > 0 ? s3 + tt * kD : s3, DY + 70, tt * kD, s, -1));
         ['pilar a placa:', `filete ${mm(tt)} (= tubo)`, 'todo el contorno'].forEach((t, i) => T14(sv, s3 - 40, DY + e * kD + 100 + i * 18, t, {}));
-      }, `insertos embebidos a ras del hormigón, sin pernos ni tuercas: barras lisas A36 soldadas a la placa y a su cabeza; horquillas de corte ø16 A630 amarradas, nunca soldadas · se dibuja ${pl.id}, la mayor (${pl.anclas.length} barras, placa de ${mm(e)}, hef ${mm(hef)}); las demás en la tabla · planta y cortes a la misma escala, soldaduras ×4 · medidas en mm · aprobado por el ingeniero (28-10-2026; calculo/anclajes_insertos.py)`);
+      }, `insertos embebidos a ras del hormigón: barras lisas A36 soldadas a la placa y a su cabeza; horquillas de corte ø16 amarradas, nunca soldadas · se dibuja ${pl.id}, la mayor; las demás, en la tabla · medidas en mm`);
 
       // ================= (E) tabla de variantes y (F) notas =================
       const t = kn => `${coma(kn / 9.80665, 1)} t (${coma(kn, 1)} kN)`, dirE = (p, s) => { const ax = (s[1] === 'a' && s[2] === 'l') === (p.muro_dir === 'x') ? 'x' : 'y', pos = s[0] === '+'; return ax === 'x' ? (pos ? 'eje 5' : 'eje 1') : (pos ? 'eje E' : 'eje A'); };
@@ -2130,16 +2041,15 @@ ol.preg li{margin:0 0 8px}
         const hq = (p.horquillas || []).length ? `${p.horquillas.length} (corte hacia el ${[...new Set(p.horquillas.map(s => dirE(p, s)))].join(' y el ')})` : '—';
         const arm = ((p.anclajes || '').match(/armadura de anclaje: ([^;]+)/) || [])[1] || '—';
         const dc = r.length ? [r[2], r[4], r[6]] : null, b = v => v >= 0.9 ? `<b>${coma(v, 2)}</b>` : coma(v, 2);
-        return `<tr><td style="white-space:nowrap"><b>${p.id}</b></td><td class="small">${p.sobre}<br>${p.perfil}</td><td style="white-space:nowrap">${mm(p.largo || x1 - x0)} × ${mm(p.ancho || y1 - y0)} × ${mm(p.espesor)}${p.recorte_esquina ? ' <span class="small">(esquina −' + mm(p.recorte_esquina) + ')</span>' : ''}</td><td>${p.anclas.length} ${d} a ${sep} · hef ${mm(p.hef)}</td><td>${mm(p.cabeza[0])} × ${mm(p.cabeza[1])}</td><td class="small">${hq}</td><td class="small">${arm}</td>` +
-          `<td class="r small" style="white-space:nowrap">${r.length ? t(r[0]) + '<br>' + t(r[1]) : '—'}</td><td class="r" style="white-space:nowrap">${dc ? `${b(dc[0])} · ${b(dc[1])} · ${b(dc[2])}<br><span class="small">${MODO[r[3]] || r[3]} · ${MODO[r[5]] || r[5]}</span>` : '—'}</td></tr>`;
+        return `<tr><td style="white-space:nowrap"><b>${p.id}</b></td><td class="small">${p.sobre}<br>${p.perfil}</td><td style="white-space:nowrap">${mm(p.largo || x1 - x0)} × ${mm(p.ancho || y1 - y0)} × ${mm(p.espesor)}${p.recorte_esquina ? ' <span class="small">(esquina −' + mm(p.recorte_esquina) + ')</span>' : ''}</td><td>${p.anclas.length} ${d} a ${sep} · hef ${mm(p.hef)}</td><td>${mm(p.cabeza[0])} × ${mm(p.cabeza[1])}</td><td class="small">${hq}</td><td class="small">${arm}</td></tr>`;
       }).join('');
       const nC = H.placas.lista.filter(p => p.tipo === 'PLc'), nB = H.placas.lista.filter(p => p.tipo === 'PLb');
       const fig = document.createElement('figure'); fig.className = 'ancha';
-      fig.innerHTML = `<div class="tw"><table><thead><tr><th>Placa</th><th>Apoyo · pilar</th><th>Placa A36: largo × ancho × e (mm)</th><th>Barras A36 soldadas</th><th>Cabeza (mm)</th><th>Horquillas ø16</th><th>Armadura de anclaje</th><th class="r">Nua / Vua máx.</th><th class="r">D/C tracción · corte · interacción</th></tr></thead><tbody>${filas}` +
-        `<tr><td colspan="3"><b>Total: ${nC.length} PLc + ${nB.length} PLb</b></td><td colspan="6"><b>${nC.reduce((s, p) => s + p.anclas.length, 0)} barras ø22 + ${nB.reduce((s, p) => s + p.anclas.length, 0)} barras ø3/4"</b> · ${(famE('AH') ? instE(famE('AH')).length : 0)} horquillas ø16<br>máximo D/C ${coma(Math.max(...Object.values(RC).map(r => r[6] || 0)), 2)} · acero de los insertos ≈ 446 kg (placas, cabezas y barras; cálculo)</td></tr></tbody></table></div>` +
-        `<figcaption><b>Tabla de variantes de los insertos</b> · del modelo (medidas) y de calculo/anclajes_insertos.py (Nua, Vua y D/C con Ω0 = 2 en sismo, ACI 318-19 cap. 17) · D/C ≥ 0,90 en negrita · debajo de cada D/C, el modo que manda en tracción y en corte</figcaption>` +
+      fig.innerHTML = `<div class="tw"><table><thead><tr><th>Placa</th><th>Apoyo · pilar</th><th>Placa A36: largo × ancho × e (mm)</th><th>Barras A36 soldadas</th><th>Cabeza (mm)</th><th>Horquillas ø16</th><th>Armadura de anclaje</th></tr></thead><tbody>${filas}` +
+        `<tr><td colspan="3"><b>Total: ${nC.length} PLc + ${nB.length} PLb</b></td><td colspan="4"><b>${nC.reduce((s, p) => s + p.anclas.length, 0)} barras ø22 + ${nB.reduce((s, p) => s + p.anclas.length, 0)} barras ø3/4"</b> · ${(famE('AH') ? instE(famE('AH')).length : 0)} horquillas ø16</td></tr></tbody></table></div>` +
+        `<figcaption><b>Tabla de los insertos</b> · medidas en mm</figcaption>` +
         `<ul class="puntos small"><li><b>Materiales:</b> placas, barras y cabezas A36; horquillas A630-420H, amarradas y nunca soldadas.</li>` +
-        `<li><b>Soldadura:</b> E7018 según AWS D1.1; cada barra a tope bajo la placa y a su cabeza con filete 12 (10 en las PLb) en todo el contorno; pilar a placa con filete igual al espesor del tubo; precalentamiento según AWS D1.1: sin precalentar sobre 0 °C hasta 20 mm de espesor y 10 °C en la placa de 30 de PLc-4A.</li>` +
+        `<li><b>Soldadura:</b> E7018; cada barra a tope bajo la placa y a su cabeza, con filete 12 (10 en las PLb) en todo el contorno; pilar a placa con filete igual al espesor del tubo; sin precalentar sobre 0 °C (10 °C en la placa de 30 de PLc-4A).</li>` +
         `<li><b>Montaje:</b> inserto colgado de una plantilla fijada al moldaje antes de hormigonar; tolerancias: nivel ±3 mm, planta ±5 mm, horizontalidad ≤ 2 mm.</li>` +
         `<li><b>Hormigonado:</b> vibrar hasta que salga lechada por los respiros; el pilar se suelda con el hormigón a 7 días.</li>` +
         `<li><b>Inspección:</b> visual al 100 % y partículas magnéticas en 1 de cada 5 insertos.</li>` +
@@ -2154,36 +2064,10 @@ ol.preg li{margin:0 0 8px}
     const ES = H.especificaciones;
     $('#tabla-planilla').innerHTML = AR.tablaHTML(PL, Object.fromEntries(D.cubicacion_hormigon.fierro.map(x => [x.diam, x.kg])));
     const tr = [8, 10, 12, 16].map(d => `${AR.nomD(d)} ${coma(60 * d / 10, 0)}`).join(' · ');   // las barras A36 de los insertos no se traslapan: van soldadas
-    $('#notas-ing').innerHTML = `<b>Notas</b> <span class="fuente man">dato · L02 y revisión</span> ${ES.hormigon} · emplantillado ${ES.emplantillado.replace('Hormigón ', '')} · acero ${ES.acero.replace('Acero ', '')} · rec.: fundaciones ${ES.recubrimientos.fundaciones}, H.A. ${ES.recubrimientos['elementos de hormigón armado']}, losa ${ES.recubrimientos.losa} · traslapo 60ø: ${tr}<br>
-      <b>Propuesta</b> <span class="fuente med">por confirmar</span> ganchos de 135° en estribos · patas de 60ø en esquinas · malla de la losa de fundación`;
+    $('#notas-ing').innerHTML = `<b>Notas</b> ${ES.hormigon} · emplantillado ${ES.emplantillado.replace('Hormigón ', '')} · acero ${ES.acero.replace('Acero ', '')} · rec.: fundaciones ${ES.recubrimientos.fundaciones}, H.A. ${ES.recubrimientos['elementos de hormigón armado']}, losa ${ES.recubrimientos.losa} · traslapo 60ø: ${tr} · estribos con ganchos de 135° · patas de 60ø en las esquinas`;
     // especificaciones: en las notas de arriba
   })();
 
-
-  // ---------- luces ----------
-  const xs = Object.values(D.ejes.x), ys = Object.values(D.ejes.y);
-  const bahiaMax = Math.max(...xs.slice(1).map((v, i) => v - xs[i]));
-  const yn_ = Object.keys(D.ejes.y).filter(k => k !== 'nota'), tramosY = ys.slice(1).map((v, i) => v - ys[i]), tramoYmin = Math.min(...tramosY), tramoYmax = Math.max(...tramosY);
-  const hP = D.miembros.filter(x => x.c === 'pilar' && x.p.startsWith('CUAD')).map(x => x.b[2] - x.a[2]);
-  // riostras (CUAD 150x150x3 desde el 10-11-2026): espesor de cada X y estado de un grupo de X, de DATA.riostras (si falta, «?» y sin estado propio)
-  const kR = r => r.id.replace(/[ab]$/, ''), espR = k => ((D.riostras || []).find(r => kR(r) === k) || {}).espesor_mm || '?';
-  const estR = ks => { const no = [...new Set((D.riostras || []).filter(r => r.cumple === false && ks.includes(kR(r))).map(kR))];
-    return no.length ? ['med', `recalculado: no pasa ${no.map(k => k === 'X-C2-45' ? 'la diagonal sola de C2 4-5' : k).join(', ')} (por decidir)`] : 'calc'; };
-  const luces = [
-    ['Costaneras CA 100×50×15×3 @61', 'paño de 3,65 m con colgadores ø10', `paño mayor de ${coma(bahiaMax / 100, 2)} m, sin colgadores`, 'menor'],
-    ['Viga inclinada (marcos interiores) + cordón + puntales', '10,25 m sin pilares (1.b, 1.c), RECT 200×150×5', `${coma((D.ejes.y.E - D.ejes.y.B) / 100, 2)} m en el estudio (B–E) y ${coma((D.ejes.y.B - D.ejes.y.A) / 100, 2)} m en la cafetería (A–B); RECT 200×150×6 en los ejes 2 y 3`, 'calc'],
-    ['Viga inclinada RECT 200×150×3 (fachadas laterales)', 'tramos de 1,25 a 3,43 m entre pilares', `tramos de ${coma(tramoYmin / 100, 2)} (${(i => yn_[i] + '–' + yn_[i + 1])(tramosY.indexOf(tramoYmin))}) a ${coma(tramoYmax / 100, 2)} m (${(i => yn_[i] + '–' + yn_[i + 1])(tramosY.indexOf(tramoYmax))}) entre pilares`, tramoYmax > 343 ? 'calc' : 'menor'],
-    ['Vigas 1–5 CUAD 100×100×3 (+4,11/+4,21 en A, B, C y E)', 'tramos de 2,05 a 3,65 m', `tramos de ${coma(Math.min(...xs.slice(1).map((v, i) => v - xs[i])) / 100, 2)} a ${coma(bahiaMax / 100, 2)} m`, 'menor'],
-    ['Pilares CUAD 150×150', '4,01 a 4,47 m (F1 a A1, con el 4,5 % dibujado)', `${coma(Math.min(...hP) / 100, 2)} a ${coma(Math.max(...hP) / 100, 2)} m (A a E)`, Math.max(...hP) > 447 ? 'calc' : 'menor'],
-    ['Cruces CUAD 150×150×3 (a tracción y compresión desde el 29-10-2026; cuadrado del ingeniero, 10-11-2026)', 'tramos de 2,05 y 1,82 m × 4,01 m, solo a tracción', `tramos de 2,00 m en las fachadas laterales; 2,58 y 2,75 m en los muros ciegos en 1–5 (B 4-5 sin diagonal; C2 4-5 con una sola, sobre la puerta de la bodega); de la placa base a la viga (4,16 a 4,81 m); en ${espR('X-1-AA2')} mm; la diagonal sola de C2 4-5, en ${espR('X-C2-45')} mm`, estR(['X-1-AA2', 'X-5-AA2', 'X-1-DE', 'X-5-DE', 'X-C-45', 'X-C2-45', 'X-E-12', 'X-E-45'])],
-    ['Cruces nuevas del sismo con tabiques y torsión (27-10-2026)', '—', `CUAD 150×150×3 en el tramo C–C2 (${coma((D.ejes.y.C2 - D.ejes.y.C) / 100, 2)} m) de las fachadas 1 (${espR('X-1-CC2')} mm) y 5 (${espR('X-5-CC2')} mm) y en el muro A 4-5 (${espR('X-A-45')} mm); X de CUAD 150×150×3 en la faja del eje E (1-2 y 4-5; hasta el 28-10 era de Fe 22 con templador)`, estR(['X-1-CC2', 'X-5-CC2', 'X-A-45', 'XF-E-12', 'XF-E-45'])],
-    [`Losa del búnker e=${coma(H.losa.espesor, 0)}`, '5,00 m (e=20, ø10@20)', `${coma(H.interior.largo / 100, 2)} m`, 'calc'],
-    [`Muros del búnker e=${coma(H.muros.espesor, 0)}`, '2,72 m de altura libre (e=25)', `${coma(H.interior.alto / 100, 2)} m`, 'calc'],
-    [`Viga ${H.vigas[0].nombre} bajo la losa`, '5,00 m entre muros (eje 2.a, 25/40)', `${coma(H.interior.largo / 100, 2)} m entre muros (eje 3); en la escalera, sin pilar, VBL ${H.vigas.find(v => v.id === 'VBL').nombre.replace(/^Viga colgada /, '')} colgada de muro a muro (${coma(H.interior.largo / 100, 2)} m) y VBC ${H.vigas.find(v => v.id === 'VBC').nombre.replace(/^Viga botada /, '')} botada, apoyada en la VBL (${coma((Math.max(...H.vigas.find(v => v.id === 'VBC').pts.map(p => p[0])) - Math.min(...H.vigas.find(v => v.id === 'VBC').pts.map(p => p[0]))) / 100, 2)} m)`, 'calc'],
-    ['Tensores del techo Fe 16 (solo a tracción)', 'paños de 2,05 × 3,65 m', `paños de hasta ${coma(bahiaMax / 100, 2)} × ${coma(tramoYmax / 100, 2)} m`, 'calc'],
-  ];
-  const est = { menor: ['okv', 'se mantiene'], igual: ['okv', 'igual'], mayor: ['med', 'recalcular'], calc: ['okv', 'recalculado: pasa'] };
-  $('#tabla-luces').innerHTML = `<thead><tr><th>Elemento</th><th>Luz original</th><th>Luz nueva</th><th>Estado</th></tr></thead><tbody>${luces.map(l => `<tr><td><b>${l[0]}</b></td><td>${l[1]}</td><td>${l[2]}</td><td class="${(Array.isArray(l[3]) ? l[3] : est[l[3]])[0]}">${(Array.isArray(l[3]) ? l[3] : est[l[3]])[1]}</td></tr>`).join('')}</tbody>`;   // estado propio de una fila: [clase, texto] (29-10-2026: riostras que piden amarres)
 
   // ---------- planta de techo (27-10-2026): la estructura de acero vista desde arriba, con los tensores del techo (los 8 que la V124 subió a Fe 22 volvieron a Fe 16 el 29-10-2026) ----------
   (function plantaTecho() {
@@ -2225,7 +2109,7 @@ ol.preg li{margin:0 0 8px}
     const fn = flechaNorte(svg, x0 - 150, y0 - 150, 20), tN = fn.querySelector('text'); if (tN) { tN.setAttribute('font-size', FSP); tN.setAttribute('y', -1.35 * 20 - 6); }
     txt(svg, (x0 + x1) / 2, y0 - 205, 'patio', { 'text-anchor': 'middle', 'font-size': FSP, class: 'txs' });
     const n22 = ten.filter(x => /22/.test(x.p)).length, n16 = ten.length - n22;
-    $('#cap-techo').innerHTML = `<b>Planta de techo</b> (estructura de acero, desde arriba) · vigas inclinadas en azul con su perfil bajo el alero · costaneras CA 100x50x15x3 @${coma(P.paso_costanera, 0)} en morado · puntales de techo CUAD 100x100x3 en naranjo (montantes de la cercha de tensores) · vigas y cordones a +${coma(P.z_viga_inf, 0)} bajo el techo en azul punteado · tensores en verde: ${n16} Fe 16${n22 ? ` (finos) y <b>${n22} Fe 22</b> (gruesos y rotulados)` : ''}, solo a tracción, en el plano del techo${n22 ? '' : ' (los 8 de los paños A2–B y B–C de los vanos 1-2 y 4-5, que eran Fe 22 con templador, volvieron a Fe 16 el 29-10-2026: 0,50 como máximo)'} · círculo: nudo con unión de momento UM · cotas entre ejes en cm · las riostras verticales (tubo CUAD 150x150x3, en los muros, bajo las vigas) van en las elevaciones (sección 04).`;
+    $('#cap-techo').innerHTML = `<b>Planta de techo</b> · vigas inclinadas en azul · costaneras CA 100x50x15x3 @${coma(P.paso_costanera, 0)} en morado · puntales CUAD 100x100x3 en naranjo · tensores en verde: ${n16} Fe 16${n22 ? ` y ${n22} Fe 22` : ''} · círculo: unión de momento UM · cotas entre ejes en cm`;
   })();
 
   // ---------- acero ----------
@@ -2233,42 +2117,12 @@ ol.preg li{margin:0 0 8px}
     // riostras (V134, RECT 150x50): cuántas X van en ese perfil y, si alguna no pasa, cuál (DATA.riostras)
     const rP = (D.riostras || []).filter(r => r.perfil === c.perfil), kP = [...new Set(rP.map(r => r.id.replace(/[ab]$/, '')))], noP = [...new Set(rP.filter(r => r.cumple === false).map(r => r.id.replace(/[ab]$/, '')))];
     const nF = kP.filter(k => /^XF-/.test(k)).length, sola = kP.length === 1 && rP.length === 1;
-    const rio = !kP.length ? 'riostras' : `riostras (${sola ? (kP[0] === 'X-C2-45' ? 'la diagonal sola de C2 4-5' : 'la diagonal ' + kP[0]) : kP.length + ' X' + (nF ? `, ${nF} en la faja del eje E` : '')}${noP.length ? (sola ? ', por decidir' : `; ${noP.join(', ')} por decidir`) : ''})`;
+    const rio = !kP.length ? 'riostras' : `riostras (${sola ? (kP[0] === 'X-C2-45' ? 'la diagonal sola de C2 4-5' : 'la diagonal ' + kP[0]) : kP.length + ' X' + (nF ? `, ${nF} en la faja del eje E` : '')}${noP.length ? (sola ? ', no pasa' : `; ${noP.join(', ')} no pasa`) : ''})`;
     const donde = c.donde || [...new Set(D.miembros.filter(x => x.p === c.perfil).map(x => ({ pilar: 'pilares', viga: 'vigas', cabio: 'vigas inclinadas', puntal: 'puntales', costanera: 'costaneras', diagonal: rio, tensor: 'tensores', otro: 'soportes de alero' })[x.c]))].join(', ');
     return `<tr><td><b>${c.perfil}</b></td><td class="r">${coma(c.metros, 1)}</td><td class="r">${coma(c.kg, 0)}</td><td class="small">${donde}</td></tr>`; }).join('')}<tr><td><b>Total</b></td><td></td><td class="r"><b>${coma(D.total_kg, 0)}</b></td><td></td></tr></tbody>`;
 
-  // ---------- riostras verticales a tracción y compresión (el ingeniero, 29-10-2026): tabla de la fila Sismo de la pestaña Ingeniero ----------
-  // de DATA.riostras (calculo/verificar_acero.py): por cada X (o la diagonal sola de C2 4-5), la peor de sus diagonales. Desde el 10-11-2026 todas en CUAD 150x150x3 (el ingeniero),
-  // con el D/C del cruce (Apéndice 6.2.2). Lo que falte en los datos sale como «—».
-  (function tablaRiostras() {
-    const tb = $('#tab-riostras'); if (!tb) return;
-    const R = D.riostras || []; if (!R.length) { tb.remove(); return; }
-    const g = {}; R.forEach(r => { const k = r.id.replace(/[ab]$/, ''); (g[k] = g[k] || []).push(r); });
-    const num = v => typeof v === 'number' && isFinite(v), mx = (rs, k) => { const v = rs.map(r => r[k]).filter(num); return v.length ? Math.max(...v) : null; };
-    const dc = v => !num(v) ? '—' : v > 1 ? `<b>${coma(v, 2)}</b>` : coma(v, 2), kl = v => !num(v) ? '—' : v > 200 ? `<b>${coma(v, 0)}</b>` : coma(v, 0);
-    const tramo = t => /^\d\d$/.test(t) ? t[0] + '-' + t[1] : t.replace(/^([A-Z])([A-Z]\d?)$/, '$1–$2');
-    const donde = k => { const m = k.match(/^X(F?)-([^-]+)-(.+)$/); return m ? `${m[1] ? 'faja del ' : ''}eje ${m[2]}, ${tramo(m[3])}` : k; };
-    const ESP = ['2', '3', '4'], vmax = (rs, t) => mx(rs.map(r => ((r.variantes || {})[t + ' mm']) || {}), 'max');
-    const var3 = (rs, e) => ESP.map(t => { const v = vmax(rs, t); return String(e) === t ? dc(v) : `<span class="sub">${dc(v)}</span>`; }).join(' · ');
-    const filas = Object.entries(g).map(([k, rs]) => {
-      const p = rs.reduce((a, r) => (r.dc_compresion || 0) > (a.dc_compresion || 0) ? r : a), sola = rs.length === 1, e = p.espesor_mm || (String(p.perfil || '').match(/x(\d)$/) || [])[1];
-      return `<tr><td>${donde(k)}${sola ? ' (sola)' : ''}<br><span class="small sub">${k}</span></td><td style="white-space:nowrap">${String(p.perfil || '—').replace(/^(RECT|CUAD) /, '').replace(/x/g, '×')}</td>` +
-        `<td class="r" style="white-space:nowrap">${num(p.L) ? coma(p.L, 2) : '—'} · ${sola ? 'todo' : num(p.L_pandeo) ? coma(p.L_pandeo, 2) : '—'}</td><td class="r" style="white-space:nowrap">${num(mx(rs, 'C_t')) ? coma(mx(rs, 'C_t'), 1) : '—'} <span class="small sub">(${num(mx(rs, 'C_kN')) ? coma(mx(rs, 'C_kN'), 1) : '—'})</span></td>` +
-        `<td class="r">${kl(mx(rs, 'KL_r'))}</td><td class="r">${dc(mx(rs, 'dc_traccion'))}</td><td class="r">${dc(mx(rs, 'dc_compresion'))}</td><td class="r">${dc(mx(rs, 'dc_union'))}</td><td class="r">${dc(mx(rs, 'dc_cruce'))}</td></tr>`;
-    }).join('');
-    // total: las X (la diagonal sola, que no pasa, va en su fila)
-    const RX = Object.values(g).filter(rs => rs.length > 1).flat(), nX = Object.values(g).filter(rs => rs.length > 1).length;
-    const tot = (rs, k) => dc(mx(rs, k)), totVar = ESP.map(t => `<span class="sub">${dc(vmax(RX, t))}</span>`).join(' · ');
-    tb.innerHTML = `<thead><tr><th>Riostra</th><th>Perfil</th><th class="r">L · al cruce (m)</th><th class="r">C máx., t (kN)</th><th class="r">KL/r</th><th class="r">Tracción</th><th class="r">Compresión</th><th class="r">Unión</th><th class="r">Cruce</th></tr></thead><tbody>${filas}` +
-      `<tr class="tot"><td colspan="3">Máximo de las ${nX} X (${RX.length} diagonales)</td><td class="r" style="white-space:nowrap">${num(mx(RX, 'C_t')) ? coma(mx(RX, 'C_t'), 1) : '—'} <span class="small sub">(${num(mx(RX, 'C_kN')) ? coma(mx(RX, 'C_kN'), 1) : '—'})</span></td><td class="r">${kl(mx(RX, 'KL_r'))}</td><td class="r">${tot(RX, 'dc_traccion')}</td><td class="r">${tot(RX, 'dc_compresion')}</td><td class="r">${tot(RX, 'dc_union')}</td><td class="r">${tot(RX, 'dc_cruce')}</td></tr></tbody>`;
-  })();
-
   // ---------- planos: láminas en formato de plano (laminas_estudio.js), dibujadas desde el mismo modelo ----------
   if (window.LaminasEstudio) LaminasEstudio.dibujar($('#lamina-01'), '01', D, E, (window.PILAUCO_VERSION || {}).n);
-
-  // ---------- preguntas ----------
-  $('#preguntas-lista').innerHTML = D.preguntas.map(p => `<li>${p}</li>`).join('');
-  $('#pendiente').innerHTML = `<b>Pendiente:</b> lo de «Lo que falta» en la pestaña Revisión.`;
 
   // ---------- índice activo ----------
   const links = [...document.querySelectorAll('.toc a')], secs = links.map(a => document.querySelector(a.getAttribute('href')));

@@ -192,16 +192,15 @@
 
   function tablaHTML(A, cub) {
     const filas = A.filas.map(g => {
-      const esp = g.esp ? '@' + g.esp : '—', [tipo, corto, nota] = g.fuente;
+      const esp = g.esp ? '@' + g.esp : '—';   // sin la columna «Fuente» (versión final, 24-11-2026): el origen de cada barra queda en fuente() y en el README, no en la planilla
       return `<tr><td class="c"><span class="pl-m">${g.marca}</span></td><td><b>${g.elemento}</b><br><span class="small">${g.donde}</span></td><td class="c"><b>${nomD(g.diam)}</b></td>
-        <td class="pl-c">${formaSVG(g)}</td><td class="r"><b>${coma(Math.round(g.L))}</b></td><td class="r">${coma(g.n)}</td><td class="c">${esp}</td><td class="r">${coma(g.m, 1)}</td><td class="r">${coma(g.kg, 0)}</td>
-        <td class="small" title="${nota}" style="white-space:nowrap"><span class="fuente ${tipo === 'dato' ? 'man' : 'med'}">${tipo}</span> ${corto}</td></tr>`;
+        <td class="pl-c">${formaSVG(g)}</td><td class="r"><b>${coma(Math.round(g.L))}</b></td><td class="r">${coma(g.n)}</td><td class="c">${esp}</td><td class="r">${coma(g.m, 1)}</td><td class="r">${coma(g.kg, 0)}</td></tr>`;
     }).join('');
     const ds = Object.keys(A.totales).map(Number).sort((a, b) => a - b);
-    const tot = ds.map(d => `<tr class="pl-tot"><td></td><td colspan="2">Total ${nomD(d)}</td><td></td><td></td><td></td><td></td><td class="r">${coma(A.totales[d].m, 1)}</td><td class="r">${coma(A.totales[d].kg, 0)}</td><td class="small">${cub && cub[d] != null ? 'cubicación: ' + coma(cub[d], 0) + ' kg' : ''}</td></tr>`).join('');
+    const tot = ds.map(d => `<tr class="pl-tot"><td></td><td colspan="2">Total ${nomD(d)}</td><td></td><td></td><td></td><td></td><td class="r">${coma(A.totales[d].m, 1)}</td><td class="r">${coma(A.totales[d].kg, 0)}</td></tr>`).join('');
     const T = ds.reduce((a, d) => a + A.totales[d].kg, 0), M = ds.reduce((a, d) => a + A.totales[d].m, 0);
-    return `<thead><tr><th class="c">Marca</th><th>Elemento · dónde</th><th class="c">ø</th><th>Forma y medidas (cm, sin escala)</th><th class="r">L (cm)</th><th class="r">Cant.</th><th class="c">Esp.</th><th class="r">m</th><th class="r">kg</th><th>Fuente</th></tr></thead>
-      <tbody>${filas}${tot}<tr class="pl-tot pl-tt"><td></td><td colspan="2"><b>Total fierro A630-420H y barras A36 de los insertos</b></td><td></td><td></td><td></td><td></td><td class="r"><b>${coma(M, 1)}</b></td><td class="r"><b>${coma(T, 0)}</b></td><td class="small">sin pérdidas ni despuntes</td></tr></tbody>`;
+    return `<thead><tr><th class="c">Marca</th><th>Elemento · dónde</th><th class="c">ø</th><th>Forma y medidas (cm, sin escala)</th><th class="r">L (cm)</th><th class="r">Cant.</th><th class="c">Esp.</th><th class="r">m</th><th class="r">kg</th></tr></thead>
+      <tbody>${filas}${tot}<tr class="pl-tot pl-tt"><td></td><td colspan="2"><b>Total fierro A630-420H y barras A36 de los insertos</b></td><td></td><td></td><td></td><td></td><td class="r"><b>${coma(M, 1)}</b></td><td class="r"><b>${coma(T, 0)}</b></td></tr></tbody>`;
   }
 
   // ---------- corte vertical del modelo: hormigón y barras, con marcas, recubrimientos y cotas ----------

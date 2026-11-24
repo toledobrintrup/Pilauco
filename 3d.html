@@ -102,7 +102,7 @@ body.embed .norte3d{top:52px}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V155" data-vista="3d"></script>
+    <script src="menu.js?v=V156" data-vista="3d"></script>
     <h1>Vista 3D</h1>
     <span class="meta">Nivel 1 + Nivel 2 a su altura real · estructura de acero de los planos · terreno, gimnasio y estudio · <span class="version"></span></span>
   </header>
@@ -127,8 +127,7 @@ body.embed .norte3d{top:52px}
       pieza para ver su perfil, dónde está y su largo. <b>Losa colaborante</b> agrega el marco C y
       las placas del entrepiso; su vista especial trae el despiece y el montaje. <b>Alzaprimas de madera</b> muestra los tabiques de pino 3x9 que sostienen la losa
       hasta que el hormigón toma resistencia; apaga <b>Nivel 1</b> para verlas. <b>Terreno:</b> lote,
-      gimnasio, estudio con búnker y piscina; toca cualquiera para ver su ficha
-      y de dónde sale el dato. <span class="version"></span></span>
+      gimnasio, estudio con búnker y piscina; toca cualquiera para ver su ficha. <span class="version"></span></span>
     </div>
     <a class="btn" id="pantalla-completa" href="3d.html?vista=estudio" target="_blank" rel="noopener" hidden style="position:absolute;top:12px;right:12px;text-decoration:none;box-shadow:0 2px 8px rgba(16,18,22,.14)">Pantalla completa ↗</a>
     <div class="panel" id="panel" hidden>
@@ -156,9 +155,9 @@ body.embed .norte3d{top:52px}
       <div id="estudio-filas">
       <div class="row"><label><input type="checkbox" id="chk-estudio" checked> Volumen y búnker</label></div>
       <div class="row"><label><input type="checkbox" id="chk-estudio-techo" checked> Techo</label></div>
-      <div class="row"><label><input type="checkbox" id="chk-cerramiento"> Muros, ventanas y puertas (propuesta)</label></div>
+      <div class="row"><label><input type="checkbox" id="chk-cerramiento"> Muros, ventanas y puertas</label></div>
       <div class="row"><label><input type="checkbox" id="chk-mobiliario"> Mobiliario (idea)</label></div>
-      <div class="row"><label><input type="checkbox" id="chk-estudio-est"> Estructura de acero (propuesta)</label></div>
+      <div class="row"><label><input type="checkbox" id="chk-estudio-est"> Estructura de acero</label></div>
       <div class="row"><label><input type="checkbox" id="chk-estudio-hormigon"> Búnker y fundaciones en hormigón</label></div>
       <div class="row" id="fila-htrans" hidden style="padding-left:22px"><label><input type="checkbox" id="chk-estudio-htrans" checked> Hormigón translúcido (para ver los fierros adentro)</label></div>
       <div class="row"><label><input type="checkbox" id="chk-estudio-fierros"> Enfierradura (fierros)</label></div>
@@ -185,19 +184,19 @@ body.embed .norte3d{top:52px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegmentsGeometry.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineMaterial.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/lines/LineSegments2.js"></script>
-<script src="nav3d.js?v=V155"></script>
-<script src="data.js?v=V155"></script>
-<script src="casa_vanos.js?v=V155"></script>
-<script src="estructura.js?v=V155"></script>
-<script src="losa.js?v=V155"></script>
-<script src="suples.js?v=V155"></script>
-<script src="alzaprimas.js?v=V155"></script>
-<script src="sitio.js?v=V155"></script>
-<script src="sitio3d.js?v=V155"></script>
-<script src="estudio_estructura.js?v=V155"></script>
-<script src="mobiliario3d.js?v=V155"></script>
-<script src="cotas3d.js?v=V155"></script>
-<script src="goku3d.js?v=V155"></script>
+<script src="nav3d.js?v=V156"></script>
+<script src="data.js?v=V156"></script>
+<script src="casa_vanos.js?v=V156"></script>
+<script src="estructura.js?v=V156"></script>
+<script src="losa.js?v=V156"></script>
+<script src="suples.js?v=V156"></script>
+<script src="alzaprimas.js?v=V156"></script>
+<script src="sitio.js?v=V156"></script>
+<script src="sitio3d.js?v=V156"></script>
+<script src="estudio_estructura.js?v=V156"></script>
+<script src="mobiliario3d.js?v=V156"></script>
+<script src="cotas3d.js?v=V156"></script>
+<script src="goku3d.js?v=V156"></script>
 <script>
 (function(){
   // ---------- paleta: calca los colores de recinto del plano 2D ----------
@@ -288,7 +287,7 @@ body.embed .norte3d{top:52px}
       // pasillo-balcón del norte: franja de 1,8 m sobre los pilares del eje I (la losa del ingeniero ya la trae) que lleva desde el WKC Maggie a la terraza
       // grande (Gabriel, 15-10-2026: "un balcón pasillo de 1,5 m aprox que llega al balcón grande"); baranda de vidrio como en el render del arquitecto
       const HB = 105, PB = 4, pts = [[10, -10], [10, -762], [652, -762], [652, -188], [1783, -188], [1783, -10]];
-      const sub = 'terraza entre los ejes H y K y pasillo-balcón de 1,8 m (losa del ingeniero sobre los pilares del eje I) que lleva del WKC Maggie a la terraza grande: vidrio laminado de 1,05 con pasamanos (Gabriel, 15-10-2026; como el render del arquitecto)';
+      const sub = 'terraza entre los ejes H y K y pasillo-balcón de 1,8 m (losa del ingeniero sobre los pilares del eje I) que lleva del WKC Maggie a la terraza grande: vidrio laminado de 1,05 con pasamanos';
       for (let i = 0; i + 1 < pts.length; i++){
         const s = {a: pts[i], b: pts[i + 1], e: PB}, L = Math.hypot(s.b[0] - s.a[0], s.b[1] - s.a[1]), n = Math.max(1, Math.ceil(L / 150));
         for (let k = 0; k <= n; k++){ const t = k / n; K.pieza(s, t - PB / 2 / L, t + PB / 2 / L, z0, z0 + HB, PB, 0, K.matMarco, 'Baranda del nivel 2', sub); }
@@ -332,7 +331,7 @@ body.embed .norte3d{top:52px}
   const ALA_CUB = ALA_TOP / 100 + LOSA;   // m: cara superior de la cubierta baja del ala (12 cm sobre sus vigas RECT 200×150 a +2,78)
   const alaPts = alaBox ? [[alaBox[0], alaBox[1]], [alaBox[2], alaBox[1]], [alaBox[2], alaBox[3]], [alaBox[0], alaBox[3]]] : null;
   const slabAlaE = alaPts ? buildSlab(alaPts, ALA_CUB) : null;
-  const fichaAla = '<b>Cubierta baja del ala entre los ejes 5 y 6</b><br><span class="sub">sala de máquinas y bodega: sus vigas RECT 200×150 del ingeniero van a +2,78, así que la cubierta apoya a +2,88 y los muros del ala terminan ahí (antes el 3D suponía una losa a +3,46); espesor de 12, supuesto</span>';
+  const fichaAla = '<b>Cubierta baja del ala entre los ejes 5 y 6</b><br><span class="sub">sala de máquinas y bodega: sus vigas RECT 200×150 del ingeniero van a +2,78, así que la cubierta apoya a +2,88 y los muros del ala terminan ahí; espesor de 12</span>';
   if (slabAlaE) slabAlaE.userData.sitio = fichaAla;
   // la misma cubierta con el hueco provisorio de la escalera de obra (se muestra con la capa "Escalera de obra" prendida; la otra, apagada)
   const slabAlaEHueco = (() => { if (!alaPts) return null; const sh = shapeFromPts(alaPts); const hp = new THREE.Path(); ESC_HUECO.forEach((q, i) => { if (i === 0) hp.moveTo(cm(q[0]), -cm(q[1])); else hp.lineTo(cm(q[0]), -cm(q[1])); }); hp.closePath(); sh.holes.push(hp);
@@ -348,7 +347,7 @@ body.embed .norte3d{top:52px}
     const matF = new THREE.MeshLambertMaterial({color: dark ? 0x6c7076 : 0x55595f}), matP = new THREE.MeshLambertMaterial({color: dark ? 0x8a8f96 : 0x6f747b}), matB = new THREE.MeshLambertMaterial({color: 0x26282C});
     const ficha = (m, t, s2) => { m.userData.sitio = `<b>${t}</b><br><span class="sub">${s2}</span>`; g.add(m); return m; };
     const caja = (cx, cy, cz, lx, ly, lz, mat, t, s2) => { const m = new THREE.Mesh(new THREE.BoxGeometry(cm(lx), cm(lz), cm(ly)), mat); m.position.set(cm(cx), cm(cz), cm(cy)); return ficha(m, t, s2); };
-    const sub = 'escalera de obra de fierro en la bodega (Gabriel, 16-10-2026): 1,50 de ancho, 17 huellas de 24 (avance 4,08), 18 contrahuellas de 21,9 hasta el piso del nivel 2 (+3,95), 44°, plataforma pegada al fierro del eje G; unos 650 kg de fierro (detalle y lista de compra en escalera.html)';
+    const sub = 'escalera de obra de fierro en la bodega: 1,50 de ancho, 17 huellas de 24 (avance 4,08), 18 contrahuellas de 21,9 hasta el piso del nivel 2 (+3,95), 44°, plataforma pegada al fierro del eje G; unos 650 kg de fierro (detalle y lista de compra en escalera.html)';
     for (let k = 1; k <= NH; k++) caja((X0 + X1) / 2, YA - (k - 0.5) * H, k * CH - 2, X1 - X0, H, 4, matP, `Escalera de obra · huella ${k}`, 'plancha estriada de 4 mm de 1,50 × 0,24 soldada a las zancas · ' + sub);
     const Lz = Math.hypot(YA - YP, Z1), ang = Math.atan2(Z1, YA - YP);   // zancas: dos C 200×50×4 bajo los peldaños, inclinadas 44°
     [X0 + 2.5, X1 - 2.5].forEach(x => { const m = new THREE.Mesh(new THREE.BoxGeometry(cm(5), cm(20), cm(Lz)), matF); m.position.set(cm(x), cm(Z1 / 2 - 14), cm((YA + YP) / 2)); m.rotation.x = ang; ficha(m, 'Escalera de obra · zanca', 'perfil C 200×50×4 de 5,7 m, anclado abajo al radier con placa y pernos de expansión y arriba al marco de la plataforma · ' + sub); });
@@ -556,7 +555,7 @@ body.embed .norte3d{top:52px}
           for (let k = 0; k + 1 < pts.length; k++){ dir.subVectors(pts[k + 1], pts[k]); const largo = dir.length(); dir.normalize(); q.setFromUnitVectors(X1, dir); sc.set(largo, 1, 1); im.setMatrixAt(i++, M.compose(pts[k], q, sc)); }
         });
         const tipos = [...new Set(lista.map(([mk]) => mk.tipo.replace('ss', 'SS')))].join(', ');
-        im.userData.losa = `<b>Suples ø${d}</b> · ${lista.length} (${tipos})<br><span class="sub">barras de arriba sobre las vigas, 2 por valle · pies sobre separadores de ${String(SU.separador).replace('.', ',')} cm y barra a ${String(SU.recubrimiento).replace('.', ',')} cm de la cara · ingeniero, 03-11-2026 · detalle en la vista de la losa</span>`;
+        im.userData.losa = `<b>Suples ø${d}</b> · ${lista.length} (${tipos})<br><span class="sub">barras de arriba sobre las vigas, 2 por valle · pies sobre separadores de ${String(SU.separador).replace('.', ',')} cm y barra a ${String(SU.recubrimiento).replace('.', ',')} cm de la cara · detalle en la vista de la losa</span>`;
         gS.add(im);
       });
       g.add(gS); g.userData.suples = gS;
@@ -683,11 +682,11 @@ body.embed .norte3d{top:52px}
     // vigas botadas del hueco de la escalera (27-10-2026): van dentro de la losa, así que se dibujan 4 mm más altas por arriba y por abajo y más oscuras, para que se vean en la losa
     const matBot = new THREE.MeshLambertMaterial({color: dark ? 0x6E7177 : 0x8F918F, transparent: true, opacity: 0.95, side: THREE.DoubleSide});
     // V132 (sin pilar, Gabriel 28-10-2026): la VBL va colgada bajo la losa (z_inf / z_sup: lo que cuelga, como la VHA-3) y la VBC sigue botada
-    H.vigas.forEach(v => addH('losa', ficha(v.botada ? prismaH(v.pts, v.z_inf - 0.4, v.z_sup + 0.4, matBot) : prismaH(v.pts, v.z_inf, v.z_sup, matH), v.nombre + (v.botada || v.colgada ? ` (${v.id})` : ''), `${v.d} · ${v.armadura}${v.fuente ? ' · ' + v.fuente : ''}`)));
+    H.vigas.forEach(v => addH('losa', ficha(v.botada ? prismaH(v.pts, v.z_inf - 0.4, v.z_sup + 0.4, matBot) : prismaH(v.pts, v.z_inf, v.z_sup, matH), v.nombre + (v.botada || v.colgada ? ` (${v.id})` : ''), `${v.d} · ${v.armadura}`)));
     // pilar de acero en la esquina del hueco de la escalera (V124–V131; desde la V132 no va: el modelo ya no trae pilar_escalera), con su placa base y su placa de cabeza
     if (H.pilar_escalera){
       const pe = H.pilar_escalera, matPE = new THREE.MeshLambertMaterial({color: ACERO}), matPlE = new THREE.MeshLambertMaterial({color: 0x2B2E34, side: THREE.DoubleSide}), mmE = v => (+v * 10).toLocaleString('es-CL', {maximumFractionDigits: 0});
-      addH('escalera', ficha(prismaH(pe.pts, pe.z_inf, pe.z_sup, matPE), `Pilar de la escalera ${pe.id} (${pe.perfil} ${pe.acero})`, `${pe.d} · ${pe.soldadura} · ${pe.montaje} · ${pe.kg.toLocaleString('es-CL')} kg · ${pe.fuente}`));
+      addH('escalera', ficha(prismaH(pe.pts, pe.z_inf, pe.z_sup, matPE), `Pilar de la escalera ${pe.id} (${pe.perfil} ${pe.acero})`, `${pe.d} · ${pe.soldadura} · ${pe.montaje} · ${pe.kg.toLocaleString('es-CL')} kg`));
       [[pe.placa_base, 'base'], [pe.placa_cabeza, 'de cabeza']].forEach(([pl, nm]) => { if (pl) addH('escalera', ficha(prismaH(pl.pts, pl.z_inf, pl.z_sup, matPlE), `Placa ${nm} del pilar ${pe.id} (${mmE(pl.lado)} × ${mmE(pl.lado)} × ${mmE(pl.espesor)} mm)`, pl.detalle)); });
     }
     // fundaciones del ingeniero (lámina 01 rev 1): zapata corrida bajo los muros del búnker, sobrecimiento + cimiento corrido bajo las fachadas,
@@ -697,30 +696,30 @@ body.embed .norte3d{top:52px}
     const matPoli = new THREE.MeshLambertMaterial({color: dark ? 0xD8DADF : 0xF4F4F1, transparent: true, opacity: 0.9, side: THREE.DoubleSide});
     const matRell = new THREE.MeshLambertMaterial({color: dark ? 0x7A6F5E : 0xB8AA93, transparent: true, opacity: 0.9, side: THREE.DoubleSide});
     const matPlaca = new THREE.MeshLambertMaterial({color: 0x2B2E34, side: THREE.DoubleSide});
-    if (H.relleno) addH('piso', ficha(prismaH(H.relleno.pts, H.relleno.z_inf, H.relleno.z_sup, matRell), 'Búnker: relleno granular bajo el radier', `e=${H.relleno.espesor} · ${H.relleno.dato} · ${H.relleno.fuente}`));
+    if (H.relleno) addH('piso', ficha(prismaH(H.relleno.pts, H.relleno.z_inf, H.relleno.z_sup, matRell), 'Búnker: relleno granular bajo el radier', `e=${H.relleno.espesor} · ${H.relleno.dato}`));
     if (H.losa_fundacion){
       // losa de fundación armada bajo todo el búnker, unida a los muros (ingeniero vía Gabriel, 15-10-2026; e=35 desde la revisión del 23-10-2026); su cara superior es el piso
       const Lf = H.losa_fundacion;
-      Lf.piezas.forEach(z => addH('zapata', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matCF), z.nombre, `${z.d} · ${Lf.armadura} · ${Lf.fuente}`)));
+      Lf.piezas.forEach(z => addH('zapata', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matCF), z.nombre, `${z.d} · ${Lf.armadura}`)));
       Lf.emplantillado.piezas.forEach(z => addH('zapata', ficha(prismaH(z.pts, Lf.emplantillado.z_inf, Lf.emplantillado.z_sup, matEmp), 'Emplantillado G5 de la losa de fundación', `e=${Lf.emplantillado.espesor} · ${Lf.emplantillado.nota}`)));
     } else if (H.zapata_corrida){
       const Zc = H.zapata_corrida;
-      Zc.piezas.forEach(z => addH('zapata', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matCF), z.nombre, `${Zc.ancho} × ${Zc.espesor} · ${z.d} · ${Zc.armadura} · ${Zc.fuente}`)));
+      Zc.piezas.forEach(z => addH('zapata', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matCF), z.nombre, `${Zc.ancho} × ${Zc.espesor} · ${z.d} · ${Zc.armadura}`)));
       Zc.emplantillado.piezas.forEach(z => addH('zapata', ficha(prismaH(z.pts, Zc.emplantillado.z_inf, Zc.emplantillado.z_sup, matEmp), 'Emplantillado G5 de la zapata corrida', `e=${Zc.emplantillado.espesor} · ${Zc.emplantillado.nota}`)));
     }
     if (H.cimiento){
       const Ci = H.cimiento;
-      Ci.sobrecimiento.piezas.forEach(z => addH('cimiento', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matH), z.nombre, `${z.d} · ${Ci.sobrecimiento.armadura} · ${Ci.fuente}`)));
+      Ci.sobrecimiento.piezas.forEach(z => addH('cimiento', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matH), z.nombre, `${z.d} · ${Ci.sobrecimiento.armadura}`)));
       Ci.zapata.piezas.forEach(z => addH('cimiento', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matCF), z.nombre, `${z.d} · ${Ci.zapata.armadura}`)));
       Ci.emplantillado.piezas.forEach(z => addH('cimiento', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matEmp), 'Emplantillado G5 del cimiento corrido', `e=${Ci.emplantillado.espesor} · var. / mín. 10`)));
     }
     // CF 30/50 (V131: solución mixta del ingeniero, 28-10-2026: une los dados entre sí y con el cimiento del eje 5; queda 30/50 por el moldaje existente, rótulo del modelo)
     if (H.cf){
-      (H.cf.piezas || []).forEach(z => addH('cf', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matH), z.nombre, `${z.d} · ${H.cf.armadura}${H.cf.rotulo ? ' · ' + H.cf.rotulo : ''} · ${H.cf.fuente}`)));
+      (H.cf.piezas || []).forEach(z => addH('cf', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matH), z.nombre, `${z.d} · ${H.cf.armadura}`)));
       const Ecf = H.cf.emplantillado; if (Ecf) (Ecf.piezas || []).forEach(z => addH('cf', ficha(prismaH(z.pts, Ecf.z_inf, Ecf.z_sup, matEmp), 'Emplantillado G5 del CF', `${z.id} · e=${Ecf.espesor}`)));
     }
     // dados bajo 4C y 4C2 (revisión 23-10-2026; el ingeniero los mantiene en su solución mixta, 28-10-2026): el CF pasa por encima y los amarra
-    if (H.dados && H.dados.piezas) H.dados.piezas.forEach(z => addH('dados', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matCF), `${z.id} · ${z.nombre}`, `${z.d} · ${H.dados.armadura}${z.fuente ? ' · ' + z.fuente : ''}`)));
+    if (H.dados && H.dados.piezas) H.dados.piezas.forEach(z => addH('dados', ficha(prismaH(z.pts, z.z_inf, z.z_sup, matCF), `${z.id} · ${z.nombre}`, `${z.d} · ${H.dados.armadura}`)));
     // bajo los CF: estabilizado compactado, 30 en 2 capas de 15, bajo los 20 de G5 (el ingeniero, 22 y 23-11-2026)
     if (H.cf && H.cf.relleno) { const matEst = new THREE.MeshLambertMaterial({color: dark ? 0x6B5D48 : 0xCBB894, transparent: true, opacity: 0.85, side: THREE.DoubleSide}), re = H.cf.relleno;
       (re.piezas || []).forEach(z => addH('pobre', ficha(prismaH(z.pts, re.z_inf, re.z_sup, matEst), 'Estabilizado compactado bajo el CF', `${z.id} · de −${coma1(-re.z_sup - 20)} a −${coma1(-re.z_inf - 20)} bajo el NPOG 0,00 · ${re.material} · ${re.nota}`))); }
@@ -763,7 +762,7 @@ body.embed .norte3d{top:52px}
           // la caja nace con su largo en Y: se gira para que su alto quede vertical
           const dir = P3(...B).sub(P3(...A)).normalize(), lado = new THREE.Vector3(0, 1, 0).cross(dir).normalize(), arr = dir.clone().cross(lado).normalize();
           zg.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(lado, dir, arr.y < 0 ? arr.negate() : arr));
-          addH('dren', ficha(zg, 'Zanja de grava del dren, envuelta en geotextil', `${coma1(G.ancho)} cm de ancho, cama de ${coma1(G.cama)} bajo el tubo y ${coma1(G.sobre)} sobre él · grava limpia 3/4"–1½" · propuesta`));
+          addH('dren', ficha(zg, 'Zanja de grava del dren, envuelta en geotextil', `${coma1(G.ancho)} cm de ancho, cama de ${coma1(G.cama)} bajo el tubo y ${coma1(G.sobre)} sobre él · grava limpia 3/4"–1½"`));
         }
       });
       const mitadN = [(Dr.pts[0][0] + Dr.pts[1][0]) / 2, Dr.pts[0][1], (zt[0] + zt[1]) / 2];
@@ -776,7 +775,7 @@ body.embed .norte3d{top:52px}
       const matTubo = new THREE.MeshLambertMaterial({color: 0x1F2124}), matValv = new THREE.MeshLambertMaterial({color: 0xC9302C}), matFlot = new THREE.MeshLambertMaterial({color: 0xE3A622});
       const hP = Po.z_tapa - Po.z_fondo;
       const anillo = new THREE.Mesh(new THREE.CylinderGeometry(cm(re), cm(re), cm(hP), 32, 1, true), matAnillo); anillo.position.copy(P3(px, py, Po.z_fondo + hP / 2));
-      addH('bombeo', ficha(anillo, 'Pozo de bombeo (propuesta)', `${Po.d} · ${Bo.fuente}`));
+      addH('bombeo', ficha(anillo, 'Pozo de bombeo', `${Po.d}`));
       const fondo = new THREE.Mesh(new THREE.CylinderGeometry(cm(re), cm(re), cm(15), 32), new THREE.MeshLambertMaterial({color: 0x8F918F})); fondo.position.copy(P3(px, py, Po.z_fondo - 7.5)); addH('bombeo', ficha(fondo, 'Fondo del pozo', 'hormigón de 15 cm'));
       const tapa = new THREE.Mesh(new THREE.CylinderGeometry(cm(re + 5), cm(re + 5), cm(6), 32), matTapa); tapa.position.copy(P3(px, py, Po.z_tapa + 3)); addH('bombeo', ficha(tapa, 'Tapa registrable del pozo', 'a ras de terreno, para revisar y sacar las bombas'));
       // el dren entra al pozo desde la esquina NE del anillo
@@ -794,7 +793,7 @@ body.embed .norte3d{top:52px}
       // tubo de salida: del pozo hacia el norte (−y), enterrado, con un poco de caída
       const yFin = py - Im.largo_norte;
       addH('bombeo', ficha(tubo([px, py, zU], [px, yFin, Im.z_fin], Im.d_salida / 2, matTubo, 12), 'Tubo de salida ø63, hacia el norte', Im.d_txt));
-      const desc = new THREE.Mesh(new THREE.BoxGeometry(cm(50), cm(40), cm(30)), new THREE.MeshLambertMaterial({color: 0x2F6FA3, transparent: true, opacity: 0.7})); desc.position.copy(P3(px, yFin, Im.z_fin + 5)); addH('bombeo', ficha(desc, 'Descarga (falta decidir dónde)', 'a la red de aguas lluvia, una zanja o un pozo absorbente lejos de la casa; nunca de vuelta al relleno del búnker'));
+      const desc = new THREE.Mesh(new THREE.BoxGeometry(cm(50), cm(40), cm(30)), new THREE.MeshLambertMaterial({color: 0x2F6FA3, transparent: true, opacity: 0.7})); desc.position.copy(P3(px, yFin, Im.z_fin + 5)); addH('bombeo', ficha(desc, 'Descarga', 'a la red de aguas lluvia, una zanja o un pozo absorbente lejos de la casa; nunca de vuelta al relleno del búnker'));
       // flotadores: apaga, bomba 1, bomba 2 y alarma
       Bo.flotadores.forEach((f, k) => { const fl = new THREE.Mesh(new THREE.SphereGeometry(cm(5), 14, 10), matFlot); fl.position.copy(P3(px - ri + 18, py + 18 - k * 9, f.z)); addH('bombeo', ficha(fl, `Flotador: ${f.id}`, 'con este nivel de agua ' + (f.id === 'apaga' ? 'se apagan las bombas' : f.id === 'alarma' ? 'suena la alarma (algo falla)' : 'parte la ' + f.id)));
         addH('bombeo', new THREE.Line(new THREE.BufferGeometry().setFromPoints([P3(px - ri + 18, py + 18 - k * 9, f.z), P3(px - ri + 18, py + 18 - k * 9, Po.z_tapa)]), new THREE.LineBasicMaterial({color: 0x26282C}))); });
@@ -811,13 +810,13 @@ body.embed .norte3d{top:52px}
        ['Flotadores: apaga · bomba 1 · bomba 2 · alarma', [px - ri + 18, py + 9, Bo.flotadores[2].z]],
        ['2 bombas sumergibles que se turnan', [px + Bm.sep / 2, py, Po.z_fondo + Bm.alto]]].forEach(([t, pt], k) => rotuloH(t, pt, col(pt, k)));
       rotuloH('Tubo de salida ø63 hacia el norte, enterrado a 0,8 m', [px, py - Im.largo_norte * 0.55, zU - 5], [0, 0, 260]);
-      rotuloH('Descarga: aguas lluvia o zanja (por decidir)', [px, yFin, Im.z_fin + 25], [0, -40, 180]);
+      rotuloH('Descarga: aguas lluvia o zanja', [px, yFin, Im.z_fin + 25], [0, -40, 180]);
     }
-    if (H.radier_estudio) H.radier_estudio.capas.forEach(capa => { const mat = capa.id === 'radier' ? matH : capa.id === 'poliestireno' ? matPoli : matRell; capa.piezas.forEach(z => addH('radier', ficha(prismaH(z.pts, capa.z_inf, capa.z_sup, mat), capa.nombre, `bajo ${z.recinto} · ${H.radier_estudio.fuente}`))); });
+    if (H.radier_estudio) H.radier_estudio.capas.forEach(capa => { const mat = capa.id === 'radier' ? matH : capa.id === 'poliestireno' ? matPoli : matRell; capa.piezas.forEach(z => addH('radier', ficha(prismaH(z.pts, capa.z_inf, capa.z_sup, mat), capa.nombre, `bajo ${z.recinto}`))); });
     // placas base: su contorno real (pl.pts: las PLc con cartela o inserto grande no son cuadradas, 27-10-2026), de pl.z − e a pl.z
     if (H.placas) H.placas.lista.forEach(pl => { const m = pl.pts ? prismaH(pl.pts, pl.z - pl.espesor, pl.z, matPlaca) : new THREE.Mesh(new THREE.BoxGeometry(cm(pl.lado), cm(pl.espesor), cm(pl.lado)), matPlaca); if (!pl.pts) m.position.set(cm(pl.centro[0]), cm(pl.z - pl.espesor / 2), cm(pl.centro[1]));
       const mm = v => coma1(v * 10), corr = pl.corrimiento_anclajes ? ` · anclajes corridos ${coma1(Math.abs(pl.corrimiento_anclajes))} cm a lo largo del ${pl.sobre} para no topar las barras del muro de la esquina` : '';
-      addH('placas', ficha(m, `Placa base ${pl.id} (${pl.tipo} ${mm(pl.largo || pl.lado)} × ${mm(pl.ancho || pl.lado)} × ${mm(pl.espesor)} mm)`, `${pl.tipo === 'PLc' ? 'pilar con cruz' : 'pilar sin cruz'} ${pl.pilar} (${pl.perfil}) · sobre ${pl.sobre} · anclajes: ${pl.anclajes}${corr} · ${H.placas.fuente}`)); });
+      addH('placas', ficha(m, `Placa base ${pl.id} (${pl.tipo} ${mm(pl.largo || pl.lado)} × ${mm(pl.ancho || pl.lado)} × ${mm(pl.espesor)} mm)`, `${pl.tipo === 'PLc' ? 'pilar con cruz' : 'pilar sin cruz'} ${pl.pilar} (${pl.perfil}) · sobre ${pl.sobre} · anclajes: ${pl.anclajes}${corr}`)); });
     // escalera esquemática: una rampa de peldaños
     const esc = H.escalera, tr = esc.tramo || {y_arriba: esc.pts[2][1], y_abajo: esc.pts[0][1], largo: esc.largo, peldanos: 16}, n = tr.peldanos, dz = (esc.z_arriba - esc.z_abajo) / n, dy = tr.largo / n, haciaNorte = esc.baja_hacia === 'norte';
     for (let i = 0; i < n; i++){
@@ -831,7 +830,7 @@ body.embed .norte3d{top:52px}
       const Ec = DATA_SITIO.estudio.cielo, zC = y => Ec.z_norte + (Ec.z_sur - Ec.z_norte) * (y - Ec.y_norte) / (Ec.y_sur - Ec.y_norte);
       [[esc.muro, 'Estudio: muro de la caja de escalera, lado del eje 4'], [esc.muro_norte, 'Estudio: muro de la caja de escalera, lado del eje A (hacia la minicocina)']].forEach(([mu, nm]) => {
         if (!mu) return; const ym = (mu.pts[0][1] + mu.pts[2][1]) / 2;
-        addH('escalera', ficha(prismaH(mu.pts, esc.z_arriba + 0.5, zC(ym), matH), nm, `hormigón armado e=${mu.espesor} del piso al cielo (armadura por definir con el ingeniero; propuesta: la DM del búnker)`));
+        addH('escalera', ficha(prismaH(mu.pts, esc.z_arriba + 0.5, zC(ym), matH), nm, `hormigón armado e=${mu.espesor} del piso al cielo`));
       });
     }
     g.add(hormigon); sub.hormigon = hormigon;
@@ -841,7 +840,7 @@ body.embed .norte3d{top:52px}
       D.uniones.forEach(un => un.cajas.forEach(c => {
         const lx = Math.abs(c.b[0] - c.a[0]), ly = Math.abs(c.b[1] - c.a[1]), lz = Math.abs(c.b[2] - c.a[2]);
         const m = new THREE.Mesh(new THREE.BoxGeometry(cm(lx), cm(lz), cm(ly)), matUM); m.position.set(cm((c.a[0] + c.b[0]) / 2), cm((c.a[2] + c.b[2]) / 2), cm((c.a[1] + c.b[1]) / 2));
-        uni.add(ficha(m, `${un.id}: unión de momento, ${un.plancha}`, `cordón soldado a momento al pilar ${un.pilar} (nudo en ${un.tipo}); plancha de ${coma1(Math.max(lx, ly) * 10)} × ${coma1(lz * 10)} × ${coma1(Math.min(lx, ly) * 10)} mm a cada lado del cordón, a ras abajo · ${un.soldadura} · D/C máx. ${f2(un.dc_max)} · ${un.nota} · estudio, propuesta`));
+        uni.add(ficha(m, `${un.id}: unión de momento, ${un.plancha}`, `cordón soldado a momento al pilar ${un.pilar} (nudo en ${un.tipo}); plancha de ${coma1(Math.max(lx, ly) * 10)} × ${coma1(lz * 10)} × ${coma1(Math.min(lx, ly) * 10)} mm a cada lado del cordón, a ras abajo · ${un.soldadura}`));
       }));
       g.add(uni); sub.uniones = uni;
     }
@@ -957,7 +956,7 @@ body.embed .norte3d{top:52px}
     const vano = (s, v, t0, t1, z0, matM, nombreMuro) => {
       const L = Math.hypot(s.b[0] - s.a[0], s.b[1] - s.a[1]), f = c => c / L, mm = matM || matMuro, FWl = v.marco || FW, FDl = v.marco || FD, HW = FWl / 2;   // v.marco: marco fino (acero) en vez del europeo grueso
       const esPuerta = v.tipo === 'puerta', vidriada = v.tipo === 'puerta vidriada', corredera = v.tipo.includes('corredera'), medidas = `${fm(v.ancho)} × ${fm(v.alto)} m`;
-      const titulo = `${v.tipo.charAt(0).toUpperCase() + v.tipo.slice(1)} ${v.id}`, subMarco = v.marco ? `marco de acero fino ${FWl} × ${FDl} (solo el fierro) · ${medidas} (propuesta)` : `marco europeo grueso ${FWl} × ${FDl} · ${medidas} (propuesta)`;
+      const titulo = `${v.tipo.charAt(0).toUpperCase() + v.tipo.slice(1)} ${v.id}`, subMarco = v.marco ? `marco de acero fino ${FWl} × ${FDl} (solo el fierro) · ${medidas}` : `marco europeo grueso ${FWl} × ${FDl} · ${medidas}`;
       if (v.z0 > z0 + 1) caja(s, t0, t1, z0, v.z0, mm, nombreMuro, 'antepecho bajo la ventana');      // ventanas altas
       if (esPuerta || vidriada){
         // marco en jambas y dintel; hoja maciza de 4,5 o vidriada con bastidor (dos hojas desde 1,50 de ancho); manilla a 1,00 m por los dos lados
@@ -967,10 +966,10 @@ body.embed .norte3d{top:52px}
         for (let k = 0; k < hojas; k++){
           const a = t0 + f(HW) + k * w + f(0.5), b = t0 + f(HW) + (k + 1) * w - f(0.5);
           if (vidriada){
-            pieza(s, a, b, v.z0 + 1, v.z1 - FWl, 1.5, 0, matVidrio, titulo, `hoja vidriada de ${fm((b - a) * L)} m · ${v.d} (propuesta)`);
+            pieza(s, a, b, v.z0 + 1, v.z1 - FWl, 1.5, 0, matVidrio, titulo, `hoja vidriada de ${fm((b - a) * L)} m · ${v.d}`);
             [a, b].forEach(tt => pieza(s, tt - f(4) * (tt === a ? 0 : 1), tt + f(4) * (tt === a ? 1 : 0), v.z0 + 1, v.z1 - FWl, 5, 0, matMarco, titulo, 'bastidor de la hoja'));
             pieza(s, a, b, v.z1 - FWl - 4, v.z1 - FWl, 5, 0, matMarco, titulo, 'bastidor de la hoja'); pieza(s, a, b, v.z0 + 1, v.z0 + 12, 5, 0, matMarco, titulo, 'zócalo de la hoja');
-          } else pieza(s, a, b, v.z0 + 1, v.z1 - FWl, 4.5, 0, matPuerta, titulo, `hoja de ${fm((b - a) * L)} m · ${v.d} (propuesta)`);
+          } else pieza(s, a, b, v.z0 + 1, v.z1 - FWl, 4.5, 0, matPuerta, titulo, `hoja de ${fm((b - a) * L)} m · ${v.d}`);
           const tm = hojas === 1 ? b - f(9) : (k === 0 ? b - f(8) : a + f(8));
           [1, -1].forEach(lado => pieza(s, tm - f(6), tm + f(6), z0 + 100, z0 + 103, 2.5, lado * 3.5, matManilla, titulo, 'manilla'));
         }
@@ -983,14 +982,14 @@ body.embed .norte3d{top:52px}
         if (corredera){
           const tc = (t0 + t1) / 2;
           [[t0 + f(HW), tc, -2.5], [tc, t1 - f(HW), 2.5]].forEach(([a, b, off], k) => {
-            pieza(s, a, b, v.z0 + FWl, v.z1 - FWl, 1, off, matVidrio, titulo, `${v.tipo} de 2 hojas · ${medidas} · ${v.d} (propuesta)`);
+            pieza(s, a, b, v.z0 + FWl, v.z1 - FWl, 1, off, matVidrio, titulo, `${v.tipo} de 2 hojas · ${medidas} · ${v.d}`);
             [a, b].forEach(tt => pieza(s, tt - f(2) * (tt === a ? 0 : 1), tt + f(2) * (tt === a ? 1 : 0), v.z0 + FWl, v.z1 - FWl, 4, off, matMarco, titulo, 'bastidor de la hoja'));
             pieza(s, a, b, v.z1 - FWl - 4, v.z1 - FWl, 4, off, matMarco, titulo, 'bastidor de la hoja'); pieza(s, a, b, v.z0 + FWl, v.z0 + FWl + 4, 4, off, matMarco, titulo, 'bastidor de la hoja');
             const tm = k === 0 ? b - f(6) : a + f(6);
             [1, -1].forEach(lado => pieza(s, tm - f(1.2), tm + f(1.2), z0 + 90, z0 + 118, 2.2, off + lado * 3, matManilla, titulo, 'tirador'));
           });
         } else {
-          pieza(s, t0 + f(HW), t1 - f(HW), v.z0 + FWl, v.z1 - FWl, 3, 0, matVidrio, titulo, `${medidas} · ${v.d} (propuesta)`);
+          pieza(s, t0 + f(HW), t1 - f(HW), v.z0 + FWl, v.z1 - FWl, 3, 0, matVidrio, titulo, `${medidas} · ${v.d}`);
         }
       }
       panel(s, t0, t1, v.z1, mm, nombreMuro, 'dintel sobre el vano');
@@ -1022,18 +1021,18 @@ body.embed .norte3d{top:52px}
     // (24-10-2026; antes, puerta en este muro y descanso); y muro norte hacia la minicocina
     const escD = D.hormigon.escalera, mE = escD.muro, mN = escD.muro_norte;
     const matMuroH = new THREE.MeshLambertMaterial({color: dark ? 0x8A8D93 : 0xB4B3AA, side: THREE.DoubleSide});
-    segs.push({a: [(mE.pts[0][0] + mE.pts[1][0]) / 2, mE.pts[0][1]], b: [(mE.pts[0][0] + mE.pts[1][0]) / 2, mE.pts[2][1]], e: mE.espesor, nombre: 'muro de hormigón de la escalera', mat: matMuroH, sub: 'hormigón armado e=23 (propuesta)'});
-    if (mN) segs.push({a: [mN.pts[0][0], (mN.pts[0][1] + mN.pts[2][1]) / 2], b: [mN.pts[1][0], (mN.pts[0][1] + mN.pts[2][1]) / 2], e: mN.espesor, nombre: 'muro de hormigón de la escalera (hacia la minicocina)', mat: matMuroH, sub: 'hormigón armado e=23 (propuesta)'});
+    segs.push({a: [(mE.pts[0][0] + mE.pts[1][0]) / 2, mE.pts[0][1]], b: [(mE.pts[0][0] + mE.pts[1][0]) / 2, mE.pts[2][1]], e: mE.espesor, nombre: 'muro de hormigón de la escalera', mat: matMuroH, sub: 'hormigón armado e=23'});
+    if (mN) segs.push({a: [mN.pts[0][0], (mN.pts[0][1] + mN.pts[2][1]) / 2], b: [mN.pts[1][0], (mN.pts[0][1] + mN.pts[2][1]) / 2], e: mN.espesor, nombre: 'muro de hormigón de la escalera (hacia la minicocina)', mat: matMuroH, sub: 'hormigón armado e=23'});
     segs.forEach(s => {
       const L = Math.hypot(s.b[0] - s.a[0], s.b[1] - s.a[1]), f = c => c / L;   // cm → fracción del muro
       const vs = D.vanos.map(v => ({v, t: sobre(v, s)})).filter(x => x.t && x.v.tipo !== 'escalera').sort((p, q) => p.t[0] - q.t[0]);
       let t = 0;
       vs.forEach(({v, t: [t0, t1]}) => {
-        panel(s, t, t0, z0, s.mat || matMuro, s.nombre, s.sub || ('muro de ' + s.e + ' cm hasta el techo (propuesta)'));
+        panel(s, t, t0, z0, s.mat || matMuro, s.nombre, s.sub || ('muro de ' + s.e + ' cm hasta el techo'));
         K.vano(s, v, t0, t1, z0, s.mat || matMuro, s.nombre);
         t = t1;
       });
-      panel(s, t, 1, z0, s.mat || matMuro, s.nombre, s.sub || ('muro de ' + s.e + ' cm hasta el techo (propuesta)'));
+      panel(s, t, 1, z0, s.mat || matMuro, s.nombre, s.sub || ('muro de ' + s.e + ' cm hasta el techo'));
     });
     // prisma por puntos (cm app) con huecos, de zA a zB
     const prismaP = (pts, zA, zB, mat, huecos) => {
@@ -1049,7 +1048,7 @@ body.embed .norte3d{top:52px}
     // pisos terminados por recinto: porcelanato en todo (Gabriel, 13-10-2026), sobre el NPT (NPOG + piso 1,5); en el búnker también, sobre su NPT
     const tPiso = E.terminaciones ? E.terminaciones.piso : 0, npt = E.npt != null ? E.npt : z0 + 0.6;
     const pisoTxt = `porcelanato sobre adhesivo y sobrelosa de nivelación (${(tPiso || 5.5).toLocaleString('es-CL')} cm sobre la obra gruesa), piso terminado a NPT +${(tPiso || 0).toLocaleString('es-CL')}`;
-    const pisos = {estudio: ['porcelanato', pisoTxt], cafeteria: ['porcelanato', pisoTxt], bano: ['porcelanato', pisoTxt], bodega: ['porcelanato', pisoTxt], cabina: ['madera', 'piso de madera sobre la sobrelosa (cabina de grabación, propuesta)']};
+    const pisos = {estudio: ['porcelanato', pisoTxt], cafeteria: ['porcelanato', pisoTxt], bano: ['porcelanato', pisoTxt], bodega: ['porcelanato', pisoTxt], cabina: ['madera', 'piso de madera sobre la sobrelosa (cabina de grabación)']};
     E.recintos.forEach(rc => {
       const def = pisos[rc.id]; if (!def) return;
       const mat = new THREE.MeshLambertMaterial({map: texturaPiso(def[0]), side: THREE.DoubleSide});
@@ -1082,7 +1081,7 @@ body.embed .norte3d{top:52px}
         }
       };
       // arriba no hay tabique extra: muros y tabiques de 25 terminado (Gabriel, 14-10-2026, opción 1); el tabique de 10 va solo en el búnker
-      if (E.bunker && E.bunker.terminado) bandas(E.bunker.pts, E.bunker.terminado, E.bunker.z_piso, E.bunker.z_cielo, 'Tabique del búnker', `tabique de ${TB} cm por dentro de los muros de hormigón, del radier a la losa · ${(E.bunker.terminado_cm.ancho / 100).toLocaleString('es-CL')} × ${(E.bunker.terminado_cm.largo / 100).toLocaleString('es-CL')} m terminados (propuesta)`);
+      if (E.bunker && E.bunker.terminado) bandas(E.bunker.pts, E.bunker.terminado, E.bunker.z_piso, E.bunker.z_cielo, 'Tabique del búnker', `tabique de ${TB} cm por dentro de los muros de hormigón, del radier a la losa · ${(E.bunker.terminado_cm.ancho / 100).toLocaleString('es-CL')} × ${(E.bunker.terminado_cm.largo / 100).toLocaleString('es-CL')} m terminados`);
     }
     if (E.bunker && E.bunker.npt != null){
       // búnker: porcelanato sobre la losa de fundación y cielo de yeso cartón bajo la losa de techo, a sus niveles terminados (3,10 libres desde el 15-10-2026)
@@ -1103,7 +1102,7 @@ body.embed .norte3d{top:52px}
       tris.forEach(t => t.forEach(i => { const q = ptsC[i]; pos.push(cm(q[0]), cm(zC(q[1]) - 0.5), cm(q[1])); }));
       const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.computeVertexNormals();
       const mesh = new THREE.Mesh(geo, matCielo); mesh.userData.cieloEstudio = true;
-      g.add(ficha(mesh, 'Cielo de ' + rc.nombre.split(' (')[0].toLowerCase(), `plano a ${((zC(rc.pts[0][1]) - npt) / 100).toFixed(2).replace('.', ',')} m${rc.cielo_z !== undefined ? ' (bajado: cabina)' : ' (Gabriel)'}; sobre él, el entretecho con las vigas y la pendiente del techo · bajo las vigas (propuesta)`));
+      g.add(ficha(mesh, 'Cielo de ' + rc.nombre.split(' (')[0].toLowerCase(), `plano a ${((zC(rc.pts[0][1]) - npt) / 100).toFixed(2).replace('.', ',')} m${rc.cielo_z !== undefined ? ' (bajado: cabina)' : ''}; sobre él, el entretecho con las vigas y la pendiente del techo`));
     });
     // escalera al búnker: peldaños terminados y pasamanos en el muro de la caja
     // tramo real (desde el muro del eje B hacia el eje A; el último metro sigue bajo la losa, dentro del búnker); el hueco en la losa es más corto
@@ -1119,7 +1118,7 @@ body.embed .norte3d{top:52px}
     const yA_ = esc.pts[0][1] + 10, yB_ = esc.pts[2][1] - 10, zA_ = zEn(yA_) + 90, zB_ = zEn(yB_) + 90, largo = Math.hypot(yB_ - yA_, zB_ - zA_);
     const pasamanos = new THREE.Mesh(new THREE.BoxGeometry(cm(4), cm(4), cm(largo)), matMarco);
     pasamanos.position.set(cm(xb0 + 5), cm((zA_ + zB_) / 2), cm((yA_ + yB_) / 2)); pasamanos.rotation.x = Math.atan2(zA_ - zB_, yB_ - yA_);
-    g.add(ficha(pasamanos, 'Pasamanos de la escalera', 'en el muro, a 0,90 m sobre los peldaños (propuesta)'));
+    g.add(ficha(pasamanos, 'Pasamanos de la escalera', 'en el muro, a 0,90 m sobre los peldaños'));
     return g;
   }
   const grupoCerramiento = buildCerramiento();
@@ -1250,7 +1249,7 @@ body.embed .norte3d{top:52px}
     const sep = () => { const d = document.createElement('div'); d.className = 'sep'; panelEl.insertBefore(d, filaFit); };
     titulo('Hormigón');
     const hayH = {}; (grupoEstudioEst.userData.sub && grupoEstudioEst.userData.sub.hormigon ? grupoEstudioEst.userData.sub.hormigon : {traverse: () => {}}).traverse(o => { if (o.userData.hgrupo) hayH[o.userData.hgrupo] = true; });
-    [['muros', 'Muros del búnker'], ['losa', 'Losa y vigas VHA'], ['zapata', 'Losa de fundación y emplantillado'], ['piso', 'Radier y relleno del búnker'], ['escalera', 'Escalera y su caja'], ['cimiento', 'Sobrecimiento y cimiento corrido'], ['cf', 'CF bajo los tabiques'], ['dados', 'Dados bajo 4C y 4C2'], ['pobre', 'Hormigón pobre G5 hasta el sello'], ['dren', 'Dren perimetral del búnker'], ['bombeo', 'Pozo y 2 bombas del dren (propuesta)'], ['radier', 'Radier del estudio y sus capas'], ['placas', 'Placas base PLc y PLb']].filter(([k]) => hayH[k]).forEach(([k, t]) => { const c = document.createElement('input'); c.type = 'checkbox'; c.checked = true; chkHGrupo[k] = c; fila(t, c); c.addEventListener('input', aplica); });
+    [['muros', 'Muros del búnker'], ['losa', 'Losa y vigas VHA'], ['zapata', 'Losa de fundación y emplantillado'], ['piso', 'Radier y relleno del búnker'], ['escalera', 'Escalera y su caja'], ['cimiento', 'Sobrecimiento y cimiento corrido'], ['cf', 'CF bajo los tabiques'], ['dados', 'Dados bajo 4C y 4C2'], ['pobre', 'Hormigón pobre G5 hasta el sello'], ['dren', 'Dren perimetral del búnker'], ['bombeo', 'Pozo y 2 bombas'], ['radier', 'Radier del estudio y sus capas'], ['placas', 'Placas base PLc y PLb']].filter(([k]) => hayH[k]).forEach(([k, t]) => { const c = document.createElement('input'); c.type = 'checkbox'; c.checked = true; chkHGrupo[k] = c; fila(t, c); c.addEventListener('input', aplica); });
     fila('Hormigón translúcido', chkHTrans); chkHTrans.addEventListener('input', aplica);
     sep(); titulo('Enfierradura');
     const elems = [...new Set(grupoFierros.children.map(ls => ls.userData.elemento))];
@@ -1384,9 +1383,9 @@ body.embed .norte3d{top:52px}
       const rr = (hit.object.userData.estudio && mb.c === 'diagonal' && typeof DATA_ESTUDIO_EST !== 'undefined') ? (DATA_ESTUDIO_EST.riostras || []).find(q => q.id === mb.id) : null;
       const pr = (DATA_ESTRUCTURA.perfiles || {})[mb.p] || {}, f2 = v => (typeof v === 'number' && isFinite(v)) ? v.toFixed(2).replace('.', ',') : '—';
       const pared = rr && rr.espesor_mm ? rr.espesor_mm : (pr.forma === 'tubo_rect' && pr.t ? Math.round(pr.t * 10) : null);
-      if (rr) rio = `<br>${pared ? `tubo de pared ${pared} mm · ` : ''}D/C tracción ${f2(rr.dc_traccion)} · compresión ${f2(rr.dc_compresion)} · KL/r ${rr.KL_r != null ? rr.KL_r : '—'} · unión ${f2(rr.dc_union)}${rr.dc_cruce != null ? ' · cruce ' + f2(rr.dc_cruce) : ''}${rr.cumple === false ? ` · <b>no pasa${rr.KL_r > 200 ? ' (KL/r > 200)' : ''}: por decidir</b>` : ''}`;
+      if (rr) rio = `${pared ? `<br>tubo de pared ${pared} mm` : ''}${rr.cumple === false ? ' · <b>no pasa</b>' : ''}`;
     } catch (err){ rio = ''; }
-    ficha.innerHTML = `<b>${mb.p}</b> · ${clase}${hit.object.userData.estudio ? ' · <span class="sub">estudio, propuesta</span>' : ''}${rio}<br><span class="sub">${mb.d || ''}${mb.d ? ' · ' : ''}${largo} m</span>`;
+    ficha.innerHTML = `<b>${mb.p}</b> · ${clase}${hit.object.userData.estudio ? ' · <span class="sub">estudio</span>' : ''}${rio}<br><span class="sub">${mb.d || ''}${mb.d ? ' · ' : ''}${largo} m</span>`;
     ficha.style.left = Math.min(e.clientX - r.left + 12, r.width - 270) + 'px';
     ficha.style.top = Math.max(e.clientY - r.top - 50, 8) + 'px';
     ficha.hidden = false;
@@ -1512,7 +1511,7 @@ body.embed .norte3d{top:52px}
       explode.closest('.row').hidden = true; explode.closest('.row').previousElementSibling.hidden = true;
       document.querySelectorAll('.panel .sep').forEach((sp, i) => { if (i < 3) sp.hidden = true; });
       document.getElementById('aviso-texto').innerHTML = '<b>Búnker y fundaciones en 3D, para los maestros:</b> el hormigón armado del estudio con todas sus barras (color por diámetro), las placas base y las medidas. ' +
-        'Apaga la <b>losa</b> o los <b>muros</b> en Capas para mirar adentro; toca cualquier pieza o barra para ver qué es, su sección, paso y largo. Detalle de las láminas del ingeniero aplicado a la planta nueva (búnker de 2,80 libres). <span class="version"></span>';
+        'Apaga la <b>losa</b> o los <b>muros</b> en Capas para mirar adentro; toca cualquier pieza o barra para ver qué es, su sección, paso y largo. <span class="version"></span>';
       pintarVersion(); document.title = 'Búnker y fundaciones en 3D';
     }
     if (vistaEstudio){
@@ -1529,7 +1528,7 @@ body.embed .norte3d{top:52px}
     if (vistaEstudio){
       document.getElementById('aviso-texto').innerHTML = '<b>El estudio en 3D:</b> muros, ventanas y puertas propuestos, con el mobiliario de referencia (idea para conversar). ' +
         'En <b>Capas</b> prende la <b>estructura</b> de acero y hormigón, mira <b>bajo tierra</b> el búnker y sus fundaciones, o prende las <b>medidas</b> de puertas, ventanas, muros y recintos. ' +
-        'Toca cualquier pieza para ver su ficha. Todo es propuesta hasta que el ingeniero lo revise. <span class="version"></span>';
+        'Toca cualquier pieza para ver su ficha. <span class="version"></span>';
       pintarVersion();
       document.title = 'Estudio en 3D';
     }

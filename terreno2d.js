@@ -33,7 +33,7 @@
     // ---- lote: pasto, deslinde y sus largos ----
     const lot = D.lote.poligono; V(lot);
     const loteBox = bbox(lot);
-    titulo(el('polygon', { points: P(lot), class: 'tr-pasto' }, gL), `Lote: ${D.lote.superficie_m2.toLocaleString('es-CL', { maximumFractionDigits: 1 })} m² según el polígono del emplazamiento (la lámina rotula 5.135 m²) · rol ${D.lote.rol} · fuente: ${D.fuente}`);
+    titulo(el('polygon', { points: P(lot), class: 'tr-pasto' }, gL), `Lote: ${D.lote.superficie_m2.toLocaleString('es-CL', { maximumFractionDigits: 1 })} m² medidos en el plano (la lámina rotula 5.135 m²) · rol ${D.lote.rol}`);
     const des = D.lote.deslindes, m = v => fmt(v) + ' m';
     const rot = (a, b) => Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI;
     const mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
@@ -48,9 +48,9 @@
     lblDes(lot[13], lot[0], `deslinde lateral ${m(des.oeste)}`, -1);
     // sur: el deslinde es el eje de la servidumbre (camino); el cierro de verdad va 5 m adentro
     const sv = D.servidumbre;
-    titulo(el('polyline', { points: P(sv.eje), class: 'tr-serv' }, gL), sv.dato);
-    titulo(el('polyline', { points: P(sv.cierro_exterior), class: 'tr-serv-ext' }, gL), 'Cierro del frente, al otro lado del camino (supuesto: trazo del emplazamiento)');
-    txt(gT, 1300, (sv.cierro_exterior[0][1] + sv.cierro_exterior[1][1]) / 2 + 150, 'cierro al otro lado del camino (supuesto)', 'tr-sub');   // textos cortos: con 14 px los largos no cabían en el ancho del teléfono
+    titulo(el('polyline', { points: P(sv.eje), class: 'tr-serv' }, gL), 'Deslinde del camino: eje de la servidumbre');
+    titulo(el('polyline', { points: P(sv.cierro_exterior), class: 'tr-serv-ext' }, gL), 'Cierro del frente, al otro lado del camino');
+    txt(gT, 1300, (sv.cierro_exterior[0][1] + sv.cierro_exterior[1][1]) / 2 + 150, 'cierro al otro lado del camino', 'tr-sub');   // textos cortos: con 14 px los largos no cabían en el ancho del teléfono
     lblDes(sv.eje[1], sv.eje[0], `deslinde ${m(des.sur)} · eje del camino`, 1);   // hacia afuera: sobre el camino, entre el eje y el cierro exterior
     // (la flecha del norte ya no va aquí: la pone la página, fija en una esquina del plano, para la casa y el terreno; Gabriel y el ingeniero, 23-10-2026)
 
@@ -62,7 +62,7 @@
       for (let j = 0; j <= n; j++) { const t = j * 300 / L, y = a[1] + (b[1] - a[1]) * t; if (y > 4150) continue; el('rect', { x: a[0] + (b[0] - a[0]) * t - 12, y: y - 12, width: 24, height: 24, class: 'tr-reja' }, gC); }   // termina en el cierro sur
     }
     // ---- cierro sur interior: franja de 70 con pilares de 50 × 70 cada 2,5 m, curvado hacia el acceso ----
-    D.cierros.forEach(c => titulo(el('polyline', { points: P(c.pts), class: 'tr-cierro', 'stroke-width': c.ancho }, gC), c.dato));
+    D.cierros.forEach(c => titulo(el('polyline', { points: P(c.pts), class: 'tr-cierro', 'stroke-width': c.ancho }, gC), 'Cierro de servidumbre: a 5 m del deslinde del camino, pilares de 50 × 70 cada 2,5 m'));
     D.pilares_cierro.forEach(p => { const [a, b] = p.lado, ang = (p.ang || 90) - 90; el('rect', { x: p.c[0] - a / 2, y: p.c[1] - b / 2, width: a, height: b, class: 'tr-pilar', transform: `rotate(${ang} ${p.c[0]} ${p.c[1]})` }, gC); verts.push([p.c[0], p.c[1]]); });
     // ---- acceso: pilares, puerta peatonal, poste y portón corredera (hoja abierta hacia el oriente) ----
     const ac = D.acceso;
@@ -71,7 +71,7 @@
     });
     const yA = ac.linea_y + 35;
     titulo(el('line', { x1: ac.puerta.vano[0][0], y1: yA, x2: ac.puerta.vano[1][0], y2: yA, class: 'tr-acceso' }, gC), `Puerta peatonal ${fmt(ac.puerta.ancho)} m`);
-    titulo(el('line', { x1: ac.porton.vano[0][0], y1: yA, x2: ac.porton.vano[1][0], y2: yA, class: 'tr-acceso tr-porton' }, gC), `Portón ${fmt(ac.porton.ancho)} m · ${ac.porton.tipo}`);
+    titulo(el('line', { x1: ac.porton.vano[0][0], y1: yA, x2: ac.porton.vano[1][0], y2: yA, class: 'tr-acceso tr-porton' }, gC), `Portón corredera ${fmt(ac.porton.ancho)} m`);
     titulo(el('line', { x1: ac.porton.hoja_abierta[0][0], y1: ac.porton.hoja_abierta[0][1] + 20, x2: ac.porton.hoja_abierta[1][0], y2: ac.porton.hoja_abierta[1][1] + 20, class: 'tr-hoja' }, gC), 'Hoja del portón abierta, corrida detrás del pilar del portón');
     txt(gT, ac.porton.hoja_abierta[1][0] + 90, ac.porton.hoja_abierta[1][1] + 22, '→', 'tr-sub');
     txtD(gT, (ac.pilar_oeste[0][0] + ac.pilar_este[1][0]) / 2, ac.linea_y, `acceso · puerta ${fmt(ac.puerta.ancho)} + portón corredera ${fmt(ac.porton.ancho)}`, 'tr-sub tr-cota-t', -17);   // sobre la flecha de la hoja, a distancia fija en pantalla
@@ -80,14 +80,14 @@
     txtD(gT, 2200, 4390, 'pilares 50 × 70 cada 2,5 m, a 5 m del deslinde', 'tr-sub tr-chico', 17);
 
     // ---- lo que se ve en la foto de dron (rectificada con las esquinas del lote, ±30 cm): explanadas, radieres, piscinas, pozo, estanque ----
-    const R = D.real, nota = ' (foto de dron, ±30 cm)';
-    R.senderos.concat(R.radieres).forEach(it => { titulo(el('polygon', { points: P(it.pts), class: 'tr-horm' }, gR), it.nombre + nota + ' · ' + it.dato); V(it.pts); });
+    const R = D.real, nota = ' · posición aproximada, ±30 a 50 cm';
+    R.senderos.concat(R.radieres).forEach(it => { titulo(el('polygon', { points: P(it.pts), class: 'tr-horm' }, gR), it.nombre + nota); V(it.pts); });
     [['piscina', 'Piscina'], ['piscina_chica', 'Jacuzzi (piscina chica)']].forEach(([k, nm]) => {
       const it = R[k]; if (!it) return;
       if (it.borde) el('polygon', { points: P(it.borde), class: 'tr-borde' }, gR);
-      titulo(el('polygon', { points: P(it.pts), class: 'tr-agua' }, gR), nm + nota + ' · ' + it.dato); V(it.pts);
+      titulo(el('polygon', { points: P(it.pts), class: 'tr-agua' }, gR), nm + nota); V(it.pts);
     });
-    R.otros.forEach(it => { titulo(el('polygon', { points: P(it.pts), class: 'tr-horm' }, gR), it.nombre + nota + ' · ' + it.dato); });
+    R.otros.forEach(it => { titulo(el('polygon', { points: P(it.pts), class: 'tr-horm' }, gR), it.nombre + nota); });
     const lblReal = (pts, t, cls, dy) => { const b = bbox(pts); txt(gT, (b[0] + b[2]) / 2, (b[1] + b[3]) / 2 + (dy || 0), t, cls || 'tr-sub'); };
     lblReal(R.piscina.pts, 'piscina');
     { const b = bbox(R.piscina_chica.pts); txtD(gT, (b[0] + b[2]) / 2, b[1], 'jacuzzi', 'tr-sub tr-chico', -10); }   // sobre el jacuzzi: al centro lo tapaba el rótulo del eje 4 de la casa
@@ -98,7 +98,7 @@
     // ---- gimnasio (construido): planta en L y su cubierta con aleros ----
     const gi = D.gimnasio;
     titulo(el('polygon', { points: P(gi.cubierta.contorno), class: 'tr-cub' }, gB), 'Cubierta del gimnasio con sus aleros (4,44 m hacia la casa)');
-    titulo(el('polygon', { points: P(gi.planta), class: 'tr-edif' }, gB), `Gimnasio (construido): ${fmt(gi.ancho)} × ${fmt(gi.largo)} m en L, muros de ${gi.muro} · ${gi.dato}`); V(gi.planta);
+    titulo(el('polygon', { points: P(gi.planta), class: 'tr-edif' }, gB), `Gimnasio (construido): ${fmt(gi.ancho)} × ${fmt(gi.largo)} m en L, muros de ${gi.muro}`); V(gi.planta);
     { const b = bbox(gi.planta), cx = (b[0] + b[2]) / 2, cy = (b[1] + b[3]) / 2;   // apilado sobre el gimnasio y su alero; el renglón de arriba queda bajo la cota al deslinde del fondo
       txtD(gT, cx, cy, 'GIMNASIO', 'tr-lbl', -6); txtD(gT, cx, cy, 'construido', 'tr-sub', 11); txtD(gT, cx, cy, `${fmt(gi.ancho)} × ${fmt(gi.largo)}`, 'tr-sub', 28); }
     txt(gT, 1971, -2720, 'cubierta (alero de 4,44 hacia la casa)', 'tr-sub tr-chico');
@@ -107,7 +107,7 @@
     const es = D.estudio, eb = bbox(es.exterior);
     titulo(el('polygon', { points: P(es.exterior), class: 'tr-edif' }, gB), `Estudio (por construir): ${fmt(es.ancho)} × ${fmt(es.largo)} m por fuera, muros de ${es.muro}; a 3,50 m del deslinde lateral`); V(es.exterior);
     es.recintos.forEach(r => { titulo(el('polygon', { points: P(r.pts), class: 'tr-recinto' }, gB), r.nombre); V(r.pts); const b = bbox(r.pts); const nm = r.nombre.split(' (')[0]; if (b[2] - b[0] > 200) txt(gT, (b[0] + b[2]) / 2, (b[1] + b[3]) / 2, nm.length > 22 ? nm.slice(0, 20) + '…' : nm, 'tr-sub tr-rec'); });
-    titulo(el('polygon', { points: P(es.bunker.pts), class: 'tr-bunker' }, gB), `Búnker bajo la cafetería: ${es.bunker.dato || 'losa, muros de 25 y losa de fundación de 30'}`);
+    titulo(el('polygon', { points: P(es.bunker.pts), class: 'tr-bunker' }, gB), 'Búnker bajo la cafetería');
     txtD(gT, (eb[0] + eb[2]) / 2, 480, 'búnker abajo', 'tr-sub', 17);   // bajo las cotas que cruzan a la altura y = 4,80, a distancia fija en pantalla
     txtD(gT, (eb[0] + eb[2]) / 2, eb[1], 'ESTUDIO', 'tr-lbl', -48); txtD(gT, (eb[0] + eb[2]) / 2, eb[1], 'por construir', 'tr-sub', -31); txtD(gT, (eb[0] + eb[2]) / 2, eb[1], `${fmt(es.ancho)} × ${fmt(es.largo)}`, 'tr-sub', -14);   // apilado sobre el estudio
 

@@ -138,6 +138,12 @@ proyecto, la letra de trazo único de los planos CAD, plantas a 1:50 y cortes a 
   - **Lectura nuestra en la revisión B** (resuelta el 24-11, ver la revisión C): el gancho del inserto tendido sobre su cabeza; la traba
     ø10 solo sobre los dados; las trabas de los muros cada 3 nudos; el coronamiento dentro de los dobleces; la junta de 2 cm con el búnker.
   - En la planta, las cuatro barras de la losa de fundación van con su «destacado» (dobleces abatidos y medidas); sin flecha del norte.
+- **Versión final publicada (24-11-2026):** a pedido del dueño, el sitio muestra solo lo que se construye, sin el proceso. De la página del
+  estudio salieron las pestañas Revisión, Ingeniero, Luces y Falta, las etiquetas de origen (dato, propuesta, revisión), las citas con fecha y
+  las columnas de verificación (D/C); la impermeabilización pasó a su propia pestaña, Humedad. La lámina va sin letra ni historial de
+  revisiones. Los textos del modelo se publican limpios: `_publicar` y `_limpio` (generar_estudio_estructura.py) sacan de la salida las citas,
+  las fechas, lo que había antes y las referencias de cálculo, y vacían los campos `fuente`; `cambios` y `preguntas` se publican vacíos.
+  El porqué de cada cosa sigue en los comentarios del código y en este README, que no se muestran en el sitio.
 - **Revisión C de la lámina 01 (24-11-2026):** el ingeniero contestó las últimas preguntas y visó la revisión B para cortar y doblar fierro.
   Confirmó el gancho del inserto sobre su cabeza, las trabas de los muros cada 3 nudos y el coronamiento dentro de los dobleces. Dos cambios:
   - **Traba ø10 en toda la cadena** (`CF-*-traba`, una junto a cada estribo). Escribió «irán cada 20, es decir cada 2 estribos»; como los

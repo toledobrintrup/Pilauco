@@ -703,7 +703,7 @@ def empacar(piezas, largo):
 
 
 BARRAS, LARGAS = empacar(PIEZAS, COMPRA)
-USOS = [('palo', 'Palos', f'atravesados, de {cm(H_PALO, 3)} m (área 1 en terreno: {cm(H_PALO1, 3)})'),
+USOS = [('palo', 'Palos', f'atravesados, de {cm(H_PALO, 3)} m'),
         ('solera', 'Solera de arriba', '2 piezas de canto lado a lado, trabadas'),
         ('abajo', 'Solera abajo', 'plana, suelta en el piso'),
         ('amarre', 'Amarre', 'de canto a media altura, cara A'),

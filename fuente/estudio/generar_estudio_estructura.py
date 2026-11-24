@@ -12,7 +12,7 @@ Marco local del estudio en cm: x al oriente desde la cara exterior poniente, y a
 norte, z desde el piso terminado del estudio (NPOG 0,00 del ingeniero). Se convierte al marco de la app con el
 origen del estudio (sitio.json) y su nivel de piso. No es un cálculo: es el sistema del ingeniero acomodado.
 """
-import json, sys, math, os
+import json, re, sys, math, os
 import hormigon as HORM
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'sitio'))
 from geom import offset_rect_poly
@@ -68,6 +68,51 @@ VIGA_FUND = (25.0, 50.0)
 H_VENTANA = 400.0      # todas las ventanas de piso terminado a cielo terminado: 4,00 (Gabriel, 13-10-2026: "dejemos todas las ventanas a 4 m")
 
 def r1(v): return round(float(v), 1)
+
+# ---------- textos publicados: versión final, sin el proceso ----------
+# Gabriel (24-11-2026): «elimina todo lo que fueron revisiones, preguntas, etc. Ahora queda la versión final» y «los maestros no tienen tiempo de leer tesis
+# doctorales». Los textos del modelo (lo que muestran las fichas del 3D y los rótulos de la página) se publican sin quién dijo qué ni cuándo, sin lo que había
+# antes y sin referencias de cálculo. El porqué de cada cosa sigue en los comentarios de este generador, de hormigon.py y en el README: aquí solo se limpia la salida.
+_MARCA = re.compile(r'\d{1,2}-\d{1,2}-\d{4}|\b\d{1,2}-1[012]\b(?!\s*(?:cm|mm|m\b))|ingenier|Gabriel|[Rr]evisi[oó]n|[Pp]ropuest|\bV\d{2,3}\b|hasta la V|\b[Aa]ntes\s+(?:\d|ø|@|era|eran|iba|iban|el\b|la\b|los\b|las\b|un\b|una\b)|calculo/|por decidir|por confirmar|«[^»]{4,}»'
+                    r'|láminas? 0\d|\brev\.? [0-9A-Z]\b|pidió|aprob[óa]|acept[óa]|decisión|propietario|croquis|lectura nuestra|\bACI\b|\bNCh\b|\bAISC\b|\bAWS\b|\bEC2\b|BS 8102|Apéndice|supuesto|sugerid|\boriginal(?:es)?\b|desde el \d|≤ d/2|Ω0|ψt|0,0018|\bL/\d{3}|portaestribos|cm²/m|\bks \d|\bld\b|ldh')
+_INICIO = re.compile(r'^(?:[Rr]evisión|[Pp]ropuesta|el ingeniero|[Ii]ngeniero|Gabriel|[Hh]asta la V|[Aa]ntes\b(?!\s+de)|[Dd]ecisión|desde el \d|\d{1,2}-\d{1,2}-\d{4})')
+_SIN_TEXTO = ('fuente', 'calculo', 'lectura', 'regla', 'pedido')     # campos que eran solo origen o proceso: se publican vacíos
+_SUST = [(re.compile(a), b) for a, b in (                             # frases de historia o de cálculo que van fuera de paréntesis: se sacan una por una
+    (r', como los pilares del marco A1 de la lámina 05', ''), (r' \(lámina 05, marco F;[^)]*\)', ''), (r'; (?:CUAD|RECT) [0-9x]+ desde el \d{1,2}-\d{1,2}-\d{4}:[^;]*', ''),
+    (r', como [A-Z0-9]+-[A-Z0-9]+ del original', ''), (r' \(como 1\.b y 1\.c del original\)', ''), (r': sismo con tabiques y torsión accidental \(\d{1,2}-\d{1,2}-\d{4}\)', ''),
+    (r': revisión \d{1,2}-\d{1,2}-\d{4}, sin ella el techo se movía[^;]*', ''), (r' \(antes, [^)]*\)', ''), (r' como las del original \([^)]*\)', ''), (r'; el original lo lleva.*$', ''),
+    (r':? ldh [\d,]+ ≤ [\d,]+(?: disponibles)?', ''), (r'; flecha a largo plazo.*$', ''), (r'«(a|b)»', r'\1'), (r' \(12ø = [\d,]+\)', ''),
+    (r'^como el croquis$', ''), (r' \(cuentan como compresión para la flecha\)', ''))]
+_PUBLICA = {                                                          # textos que eran justificación: se publican en corto (ruta dentro de la salida)
+    'hormigon/cf/rotulo': 'CF 30/50', 'hormigon/cf/tramos': 'el CF-4 va completo, del búnker a la fachada del eje E', 'hormigon/cf/nota': 'bajo los tres tabiques con pilares (ejes 4, C y C2)',
+    'hormigon/niveles/nota': '', 'hormigon/cimiento/nota': 'bajo las fachadas fuera del búnker', 'hormigon/cimiento/zapata/armadura': 'U ø12@20 + 4ø12 longitudinales; recubrimiento 5',
+    'hormigon/zapata_corrida/nota': '', 'parametros/terminaciones/dato': ''}
+def _limpio(t):
+    if not isinstance(t, str): return t
+    for rx, b in _SUST: t = rx.sub(b, t)
+    if not _MARCA.search(t): return t
+    A, C = '⟦', '⟧'                                       # corchetes de trabajo para los paréntesis que se quedan
+    def par(m):
+        partes = [c.strip() for c in m.group(1).split(';')]
+        buenas = [c for c in partes if c and not _MARCA.search(c)]
+        return (A + '; '.join(buenas) + C) if buenas else ''
+    prev = None
+    while prev != t: prev = t; t = re.sub(r'\s*\(([^()]*)\)', lambda m: (' ' if par(m) else '') + par(m), t)
+    t = t.replace(A, '(').replace(C, ')')
+    # fuera de paréntesis solo se va la frase que PARTE con una cita o con historia («revisión …», «el ingeniero …», «antes …»); lo demás se arregla en la fuente
+    for sep in (' · ', '; '):
+        ps = t.split(sep)
+        if len(ps) > 1: t = sep.join(q for q in ps if not _INICIO.match(q.strip()))
+    t = re.sub(r'\s+([,;:.])', r'\1', t); t = re.sub(r'([,;:])\1+', r'\1', t); t = re.sub(r'[,;:]\s*$', '', t); t = re.sub(r'\s{2,}', ' ', t)
+    t = re.sub(r':\s*([;.])', r'\1', t); t = re.sub(r'\(\s*\)', '', t)
+    return t.strip(' ·;,')
+def _publicar(o, k=None, ruta=''):
+    if ruta in _PUBLICA: return _PUBLICA[ruta]
+    if isinstance(o, dict):
+        if k in _SIN_TEXTO: return {a: ('' if isinstance(b, str) else b) for a, b in o.items()}
+        return {a: ('' if a in _SIN_TEXTO and isinstance(b, str) else _publicar(b, a, (ruta + '/' + a).lstrip('/'))) for a, b in o.items()}
+    if isinstance(o, list): return [_publicar(x, k, ruta) for x in o]
+    return _limpio(o) if isinstance(o, str) and k not in ('id', 'p', 'c', 'tipo', 'perfil') else o
 
 def main(estudio_json, sitio_json, salida):
     E = json.load(open(estudio_json)); S = json.load(open(sitio_json))
@@ -262,7 +307,7 @@ def main(estudio_json, sitio_json, salida):
         muro_norte=dict(pts=rect(ex0, rec['cafeteria'][2][1], ex1, ey0), espesor=ey0 - rec['cafeteria'][2][1]),   # muro hacia la minicocina
         hormigon=True,   # escalera y sus muros en hormigón armado (Gabriel, 2026-10-12)
         descanso=None,
-        nota=f'se entra desde el distribuidor por el eje B (puerta con llave) y baja {-z_piso/100:.2f} m hacia el eje A en {TRAMO_ESC/100:.2f} m: {N_PELD} peldaños de {TRAMO_ESC/N_PELD:.1f} x {-z_piso/N_PELD:.2f}; el hueco en la losa mide {(ex1 - ex_h)/100:.2f} x {(ey1 - ey0)/100:.2f} y el último metro va bajo la losa, dentro del búnker (altura libre en el borde del hueco del lado del eje A, desde la línea de las narices de obra gruesa: ≈ {(-z_piso * (ey1 - ey0) / TRAMO_ESC + z_piso / N_PELD - BUNKER_LOSA)/100:.2f} m hasta la losa y {(-z_piso * (ey1 - ey0) / TRAMO_ESC + z_piso / N_PELD - BUNKER_LOSA - T_CIELO)/100:.2f} m hasta el cielo; no cambia sin el pilar: sobre la escalera pasa la VBC, botada dentro de la losa, y la VBL cuelga al costado del hueco, fuera de su huella; cada cm de terminación en los peldaños la baja 1 cm)'.replace('.', ','))
+        nota=f'se entra desde el distribuidor (puerta con llave) y baja {-z_piso/100:.2f} m hacia el eje A en {N_PELD} peldaños de {TRAMO_ESC/N_PELD:.1f} x {-z_piso/N_PELD:.2f}; hueco en la losa de {(ex1 - ex_h)/100:.2f} x {(ey1 - ey0)/100:.2f}; altura libre desde las narices: {(-z_piso * (ey1 - ey0) / TRAMO_ESC + z_piso / N_PELD - BUNKER_LOSA)/100:.2f} m a la losa y {(-z_piso * (ey1 - ey0) / TRAMO_ESC + z_piso / N_PELD - BUNKER_LOSA - T_CIELO)/100:.2f} m al cielo'.replace('.', ','))
     # ---------- hormigón armado, fundaciones, placas base y enfierradura: hormigon.py (láminas 01 rev 1, 02 rev G, 03 rev H, 05 rev H) ----------
     pils = [mb for mb in M if mb['c'] == 'pilar']
     def toca(mb, p):   # el extremo p de una diagonal cae en la línea del pilar
@@ -539,14 +584,15 @@ def main(estudio_json, sitio_json, salida):
         'Firma de un ingeniero civil.',
     ]
     out = dict(
-        fuente='Adaptación de las láminas 03, 04 y 05 del ingeniero (proyecto del estudio, abril 2026, leídas de sus vectores) a la planta de Gabriel (medidas interiores, 2026-10-12); propuesta para revisión del ingeniero, no es un cálculo',
+        fuente='Modelo del estudio y del búnker: estructura de acero, hormigón y enfierradura',
         marco='cm del marco de la app; z = 0 en el piso del nivel 1 de la casa; el piso del estudio (NPOG 0,00 del ingeniero) está en z = %s' % z0,
         z_piso=z0, ejes=ejes, perfiles={k: PERFILES[k] for k in sorted(set(mb['p'] for mb in M))}, miembros=M,
         hormigon=hormigon, fierros=fierros, cubicacion_hormigon=cub_hormigon, vanos=V, interior=interior, techo=techo, cielo=cielo,
-        cubicacion=cubicacion, total_kg=tot, uniones=uniones, riostras=riostras, cambios=cambios, preguntas=preguntas,
+        cubicacion=cubicacion, total_kg=tot, uniones=uniones, riostras=riostras, cambios=[], preguntas=[],   # la bitácora de cambios y las preguntas ya no se publican (versión final); siguen arriba, en este código
         parametros=dict(muro=MURO, tabique=T, h_pilar=H_PILAR, z_viga_inf=Z_CORDON[0], terminaciones=dict(piso=T_PISO, cielo=T_CIELO, libre=LIBRE, capas=E['alturas'].get('capas', {}), dato=E['alturas'].get('dato_terminaciones', '')), pendiente=PEND, alero_ns=ALERO_NS, alero_eo=ALERO_EO, paso_costanera=PASO_COST, paso_puntal=PASO_PUNTAL, h_ventana=H_VENTANA,
                         bunker=dict(losa=BUNKER_LOSA, muro=BUNKER_MURO, radier=BUNKER_RADIER, fundacion=BUNKER_FUND, alto=BUNKER_H)),
     )
+    out = _publicar(out)   # versión final (Gabriel, 24-11-2026): lo que se publica va sin historia ni citas; las fuentes quedan en este código y en el README
     open(salida, 'w').write('const DATA_ESTUDIO_EST = ' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n')
     clases = {}
     for mb in M: clases[mb['c']] = clases.get(mb['c'], 0) + 1

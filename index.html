@@ -241,10 +241,10 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
 <body>
 <div class="app">
   <header>
-    <script src="menu.js?v=V155" data-vista="plano"></script>
+    <script src="menu.js?v=V156" data-vista="plano"></script>
     <h1>Planta <span id="h1-niv">Nivel 2</span> <small>Vivienda — proyecto permiso de edificación</small></h1>
-    <span class="meta" id="meta-n2">Medidas en metros · envolvente 17,90 × 21,77 · base: L3 PLARQ2 (dic. 2025, esc. 1:50)</span>
-    <span class="meta hidden" id="meta-n1">Medidas en metros · envolvente construida 21,90 × 23,36 · base: L2 PLARQ (dic. 2025, esc. 1:50) + cambios de obra</span>
+    <span class="meta" id="meta-n2">Medidas en metros · envolvente 17,90 × 21,77</span>
+    <span class="meta hidden" id="meta-n1">Medidas en metros · envolvente construida 21,90 × 23,36</span>
   </header>
   <div class="toolbar" role="toolbar" aria-label="Planta, versión, capas y herramientas">
     <div class="grp grp-piso"><span class="lbl">Planta</span>
@@ -328,9 +328,9 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
     </aside>
   </div>
 </div>
-<script src="data.js?v=V155"></script>
-<script src="sitio.js?v=V155"></script>
-<script src="terreno2d.js?v=V155"></script>
+<script src="data.js?v=V156"></script>
+<script src="sitio.js?v=V156"></script>
+<script src="terreno2d.js?v=V156"></script>
 <script>
 (function(){
   const svg = document.getElementById('svg'), view = document.getElementById('view'), stage = document.getElementById('stage');
@@ -368,9 +368,9 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
   function terrenoInfo(){
     const D = DATA_SITIO, L = D.lote, E = D.estudio, G = D.gimnasio;
     return `<h3 style="margin-top:12px">Terreno</h3>
-      <div class="note">Lote de <b>${L.superficie_m2.toLocaleString('es-CL', {maximumFractionDigits:1})} m²</b> según el polígono del emplazamiento (la lámina rotula 5.135 m²) · rol ${esc(L.rol)} · deslindes: del camino ${fmt(L.deslindes.sur)} · del fondo ${fmt(L.deslindes.norte)} · laterales ${fmt(L.deslindes.este)} (lado del estudio) y ${fmt(L.deslindes.oeste)} m (lado de la casa).<br>
+      <div class="note">Lote de <b>${L.superficie_m2.toLocaleString('es-CL', {maximumFractionDigits:1})} m²</b> medidos en el plano (la lámina rotula 5.135 m²) · rol ${esc(L.rol)} · deslindes: del camino ${fmt(L.deslindes.sur)} · del fondo ${fmt(L.deslindes.norte)} · laterales ${fmt(L.deslindes.este)} (lado del estudio) y ${fmt(L.deslindes.oeste)} m (lado de la casa).<br>
       Casa ${FLOORS.n1.envTxt} (huella del nivel 1) · estudio ${fmt(E.ancho)} × ${fmt(E.largo)} m por construir, a 3,50 m del deslinde lateral · gimnasio ${fmt(G.ancho)} × ${fmt(G.largo)} m construido.<br>
-      Fuentes: lámina L1 del arquitecto (lote, deslindes, acceso, cierro de la servidumbre y posición del gimnasio; su forma, de la L11) y foto de dron rectificada, ±30 a 50 cm (cierro perimetral, piscina, jacuzzi, explanadas, radier, pozo, estanque; lo supuesto está marcado en sitio.js). La casa va donde se construyó (en L1 está dibujada 3,28 m más hacia el camino). Las cotas azules miden entre caras.</div>`;
+      Cierro perimetral, piscina, jacuzzi, explanadas, radier, pozo y estanque: posición aproximada, ±30 a 50 cm. Las cotas azules miden entre caras.</div>`;
   }
 
   function buildStatic(){
@@ -501,7 +501,7 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
     $('s-area').textContent = m2(total);
   }
   function showIntro(v){
-    detail.innerHTML = `<h3>Selecciona un recinto</h3><div class="note">Clic en el plano o en la lista. Las medidas son interiores, entre caras de muro, en metros. Las superficies se calculan del polígono interior exacto.</div>` + (terrenoOn() ? terrenoInfo() : '');
+    detail.innerHTML = `<h3>Selecciona un recinto</h3><div class="note">Clic en el plano o en la lista. Medidas interiores, entre caras de muro, en metros.</div>` + (terrenoOn() ? terrenoInfo() : '');
   }
   function select(id){
     if (selected && byId[selected]) { byId[selected].el.classList.remove('sel'); byId[selected].row.setAttribute('aria-selected','false'); }
@@ -516,7 +516,7 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
     detail.innerHTML = `<h3>${esc(r.name)}</h3>
       <div style="font-size:12px;margin-bottom:6px;font-variant-numeric:tabular-nums">Caja: <b>${fmt0(r.w)} × ${fmt0(r.h)}</b> m · Superficie: <b>${m2(r.area)}</b> · Perímetro: <b>${r.perim.toLocaleString('es-CL',{minimumFractionDigits:2})} m</b></div>
       <table><thead><tr><td>#</td><td>tramo</td><td>de → a (x, y)</td><td>m</td></tr></thead><tbody>${rows}</tbody></table>
-      <div class="note">Coordenadas en metros desde la esquina exterior del nivel 2 junto al cruce de los ejes 1 y ${piso === 'n1' ? 'H' : 'W'} (arriba a la izquierda), medidas sobre el polígono tal como está dibujado.</div>`;
+      <div class="note">Coordenadas en metros desde la esquina exterior del nivel 2 junto al cruce de los ejes 1 y ${piso === 'n1' ? 'H' : 'W'} (arriba a la izquierda).</div>`;
     sheetSummary();
   }
   function updateEdgeVisibility(){
@@ -722,7 +722,7 @@ svg{width:100%;height:100%;display:block;font-family:var(--ui)}
     if (terrenoOn()) TER.vertices.forEach(p => v.push(p)); return v; }
   function snapPt(wx, wy){ const tol = (coarse ? 22 : 10) / k; let best = null, bd = tol; for (const v of vertices()) { const d = Math.hypot(v[0]-wx, v[1]-wy); if (d < bd) { bd = d; best = v; } } return best ? [best[0], best[1], true] : [wx, wy, false]; }
   const HINT = 'Rueda / pellizco: zoom · arrastrar: mover · clic en un recinto: detalle · acerca para ver más cotas';
-  const HINT_T = 'Terreno: "Ajustar vista" alterna casa ↔ lote · la regla de medir también se ajusta a deslindes, pilares y edificios · pasa el cursor por un elemento para saber qué es';
+  const HINT_T = 'Terreno: «Ajustar vista» alterna casa ↔ lote · Medir se ajusta a deslindes, pilares y edificios · pasa el cursor para ver qué es cada cosa';
   const MSTART = coarse ? 'Medir: toca el punto A (se ajusta solo a las esquinas de muro).' : 'Medir: clic en el punto A y luego en el punto B (se ajusta a esquinas de muro). Esc para salir.';
   const MNEXT = coarse ? 'Ahora toca el punto B. Arrastra o pellizca para moverte sin perder el punto A.' : 'Ahora clic en el punto B. Esc para salir.';
   mBtn.addEventListener('click', () => { measuring = !measuring; mBtn.setAttribute('aria-pressed', measuring); stage.classList.toggle('measuring', measuring); mA = null; tempClear();

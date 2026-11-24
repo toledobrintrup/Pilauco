@@ -80,8 +80,8 @@ ESPECIFICACIONES = dict(
     recubrimientos={'fundaciones': 5, 'muros del búnker, cara exterior': 4, 'elementos de hormigón armado': 3, 'losa': 2}, traslapo='60 diámetros',
     fuente='lámina 02 rev G (07-04-2026), especificaciones técnicas generales; G30, cristalizante y recubrimiento exterior 4: revisión 23-10-2026')
 IMPERMEABILIZACION = dict(
-    membrana='por fuera: membrana HDPE pre-adherida bajo la losa de fundación (sobre el emplantillado, sube por el canto del vuelo) y membrana adherida en los muros, con chaflán de 5 × 5 en los rincones, hasta 30 cm sobre el terreno; encima, lámina drenante de nódulos con geotextil',
-    junta='junta losa–muro con water-stop de PVC de 15 a 23 cm con bulbo, en un cuello de 15 cm hormigonado junto con la losa, más manguera de inyección de respaldo; los 4 muros en una sola faena, sin juntas verticales',
+    membrana='por fuera: membrana preaplicada bajo la losa de fundación (sobre el emplantillado; sube por el canto del vuelo) y membrana autoadhesiva en los muros, con chaflán de 5 × 5 en el rincón, hasta 30 cm sobre el terreno; encima, lámina nodular con geotextil',
+    junta='junta losa–muro con water-stop de PVC y cordón hidroexpansivo; los 4 muros en una sola faena, sin juntas verticales',
     pasadas='pasadas con pasamuros de aleta embebidos (de preferencia por la losa de techo); amarras de moldaje con sello; nada se perfora bajo el nivel del agua',
     dren='sin dren ni bombas (Gabriel, 10-11-2026; la flotación pasa sin ellos: FS 1,76 a 1,93 con la napa de diseño); durante la obra, bomba de achique hasta tener la losa de techo y el relleno; relleno granular compactado al 95 % con tapa de suelo fino y pendiente hacia afuera',
     interior='opcional: cámara drenada (lámina de nódulos y canaleta a un pozo de achique) detrás de la sala acústica, y deshumidificador',
@@ -121,10 +121,8 @@ def armar(c):
                          dict(id='M-O', pts=rect(bx0, by0 + MURO, bx0 + MURO, by1 - MURO), lado='del eje 1'),
                          dict(id='M-E', pts=rect(bx1 - MURO, by0 + MURO, bx1, by1 - MURO), lado='del eje 5')])
     losa = dict(espesor=LOSA, pts=rect(bx0, by0, bx1, by1), hueco=rect(ex_h, ey0, ex1 := c['ex1'], ey1), z_inf=Z(z_losa_inf), z_sup=Z(0),
-                armadura='inferior: ø10@15 en los dos sentidos (ganchos en los muros); superior: ø12@15 en L sobre los 4 muros (pata de 72 por la cara exterior del muro y 180 dentro de la losa), ø10@20 L=160 sobre la VHA '
-                         'y ø10@20 en 1–5 en las franjas junto a los muros de los ejes A y B (1,80 desde su cara, bajo las L); hueco de la escalera, sin pilar: en su lado hacia el eje 4 la VBL 25/50 colgada (del muro A al muro B, al costado del hueco) '
-                         'y en el lado hacia el eje A la VBC 40/25 botada dentro de la losa, apoyada en la VBL y en el muro del eje 5 (el borde del eje B es el muro); suples ø10@15 arriba y abajo en 1,50 × 1,50 en sus 2 esquinas libres '
-                         'y ø16@15 en L sobre el muro del eje B en los 1,20 junto a la VBL; fisura máxima 0,30 mm; recubrimiento 2; G30',
+                armadura='inferior: ø10@15 en los dos sentidos, con ganchos en los muros; superior: ø12@15 en L sobre los 4 muros (pata de 72 por la cara exterior del muro y 180 dentro de la losa), ø10@20 sobre la VHA y junto a los muros de los ejes A y B; '
+                         'hueco de la escalera: VBL 25/50 colgada y VBC 40/25 botada, con suples ø10@15 en sus 2 esquinas libres y ø16@15 en L sobre el muro del eje B junto a la VBL; recubrimiento 2; G30',
                 fuente='revisión 23-10-2026: la losa de 20 de la lámina 03 rev H (L001/L002, diseñada para 5,00 m) no pasaba con 6,45 m; ahora e=25 y continua con los muros. Vigas del hueco, ø10@20 en 1–5 y fisura 0,30 mm: ingeniero (25/26-10-2026); '
                        'sin pilar y VBL colgada: Gabriel (28-10-2026, opción 2) y el ingeniero (28-10-2026: flecha ≤ L/300); medidas y suples: propuesta')
     piso = None; relleno_b = None   # sin radier ni relleno desde el 15-10-2026: el piso es la cara superior de la losa de fundación

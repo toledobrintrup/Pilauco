@@ -83,10 +83,6 @@ a{color:var(--accent)}
 .spec .v{font-size:17.5px;font-weight:620;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin:2px 0 3px;line-height:1.25}
 .spec .d{font-size:12px;color:var(--muted);line-height:1.4}
 @media (max-width:420px){.specs{grid-template-columns:1fr}}
-.fuente{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:1px 6px;border-radius:999px;vertical-align:1px;margin-left:4px;white-space:nowrap}
-.fuente.man{color:var(--ok);background:var(--ok-soft)}
-.fuente.med{color:var(--med);background:var(--med-soft)}
-.fuente.calc{color:var(--calc);background:var(--calc-soft)}
 .tw{overflow-x:auto;margin:10px 0 6px;border:1px solid var(--line);border-radius:10px}
 table{border-collapse:collapse;width:100%;font-size:12.5px;font-variant-numeric:tabular-nums}
 th{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:500;text-align:left;padding:8px 9px;border-bottom:1px solid var(--line);background:var(--panel);white-space:nowrap}
@@ -106,10 +102,9 @@ svg .tx{font-family:var(--ui);fill:var(--fig-ink)}
 svg .txs{font-family:var(--ui);fill:var(--fig-soft)}
 .aviso{border:1px solid var(--hi-borde);background:var(--hi-soft);border-radius:10px;padding:9px 12px;margin:10px 0;font-size:13px}
 .aviso b{color:var(--hi)}
-.pendiente{border:1px dashed var(--line);border-radius:10px;padding:10px 12px;margin:8px 0;font-size:13px;color:var(--muted)}
-.pendiente b{color:var(--ink)}
 .kvs{display:grid;grid-template-columns:max-content 1fr;gap:5px 16px;font-size:13.5px;margin:10px 0 12px;align-items:baseline}.kvs .k{color:var(--muted);text-transform:uppercase;font-size:10.5px;letter-spacing:.09em;font-weight:500;white-space:nowrap}.kvs .v b{font-weight:620}
 .puntos{margin:8px 0 10px;padding-left:18px;font-size:13.5px;line-height:1.55}.puntos li{margin:2px 0}.puntos b{font-weight:620}
+.pasos > li{margin:0 0 8px}.pasos ul{margin:2px 0 0;padding-left:16px;color:var(--muted)}
 @media (max-width:560px){.kvs{grid-template-columns:1fr;gap:2px 0}.kvs .k{margin-top:6px}}
 .barras{display:flex;flex-direction:column;gap:4px;margin:8px 0}
 .barra{display:grid;grid-template-columns:52px minmax(0,1fr) 54px;gap:8px;align-items:center;font-size:11.5px;font-variant-numeric:tabular-nums}
@@ -135,76 +130,77 @@ table .tot td{font-weight:620;border-top:1px solid var(--line)}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V155" data-vista="escalera"></script>
-  <h1>Escalera de obra <small>Bodega del ala entre los ejes 5 y 6: para subir materiales al nivel 2 mientras dure la construcción</small></h1>
-  <span class="meta">Fuentes: lo que pidió Gabriel el 16-10-2026, la estructura del ingeniero (pilares, vigas y cubierta del ala) y el nivel 1 de 3,80 medido en terreno. Fierro a criterio del modelo, a confirmar con el maestro.</span>
+  <script src="menu.js?v=V156" data-vista="escalera"></script>
+  <h1>Escalera de obra <small>Bodega del ala, entre los ejes 5 y 6 · para subir materiales al nivel 2 durante la obra</small></h1>
 </header>
 <div class="main">
   <div class="doc" id="doc">
-    <nav class="toc" id="toc" aria-label="Secciones"><a href="#resumen">Resumen</a><a href="#donde">Dónde va</a><a href="#corte">Corte y medidas</a><a href="#armado">Cómo se arma</a><a href="#compra">Fierro para comprar</a><a href="#notas">Notas</a></nav>
+    <nav class="toc" id="toc" aria-label="Secciones"><a href="#resumen">Resumen</a><a href="#donde">Dónde va</a><a href="#corte">Corte y medidas</a><a href="#armado">Cómo se arma</a><a href="#compra">Fierro para comprar</a></nav>
     <div class="doc-in">
 <section id="resumen" style="padding-top:14px">
-  <p class="lead">Una escalera recta de fierro, de 1,50 de ancho, pegada al muro de la casa dentro de la bodega, que sube hacia el eje G hasta una plataforma de 1,50 × 1,50 a la altura del piso del nivel 2. Desde la plataforma se entra al nivel 2 por el lado del eje 5. Es provisoria: cuando la obra termine se saca y se cierra el hueco que deja en la cubierta del ala.</p>
+  <p class="lead">Escalera recta de fierro con plataforma arriba, dentro de la bodega. Es provisoria: al terminar la obra se saca y se cierra el hueco de la cubierta del ala.</p>
   <div class="specs" id="specs"></div>
-  <p class="small sub"><span class="fuente man">dato</span> lo que pidió Gabriel o midió en terreno · <span class="fuente calc">calculado</span> sale de la geometría · <span class="fuente med">propuesta</span> fierro y detalles a criterio del modelo, a confirmar.</p>
+  <p class="small sub">También en la <a href="3d.html">vista 3D</a>, capa «Escalera de obra (bodega)», pieza por pieza con su ficha.</p>
 </section>
 <section id="donde">
   <h2><span class="n">01</span>Dónde va</h2>
-  <p>En la bodega del ala entre los ejes 5 y 6 (3,74 × 5,91 m), con las zancas pegadas a la cara interior del muro de la casa (eje 5 del ingeniero) y la plataforma contra el muro del eje G. La escalera baja hacia el eje E y su pie queda a 0,33 m del muro del eje E. Al lado, hacia el eje 6, quedan 2,19 m de bodega libres para pasar. Arriba, la plataforma se apoya en dos postes del lado del eje 6 y por el lado del eje 5 se aperna a la viga IPE 270 de ese eje, que es el borde de la losa del nivel 2.</p>
-  <figure id="fig-planta"><figcaption>Planta. Naranjo: pilares del ingeniero con su eje; en círculos, los ejes. Violeta: vigas de la cubierta baja del ala (a +2,78) y el hueco provisorio que la escalera necesita en esa cubierta. Azul punteado: borde de la losa del nivel 2.</figcaption></figure>
-  <div class="aviso"><b>Ojo con el pilar F2.</b> La plataforma, pegada al eje G, queda con el pilar F2 (y 4,12) en el borde por donde se entra al nivel 2: 0,55 m libres del pilar hacia el eje G y 0,79 hacia el eje F1. Si estorba para pasar materiales anchos, la escalera se corre 20 cm hacia el eje E y queda centrada entre los pilares.</div>
+  <ul class="puntos">
+    <li><b>Zancas:</b> pegadas a la cara interior del muro de la casa (eje 5).</li>
+    <li><b>Plataforma:</b> contra el muro del eje G.</li>
+    <li><b>Entrada al nivel 2:</b> por el lado del eje 5, junto al pilar F2 · el paño F2–E4 va sin muro durante la obra.</li>
+  </ul>
+  <figure id="fig-planta"><figcaption>Planta · en círculos, los ejes del plano de estructura · naranjo: pilares · violeta: vigas y hueco de la cubierta del ala · azul punteado: borde de la losa del nivel 2.</figcaption></figure>
+  <div class="aviso"><b>Ojo con el pilar F2:</b> queda en el borde por donde se entra al nivel 2. Si estorba para pasar materiales anchos, corre la escalera 20 cm hacia el eje E: queda centrada entre los pilares.</div>
 </section>
 <section id="corte">
   <h2><span class="n">02</span>Corte y medidas</h2>
-  <figure id="fig-corte"><figcaption>Corte mirando hacia el eje 5, con los ejes del ingeniero en círculos (eje G a la derecha). Alturas desde el piso terminado de la bodega (±0,00). El nivel 2 está detrás del muro de la casa; la plataforma llega a su piso terminado (+3,95). La cubierta baja del ala, a +2,88, queda abierta sobre la escalera mientras se use.</figcaption></figure>
+  <figure id="fig-corte"><figcaption>Corte mirando hacia el eje 5 (eje G a la derecha) · alturas desde el piso terminado de la bodega (±0,00).</figcaption></figure>
   <div class="tw"><table class="small" id="tabla-dims"><thead><tr><th>Medida</th><th>Valor</th><th>Detalle</th></tr></thead><tbody></tbody></table></div>
+  <div class="aviso"><b>Ojo antes de hormigonar la losa:</b> al entrar al nivel 2 hay un escalón de 15 cm hacia abajo, de la plataforma a la placa.</div>
 </section>
 <section id="armado">
   <h2><span class="n">03</span>Cómo se arma</h2>
-  <ol class="puntos">
-    <li><b>Placas base.</b> Cuatro placas de 200 × 200 × 8 ancladas al radier con 4 pernos de expansión cada una: dos para las zancas (en y 9,07) y dos para los postes de la plataforma (y 3,57 y 4,91, a 5 cm del borde del lado del eje 6).</li>
-    <li><b>Postes y marco.</b> Los dos tubos de 100 × 100 se paran sobre sus placas; encima va el marco de C 150 de la plataforma (1,50 × 1,50 con dos travesaños). El lado del eje 5 del marco se aperna con dos escuadras de ángulo a la viga IPE 270 de ese eje.</li>
-    <li><b>Zancas.</b> Dos C 200 × 50 × 4 de 5,70 m, inclinadas 44°, con el alma hacia adentro: abajo apoyan en sus placas, arriba se sueldan al marco. Se cortan a bisel en los dos extremos.</li>
-    <li><b>Peldaños.</b> 17 planchas estriadas de 4 mm de 1,50 × 0,30, dobladas con una pestaña de 6 cm hacia abajo en el frente (les da rigidez y protege el borde). Van soldadas entre las zancas a 21,9 cm una de otra, y la plataforma lleva su plancha de 1,50 × 1,50 sobre el marco.</li>
-    <li><b>Baranda.</b> Postes de tubo 50 × 50 × 3 de 1,05 m cada 4 peldaños por el lado del eje 6 y en las cuatro esquinas de la plataforma; pasamanos de tubo redondo Ø50 a 1,00 y barra intermedia a 0,50; rodapié de pletina de 100 en los bordes de la plataforma hacia los ejes G y 6.</li>
-    <li><b>Cubierta del ala.</b> Mientras la escalera esté puesta, la cubierta baja del ala (a +2,88) no se cierra sobre la franja de 1,62 × 5,76 m que ocupan la escalera y la plataforma.</li>
+  <ol class="puntos pasos">
+    <li><b>Placas base:</b> ancla las 4 al radier, con 4 pernos de expansión cada una.
+      <ul><li>Zancas: 2 placas en el pie de la escalera (y 9,07).</li><li>Postes de la plataforma: 2 placas en y 3,57 y 4,91, a 5 cm del borde del lado del eje 6.</li></ul></li>
+    <li><b>Postes y marco:</b> levanta los 2 postes sobre sus placas y monta encima el marco de la plataforma.
+      <ul><li>Aperna el lado del eje 5 del marco a la viga IPE 270, con las 2 escuadras.</li></ul></li>
+    <li><b>Zancas:</b> córtalas a bisel en los dos extremos y ponlas a 44°, con el alma hacia adentro.
+      <ul><li>Abajo apoyan en sus placas; arriba, suéldalas al marco.</li></ul></li>
+    <li><b>Peldaños:</b> dobla en el frente de cada plancha una pestaña de 6 cm hacia abajo.
+      <ul><li>Suéldalos entre las zancas, uno cada 21,9 cm de alto.</li><li>Pon la plancha de la plataforma sobre el marco.</li></ul></li>
+    <li><b>Baranda:</b> pon postes cada 4 peldaños por el lado del eje 6 y en las 4 esquinas de la plataforma.
+      <ul><li>Pasamanos a 1,00 y barra intermedia a 0,50.</li><li>Rodapié en los bordes de la plataforma hacia los ejes G y 6.</li></ul></li>
+    <li><b>Cubierta del ala:</b> no la cierres sobre el hueco de la escalera mientras esté puesta.</li>
   </ol>
   <div class="tw"><table class="small" id="tabla-piezas"><thead><tr><th>Pieza</th><th>Perfil</th><th class="r">Cant.</th><th class="r">Largo c/u</th><th class="r">Total</th><th class="r">kg</th><th>Dónde</th></tr></thead><tbody></tbody></table></div>
 </section>
 <section id="compra">
   <h2><span class="n">04</span>Fierro para comprar</h2>
-  <p>En unidades comerciales (barras de 6 m y planchas de 1,5 × 3,0). Solo el fierro: no incluye soldadura, discos, pintura ni mano de obra. Los pesos son los de catálogo; el proveedor confirma.</p>
+  <p>En barras de 6 m y planchas de 1,5 × 3,0. Solo el fierro: sin soldadura, discos, pintura ni mano de obra.</p>
   <div class="tw"><table class="small" id="tabla-compra"><thead><tr><th>Ítem</th><th class="r">Cant.</th><th>Para qué</th><th class="r">kg aprox.</th></tr></thead><tbody></tbody></table></div>
+  <p class="small sub">Opción más liviana: peldaños de rejilla electrosoldada 30 × 3 en vez de plancha estriada (unos 100 kg menos); zancas y baranda no cambian.</p>
   <h3>Fijaciones</h3>
   <div class="tw"><table class="small" id="tabla-fij"><thead><tr><th>Ítem</th><th class="r">Cant.</th><th>Para qué</th></tr></thead><tbody></tbody></table></div>
-</section>
-<section id="notas">
-  <h2><span class="n">05</span>Notas</h2>
-  <ul class="puntos">
-    <li>Altura: de piso a cara superior de la viga de entrepiso hay 3,80 (medido en terreno) y el hormigón de la losa agrega 15: la plataforma llega a +3,95. Antes de que se hormigone, hay un escalón de 15 cm hacia abajo al entrar a la placa.</li>
-    <li>Pendiente de 44°: empinada pero normal en obra. Para hacerla más tendida habría que alargar el avance, y con la plataforma la bodega no da para más.</li>
-    <li>Si se quiere más liviana, los peldaños pueden ser de rejilla electrosoldada 30 × 3 en vez de plancha estriada (unos 100 kg menos), con el mismo despiece de zancas y baranda.</li>
-    <li>Las dos ventanas del nivel 2 que miran a la bodega (V19 del dormitorio hijo 1 y V20 del WKC Maggie) no coinciden con la plataforma: la entrada al nivel 2 es por el paño ciego entre los pilares F2 y E4, que durante la obra no tiene muro.</li>
-    <li>La misma escalera está dibujada en la <a href="3d.html">vista 3D</a>, capa "Escalera de obra (bodega)", pieza por pieza con su ficha.</li>
-  </ul>
-  <footer>Escalera de obra de Casa Pilauco · geometría y despiece de <code>fuente/casa/generar_escalera_js.py</code> (<code>escalera_dibujo.js</code>), la misma del 3D.</footer>
 </section>
     </div>
   </div>
 </div>
 </div>
-<script src="escalera_dibujo.js?v=V155"></script>
+<script src="escalera_dibujo.js?v=V156"></script>
 <script>
 (function(){
 const D = DATA_ESCALERA, $ = s => document.querySelector(s), fm = v => v.toLocaleString('es-CL');
 $('#fig-planta').insertAdjacentHTML('afterbegin', D.svg.planta); $('#fig-corte').insertAdjacentHTML('afterbegin', D.svg.corte);
 const G = D.geometria;
 $('#specs').innerHTML = [
-  ['Ancho', '1,50 m', 'libre entre zancas', 'man'], ['Alto', (G.alto / 100).toFixed(2).replace('.', ',') + ' m', G.contrahuellas + ' contrahuellas de ' + String(G.contrahuella).replace('.', ','), 'man'],
-  ['Avance', (G.huellas * G.huella / 100).toFixed(2).replace('.', ',') + ' m', G.huellas + ' huellas de ' + G.huella, 'calc'], ['Pendiente', G.pendiente.toFixed(0) + '°', 'zanca de ' + (G.zanca / 100).toFixed(2).replace('.', ',') + ' m', 'calc'],
-  ['Plataforma', '1,50 × 1,50', 'a +3,95, pegada al eje G', 'man'], ['Fierro', fm(D.total_compra) + ' kg', fm(D.total_kg) + ' kg en la escalera; el resto es sobrante de barras y planchas', 'med'],
-].map(([l, v, d, f]) => `<div class="spec"><div class="l">${l} <span class="fuente ${f}">${f === 'man' ? 'dato' : f === 'calc' ? 'calculado' : 'propuesta'}</span></div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
-$('#tabla-dims tbody').innerHTML = D.dimensiones.map(r => `<tr><td><b>${r.k}</b></td><td>${r.v}</td><td class="sub">${r.d}</td></tr>`).join('');
+  ['Ancho', '1,50 m', 'libre entre zancas'], ['Alto', (G.alto / 100).toFixed(2).replace('.', ',') + ' m', G.contrahuellas + ' contrahuellas de ' + String(G.contrahuella).replace('.', ',')],
+  ['Avance', (G.huellas * G.huella / 100).toFixed(2).replace('.', ',') + ' m', G.huellas + ' huellas de ' + G.huella], ['Pendiente', G.pendiente.toFixed(0) + '°', 'zanca de ' + (G.zanca / 100).toFixed(2).replace('.', ',') + ' m'],
+  ['Plataforma', '1,50 × 1,50', 'a +3,95, pegada al eje G'], ['Fierro', fm(D.total_compra) + ' kg', fm(D.total_kg) + ' kg en la escalera; el resto es sobrante de barras y planchas'],
+].map(([l, v, d]) => `<div class="spec"><div class="l">${l}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join('');
+// la tabla lleva solo las medidas que no están ya en las fichas del resumen
+const EN_FICHAS = ['Ancho', 'Huellas', 'Contrahuellas', 'Pendiente', 'Plataforma'];
+$('#tabla-dims tbody').innerHTML = D.dimensiones.filter(r => !EN_FICHAS.includes(r.k)).map(r => `<tr><td><b>${r.k}</b></td><td>${r.v}</td><td class="sub">${r.d}</td></tr>`).join('');
 $('#tabla-piezas tbody').innerHTML = D.piezas.map(p => `<tr><td><b>${p.pieza}</b></td><td>${p.perfil}</td><td class="r">${p.n}</td><td class="r">${p.largo_txt}</td><td class="r">${String(p.total).replace('.', ',')} ${p.uni}</td><td class="r">${String(p.kg).replace('.', ',')}</td><td class="sub">${p.donde}</td></tr>`).join('')
   + `<tr class="tot"><td colspan="5">Total de fierro en la escalera</td><td class="r">${fm(D.total_kg)}</td><td></td></tr>`;
 $('#tabla-compra tbody').innerHTML = D.compra.map(c => `<tr><td><b>${c.item}</b></td><td class="r">${c.n}</td><td class="sub">${c.det}</td><td class="r">${fm(c.kg)}</td></tr>`).join('')

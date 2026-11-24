@@ -127,7 +127,6 @@
     L(g, 664.5, 539.2, 714.3, 539.2);
     TA(g, 689.4, 547.6, 'PLANO DE TRABAJO', 4.6, { a: 'm' });
     T(g, 689.4, 554.2, 'dibujado desde el modelo del sitio', 1.9, { a: 'm' });
-    T(g, 689.4, 558.6, '(revisado con cálculo propio)', 1.9, { a: 'm' });
     R(g, 664.5, 563.2, 49.8, 11.4, 'lm-m');
     T(g, 689.4, 568.0, 'SIN FIRMA', 2.6, { a: 'm', sw: 0.3 }); T(g, 689.4, 572.3, info.pie || 'para visar por el ingeniero', 1.7, { a: 'm' });
     // bloque derecho
@@ -600,7 +599,7 @@
         '   eje B lleva una espera de su mismo diámetro: 60 dentro del búnker y traslapo con su barra (ver detalle).',
         '9. Los números en círculo son las marcas de la planilla de doblado (pestaña Fundaciones del sitio).', '   Las barras se miden por fuera, de fuera a fuera de sus dobleces; L es la suma de los tramos.', '   Medidas en cm, salvo las placas (mm).',
         '10. Insertos PLc y PLb: placas embebidas a ras, con sus barras soldadas; se colocan antes de hormigonar.', '   Detalle y cuadro: pestaña Fundaciones del sitio.',
-        '11. Impermeabilización del búnker (membranas, water-stop, cristalizante): pestaña Revisión del sitio.',
+        '11. Impermeabilización del búnker (membranas, water-stop, cristalizante): pestaña Humedad del sitio.',
         '12. Muros del búnker: verticales de una pieza, con patas de 60 y 30 hacia el interior sobre la malla inferior de la', '   losa de fundación y ganchos superiores cruzados. Trabas ø8 L=30 entre las dos mallas, 9 por m² (cada 3 nudos).', '   Separadores de las mallas contra los moldajes.',
         '13. Esta lámina no define completa la losa de techo del búnker (suples, vigas VHA, VBL y VBC, hueco de la escalera)', '   ni la escalera: van en lámina aparte. Mientras tanto, pestañas Planta y Fundaciones del sitio.',
         '14. Losa de fundación del búnker: la malla superior se sostiene en sus patas (25 + 5), sobre separadores de 5 cm', '   (trozos de conduit de PVC de 50 mm); ø10 corrido en los cuatro bordes, constructivo.'];
@@ -612,17 +611,13 @@
   const LISTA = [{ n: '01', id: 'fundaciones', titulo: 'Planta de fundaciones y cortes', plano: 'E-01', contenido: ['PLANTA FUNDACIONES', 'CORTES Y NOTAS'], fn: lamina01 }];
   function dibujar(cont, n, D, E, ver) {
     const l = LISTA.find(x => x.n === n) || LISTA[0];
-    const info = { n: l.n, plano: l.plano, contenido: l.contenido, rev: 'C', fecha: '24-11-2026', mandante: 'Gabriel Toledo Brintrup', proyecto: 'Casa Toledo , Sector estudio', pie: 'rev. B visada el 24-11-2026',
-      identificacion: [['1', 'Láminas 01 rev 1 y 02 a 05 del proyecto del estudio (ingeniero)', '04-2026'], ['2', 'Revisión estructural con cálculo propio (modelo 3D)', '23-10-2026'],
-        ['3', 'Respuestas del ingeniero: solución mixta, insertos, VBL', '28-10-2026'], ['4', 'Informe V134 revisado por el ingeniero: aceptado', '10-11-2026'],
-        ['5', 'Observaciones del ingeniero a la rev. A y sus respuestas', '23-11-2026'], ['6', 'Respuestas finales del ingeniero y su visto bueno a la rev. B', '24-11-2026']],
-      revisiones: [['A', 'EMITIDO PARA VISAR POR EL INGENIERO (17-11-2026)'], ['B', 'CON LAS OBSERVACIONES DEL INGENIERO (22 Y 23-11-2026)'], ['C', 'REV. B VISADA (24-11-2026), MAS SUS DOS CAMBIOS' + (ver ? ' (modelo ' + ver + ')' : '')]],
-      nota: ['Plano de trabajo dibujado desde el modelo 3D del estudio, con el formato de las láminas del proyecto.',
-        'Geometría, armaduras y niveles: los del modelo revisado con cálculo propio (23-10-2026) y aceptado por el', 'ingeniero del proyecto (28-10 y 10-11-2026), con sus observaciones a la rev. A (22 y 23-11-2026) ya aplicadas.',
-        'El ingeniero visó la rev. B para cortar y doblar fierro (24-11-2026) con dos cambios, que esta rev. C incorpora:',
-        'traba en toda la cadena y unión con el búnker sin junta (el detalle de esa unión es dibujo nuestro de su regla).',
-        'No lleva firma ni timbre. Las medidas mandan sobre el dibujo; cualquier diferencia con la obra se consulta.'],
-      profesionales: ['PROYECTO: ingeniero civil del proyecto', 'CALCULO: revisión con modelo propio', 'REVISO: ingeniero, rev. B, 24-11-2026', 'APROBO:', 'DIBUJO: modelo 3D del sitio' + (ver ? ' (' + ver + ')' : '')] };
+    const info = { n: l.n, plano: l.plano, contenido: l.contenido, rev: '', fecha: '24-11-2026', mandante: 'Gabriel Toledo Brintrup', proyecto: 'Casa Toledo , Sector estudio', pie: 'visado el 24-11-2026',
+      identificacion: [['1', 'Planta de fundaciones y cortes: versión final', '24-11-2026']],
+      revisiones: [],
+      nota: ['Plano dibujado desde el modelo 3D del estudio, con el formato de las láminas del proyecto.',
+        'Visado por el ingeniero civil del proyecto para cortar y doblar fierro (24-11-2026), con sus últimas indicaciones', 'incorporadas. No lleva firma ni timbre.',
+        'Las medidas mandan sobre el dibujo; cualquier diferencia con la obra se consulta antes de hormigonar.'],
+      profesionales: ['PROYECTO: ingeniero civil del proyecto', 'CALCULO: verificado con modelo 3D', 'REVISO: ingeniero civil (24-11-2026)', 'APROBO:', 'DIBUJO: modelo 3D del sitio' + (ver ? ' (' + ver + ')' : '')] };
     return l.fn(cont, D, E, info);
   }
   window.LaminasEstudio = { lista: LISTA.map(l => ({ n: l.n, id: l.id, titulo: l.titulo, plano: l.plano })), dibujar };
