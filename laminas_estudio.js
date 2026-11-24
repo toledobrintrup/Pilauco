@@ -5,6 +5,7 @@
 // Nada se retipea: la geometría sale de DATA_ESTUDIO_EST.hormigon, las barras de DATA_ESTUDIO_EST.fierros (cortadas por el mismo plano que los
 // cortes de la sección 07, con Armaduras.seccion) y las marcas de la planilla de doblado (Armaduras.planilla).
 // La viñeta NO lleva nombre, timbre ni firma de ningún profesional: es un plano de trabajo para que lo vise el ingeniero del proyecto.
+// Láminas: 01 fundaciones (visada el 24-11-2026), 02 losa de techo del búnker con sus vigas y el hueco, 03 escalera del búnker (las dos últimas, por visar).
 //   LaminasEstudio.lista                         → [{ n, id, titulo }]
 //   LaminasEstudio.dibujar(contenedor, n, D, E)  → <svg> de la lámina n (D = DATA_ESTUDIO_EST, E = DATA_SITIO.estudio)
 (function () {
@@ -225,7 +226,9 @@
   // a lo largo, y la línea de reparto con flechas hasta la primera y la última barra. o: { en: coordenada (cm locales) de la barra elegida,
   // rep: coordenada de la línea de reparto, t: posición del rótulo (0–1), texto: sufijo («inf.», «sup.»), lado: 1 | −1 }
   function barraPlanta(g, V, PL, f, o) {
-    const ins = instancias(f), eje = Math.abs(ins[0][0][0] - ins[ins.length - 1][0][0]) > Math.abs(ins[0][0][1] - ins[ins.length - 1][0][1]) ? 0 : 1;   // eje en que se reparten
+    const ins = o.filtro ? instancias(f).filter(o.filtro) : instancias(f);   // o.filtro: solo algunas barras de la familia (las de un muro, las de una forma)
+    if (!ins.length) { console.error('lámina: sin barras de', f.id, 'para la planta'); return null; }
+    const eje = o.eje != null ? o.eje : Math.abs(ins[0][0][0] - ins[ins.length - 1][0][0]) > Math.abs(ins[0][0][1] - ins[ins.length - 1][0][1]) ? 0 : 1;   // eje en que se reparten (o.eje lo fuerza)
     const co = pl => pl[0][eje] - (eje ? V.oy : V.ox), pl = ins.reduce((m, q) => Math.abs(co(q) - o.en) < Math.abs(co(m) - o.en) ? q : m), fila = PL.filaDe(f, pl);
     // «Destacado» (el ingeniero, 22-11-2026: «el dibujo de la barra con todos sus dobleces y largos respectivos, además de su largo total»): la barra va
     // en su lugar y sus dobleces, que en planta no se ven, se abaten sobre el dibujo a escala (los que suben, a un lado; los que bajan, al otro), cada tramo con su medida por fuera
@@ -237,7 +240,9 @@
     P(g, des, 'lm-b').setAttribute('stroke-width', '0.6');
     const t = o.t == null ? 0.5 : o.t, tx = a[0] + (b[0] - a[0]) * t, ty = a[1] + (b[1] - a[1]) * t, esp = espDe(f);
     const rot = `${nomD(f.diam)}${esp ? '@' + esp : ''}, L=${coma(Math.round(fila ? fila.L : 0))}${o.texto ? ' ' + o.texto : ''}`, w = anchoT(rot, 2.3);
-    if (hor) { if (fila) marca(g, tx - w / 2 - 3.6, ty - 2.6, fila.marca); T(g, tx, ty - 1.3, rot, 2.3, { a: 'm' }); }
+    if (o.rotulo) { const wx = V.XL(o.rotulo[0]), wy = V.YL(o.rotulo[1]), izq = o.rotulo[2] === 'i', w2 = anchoT(rot, 2.1);   // rótulo aparte, con su línea hasta la barra
+      llamada(g, tx, ty, wx, wy, [rot], { h: 2.1, lado: izq ? 'i' : 'd', circ: 0.7 }); if (fila) marca(g, izq ? wx - w2 - 4 : wx + w2 + 4, wy - 1.1, fila.marca, 2.1); }
+    else if (hor) { if (fila) marca(g, tx - w / 2 - 3.6, ty - 2.6, fila.marca); T(g, tx, ty - 1.3, rot, 2.3, { a: 'm' }); }
     else { if (fila) marca(g, tx - 2.6, ty + w / 2 + 3.6, fila.marca); T(g, tx - 1.3, ty, rot, 2.3, { a: 'm', rot: -90 }); }
     if (fila && fila.ext && fila.ext.length === sL.length && sL.length > 1) {
       const hh = 1.9, cx = des.reduce((q, v) => q + v[0], 0) / des.length, cy = des.reduce((q, v) => q + v[1], 0) / des.length;
@@ -250,7 +255,7 @@
       });
     }
     // línea de reparto
-    const c0 = co(ins[0]), c1 = co(ins[ins.length - 1]);
+    const c0 = o.filtro ? Math.min(...ins.map(co)) : co(ins[0]), c1 = o.filtro ? Math.max(...ins.map(co)) : co(ins[ins.length - 1]);
     if (o.rep != null) {
       if (hor) { const x = V.XL(o.rep), y0 = V.YL(Math.min(c0, c1)), y1 = V.YL(Math.max(c0, c1)); if (!o.sinLinea) { L(g, x, y0, x, y1); punta(g, x, y0, 0, -1); punta(g, x, y1, 0, 1); L(g, x - 1.2, y0, x + 1.2, y0); L(g, x - 1.2, y1, x + 1.2, y1); } C(g, x, a[1], 0.8, 'lm-f'); }
       else { const y = V.YL(o.rep), x0 = V.XL(Math.min(c0, c1)), x1 = V.XL(Math.max(c0, c1)); if (!o.sinLinea) { L(g, x0, y, x1, y); punta(g, x0, y, -1, 0); punta(g, x1, y, 1, 0); L(g, x0, y - 1.2, x0, y + 1.2); L(g, x1, y - 1.2, x1, y + 1.2); } C(g, a[0], y, 0.8, 'lm-f'); }
@@ -298,8 +303,11 @@
     S.lineas.slice().forEach(l => { const d0 = lejos(l.pl); instancias(l.f).forEach(pl => { if (Math.abs(lejos(pl) - d0) < 0.3 && !S.lineas.some(q => q.f === l.f && igual(q.pl, pl))) S.lineas.push({ f: l.f, pl, pts: pl.map(p => [S.U(p[kq]), p[2] - D.z_piso]) }); }); });
     const ancho = f => Math.max(0.5, f.diam / 10 * k);
     S.lineas.forEach(l => P(gc, l.pts.map(p => [X(p[0]), Y(p[1])]), 'lm-b').setAttribute('stroke-width', f2(ancho(l.f))));
-    const dentro = (u, z) => u > -0.5 && u < W + 0.5 && z > za - 0.5 && z < zb + 0.5, pts = S.puntos.filter(p => dentro(p.u, p.z));
+    const noPt = cfg.sinPuntos || [], dentro = (u, z) => u > -0.5 && u < W + 0.5 && z > za - 0.5 && z < zb + 0.5, pts = S.puntos.filter(p => dentro(p.u, p.z) && !noPt.includes(p.f.id));
     pts.forEach(p => C(gc, X(p.u), Y(p.z), Math.max(0.42, p.f.diam / 20 * k), 'lm-p'));
+    // familias proyectadas al plano del corte (los estribos en la elevación de una viga): una línea fina por barra; quedan en S.lineas para poder rotularlas
+    (cfg.proyectar || []).forEach(idf => { const f = D.fierros.find(q => q.id === idf); if (!f) return; instancias(f).forEach(pl => { const q = pl.map(p => [S.U(p[kq]), p[2] - D.z_piso]);
+      P(gc, q.map(p => [X(p[0]), Y(p[1])]), 'lm-b').setAttribute('stroke-width', '0.28'); S.lineas.push({ f, pl, pts: q, proy: true }); }); });
     // punto de la familia idf más cercano a (u, z), dentro de la ventana
     function cerca(idf, u, z) {
       let best = null; const ku = z != null && u != null ? 0.25 : 1, dist = (qu, qz) => Math.hypot((qu - (u == null ? qu : u)) * ku, qz - (z == null ? qz : z));
@@ -601,23 +609,362 @@
         '10. Insertos PLc y PLb: placas embebidas a ras, con sus barras soldadas; se colocan antes de hormigonar.', '   Detalle y cuadro: pestaña Fundaciones del sitio.',
         '11. Impermeabilización del búnker (membranas, water-stop, cristalizante): pestaña Humedad del sitio.',
         '12. Muros del búnker: verticales de una pieza, con patas de 60 y 30 hacia el interior sobre la malla inferior de la', '   losa de fundación y ganchos superiores cruzados. Trabas ø8 L=30 entre las dos mallas, 9 por m² (cada 3 nudos).', '   Separadores de las mallas contra los moldajes.',
-        '13. Esta lámina no define completa la losa de techo del búnker (suples, vigas VHA, VBL y VBC, hueco de la escalera)', '   ni la escalera: van en lámina aparte. Mientras tanto, pestañas Planta y Fundaciones del sitio.',
+        '13. Esta lámina no define completa la losa de techo del búnker (suples, vigas VHA, VBL y VBC, hueco de la escalera)', '   ni la escalera: van en las láminas 02 y 03.',
         '14. Losa de fundación del búnker: la malla superior se sostiene en sus patas (25 + 5), sobre separadores de 5 cm', '   (trozos de conduit de PVC de 50 mm); ø10 corrido en los cuatro bordes, constructivo.'];
       lin.forEach((t, i) => T(sv, x, 344 + 5.0 * i, t, 2.3));
     }
     return sv;
   }
 
-  const LISTA = [{ n: '01', id: 'fundaciones', titulo: 'Planta de fundaciones y cortes', plano: 'E-01', contenido: ['PLANTA FUNDACIONES', 'CORTES Y NOTAS'], fn: lamina01 }];
+  // ---------- lámina 02: losa de techo del búnker, vigas (VHA, VBL, VBC) y hueco de la escalera ----------
+  // Planta de la losa (1:50): contorno en línea gruesa; de trazos, lo que va debajo o dentro (cara interior de los muros y vigas); el hueco, con sus diagonales
+  function plantaLosa(sv, D, H, E, X0, Y0) {
+    const k = 10 / 50, ox = E.origen[0], oy = E.origen[1], X = x => X0 + (x - ox) * k, Y = y => Y0 + (y - oy) * k, XL = x => X0 + x * k, YL = y => Y0 + y * k;
+    const g = el('g', { class: 'lm-planta' }, sv), LO = caja(H.losa.pts), HU = caja(H.losa.hueco), e = H.muros.espesor, rr = (c, cls) => R(g, X(c[0]), Y(c[1]), (c[2] - c[0]) * k, (c[3] - c[1]) * k, cls);
+    rr(LO, 'lm-u2'); rr([LO[0] + e, LO[1] + e, LO[2] - e, LO[3] - e], 'lm-o');
+    H.vigas.forEach(v => rr(caja(v.pts), 'lm-o'));
+    rr(HU, 'lm-m'); L(g, X(HU[0]), Y(HU[1]), X(HU[2]), Y(HU[3])); L(g, X(HU[2]), Y(HU[1]), X(HU[0]), Y(HU[3]));
+    return { g, k, X, Y, XL, YL, ox, oy };
+  }
+  // ejes 1 a 5 (arriba) y A, A2 y B (a la izquierda), con las cotas entre ejes
+  function ejesLosa(g, V, D) {
+    const ex = D.ejes.x, ey = { A: D.ejes.y.A, A2: D.ejes.y.A2, B: D.ejes.y.B }, yT = V.YL(-118), xI = V.XL(-128);
+    Object.entries(ex).forEach(([n, x]) => { L(g, V.XL(x), yT + 4.8, V.XL(x), V.YL(688), 'lm-e'); burbuja(g, V.XL(x), yT, n); });
+    Object.entries(ey).forEach(([n, y]) => { L(g, xI + 4.8, V.YL(y), V.XL(1092), V.YL(y), 'lm-e'); burbuja(g, xI, V.YL(y), n); });
+    const xs = Object.values(ex), ys = Object.values(ey), yc = V.YL(-62), xc = V.XL(1122);
+    for (let i = 0; i + 1 < xs.length; i++) cotaH(g, V.XL(xs[i]), V.XL(xs[i + 1]), yc, cmt(xs[i + 1] - xs[i]));
+    for (let i = 0; i + 1 < ys.length; i++) cotaV(g, xc, V.YL(ys[i]), V.YL(ys[i + 1]), cmt(ys[i + 1] - ys[i]));
+  }
+  // cuadro de barras de una lámina: las filas de la planilla de doblado de sus elementos (marca, ø, tramos por fuera, largo, cantidad y kilos)
+  function cuadroBarras(sv, PL, x, y, filtro, tituloT) {
+    const g = el('g', { class: 'lm-cuadro' }, sv), filas = PL.filas.filter(filtro), hf = 3.8, W = 205, cols = [0, 12, 26, 108, 124, 140, 156, W], cab = ['MARCA', 'ø', 'TRAMOS, MEDIDOS POR FUERA (cm)', 'L (cm)', 'CANT.', 'kg', 'ELEMENTO'];
+    TA(sv, x, y, tituloT, 4.6); const y0 = y + 3, yF = i => y0 + 5 + hf * i;
+    R(g, x, y0, W, 5 + hf * (filas.length + 1), 'lm-f'); L(g, x, y0 + 5, x + W, y0 + 5, 'lm-f');
+    cols.slice(1, -1).forEach(c => L(g, x + c, y0, x + c, yF(filas.length), 'lm-f'));
+    cab.forEach((t, i) => T(g, x + (cols[i] + cols[i + 1]) / 2, y0 + 3.5, t, 1.7, { a: 'm' }));
+    let kg = 0;
+    filas.forEach((f, i) => { const yb = yF(i) + hf - 1.0; if (i) L(g, x, yF(i), x + W, yF(i), 'lm-tr');
+      marca(g, x + 6, yF(i) + hf / 2, f.marca, 1.55);
+      T(g, x + 19, yb, nomD(f.diam), 1.9, { a: 'm' }); T(g, x + 28, yb, f.ext.map(cmt).join(' + '), 1.9); T(g, x + 122.5, yb, coma(Math.round(f.L)), 1.9, { a: 'e' }); T(g, x + 138.5, yb, coma(f.n), 1.9, { a: 'e' });
+      T(g, x + 154.5, yb, coma(f.kg), 1.9, { a: 'e' }); T(g, x + 158, yb, f.elemento, 1.9); kg += f.kg; });
+    const yt = yF(filas.length); L(g, x, yt, x + W, yt, 'lm-f'); T(g, x + 28, yt + hf - 1.0, 'TOTAL DE ESTA LAMINA', 1.9); T(g, x + 154.5, yt + hf - 1.0, coma(kg), 1.9, { a: 'e' });
+    return yt + hf;
+  }
+  function lamina02(cont, D, E, info) {
+    const H = D.hormigon, sv = hoja(cont, info), N = H.niveles, PL = window.Armaduras.planilla(D), F = id => D.fierros.find(f => f.id === id);
+    const ox = E.origen[0], oy = E.origen[1], AX = v => v + ox, AY = v => v + oy, ex = D.ejes.x, ey = D.ejes.y, e = H.muros.espesor, zL = N.losa_inf;
+    const loc = c => [c[0] - ox, c[1] - oy, c[2] - ox, c[3] - oy], LO = loc(caja(H.losa.pts)), HU = loc(caja(H.losa.hueco));
+    const viga = id => H.vigas.find(v => v.id === id), cH = loc(caja(viga('VHA-3').pts)), cL = loc(caja(viga('VBL').pts)), cC = loc(caja(viga('VBC').pts)), zV = v => v.z_inf - D.z_piso;
+    const lx = pl => pl[0][0] - ox, ly = pl => pl[0][1] - oy, lp = pl => Math.hypot(pl[pl.length - 1][0] - pl[0][0], pl[pl.length - 1][1] - pl[0][1]);   // dónde parte la barra y cuánto avanza en planta
+    const filaDe = (id, fn) => { const f = F(id), pl = instancias(f).find(fn || (() => true)); return pl ? PL.filaDe(f, pl) : null; };
+    const rotL = (id, fn, pre) => { const f = F(id), r = filaDe(id, fn), esp = espDe(f); return `${pre || ''}${nomD(f.diam)}${esp && !pre ? '@' + esp : ''}, L=${coma(Math.round(r ? r.L : 0))}`; };   // «ø12@15, L=276» o «3ø16, L=659»
+    // llamada con la marca de la planilla delante del texto
+    const llamadaM = (g, px, py, tx, ty, textos, m, o) => { o = o || {}; const izq = o.lado === 'i', h = o.h || 2.1, w = Math.max(...textos.map(t => anchoT(t, h)));
+      llamada(g, px, py, tx, ty, textos, Object.assign({ h }, o)); if (m != null) marca(g, izq ? tx - w - 1 - 3.0 : tx + w + 1 + 3.0, ty - 1.1, m, 2.1); };
+
+    const XG = 1012;   // plano del corte g-g (local): por un estribo de la VBC y una barra inferior de la losa
+    // ================= plantas 1:50: armadura inferior (izquierda) y superior (derecha) =================
+    const VI = plantaLosa(sv, D, H, E, 82, 56), VS = plantaLosa(sv, D, H, E, 376, 56);
+    [VI, VS].forEach((V, iV) => {
+      const g = V.g; ejesLosa(g, V, D);
+      cotaH(g, V.XL(LO[0]), V.XL(LO[2]), V.YL(LO[3]) + 8.5, cmt(LO[2] - LO[0]) + ' losa', { ref: [[V.XL(LO[0]), V.YL(LO[3])], [V.XL(LO[2]), V.YL(LO[3])]] });
+      cotaV(g, V.XL(LO[0]) - 9, V.YL(LO[1]), V.YL(LO[3]), cmt(LO[3] - LO[1]) + ' losa', { ref: [[V.XL(LO[0]), V.YL(LO[1])], [V.XL(LO[0]), V.YL(LO[3])]], ty: V.YL(440) });
+      T(g, V.XL((HU[0] + HU[2]) / 2) + 0.9, V.YL(545), `HUECO ${cmt(HU[2] - HU[0])}x${cmt(HU[3] - HU[1])}`, 1.9, { a: 'm', rot: -90 });
+      T(g, V.XL((cH[0] + cH[2]) / 2) + 0.8, V.YL(iV ? 440 : 270), 'VHA 25/50', 1.8, { a: 'm', rot: -90 });
+      T(g, V.XL((cL[0] + cL[2]) / 2) + 0.8, V.YL(545), 'VBL 25/50', 1.8, { a: 'm', rot: -90 });
+      const sup = [F('LR-sup')].flatMap(instancias), bx = sup.flatMap(pl => pl.map(q => q[0] - ox)), by = sup.flatMap(pl => pl.map(q => q[1] - oy)), sx0 = Math.min(...bx), sx1 = Math.max(...bx), sy0 = Math.min(...by), sy1 = Math.max(...by);
+      R(g, V.XL(sx0), V.YL(sy0), (sx1 - sx0) * V.k, (sy1 - sy0) * V.k, 'lm-o');
+      T(g, V.XL(sx0) - 1.6, V.YL(sy1) - 3.2, 'SUPLES ø10@15', 1.8, { a: 'e' }); T(g, V.XL(sx0) - 1.6, V.YL(sy1) - 0.4, '(VER DETALLE)', 1.8, { a: 'e' });
+    });
+    // inferior: ø10@15 en los dos sentidos; frente al hueco, las barras llegan hasta la VBC y la VBL
+    barraPlanta(VI.g, VI, PL, F('LN'), { eje: 0, en: 175, rep: 430, t: 0.4, filtro: pl => lp(pl) > 400 && lx(pl) < HU[0] });
+    barraPlanta(VI.g, VI, PL, F('LN'), { eje: 0, en: 955, rep: 40, t: 0.6, filtro: pl => lp(pl) < 400 });
+    barraPlanta(VI.g, VI, PL, F('LE'), { eje: 1, en: 70, rep: 640, t: 0.37, filtro: pl => lp(pl) > 1000 });
+    barraPlanta(VI.g, VI, PL, F('LE'), { eje: 1, en: 500, rep: 640, t: 0.43, filtro: pl => lp(pl) < 1000 });
+    T(VI.g, VI.XL(714), VI.YL(575), 'LOSA H.A. e=' + cmt(H.losa.espesor), 2.3, { a: 'm' }); T(VI.g, VI.XL(714), VI.YL(575) + 3.4, 'hormigón G30', 1.9, { a: 'm' });
+    T(VI.g, VI.XL(cC[2]) + 7.5, VI.YL((cC[1] + cC[3]) / 2) + 6.2, 'VBC 40/25', 1.8); L(VI.g, VI.XL(cC[2] - 12), VI.YL((cC[1] + cC[3]) / 2), VI.XL(cC[2]) + 7, VI.YL((cC[1] + cC[3]) / 2) + 4.2);
+    // marcas de corte (en la planta de la armadura inferior)
+    marcaCorte(VI.g, VI.XL(cH[0] - 45), VI.YL(350), VI.XL(cH[2] + 45), VI.YL(350), 0, -1, 'e');
+    marcaCorte(VI.g, VI.XL(cL[0] - 42), VI.YL(410), VI.XL(cL[2] + 34), VI.YL(410), 0, -1, 'f');
+    marcaCorte(VI.g, VI.XL(XG), VI.YL(cC[1] - 46), VI.XL(XG), VI.YL(cC[3] + 30), 1, 0, 'g');
+    // superior: L ø12@15 sobre los cuatro muros, ø10@20 sobre la VHA y junto a los muros A y B, ø16@15 en L junto a la VBL
+    const enA = pl => ly(pl) < 300, en1 = pl => lx(pl) < 500;
+    barraPlanta(VS.g, VS, PL, F('LT-NS'), { eje: 0, en: 175, rep: 197, t: 0.42, filtro: pl => enA(pl) && pl.length === 3 });
+    barraPlanta(VS.g, VS, PL, F('LT-NS'), { eje: 0, en: 175, rep: 478, t: 0.56, filtro: pl => !enA(pl) && lp(pl) > 100 && lx(pl) < 800 });
+    barraPlanta(VS.g, VS, PL, F('LT-NS16'), { eje: 0, en: 850, rep: 474, t: 0.56 });
+    barraPlanta(VS.g, VS, PL, F('LT-EO'), { eje: 1, en: 330, rep: 198, t: 0.6, filtro: en1 });
+    barraPlanta(VS.g, VS, PL, F('LT-EO'), { eje: 1, en: 110, rep: 890, t: 0.42, filtro: pl => !en1(pl) });
+    barraPlanta(VS.g, VS, PL, F('LS'), { eje: 1, en: 330, rep: 575, t: 0.2, rotulo: [430, 300, 'i'] });
+    barraPlanta(VS.g, VS, PL, F('LS-AB'), { eje: 1, en: 84, rep: 700, t: 0.3, filtro: enA });
+    barraPlanta(VS.g, VS, PL, F('LS-AB'), { eje: 1, en: 560, rep: 700, t: 0.3, filtro: pl => !enA(pl) });
+    { const f = F('LT-NS'), c25 = instancias(f).find(pl => !enA(pl) && lp(pl) < 100), c24 = instancias(f).find(pl => pl.length > 3);
+      if (c25) llamadaM(VS.g, VS.XL(lx(c25) + 45), VS.YL(LO[3]) - 1.2, VS.XL(760), VS.YL(LO[3]) + 17.5, [rotL('LT-NS', pl => pl === c25), 'en L, frente al hueco'], (PL.filaDe(f, c25) || {}).marca, { lado: 'i', h: 1.9 });
+      if (c24) llamadaM(VS.g, VS.XL(lx(c24) + 22), VS.YL(60), VS.XL(835), VS.YL(262), ['4 ' + rotL('LT-NS', pl => pl === c24).replace('@15', '') + ': bajan 1,4', 'bajo la placa del inserto PLc-4A'], (PL.filaDe(f, c24) || {}).marca, { h: 1.9, lado: 'i' }); }
+    T(VS.g, VS.XL(cC[2]) + 7.5, VS.YL((cC[1] + cC[3]) / 2) + 6.2, 'VBC 40/25', 1.8); L(VS.g, VS.XL(cC[2] - 12), VS.YL((cC[1] + cC[3]) / 2), VS.XL(cC[2]) + 7, VS.YL((cC[1] + cC[3]) / 2) + 4.2);
+    titulo(sv, 98, 222, 'PLANTA LOSA DE TECHO: ARMADURA INFERIOR', 50); titulo(sv, 392, 222, 'PLANTA LOSA DE TECHO: ARMADURA SUPERIOR', 50);
+
+    // ================= detalle de la esquina del hueco (planta, 1:20): suples arriba y abajo =================
+    {
+      const k = 0.5, wx0 = 825, wx1 = 1085, wy0 = 152, wy1 = 345, X0 = 652, Y0 = 34, X = x => X0 + (x - wx0) * k, Y = y => Y0 + (y - wy0) * k, g = el('g', { class: 'lm-det' }, sv), id = 'lm-clip' + (++nClip);
+      el('rect', { x: f2(X(wx0)), y: f2(Y(wy0)), width: f2((wx1 - wx0) * k), height: f2((wy1 - wy0) * k) }, el('clipPath', { id }, g));
+      const gc = el('g', { 'clip-path': `url(#${id})` }, g), rr = (c, cls) => R(gc, X(c[0]), Y(c[1]), (c[2] - c[0]) * k, (c[3] - c[1]) * k, cls);
+      rr([LO[0], LO[1], LO[2], LO[3]], 'lm-u2'); rr([LO[0] + e, LO[1] + e, LO[2] - e, LO[3] - e], 'lm-o'); rr(cL, 'lm-o'); rr(cC, 'lm-o');
+      rr(HU, 'lm-m'); L(gc, X(HU[0]), Y(HU[1]), X(HU[2]), Y(HU[1] + (HU[2] - HU[0])), 'lm-f'); L(gc, X(HU[2]), Y(HU[1]), X(HU[0]), Y(HU[1] + (HU[2] - HU[0])), 'lm-f');
+      const fS = F('LR-sup'), ins = instancias(fS);
+      ins.forEach(pl => P(gc, pl.map(q => [X(q[0] - ox), Y(q[1] - oy)]), 'lm-b').setAttribute('stroke-width', '0.5'));
+      quiebre(g, X(wx0), Y(wy0), X(wx0), Y(wy1)); quiebre(g, X(wx0), Y(wy0), X(wx1), Y(wy0)); quiebre(g, X(wx0), Y(wy1), X(wx1), Y(wy1));
+      // una llamada por forma y sentido: marca, ø, separación y largo
+      const horiz = pl => Math.abs(pl[1][0] - pl[0][0]) > Math.abs(pl[1][1] - pl[0][1]), grupos = {};
+      ins.forEach(pl => { const r = PL.filaDe(fS, pl); if (!r) return; const kk = r.marca + (horiz(pl) ? 'h' : 'v'); (grupos[kk] = grupos[kk] || { r, h: horiz(pl), pls: [] }).pls.push(pl); });
+      // de cada grupo se rotula la barra de más a la derecha (o la de más abajo), en su punta; los rótulos, a la derecha, en el orden de esas puntas
+      const gs = Object.values(grupos).map(G => { const pl = G.pls.reduce((m, q) => (G.h ? Math.max(q[0][0], q[1][0]) > Math.max(m[0][0], m[1][0]) || (Math.max(q[0][0], q[1][0]) === Math.max(m[0][0], m[1][0]) && q[0][1] < m[0][1]) : q[0][0] > m[0][0]) ? q : m);
+        return Object.assign(G, { px: (G.h ? Math.max(pl[0][0], pl[1][0]) - 5 : pl[0][0]) - ox, py: (G.h ? pl[0][1] : Math.min(pl[0][1], pl[1][1]) + 8) - oy }); }).sort((a, b) => a.py - b.py);
+      gs.forEach((G, i) => llamadaM(g, X(G.px), Y(G.py), X(wx1) + 5, Y(wy0) + 10 + i * 14, [`${G.pls.length}ø10@15, L=${coma(Math.round(G.r.L))}`, G.h ? 'a lo largo de 1–5' : 'a lo largo de A–B'], G.r.marca, { h: 2.1, circ: 0.7 }));
+      T(g, X((cL[0] + cL[2]) / 2) + 0.8, Y(wy1) - 9, 'VBL', 1.9, { a: 'm', rot: -90 }); T(g, X((HU[0] + HU[2]) / 2), Y(wy1) - 5, 'HUECO', 1.9, { a: 'm' });
+      llamada(g, X(cC[2] - 6), Y(cC[3] - 4), X(wx1) + 5, Y(wy1) - 6, ['VBC 40/25 (de trazos)'], { h: 1.9 });
+      T(g, X(LO[2] - e / 2) + 0.8, Y(300), 'MURO EJE 5', 1.8, { a: 'm', rot: -90 });
+      titulo(sv, 652, 146, 'Detalle esquina del hueco', 20); T(sv, 652, 158.6, 'SUPLES ø10@15 EN LAS DOS ESQUINAS LIBRES DEL HUECO: IGUALES ARRIBA Y ABAJO', 2.1); T(sv, 652, 162.4, 'Las de 150, centradas en la esquina; las de 73 y 85 llegan hasta el borde del hueco o la cara del muro.', 1.9);
+    }
+
+    // ================= elevación de la VHA 25/50 del eje 3 (corte a lo largo, 1:20) =================
+    const u0 = -22, U = y => y - u0, zb = 12, za = -95;
+    const muroCaja = (C, ua, ub, t) => { const g = C.g, yt = C.Y(C.zb - 2); L(g, C.X(ua), C.Y(0), C.X(ua), yt, 'lm-uc'); L(g, C.X(ub), C.Y(0), C.X(ub), yt, 'lm-uc'); quiebre(g, C.X(ua), yt, C.X(ub), yt); if (t) T(g, C.X((ua + ub) / 2), yt - 1.6, t, 1.9, { a: 'm' }); };
+    const tapaHueco = (C, uH, zE) => { R(C.g, C.X(uH) + 0.02, C.Y(1.4), C.X(C.W) - C.X(uH) + 2.6, (1.4 - zE + 1.4) * C.k, 'lm-w'); L(C.g, C.X(uH), C.Y(0), C.X(uH), C.Y(zE), 'lm-uc'); };
+    {
+      const Ch = corte(sv, D, PL, { eje: 'x', c: AX(ex['3']), u0: AY(u0), u1: AY(692), zmin: za, zmax: zb, ntn: [0, U(LO[1]) + 0.5], tol: { 'VHA-3-med': 9 }, sinPuntos: ['VHA-3-est'], proyectar: ['VHA-3-est'] }, 72, 262, 20), g2 = Ch.g, zv = zV(viga('VHA-3'));
+      Ch.rotulos([['VHA-3-sup', rotL('VHA-3-sup', null, '3'), null, null], ['VHA-3-est', 'E ' + nomD(F('VHA-3-est').diam) + '@' + espDe(F('VHA-3-est')), -22, U(640)], ['VHA-3-med', rotL('VHA-3-med', null, '2'), null, null], ['VHA-3-inf', rotL('VHA-3-inf', null, '3'), null, null]], Ch.X(Ch.W) + 6, { gap: 6.2 });
+      Ch.rotulos([['LT-NS', null, -2.6, U(120)], ['LS', null, null, U(60)], ['LE', null, null, U(60)], ['LN', null, -22.5, U(120)]], Ch.X(0) - 3, { izq: true, gap: 6.2 });
+      Ch.cotaH(U(LO[1] + e), U(LO[3] - e), zv, cmt(LO[3] - LO[1] - 2 * e) + ' libres', 7);
+      Ch.cotaV(U(340), zL, 0, cmt(-zL), 0); Ch.cotaV(U(340), zv, zL, cmt(zL - zv), 0);
+      Ch.nivel(U(60), 0, 'NPOG 0,00', { alto: 5.5 });
+      T(g2, Ch.X(U(LO[1] + e / 2)), Ch.Y(za) + 4.6, 'MURO EJE A', 1.9, { a: 'm' }); T(g2, Ch.X(U(LO[3] - e / 2)), Ch.Y(za) + 4.6, 'MURO EJE B', 1.9, { a: 'm' });
+      Ch.despiece('LT-NS', { dx: 404, dy: 2 }); Ch.despiece('LN', { dx: 404, dy: 36, max: 112 });
+      titulo(sv, 72, 323, 'Elevación VHA 25/50', 20); T(sv, 154, 323, 'VIGA BAJO LA LOSA EN EL EJE 3, DE MURO A MURO (CORTE POR SU EJE)', 2.1); T(sv, 154, 326.8, 'cuelga 25 bajo la losa; estribos cerrados en todo el largo, el primero a 5 de la cara del muro', 1.9);
+    }
+    // ================= elevación de la VBL 25/50 colgada (corte a lo largo, 1:20) =================
+    {
+      const Cl = corte(sv, D, PL, { eje: 'x', c: AX((cL[0] + cL[2]) / 2), u0: AY(u0), u1: AY(692), zmin: za, zmax: zb, ntn: [0, U(LO[1]) + 0.5], tol: { 'VBL-lat': 9.5 }, sinPuntos: ['VBL-est'], proyectar: ['VBL-est'] }, 72, 362, 20), g2 = Cl.g, zv = zV(viga('VBL'));
+      const Es = H.escalera, mc = Es.muro ? loc(caja(Es.muro.pts)) : null, mn = Es.muro_norte ? loc(caja(Es.muro_norte.pts)) : null;
+      if (mc) muroCaja(Cl, U(mn ? mn[1] : mc[1]), U(mc[3]), null);
+      Cl.rotulos([['VBL-sup', rotL('VBL-sup', null, '5'), null, null], ['VBL-est', 'E ' + nomD(F('VBL-est').diam) + '@' + espDe(F('VBL-est')), -22, U(640)], ['VBL-lat', rotL('VBL-lat', null, '2') + ' (laterales)', null, null], ['VBL-inf', rotL('VBL-inf', null, '3'), null, null]], Cl.X(Cl.W) + 6, { gap: 6.2 });
+      Cl.rotulos([['LT-NS', null, -2.6, U(120)], ['LS-AB', null, null, U(50)], ['LE', null, null, U(240)]], Cl.X(0) - 3, { izq: true, gap: 6.2 });
+      // la VBC llega a la VBL: sus barras, en punta, con su rótulo debajo
+      const bc = Cl.cerca('VBC-inf', U((cC[1] + cC[3]) / 2), -19);
+      if (bc) llamada(g2, Cl.X(bc.u), Cl.Y(bc.z), Cl.X(U(cC[3]) + 26), Cl.Y(zv) + 9.5, ['VBC 40/25: 4ø12 arriba y 4ø12 abajo,', 'con gancho dentro de la VBL (corte g-g)'], { h: 1.9, circ: 0.9 });
+      const b16 = Cl.cerca('LT-NS16', U(560), -2.8);
+      if (b16) llamadaM(g2, Cl.X(b16.u), Cl.Y(b16.z), Cl.X(U(585)), Cl.Y(zb) - 6.4, [rotL('LT-NS16') + ' en L'], (PL.filaDe(b16.f, b16.pl) || {}).marca, { h: 1.9, lado: 'i' });
+      if (mc) T(g2, Cl.X(U(400)), Cl.Y(zb) - 0.6, `MURO DE LA CAJA DE LA ESCALERA e=${cmt(mc[2] - mc[0])} (SOBRE LA LOSA)`, 1.8, { a: 'm' });
+      Cl.cotaH(U(LO[1] + e), U(LO[3] - e), zv, cmt(LO[3] - LO[1] - 2 * e) + ' libres', 7);
+      Cl.cotaV(U(140), zL, 0, cmt(-zL), 0); Cl.cotaV(U(140), zv, zL, cmt(zL - zv), 0);
+      T(g2, Cl.X(U(LO[1] + e / 2)), Cl.Y(za) + 4.6, 'MURO EJE A', 1.9, { a: 'm' }); T(g2, Cl.X(U(LO[3] - e / 2)), Cl.Y(za) + 4.6, 'MURO EJE B', 1.9, { a: 'm' });
+      Cl.despiece('VBL-sup', { dx: 404, dy: 2, max: 112, texto: rotL('VBL-sup', null, '5') });
+      titulo(sv, 72, 423, 'Elevación VBL 25/50', 20); T(sv, 154, 423, 'VIGA COLGADA AL COSTADO DEL HUECO (LADO DEL EJE 4), DEL MURO A AL MURO B (CORTE POR SU EJE)', 2.1); T(sv, 154, 426.8, 'las 3ø16 de abajo entran 19 rectas en cada muro; las 5ø12 de arriba, en L de 72 por la cara exterior de los muros', 1.9);
+    }
+    // ================= cortes transversales (1:20) =================
+    {   // e-e: VHA
+      const xa = ex['3'] - 62, Ce = corte(sv, D, PL, { eje: 'y', c: AY(350), u0: AX(xa), u1: AX(ex['3'] + 62), zmin: -62, zmax: 10 }, 78, 452, 20), UU = x => x - xa, zv = zV(viga('VHA-3'));
+      Ce.rotulos([['LS', null, null, null], ['VHA-3-sup', '3' + nomD(F('VHA-3-sup').diam), null, null], ['VHA-3-est', 'E ' + nomD(F('VHA-3-est').diam) + '@' + espDe(F('VHA-3-est')), -30, null], ['VHA-3-med', '2' + nomD(F('VHA-3-med').diam), null, null], ['VHA-3-inf', '3' + nomD(F('VHA-3-inf').diam), null, null]], Ce.X(Ce.W) + 6, { gap: 6.0 });
+      Ce.rotulos([['LN', null, null, null], ['LE', null, null, null]], Ce.X(0) - 3, { izq: true, gap: 6.0, yMax: Ce.Y(zL) + 2 });
+      Ce.cotaH(UU(cH[0]), UU(cH[2]), zv, cmt(cH[2] - cH[0]), 5.5); Ce.cotaV(UU(cH[0]), zv, zL, cmt(zL - zv), -6); Ce.cotaV(UU(cH[0]), zL, 0, cmt(-zL), -6, { ref: [[Ce.X(0), Ce.Y(0)]] });
+      Ce.despiece('VHA-3-est', { dx: 96, dy: 2 });
+      titulo(sv, 70, 498, 'Corte e-e', 20); T(sv, 112, 498, 'VHA 25/50 (EJE 3)', 2.1);
+    }
+    {   // f-f: VBL, con el borde del hueco y el muro de la caja
+      const xa = cL[0] - 46, Cf = corte(sv, D, PL, { eje: 'y', c: AY(410), u0: AX(xa), u1: AX(HU[0] + 32), zmin: -62, zmax: 22 }, 262, 452, 20), UU = x => x - xa, zv = zV(viga('VBL')), mc = H.escalera.muro ? loc(caja(H.escalera.muro.pts)) : null;
+      tapaHueco(Cf, UU(HU[0]), zv); if (mc) muroCaja(Cf, UU(mc[0]), UU(mc[2]), null);
+      Cf.rotulos([['VBL-sup', '5' + nomD(F('VBL-sup').diam), null, null], ['VBL-est', 'E ' + nomD(F('VBL-est').diam) + '@' + espDe(F('VBL-est')), -30, null], ['VBL-lat', '2' + nomD(F('VBL-lat').diam) + ' laterales', null, null], ['VBL-inf', '3' + nomD(F('VBL-inf').diam), null, null]], Cf.X(Cf.W) + 6, { gap: 6.0 });
+      Cf.rotulos([['LN', null, null, null], ['LE', null, null, null]], Cf.X(0) - 3, { izq: true, gap: 6.0, yMax: Cf.Y(zL) + 2 });
+      Cf.cotaH(UU(cL[0]), UU(cL[2]), zv, cmt(cL[2] - cL[0]), 5.5); Cf.cotaV(UU(cL[0]), zv, zL, cmt(zL - zv), -6); Cf.cotaV(UU(cL[0]), zL, 0, cmt(-zL), -6, { ref: [[Cf.X(0), Cf.Y(0)]] });
+      T(Cf.g, Cf.X(UU(HU[0]) + 4), Cf.Y(-14), 'HUECO', 1.9); if (mc) T(Cf.g, Cf.X(UU(mc[0])) - 1.2, Cf.Y(14), 'muro de la caja', 1.8, { a: 'e' });
+      Cf.despiece('VBL-est', { dx: 92, dy: 2 });
+      titulo(sv, 250, 498, 'Corte f-f', 20); T(sv, 292, 498, 'VBL 25/50 COLGADA, EN EL BORDE DEL HUECO', 2.1);
+    }
+    {   // g-g: VBC, botada dentro de la losa
+      const ya = cC[1] - 64, Cg = corte(sv, D, PL, { eje: 'x', c: AX(XG), u0: AY(ya), u1: AY(HU[1] + 28), zmin: -48, zmax: 22 }, 438, 452, 20), UU = y => y - ya, mn = H.escalera.muro_norte ? loc(caja(H.escalera.muro_norte.pts)) : null;
+      tapaHueco(Cg, UU(HU[1]), zL); if (mn) muroCaja(Cg, UU(mn[1]), UU(mn[3]), null);
+      Cg.rotulos([['VBC-sup', '4' + nomD(F('VBC-sup').diam), null, null], ['VBC-est', 'E ' + nomD(F('VBC-est').diam) + '@' + espDe(F('VBC-est')), -12.5, null], ['VBC-inf', '4' + nomD(F('VBC-inf').diam), null, null]], Cg.X(Cg.W) + 6, { gap: 6.0 });
+      Cg.rotulos([['LT-NS', null, -2.6, null], ['LN', null, -22.5, null]], Cg.X(0) - 3, { izq: true, gap: 6.0 });
+      Cg.cotaH(UU(cC[1]), UU(cC[3]), zL, cmt(cC[3] - cC[1]), 5.5); Cg.cotaV(UU(cC[1]) - 12, zL, 0, cmt(-zL), 0);
+      T(Cg.g, Cg.X(UU(HU[1]) + 4), Cg.Y(-14), 'HUECO', 1.9); if (mn) T(Cg.g, Cg.X(UU(mn[1])) - 1.2, Cg.Y(14), 'muro de la caja', 1.8, { a: 'e' });
+      Cg.despiece('VBC-est', { dx: 104, dy: 4 });
+      titulo(sv, 428, 498, 'Corte g-g', 20); T(sv, 470, 498, 'VBC 40/25 BOTADA (DENTRO DE LA LOSA)', 2.1);
+    }
+    {   // elevación de la VBC: de la VBL al muro del eje 5
+      const xa = cL[0] - 26, yc = (cC[1] + cC[3]) / 2, Cv = corte(sv, D, PL, { eje: 'y', c: AY(yc), u0: AX(xa), u1: AX(LO[2] + 12), zmin: -72, zmax: 12, tol: { 'VBC-sup': 8, 'VBC-inf': 8 }, sinPuntos: ['VBC-est'], proyectar: ['VBC-est'] }, 632, 390, 20), UU = x => x - xa;
+      Cv.rotulos([['VBC-sup', rotL('VBC-sup', null, '4'), null, null], ['VBC-est', 'E ' + nomD(F('VBC-est').diam) + '@' + espDe(F('VBC-est')), -12, UU(1030)], ['VBC-inf', rotL('VBC-inf', null, '4'), null, null]], Cv.X(Cv.W) + 6, { gap: 6.2 });
+      Cv.rotulos([['VBL-sup', '5' + nomD(F('VBL-sup').diam) + ' VBL', null, null], ['VBL-inf', '3' + nomD(F('VBL-inf').diam) + ' VBL', null, null]], Cv.X(0) - 3, { izq: true, gap: 6.2 });
+      Cv.cotaH(UU(cL[2]), UU(LO[2] - e), zL, cmt(LO[2] - e - cL[2]) + ' libres', 6);
+      T(Cv.g, Cv.X(UU(LO[2] - e / 2)) + 9, Cv.Y(-72) + 4.4, 'MURO EJE 5', 1.9, { a: 'm' }); T(Cv.g, Cv.X(UU((cL[0] + cL[2]) / 2)), Cv.Y(zV(viga('VBL'))) + 3.4, 'VBL', 1.9, { a: 'm' });
+      Cv.despiece('VBC-sup', { dy: 47, texto: rotL('VBC-sup', null, '4') }); Cv.despiece('VBC-inf', { dy: 70, dx: -7, texto: rotL('VBC-inf', null, '4') });
+      titulo(sv, 620, 498, 'Elevación VBC 40/25', 20); T(sv, 702, 498, 'DE LA VBL AL MURO DEL EJE 5', 2.1);
+    }
+    // ================= notas =================
+    {
+      const ES = H.especificaciones, rc = ES.recubrimientos, x = 618, y0 = 176, tr = [8, 10, 12, 16].map(d => `ø${d}: ${coma(60 * d / 10)}`).join(' · ');
+      TA(sv, x, y0, 'NOTAS', 6.2); L(sv, x, y0 + 2.4, x + 205, y0 + 2.4);
+      const lin = [
+        '1. HORMIGON: G30 (losa y vigas, con el resto del búnker). ACERO: ' + ES.acero.replace('Acero ', '') + '.',
+        `2. RECUBRIMIENTOS (cm): losa ${rc.losa} · vigas ${rc['elementos de hormigón armado']}, al estribo.`, `   TRASLAPOS: ${ES.traslapo} (${tr} cm), alternados.`,
+        `3. LOSA e=${cmt(H.losa.espesor)}. Abajo: ø10@15 en los dos sentidos, con gancho hacia arriba en los muros; primero las barras A–B`, '   y sobre ellas las 1–5. Frente al hueco llegan hasta la VBC y la VBL.',
+        '4. Arriba: L ø12@15 sobre los cuatro muros (pata de 72 hacia abajo por la cara exterior del muro, por dentro de sus', '   verticales, y 203 dentro de la losa); ø10@20 de 160 sobre la VHA; ø10@20 en 1–5 junto a los muros A y B, bajo las L;', '   ø16@15 en L sobre el muro B en los 1,20 m junto a la VBL.',
+        '5. VHA 25/50 (eje 3) y VBL 25/50: cuelgan 25 bajo la losa y van de muro a muro. VBC 40/25: dentro de la losa,', '   de la VBL al muro del eje 5. Estribos cerrados con ganchos de 135°.',
+        `6. HUECO DE LA ESCALERA ${cmt(HU[2] - HU[0])} x ${cmt(HU[3] - HU[1])}: suples ø10@15 arriba y abajo en sus dos esquinas libres (detalle).`,
+        '7. Los números en círculo son las marcas de la planilla de doblado (pestaña Fundaciones del sitio).', '   Las barras se miden por fuera, de fuera a fuera de sus dobleces; L es la suma de los tramos. Medidas en cm.',
+        '8. Muros, losa de fundación e insertos PLc y PLb: lámina 01. Los insertos se colocan antes de hormigonar.',
+        '9. Escalera: lámina 03. Las barras de su viga central entran al muro del eje B: se dejan puestas antes de hormigonarlo.'];
+      lin.forEach((t, i) => T(sv, x, y0 + 10 + 4.7 * i, t, 2.2));
+      cuadroBarras(sv, PL, x, y0 + 10 + 4.7 * lin.length + 6, g => /^(losa del búnker|VHA|viga colgada|viga botada)/.test(g.elemento), 'CUADRO DE BARRAS');
+    }
+    return sv;
+  }
+
+  // llamada con la marca de la planilla al final del texto; cota entre dos puntos cualesquiera (para las medidas perpendiculares a la pendiente de la escalera)
+  function llamadaMarca(g, px, py, tx, ty, textos, m, o) { o = o || {}; const izq = o.lado === 'i', h = o.h || 2.1, w = Math.max(...textos.map(t => anchoT(t, h)));
+    llamada(g, px, py, tx, ty, textos, Object.assign({ h }, o)); if (m != null) marca(g, izq ? tx - w - 4 : tx + w + 4, ty - 1.1, m, 2.1); }
+  function cotaL(g, x1, y1, x2, y2, t, o) { o = o || {}; const h = o.h || 2.1, dx = x2 - x1, dy = y2 - y1, len = Math.hypot(dx, dy) || 1, nx = -dy / len, ny = dx / len;
+    L(g, x1, y1, x2, y2); [[x1, y1], [x2, y2]].forEach(([x, y]) => L(g, x - nx * 1.1, y - ny * 1.1, x + nx * 1.1, y + ny * 1.1));
+    let ang = Math.atan2(dy, dx) * 180 / Math.PI; if (ang > 90) ang -= 180; if (ang <= -90) ang += 180;
+    const ar = ang * Math.PI / 180; T(g, (x1 + x2) / 2 + Math.sin(ar) * 0.9 + (o.dx || 0), (y1 + y2) / 2 - Math.cos(ar) * 0.9 + (o.dy || 0), t, h, { a: 'm', rot: ang }); }
+
+  // ---------- lámina 03: escalera del búnker (viga central VE 25/40 bajo una losa de 10, 19 peldaños) ----------
+  function lamina03(cont, D, E, info) {
+    const H = D.hormigon, sv = hoja(cont, info), N = H.niveles, PL = window.Armaduras.planilla(D), F = id => D.fierros.find(f => f.id === id);
+    const ox = E.origen[0], oy = E.origen[1], AX = v => v + ox, AY = v => v + oy, z0 = D.z_piso, zL = N.losa_inf, zP = N.piso_bunker;
+    const Es = H.escalera, ES = Es.estructura, tr = Es.tramo, nP = tr.peldanos, hu = tr.largo / nP, ch = (Es.z_arriba - Es.z_abajo) / nP, yT = tr.y_arriba - oy, yP = tr.y_abajo - oy, kE = ch / hu, aE = Math.atan(kE), cE = Math.cos(aE), sE = Math.sin(aE);
+    const VE = ES.viga, hL = ES.losa.espesor, hV = VE.alto, bV = VE.ancho, xc = VE.x - ox, vL = hL / cE, vV = hV / cE, yUL = yT - (-zP - vL) / kE, yUV = yT - (-zP - vV) / kE;   // dónde tocan el piso la cara inferior de la losa de 10 y la de la viga
+    const loc = c => [c[0] - ox, c[1] - oy, c[2] - ox, c[3] - oy], HU = loc(caja(H.losa.hueco)), x0E = HU[0], x1E = HU[2], muro = id => loc(caja(H.muros.piezas.find(m => m.id === id).pts)), mS = muro('M-S'), mE = muro('M-E');
+    const cC = loc(caja(H.vigas.find(v => v.id === 'VBC').pts)), cL = loc(caja(H.vigas.find(v => v.id === 'VBL').pts)), mn = Es.muro_norte ? loc(caja(Es.muro_norte.pts)) : null;
+    const perfil = [[yT, 0]]; for (let i = 0; i < nP; i++) { const y = yT - (i + 1) * hu; perfil.push([y, -i * ch], [y, -(i + 1) * ch]); }   // (y, z): arista del muro B, huellas y contrahuellas
+    const filaDe = id => { const f = F(id); return PL.filaDe(f, instancias(f)[0]); }, mk = id => (filaDe(id) || {}).marca, Lde = id => coma(Math.round((filaDe(id) || {}).L || 0));
+    const cP = xc + 7.7;   // plano de los cortes a lo largo: por la ø16 de afuera y la ø12 de arriba de ese lado de la viga
+    // corte a lo largo por la viga: el modelo cortado por el plano cP más el hormigón de la escalera (que no es un prisma del modelo) y el hueco de la losa
+    function corteLong(cfg, X0, Y0, esc) {
+      const C = corte(sv, D, PL, Object.assign({ eje: 'x', c: AX(cP), sinPuntos: ['VE-est'], proyectar: ['VE-est'] }, cfg), X0, Y0, esc), ua = cfg.u0 - oy, U = y => y - ua, gc = C.gc;
+      const prim = gc.querySelector('polyline.lm-b, circle.lm-p'), antes = n => gc.insertBefore(n, prim), pt = (y, z) => f2(C.X(U(y))) + ',' + f2(C.Y(z));
+      if (cfg.zmax > zL) { antes(el('rect', { x: f2(C.X(U(HU[1])) + 0.02), y: f2(C.Y(1.5)), width: f2((HU[3] - HU[1]) * C.k - 0.04), height: f2((3 - zL) * C.k), class: 'lm-w' }));
+        antes(el('line', { x1: f2(C.X(U(HU[1]))), y1: f2(C.Y(0)), x2: f2(C.X(U(HU[1]))), y2: f2(C.Y(zL)), class: 'lm-uc' })); }
+      const pol = perfil.concat([[yUV, zP], [yT, -vV]]).map(([y, z]) => pt(y, z)).join(' ');
+      antes(el('polygon', { points: pol, class: 'lm-w' })); antes(el('polygon', { points: pol, class: 'lm-uc' }));
+      antes(el('line', { x1: f2(C.X(U(yUL))), y1: f2(C.Y(zP)), x2: f2(C.X(U(yT))), y2: f2(C.Y(-vL)), class: 'lm-o' }));   // cara inferior de la losa de 10 (los vuelos, más allá)
+      return { C, U };
+    }
+    // ================= A) corte a lo largo por la viga central (1:20) =================
+    const uA0 = 107.5, XA0 = 62, YA0 = 50;
+    {
+      const { C, U } = corteLong({ u0: AY(uA0), u1: AY(717.5), zmin: -400, zmax: 34 }, XA0, YA0, 20), g = C.g, X = y => C.X(U(y)), Y = C.Y;
+      if (mn) { const yt = Y(28); L(g, X(mn[1]), Y(0), X(mn[1]), yt, 'lm-uc'); L(g, X(mn[3]), Y(0), X(mn[3]), yt, 'lm-uc'); quiebre(g, X(mn[1]), yt, X(mn[3]), yt); T(g, X(mn[3]) + 1.4, Y(15), 'muro de la caja', 1.8); }
+      const b = (id, u, z) => C.cerca(id, u == null ? null : U(u), z);
+      // arriba a la izquierda: lo que va en los peldaños y sobre la viga
+      const pN = b('ES-N', 470, null), pP = b('ES-P', 452, null), pT = b('ES-LT', 430, null), pS = b('VE-sup', 405, null), xi = X(432);
+      if (pN) llamadaMarca(g, C.X(pN.u), Y(pN.z), xi, Y(-32), ['1ø8 corrida en cada nariz'], mk('ES-N'), { lado: 'i', circ: 0.8 });
+      if (pP) llamadaMarca(g, C.X(pP.u), Y(pP.z), xi, Y(-46), ['Escuadra ø8@19 bajo cada huella (7 por peldaño)'], (PL.filaDe(pP.f, pP.pl) || {}).marca, { lado: 'i' });
+      if (pT) llamadaMarca(g, C.X(pT.u), Y(pT.z), xi, Y(-60), ['ø8@16 transversal, arriba de la losa de 10'], mk('ES-LT'), { lado: 'i', circ: 0.8 });
+      if (pS) llamadaMarca(g, C.X(pS.u), Y(pS.z), xi, Y(-74), [`2ø12 arriba de la viga, L=${Lde('VE-sup')}`], mk('VE-sup'), { lado: 'i' });
+      // abajo a la derecha: la viga
+      const pE = b('VE-est', 520, null), pI = b('VE-inf', 492, null), xd = X(498);
+      if (pE) llamadaMarca(g, C.X(pE.u), Y(pE.z - 14), xd, Y(-196), ['E ø8@16 de la viga, 2 por peldaño'], mk('VE-est'), {});
+      if (pI) llamadaMarca(g, C.X(pI.u), Y(pI.z), xd, Y(-212), [`3ø16 abajo de la viga, L=${Lde('VE-inf')}`], mk('VE-inf'), {});
+      llamada(g, X(455), Y(-(yT - 455) * kE - vL), xd, Y(-228), [`Losa de ${cmt(hL)}, cara inferior (de trazos)`], { h: 2.1 });
+      llamada(g, X(478), Y(-(yT - 478) * kE - vV), xd, Y(-244), [`Viga central ${VE.nombre}`], { h: 2.1 });
+      llamada(g, X((yP + yUV) / 2), Y(zP + 12), X(110), Y(zP + 88), ['Pie macizo sobre la losa de fundación'], { h: 2.1 });
+      // cotas y niveles
+      C.cotaH(U(yP), U(yT), -400, `${cmt(tr.largo)} = ${nP} huellas de ${coma(hu, 1)}`, 7);
+      C.cotaV(U(mS[3]) + 16, zP, 0, `${cmt(-zP)} = ${nP} contrahuellas de ${coma(ch, 1)}`, 0);
+      C.cotaH(U(yUV), U(yT), zP, `${coma(Math.round(yT - yUV))}: la viga llega al piso`, -9, { tx: X(520) });
+      C.nivel(U(150), 0, 'NPOG 0,00', { alto: 6, lado: 'i' }); nivel(g, X(300), Y(zP), cmt(zP).replace('-', '−') + ' piso del búnker', { alto: 5 });
+      T(g, X((mS[1] + mS[3]) / 2), Y(-400) + 4.4, 'MURO EJE B', 1.9, { a: 'm' }); T(g, X(cC[1] - 30), Y(zL) + 4, 'LOSA DE TECHO', 1.9, { a: 'm' }); T(g, X((cC[1] + cC[3]) / 2), Y(zL) + 4, 'VBC', 1.9, { a: 'm' });
+      T(g, X(430), Y(zP - 17), 'LOSA DE FUNDACION e=' + cmt(H.losa_fundacion ? H.losa_fundacion.espesor : 35), 1.9, { a: 'm' });
+      // despiece de las barras de la viga (abajo a la derecha de la hoja)
+      C.despiece('VE-inf', { dx: 322, dy: 250, max: 112, texto: `3ø16, L=${Lde('VE-inf')}` }); C.despiece('VE-sup', { dx: 492, dy: 250, max: 112, texto: `2ø12, L=${Lde('VE-sup')}` });
+      T(sv, 446, 398, 'BARRAS DE LA VIGA CENTRAL (ESC. 1:20, CON QUIEBRE)', 2.1); T(sv, 446, 402, 'el pie va dentro de la losa de fundación; arriba, la L entra al muro del eje B', 1.9);
+      titulo(sv, 62, 270, 'Corte a-a', 20); T(sv, 104, 270, 'A LO LARGO DE LA ESCALERA, POR LA VIGA CENTRAL (MIRANDO HACIA EL EJE 5)', 2.1); T(sv, 104, 273.8, 'baja del muro del eje B hacia el eje A', 1.9);
+    }
+    // ================= planta de la escalera (1:20), bajo el corte y alineada con él =================
+    {
+      const k = 0.5, g = el('g', { class: 'lm-planta' }, sv), X = y => XA0 + (y - uA0) * k, Yp0 = 296, xN = mE[2] + 8, Y = x => Yp0 + (xN - x) * k, rr = (ya, yb, xa, xb, cls) => R(g, X(ya), Y(xb), (yb - ya) * k, (xb - xa) * k, cls);
+      const ya = uA0 - 30, yb = mS[3];
+      rr(ya, yb, mE[0], mE[2], 'lm-uc'); trama(g, X(ya), Y(mE[2]), (yb - ya) * k, (mE[2] - mE[0]) * k, 'rad');                     // muro del eje 5
+      rr(mS[1], mS[3], cL[0] - 22, mE[0], 'lm-uc'); trama(g, X(mS[1]), Y(mE[0]), (mS[3] - mS[1]) * k, (mE[0] - cL[0] + 22) * k, 'rad');   // muro del eje B
+      quiebre(g, X(ya), Y(mE[2]), X(ya), Y(cL[0] - 22)); quiebre(g, X(mS[1]), Y(cL[0] - 22), X(mS[3]), Y(cL[0] - 22));
+      rr(yP, yT, x0E, x1E, 'lm-m');                                                                                                // escalera
+      for (let i = 1; i < nP; i++) L(g, X(yT - i * hu), Y(x0E), X(yT - i * hu), Y(x1E), 'lm-f');
+      rr(yUV, yT, xc - bV / 2, xc + bV / 2, 'lm-o');                                                                               // viga VE, debajo
+      rr(ya, mS[1], cL[0], cL[2], 'lm-o'); rr(cC[1], cC[3], cC[0], cC[2], 'lm-o');                                                 // VBL y VBC, arriba
+      L(g, X(yT - 30), Y(xc + 30), X(yP + 40), Y(xc + 30), 'lm-f'); punta(g, X(yP + 40), Y(xc + 30), -1, 0, 2.6, 0.5); T(g, X(yT - 34), Y(xc + 30) - 1.1, 'BAJA', 2.1, { a: 'e' });
+      T(g, X(yT - 6), Y(xc - 34), '1', 1.9, { a: 'e' }); T(g, X(yP + hu - 6), Y(xc - 34), String(nP), 1.9, { a: 'e' });
+      T(g, X((yUV + yT) / 2 + 60), Y(xc) + 0.7, `VIGA ${VE.nombre} (debajo)`, 1.8, { a: 'm' }); T(g, X(ya + 70), Y((cL[0] + cL[2]) / 2) + 0.7, 'VBL (arriba)', 1.8); T(g, X((cC[1] + cC[3]) / 2) + 0.7, Y(xc - 36), 'VBC (arriba)', 1.8, { a: 'm', rot: -90 });
+      T(g, X(ya + 70), Y((mE[0] + mE[2]) / 2) + 0.7, 'MURO EJE 5', 1.9); T(g, X((mS[1] + mS[3]) / 2) + 0.7, Y(xc), 'MURO EJE B', 1.9, { a: 'm', rot: -90 });
+      const xcv = X(yP) - 7; cotaV(g, xcv, Y(mE[0]), Y(x1E), cmt(mE[0] - x1E), { lado: 'izq' }); cotaV(g, xcv, Y(x1E), Y(xc + bV / 2), cmt(x1E - xc - bV / 2)); cotaV(g, xcv, Y(xc + bV / 2), Y(xc - bV / 2), cmt(bV)); cotaV(g, xcv, Y(xc - bV / 2), Y(x0E), cmt(xc - bV / 2 - x0E));
+      cotaV(g, X(yP) - 15, Y(x1E), Y(x0E), cmt(x1E - x0E), { ref: [[X(yP), Y(x1E)], [X(yP), Y(x0E)]] });
+      cotaH(g, X(yP), X(yT), Y(cL[0]) + 6, `${cmt(tr.largo)} = ${nP} huellas de ${coma(hu, 1)}`, { ref: [[X(yP), Y(x0E)], [X(yT), Y(x0E)]] });
+      titulo(sv, 62, 408, 'Planta escalera', 20); T(sv, 128, 408, `ANCHO ${cmt(x1E - x0E)}, A ${cmt(mE[0] - x1E)} DEL MURO DEL EJE 5 · VIGA CENTRAL DE ${cmt(bV)}, CON VUELOS DE ${cmt((x1E - x0E - bV) / 2)} A CADA LADO`, 2.1);
+    }
+    // ================= B) tres peldaños ampliados (1:10) =================
+    {
+      const uB0 = 319.5, { C, U } = corteLong({ u0: AY(uB0), u1: AY(uB0 + 110), zmin: -280, zmax: -138 }, 452, 38 - 138, 10), g = C.g, X = y => C.X(U(y)), Y = C.Y, xr = C.X(C.W) + 6;
+      const b = (id, u, z) => C.cerca(id, u == null ? null : U(u), z), eP = b('ES-P', 398, null), its = [];
+      if (eP) { const fl = PL.filaDe(eP.f, eP.pl); its.push([eP, `Escuadra ø8@19, L=${fl ? coma(Math.round(fl.L)) : ''}: ${fl ? fl.ext.map(cmt).join(' + ') : ''}`, fl && fl.marca]); }
+      [['ES-N', 387, '1ø8 en la nariz'], ['VE-sup', 417, '2ø12'], ['ES-LT', 373, 'ø8@16 transversal'], ['VE-est', 404, 'E ø8@16'], ['VE-inf', 423, '3ø16']].forEach(([id, u, t]) => { const q = b(id, u, null); if (q) its.push([q, t, (PL.filaDe(q.f, q.pl) || {}).marca]); });
+      its.forEach(([q, t, m], i) => llamadaMarca(g, C.X(q.u), Y(q.z), xr, Y(-146) + i * 8.2, [t], m, { circ: q.linea ? null : 0.9 }));
+      const i10 = 10, yR = yT - (i10 + 1) * hu; C.cotaH(U(yR), U(yR + hu), -i10 * ch, coma(hu, 1), -6); C.cotaV(U(yR), -(i10 + 1) * ch, -i10 * ch, coma(ch, 1), -5);
+      const perp = (y, h1, t) => { const zr = -(yT - y) * kE; cotaL(g, X(y), Y(zr), X(y + h1 * sE), Y(zr - h1 * cE), t); };
+      perp(yR + hu * 0.5, hV, cmt(hV)); perp(yR + hu * 1.62, hL, cmt(hL));
+      titulo(sv, 452, 196, 'Detalle peldaños', 10); T(sv, 452, 208.6, 'POR LA VIGA CENTRAL: LA VIGA MIDE 40 Y LA LOSA 10, PERPENDICULARES A LA PENDIENTE', 2.1);
+    }
+    // ================= C) corte perpendicular a la pendiente, por un estribo (1:10), mirando hacia el muro B =================
+    {
+      const zl = p => p[2] - z0, sDe = p => (yT - (p[1] - oy)) * cE - zl(p) * sE, ests = instancias(F('VE-est')), est0 = ests.reduce((m, pl) => Math.abs(pl[2][1] - oy - 409.5) < Math.abs(m[2][1] - oy - 409.5) ? pl : m), s0 = sDe(est0[2]);
+      const fS = p => { const dy = yT - (p[1] - oy), z_ = zl(p); return [p[0], dy * cE - z_ * sE, dy * sE + z_ * cE]; };   // al marco de la losa: x, s a lo largo de la pendiente y h perpendicular (0 en la línea de los rincones)
+      const D2 = { z_piso: 0, hormigon: { muros: { piezas: [] }, losa: {}, vigas: [], niveles: N }, fierros: D.fierros.filter(f => f.elemento === 'escalera del búnker').map(f => ({ id: f.id, elemento: f.elemento, diam: f.diam, d: f.d, polilineas: instancias(f).map(pl => pl.map(fS)) })) };
+      const xa = cL[0] - 8, xb = mE[2] + 4, C = corte(sv, D2, PL, { eje: 'y', c: s0, u0: AX(xa), u1: AX(xb), zmin: -56, zmax: 24, girar: true, tol: { 'ES-LL': 3 } }, 446, 268, 10), g = C.g, gc = C.gc, X = x => C.X(xb - x), Y = C.Y;
+      let t0 = 0; for (let h = 0; h >= -30; h -= 0.1) { const y = yT - s0 * cE + h * sE, z = -s0 * sE - h * cE, i = Math.floor((yT - y) / hu); if (y < yT && y > yP && z <= -i * ch + 1e-6) t0 = -h; else break; }   // alto del peldaño sobre la línea de los rincones, en este corte
+      const prim = gc.querySelector('polyline.lm-b, circle.lm-p'), xv0 = xc - bV / 2, xv1 = xc + bV / 2, pol = [[x0E, t0], [x1E, t0], [x1E, -hL], [xv1, -hL], [xv1, -hV], [xv0, -hV], [xv0, -hL], [x0E, -hL]].map(([x, z]) => f2(X(x)) + ',' + f2(Y(z))).join(' ');
+      gc.insertBefore(el('polygon', { points: pol, class: 'lm-uc' }), prim);
+      R(g, X(mE[2]), Y(22), (mE[2] - mE[0]) * C.k, 76 * C.k, 'lm-uc'); quiebre(g, X(mE[2]), Y(22), X(mE[0]), Y(22)); quiebre(g, X(mE[2]), Y(-54), X(mE[0]), Y(-54)); T(g, X((mE[0] + mE[2]) / 2) + 0.7, Y(-16), 'MURO EJE 5', 1.9, { a: 'm', rot: -90 });
+      C.rotulos([['ES-LT', 'ø8@16 de borde a borde', null, null], ['ES-P', 'Escuadras ø8@19, 7 en el ancho', null, null], ['ES-LL', '2ø8 a lo largo, en cada vuelo', null, null], ['VE-sup', '2ø12', null, null], ['VE-est', 'E ø8@16', -22, null], ['VE-inf', '3ø16', null, null]], C.X(C.W) + 6, { gap: 6.4 });
+      cotaH(g, X(x1E), X(x0E), Y(t0) - 6, `${cmt(x1E - x0E)} (ancho de la escalera)`, { ref: [[X(x1E), Y(t0)], [X(x0E), Y(t0)]] });
+      const yc = Y(-hV) + 7; cotaH(g, X(mE[0]), X(x1E), yc, cmt(mE[0] - x1E), { fuera: 'izq' }); cotaH(g, X(x1E), X(xv1), yc, cmt(x1E - xv1)); cotaH(g, X(xv1), X(xv0), yc, cmt(bV)); cotaH(g, X(xv0), X(x0E), yc, cmt(xv0 - x0E));
+      cotaV(g, X(x0E) + 6, Y(0), Y(-hL), cmt(hL)); cotaV(g, X(x0E) + 13, Y(0), Y(-hV), cmt(hV), { ref: [[X(xv0), Y(-hV)]] });
+      C.despiece('VE-est', { dx: 150, dy: 46 });
+      titulo(sv, 446, 352, 'Corte b-b', 10); T(sv, 488, 352, 'PERPENDICULAR A LA PENDIENTE, POR UN ESTRIBO (MIRANDO HACIA EL MURO B)', 2.1);
+    }
+    // ================= notas y cuadro de barras =================
+    {
+      const ES2 = H.especificaciones, x = 640, y0 = 28, anc = ES.anclajes || [], aI = anc.find(a => a.familia === 'VE-inf') || {}, aS = anc.find(a => a.familia === 'VE-sup') || {};
+      TA(sv, x, y0, 'NOTAS', 6.2); L(sv, x, y0 + 2.4, x + 186, y0 + 2.4);
+      const lin = [
+        '1. HORMIGON: G25 (G30 si se hormigona con el búnker). ACERO: ' + ES2.acero.replace('Acero ', '') + '.',
+        '2. RECUBRIMIENTO: 3 cm (5 en la losa de fundación; 4 por fuera del muro del eje B).',
+        `3. ESCALERA: ${nP} peldaños de ${coma(hu, 1)} x ${coma(ch, 1)}, ancho ${cmt(x1E - x0E)}. Baja ${cmt(-zP)} del NPOG 0,00 al`, '   piso del búnker, desde el muro del eje B hacia el eje A.',
+        `4. VIGA CENTRAL ${VE.nombre} bajo una losa de ${cmt(hL)}, medidas perpendiculares a la pendiente.`, '   Al pie, la escalera va maciza sobre la losa de fundación.',
+        '5. VIGA: 3ø16 abajo y 2ø12 arriba, con gancho de 90° en la losa de fundación y L en el', '   muro del eje B. Estribos ø8 cerrados, 2 por peldaño, con ganchos de 135°.',
+        '6. LOSA DE 10: ø8@16 transversal arriba, de borde a borde, y 2ø8 a lo largo en cada vuelo.',
+        '7. PELDAÑOS: escuadras ø8@19 (7 por peldaño) y 1ø8 corrida en cada nariz.',
+        '8. MONTAJE: las 3ø16 y las 2ø12 de la viga se dejan puestas ANTES de hormigonar la', '   losa de fundación (pie con gancho) y el muro del eje B (L). También pueden dejarse', '   esperas del mismo diámetro y con el mismo gancho, traslapadas 60 diámetros', '   (ø16: 96 · ø12: 72 cm) fuera de la losa y del muro.',
+        '9. Altura libre desde las narices: 2,33 m a la losa y 2,27 m al cielo.',
+        '10. Los números en círculo son las marcas de la planilla de doblado. Las barras se miden', '   por fuera; L es la suma de los tramos. Medidas en cm.',
+        '11. Losa de techo, VBL y VBC: lámina 02. Muros y losa de fundación: lámina 01.'];
+      lin.forEach((t, i) => T(sv, x, y0 + 10 + 4.6 * i, t, 2.1));
+      cuadroBarras(sv, PL, x - 22, y0 + 10 + 4.6 * lin.length + 8, g => g.elemento === 'escalera del búnker', 'CUADRO DE BARRAS');
+    }
+    return sv;
+  }
+
+  // La lámina 01 está visada por el ingeniero (24-11-2026). Las láminas 02 y 03 se dibujan desde el mismo modelo, con la enfierradura del informe que el ingeniero
+  // revisó y aceptó (10-11-2026), pero él no las ha visto como lámina: su viñeta lo dice («para visar por el ingeniero») y no lleva fecha de visado
+  const LISTA = [{ n: '01', id: 'fundaciones', titulo: 'Planta de fundaciones y cortes', plano: 'E-01', contenido: ['PLANTA FUNDACIONES', 'CORTES Y NOTAS'], fn: lamina01, visada: '24-11-2026', ident: 'Planta de fundaciones y cortes: versión final' },
+    { n: '02', id: 'losa-techo', titulo: 'Losa de techo del búnker, vigas y hueco', plano: 'E-02', contenido: ['PLANTA LOSA DE TECHO DEL BUNKER', 'VIGAS, HUECO Y NOTAS'], fn: lamina02, ident: 'Losa de techo del búnker, vigas y hueco de la escalera' },
+    { n: '03', id: 'escalera', titulo: 'Escalera del búnker', plano: 'E-03', contenido: ['ESCALERA DEL BUNKER', 'CORTES, PLANTA Y NOTAS'], fn: lamina03, ident: 'Escalera del búnker: cortes, planta y detalle de peldaños' }];
   function dibujar(cont, n, D, E, ver) {
     const l = LISTA.find(x => x.n === n) || LISTA[0];
-    const info = { n: l.n, plano: l.plano, contenido: l.contenido, rev: '', fecha: '24-11-2026', mandante: 'Gabriel Toledo Brintrup', proyecto: 'Casa Toledo , Sector estudio', pie: 'visado el 24-11-2026',
-      identificacion: [['1', 'Planta de fundaciones y cortes: versión final', '24-11-2026']],
+    const info = { n: l.n, plano: l.plano, contenido: l.contenido, rev: '', fecha: '24-11-2026', mandante: 'Gabriel Toledo Brintrup', proyecto: 'Casa Toledo , Sector estudio', pie: l.visada ? 'visado el ' + l.visada : 'para visar por el ingeniero',
+      identificacion: [['1', l.ident, '24-11-2026']],
       revisiones: [],
-      nota: ['Plano dibujado desde el modelo 3D del estudio, con el formato de las láminas del proyecto.',
-        'Visado por el ingeniero civil del proyecto para cortar y doblar fierro (24-11-2026), con sus últimas indicaciones', 'incorporadas. No lleva firma ni timbre.',
-        'Las medidas mandan sobre el dibujo; cualquier diferencia con la obra se consulta antes de hormigonar.'],
-      profesionales: ['PROYECTO: ingeniero civil del proyecto', 'CALCULO: verificado con modelo 3D', 'REVISO: ingeniero civil (24-11-2026)', 'APROBO:', 'DIBUJO: modelo 3D del sitio' + (ver ? ' (' + ver + ')' : '')] };
+      nota: ['Plano dibujado desde el modelo 3D del estudio, con el formato de las láminas del proyecto.'].concat(l.visada
+        ? [`Visado por el ingeniero civil del proyecto para cortar y doblar fierro (${l.visada}), con sus últimas indicaciones`, 'incorporadas. No lleva firma ni timbre.']
+        : ['La enfierradura es la del informe revisado y aceptado por el ingeniero civil del proyecto (10-11-2026).', 'Esta lámina, como dibujo, falta que la vise. No lleva firma ni timbre.'],
+        ['Las medidas mandan sobre el dibujo; cualquier diferencia con la obra se consulta antes de hormigonar.']),
+      profesionales: ['PROYECTO: ingeniero civil del proyecto', 'CALCULO: verificado con modelo 3D', l.visada ? `REVISO: ingeniero civil (${l.visada})` : 'REVISO:', 'APROBO:', 'DIBUJO: modelo 3D del sitio' + (ver ? ' (' + ver + ')' : '')] };
     return l.fn(cont, D, E, info);
   }
   window.LaminasEstudio = { lista: LISTA.map(l => ({ n: l.n, id: l.id, titulo: l.titulo, plano: l.plano })), dibujar };

@@ -185,7 +185,7 @@ ol.preg li{margin:0 0 8px}
 <body>
 <div class="app">
 <header class="top">
-  <script src="menu.js?v=V156" data-vista="estudio"></script>
+  <script src="menu.js?v=V157" data-vista="estudio"></script>
   <h1>Estudio y búnker <small>estructura, fundaciones y enfierradura</small></h1>
   <span class="meta" id="meta"></span>
 </header>
@@ -203,7 +203,7 @@ ol.preg li{margin:0 0 8px}
 <section id="vista3d">
   <h2><span class="n">01</span>Vista 3D del estudio</h2>
   <p class="sub"><b>Girar:</b> arrastrar · <b>acercar:</b> rueda o pellizco · <b>ficha:</b> tocar la pieza · las capas se prenden en «Capas».</p>
-  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V156" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
+  <div class="marco3d"><iframe id="iframe3d" src="3d.html?vista=estudio&amp;embed=1&amp;v=V157" title="Vista 3D del estudio" loading="lazy" allow="fullscreen"></iframe></div>
   <p style="margin-top:10px"><a class="btn p" href="3d.html?vista=estudio" target="_blank" rel="noopener">Abrir en pantalla completa ↗</a> <span class="small sub">en el celular conviene abrirla aparte</span></p>
 </section>
 
@@ -458,10 +458,14 @@ ol.preg li{margin:0 0 8px}
 
 <section id="planos">
   <h2><span class="n">09</span>Planos de enfierradura</h2>
-  <p class="sub"><b>Para el enfierrador:</b> lámina A1 con la planta de fundaciones, los cortes y el despiece de cada barra. Los números en círculo son las marcas de la planilla de doblado (pestaña Fundaciones).</p>
-  <p><a class="btn p" href="lamina.html?n=01">Abrir la lámina en grande ↗</a> <span class="small sub">para acercar, imprimir en A1 o guardar en PDF</span></p>
+  <p class="sub"><b>Para el enfierrador:</b> tres láminas A1 con plantas, cortes, el despiece de cada barra y su cuadro de barras. Los números en círculo son las marcas de la planilla de doblado (pestaña Fundaciones). La lámina 01 está visada por el ingeniero; la 02 y la 03, por visar.</p>
+  <p><a class="btn p" href="lamina.html?n=01">01 · Fundaciones ↗</a> <a class="btn p" href="lamina.html?n=02">02 · Losa de techo y vigas ↗</a> <a class="btn p" href="lamina.html?n=03">03 · Escalera ↗</a> <span class="small sub">para acercar, imprimir en A1 o guardar en PDF</span></p>
   <figure class="ancho"><a href="lamina.html?n=01" id="lamina-01" class="lamina-link" title="Abrir la lámina 01 en grande" aria-label="Abrir la lámina 01 en grande"></a>
     <figcaption><b>Lámina 01 · Planta de fundaciones y cortes.</b> Tocar el plano lo abre en grande.</figcaption></figure>
+  <figure class="ancho"><a href="lamina.html?n=02" id="lamina-02" class="lamina-link" title="Abrir la lámina 02 en grande" aria-label="Abrir la lámina 02 en grande"></a>
+    <figcaption><b>Lámina 02 · Losa de techo del búnker, vigas y hueco de la escalera.</b> Tocar el plano lo abre en grande.</figcaption></figure>
+  <figure class="ancho"><a href="lamina.html?n=03" id="lamina-03" class="lamina-link" title="Abrir la lámina 03 en grande" aria-label="Abrir la lámina 03 en grande"></a>
+    <figcaption><b>Lámina 03 · Escalera del búnker.</b> Tocar el plano lo abre en grande.</figcaption></figure>
 </section>
 
 <section id="acero">
@@ -474,11 +478,11 @@ ol.preg li{margin:0 0 8px}
 </div>
 </div>
 
-<script src="sitio.js?v=V156"></script>
-<script src="estudio_estructura.js?v=V156"></script>
-<script src="armaduras_det.js?v=V156"></script>
-<script src="fuente_trazos.js?v=V156"></script>
-<script src="laminas_estudio.js?v=V156"></script>
+<script src="sitio.js?v=V157"></script>
+<script src="estudio_estructura.js?v=V157"></script>
+<script src="armaduras_det.js?v=V157"></script>
+<script src="fuente_trazos.js?v=V157"></script>
+<script src="laminas_estudio.js?v=V157"></script>
 <script>
 // se dibuja cuando la letra Inter ya cargó: los rótulos se miden con getBBox y con la letra de reemplazo quedaban más angostos de lo que son (25-10-2026)
 (function (dibujar) { const f = document.fonts; if (!f || !f.load) return dibujar();
@@ -2122,7 +2126,12 @@ ol.preg li{margin:0 0 8px}
     return `<tr><td><b>${c.perfil}</b></td><td class="r">${coma(c.metros, 1)}</td><td class="r">${coma(c.kg, 0)}</td><td class="small">${donde}</td></tr>`; }).join('')}<tr><td><b>Total</b></td><td></td><td class="r"><b>${coma(D.total_kg, 0)}</b></td><td></td></tr></tbody>`;
 
   // ---------- planos: láminas en formato de plano (laminas_estudio.js), dibujadas desde el mismo modelo ----------
-  if (window.LaminasEstudio) LaminasEstudio.dibujar($('#lamina-01'), '01', D, E, (window.PILAUCO_VERSION || {}).n);
+  if (window.LaminasEstudio) { const ver = (window.PILAUCO_VERSION || {}).n;
+    LaminasEstudio.dibujar($('#lamina-01'), '01', D, E, ver);
+    // las láminas 02 y 03 se dibujan cuando se acercan a la pantalla: cada una pesa cerca de 1 MB de trazos y la página no las necesita para abrir
+    const tarde = ['02', '03'].map(n => $('#lamina-' + n)).filter(Boolean), pinta = a => { if (!a.firstChild) LaminasEstudio.dibujar(a, a.id.slice(-2), D, E, ver); };
+    if ('IntersectionObserver' in window) { const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { pinta(e.target); io.unobserve(e.target); } }), { rootMargin: '900px 0px' }); tarde.forEach(a => { a.style.minHeight = '120px'; io.observe(a); }); }
+    else tarde.forEach(pinta); }
 
   // ---------- índice activo ----------
   const links = [...document.querySelectorAll('.toc a')], secs = links.map(a => document.querySelector(a.getAttribute('href')));

@@ -138,6 +138,14 @@ proyecto, la letra de trazo único de los planos CAD, plantas a 1:50 y cortes a 
   - **Lectura nuestra en la revisión B** (resuelta el 24-11, ver la revisión C): el gancho del inserto tendido sobre su cabeza; la traba
     ø10 solo sobre los dados; las trabas de los muros cada 3 nudos; el coronamiento dentro de los dobleces; la junta de 2 cm con el búnker.
   - En la planta, las cuatro barras de la losa de fundación van con su «destacado» (dobleces abatidos y medidas); sin flecha del norte.
+- **Láminas 02 y 03 (24-11-2026):** a pedido del dueño, «láminas en papel de lo que sigue»: la 02 es la losa de techo del búnker (dos plantas 1:50,
+  armadura inferior y superior, con el «destacado» de cada barra; elevaciones y cortes 1:20 de la VHA, la VBL y la VBC; detalle de los suples
+  de la esquina del hueco; cuadro de barras) y la 03 es la escalera (corte a lo largo por la viga central con la planta alineada debajo,
+  detalle de peldaños y corte por un estribo a 1:10, barras de la viga con sus dobleces, cuadro de barras). Salen del mismo modelo y del mismo
+  motor que la 01 (`corte`, `barraPlanta`, `despiece`), con dos opciones nuevas que la 01 no usa: `cfg.proyectar` / `cfg.sinPuntos` (los
+  estribos de una viga vistos en su elevación) y `o.filtro` / `o.eje` / `o.rotulo` en `barraPlanta`. El dibujo de la 01 no cambió con ellas
+  (mismo SVG, byte a byte); solo su nota 13, que ahora manda a las láminas 02 y 03. La enfierradura de la 02 y la 03 es la del informe que el
+  ingeniero revisó y aceptó el 10-11-2026, pero él no las ha visto como lámina: su viñeta dice «para visar por el ingeniero».
 - **Versión final publicada (24-11-2026):** a pedido del dueño, el sitio muestra solo lo que se construye, sin el proceso. De la página del
   estudio salieron las pestañas Revisión, Ingeniero, Luces y Falta, las etiquetas de origen (dato, propuesta, revisión), las citas con fecha y
   las columnas de verificación (D/C); la impermeabilización pasó a su propia pestaña, Humedad. La lámina va sin letra ni historial de
