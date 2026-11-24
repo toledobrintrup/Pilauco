@@ -114,6 +114,122 @@ def _publicar(o, k=None, ruta=''):
     if isinstance(o, list): return [_publicar(x, k, ruta) for x in o]
     return _limpio(o) if isinstance(o, str) and k not in ('id', 'p', 'c', 'tipo', 'perfil') else o
 
+# ---------- cartelas y cruces de las diagonales (el ingeniero, 10-11-2026: «corresponde a la IA») ----------
+# Base ya verificada (calculo/verificar_acero.py, UNION_T): diagonal CUAD 150x150x3; en cada extremo, cartela PL 8 A270ES metida en una ranura de 10 en
+# las dos caras del tubo perpendiculares al muro, con 4 filetes de 150 de garganta 0,707·t (t = 3); en el cruce de cada X, plancha pasante PL 8.
+# Lo que se define aquí es el contorno real de cada cartela y dónde termina el tubo, para que no tope el pilar, la placa ni las vigas, y se vuelve
+# a comprobar con esa geometría. Todo en mm, en el plano de la cruz, con el origen en la esquina del nudo: s = distancia a la cara del pilar hacia la
+# diagonal; v = distancia al apoyo horizontal (hacia arriba desde la placa base, o hacia abajo desde la cara inferior de la viga). Reglas:
+#   · punto de trabajo W = (−ec, −eb): eje del pilar; eb = distancia del apoyo al punto de trabajo (0 en el pie y bajo la viga inclinada; 50 bajo la
+#     viga VT, cuyo eje es el punto de trabajo; −50 bajo el puntal PR de la faja, que queda 50 sobre la cabeza del pilar)
+#   · el tubo se corta a escuadra a a0 de W, con 20 libres entre sus esquinas y la cara del pilar y el apoyo; la cartela entra 155 en el tubo
+#     (150 de soldadura + 5; la ranura mide 10 × 165) y sobresale 30 del tubo por lado (ancho 210 en la punta)
+#   · contorno: esquina → borde soldado al apoyo (Lg) → borde libre → punta perpendicular al eje → borde libre → borde soldado al pilar (lb)
+#   · Lg y lb por el método de fuerzas uniformes (α − β·tan θ = eb·tan θ − ec, θ desde la vertical): en el pie, Lg = borde de la placa − ec − 10
+#     (como calculo/anclajes_insertos.py); arriba, Lg = 160 (120 en las diagonales de más de 60°); en la faja, por despeje (los bordes toman toda la fuerza)
+#   · comprobaciones (AISC 360-16): 4 filetes de 150 (J2.4, E60), pared del tubo y corte de la cartela en la ranura (J4.2), cartela a tracción (J4.1) y
+#     a compresión (J4.4) con el ancho de Whitmore que cabe en el contorno y el largo libre promedio de Thornton con K = 1,2; pared del pilar y de la
+#     viga con placa longitudinal (K1) y filetes de los bordes (5 al pilar; 6 a la placa base; 3 a las vigas de pared 3)
+C_FY, C_FU, C_FEXX = 270.0, 410.0, 414.0
+C_TG, C_LW, C_HT, C_TT, C_G, C_ENT, C_SOB = 8.0, 150.0, 150.0, 3.0, 20.0, 155.0, 30.0
+def _c5(v): return math.ceil(v / 5 - 1e-9) * 5
+def _c_inter(p, d, pol):
+    best = None
+    for i in range(len(pol)):
+        a, b = pol[i], pol[(i + 1) % len(pol)]; ex, ey = b[0] - a[0], b[1] - a[1]; den = d[0] * ey - d[1] * ex
+        if abs(den) < 1e-9: continue
+        t = ((a[0] - p[0]) * ey - (a[1] - p[1]) * ex) / den; u = ((a[0] - p[0]) * d[1] - (a[1] - p[1]) * d[0]) / den
+        if t > 1e-6 and -1e-6 <= u <= 1 + 1e-6 and (best is None or t < best[0]): best = (t, i)
+    return best
+def _c_nudo(P, phi, ec, eb, Lg, lb):
+    c, sn = math.cos(phi), math.sin(phi); u = (c, sn); n = (sn, -c); W = (-ec, -eb)
+    a0 = _c5(max((C_G + ec + C_HT / 2 * sn) / c, (C_G + eb + C_HT / 2 * c) / sn)); at = a0 + C_ENT; hw = C_HT / 2 + C_SOB
+    pt = lambda a, o: (W[0] + a * u[0] + o * n[0], W[1] + a * u[1] + o * n[1])
+    TR, TL = pt(at, hw), pt(at, -hw); pol = [(0.0, 0.0), (float(Lg), 0.0), TR, TL, (0.0, float(lb))]
+    lado = lambda q, a, b: -((q[0] - a[0]) * (b[1] - a[1]) - (q[1] - a[1]) * (b[0] - a[0])) / math.hypot(b[0] - a[0], b[1] - a[1])
+    mR, mL = lado(pt(a0, C_HT / 2), pol[1], TR), lado(pt(a0, -C_HT / 2), TL, pol[4])        # cuánto queda la esquina del tubo dentro de la cartela
+    O = pt(a0, 0); wmax = C_HT / 2 + C_LW * math.tan(math.radians(30))
+    dR, dL = _c_inter(O, n, pol), _c_inter(O, (-n[0], -n[1]), pol); bR, bL = min(wmax, dR[0] if dR else 0), min(wmax, dL[0] if dL else 0); bef = bR + bL
+    Ls = []
+    for o in (-bL, 0, bR):
+        r = _c_inter(pt(a0, o), (-u[0], -u[1]), pol); Ls.append(max(0.0, r[0]) if r else 0.0)
+    Lav = sum(Ls) / 3; KLr = 1.2 * Lav / (C_TG / math.sqrt(12)); Fe = math.pi ** 2 * 200e3 / KLr ** 2 if KLr > 1 else 1e9
+    Fcr = (0.658 ** (C_FY / Fe)) * C_FY if C_FY / Fe <= 2.25 else 0.877 * Fe
+    sold = 4 * C_LW * 0.75 * 0.6 * C_FEXX * 0.707 * C_TT / 1000; pared = 4 * C_LW * 0.75 * 0.6 * C_FU * C_TT / 1000; cortg = 2 * C_LW * C_TG * 0.75 * 0.6 * C_FU / 1000
+    whT, whC = 0.9 * C_FY * bef * C_TG / 1000, 0.9 * Fcr * bef * C_TG / 1000
+    return dict(a0=a0, pol=[[round(x, 1), round(y, 1)] for x, y in pol], mR=mR, mL=mL, bef=bef, Lav=Lav, tubo=P / min(sold, pared, cortg), cartela=P / min(whT, whC))
+def cartelas_y_cruces(M, PERF, placas, riostras, z0):
+    MB = {m['id']: m for m in M}; PLp = {p['pilar']: p for p in placas}; RI = {r['id']: r for r in riostras}
+    def toca(m, p, tol=12):
+        a, b = m['a'], m['b']; ab = [b[i] - a[i] for i in range(3)]; L2 = sum(v * v for v in ab) or 1
+        t = max(0, min(1, sum((p[i] - a[i]) * ab[i] for i in range(3)) / L2)); return math.dist(p, [a[i] + t * ab[i] for i in range(3)]) < tol
+    def pilar_de(p, en_x):
+        m = next(q for q in M if q['c'] == 'pilar' and toca(q, p)); pr = PERF[m['p']]; Hp, Bp = pr['h'] * 10, pr['b'] * 10
+        dimx, dimy = (Hp, Bp) if m.get('alma', 'Y') == 'X' else (Bp, Hp)                     # como calculo/anclajes_insertos.py
+        return m, (dimx if en_x else dimy) / 2, (dimy if en_x else dimx), pr['t'] * 10        # pilar, ec, ancho de la cara que recibe la cartela, pared
+    k1 = lambda t, B, L: C_FY * t * t / (1 - C_TG / B) * (2 * L / B + 4 * math.sqrt(1 - C_TG / B)) / 1000   # AISC 360-16 K1, placa longitudinal (φ = 1, Qf = 1), kN
+    fil = lambda w, L: 0.75 * 0.6 * C_FEXX * 0.707 * w * 2 * L / 1000                         # dos filetes de garganta 0,707·w, kN
+    cart = []
+    for g in [m for m in M if m['c'] == 'diagonal' and not m['id'].startswith('XF')]:   # la faja no lleva cartelas (ver más abajo)
+        a, b = g['a'], g['b']; en_x = abs(b[0] - a[0]) > 1; phi = math.atan2(abs(b[2] - a[2]), math.hypot(b[0] - a[0], b[1] - a[1])); r = RI[g['id']]; P = max(r['T_kN'], r['C_kN'])
+        faja = False; th = math.pi / 2 - phi
+        for nm, p, o in (('a', a, b), ('b', b, a)):
+            pil, ec, Bc, tc = pilar_de(p, en_x); abajo = p[2] < o[2]
+            if abajo and not faja:
+                pl = PLp[pil['id']]; hx, hy = o[0] - p[0], o[1] - p[1]; al_ = (0, 1) if pl['muro_dir'] == 'y' else (1, 0); pa, pc = hx * al_[0] + hy * al_[1], hx * al_[1] + hy * al_[0]
+                kk = ('+al' if pa > 0 else '-al') if abs(pa) > abs(pc) else ('+ac' if pc > 0 else '-ac')
+                tipo, apoyo, eb, Bb, tb, wb = 'pie', pl['id'], 0.0, None, 0.0, 6; Lg = pl['bordes'][kk] * 10 - ec - 10; lb = 2 * (Lg / 2 + ec) / math.tan(th)
+            elif not faja:
+                tipo, eb, apoyo, Bb, tb, wb = 'arriba', (50.0 if en_x else 0.0), ('VT' if en_x else 'VI'), (100.0 if en_x else 150.0), 3.0, 3
+                Lg = 160.0 if math.degrees(phi) < 60 else 120.0; lb = 2 * ((Lg / 2 + ec) / math.tan(th) - eb)
+            else:
+                tipo, eb, apoyo, Bb, tb, wb = ('faja abajo', 50.0, 'VT', 100.0, 3.0, 3) if abajo else ('faja arriba', -50.0, 'PR', 100.0, 3.0, 3)
+                c_, s_ = math.cos(phi), math.sin(phi); a0_ = _c5(max((C_G + ec + C_HT / 2 * s_) / c_, (C_G + eb + C_HT / 2 * c_) / s_))
+                Lg = _c5(-ec + (a0_ + C_ENT) * c_ + (C_HT / 2 + C_SOB) * s_ - 45); lb = 120.0 if abajo else 180.0
+            Lg, lb = float(_c5(Lg)), float(_c5(lb)); nd = _c_nudo(P, phi, ec, eb, Lg, lb)
+            lbw = lb - (50 if tipo == 'faja arriba' else 0)                                   # largo soldado al pilar (bajo el puntal PR los 50 de arriba dan a la viga inclinada)
+            if faja: Huc, Vuc, Hub, Vub = P * math.cos(phi), P * math.sin(phi), P * math.cos(phi), P * math.sin(phi)   # cada borde, con toda la fuerza (del lado seguro)
+            else:
+                rr = math.hypot(Lg / 2 + ec, lb / 2 + eb); Huc, Vuc, Hub, Vub = ec / rr * P, lb / 2 / rr * P, Lg / 2 / rr * P, eb / rr * P
+            dc = dict(tubo=nd['tubo'], cartela=nd['cartela'], pilar=Huc / k1(tc, Bc, lbw), viga=(abs(Vub) / k1(tb, Bb, Lg) if Bb else 0.0),
+                      sold_pilar=math.hypot(Huc, Vuc) / fil(5, lbw), sold_apoyo=math.hypot(Hub, Vub) / fil(wb, Lg))
+            dc = {k: round(v, 2) for k, v in dc.items()}
+            assert max(dc.values()) <= 1.0, (g['id'], nm, dc)
+            assert min(nd['mR'], nd['mL']) >= 20, (g['id'], nm, nd['mR'], nd['mL'])            # las esquinas del tubo, 20 o más dentro de la cartela
+            cart.append(dict(diag=g['id'], ext=nm, tipo=tipo, pilar=pil['id'], perfil_pilar=pil['p'], apoyo=apoyo, ang=round(math.degrees(phi), 1), ec=ec, eb=eb, P_kN=P,
+                             a0=nd['a0'], Lg=Lg, lb=lb, pol=nd['pol'], whitmore=round(nd['bef']), libre=round(nd['Lav']), filete_pilar=5, filete_apoyo=wb, dc=dc, dc_max=max(dc.values())))
+    # cruces: la «a» pasa continua; la «b» va cortada a cada lado y unida por una plancha pasante PL 8 de 210 que atraviesa la «a» por una ranura en cada cara
+    cruces = []
+    for ga in [m for m in M if m['c'] == 'diagonal' and m['id'].endswith('a') and not m['id'].startswith('XF')]:
+        gb = MB.get(ga['id'][:-1] + 'b')
+        if not gb: continue
+        da = [ga['b'][i] - ga['a'][i] for i in range(3)]; db = [gb['b'][i] - gb['a'][i] for i in range(3)]; La, Lb = math.hypot(*da), math.hypot(*db)
+        gam = math.acos(abs(sum(x * y for x, y in zip(da, db))) / (La * Lb)); s0 = (C_HT / 2 + C_G) / math.sin(gam) + (C_HT / 2) / math.tan(gam)
+        # dónde se cruzan los ejes (fracción del largo de cada una, desde su extremo «a» del modelo)
+        k = 0 if abs(da[0]) > 1 else 1; den = da[k] * db[2] - da[2] * db[k]; ex, ez = gb['a'][k] - ga['a'][k], gb['a'][2] - ga['a'][2]
+        ta, tb_ = (ex * db[2] - ez * db[k]) / den, (ex * da[2] - ez * da[k]) / den
+        cruces.append(dict(id=ga['id'][:-1], angulo=round(math.degrees(gam), 1), s0=_c5(s0), plancha=[int(_c5(2 * (_c5(s0) + C_ENT))), int(C_HT + 2 * C_SOB), int(C_TG)],
+                           ranura_a=int(_c5((C_HT + 2 * C_SOB) / math.sin(gam) + 10)), en_a=round(ta * La * 10), en_b=round(tb_ * Lb * 10), largo_a=round(La * 10), largo_b=round(Lb * 10),
+                           dc_cruce=RI[ga['id']].get('dc_cruce')))
+    # faja del eje E: X de CUAD 100x100x3 soldada directo, sin planchas. Abajo el tubo nace en el nudo viga VT–pilar: lo que quedaría dentro de la VT se
+    # corta en bisel por su cara de arriba (el tubo y la VT tienen el mismo ancho: pared sobre pared) y el resto topa el pilar; arriba llega de frente a la
+    # cara del pilar, bajo el puntal. La «b» va en dos mitades cortadas en ángulo contra la «a». Filete 3 en todo el contorno (E6011 o MIG)
+    fajas = []
+    for ga in [m for m in M if m['c'] == 'diagonal' and m['id'].startswith('XF') and m['id'].endswith('a')]:
+        gb = MB[ga['id'][:-1] + 'b']; h = PERF[ga['p']]['h'] * 10; lo, hi = (ga['a'], ga['b']) if ga['a'][2] < ga['b'][2] else (ga['b'], ga['a'])
+        Lx = math.hypot(hi[0] - lo[0], hi[1] - lo[1]) * 10; dz = (hi[2] - lo[2]) * 10; phi = math.atan2(dz, Lx); c_, s_, t_ = math.cos(phi), math.sin(phi), math.tan(phi)
+        ec = pilar_de(lo, True)[1]; eb = 50.0                                                  # la cara de arriba de la VT queda 50 sobre el punto de trabajo; el puntal, 50 sobre la cabeza del pilar
+        xb = (eb + h / 2 / c_) / t_; alto = ec * t_ + h / 2 / c_ - eb; libre = eb - (h / 2 / c_ - ec * t_)   # fin del bisel (desde el eje del pilar), alto del tubo contra el pilar, y lo que queda libre bajo el puntal
+        assert alto > 10 and libre >= 10, (ga['id'], alto, libre)
+        gam = 2 * phi; corte = h / math.sin(gam); mitad = (Lx / 2 - ec) / c_ - h / 2 / math.sin(gam)
+        P = max(RI[ga['id']]['T_kN'], RI[ga['id']]['C_kN'], RI[gb['id']]['T_kN'], RI[gb['id']]['C_kN']); f3 = 0.75 * 0.6 * C_FEXX * 0.707 * 3 / 1000   # kN por mm de filete 3
+        dc = dict(abajo=P / (2 * (xb - ec) / c_ * f3), arriba=P / (2 * (h + h / c_) * f3), cruce_sold=P / (2 * (corte + h) * f3))
+        dc = {k: round(v, 2) for k, v in dc.items()}; assert max(dc.values()) <= 1.0
+        fajas.append(dict(id=ga['id'][:-1], perfil=ga['p'], ang=round(math.degrees(phi), 1), luz=round(Lx), sube=round(dz), ec=ec, tubo=h, bisel=round(xb - ec), alto_en_pilar=round(alto), bajo_puntal=round(libre),
+                          largo_a=round((Lx - 2 * ec) / c_), corte_cruce=round(corte), mitad_b=round(mitad), P_kN=P, dc=dc, dc_max=max(dc.values()), dc_cruce=RI[ga['id']].get('dc_cruce')))
+    return cart, cruces, fajas
+
+
 def main(estudio_json, sitio_json, salida):
     E = json.load(open(estudio_json)); S = json.load(open(sitio_json))
     global ALERO_NS, ALERO_EO, Z_CORDON, H_PILAR, BUNKER_H, T_PISO, T_CIELO, LIBRE
@@ -227,7 +343,12 @@ def main(estudio_json, sitio_json, salida):
                  'X-E-12': 2, 'X-E-45': 2, 'XF-E-12': 2, 'XF-E-45': 2}
     # el ingeniero, V134 revisada (10-11-2026): «usar cuadrado 150*150x3 en general para diagonales verticales» → todas en CUAD 150x150x3 (RIOSTRA_T queda
     # como registro de los espesores del RECT 150x50 de la V134)
-    rp = lambda k: 'CUAD 150x150x3'
+    # Faja del eje E (24-11-2026): en CUAD 100x100x3. Con el 150x150 el tubo, casi acostado (13° a 14°), se montaba sobre la viga VT en los primeros 50 cm
+    # desde el pilar y habría tenido que partir a 57 cm con una cartela de ese largo (Gabriel: «eso es una tontera, corrígelo»). El 100x100 es el mismo
+    # tubo de la VT y del puntal: se apoya en bisel sobre la VT y llega de frente al pilar, soldado en todo el contorno, sin planchas. Comprobado en
+    # calculo/verificar_acero.py: tracción 0,07, compresión 0,08 (KL/r 72), cruce 0,09; la deriva no cambia (7,9 / 4,4 mm) y las demás cruces varían 0,3 kN
+    # o menos. El ingeniero había pedido «cuadrado 150*150x3 en general»: esta excepción queda para su visto bueno con el detalle de las cruces
+    rp = lambda k: 'CUAD 100x100x3' if k.startswith('XF') else 'CUAD 150x150x3'
     UNION_X = ('; tubo cuadrado 150x150x3 (el ingeniero, 10-11-2026); en cada extremo, cartela PL 8 soldada a la placa base o a la viga (no a la cara del tubo de 3 mm), '
                'metida en una ranura de 10 en dos caras opuestas del tubo (las perpendiculares al muro) y soldada con 4 filetes de 150 (garganta del espesor del tubo, E6011 o MIG); trabaja a tracción y compresión')
     CRUCE_X = ('; en el cruce, las dos diagonales en el mismo plano: la «a» continua y la «b» cortada a cada lado de ella, unida con una plancha pasante PL 8 que atraviesa la «a» '
@@ -260,10 +381,10 @@ def main(estudio_json, sitio_json, salida):
         za, zb = z_viga(y), Z_CORDON_EJE
         m(f'{id_}a', 'diagonal', rp(id_), (xa, y, zb), (xb, y, za), d + ' (esta es la continua)', acostado=True)
         m(f'{id_}b', 'diagonal', rp(id_), (xa, y, za), (xb, y, zb), d + ' (esta es la cortada en el cruce)', acostado=True)
-    UNION_F = ('; a cartelas PL 8 soldadas a la cabeza del pilar (bajo la viga inclinada) y al nudo de la viga E-O con el pilar, metidas en la ranura del tubo con 4 filetes de 120; '
-               'trabaja a tracción y compresión' + CRUCE_X)
-    faja('XF-E-12', xA[0], xA[1], yA[6], f'X de CUAD 150x150x3 en la faja de {z_viga(yA[6]) - Z_CORDON[1]:.0f} cm entre la viga E-O y la viga inclinada, eje E, tramo 1-2 (sobre la cruz X-E-12)' + UNION_F)
-    faja('XF-E-45', xA[3], xA[4], yA[6], f'X de CUAD 150x150x3 en la faja de {z_viga(yA[6]) - Z_CORDON[1]:.0f} cm entre la viga E-O y la viga inclinada, eje E, tramo 4-5 (sobre la cruz X-E-45)' + UNION_F)
+    UNION_F = ('; una diagonal pasa entera y la otra va en dos mitades soldadas a ella en el cruce; abajo, el tubo se apoya en bisel sobre la viga E-O y contra el pilar; '
+               'arriba llega de frente a la cara del pilar; soldadura en todo el contorno, filete 3; trabaja a tracción y compresión')
+    faja('XF-E-12', xA[0], xA[1], yA[6], f'X de CUAD 100x100x3 en la faja de {z_viga(yA[6]) - Z_CORDON[1]:.0f} cm entre la viga E-O y la viga inclinada, eje E, tramo 1-2 (sobre la cruz X-E-12)' + UNION_F)
+    faja('XF-E-45', xA[3], xA[4], yA[6], f'X de CUAD 100x100x3 en la faja de {z_viga(yA[6]) - Z_CORDON[1]:.0f} cm entre la viga E-O y la viga inclinada, eje E, tramo 4-5 (sobre la cruz X-E-45)' + UNION_F)
     # ---------- tensores Fe 16 en el plano del techo: X en los paños extremos completos y en los vanos extremos del resto ----------
     panos = [(yA[0], yA[1]), (yA[1], yB), (yB, yC), (yC, yC2), (yC2, yA[5]), (yA[5], yA[6])]
     nudos = set()
@@ -432,36 +553,37 @@ def main(estudio_json, sitio_json, salida):
     # (las fuerzas del modelo final). Tubo «acostado» (150 atravesado al muro): en el plano pandea con el eje débil (r 2,1 cm) hasta el cruce; fuera, con el fuerte (r 5,1 cm).
     RIOSTRAS_DC = {
     'X-1-AA2a': dict(T=23.7, C=27.6, t=0.07, c=0.09, KL_r=81, u=0.12, c_am=0.09, KL_r_am=81, L=4.82, Ls=2.47, cruce=0.13, cont=True, var={'3': [0.07, 0.09, 0.40, 0.12]}),
-    'X-1-AA2b': dict(T=24.3, C=30.5, t=0.08, c=0.09, KL_r=40, u=0.13, c_am=0.09, KL_r_am=40, L=4.62, Ls=2.37, cruce=0.13, cont=False, var={'3': [0.08, 0.09, 0.20, 0.13]}),
-    'X-1-CC2a': dict(T=30.8, C=39.1, t=0.10, c=0.18, KL_r=109, u=0.16, c_am=0.18, KL_r_am=109, L=6.52, Ls=3.31, cruce=0.33, cont=True, var={'3': [0.10, 0.18, 0.55, 0.16]}),
-    'X-1-CC2b': dict(T=37.6, C=43.4, t=0.12, c=0.13, KL_r=54, u=0.18, c_am=0.13, KL_r_am=54, L=6.41, Ls=3.26, cruce=0.33, cont=False, var={'3': [0.12, 0.13, 0.27, 0.18]}),
-    'X-1-DEa': dict(T=22.0, C=25.6, t=0.07, c=0.10, KL_r=89, u=0.11, c_am=0.10, KL_r_am=89, L=5.30, Ls=2.67, cruce=0.10, cont=True, var={'3': [0.07, 0.10, 0.44, 0.11]}),
-    'X-1-DEb': dict(T=20.2, C=19.9, t=0.06, c=0.06, KL_r=44, u=0.09, c_am=0.06, KL_r_am=44, L=5.24, Ls=2.64, cruce=0.10, cont=False, var={'3': [0.06, 0.06, 0.22, 0.09]}),
+    'X-1-AA2b': dict(T=24.3, C=30.4, t=0.08, c=0.09, KL_r=40, u=0.13, c_am=0.09, KL_r_am=40, L=4.62, Ls=2.37, cruce=0.13, cont=False, var={'3': [0.08, 0.09, 0.20, 0.13]}),
+    'X-1-CC2a': dict(T=30.8, C=39.0, t=0.10, c=0.18, KL_r=109, u=0.16, c_am=0.18, KL_r_am=109, L=6.52, Ls=3.31, cruce=0.33, cont=True, var={'3': [0.10, 0.18, 0.55, 0.16]}),
+    'X-1-CC2b': dict(T=37.5, C=43.4, t=0.12, c=0.13, KL_r=54, u=0.18, c_am=0.13, KL_r_am=54, L=6.41, Ls=3.26, cruce=0.33, cont=False, var={'3': [0.12, 0.13, 0.27, 0.18]}),
+    'X-1-DEa': dict(T=22.0, C=25.5, t=0.07, c=0.09, KL_r=89, u=0.11, c_am=0.09, KL_r_am=89, L=5.30, Ls=2.67, cruce=0.10, cont=True, var={'3': [0.07, 0.09, 0.44, 0.11]}),
+    'X-1-DEb': dict(T=20.1, C=19.9, t=0.06, c=0.06, KL_r=44, u=0.08, c_am=0.06, KL_r_am=44, L=5.24, Ls=2.64, cruce=0.10, cont=False, var={'3': [0.06, 0.06, 0.22, 0.08]}),
     'X-5-AA2a': dict(T=27.9, C=32.4, t=0.09, c=0.11, KL_r=81, u=0.14, c_am=0.11, KL_r_am=81, L=4.82, Ls=2.47, cruce=0.16, cont=True, var={'3': [0.09, 0.11, 0.40, 0.14]}),
-    'X-5-AA2b': dict(T=32.4, C=38.0, t=0.10, c=0.11, KL_r=40, u=0.16, c_am=0.11, KL_r_am=40, L=4.62, Ls=2.37, cruce=0.16, cont=False, var={'3': [0.10, 0.11, 0.20, 0.16]}),
-    'X-5-CC2a': dict(T=38.9, C=47.2, t=0.12, c=0.22, KL_r=109, u=0.20, c_am=0.22, KL_r_am=109, L=6.52, Ls=3.31, cruce=0.37, cont=True, var={'3': [0.12, 0.22, 0.55, 0.20]}),
-    'X-5-CC2b': dict(T=43.0, C=48.1, t=0.13, c=0.14, KL_r=54, u=0.20, c_am=0.14, KL_r_am=54, L=6.41, Ls=3.26, cruce=0.37, cont=False, var={'3': [0.13, 0.14, 0.27, 0.20]}),
-    'X-5-DEa': dict(T=24.7, C=30.2, t=0.08, c=0.11, KL_r=89, u=0.13, c_am=0.11, KL_r_am=89, L=5.30, Ls=2.67, cruce=0.12, cont=True, var={'3': [0.08, 0.11, 0.44, 0.13]}),
+    'X-5-AA2b': dict(T=32.4, C=37.9, t=0.10, c=0.11, KL_r=40, u=0.16, c_am=0.11, KL_r_am=40, L=4.62, Ls=2.37, cruce=0.16, cont=False, var={'3': [0.10, 0.11, 0.20, 0.16]}),
+    'X-5-CC2a': dict(T=38.8, C=47.2, t=0.12, c=0.22, KL_r=109, u=0.20, c_am=0.22, KL_r_am=109, L=6.52, Ls=3.31, cruce=0.36, cont=True, var={'3': [0.12, 0.22, 0.55, 0.20]}),
+    'X-5-CC2b': dict(T=42.9, C=48.0, t=0.13, c=0.14, KL_r=54, u=0.20, c_am=0.14, KL_r_am=54, L=6.41, Ls=3.26, cruce=0.36, cont=False, var={'3': [0.13, 0.14, 0.27, 0.20]}),
+    'X-5-DEa': dict(T=24.6, C=30.1, t=0.08, c=0.11, KL_r=89, u=0.13, c_am=0.11, KL_r_am=89, L=5.30, Ls=2.67, cruce=0.12, cont=True, var={'3': [0.08, 0.11, 0.44, 0.13]}),
     'X-5-DEb': dict(T=24.2, C=23.3, t=0.07, c=0.07, KL_r=44, u=0.10, c_am=0.07, KL_r_am=44, L=5.24, Ls=2.64, cruce=0.12, cont=False, var={'3': [0.07, 0.07, 0.22, 0.10]}),
     'X-A-45a': dict(T=75.1, C=78.5, t=0.23, c=0.28, KL_r=83, u=0.33, c_am=0.28, KL_r_am=83, L=4.99, Ls=2.49, cruce=0.35, cont=True, var={'3': [0.23, 0.28, 0.42, 0.33]}),
     'X-A-45b': dict(T=75.2, C=78.6, t=0.23, c=0.22, KL_r=42, u=0.33, c_am=0.22, KL_r_am=42, L=4.99, Ls=2.49, cruce=0.35, cont=False, var={'3': [0.23, 0.22, 0.21, 0.33]}),
-    'X-C-45a': dict(T=41.6, C=48.9, t=0.13, c=0.17, KL_r=83, u=0.21, c_am=0.17, KL_r_am=83, L=4.99, Ls=2.49, cruce=0.20, cont=True, var={'3': [0.13, 0.17, 0.42, 0.21]}),
-    'X-C-45b': dict(T=40.0, C=46.2, t=0.12, c=0.13, KL_r=42, u=0.19, c_am=0.13, KL_r_am=42, L=4.99, Ls=2.49, cruce=0.20, cont=False, var={'3': [0.12, 0.13, 0.21, 0.19]}),
-    'X-C2-45a': dict(T=37.5, C=38.8, t=0.12, c=0.14, KL_r=83, u=0.16, c_am=0.14, KL_r_am=83, L=4.99, Ls=4.99, cruce=None, cont=True, var={'3': [0.12, 0.14, 0.42, 0.16]}),
-    'X-E-12a': dict(T=30.4, C=37.2, t=0.09, c=0.13, KL_r=82, u=0.16, c_am=0.13, KL_r_am=82, L=4.90, Ls=2.45, cruce=0.16, cont=True, var={'3': [0.09, 0.13, 0.41, 0.16]}),
-    'X-E-12b': dict(T=32.7, C=36.5, t=0.10, c=0.10, KL_r=41, u=0.15, c_am=0.10, KL_r_am=41, L=4.90, Ls=2.45, cruce=0.16, cont=False, var={'3': [0.10, 0.10, 0.20, 0.15]}),
-    'X-E-45a': dict(T=35.5, C=37.5, t=0.11, c=0.13, KL_r=83, u=0.16, c_am=0.13, KL_r_am=83, L=4.99, Ls=2.49, cruce=0.15, cont=True, var={'3': [0.11, 0.13, 0.42, 0.16]}),
-    'X-E-45b': dict(T=30.4, C=34.0, t=0.09, c=0.10, KL_r=42, u=0.14, c_am=0.10, KL_r_am=42, L=4.99, Ls=2.49, cruce=0.15, cont=False, var={'3': [0.09, 0.10, 0.21, 0.14]}),
-    'XF-E-12a': dict(T=18.8, C=18.7, t=0.06, c=0.05, KL_r=45, u=0.08, c_am=0.05, KL_r_am=45, L=2.69, Ls=1.35, cruce=0.02, cont=True, var={'3': [0.06, 0.05, 0.22, 0.08]}),
-    'XF-E-12b': dict(T=14.0, C=16.9, t=0.04, c=0.05, KL_r=22, u=0.07, c_am=0.05, KL_r_am=22, L=2.69, Ls=1.35, cruce=0.02, cont=False, var={'3': [0.04, 0.05, 0.11, 0.07]}),
-    'XF-E-45a': dict(T=14.5, C=17.4, t=0.04, c=0.05, KL_r=48, u=0.07, c_am=0.05, KL_r_am=48, L=2.85, Ls=1.43, cruce=0.03, cont=True, var={'3': [0.04, 0.05, 0.24, 0.07]}),
-    'XF-E-45b': dict(T=19.5, C=19.6, t=0.06, c=0.05, KL_r=24, u=0.08, c_am=0.05, KL_r_am=24, L=2.85, Ls=1.43, cruce=0.03, cont=False, var={'3': [0.06, 0.05, 0.12, 0.08]}),
+    'X-C-45a': dict(T=41.6, C=48.9, t=0.13, c=0.17, KL_r=83, u=0.21, c_am=0.17, KL_r_am=83, L=4.99, Ls=2.49, cruce=0.21, cont=True, var={'3': [0.13, 0.17, 0.42, 0.21]}),
+    'X-C-45b': dict(T=40.1, C=46.3, t=0.12, c=0.13, KL_r=42, u=0.20, c_am=0.13, KL_r_am=42, L=4.99, Ls=2.49, cruce=0.21, cont=False, var={'3': [0.12, 0.13, 0.21, 0.20]}),
+    'X-C2-45a': dict(T=37.5, C=38.7, t=0.12, c=0.14, KL_r=83, u=0.16, c_am=0.14, KL_r_am=83, L=4.99, Ls=4.99, cruce=None, cont=True, var={'3': [0.12, 0.14, 0.42, 0.16]}),
+    'X-E-12a': dict(T=30.3, C=37.1, t=0.09, c=0.13, KL_r=82, u=0.16, c_am=0.13, KL_r_am=82, L=4.90, Ls=2.45, cruce=0.16, cont=True, var={'3': [0.09, 0.13, 0.41, 0.16]}),
+    'X-E-12b': dict(T=32.5, C=36.2, t=0.10, c=0.10, KL_r=41, u=0.15, c_am=0.10, KL_r_am=41, L=4.90, Ls=2.45, cruce=0.16, cont=False, var={'3': [0.10, 0.10, 0.20, 0.15]}),
+    'X-E-45a': dict(T=35.2, C=37.1, t=0.11, c=0.13, KL_r=83, u=0.16, c_am=0.13, KL_r_am=83, L=4.99, Ls=2.49, cruce=0.15, cont=True, var={'3': [0.11, 0.13, 0.42, 0.16]}),
+    'X-E-45b': dict(T=30.2, C=33.8, t=0.09, c=0.10, KL_r=42, u=0.14, c_am=0.10, KL_r_am=42, L=4.99, Ls=2.49, cruce=0.15, cont=False, var={'3': [0.09, 0.10, 0.21, 0.14]}),
+    'XF-E-12a': dict(T=18.3, C=18.1, t=0.07, c=0.08, KL_r=68, u=0.08, c_am=0.08, KL_r_am=68, L=2.69, Ls=1.35, cruce=0.07, cont=True, var={'3': [0.07, 0.08, 0.34, 0.08]}),
+    'XF-E-12b': dict(T=14.3, C=16.8, t=0.06, c=0.06, KL_r=34, u=0.07, c_am=0.06, KL_r_am=34, L=2.69, Ls=1.35, cruce=0.07, cont=False, var={'3': [0.06, 0.06, 0.17, 0.07]}),
+    'XF-E-45a': dict(T=14.7, C=17.1, t=0.06, c=0.08, KL_r=72, u=0.07, c_am=0.08, KL_r_am=72, L=2.85, Ls=1.43, cruce=0.09, cont=True, var={'3': [0.06, 0.08, 0.36, 0.07]}),
+    'XF-E-45b': dict(T=18.9, C=18.8, t=0.07, c=0.07, KL_r=36, u=0.08, c_am=0.07, KL_r_am=36, L=2.85, Ls=1.43, cruce=0.09, cont=False, var={'3': [0.07, 0.07, 0.18, 0.08]}),
     }
     riostras = [dict(id=k, perfil=next(mb['p'] for mb in M if mb['id'] == k), espesor_mm=int(next(mb['p'] for mb in M if mb['id'] == k)[-1]), T_kN=v['T'], C_kN=v['C'],
                      T_t=round(v['T'] * 0.10197, 2), C_t=round(v['C'] * 0.10197, 2), dc_traccion=v['t'], dc_compresion=v['c'], KL_r=v['KL_r'], dc_union=v['u'],
                      dc_compresion_amarres=v['c_am'], KL_r_amarres=v['KL_r_am'], L=v['L'], L_pandeo=v['Ls'], dc_cruce=v['cruce'], continua=v['cont'],
                      variantes={f'{t} mm': dict(zip(('traccion', 'compresion', 'KL_r_200', 'union'), x), max=max(x)) for t, x in v['var'].items()},
-                     union='cartela PL 8 metida en una ranura de 10 en dos caras opuestas del tubo, 4 filetes de 150 de garganta 0,707·t (E6011 o MIG)',
+                     union=('tubo soldado directo en todo su contorno, filete 3 (E6011 o MIG): en bisel sobre la viga E-O y contra el pilar' if k.startswith('XF') else
+                            'cartela PL 8 metida en una ranura de 10 en dos caras opuestas del tubo, 4 filetes de 150 de garganta 0,707·t (E6011 o MIG)'),
                      cumple=max(v['t'], v['c'], v['u']) <= 1.0 and v['KL_r'] <= 200 and (v['cruce'] is None or v['cruce'] <= 1.0)) for k, v in RIOSTRAS_DC.items()]
     TPL, HPL, LPL = 0.8, 15.0, 30.0
     uniones = []
@@ -484,6 +606,10 @@ def main(estudio_json, sitio_json, salida):
     cubicacion = [dict(perfil=p, metros=round(cub[p], 1), kg=round(cub[p] * PESO[p])) for p in PESO if cub.get(p, 0) > 0]
     m_um = sum(2 * u['largo'] for u in uniones) / 100            # 4 × 0,75 + 4 × 0,435 = 4,74 m de PL 8×150
     cubicacion.append(dict(perfil='PL 8 uniones UM', metros=round(m_um, 1), kg=round(m_um * 0.15 * 0.008 * 7850), donde='planchas laterales de las uniones UM del cordón con los pilares B y E (ejes 2 y 3)'))
+    cartelas, cruces, fajas = cartelas_y_cruces(M, PERFILES, hormigon['placas']['lista'], riostras, z0)
+    _area = lambda pol: abs(sum(pol[i][0] * pol[(i + 1) % len(pol)][1] - pol[(i + 1) % len(pol)][0] * pol[i][1] for i in range(len(pol)))) / 2   # mm²
+    mm2_pl = sum(_area(c['pol']) for c in cartelas) + sum(x['plancha'][0] * x['plancha'][1] for x in cruces)
+    cubicacion.append(dict(perfil='PL 8 cartelas y cruces', metros=round(mm2_pl / 1e6, 1), kg=round(mm2_pl * 8 * 7.85e-6), unidad='m²', donde=f'{len(cartelas)} cartelas de las diagonales y {len(cruces)} planchas pasantes de los cruces'))
     tot = round(sum(c['kg'] for c in cubicacion))
     techo = dict(contorno=[ap(x_ini, y_ini, 0)[:2], ap(x_fin, y_ini, 0)[:2], ap(x_fin, y_fin, 0)[:2], ap(x_ini, y_fin, 0)[:2]],
                  y0=r1(oy + y_ini), y1=r1(oy + y_fin), z0=r1(z0 + z_viga(y_ini) + 30), z1=r1(z0 + z_viga(y_fin) + 30), espesor=5)
@@ -588,7 +714,7 @@ def main(estudio_json, sitio_json, salida):
         marco='cm del marco de la app; z = 0 en el piso del nivel 1 de la casa; el piso del estudio (NPOG 0,00 del ingeniero) está en z = %s' % z0,
         z_piso=z0, ejes=ejes, perfiles={k: PERFILES[k] for k in sorted(set(mb['p'] for mb in M))}, miembros=M,
         hormigon=hormigon, fierros=fierros, cubicacion_hormigon=cub_hormigon, vanos=V, interior=interior, techo=techo, cielo=cielo,
-        cubicacion=cubicacion, total_kg=tot, uniones=uniones, riostras=riostras, cambios=[], preguntas=[],   # la bitácora de cambios y las preguntas ya no se publican (versión final); siguen arriba, en este código
+        cubicacion=cubicacion, total_kg=tot, uniones=uniones, riostras=riostras, cartelas=cartelas, cruces=cruces, fajas=fajas, cambios=[], preguntas=[],   # la bitácora de cambios y las preguntas ya no se publican (versión final); siguen arriba, en este código
         parametros=dict(muro=MURO, tabique=T, h_pilar=H_PILAR, z_viga_inf=Z_CORDON[0], terminaciones=dict(piso=T_PISO, cielo=T_CIELO, libre=LIBRE, capas=E['alturas'].get('capas', {}), dato=E['alturas'].get('dato_terminaciones', '')), pendiente=PEND, alero_ns=ALERO_NS, alero_eo=ALERO_EO, paso_costanera=PASO_COST, paso_puntal=PASO_PUNTAL, h_ventana=H_VENTANA,
                         bunker=dict(losa=BUNKER_LOSA, muro=BUNKER_MURO, radier=BUNKER_RADIER, fundacion=BUNKER_FUND, alto=BUNKER_H)),
     )
